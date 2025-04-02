@@ -55,7 +55,7 @@ class bank_import_controller extends origin
 		}
 		if( strlen( $action ) > 0 )
 		{
-			display_notification( __FILE__ . "::" . __LINE__ . " Code in place to call $action()" );
+			//display_notification( __FILE__ . "::" . __LINE__ . " Code in place to call $action()" );
 			//$this->$action();
 		}
 
@@ -290,9 +290,12 @@ class bank_import_controller extends origin
 	{
 //20241208 Do we need to keep transType for back compatability, or can we use ->transType?
 //	This should be inherited since it isn't this class specific
+		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
+		global $Refs;
 		do {
 			$reference = $Refs->get_next($transType);
 		} while(!is_new_reference($reference, $transType));
+		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		$this->reference = $reference;
 		return $reference;
 	}
@@ -352,15 +355,50 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 	* Process Supplier Transaction
 	*
 	**************************************************************/
-	function processSupplierTransactions()
+	function processSupplierTransaction()
 	{
+		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
+		if( !isset( $this->trz ) )
+		{
+				display_error( "->trz not set" );
+			throw new Exception( "->trz not set", KSF_VAR_NOT_SET );
+		}
+		if( !isset( $this->partnerId ) )
+		{
+				display_error( "->partnerId not set" );
+			throw new Exception( "->partnerId not set", KSF_VAR_NOT_SET );
+		}
+		if( !isset( $this->our_account ) )
+		{
+				display_error( "->our_account not set" );
+			throw new Exception( "->our_account not set", KSF_VAR_NOT_SET );
+		}
+		if( !isset( $this->charge ) )
+		{
+				display_error( "->charge not set" );
+			throw new Exception( "->charge not set", KSF_VAR_NOT_SET );
+		}
+		if( !isset( $this->tid ) )
+		{
+				display_error( "->tid not set" );
+			throw new Exception( "->tid not set", KSF_VAR_NOT_SET );
+		}
+		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		$trans_no = 0;  //NEW.  A number would be an update - leads to voiding of a bunch of stuff and then redo-ing.
 		$this->partnerType = PT_SUPPLIER;
 		if( $this->trz['transactionDC'] == 'D' )
 		{
+		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 			//Normal SUPPLIER PAYMENT
 			$this->transType = ST_SUPPAYMENT;
+		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 			$reference = $this->getNewRef( $this->transType );
+			if( !isset( $reference ) )
+			{
+				display_error( "Didn't acquire new Reference" );
+				throw new Exception( "Didn't acquire new Reference", KSF_VAR_NOT_SET );
+			}
+		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		
 			//write_supp_payment calls hooks
 			//	voids existing payments if trans_no != 0
@@ -372,11 +410,12 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 					// write_supp_payment($trans_no, $supplier_id, $bank_account, $date_, $ref, $supp_amount, $supp_discount, $memo_, $bank_charge=0, $bank_amount=0)
 			$payment_id = write_supp_payment( $trans_no, $this->partnerId, $this->our_account['id'], sql2date($this->trz['valueTimestamp']), $reference, 
 								user_numeric($this->trz['transactionAmount']), 0, $this->trz['transactionTitle'], user_numeric($this->charge), 0);
-			//display_notification("payment_id = $payment_id");
+			display_notification("payment_id = $payment_id");
 			/***/
 			//update trans with payment_id details
 			if ($payment_id) 
 			{
+		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 				$counterparty_arr = get_trans_counterparty( $payment_id, $this->transType );
 				//display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 				/***/
@@ -384,16 +423,18 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$this->update_partner_data( null );	//Suppliers don't have branches
 				display_notification('Supplier Payment Processed:' . $payment_id );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
-				//display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
-				display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $payment_id . "'>View Payment</a>" );
+				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
+				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $payment_id . "'>View Payment</a>" );
+				display_notification("<a target=_blank href='../../purchasing/allocations/supplier_allocate.php?trans_type=" . $this->transType . "&trans_no=" . $payment_id . "&supplier_id=" . $this->partnerId . "'>Allocate Payment</a>" );
 			}
 		}
 		else if( $this->trz['transactionDC'] == 'C' )
 		{
+		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 			//FA Native creates this as a Supplier Credit Note -> BANK DEPOSIT
 			//http://fhsws002.ksfraser.com/infra/accounting/gl/view/gl_deposit_view.php?trans_no=4
 			//vs
-			//http://fhsws002.ksfraser.com/infrthis->rchasing/view/view_supp_payment.php?trans_no=183
+			//http://fhsws002.ksfraser.com/infra/purchasing/view/view_supp_payment.php?trans_no=183
 			//Needs to be a BANK DEPOSIT in order for the payment to be recognized for allocation.
 			// gl/gl_bank.php?NewDeposit=Yes
 		
@@ -431,10 +472,12 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 
 			if ( $this->cCart->count_gl_items() < 1) 
 			{
+		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 				display_error(_("You must enter at least one payment line."));
 			}
 			if ( $this->cCart->gl_items_total() == 0.0) 
 			{
+		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 				display_error(_("The total bank amount cannot be 0."));
 			}
 	
@@ -455,6 +498,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			//update trans with payment_id details
 			if ($payment_id)
 			{
+		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 				/***/
 				$counterparty_arr = get_trans_counterparty( $payment_id, $this->transType );
 				display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
@@ -463,10 +507,16 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$this->update_partner_data( null );
 				display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
-				//display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
-				display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $payment_id[1] . "'>View Entry</a>" );
+				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
+				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $payment_id[1] . "'>View Entry</a>" );
 			}
+		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		    }
+		else 
+		{
+			display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
+			display_warning( __FILE__ . "::" . __LINE__ . "::" . __METHOD__ . " transactionDC not D nor C: " . $this->trz['transactionDC'] );
+		}
 	}
 	/**//********
 	*
@@ -539,7 +589,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			if( $this->transType !== PT_CUSTOMER )
 				update_partner_data($this->partnerId, PT_CUSTOMER, $this->custBranch, $this->trz['memo']);
 			display_notification('Customer Payment/Deposit processed');
-			display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
+			display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
 		}
 	}
 	/**//**
@@ -558,6 +608,10 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			return true;
 		}
 		return false;
+	}
+	function ProcessTransaction()
+	{
+		return $this->processTransactions();
 	}
 	/**//**********************************************************
 	* Process transactions
@@ -676,10 +730,10 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							//ST_BANKPAYMENT or ST_BANKDEPOSIT
 		
 							//Let User attach a document
-							display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
+							display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
 							//Let the user view the created transaction
 							//http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
-							display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
+							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
 		
 		
 							}
@@ -749,7 +803,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $this->trz['memo'] );   //Short Form
 										//memo/transactionTitle holds the reference number, which would be unique :(
 							commit_transaction();
-							display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans_no . "'>View Entry</a>" );
+							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans_no . "'>View Entry</a>" );
 						}
 						else
 						{
@@ -761,7 +815,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 						$counterparty_arr = get_trans_counterparty( $_POST['Existing_Entry'], $_POST['Existing_Type'] );
 							display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 						update_transactions($this->tid, $_cids, $status=1, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
-						display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
+						display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
 						set_partner_data( $counterparty_arr['person_type'], $_POST['Existing_Type'], $counterparty_arr['person_type_id'], $this->trz['memo'] );       //Short Form
 						display_notification("Transaction was manually settled " . print_r( $_POST['Existing_Type'], true ) . ":" . print_r( $_POST['Existing_Entry'], true ) );
 					break;
@@ -809,7 +863,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							//display_notification(__FILE__ . "::" . __LINE__  );
 							update_transactions( $this->tid, $_cids, $status=1, $_POST["trans_no_$this->tid"], $_POST["trans_type_$this->tid"], true, false,  "ZZ", $this->partnerId );
 							//display_notification(__FILE__ . "::" . __LINE__  );
-							display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$this->tid"] . "::" . $_POST["trans_no_$this->tid"] . "::" . "<a href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$this->tid"] . "&trans_no=" . $_POST["trans_no_$this->tid"] . "'>View Entry</a>");
+							display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$this->tid"] . "::" . $_POST["trans_no_$this->tid"] . "::" . "<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$this->tid"] . "&trans_no=" . $_POST["trans_no_$this->tid"] . "'>View Entry</a>");
 						set_partner_data( $person_type, $_POST["trans_type_$this->tid"], $person_type_id, $memo );
 							//display_notification(__FILE__ . "::" . __LINE__  );
 					break;

@@ -407,8 +407,8 @@ class bi_lineitem extends generic_fa_interface_model
 	        {
 	  		//display_notification( __FILE__ . "::" . __LINE__ );
 	                $fa_gl = new fa_gl();
- 			$fa_gl->set( "min_dollar", $this->amount );
-                	$fa_gl->set( "max_dollar", $this->amount );
+ 			$fa_gl->set( "amount_min", $this->amount );
+                	$fa_gl->set( "amount_max", $this->amount );
                 	$fa_gl->set( "amount", $this->amount );
                 	$fa_gl->set( "transactionDC", $this->transactionDC );
                 	$fa_gl->set( "days_spread", $this->days_spread );
@@ -678,11 +678,11 @@ class bi_lineitem extends generic_fa_interface_model
 */
 		if( $this->transactionDC == 'C' )
 		{
-			$rowlabel = "Transfer to this account From (OTHER ACCOUNT):";
+			$rowlabel = "Transfer to <i>Our Bank Account</i> from (<b>OTHER ACCOUNT</b>):";
 		}
 		else
 		{
-			$rowlabel = "Transfer from this account To (OTHER ACCOUNT):";
+			$rowlabel = "Transfer from <i>Our Bank Account</i> To (<b>OTHER ACCOUNT</b>):";
 		}
 /** ! Mantis 2963 */
 		//bank_accounts_list_row( _("From:") , 'bank_account', null, false)
@@ -763,12 +763,30 @@ class bi_lineitem extends generic_fa_interface_model
 				break;
 			case 'ZZ':      //partnerType
 				//Matched an existing item
-				hidden("partnerId_$this->id", $this->matching_trans[0]['type'] );
-				hidden("partnerDetailId_$this->id", $this->matching_trans[0]['type_no'] );
-				hidden("trans_type_$this->id", $this->matching_trans[0]['type'] );
-				hidden("trans_no_$this->id", $this->matching_trans[0]['type_no'] );
-				hidden("memo_$this->id", $this->memo );
-				hidden("title_$this->id", $this->transactionTitle );
+				if( isset( $this->matching_trans[0] ) )
+				{
+					//if( isset( $this->matching_trans[0] ) )
+					//{
+						hidden("partnerId_$this->id", $this->matching_trans[0]['type'] );
+					//}
+					//if( isset( $this->matching_trans[0]['type_no'] ) )
+					//{
+						hidden("partnerDetailId_$this->id", $this->matching_trans[0]['type_no'] );
+						hidden("trans_no_$this->id", $this->matching_trans[0]['type_no'] );
+					//}
+					//if( isset( $this->matching_trans[0]['type'] ) )
+					//{
+						hidden("trans_type_$this->id", $this->matching_trans[0]['type'] );
+					//}
+					//if( isset( $this->memo ) )
+					//{
+						hidden("memo_$this->id", $this->memo );
+					//}
+					//if( isset( $this->transactionTitle ) )
+					//{
+						hidden("title_$this->id", $this->transactionTitle );
+					//}
+				}
 				break;
 		}
 

@@ -222,7 +222,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 			if (empty($our_account)) 
 			{
 				$Ajax->activate('doc_tbl');
-				display_error('the bank account <b>'.$trz['our_account'].'</b> is not defined in Bank Accounts');
+				display_error(  __FILE__ . "::" . __LINE__ . "::" . ' the bank account <b>'.$trz['our_account'].'</b> is not defined in Bank Accounts');
 				$error = 1;
 			}
 			//display_notification('<pre>'.print_r($our_account,true).'</pre>');
@@ -250,6 +250,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 *			}
 */
 			$charge = $bi_controller->charge = $bi_controller->sumCharges( $tid );
+			$bi_controller->set( "charge", $charge );
 /*! Charges*/
 	
 			//display_notification("amount=$amount, charge=$charge");
@@ -257,12 +258,24 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 			$pid = "partnerId_" . $k;
 			//display_notification( "partner=".$_POST[ $pid ] );
 			$partnerId = $_POST[ $pid ];
+			$bi_controller->set( "partnerId", $partnerId );
 	
 				//display_notification( __FILE__ . "::" . __LINE__ );
+//These are needed for SP.  The others too???
+			$bi_controller->set( "trz", $trz );
+			$bi_controller->set( "tid", $tid );
+			$bi_controller->set( "our_account", $our_account );
 			switch(true) 
 			{
 		            case ($_POST['partnerType'][$k] == 'SP'):
+				display_notification( __FILE__ . "::" . __LINE__ . " CALL controller::processSupplierTransaction ");
+				try
+				{
 					$bi_controller->processSupplierTransaction();
+				} catch( Exception $e )
+				{
+					display_error( "Error processing supplier transaction: " . print_r( $e, true ) );
+				}
 /*****
 *				
 *					$trans_no = 0;	//NEW.  A number would be an update - leads to voiding of a bunch of stuff and then redo-ing.
@@ -287,11 +300,11 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 *							display_notification('Supplier Payment Processed:' . $payment_id );
 *
 *							//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
-*							//display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
+*							//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
 *							//Display a link to the transaction
 *							//	http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=22&trans_no=227
-*							display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $payment_id . "'>View Payment</a>" );
-*							//display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
+*							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $payment_id . "'>View Payment</a>" );
+*							//display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
 *		                    		}
 *					}
 *		                    else
@@ -370,8 +383,8 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 *						update_partner_data( $partnerId, $partner_type, $partner_detail_id, $account = $trz['account']);
 *						display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
 *						//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
-*						//display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
-*						display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $payment_id[1] . "'>View Entry</a>" );
+*						//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
+*						display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $payment_id[1] . "'>View Entry</a>" );
 *		                    	}
 *					hook_db_postwrite($args, $trans_type );
 *					commit_transaction();
@@ -558,8 +571,8 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 						update_partner_data($partnerId, PT_CUSTOMER, $_POST["partnerDetailId_$k"], $trz['memo']);
 						update_partner_data($partnerId, $trans_type, $_POST["partnerDetailId_$k"], $trz['memo']);
 						display_notification('Customer Payment/Deposit processed');
-						display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View GL Entry</a>" );
-						display_notification("<a href='../../sales/view/view_receipt.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View Payment and associated Invoice</a>" );
+						display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View GL Entry</a>" );
+						display_notification("<a target=_blank href='../../sales/view/view_receipt.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View Payment and Associated Invoice</a>" );
 					}
 					else {
 						//No allocation - only record (above) the payment
@@ -590,7 +603,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 *					update_partner_data($partnerId, PT_CUSTOMER, $_POST["partnerDetailId_$k"], $trz['memo']);
 *					update_partner_data($partnerId, $trans_type, $_POST["partnerDetailId_$k"], $trz['memo']);
 *					display_notification('Customer Payment/Deposit processed');
-*					display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
+*					display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
 *				} //if deposit_id
 */
 			break;
@@ -682,10 +695,10 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 					//ST_BANKPAYMENT or ST_BANKDEPOSIT
 					
 					//Let User attach a document
-					display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $trans_type . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
+					display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $trans_type . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
 					//Let the user view the created transaction
 					//http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
-					display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
+					display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
 
 	
 					} 
@@ -755,7 +768,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 					set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $trz['memo'] );	//Short Form
 								//memo/transactionTitle holds the reference number, which would be unique :(
 					commit_transaction();
-					display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans_no . "'>View Entry</a>" );
+					display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans_no . "'>View Entry</a>" );
 				}
 				else
 				{
@@ -767,12 +780,12 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 				$counterparty_arr = get_trans_counterparty( $_POST['Existing_Entry'], $_POST['Existing_Type'] );
 					display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 				update_transactions($tid, $_cids, $status=1, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
-				display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
+				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
 				set_partner_data( $counterparty_arr['person_type'], $_POST['Existing_Type'], $counterparty_arr['person_type_id'], $trz['memo'] );	//Short Form
 				display_notification("Transaction was manually settled " . print_r( $_POST['Existing_Type'], true ) . ":" . print_r( $_POST['Existing_Entry'], true ) );
 				if( $_POST['Existing_Type'] == 12 )
 				{
-					display_notification("<a href='../../sales/view/view_receipt.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View Payment and associated Invoice</a>" );
+					display_notification("<a target=_blank href='../../sales/view/view_receipt.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Payment and Associated Invoice</a>" );
 				}
 			break;
 	/*************************************************************************************************************/
@@ -819,10 +832,10 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 					//display_notification(__FILE__ . "::" . __LINE__  );
 					update_transactions( $tid, $_cids, $status=1, $_POST["trans_no_$tid"], $_POST["trans_type_$tid"], true, false,  "ZZ", $partnerId );
 					//display_notification(__FILE__ . "::" . __LINE__  );
-					display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$tid"] . "::" . $_POST["trans_no_$tid"] . "::" . "<a href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$tid"] . "&trans_no=" . $_POST["trans_no_$tid"] . "'>View Entry</a>");
+					display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$tid"] . "::" . $_POST["trans_no_$tid"] . "::" . "<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$tid"] . "&trans_no=" . $_POST["trans_no_$tid"] . "'>View Entry</a>");
 					if( $_POST["trans_no_$tid"] == 12 )
 					{
-						display_notification("<a href='../../sales/view/view_receipt.php?type_id=" . $_POST["trans_type_$tid"] . "&trans_no=" . $_POST["trans_no_$tid"] . "'>View Payment and associated Invoice</a>" );
+						display_notification("<a target=_blank href='../../sales/view/view_receipt.php?type_id=" . $_POST["trans_type_$tid"] . "&trans_no=" . $_POST["trans_no_$tid"] . "'>View Payment and associated Invoice</a>" );
 					}
 				set_partner_data( $person_type, $_POST["trans_type_$tid"], $person_type_id, $memo );	
 					//display_notification(__FILE__ . "::" . __LINE__  );
