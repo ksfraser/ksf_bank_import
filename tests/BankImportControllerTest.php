@@ -1,111 +1,128 @@
-/*
-To create PHPUnit tests for the `process_statements.php` file, 
-you will need to focus on creating tests for the `bank_import_controller` class and its methods. 
-
-Since `process_statements.php` mainly uses this controller and performs various operations 
-based on $_POST requests, the tests should cover the main functionalities provided by the `bank_import_controller`.
-
-Below is an example of how you might set up PHPUnit tests for the `bank_import_controller` class. 
-Note that you will need to adapt this to your specific application and ensure that you have PHPUnit installed and configured.
-
-```php
-// File: tests/BankImportControllerTest.php
+<?php
 
 use PHPUnit\Framework\TestCase;
-require_once 'path/to/class.bank_import_controller.php';
 
 class BankImportControllerTest extends TestCase
 {
-    private $controller;
+    protected $controller;
 
     protected function setUp(): void
     {
         $this->controller = new bank_import_controller();
     }
 
+    public function testSetField()
+    {
+        $this->controller->set('tid', 12345);
+        $this->assertEquals(12345, $this->controller->tid);
+    }
+
+    public function testExtractPost()
+    {
+        $_POST = [
+            'tid' => 12345,
+            'partnerId' => 'partner123',
+            'custBranch' => 'branch123',
+            'invoiceNo' => 'invoice123',
+            'partnerType' => 'type123'
+        ];
+
+        $result = $this->controller->extractPost();
+        $this->assertFalse($result);
+        $this->assertEquals('partner123', $this->controller->partnerId);
+        $this->assertEquals('branch123', $this->controller->custBranch);
+        $this->assertEquals('invoice123', $this->controller->invoiceNo);
+        $this->assertEquals('type123', $this->controller->partnerType);
+    }
+
+    public function testGetTransaction()
+    {
+        $transaction = $this->controller->getTransaction(12345);
+        $this->assertIsArray($transaction);
+        $this->assertArrayHasKey('transactionTitle', $transaction);
+    }
+
     public function testUnsetTrans()
     {
-        // Simulate $_POST data
-        $_POST['UnsetTrans'] = true;
-
-        // Call the method
-        $result = $this->controller->unsetTrans();
-
-        // Assert expected results
-        $this->assertNotNull($result);
-        // Add more specific assertions based on what unsetTrans is supposed to do
-    }
-
-    public function testAddCustomer()
-    {
-        // Simulate $_POST data
-        $_POST['AddCustomer'] = true;
-
-        // Call the method
-        $result = $this->controller->addCustomer();
-
-        // Assert expected results
-        $this->assertNotNull($result);
-        // Add more specific assertions based on what addCustomer is supposed to do
-    }
-
-    public function testAddVendor()
-    {
-        // Simulate $_POST data
-        $_POST['AddVendor'] = true;
-
-        // Call the method
-        $result = $this->controller->addVendor();
-
-        // Assert expected results
-        $this->assertNotNull($result);
-        // Add more specific assertions based on what addVendor is supposed to do
+        $_POST['UnsetTrans'] = [12345 => 'Unset Transaction'];
+        $this->controller->unsetTrans();
+        // Add assertions based on expected behavior
     }
 
     public function testToggleDebitCredit()
     {
-        // Simulate $_POST data
-        $_POST['ToggleTransaction'] = true;
-
-        // Call the method
-        $result = $this->controller->toggleDebitCredit();
-
-        // Assert expected results
-        $this->assertNotNull($result);
-        // Add more specific assertions based on what toggleDebitCredit is supposed to do
+        $_POST['ToggleTransaction'] = [12345 => 'ToggleTransaction'];
+        $this->controller->toggleDebitCredit();
+        // Add assertions based on expected behavior
     }
 
-    public function testProcessTransaction()
+    public function testAddCustomer()
     {
-        // Simulate $_POST data
-        $_POST['ProcessTransaction'] = [
-            'key' => 'value', // Replace with actual key-value pairs expected by the method
-        ];
-
-        // Call the method
-        $result = $this->controller->processTransaction();
-
-        // Assert expected results
-        $this->assertNotNull($result);
-        // Add more specific assertions based on what processTransaction is supposed to do
+        $_POST['AddCustomer'] = [12345 => 'AddCustomer'];
+        $this->controller->addCustomer();
+        // Add assertions based on expected behavior
     }
 
-    // Add more tests for other methods as needed
+    public function testAddVendor()
+    {
+        $_POST['AddVendor'] = [12345 => 'AddVendor'];
+        $this->controller->addVendor();
+        // Add assertions based on expected behavior
+    }
+
+    public function testSumCharges()
+    {
+        $_POST['cids'] = [12345 => '1,2,3'];
+        $sum = $this->controller->sumCharges(12345);
+        $this->assertIsFloat($sum);
+    }
+
+    public function testGetNewRef()
+    {
+        $ref = $this->controller->getNewRef('transType123');
+        $this->assertIsString($ref);
+    }
+
+    public function testUpdateTransactions()
+    {
+        $result = $this->controller->update_transactions(12345, [], 1, 123, 'transType123', true, true, 'partner', 'option');
+        // Add assertions based on expected behavior
+    }
+
+    public function testUpdatePartnerData()
+    {
+        $this->controller->update_partner_data(12345);
+        // Add assertions based on expected behavior
+    }
+
+    public function testGenerateCart()
+    {
+        $this->controller->generateCart();
+        $this->assertInstanceOf(items_cart::class, $this->controller->cCart);
+    }
+
+    public function testProcessSupplierTransaction()
+    {
+        $this->controller->processSupplierTransaction();
+        // Add assertions based on expected behavior
+    }
+
+    public function testProcessCustomerPayment()
+    {
+        $this->controller->processCustomerPayment();
+        // Add assertions based on expected behavior
+    }
+
+    public function testRetrieveOurAccount()
+    {
+        $result = $this->controller->retrieveOurAccount();
+        $this->assertFalse($result);
+    }
+
+    public function testProcessTransactions()
+    {
+        $_POST['ProcessTransaction'] = [12345 => 'Process'];
+        $this->controller->processTransactions();
+        // Add assertions based on expected behavior
+    }
 }
-/*
-In this example, the test class `BankImportControllerTest` is created to test the `bank_import_controller` class. Each method in the controller is tested to ensure it performs the expected operations.
-
-You will need to adapt this to your specific setup:
-1. Ensure the paths to `class.bank_import_controller.php` and other dependencies are correct.
-2. Add more specific assertions based on the actual behavior and output of each method.
-3. Add tests for any other methods in the `bank_import_controller` class.
-
-To run the tests, navigate to the directory containing your tests and run:
-
-phpunit --bootstrap path/to/autoload.php tests/BankImportControllerTest.php
-
-Make sure you have PHPUnit installed and properly configured in your project. You can install PHPUnit via Composer:
-
-composer require --dev phpunit/phpunit
-
-*/
