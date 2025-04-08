@@ -4,6 +4,8 @@ require_once( '../ksf_modules_common/class.origin.php' );
 require_once( 'class.bi_transaction.php' );
 //require_once( 'class.bi_transactions.php' );
 
+define(MIN_TRANSACTION_TITLE_LENGTH, 4);
+
 class bank_import_controller extends origin
 {
 	protected $trz;	//!< transaction
@@ -119,29 +121,39 @@ class bank_import_controller extends origin
 	****************************************************/
 	function getTransaction( $id )
 	{
-		//display_notification( __FILE__ . "::" . __LINE__ );
-
-		//require_once( __DIR__ . '/../class.bi_transactions.php' );
-		//original - $bit = new bi_transactions_model(); return $bit->get_transaction( $tid );
 		$this->trz = $this->cTransactions->get_transaction( $id, true );
 			//->trz is array
 			//->cTransactions has values from this ID
 		//display_notification( print_r( $this->trz, true )  );
 
+		$this->ensureTransactionTitleLength();
+		//for backward compatibility
+		return $this->trz;
+	}
+	/**//*************************************************
+	* Ensure the transaction Title has more than 4 characters using MEMO to augment
+	*
+	* @since 20250408
+	*
+	* @param none
+	* @returns none adjusts transactionTitle
+	***********************************************************/
+	function ensureTransactionTitleLength()
+	{
 		//From processCustomer but should apply everywhere!
-		if( strlen( $this->trz['transactionTitle'] ) < 4 )
+		if( strlen( $this->trz['transactionTitle'] ) < MIN_TRANSACTION_TITLE_LENGTH )
 		{
 			if( strlen( $this->trz['memo'] ) > 0 )
 			{
 				$this->trz['transactionTitle'] .= " : " . $this->trz['memo'];
 			}
 		}
-		//for backward compatibility
-		return $this->trz;
 	}
 	/**//***********************************************
 	* Unset any transactions needing it
 	*
+	* @param none uses POST
+	* @returns none
 	****************************************************/	
 	function unsetTrans()
 	{
@@ -153,8 +165,14 @@ class bank_import_controller extends origin
 				//display_notification( "Key/Value " . print_r( $key, true ) . ":" . print_r( $value, true ) );
 				//value is "Unset Transaction"
 				$cids = array();	//Need to figure out if there are related IDs being passed in too in the _POST
-				$this->cTransactions->reset_transactions($key, $cids, 0, 0 );
-				display_notification( "Disassociated $unset from $id"  );
+				if( isset( $this->cTransactions) )
+				{
+					$this->cTransactions->reset_transactions($key, $cids, 0, 0 );
+					display_notification( "Disassociated $unset from $id"  );
+				}
+				else {
+					throw new Exception("Can't unset transaction", 1);
+				}
 			}
 		}
 	}
@@ -202,6 +220,8 @@ class bank_import_controller extends origin
 	/**//***********************************************
 	* Create any new customer from a transaction
 	*
+	* @params none uses POST
+	* @returns none 
 	****************************************************/	
 	function addCustomer()
 	{
@@ -235,6 +255,8 @@ class bank_import_controller extends origin
 	/**//***********************************************
 	* Create a new vendor from a transaction
 	*
+	* @params none uses POST
+	* @returns none 
 	****************************************************/	
 	function addVendor()
 	{
@@ -280,6 +302,7 @@ class bank_import_controller extends origin
 			$charge += $this->trz['transactionAmount'];
 		}
 		//display_notification("amount=$this->trz['transactionAmount'], charge=$charge");
+		$this->charge = $charge;
 		return $charge;
 	}
 	/**//**********************************************************

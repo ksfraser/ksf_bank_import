@@ -43,6 +43,7 @@ if ($use_date_picker)
 
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
 
+//These optypes are used for labels in the GUI
 $optypes = array(
 	'SP' => 'Supplier',
 	'CU' => 'Customer',
@@ -80,15 +81,12 @@ $trans_types_readable = array(
 );
 **/
 
-	 //display_notification( __LINE__ );
+
 require_once( 'class.bank_import_controller.php' );
-	 //display_notification( __LINE__ );
 	try {
 		$bi_controller = new bank_import_controller();	//no vars for constructor.
-	//	 display_notification( __LINE__ );
 	} catch( Exception $e )
 	{	
-	//	display_notification( __LINE__ . "::" . print_r( $e, true ) );
 		display_error( __LINE__ . "::" . print_r( $e, true ) );
 	}
 
@@ -105,21 +103,6 @@ if( isset( $_POST['UnsetTrans'] ) )
 {
 	$bi_controller->unsetTrans();
 }
-/** $bi_controller->unsetTrans()
-*if( isset( $_POST['UnsetTrans'] ) )
-*{
-*	 	//display_notification( "Disassociate " . print_r( $_POST['UnsetTrans'], true ) );
-*	foreach( $_POST['UnsetTrans'] as $key => $value )
-*	{
-*	 	//display_notification( "Key/Value " . print_r( $key, true ) . ":" . print_r( $value, true ) );
-*		$unset=$key;
-*		//value is "Unset Transaction"
-*		$cids = array();
-*		reset_transactions($unset, $cids, 0, 0,0 );
-*	 	display_notification( "Disassociated $unset from $id"  );
-*	}
-*}
-*/
 /*----------------------------------------------------------------------------------------------*/
 /*------------------------Add Customer----------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------*/
@@ -129,28 +112,6 @@ if (isset($_POST['AddCustomer']))
 {
 	$bi_controller->addCustomer();
 }
-/**
-*if (isset($_POST['AddCustomer'])) {
-*	foreach( $_POST['AddCustomer'] as $key => $value )
-*	{
-*		$AddCustomerKey = $key;
-*	}
-*	 //display_notification( print_r( $_POST['AddCustomer'], true )  );
-*	 //display_notification( print_r( $AddCustomerKey . "::" . $_POST["vendor_short_$AddCustomerKey"]  . "::" . $_POST["vendor_long_$AddCustomerKey"], true )  );
-*	 $trz = get_transaction($key);
-*	 //display_notification( print_r( $trz, true )  );
-*	$id = my_add_customer( $trz );
-*	if( $id > 0 )
-*	{
-*		//	display_notification( __FILE__ . "::" . __LINE__ );
-*	 	display_notification( "Created Customer ID $id"  );
-*	} else
-*	{
-*		  //  display_notification( __FILE__ . "::" . __LINE__ );
-*	 	display_warning( "Created Customer ID $id"  );
-*	}
-*}
-*/
 /*----------------------------------------------------------------------------------------------*/
 /*-------------------Add Vendor-----------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------*/
@@ -159,26 +120,7 @@ if (isset($_POST['AddVendor']))
 {
 	$bi_controller->addVendor();
 }
-/**
-*if (isset($_POST['AddVendor'])) {
-*	foreach( $_POST['AddVendor'] as $key => $value )
-*	{
-*		$AddVendorKey = $key;
-*	}
-*	 //display_notification( print_r( $_POST['AddVendor'], true )  );
-*	 //display_notification( print_r( $AddVendorKey . "::" . $_POST["vendor_short_$AddVendorKey"]  . "::" . $_POST["vendor_long_$AddVendorKey"], true )  );
-*	 $trz = get_transaction($key);
-*	 //display_notification( print_r( $trz, true )  );
-*	$id = add_vendor( $trz );
-*	if( $id > 0 )
-*	{
-*	 	display_notification( "Created Supplier ID $id"  );
-*	} else
-*	{
-*	 	display_warning( "Created Supplier ID $id"  );
-*	}
-*}
-*/
+
 	 //display_notification( __FILE__ . "::" . __LINE__ );
 if (isset($_POST['ToggleTransaction'])) 
 {
@@ -192,12 +134,15 @@ if (isset($_POST['ToggleTransaction']))
 if ( isset( $_POST['ProcessTransaction'] ) ) {
 	//display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
 //20240208 EACH is depreciated.  Should rewrite with foreach
+//Because this comes from a web form and a button press, there will only be 1 k/v
 	list($k, $v) = each($_POST['ProcessTransaction']);	//K is index.  V is "process/..."
 	if (isset($k) && isset($v) && isset($_POST['partnerType'][$k])) 
 	{
 			//display_notification( __FILE__ . "::" . __LINE__ . ":: k:" . print_r( $k, true ) . " :: v:" . print_r( $v, true ) . ":: Partner Type: " .  print_r( $_POST['partnerType'][$k], true ) );
 		//check params
-		$error = 0;
+//@todo
+//rewrite as a try/catch so we don't have to keep checking error
+		$error = false;
 		if ( ! isset( $_POST["partnerId_$k"] ) ) 
 		{
 			$Ajax->activate('doc_tbl');
@@ -206,19 +151,14 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 		}
 	
 		if (!$error) {
-			//	display_notification( __FILE__ . "::" . __LINE__ );
 			$tid = $k;
 			//time to gather data about transaction
 			//load $tid
-			//	display_notification( __FILE__ . "::" . __LINE__ );
 			$trz = get_transaction($tid);
-			//	display_notification( __FILE__ . "::" . __LINE__ );
 			//display_notification('<pre>'.print_r($trz,true).'</pre>');
 	
 			//check bank account
-			//	display_notification( __FILE__ . "::" . __LINE__ );
 			$our_account = get_bank_account_by_number($trz['our_account']);
-			//	display_notification( __FILE__ . "::" . __LINE__ );
 			if (empty($our_account)) 
 			{
 				$Ajax->activate('doc_tbl');
@@ -228,27 +168,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 			//display_notification('<pre>'.print_r($our_account,true).'</pre>');
 		}
 		if (!$error) {
-				//display_notification( __FILE__ . "::" . __LINE__ );
 /*Charges*/
-			//get charges
-			$chgs = array();
-			$_cids = array_filter(explode(',', $_POST['cids'][$tid]));
-			foreach($_cids as $cid) {
-				$chgs[] = get_transaction($cid);
-			}
-			//display_notification("tid=$tid, cids=`".$_POST['cids'][$tid]."`");
-			//display_notification("cids_array=".print_r($_cids,true));
-	
-		//now sum up
-		//now group data from tranzaction
-			$amount = $trz['transactionAmount'];
-/**
-*			$charge = 0;
-*			foreach($chgs as $t) 
-*			{
-*				$charge += $t['transactionAmount'];
-*			}
-*/
 			$charge = $bi_controller->charge = $bi_controller->sumCharges( $tid );
 			$bi_controller->set( "charge", $charge );
 /*! Charges*/
