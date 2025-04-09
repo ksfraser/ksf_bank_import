@@ -1,0 +1,8 @@
+<?php
+class AcceptanceTester extends \AcceptanceTester
+{
+    public function testHelloWorld()
+    {
+        $this->assertTrue(true);
+    }
+}

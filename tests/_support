@@ -1,0 +1,30 @@
+<?php
+class UnitTester extends \Codeception\Actor
+{
+    use _generated\UnitTesterActions;
+
+    public function wantTo($text)
+    {
+        return parent::wantTo($text);
+    }
+
+    public function expectTo($prediction)
+    {
+        return parent::expectTo($prediction);
+    }
+
+    public function amGoingTo($argument)
+    {
+        return parent::amGoingTo($argument);
+    }
+
+    public function lookForwardTo($achieveValue)
+    {
+        return parent::lookForwardTo($achieveValue);
+    }
+
+    public function comment($description)
+    {
+        return parent::comment($description);
+    }
+}

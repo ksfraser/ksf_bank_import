@@ -1,0 +1,42 @@
+actor: Codeception\Actor
+paths:
+    tests: tests
+    output: tests/_output
+    data: tests/_data
+    support: tests/_support
+    acceptance: tests/acceptance
+    functional: tests/functional
+    unit: tests/unit
+    env: tests/_env
+settings:
+    bootstrap: _bootstrap.php
+    colors: true
+    memory_limit: 1024M
+    log: true
+    log_level: debug
+    extensions:
+        enabled:
+            Codeception\Extension\RunFailed: ~
+    modules:
+        enabled:
+            - Asserts
+            - \Helper\Unit
+            - \Helper\Functional
+            - \Helper\Acceptance
+        config:
+            \Helper\Unit:
+                actor: UnitTester
+            \Helper\Functional:
+                actor: FunctionalTester
+            \Helper\Acceptance:
+                actor: AcceptanceTester
+suites:
+    acceptance:
+        actor: AcceptanceTester
+        path: tests/acceptance
+    functional:
+        actor: FunctionalTester
+        path: tests/functional
+    unit:
+        actor: UnitTester
+        path: tests/unit
