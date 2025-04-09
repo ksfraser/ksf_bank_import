@@ -111,20 +111,7 @@ class bi_lineitem extends generic_fa_interface_model
 		$this->optypes = $optypes;
 
 		$this->transactionDC = $trz['transactionDC'];
-		//@todo Martin Clean Code book says switches should be in Abstract Factory classes!
-		//This could probably be moved to a getTransactionTypeLabel function
-		switch( $this->transactionDC )
-		{
-			case 'C':
-				$this->transactionTypeLabel = "Credit";
-			break;
-			case 'D':
-				$this->transactionTypeLabel = "Debit";
-			break;
-			case 'B':
-				$this->transactionTypeLabel = "Bank Transfer";
-			break;
-		}
+		$this->determineTransactionTypeLabel();
 		$this->memo = $trz['memo'];
 		$this->our_account = $trz['our_account'];
 		$this->valueTimestamp = $trz['valueTimestamp'];
@@ -183,6 +170,31 @@ class bi_lineitem extends generic_fa_interface_model
 			//$this->partnerId = "";
 		}
 
+	}
+	/**//*****************************************************************
+	* Determine which label to apply
+	*
+	*@since 20250409
+	*
+	* @param none uses internal
+	* @returns none sets internal
+	**********************************************************************/
+	function determineTransactionTypeLabel() : null
+	{
+		//This could probably be moved to a getTransactionTypeLabel function
+		switch( $this->transactionDC )
+		{
+			case 'C':
+				$this->transactionTypeLabel = "Credit";
+			break;
+			case 'D':
+				$this->transactionTypeLabel = "Debit";
+			break;
+			case 'B':
+				$this->transactionTypeLabel = "Bank Transfer";
+			break;
+		}
+		return null;
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -372,7 +384,7 @@ class bi_lineitem extends generic_fa_interface_model
 	        {
 	  		//display_notification( __FILE__ . "::" . __LINE__ );
 	                $fa_gl = new fa_gl();
- 			$fa_gl->set( "amount_min", $this->amount );
+ 					$fa_gl->set( "amount_min", $this->amount );
                 	$fa_gl->set( "amount_max", $this->amount );
                 	$fa_gl->set( "amount", $this->amount );
                 	$fa_gl->set( "transactionDC", $this->transactionDC );
@@ -896,20 +908,8 @@ class bi_lineitem extends generic_fa_interface_model
 	* @param class
 	* @returns int how many fields did we copy
 	**************************************************************************/
-	function trz2obj( $trz )
+	function trz2obj( $trz ) : int
 	{
 		return $this->obj2obj( $trz );
-/*
-		$cnt = 0;
-		foreach( get_object_vars($this) as $key )
-		{
-			if( isset( $trz->$key ) )
-			{
-				$this-set( "$key", $trz->$key );	
-				$cnt++;
-			}
-		}
-		return $cnt;
-*/
 	}
 }

@@ -130,11 +130,14 @@ function get_bank_account_by_acctid($acctid)
 /**//***************************************************************************
 *	Select bank info from 0_bank_accounts filtered by input account number
 *
+* Has now been included in class.fa_bank_accounts.php
 * @param string
 * @returns array
 ******************************************************************************/
 function get_bank_account_by_number($account_number) 
 {
+	throw new Exception ("This function has been replaced by class.fa_bank_accounts.php" );
+
 	//display_notification( __FILE__ . "::" . __LINE__ );
 	$sql = "SELECT a.*
 		FROM ".TB_PREF."bank_accounts a 
