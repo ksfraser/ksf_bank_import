@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
+
 require_once( 'includes/includes.inc' );
 
 $vendor_list = get_vendor_list();

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
+
 /****************************************************************************************
  * Table and handling class for staging of imported financial data
  *
@@ -494,7 +499,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 			//display_notification( __FILE__ . "::" . __LINE__ );
 			$this->arr2obj( $res );
 			//display_notification( __FILE__ . "::" . __LINE__  . "::" . print_r( $this, true ) );
-		}
+			}
 	        return $res;
 	}
 	/**//**********************************************************************

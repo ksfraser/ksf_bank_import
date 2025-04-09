@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
 
 class ro_brd_mt940_parser extends mt940_parser {
     // brd uses :OS: to asend some info

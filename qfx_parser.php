@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
+
 //we need to interpret the file and generate a new statement for each day of transactions
 
 //TODO

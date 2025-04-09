@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
+
 require_once( '../ksf_modules_common/class.origin.php' );
 
 /**//******************************************************************************

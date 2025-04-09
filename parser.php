@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
 abstract class parser {
 
     /**

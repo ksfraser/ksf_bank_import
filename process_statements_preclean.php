@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
 
 $path_to_root = "../..";
 $page_security = 'SA_SALESTRANSVIEW';
@@ -150,7 +154,6 @@ if (isset($_POST['AddVendor'])) {
 /*----------------------------------------------------------------------------------------------*/
 if ( isset( $_POST['ProcessTransaction'] ) ) {
 	//display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
-//20240208 EACH is depreciated.  Should rewrite with foreach
 	list($k, $v) = each($_POST['ProcessTransaction']);	//K is index.  V is "process/..."
 	if (isset($k) && isset($v) && isset($_POST['partnerType'][$k])) 
 	{

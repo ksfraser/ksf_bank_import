@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
 
 define( 'MENU_IMPORT', 'menu_import' );
 

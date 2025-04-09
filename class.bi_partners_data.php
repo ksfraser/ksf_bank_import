@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
 
 class bi_partners_data  extends generic_fa_interface_model {
 	protected $partner_id;		//!<int
