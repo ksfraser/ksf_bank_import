@@ -88,21 +88,19 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
 	protected $optypes;	//!< array
 	protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
-//REFACTOR:
-//		refactor to use class.fa_bank_accounts.php instead of an array!
+	//@todo
+	//REFACTOR:
+	//		refactor to use class.fa_bank_accounts.php instead of an array!
 	protected $ourBankDetails;	//!< array
 	protected $ourBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
 	protected $ourBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
 	protected $ourBankAccountCode;	 //| varchar(60)  | YES  |     | NULL    |		|
-
-
+	protected $fa_bank_accounts;	//!<object 
 
 	function __construct( $trz, $vendor_list = array(), $optypes = array() )
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
-		//display_notification( __FILE__ . "::" . __LINE__ );
 		parent::__construct( null, null, null, null, null);
-		//display_notification( __FILE__ . "::" . __LINE__ );
 	//	$this->iam = "bi_transactions";
 	//	$this->define_table();
 		$this->matched = 0;
@@ -112,9 +110,9 @@ class bi_lineitem extends generic_fa_interface_model
 		$this->vendor_list = $vendor_list;
 		$this->optypes = $optypes;
 
-
-			       //display_notification( __FILE__ . "::" . __LINE__ );
 		$this->transactionDC = $trz['transactionDC'];
+		//@todo Martin Clean Code book says switches should be in Abstract Factory classes!
+		//This could probably be moved to a getTransactionTypeLabel function
 		switch( $this->transactionDC )
 		{
 			case 'C':
@@ -198,36 +196,16 @@ class bi_lineitem extends generic_fa_interface_model
 	/**//******************************************************************
 	* Get OUR Bank Account Details
 	*
-	*	TODO: REFACTOR to use class fa_bank_accounts instead of an array
+	*	DONE: REFACTOR to use class fa_bank_accounts instead of an array
+	* @todo clean up the refactored code for fa_bank_accounts removing commented out old code once tested
 	*
 	**********************************************************************/
 	function getBankAccountDetails()
 	{
-			//Info from 0_bank_accounts
-			//      Account Name
-			//      Type
-			//      Currency
-			//      GL Account
-			//      Bank
-			//      Number
-			//      Address
-		$this->ourBankDetails = get_bank_account_by_number( $this->our_account );
-		//var_dump( $bank );
-		/*
-			Array ( [account_code] => 1061
-				[account_type] => 0
-				[bank_account_name] => CIBC Savings account
-				[bank_account_number] => 00449 12-93230
-				[bank_name] => CIBC
-				[bank_address] =>
-				[bank_curr_code] => CAD
-				[dflt_curr_act] => 1
-				[id] => 1
-				[bank_charge_act] => 5690
-				[last_reconciled_date] => 0000-00-00 00:00:00
-				[ending_reconcile_balance] => 0
-				[inactive] => 0 )
-		*/
+			require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
+			$this->fa_bank_accounts = new fa_bank_accounts( $this );
+			$this->ourBankDetails =	$this->fa_bank_accounts->getByBankAccountNumber( $this->our_account );
+		//$this->ourBankDetails = get_bank_account_by_number( $this->our_account );
 		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
 		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
 	}
@@ -244,7 +222,8 @@ class bi_lineitem extends generic_fa_interface_model
 		label_row("Trans type:", $this->transactionTypeLabel);
 		$this->getBankAccountDetails();
 
-		label_row("Our Bank Account - (Account Name)(Number):", $this->our_account . ' - ' . $this->ourBankDetails['bank_name'] . " (" . $this->ourBankAccountName . ")(" . $this->ourBankAccountCode . ")"  );
+		//label_row("Our Bank Account - (Account Name)(Number):", $this->our_account . ' - ' . $this->ourBankDetails['bank_name'] . " (" . $this->ourBankAccountName . ")(" . $this->ourBankAccountCode . ")"  );
+		label_row("Our Bank Account - (Account Name)(Number):", $this->our_account . ' - ' . $this->fa_bank_accounts->get('bank_name') . " (" . $this->fa_bank_accounts->get( "bank_account_name" ) . ")(" . $this->fa_bank_accounts->get( "account_code" ) . ")"  );
 		label_row("Other account:", $this->otherBankAccount . ' / '. $this->otherBankAccountName);
 		label_row("Amount/Charge(s):", $this->amount.' / '. $this->charge ." (".$this->currency.")");
 		label_row("Trans Title:", $this->transactionTitle);
@@ -355,21 +334,7 @@ class bi_lineitem extends generic_fa_interface_model
 			if( ! strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) )
 			{
 				continue;	//Paired transactions will have opposing DC values.
-			} 
-/**
-					protected $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
-					protected $amount;	//!<float
-					protected $transactionTypeLabel;     //!< string
-					protected $matching_trans;	//!<array was arr_arr
-					protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
-					protected $ourBankDetails;	//!< array
-					protected $ourBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $ourBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $ourBankAccountCode;	 //| varchar(60)  | YES  |     | NULL    |		|
-**/
-			
+			} 	
 		}
 	}
 	/**//***************************************************************
@@ -473,7 +438,8 @@ class bi_lineitem extends generic_fa_interface_model
 						$match_html .= " Transaction " . $matchgl['type'] . ":" . $matchgl['type_no'];
 					}
 					$match_html .= " Score " . $matchgl['score'] . " ";
-					if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $this->ourBankDetails['bank_account_name'], $matchgl['account'] ) )
+					//if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $this->ourBankDetails['bank_account_name'], $matchgl['account'] ) )
+					if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $this->fa_bank_accounts->get( "bank_account_name" ), $matchgl['account'] ) )
 					{
 						$match_html .= "Account <b>" . $matchgl['account'] . "</b> ";
 					}
@@ -481,7 +447,8 @@ class bi_lineitem extends generic_fa_interface_model
 					{
 						$match_html .= "MATCH BANK:: ";
 						$match_html .=  print_r( $our_account, true );
-						$match_html .= "::" . print_r( $this->ourBankDetails['bank_account_name'], true );
+						$match_html .= "::" . print_r( $this->fa_bank_accounts->get( "bank_account_name" ), true );
+						//$match_html .= "::" . print_r( $this->ourBankDetails['bank_account_name'], true );
 						$match_html .= " Matching " . print_r( $matchgl, true );
 						$match_html .= "Account " . $matchgl['account'] . "---";
 					}
@@ -576,9 +543,9 @@ class bi_lineitem extends generic_fa_interface_model
 	* Display SUPPLIER partner type
 	*
 	************************************************************************/
-	function displaySupplierPartnerType()
+	function displaySupplierPartnerType() 
 	{
-		//propose supplier
+				//propose supplier
 		$matched_supplier = array();
 		if ( empty( $this->partnerId ) )
 		{
