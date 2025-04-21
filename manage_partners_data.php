@@ -19,7 +19,7 @@ $page_security = 'SA_BANKACCOUNT';
 
 include_once($path_to_root . "/gl/includes/gl_ui.inc");
 include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
-
+require_once 'HTML/Table.php';
 
 $js = '';
 if ($use_popup_windows)
@@ -63,69 +63,53 @@ if (isset($_POST['process'])) {
 start_form();
 
 div_start('partner');
-start_outer_table(TABLESTYLE2, "width=90%"); // outer table
-table_section(1, "33%");
 
-if (!isset($_POST['partner_id'])) {
-    $_POST['partner_id'] = "";
-}
+$table = new HTML_Table(['class' => 'tablestyle2', 'width' => '90%']);
 
-if (!isset($_POST['partner_type'])) {
-    $_POST['partner_type'] = PT_CUSTOMER;
-    set_focus('data');
-}
-
-echo "<tr><td class='label'>" . _("Choose: ") . "</td><td>";
-echo array_selector('partner_type', $_POST['partner_type'], $types, array( 'select_submit'=> true ) );
-echo "</td></tr>\n";
-
+// First section of the table
+$table->addRow();
+$table->addCell("<label>" . _( "Choose: " ) . "</label>", ['class' => 'label']);
+$table->addCell(array_selector('partner_type', $_POST['partner_type'], $types, ['select_submit' => true]));
 
 switch ($_POST['partner_type']) {
-    case PT_SUPPLIER :
-    	supplier_list_row(_("Supplier:"), 'partner_id', null, false, true, false, true);
-	$_POST['partner_detail_id'] = ANY_NUMERIC;
-    	hidden('partner_detail_id');
-    break;
-    case PT_CUSTOMER :
-    	customer_list_row(_("Customer:"), 'partner_id', null, false, true, false, true);
+    case PT_SUPPLIER:
+        $table->addRow();
+        $table->addCell(supplier_list_row(_("Supplier:"), 'partner_id', null, false, true, false, true));
+        $_POST['partner_detail_id'] = ANY_NUMERIC;
+        hidden('partner_detail_id');
+        break;
+    case PT_CUSTOMER:
+        $table->addRow();
+        $table->addCell(customer_list_row(_("Customer:"), 'partner_id', null, false, true, false, true));
 
         if (db_customer_has_branches($_POST['partner_id'])) {
-    	    customer_branches_list_row(_("Branch:"), $_POST['partner_id'], 
-					'partner_detail_id', null, false, true, true, true);
+            $table->addRow();
+            $table->addCell(customer_branches_list_row(_("Branch:"), $_POST['partner_id'], 'partner_detail_id', null, false, true, true, true));
         } else {
-	    $_POST['partner_detail_id'] = ANY_NUMERIC;
-    	    hidden('partner_detail_id');
+            $_POST['partner_detail_id'] = ANY_NUMERIC;
+            hidden('partner_detail_id');
         }
-    break;
+        break;
     default:
-	echo "something else";
-    break;
+        $table->addRow();
+        $table->addCell("something else");
+        break;
 }
 
-
-//get existing data
+// Second section of the table
 $data = get_partner_data($_POST['partner_id'], $_POST['partner_type'], $_POST['partner_detail_id']);
-if (!empty($data))
+if (!empty($data)) {
     $_POST['data'] = $data['data'];
-    
+}
 
-/*
-$val = "p_id = ".$_POST['partner_id'] . "pd_id=".$_POST['partner_detail_id'] . " type=";
-if ($_POST['partner_type'] == PT_CUSTOMER)
-    $val .= "customer";
-else
-    $val .= "supplier";
-*/
+$table->addRow();
+$table->addCell(textarea_row(_("IBAN(S):"), 'data', @$_POST['data'], 50, 3), ['colspan' => 2]);
 
-table_section(2, "66%");
-textarea_row(_("IBAN(S):"), 'data', @$_POST['data'], 50, 3);
+echo $table->toHtml();
 
-end_outer_table(1); // outer table
 div_end();
 
-
-
-submit_center_first('process', _("Update"), '', 'default');
+submit_center_first('process', _( "Update" ), '', 'default');
 
 end_form();
 

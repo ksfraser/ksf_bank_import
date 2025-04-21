@@ -250,6 +250,60 @@ class bi_transactions_model extends generic_fa_interface_model {
 					throw new Exception( "Limit must be a number as its for SQL", KSF_INVALID_DATA_TYPE );
 				}
 				break;
+			case 'id':
+				if (!is_numeric($value)) {
+					throw new Exception("ID must be a number", KSF_INVALID_DATA_TYPE);
+				}
+				break;
+			case 'smt_id':
+				if (!is_numeric($value)) {
+					throw new Exception("Statement ID must be a number", KSF_INVALID_DATA_TYPE);
+				}
+				break;
+			case 'valueTimestamp':
+			case 'entryTimestamp':
+				if (!strtotime($value)) {
+					throw new Exception("Timestamp must be a valid date", KSF_INVALID_DATA_TYPE);
+				}
+				break;
+			case 'account':
+			case 'accountName':
+			case 'transactionType':
+			case 'transactionCode':
+			case 'transactionCodeDesc':
+			case 'transactionDC':
+			case 'transactionTitle':
+			case 'merchant':
+			case 'category':
+			case 'sic':
+			case 'memo':
+				if (!is_string($value)) {
+					throw new Exception("$field must be a string", KSF_INVALID_DATA_TYPE);
+				}
+				break;
+			case 'transactionAmount':
+				if (!is_numeric($value)) {
+					throw new Exception("Transaction Amount must be a number", KSF_INVALID_DATA_TYPE);
+				}
+				break;
+			case 'status':
+			case 'fa_trans_type':
+			case 'fa_trans_no':
+			case 'checknumber':
+			case 'matched':
+			case 'created':
+				if (!is_numeric($value)) {
+					throw new Exception("$field must be a number", KSF_INVALID_DATA_TYPE);
+				}
+				break;
+			case 'fitid':
+			case 'acctid':
+			case 'g_partner':
+			case 'g_option':
+				if (!is_string($value)) {
+					throw new Exception("$field must be a string", KSF_INVALID_DATA_TYPE);
+				}
+				break;
 		}
 		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
 		//display_notification( __FILE__ . "::" . __LINE__ . ":" . "Setting $field to $value" );

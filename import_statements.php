@@ -1,14 +1,4 @@
 <?php
-/**********************************************************************
-    Copyright (C) FrontAccounting, LLC.
-	Released under the terms of the GNU General Public License, GPL, 
-	as published by the Free Software Foundation, either version 3 
-	of the License, or (at your option) any later version.
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
-    See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
-***********************************************************************/
 /**
  * @author Kevin Fraser / ChatGPT
  * @since 20250409
@@ -22,6 +12,7 @@ include_once($path_to_root . "/includes/ui.inc");
 
 include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
+require_once 'qfx_parser.php';
 
 page(_($help_context = "Import Bank Statement"));
 
@@ -30,27 +21,33 @@ function import_statements() {
     start_row();
     echo "<td width=100%><pre>\n";
 
-
     echo '<pre>';
     $statements = unserialize($_SESSION['statements']);
-    foreach($statements as $id => $smt) {
-	echo "importing statement {$smt->statementId} ...";
-	echo importStatement($smt);
-	echo "\n";
+    foreach ($statements as $id => $smt) {
+        echo "importing statement {$smt->statementId} ...";
+
+        // Use the factory to create the appropriate parser
+        try {
+            $parser = QfxParserFactory::createParser($smt->rawContent);
+            $parser->parse($smt->rawContent, $smt->staticData);
+            echo "Statement imported successfully.\n";
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage() . "\n";
+        }
+
+        echo "\n";
     }
     echo '</pre>';
-
-
 
     echo "</pre></td>";
 
     end_row();
     start_row();
     echo '<td>';
-	submit_center_first('goback', 'Go back');
+    submit_center_first('goback', 'Go back');
     echo '</td>';
     end_row();
-    
+
     end_table(1);
     hidden('parser', $_POST['parser']);
 }
