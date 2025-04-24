@@ -79,7 +79,7 @@ use Ksfraser\common\Defines;
 *	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
 *
 ******************************************************************************************************************/
-class bi_counterparty_model extends generic_fa_interface_model {
+class bi_counterparty_model extends GenericFaInterface {
 	var $id_bi_counterparty_model;	//!< Index of table
 
 	protected $card_type;			//Dream Payments

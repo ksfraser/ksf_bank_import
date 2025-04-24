@@ -774,27 +774,10 @@ if (1) {
 
 	error_reporting(E_ALL);
 
-	require_once( 'class.bi_transactions.php' );
-	$bit = new bi_transactions_model();
-/**20241108 reducing code in process_statement 
-	$sql = " SELECT t.*, s.account our_account, s.currency from " . TB_PREF . "bi_transactions t LEFT JOIN " . TB_PREF . "bi_statements as s ON t.smt_id = s.id";
-	$sql .= " WHERE t.valueTimestamp >= '" . date2sql( $_POST['TransAfterDate'] ) . "' AND t.valueTimestamp < '" . date2sql( $_POST['TransToDate'] ) . "'";
-	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
-	{
-		$sql .= "  AND t.status = '" . $_POST['statusFilter'] . "'";
-	}
-	$sql .= " ORDER BY t.valueTimestamp ASC";
+	use Ksfraser\FaBankImport\BiTransactions;
+	use Ksfraser\FaBankImport\BiLineitem;
 
-	try 
-	{
-		$res = db_query($sql, 'unable to get transactions data'); 
-		//The following shows how many rows/columns of results there are but without doint the fetch, just the mysql_results object.
-		//display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $res, true ) );
-	} catch( Error $e )
-	{
-			display_notification( __FILE__ . "::" . __LINE__ . " " . $e->getMessage() );
-	}
-*/
+	$bit = new BiTransactions();
 	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
 	{
 		$trzs = $bit->get_transactions( $_POST['statusFilter'] );
@@ -809,21 +792,6 @@ if (1) {
 	table_header(array("Transaction Details", "Operation/Status"));
 
 	//load data
-/**20241108 reducing code in process_statement 
-   moved into bi_transactions->get_transactions
-	while($myrow = db_fetch($res)) 
-	{
-		//display_notification( __FILE__ . "::" . __LINE__ );
-		$trz_code = $myrow['transactionCode'];
-		if( !isset( $trzs[$trz_code] ) ) 
-		{
-				$trzs[$trz_code] = array();
-		}
-		$trzs[$trz_code][] = $myrow;
-	}
-*/
-	
-	//This foreach loop should probably be rolled up into the WHILE loop above.
 	foreach($trzs as $trz_code => $trz_data) 
 	{
 		//try to match something, interpreting saved info if status=TR_SETTLED
@@ -840,8 +808,7 @@ if (1) {
 	
 		foreach($trz_data as $idx => $trz) 
 		{
-			require_once( 'class.bi_lineitem.php' );
-			$bi_lineitem = new bi_lineitem( $trz, $vendor_list, $optypes );
+			$bi_lineitem = new BiLineitem( $trz, $vendor_list, $optypes );
 		}	//foreach trz_data
 
 		//cids is an empty array at this point.

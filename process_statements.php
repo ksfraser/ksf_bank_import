@@ -8,6 +8,7 @@ namespace Controllers;
 
 use Models\SquareTransaction;
 use Views\TransactionView;
+use Views\ModuleMenuView; // Import the ModuleMenuView class
 
 class ProcessStatementsController
 {
@@ -39,6 +40,9 @@ class ProcessStatementsController
 
     public function index()
     {
+        $menu = new ModuleMenuView();
+        $menu->renderMenu(); // Render the module menu
+
         $transactions = $this->transactionModel->getAllTransactions();
         $this->view->renderTransactionList($transactions);
     }
@@ -83,6 +87,8 @@ class ProcessStatementsController
     {
         $transactionId = key($_POST['ProcessTransaction']);
         $partnerType = $_POST['partnerType'][$transactionId] ?? null;
+        $comment = $_POST['comment'] ?? ''; // Retrieve the Comment field from the form
+        $this->transactionModel->set('comment', $comment); // Set the Comment field in the transaction model
 
         if (!$partnerType) {
             throw new \Exception("Partner type is missing for transaction ID: $transactionId");

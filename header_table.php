@@ -5,7 +5,8 @@
  * @since 20250409
  */
 
-require_once( '../ksf_modules_common/class.origin.php' );
+// require_once( '../ksf_modules_common/class.origin.php' );
+use Ksfraser\common\Origin;
 
 /**//******************************************************************************
 * File to generate the HEADER table on the process_statements
@@ -17,7 +18,7 @@ require_once( '../ksf_modules_common/class.origin.php' );
 *	Also, this code could be used for other modules that need to filter on dates.
 *
 ******************************************************************************************/
-class ksf_modules_table_filter_by_date extends origin
+class ksf_modules_table_filter_by_date extends Origin
 {
 	protected $cell1;	//!<array "label", "var_name", "type" (callback), "options"
 	protected $cell2;	//!<array "label", "var_name", "type" (callback), "options"
@@ -95,7 +96,8 @@ class ksf_modules_table_filter_by_date extends origin
 /**Mantis 3188
 * Filter by Bank account
 * /
-		require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
+		// require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
+		use Ksfraser\frontaccounting\FaBankTransfer;
 		$ba_model = new fa_bank_accounts_MODEL();
 		$ba_view = new fa_bank_accounts_VIEW( $ba_model );
 		$ba_view->set( "b_showNoneAll", true );

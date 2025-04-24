@@ -33,8 +33,11 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
-require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+// require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
+use Ksfraser\common\GenericFaInterface;
+
+// require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+use Ksfraser\common\Defines;
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
@@ -224,6 +227,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 		$this->fields_array[] = array('name'=> 'created', 'label' => 'Created', 'type' => 'int(1)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => '0' );
 		$this->fields_array[] = array('name'=> 'g_partner', 'label' => 'Transaction Type (Partner)', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => '0' );
 		$this->fields_array[] = array('name'=> 'g_option', 'label' => 'Transaction Type Detail', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => '0' );
+		$this->fields_array[] = array('name'=> 'comment', 'label' => 'Comment', 'type' => 'text', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => 'Memo field for additional transaction details', 'default' => 'NULL');
 		//$this->table_interface->set( "fields_array", $this->fields_array, 0 );
 		//$this->fieldsarray2tableinterface( $this->fields_array );
 	}
@@ -311,10 +315,11 @@ class bi_transactions_model extends generic_fa_interface_model {
 		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
 		return $ret;
 	}
-	function insert_transaction()
-	{
-		$this->insert_data( get_object_vars($this) );
-	}
+	public function insert_transaction()
+    {
+        $data = get_object_vars($this); // Automatically include all class properties
+        $this->insert_data($data);
+    }
 	function summary_sql( $TransAfterDate, $TransToDate, $statusFilter )
 	{
 		$sql = " SELECT t.*, s.account our_account, s.currency from " . TB_PREF ."bi_transactions t LEFT JOIN " . TB_PREF . "bi_statements as s ON t.smt_id = s.id";

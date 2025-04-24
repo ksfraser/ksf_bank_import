@@ -13,10 +13,14 @@ include_once($path_to_root . "/includes/ui.inc");
 include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 require_once 'qfx_parser.php';
+include_once "views/module_menu_view.php"; // Include the ModuleMenuView class
 
 page(_($help_context = "Import Bank Statement"));
 
 function import_statements() {
+    $menu = new \Views\ModuleMenuView();
+    $menu->renderMenu(); // Render the module menu
+
     start_table(TABLESTYLE);
     start_row();
     echo "<td width=100%><pre>\n";
@@ -62,8 +66,7 @@ function importStatement($smt)
 {
 		//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $smt, true ) );
 	$message = '';
-	require_once(  './class.bi_statements.php' );
-	$bis = new bi_statements_model();
+	$bis = new BiStatements();
 	$bis->set( "bank", $smt->bank );
 	$bis->set( "statementId", $smt->statementId );
 	$exists = $bis->statement_exists();
@@ -92,7 +95,6 @@ function importStatement($smt)
 	$newinserted=0;
 	$dupecount=0;
 	$dupeupdated=0;
-	require_once( 'class.bi_transactions.php' );
 	foreach($smt->transactions as $id => $t) 
 	{
 		display_notification(  "Processing transaction" );
@@ -105,7 +107,7 @@ function importStatement($smt)
 		//var_dump( __FILE__ . "::" . __LINE__ );
 			try 
 			{
-				$bit = new bi_transactions_model();
+				$bit = new BiTransactions();
 			} catch( Exception $e )
 			{
 				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );

@@ -222,8 +222,8 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function getBankAccountDetails()
 	{
-// require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
-use Ksfraser\frontaccounting\FaBankAccounts;
+			// require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
+			use Ksfraser\frontaccounting\FaBankAccounts;
 			$this->fa_bank_accounts = new FaBankAccounts( $this );
 			$this->ourBankDetails =	$this->fa_bank_accounts->getByBankAccountNumber( $this->our_account );
 		//$this->ourBankDetails = get_bank_account_by_number( $this->our_account );
@@ -388,15 +388,13 @@ use Ksfraser\frontaccounting\FaBankAccounts;
 	        // JE# / Date / Account / (Credit/Debit) / Memo in the GL Account (gl/inquiry/gl_account_inquiry.php)
 	
 	        $new_arr = array();
-// 	        $inc = include_once( __DIR__ . '/../ksf_modules_common/class.fa_gl.php' );
-use Ksfraser\frontaccounting\FaGl;
-// 	        if( $inc )
-			if( $inc )
-fi			/*FI// 	        if( $inc )
-LE__ . "::" . __LINE__ );FI// 	        if( $inc )
-LE               $fa_gl = new FaGl();
- 		FI// 	        if( $inc )
-LE               	$fa_gl->set( "amount_min", $this->amount );
+	        // $inc = include_once( __DIR__ . '/../ksf_modules_common/class.fa_gl.php' );
+	        use Ksfraser\frontaccounting\FaGl;
+	        if( $inc )
+	        {
+	  		//display_notification( __FILE__ . "::" . __LINE__ );
+	                $fa_gl = new FaGl();
+ 					$fa_gl->set( "amount_min", $this->amount );
                 	$fa_gl->set( "amount_max", $this->amount );
                 	$fa_gl->set( "amount", $this->amount );
                 	$fa_gl->set( "transactionDC", $this->transactionDC );
@@ -407,14 +405,13 @@ LE               	$fa_gl->set( "amount_min", $this->amount );
                 	$fa_gl->set( "transactionCode", $this->transactionCode );
 
 	        //      $fa_gl = new \KSFRASER\FA\fa_gl();
-	                //Customer E-transfers usually get recorded the day after the "payment date" when recurring invoice, or recorded paid on Qick Ifinctions//              E-TRANSFER 010667466304;CUSTOMER NAME;...
-	                //     finctions$days) // accepts negative values as well
+	                //Customer E-transfers usually get recorded the day after the "payment date" when recurring invoice, or recorded paid on Quick Invoice
+	                //              E-TRANSFER 010667466304;CUSTOMER NAME;...
+	                //      function add_days($date, $days) // accepts negative values as well
 	                try {
-	                        $new_arr = $fa_gl->finctions();
-	                                //display_notification( __FILE__ . "::" .  __FILE____LINE__  .); "::" .
-	     __LINE__ );
-			}
-			else            } catch( Exception $e )
+	                        $new_arr = $fa_gl->find_matching_transactions();
+	                                //display_notification( __FILE__ . "::" . __LINE__ );
+	                } catch( Exception $e )
 	                {
 	                        display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
 	                }
@@ -620,7 +617,7 @@ LE               	$fa_gl->set( "amount_min", $this->amount );
 */
 		$_GET['customer_id'] = $this->partnerId;
 		//if( ! @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
-use Ksfraser\frontaccounting\FaCustomerPayment;
+		use Ksfraser\frontaccounting\FaCustomerPayment;
 		if(  @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
 		{
 			$tr = 0;
