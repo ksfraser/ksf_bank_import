@@ -21,6 +21,9 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->view = $this->viewMock;
     }
 
+    /**
+     * Test that the index method renders the transaction list.
+     */
     public function testIndexRendersTransactionList()
     {
         $transactions = [
@@ -36,6 +39,9 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->index();
     }
 
+    /**
+     * Test that unsetTransaction calls the model method.
+     */
     public function testUnsetTransactionCallsModelMethod()
     {
         $_POST['UnsetTrans'] = [1, 2];
@@ -47,6 +53,9 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->unsetTransaction();
     }
 
+    /**
+     * Test that addCustomer calls the model method.
+     */
     public function testAddCustomerCallsModelMethod()
     {
         $_POST['AddCustomer'] = [1, 2];
@@ -58,6 +67,9 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->addCustomer();
     }
 
+    /**
+     * Test that addVendor calls the model method.
+     */
     public function testAddVendorCallsModelMethod()
     {
         $_POST['AddVendor'] = [1, 2];
@@ -69,6 +81,9 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->addVendor();
     }
 
+    /**
+     * Test that toggleTransaction calls the model method.
+     */
     public function testToggleTransactionCallsModelMethod()
     {
         $_POST['ToggleTransaction'] = [1, 2];
@@ -80,6 +95,9 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->toggleTransaction();
     }
 
+    /**
+     * Test processing a transaction with a valid partner type.
+     */
     public function testProcessTransactionWithValidPartnerType()
     {
         $_POST['ProcessTransaction'] = [1 => 'Process'];
@@ -92,6 +110,9 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->processTransaction();
     }
 
+    /**
+     * Test processing a transaction with an invalid partner type.
+     */
     public function testProcessTransactionWithInvalidPartnerType()
     {
         $_POST['ProcessTransaction'] = [1 => 'Process'];
