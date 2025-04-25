@@ -18,8 +18,8 @@
 $path_to_root = "../..";
 
 /*******************************************
- * If you change the list of properties below, ensure that you also modify
- * build_write_properties_array
+// If you change the list of properties below, ensure that you also modify
+// build_write_properties_array
  * */
 
 // require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
@@ -338,6 +338,7 @@ class bi_lineitem extends generic_fa_interface_model
 	*	Because of the extra processing time, this function needs to be run
 	*	as a maintenance activity rather than as a real time search.
 	*
+	* @returns array of transactions that are paired with this one.	 
 	*********************************************************************/
 	function findPaired()
 	{
@@ -355,8 +356,11 @@ class bi_lineitem extends generic_fa_interface_model
 			if( ! strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) )
 			{
 				continue;	//Paired transactions will have opposing DC values.
-			} 	
+			}
+			$matching[] = $trans;
+ 	
 		}
+		return $matching;
 	}
 	/**//***************************************************************
 	* Check if the transaction has a pair.
@@ -390,7 +394,9 @@ class bi_lineitem extends generic_fa_interface_model
 	        $new_arr = array();
 	        // $inc = include_once( __DIR__ . '/../ksf_modules_common/class.fa_gl.php' );
 	        use Ksfraser\frontaccounting\FaGl;
+			/** NAMESPACE
 	        if( $inc )
+			*/
 	        {
 	  		//display_notification( __FILE__ . "::" . __LINE__ );
 	                $fa_gl = new FaGl();
@@ -415,12 +421,14 @@ class bi_lineitem extends generic_fa_interface_model
 	                {
 	                        display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
 	                }
+			/** Namespace
 	                                //display_notification( __FILE__ . "::" . __LINE__ );
 	        }
 	        else
 	        {
 	                display_notification( __FILE__ . "::" . __LINE__ . ": Require_Once failed." );
 	        }
+			*/
 		$this->matching_trans = $new_arr;
 	        return $new_arr;
 	}
