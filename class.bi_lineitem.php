@@ -22,11 +22,10 @@ $path_to_root = "../..";
  * build_write_properties_array
  * */
 
-// require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
-use Ksfraser\common\GenericFaInterface;
-
-// require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
-use Ksfraser\common\Defines;
+require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
+require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+//use Ksfraser\common\GenericFaInterface;
+//use Ksfraser\common\Defines;
 
 /**//**************************************************************************************************************
 * A class to handle displaying the line item of a statement. 
@@ -96,19 +95,22 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
 	protected $optypes;	//!< array
 	protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
-	//@todo
-	//REFACTOR:
-	//		refactor to use class.fa_bank_accounts.php instead of an array!
+//REFACTOR:
+//		refactor to use class.fa_bank_accounts.php instead of an array!
 	protected $ourBankDetails;	//!< array
 	protected $ourBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
 	protected $ourBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
 	protected $ourBankAccountCode;	 //| varchar(60)  | YES  |     | NULL    |		|
 	protected $fa_bank_accounts;	//!<object 
 
+
+
 	function __construct( $trz, $vendor_list = array(), $optypes = array() )
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
+		//display_notification( __FILE__ . "::" . __LINE__ );
 		parent::__construct( null, null, null, null, null);
+		//display_notification( __FILE__ . "::" . __LINE__ );
 	//	$this->iam = "bi_transactions";
 	//	$this->define_table();
 		$this->matched = 0;
@@ -120,6 +122,20 @@ class bi_lineitem extends generic_fa_interface_model
 
 		$this->transactionDC = $trz['transactionDC'];
 		$this->determineTransactionTypeLabel();
+/**
+		switch( $this->transactionDC )
+		{
+			case 'C':
+				$this->transactionTypeLabel = "Credit";
+			break;
+			case 'D':
+				$this->transactionTypeLabel = "Debit";
+			break;
+			case 'B':
+				$this->transactionTypeLabel = "Bank Transfer -->>";
+			break;
+		}
+*/
 		$this->memo = $trz['memo'];
 		$this->our_account = $trz['our_account'];
 		$this->valueTimestamp = $trz['valueTimestamp'];
@@ -187,7 +203,7 @@ class bi_lineitem extends generic_fa_interface_model
 	* @param none uses internal
 	* @returns none sets internal
 	**********************************************************************/
-	function determineTransactionTypeLabel() : null
+	function determineTransactionTypeLabel(): void
 	{
 		//This could probably be moved to a getTransactionTypeLabel function
 		switch( $this->transactionDC )
@@ -202,7 +218,7 @@ class bi_lineitem extends generic_fa_interface_model
 				$this->transactionTypeLabel = "Bank Transfer";
 			break;
 		}
-		return null;
+		return;
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -216,17 +232,42 @@ class bi_lineitem extends generic_fa_interface_model
 	/**//******************************************************************
 	* Get OUR Bank Account Details
 	*
-	*	DONE: REFACTOR to use class fa_bank_accounts instead of an array
-	* @todo clean up the refactored code for fa_bank_accounts removing commented out old code once tested
+	*	TODO: REFACTOR to use class fa_bank_accounts instead of an array
 	*
 	**********************************************************************/
 	function getBankAccountDetails()
 	{
-// require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
-use Ksfraser\frontaccounting\FaBankAccounts;
-			$this->fa_bank_accounts = new FaBankAccounts( $this );
-			$this->ourBankDetails =	$this->fa_bank_accounts->getByBankAccountNumber( $this->our_account );
+			//Info from 0_bank_accounts
+			//      Account Name
+			//      Type
+			//      Currency
+			//      GL Account
+			//      Bank
+			//      Number
+			//      Address
+		require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
+		$this->fa_bank_accounts = new fa_bank_accounts( $this );
+		//use Ksfraser\frontaccounting\FaBankAccounts;
+		//$this->fa_bank_accounts = new FaBankAccounts( $this );
+		$this->ourBankDetails =	$this->fa_bank_accounts->getByBankAccountNumber( $this->our_account );
+		//var_dump( $this->ourBankDetails );
 		//$this->ourBankDetails = get_bank_account_by_number( $this->our_account );
+		//var_dump( $bank );
+		/*
+			Array ( [account_code] => 1061
+				[account_type] => 0
+				[bank_account_name] => CIBC Savings account
+				[bank_account_number] => 00449 12-93230
+				[bank_name] => CIBC
+				[bank_address] =>
+				[bank_curr_code] => CAD
+				[dflt_curr_act] => 1
+				[id] => 1
+				[bank_charge_act] => 5690
+				[last_reconciled_date] => 0000-00-00 00:00:00
+				[ending_reconcile_balance] => 0
+				[inactive] => 0 )
+		*/
 		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
 		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
 	}
@@ -243,8 +284,7 @@ use Ksfraser\frontaccounting\FaBankAccounts;
 		label_row("Trans type:", $this->transactionTypeLabel);
 		$this->getBankAccountDetails();
 
-		//label_row("Our Bank Account - (Account Name)(Number):", $this->our_account . ' - ' . $this->ourBankDetails['bank_name'] . " (" . $this->ourBankAccountName . ")(" . $this->ourBankAccountCode . ")"  );
-		label_row("Our Bank Account - (Account Name)(Number):", $this->our_account . ' - ' . $this->fa_bank_accounts->get('bank_name') . " (" . $this->fa_bank_accounts->get( "bank_account_name" ) . ")(" . $this->fa_bank_accounts->get( "account_code" ) . ")"  );
+		label_row("Our Bank Account - (Account Name)(Number):", $this->our_account . ' - ' . $this->ourBankDetails['bank_name'] . " (" . $this->ourBankAccountName . ")(" . $this->ourBankAccountCode . ")"  );
 		label_row("Other account:", $this->otherBankAccount . ' / '. $this->otherBankAccountName);
 		label_row("Amount/Charge(s):", $this->amount.' / '. $this->charge ." (".$this->currency.")");
 		label_row("Trans Title:", $this->transactionTitle);
@@ -355,7 +395,21 @@ use Ksfraser\frontaccounting\FaBankAccounts;
 			if( ! strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) )
 			{
 				continue;	//Paired transactions will have opposing DC values.
-			} 	
+			} 
+/**
+					protected $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		|
+					protected $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
+					protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
+					protected $amount;	//!<float
+					protected $transactionTypeLabel;     //!< string
+					protected $matching_trans;	//!<array was arr_arr
+					protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
+					protected $ourBankDetails;	//!< array
+					protected $ourBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
+					protected $ourBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
+					protected $ourBankAccountCode;	 //| varchar(60)  | YES  |     | NULL    |		|
+**/
+			
 		}
 	}
 	/**//***************************************************************
@@ -388,15 +442,19 @@ use Ksfraser\frontaccounting\FaBankAccounts;
 	        // JE# / Date / Account / (Credit/Debit) / Memo in the GL Account (gl/inquiry/gl_account_inquiry.php)
 	
 	        $new_arr = array();
-// 	        $inc = include_once( __DIR__ . '/../ksf_modules_common/class.fa_gl.php' );
-use Ksfraser\frontaccounting\FaGl;
-// 	        if( $inc )
-			if( $inc )
-fi			/*FI// 	        if( $inc )
-LE__ . "::" . __LINE__ );FI// 	        if( $inc )
-LE               $fa_gl = new FaGl();
- 		FI// 	        if( $inc )
-LE               	$fa_gl->set( "amount_min", $this->amount );
+		/** Namespace *
+		*	use Ksfraser\frontaccounting\FaGl;
+	        *		Will need to adjust he if( $inc )
+		**/
+	        $inc = include_once( __DIR__ . '/../ksf_modules_common/class.fa_gl.php' );
+	        if( $inc )
+	        {
+	  		//display_notification( __FILE__ . "::" . __LINE__ );
+		/** Namespace *
+	         *       $fa_gl = new FaGl();
+		**/
+	                $fa_gl = new fa_gl();
+ 			$fa_gl->set( "amount_min", $this->amount );
                 	$fa_gl->set( "amount_max", $this->amount );
                 	$fa_gl->set( "amount", $this->amount );
                 	$fa_gl->set( "transactionDC", $this->transactionDC );
@@ -405,16 +463,17 @@ LE               	$fa_gl->set( "amount_min", $this->amount );
                 	$fa_gl->set( "enddate", $this->entryTimestamp );       //Set converts using sql2date
                 	$fa_gl->set( "accountName", $this->otherBankAccountName );
                 	$fa_gl->set( "transactionCode", $this->transactionCode );
+                	$fa_gl->set( "memo_", $this->memo );
+		
 
 	        //      $fa_gl = new \KSFRASER\FA\fa_gl();
-	                //Customer E-transfers usually get recorded the day after the "payment date" when recurring invoice, or recorded paid on Qick Ifinctions//              E-TRANSFER 010667466304;CUSTOMER NAME;...
-	                //     finctions$days) // accepts negative values as well
+	                //Customer E-transfers usually get recorded the day after the "payment date" when recurring invoice, or recorded paid on Quick Invoice
+	                //              E-TRANSFER 010667466304;CUSTOMER NAME;...
+	                //      function add_days($date, $days) // accepts negative values as well
 	                try {
-	                        $new_arr = $fa_gl->finctions();
-	                                //display_notification( __FILE__ . "::" .  __FILE____LINE__  .); "::" .
-	     __LINE__ );
-			}
-			else            } catch( Exception $e )
+	                        $new_arr = $fa_gl->find_matching_transactions( $this->memo );
+	                                //display_notification( __FILE__ . "::" . __LINE__ );
+	                } catch( Exception $e )
 	                {
 	                        display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
 	                }
@@ -426,6 +485,33 @@ LE               	$fa_gl->set( "amount_min", $this->amount );
 	        }
 		$this->matching_trans = $new_arr;
 	        return $new_arr;
+	}
+	function makeURLLink( string $URL, array $params, string $text, $target = "target=_blank" )
+	{
+		$ret = "<a ";
+		$ret .= $target;
+		$ret .= " href='" . $URL;
+		if( count( $params ) > 1 )
+		{
+			$ret .= "?";
+			$parcount = 0;
+			foreach( $params as $param )
+			{
+				foreach( $param as $key=>$val )
+				{
+					if( $parcount > 0 )
+					{
+						$ret .= "&";
+					}
+					$ret .= "$key=$val";
+					$parcount++;
+				}
+			}
+		}
+		$ret.="'>";
+		$ret .= $text;
+		$ret .= "</a>";
+		return $ret;
 	}
 	/**//***************************************************************
 	* Display the entries from the matching_trans array 
@@ -454,17 +540,32 @@ LE               	$fa_gl->set( "amount_min", $this->amount );
 					* so if the bank account number matches and adjusted amount matches...
 					*****************************************************************************************/
 					$match_html .= "<b>$matchcount</b>: ";
+					unset( $param );
+					$param = array();
 					if( ! @include_once( __DIR__  . "/../ksf_modules_common/defines.inc.php") )
 					{
-						$match_html .= " Transaction " . $trans_types_readable[$matchgl['type']] . ":" . $matchgl['type_no'];
+						$param[] = array( "type_id" => $trans_types_readable[$matchgl['type']] );
+						$param[] = array( "trans_no" => $matchgl['type_no'] );
+						$URL = "../../gl/view/gl_trans_view.php";
+						$text = " Transaction " . $trans_types_readable[$matchgl['type']] . ":" . $matchgl['type_no'];
+			
+						$match_html .= $this->makeURLLink( $URL, $param, $text );
+						//$match_html .= " Transaction " . $trans_types_readable[$matchgl['type']] . ":" . $matchgl['type_no'];
 					}
 					else
 					{
-						$match_html .= " Transaction " . $matchgl['type'] . ":" . $matchgl['type_no'];
+						$type = $matchgl['type'];
+						$type_no = $matchgl['type_no'];
+						$param[] = array( "type_id" => $type );
+						$param[] = array( "trans_no" => $type_no );
+						$URL = "../../gl/view/gl_trans_view.php";
+						$text = " Transaction " . $matchgl['type'] . ":" . $matchgl['type_no'];
+			
+						$match_html .= $this->makeURLLink( $URL, $param, $text );
+						//$match_html .= " Transaction " . $matchgl['type'] . ":" . $matchgl['type_no'];
 					}
 					$match_html .= " Score " . $matchgl['score'] . " ";
-					//if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $this->ourBankDetails['bank_account_name'], $matchgl['account'] ) )
-					if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $this->fa_bank_accounts->get( "bank_account_name" ), $matchgl['account'] ) )
+					if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $this->ourBankDetails['bank_account_name'], $matchgl['account'] ) )
 					{
 						$match_html .= "Account <b>" . $matchgl['account'] . "</b> ";
 					}
@@ -472,8 +573,7 @@ LE               	$fa_gl->set( "amount_min", $this->amount );
 					{
 						$match_html .= "MATCH BANK:: ";
 						$match_html .=  print_r( $our_account, true );
-						$match_html .= "::" . print_r( $this->fa_bank_accounts->get( "bank_account_name" ), true );
-						//$match_html .= "::" . print_r( $this->ourBankDetails['bank_account_name'], true );
+						$match_html .= "::" . print_r( $this->ourBankDetails['bank_account_name'], true );
 						$match_html .= " Matching " . print_r( $matchgl, true );
 						$match_html .= "Account " . $matchgl['account'] . "---";
 					}
@@ -568,9 +668,9 @@ LE               	$fa_gl->set( "amount_min", $this->amount );
 	* Display SUPPLIER partner type
 	*
 	************************************************************************/
-	function displaySupplierPartnerType() 
+	function displaySupplierPartnerType()
 	{
-				//propose supplier
+		//propose supplier
 		$matched_supplier = array();
 		if ( empty( $this->partnerId ) )
 		{
@@ -620,7 +720,6 @@ LE               	$fa_gl->set( "amount_min", $this->amount );
 */
 		$_GET['customer_id'] = $this->partnerId;
 		//if( ! @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
-use Ksfraser\frontaccounting\FaCustomerPayment;
 		if(  @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
 		{
 			$tr = 0;
@@ -671,11 +770,11 @@ use Ksfraser\frontaccounting\FaCustomerPayment;
 */
 		if( $this->transactionDC == 'C' )
 		{
-			$rowlabel = "Transfer to <i>Our Bank Account</i> from (<b>OTHER ACCOUNT</b>):";
+			$rowlabel = "Transfer to <i>Our Bank Account</i> <b>from (OTHER ACCOUNT</b>):";
 		}
 		else
 		{
-			$rowlabel = "Transfer from <i>Our Bank Account</i> To (<b>OTHER ACCOUNT</b>):";
+			$rowlabel = "Transfer from <i>Our Bank Account</i> <b>To (OTHER ACCOUNT</b>):";
 		}
 /** ! Mantis 2963 */
 		//bank_accounts_list_row( _("From:") , 'bank_account', null, false)
@@ -922,8 +1021,20 @@ use Ksfraser\frontaccounting\FaCustomerPayment;
 	* @param class
 	* @returns int how many fields did we copy
 	**************************************************************************/
-	function trz2obj( $trz ) : int
+	function trz2obj( $trz )
 	{
 		return $this->obj2obj( $trz );
+/*
+		$cnt = 0;
+		foreach( get_object_vars($this) as $key )
+		{
+			if( isset( $trz->$key ) )
+			{
+				$this-set( "$key", $trz->$key );	
+				$cnt++;
+			}
+		}
+		return $cnt;
+*/
 	}
 }
