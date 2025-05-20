@@ -1,8 +1,14 @@
 <?php
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
+/**********************************************************************
+    Copyright (C) FrontAccounting, LLC.
+	Released under the terms of the GNU General Public License, GPL, 
+	as published by the Free Software Foundation, either version 3 
+	of the License, or (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+    See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
+***********************************************************************/
 $page_security = 'SA_BANKACCOUNT';
 $path_to_root = "../..";
 include($path_to_root . "/includes/session.inc");
@@ -12,46 +18,42 @@ include_once($path_to_root . "/includes/ui.inc");
 
 include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
-require_once 'qfx_parser.php';
-include_once "views/module_menu_view.php"; // Include the ModuleMenuView class
+require_once 'includes/qfx_parser.php';
 
 page(_($help_context = "Import Bank Statement"));
 
-function import_statements() {
-    $menu = new \Views\ModuleMenuView();
-    $menu->renderMenu(); // Render the module menu
 
+        include_once "Views/module_menu_view.php"; // Include the ModuleMenuView class
+        $menu = new \Views\ModuleMenuView();
+        $menu->renderMenu(); // Render the module menu
+
+
+function import_statements() {
     start_table(TABLESTYLE);
     start_row();
     echo "<td width=100%><pre>\n";
 
+
     echo '<pre>';
     $statements = unserialize($_SESSION['statements']);
-    foreach ($statements as $id => $smt) {
-        echo "importing statement {$smt->statementId} ...";
-
-        // Use the factory to create the appropriate parser
-        try {
-            $parser = QfxParserFactory::createParser($smt->rawContent);
-            $parser->parse($smt->rawContent, $smt->staticData);
-            echo "Statement imported successfully.\n";
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage() . "\n";
-        }
-
-        echo "\n";
+    foreach($statements as $id => $smt) {
+	echo "importing statement {$smt->statementId} ...";
+	echo importStatement($smt);
+	echo "\n";
     }
     echo '</pre>';
+
+
 
     echo "</pre></td>";
 
     end_row();
     start_row();
     echo '<td>';
-    submit_center_first('goback', 'Go back');
+	submit_center_first('goback', 'Go back');
     echo '</td>';
     end_row();
-
+    
     end_table(1);
     hidden('parser', $_POST['parser']);
 }
@@ -66,7 +68,12 @@ function importStatement($smt)
 {
 		//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $smt, true ) );
 	$message = '';
+/** Moving to namespaces **/
+	require_once(  './class.bi_statements.php' );
+	$bis = new bi_statements_model();
+/*
 	$bis = new BiStatements();
+**/
 	$bis->set( "bank", $smt->bank );
 	$bis->set( "statementId", $smt->statementId );
 	$exists = $bis->statement_exists();
@@ -95,6 +102,9 @@ function importStatement($smt)
 	$newinserted=0;
 	$dupecount=0;
 	$dupeupdated=0;
+/** Moving to Namespaces **/
+	require_once( 'class.bi_transactions.php' );
+/**/
 	foreach($smt->transactions as $id => $t) 
 	{
 		display_notification(  "Processing transaction" );
@@ -107,7 +117,11 @@ function importStatement($smt)
 		//var_dump( __FILE__ . "::" . __LINE__ );
 			try 
 			{
+/** Moving to namespaces */
+				$bit = new bi_transactions_model();
+/**
 				$bit = new BiTransactions();
+*/
 			} catch( Exception $e )
 			{
 				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );

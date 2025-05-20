@@ -9,10 +9,6 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
     See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
 ***********************************************************************/
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
 $page_security = 'SA_SALESTRANSVIEW';
 $path_to_root = "../..";
 include_once($path_to_root . "/includes/date_functions.inc");
@@ -32,6 +28,12 @@ if ($use_popup_windows)
 if ($use_date_picker)
     $js .= get_js_date_picker();
 page(_($help_context = "View Bank Statements"), @$_GET['popup'], false, "", $js);
+
+
+        include_once "Views/module_menu_view.php"; // Include the ModuleMenuView class
+        $menu = new \Views\ModuleMenuView();
+        $menu->renderMenu(); // Render the module menu
+
 
 //--------------------------------------------------------------------
 
