@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Controllers\BankImportController;
-use Models\SquareTransaction;
+use Models\BankTransaction;
 
 class BankImportControllerTest extends TestCase
 {
@@ -11,7 +11,7 @@ class BankImportControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->transactionModelMock = $this->createMock(SquareTransaction::class);
+        $this->transactionModelMock = $this->createMock(BankTransaction::class);
         $this->controller = new BankImportController();
         $this->controller->transactionModel = $this->transactionModelMock;
     }
