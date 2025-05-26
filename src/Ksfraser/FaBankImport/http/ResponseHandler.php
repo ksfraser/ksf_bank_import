@@ -2,53 +2,56 @@
 
 namespace Ksfraser\FaBankImport\Http;
 
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
 class ResponseHandler
 {
-    private $headers = [];
-    private $content = '';
-    private $statusCode = 200;
+    private $response;
+
+    public function __construct()
+    {
+        $this->response = new Response();
+    }
 
     public function setHeader(string $name, string $value): self
     {
-        $this->headers[$name] = $value;
+        $this->response->headers->set($name, $value);
         return $this;
     }
 
     public function setStatusCode(int $code): self
     {
-        $this->statusCode = $code;
+        $this->response->setStatusCode($code);
         return $this;
     }
 
     public function setContent(string $content): self
     {
-        $this->content = $content;
+        $this->response->setContent($content);
         return $this;
     }
 
     public function redirect(string $url, int $statusCode = 302): void
     {
-        $this->setHeader('Location', $url);
-        $this->setStatusCode($statusCode);
-        $this->send();
+        $response = new RedirectResponse($url, $statusCode);
+        $response->send();
     }
 
     public function json(array $data): void
     {
-        $this->setHeader('Content-Type', 'application/json');
-        $this->setContent(json_encode($data));
-        $this->send();
+        $response = new JsonResponse($data);
+        $response->send();
     }
 
     public function send(): void
     {
-        if (!headers_sent()) {
-            http_response_code($this->statusCode);
-            foreach ($this->headers as $name => $value) {
-                header("$name: $value");
-            }
-        }
-        echo $this->content;
-        exit;
+        $this->response->send();
+    }
+
+    public function getResponse(): Response
+    {
+        return $this->response;
     }
 }

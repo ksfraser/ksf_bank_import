@@ -1,0 +1,2 @@
+[2025-05-26T03:00:11.052629+00:00] performance.INFO: Performance metrics {"name":"list_transactions","time_elapsed":0.0005719661712646484,"memory_used":12720} []
+[2025-05-26T03:00:11.054955+00:00] performance.INFO: Metric: request_processing {"name":"list_transactions","time_elapsed":0.0005719661712646484,"memory_used":12720,"request_type":"list_transactions"} []

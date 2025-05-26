@@ -2,8 +2,11 @@
 
 namespace Ksfraser\FaBankImport\Http;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class RequestHandler
 {
+    private $request;
     private $transactionCommand;
     private $params;
     private $middlewares = [];
@@ -11,10 +14,20 @@ class RequestHandler
 
     public function __construct(array $params = [])
     {
+        $this->request = Request::createFromGlobals();
         $this->params = $params;
-        if (isset($params['transaction'])) {
+        
+        // Check for transaction in POST data first, then params
+        if ($this->request->request->has('transaction')) {
+            $this->transactionCommand = $this->request->request->get('transaction');
+        } elseif (isset($params['transaction'])) {
             $this->transactionCommand = $params['transaction'];
         }
+    }
+
+    public function getRequest(): Request
+    {
+        return $this->request;
     }
 
     public function addMiddleware($middleware): self
@@ -31,7 +44,6 @@ class RequestHandler
     public function process()
     {
         if ($this->middlewareIndex >= count($this->middlewares)) {
-            // End of middleware chain, process the actual request
             return $this->processRequest();
         }
 
@@ -50,13 +62,22 @@ class RequestHandler
 
     public function getParams(): array
     {
-        return $this->params;
+        return array_merge(
+            $this->params,
+            $this->request->query->all(),
+            $this->request->request->all()
+        );
+    }
+
+    public function isPost(): bool
+    {
+        return $this->request->isMethod('POST');
     }
 
     private function processRequest()
     {
-        // This would be implemented by specific request handlers
-        // For now, we'll return a basic success response
+// This would be implemented by specific request handlers
+// For now, we'll return a basic success response
         return [
             'success' => true,
             'message' => 'Request processed successfully'
