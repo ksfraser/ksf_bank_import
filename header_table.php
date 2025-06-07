@@ -1,12 +1,6 @@
 <?php
 
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
-
-// require_once( '../ksf_modules_common/class.origin.php' );
-use Ksfraser\common\Origin;
+require_once( '../ksf_modules_common/class.origin.php' );
 
 /**//******************************************************************************
 * File to generate the HEADER table on the process_statements
@@ -18,7 +12,7 @@ use Ksfraser\common\Origin;
 *	Also, this code could be used for other modules that need to filter on dates.
 *
 ******************************************************************************************/
-class ksf_modules_table_filter_by_date extends Origin
+class ksf_modules_table_filter_by_date extends origin
 {
 	protected $cell1;	//!<array "label", "var_name", "type" (callback), "options"
 	protected $cell2;	//!<array "label", "var_name", "type" (callback), "options"
@@ -96,8 +90,7 @@ class ksf_modules_table_filter_by_date extends Origin
 /**Mantis 3188
 * Filter by Bank account
 * /
-		// require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
-		use Ksfraser\frontaccounting\FaBankTransfer;
+		require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
 		$ba_model = new fa_bank_accounts_MODEL();
 		$ba_view = new fa_bank_accounts_VIEW( $ba_model );
 		$ba_view->set( "b_showNoneAll", true );

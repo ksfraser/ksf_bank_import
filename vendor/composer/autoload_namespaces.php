@@ -6,5 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'org\\bovigo\\vfs\\' => array($vendorDir . '/mikey179/vfsstream/src/main/php'),
+    'OfxParser' => array($vendorDir . '/asgrim/ofxparser/lib'),
+    'Mouf\\Utils\\Value' => array($vendorDir . '/mouf/utils.value.value-interface/src'),
+    'Mouf\\Utils\\Action' => array($vendorDir . '/mouf/html.htmlelement/src', $vendorDir . '/mouf/utils.action.action-interface/src'),
+    'Mouf\\Html\\Tags' => array($vendorDir . '/mouf/html.tags/src'),
+    'Mouf\\Html\\HtmlElement' => array($vendorDir . '/mouf/html.htmlelement/src'),
+    'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
 );

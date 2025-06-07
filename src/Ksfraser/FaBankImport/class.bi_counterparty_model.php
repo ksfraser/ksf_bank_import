@@ -5,6 +5,7 @@
  * @since 20250409
  */
 
+
 /****************************************************************************************
  * Table and handling class for staging of imported financial data
  *
@@ -30,10 +31,9 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-// require_once( '../ksf_modules_commone/class.generic_fa_interface.php' );
+//require_once( '../ksf_modules_commone/class.generic_fa_interface.php' );
+//require_once( '../ksf_modules_commone/defines.inc.php' );
 use Ksfraser\common\GenericFaInterface;
-
-// require_once( '../ksf_modules_commone/defines.inc.php' );
 use Ksfraser\common\Defines;
 
 /**//**************************************************************************************************************
@@ -79,9 +79,10 @@ use Ksfraser\common\Defines;
 *	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
 *
 ******************************************************************************************************************/
-class bi_counterparty_model extends GenericFaInterface {
-	var $id_bi_counterparty_model;	//!< Index of table
+//class bi_counterparty_model extends GenericFaInterfaceModel {
+class bi_counterparty_model extends generic_fa_interface_model {
 
+	var $id_bi_counterparty_model;	//!< Index of table
 	protected $card_type;			//Dream Payments
 	protected $card_number;			//Dream Payments
 	protected $receipt_sent;		//Dream Payments
@@ -171,7 +172,7 @@ class bi_counterparty_model extends GenericFaInterface {
 		$this->fields_array[] = array('name' => 'counterpartyType', 'label' => 'Type of Counterparty', 'type' => 'int(11)', 'auto_increment' => 'no', 'null' => 'NOT NULL', 'readwrite' => 'readwrite' );
 		$this->fields_array[] = array('name' => 'counterpartyId', 'label' => 'Counterparty ID', 'type' => 'int(11)', 'auto_increment' => 'no', 'null' => 'NOT NULL', 'readwrite' => 'readwrite' );
 	}
-	function insert_transaction()
+	function insert_transaction() : void
 	{
 		$this->insert_data( get_object_vars($this) );
 	}

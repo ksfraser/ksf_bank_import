@@ -2,6 +2,8 @@
 
 namespace Ksfraser\FaBankImport\Exceptions;
 
+//TODO:  flesh out specific validations and their resulting exceptions
+
 class TransactionValidationException extends \Exception
 {
     private $validationErrors;

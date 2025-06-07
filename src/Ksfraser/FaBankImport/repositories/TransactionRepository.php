@@ -3,45 +3,38 @@
 namespace Ksfraser\FaBankImport\Repositories;
 
 use Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface;
-use Ksfraser\FaBankImport\Database\DatabaseFactory;
-use Ksfraser\FaBankImport\Database\QueryBuilder;
 
-class TransactionRepository extends AbstractRepository implements TransactionRepositoryInterface
+class TransactionRepository implements TransactionRepositoryInterface
 {
-    protected $table = 'bi_transactions';
-    private $connection;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->connection = DatabaseFactory::getConnection();
-    }
-
+    /* Original DB queries replaced by repository pattern */
     public function findById(int $id): ?array
     {
-        return $this->find($id);
+        $result = db_query("SELECT * FROM bi_transactions WHERE id = ?", [$id]);
+        return $result ? $result[0] : null;
     }
 
     public function findAll(): array
     {
-        return $this->queryBuilder->get();
+        $result = db_query("SELECT * FROM bi_transactions");
+        return $result ?: [];
     }
 
     public function findByStatus(string $status): array
     {
-        return $this->findBy(['status' => $status]);
+        $result = db_query("SELECT * FROM bi_transactions WHERE status = ?", [$status]);
+        return $result ?: [];
     }
 
     public function save(array $transaction): bool
     {
-        $sql = "INSERT INTO {$this->table} (amount, valueTimestamp, memo, status) VALUES (:amount, :valueTimestamp, :memo, :status)";
-        $stmt = $this->connection->prepare($sql);
-        return $stmt->execute([
-            ':amount' => $transaction['amount'],
-            ':valueTimestamp' => $transaction['valueTimestamp'],
-            ':memo' => $transaction['memo'],
-            ':status' => $transaction['status']
-        ]);
+        // Insert new transaction
+        $query = "INSERT INTO bi_transactions (amount, valueTimestamp, memo, status) VALUES (?, ?, ?, ?)";
+        return db_query($query, [
+            $transaction['amount'],
+            $transaction['valueTimestamp'],
+            $transaction['memo'],
+            $transaction['status']
+        ]) !== false;
     }
 
     public function update(int $id, array $data): bool
@@ -50,14 +43,13 @@ class TransactionRepository extends AbstractRepository implements TransactionRep
         $params = [];
 
         foreach ($data as $key => $value) {
-            $setClauses[] = "$key = :$key";
-            $params[":$key"] = $value;
+            $setClauses[] = "$key = ?";
+            $params[] = $value;
         }
 
-        $params[':id'] = $id;
-        $sql = "UPDATE {$this->table} SET " . implode(', ', $setClauses) . " WHERE id = :id";
+        $params[] = $id;
+        $query = "UPDATE bi_transactions SET " . implode(', ', $setClauses) . " WHERE id = ?";
         
-        $stmt = $this->connection->prepare($sql);
-        return $stmt->execute($params);
+        return db_query($query, $params) !== false;
     }
 }

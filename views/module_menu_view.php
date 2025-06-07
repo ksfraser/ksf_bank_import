@@ -1,5 +1,7 @@
 <?php
-namespace Views;
+
+namespace Ksfraser\FaBankImport;
+
 
 class ModuleMenuView
 {

@@ -2,7 +2,7 @@
 
 namespace Ksfraser\FaBankImport\Services;
 
-use Ksfraser\FaBankImport\Config\Config;
+use Ksfraser\Application\Config\Config;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
 class TransactionValidator

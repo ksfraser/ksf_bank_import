@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Ksfraser\FaBankImport\Services\AlertService;
-use Ksfraser\FaBankImport\Services\MetricsAggregator;
-use Ksfraser\FaBankImport\Config\Config;
+use Ksfraser\Application\Services\AlertService;
+use Ksfraser\Application\Services\MetricsAggregator;
+use Ksfraser\Application\Config\Config;
 
 // Set up error handling
 set_error_handler(function($severity, $message, $file, $line) {

@@ -1,8 +1,4 @@
 <?php
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
 /**********************************************************************
     Copyright (C) FrontAccounting, LLC.
 	Released under the terms of the GNU General Public License, GPL, 

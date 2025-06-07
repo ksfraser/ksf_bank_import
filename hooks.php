@@ -1,8 +1,4 @@
 <?php
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
 
 define( 'MENU_IMPORT', 'menu_import' );
 
@@ -50,6 +46,7 @@ class hooks_bank_import extends hooks {
     }
 
     //this is required to cancel bank transactions when a voiding operation occurs
+	//@todo refactor to use my eventloop functions
     function db_prevoid($trans_type, $trans_no) {
 	    //SET status=0
 	$sql = "

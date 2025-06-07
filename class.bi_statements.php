@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
-
 /****************************************************************************************
  * Table and handling class for staging of imported financial data
  *
@@ -35,11 +30,10 @@ $path_to_root = "../..";
 
 //display_notification( __FILE__ . "::" . __LINE__ );
 
-// require_once( '../ksf_modules_common/class.generic_fa_interface.php' );
-use Ksfraser\common\GenericFaInterface;
-
-// require_once( '../ksf_modules_common/defines.inc.php' );
-use Ksfraser\common\Defines;
+require_once( '../ksf_modules_common/class.generic_fa_interface.php' );
+//display_notification( __FILE__ . "::" . __LINE__ );
+require_once( '../ksf_modules_common/defines.inc.php' );
+//display_notification( __FILE__ . "::" . __LINE__ );
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
@@ -70,7 +64,7 @@ use Ksfraser\common\Defines;
 *	
 *
 ******************************************************************************************************************/
-class bi_statements_model extends GenericFaInterface 
+class bi_statements_model extends generic_fa_interface_model 
 {
 	protected $id;                  	//| int(11)      | NO   | PRI | NULL    | auto_increment |
 	protected $bank;		// varchar(22) | YES  | MUL | NULL    |                |
