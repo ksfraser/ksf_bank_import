@@ -48,7 +48,6 @@ class ComposerStaticInit14ebe5c00add8c9b1e3d00b7da8a5adb
         ),
         'K' => 
         array (
-            'Ksfraser\\HTML\\' => 14,
             'Ksfraser\\FaBankImport\\' => 22,
         ),
         'G' => 
@@ -142,10 +141,6 @@ class ComposerStaticInit14ebe5c00add8c9b1e3d00b7da8a5adb
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
-        'Ksfraser\\HTML\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/Views/HTML',
-        ),
         'Ksfraser\\FaBankImport\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Ksfraser/FaBankImport',
@@ -193,8 +188,8 @@ class ComposerStaticInit14ebe5c00add8c9b1e3d00b7da8a5adb
             ),
             'Mouf\\Utils\\Action' => 
             array (
-                0 => __DIR__ . '/..' . '/mouf/html.htmlelement/src',
-                1 => __DIR__ . '/..' . '/mouf/utils.action.action-interface/src',
+                0 => __DIR__ . '/..' . '/mouf/utils.action.action-interface/src',
+                1 => __DIR__ . '/..' . '/mouf/html.htmlelement/src',
             ),
             'Mouf\\Html\\Tags' => 
             array (

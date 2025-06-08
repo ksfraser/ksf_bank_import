@@ -5,7 +5,7 @@
  * See the file LICENSE.txt for copying permission.
  */
 
-namespace Ksfraser\HTML;
+namespace Ksfraser\Html;
 
 /**
  * an interface for rendering an HTML page, using the toHtml function.
