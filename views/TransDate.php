@@ -9,11 +9,11 @@ class TransDate implements HtmlElementInterface
 	{
 		$this->row = new HTML_ROW_LABEL( "Trans Date (Event Date):", $this->bi_lineitem->valueTimestamp . " :: (" . $this->bi_lineitem->entryTimestamp . ")",  null, null );
 	}
-	function getHtml()
+	function getHtml():string
 	{
-		$this->row->getHtml();
+		return $this->row->getHtml();
 	}
-	function toHtml()
+	function toHtml():void
 	{
 		$this->row->toHtml();
 	}

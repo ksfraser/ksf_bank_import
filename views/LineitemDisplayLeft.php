@@ -15,13 +15,13 @@ class LineitemDisplayLeft implements HtmlElementInterface
                 $table->appendRow( new AmountCharges( $bi_lineitem ) );
                 $table->appendRow( new TransTitle( $bi_lineitem ) );
         }
-	function toHtml()
+	function toHtml():void
 	{
 		$this->table->toHtml();
 	}
-	function getHtml()
+	function getHtml():string
 	{
-		$this->table->getHtml();
+		return $this->table->getHtml();
 	}
 }
 

@@ -1,8 +1,9 @@
 <?php
 
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\LabelRowBase;
 
-require_once( 'LabelRowBase.php' );
+//require_once( 'LabelRowBase.php' );
 
 class AmountCharges extends LabelRowBase
 {

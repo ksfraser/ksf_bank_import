@@ -1,6 +1,8 @@
 <?php
 
-require_once( 'LabelRowBase.php' );
+
+//require_once( 'LabelRowBase.php' );
+use Ksfraser\HTML\LabelRowBase;
 
 class TransType extends LabelRowBase
 {

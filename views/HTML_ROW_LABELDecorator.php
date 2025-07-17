@@ -1,6 +1,7 @@
 <?php
 
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\HTML_ROW_LABEL;
 
 class HTML_ROW_LABELDecorator implements HtmlElementInterface
 {
@@ -9,11 +10,11 @@ class HTML_ROW_LABELDecorator implements HtmlElementInterface
 	{
 		$this->HTML_LABEL_ROW = new HTML_ROW_LABEL( $data, $label, $width, $class );
 	}
-	function toHTML()
+	function toHTML():void
 	{
-		return $this->HTML_LABEL_ROW->toHTML();
+		$this->HTML_LABEL_ROW->toHTML();
 	}
-	function getHTML()
+	function getHTML():string
 	{
 		return $this->HTML_LABEL_ROW->getHTML();
 	}
