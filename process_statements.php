@@ -2,6 +2,7 @@
 
 $path_to_root = "../..";
 $page_security = 'SA_SALESTRANSVIEW';
+include_once( __DIR__  . "/vendor/autoload.php");
 include_once($path_to_root . "/includes/date_functions.inc");
 include_once($path_to_root . "/includes/session.inc");
 
@@ -12,7 +13,6 @@ include_once($path_to_root . "/includes/ui/ui_controls.inc");
 include_once($path_to_root . "/includes/ui/items_cart.inc");
 include_once($path_to_root . "/includes/data_checks.inc");
 
-include_once( __DIR__ . "/vendor/autoload.php" );
 
 include_once($path_to_root . "/modules/bank_import/includes/includes.inc");
 include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
@@ -124,9 +124,11 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 			$tid = $k;
 			//time to gather data about transaction
 			//load $tid
-			$trz = get_transaction($tid);
-			//display_notification('<pre>'.print_r($trz,true).'</pre>');
-	
+		        $bit = new bi_transactions_model();
+        		$trz = $bit->get_transaction( $tid );
+				//Setting internal so we can refactor further later to use Object rather than Array
+        			//$trz = $bit->get_transaction( $tid, true );
+
 			//check bank account
 			$our_account = get_bank_account_by_number($trz['our_account']);
 			if (empty($our_account)) 
@@ -135,12 +137,12 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 				display_error(  __FILE__ . "::" . __LINE__ . "::" . ' the bank account <b>'.$trz['our_account'].'</b> is not defined in Bank Accounts');
 				$error = 1;
 			}
-			//display_notification('<pre>'.print_r($our_account,true).'</pre>');
 		}
 		if (!$error) {
 /*Charges*/
 			//get charges
 			$chgs = array();
+//How are CIDS set in the first place?
 			$_cids = array_filter(explode(',', $_POST['cids'][$tid]));
 			foreach($_cids as $cid) {
 				$chgs[] = get_transaction($cid);
@@ -223,66 +225,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 	//	check that we have partnerId	
 					//display_notification( __FILE__ . "::" . __LINE__ );
 
-/*** The below isn't working for some reason
-*			require_once( '../ksf_modules_common/class.fa_customer_payment.php' );
-*			$fcp = new fa_customer_payment( $partnerId );		//customer_id
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*
-*			//WARNING WARNING WARNING
-*			//If trans_no is set, the function tries to void/delete that trans number as if it's an update!!!
-*					//Set the variables to call write_customer_payment()
-*					display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $fcp, true ) );
-*						//$fcp->set( "branch_id", $_POST["partnerDetailId_$k"] );	
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "bank_account", $our_account['id'] );	
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "trans_no", 0 );	//NEW
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "trans_date", sql2date($trz['valueTimestamp']) );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "date", sql2date($trz['valueTimestamp']) );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "ref", $reference );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "amount", user_numeric($trz['transactionAmount']) );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "discount", 0 );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "memo_", $trz['transactionTitle'] );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "rate", 0 );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "charge", user_numeric($charge) );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "bank_amount", 0 );
-*					display_notification( __FILE__ . "::" . __LINE__ );
-*						$fcp->set( "trans_type", $trans_type );
-*			display_notification( __FILE__ . "::" . __LINE__ . "::" . print_r( $fcp, true ) );
-**/
 
-/*
-**Replaced in the TRY below
-*				$deposit_id = my_write_customer_payment(
-*					$trans_no = 0, $customer_id=$partnerId, $branch_id=$_POST["partnerDetailId_$k"], $bank_account=$our_account['id'],
-*					$date_ = sql2date($trz['valueTimestamp']), $reference, user_numeric($trz['transactionAmount']),
-*					$discount=0, $trz['transactionTitle'], $rate=0, user_numeric($charge), $bank_amount=0, $trans_type);
-*
-*                        $pmtno = write_customer_payment(0, $invoice->customer_id,
-*                                $invoice->Branch, $invoice->pos['pos_account'], $date_,
-*                                $Refs->get_next(ST_CUSTPAYMENT, null, array('customer' => $invoice->customer_id,
-*                                        'branch' => $invoice->Branch, 'date' => $date_)),
-*                                $amount-$discount, $discount,
-*                                _('Cash invoice').' '.$invoice_no);
-*                        add_cust_allocation($amount, ST_CUSTPAYMENT, $pmtno, ST_SALESINVOICE, $invoice_no, $invoice->customer_id, $date_);
-*
-*                }
-*        }
-*        reallocate_payments($invoice_no, ST_SALESINVOICE, $date_, $to_allocate, $allocs);
-*        hook_db_postwrite($invoice, ST_SALESINVOICE);
-*
-*
-*			display_notification( __FILE__ . "::" . __LINE__ . "::" . "Deposit ID: " . $deposit_id );
-*/
 			try {
 /*
 *					$deposit_id = $fcp->write_customer_payment();
@@ -291,7 +234,6 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 */
 
 				$invoice_no = $_POST['Invoice_' . $k];
-					//display_notification("Add payment for Invoice $invoice_no");
 				$amount = user_numeric($trz['transactionAmount']);
 				$deposit_id = my_write_customer_payment(
 					$trans_no = 0, $customer_id=$partnerId, $branch_id=$_POST["partnerDetailId_$k"], $bank_account=$our_account['id'],
@@ -302,7 +244,6 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 //sales/allocations/customer_allocate.php?trans_no=521&trans_type=12&debtor_no=108
 //$alloc = new allocation($_GET['trans_type'], $_GET['trans_no'], @$_GET['debtor_no'], PT_CUSTOMER);
 //$alloc->write();
-					//display_notification("Now associate payment $deposit_id to Invoice $invoice_no");
 						// /sales/includes/db/custalloc_db.inc
                         		add_cust_allocation($amount, ST_CUSTPAYMENT, $deposit_id, ST_SALESINVOICE, $invoice_no, $customer_id, $date_);
                         		update_debtor_trans_allocation(ST_SALESINVOICE, $invoice_no, $customer_id);
@@ -311,13 +252,10 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 
 
 					//update trans with payment_id details
-					//if( $invoice_no )
 					if( $deposit_id )
 					{
 						//Alolocate payment against an invoice
 						$counterparty_arr = get_trans_counterparty( $deposit_id, $trans_type );
-						//display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-						//$fcp->write_allocation();
 						update_transactions($tid, $_cids, $status=1, $deposit_id, $trans_type, false, true,  "CU", $partnerId);
 //We want to update fa_trans_type, fa_trans_no, account/accountName, status, matchinfo, matched/created, g_partner
 						update_partner_data($partnerId, PT_CUSTOMER, $_POST["partnerDetailId_$k"], $trz['memo']);
@@ -335,29 +273,6 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 				display_notification('Exception' . print_r( $e, true ) );
 			}
 
-/** Replaced in TRY above
-*				//update trans with payment_id details
-*				if ($deposit_id) {
-*					if( $invoice_no )
-*					{
-*	/*** /
-*						$counterparty_arr = get_trans_counterparty( $deposit_id, $trans_type );
-*						display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-*	/*** /
-*						$fcp->set( "trans_date", $valueTimestamp );
-*						$fcp->set( "trans_type", $trans_type );
-*						$fcp->set( "payment_id", $deposit_id );
-*						$fcp->write_allocation();
-*					}
-*					
-*					update_transactions($tid, $_cids, $status=1, $deposit_id, $trans_type, false, true,  "CU", $partnerId);
-//We want to update fa_trans_type, fa_trans_no, account/accountName, status, matchinfo, matched/created, g_partner
-*					update_partner_data($partnerId, PT_CUSTOMER, $_POST["partnerDetailId_$k"], $trz['memo']);
-*					update_partner_data($partnerId, $trans_type, $_POST["partnerDetailId_$k"], $trz['memo']);
-*					display_notification('Customer Payment/Deposit processed');
-*					display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
-*				} //if deposit_id
-*/
 			break;
 	/*************************************************************************************************************/
 			case ($_POST['partnerType'][$k] == 'QE'):
@@ -670,33 +585,30 @@ if (1) {
 	{
 		//try to match something, interpreting saved info if status=TR_SETTLED
 		//$minfo = doMatching($myrow, $coyBankAccounts, $custBankAccounts, $suppBankAccounts);
+	/*
+	*	//now group data from tranzaction
+	*	$tid = 0;
+	*	$cids = array();
+	*
+	*	//bring trans details
+	*	$has_trz = 0;
+	*	$amount = 0;
+	*	$charge = 0;
+	*/
 	
-		//now group data from tranzaction
-		$tid = 0;
-		$cids = array();
-	
-		//bring trans details
-		$has_trz = 0;
-		$amount = 0;
-		$charge = 0;
-	
+		require_once( 'class.bi_lineitem.php' );
 		foreach($trz_data as $idx => $trz) 
 		{
-//LOGIC ERROR?
-//We are handling line items, but then ->display out of the loop?
-//I assume this is for lines with charges, etc which could be in the MT940 format but not QFX and therefore I'm not seeing  an issue?
-			require_once( 'class.bi_lineitem.php' );
+			//LOGIC ERROR?
+				//We are handling line items, but then ->display out of the loop?
+				//I assume this is for lines with charges, etc which could be in the MT940 format but not QFX and therefore I'm not seeing  an issue?
 			$bi_lineitem = new bi_lineitem( $trz, $vendor_list, $optypes );
 		}	//foreach trz_data
-
-		//cids is an empty array at this point.
-		$cids = implode(',', $cids);
+	/*
+	*	//cids is an empty array at this point.
+	*	$cids = implode(',', $cids);
+	*/
 		$bi_lineitem->display();
-
- 		//Now part of lineitem->display
-               //$arr_arr = find_matching_existing( $trz, $bank );
-
-
 	} //Foreach
 	end_table();
 /*************************************************************************************************************/

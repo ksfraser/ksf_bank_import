@@ -4,10 +4,12 @@ require_once( '../ksf_modules_common/class.origin.php' );
 require_once( 'class.bi_transaction.php' );
 //require_once( 'class.bi_transactions.php' );
 
+use Ksfraser\FaBankImport\Handlers\AddVendor;
+
 class bank_import_controller extends origin
 {
 	protected $trz;	//!< transaction
-	protected $cTransactions;	//!<object	bi_transactions
+	protected $repository;	//!<object	bi_transactions
 	protected $our_account;
 	protected $reference;
 	protected $partnerId;	
@@ -21,8 +23,8 @@ class bank_import_controller extends origin
 	function __construct()
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
-		$this->cTransactions = new bi_transaction();
-		//$this->cTransactions = new bi_transactions_model();
+		$this->repository = new bi_transaction();
+		//$this->repository = new bi_transactions_model();
 		//display_notification( __FILE__ . "::" . __LINE__ );
 		/*****	
 		*	The way our code currently works
@@ -119,14 +121,10 @@ class bank_import_controller extends origin
 	****************************************************/
 	function getTransaction( $id )
 	{
-		//display_notification( __FILE__ . "::" . __LINE__ );
-
-		//require_once( __DIR__ . '/../class.bi_transactions.php' );
-		//original - $bit = new bi_transactions_model(); return $bit->get_transaction( $tid );
-		$this->trz = $this->cTransactions->get_transaction( $id, true );
+		$this->trz = GetTransaction::getTransaction( $id );
+		//$this->trz = $this->repository->get_transaction( $id, true );
 			//->trz is array
-			//->cTransactions has values from this ID
-		//display_notification( print_r( $this->trz, true )  );
+			//->repository has values from this ID
 
 		//From processCustomer but should apply everywhere!
 		if( strlen( $this->trz['transactionTitle'] ) < 4 )
@@ -153,7 +151,7 @@ class bank_import_controller extends origin
 				//display_notification( "Key/Value " . print_r( $key, true ) . ":" . print_r( $value, true ) );
 				//value is "Unset Transaction"
 				$cids = array();	//Need to figure out if there are related IDs being passed in too in the _POST
-				$this->cTransactions->reset_transactions($key, $cids, 0, 0 );
+				$this->repository->reset_transactions($key, $cids, 0, 0 );
 				display_notification( "Disassociated $unset from $id"  );
 			}
 		}
@@ -175,16 +173,16 @@ class bank_import_controller extends origin
 			 	//display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $key, true )  );
 			 	//display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $value, true )  );
 				
-				//we can't use cTransactions - bi_transaction - because it is an overriding stub
+				//we can't use repository - bi_transaction - because it is an overriding stub
 				display_notification( __FILE__ . "::" . __LINE__ );
-				$cTransactions = new bi_transactions_model();
+				$repository = new bi_transactions_model();
 				display_notification( __FILE__ . "::" . __LINE__ );
-				$cTransactions->get_transaction( $key, true );	//retrieve the transaction
-			 	display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $cTransactions, true )  );
+				$repository->get_transaction( $key, true );	//retrieve the transaction
+			 	display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $repository, true )  );
 				try {
-					$cTransactions->toggleDebitCredit();	//changes internal variables only
-			 		display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $cTransactions, true )  );
-					//$sql =  $cTransactions->hand_update_sql();
+					$repository->toggleDebitCredit();	//changes internal variables only
+			 		display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $repository, true )  );
+					//$sql =  $repository->hand_update_sql();
 					//db_query( $sql, "Couldn't toggle C/D for transaction" );
 				} catch (Exception $e )
 				{
@@ -245,14 +243,20 @@ class bank_import_controller extends origin
 				 //display_notification( print_r( $key . "::" . $_POST["vendor_short_$key"]  . "::" . $_POST["vendor_long_$key"], true )  );
 				$trz = $this->getTransaction($key);	//originally get_transaction($key)
 					//also sets this->trz
-				$vendid = add_vendor( $trz );
+				$v = new AddVendor( $trz );
+				$vendid = $v->getId();
+				unset( $v );
+				//$vendid = add_vendor( $trz );
 				if( $vendid > 0 )
 				{
-					display_notification( "Created Supplier ID $vendid"  );
+					$a = new VendorAddedEvent( $vendid );
+					//display_notification( "Created Supplier ID $vendid"  );
 				} else
 				{
-					display_warning( "Failed to create Supplier"  );
+					$a = new VendorNotAddedEvent( $vendid );
+					//display_warning( "Failed to create Supplier"  );
 				}
+				unset( $a );
 			}
 		}
 

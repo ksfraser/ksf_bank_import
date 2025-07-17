@@ -20,40 +20,38 @@ include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 require_once 'includes/qfx_parser.php';
 
-page(_($help_context = "Import Bank Statement"));
+//TODO Migrate to use HTML classes
 
+page(_($help_context = "Import Bank Statement"));
 
         include_once "Views/module_menu_view.php"; // Include the ModuleMenuView class
         $menu = new \Views\ModuleMenuView();
         $menu->renderMenu(); // Render the module menu
-
 
 function import_statements() {
     start_table(TABLESTYLE);
     start_row();
     echo "<td width=100%><pre>\n";
 
-
     echo '<pre>';
-    $statements = unserialize($_SESSION['statements']);
-    foreach($statements as $id => $smt) {
-	echo "importing statement {$smt->statementId} ...";
-	echo importStatement($smt);
-	echo "\n";
-    }
+/** 20250716 add in capability to import multiple files at once **/
+    $multistatements = unserialize($_SESSION['multistatements']);
+	foreach( $multistatements as $statements )
+	{
+	    foreach($statements as $id => $smt) {
+		echo "importing statement {$smt->statementId} ...";
+		echo importStatement($smt);
+		echo "\n";
+	    }
+	}
     echo '</pre>';
-
-
-
     echo "</pre></td>";
-
     end_row();
     start_row();
     echo '<td>';
 	submit_center_first('goback', 'Go back');
     echo '</td>';
     end_row();
-    
     end_table(1);
     hidden('parser', $_POST['parser']);
 }
@@ -66,7 +64,6 @@ function import_statements() {
 *************************************************************/
 function importStatement($smt) 
 {
-		//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $smt, true ) );
 	$message = '';
 /** Moving to namespaces **/
 	require_once(  './class.bi_statements.php' );
@@ -81,22 +78,21 @@ function importStatement($smt)
 
 	if( ! $exists )
 	{
-			display_notification( __FILE__ . "::" . __LINE__ . ":: Statement Doesn't Exist.  Inserting" );
+		//display_notification( __FILE__ . "::" . __LINE__ . ":: Statement Doesn't Exist.  Inserting" );
 		$sql = $bis->hand_insert_sql();
 		$res = db_query($sql, "could not insert transaction");
     		$smt_id = db_insert_id();
 		$bis->set( "id", $smt_id );
-			display_notification( __FILE__ . "::" . __LINE__ . "Inserted Statement $smt_id" );
+//20250716 Remove logging of insertion
+		//display_notification( __FILE__ . "::" . __LINE__ . "Inserted Statement $smt_id" );
     		$message .= "new, imported";
 	} else 
 	{
-			//display_notification( __FILE__ . "::" . __LINE__ . "Statement Exists.  Updating" );
+		//display_notification( __FILE__ . "::" . __LINE__ . "Statement Exists.  Updating" );
 		$bis->update_statement();
-			display_notification( "Updated Statement $smt->statementId " );
-			//display_notification( __FILE__ . "::" . __LINE__ . "Updated Statement $smt->statementId " );
+		display_notification( "Updated Statement $smt->statementId " );
     		$message .= "existing, updated";
 	}
-	//$smt_id = $bis->get( "statementId" );
 	$smt_id = $bis->get( "id" );
 /* */
 	$newinserted=0;
@@ -110,11 +106,8 @@ function importStatement($smt)
 		display_notification(  "Processing transaction" );
 		//display_notification( __FILE__ . "::" . __LINE__ . "Processing transaction" );
 		set_time_limit( 0 );	//Don't time out in php.  Apache might still kill us...
-		//var_dump( __FILE__ . "::" . __LINE__ );
 		try {
-		//var_dump( __FILE__ . "::" . __LINE__ );
 			unset( $bit );
-		//var_dump( __FILE__ . "::" . __LINE__ );
 			try 
 			{
 /** Moving to namespaces */
@@ -126,20 +119,17 @@ function importStatement($smt)
 			{
 				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );
 			}
-		//var_dump( __FILE__ . "::" . __LINE__  );
-		//var_dump( $bit );
 		} catch( Exception $e )
 		{
 			display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $e, true ) );
 		}
-		//var_dump( __FILE__ . "::" . __LINE__ );
 		$bit->trz2obj( $t );
 		$bit->set( "smt_id", $smt_id );
 		$dupe = $bit->trans_exists();
-		//var_dump( __FILE__ . "::" . __LINE__ );
 		if( $dupe )
 		{
-			display_notification( __FILE__ . "::" . __LINE__ . " Transaction Exists for statement: $smt_id:" . $bit->get( "accountName" ) );
+//20250716 Remove logging of existing (dupe)
+			//display_notification( __FILE__ . "::" . __LINE__ . " Transaction Exists for statement: $smt_id:" . $bit->get( "accountName" ) );
 			//display_notification( __FILE__ . "::" . __LINE__ . " Transaction Exists for statement: $smt_id::" . print_r( $bit, true ) );
 			$dupecount++;
 /**
@@ -148,7 +138,6 @@ function importStatement($smt)
  * Update in certain cases.  Handled within bi_transactions_model
  */
 			//trans_exists sets the variables out of the DB
-			//$bit->update( $t );
 			/*
 			  if( $bit->update( $t ) )
 			  {
@@ -160,14 +149,13 @@ function importStatement($smt)
 		}
 		else
 		{
-		//var_dump( __FILE__ . "::" . __LINE__ );
 			$sql = $bit->hand_insert_sql();
 			$res = db_query($sql, "could not insert transaction");
 			$t_id = db_insert_id();
-			display_notification( __FILE__ . "::" . __LINE__ . " Inserted transaction: $t_id " );
+//20250716 Remove logging of insertion
+			//display_notification( __FILE__ . "::" . __LINE__ . " Inserted transaction: $t_id " );
 			$newinserted++;
 		}
-		//var_dump( __FILE__ . "::" . __LINE__ );
 	}	//foreach statement
 	$message .= ' ' . count($smt->transactions) . ' transactions';
 			display_notification( __FILE__ . "::" . __LINE__ . " Inserted transactions: $newinserted " );
@@ -177,7 +165,9 @@ function importStatement($smt)
 /* */
 }	//import_statement fc
 
-
+//Initial draft of a CLASS to replace the body of this function
+//is in Ksfraser\FaBankImport\Views\ImportUploadForm
+//TODO migrate to use the class.
 function do_upload_form() {
     $parsers = array();
     $_parsers = getParsers();
@@ -228,7 +218,6 @@ function parse_uploaded_files() {
     //prepare static data for parser
     $static_data = array();
     $_parsers = getParsers();
-    //display_notification( print_r( $_POST ) );
     foreach($_parsers[$_POST['parser']]['select'] as $param => $label) {
 	switch($param) {
 	    case 'bank_account':
@@ -243,7 +232,6 @@ function parse_uploaded_files() {
 		$static_data['account_name'] = $bank_account['bank_account_name'];
 		$static_data['bank_charge_act'] = $bank_account['bank_charge_act'];
 		//$static_data['raw'] = $bank_account;
-
 	    break;
 	}
     }
@@ -252,10 +240,10 @@ function parse_uploaded_files() {
     $trz_ok = 0;
     $smt_err = 0;
     $trz_err = 0;
+	$multistatements = array();
 
     foreach($_FILES['files']['name'] as $id=>$fname) {
     	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
-    	//echo  __FILE__ . "::" . __LINE__ . "Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`...\n";
 
     	$content = file_get_contents($_FILES['files']['tmp_name'][$id]);
 
@@ -289,9 +277,9 @@ function parse_uploaded_files() {
     	echo "Valid statements   : $smt_ok\n";
     	echo "Invalid statements : $smt_err\n";
     	echo "Total transactions : $trz_ok\n";
+	$multistatements[] = $statements;
     }
     echo "</pre></td>";
-
     end_row();
     start_row();
     echo '<td>';
@@ -306,6 +294,7 @@ function parse_uploaded_files() {
     hidden('parser', $_POST['parser']);
     if ($smt_err == 0) {
 	$_SESSION['statements'] = serialize($statements);
+	$_SESSION['multistatements'] = serialize($multistatements);
     }
 }
 

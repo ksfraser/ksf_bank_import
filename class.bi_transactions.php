@@ -299,7 +299,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 					created=0";
 			$sql .= "
 				WHERE id in ($cids)";
-		display_notification($sql);
+		//display_notification($sql);
 		db_query($sql, 'Could not update trans');
 	}
 	/**//*************************************************************************

@@ -14,7 +14,6 @@
  *
  * *************************************************************************************/
 
-define( 'DEFAULT_DAYS_SPREAD', 2 );	//Until such time as we have a config section to define this
 
 $path_to_root = "../..";
 
@@ -23,81 +22,43 @@ $path_to_root = "../..";
  * build_write_properties_array
  * */
 
-require_once( __DIR__ . '/vendor/autoload.php' );
-require_once( __DIR__ . '/includes/includes.inc' );
-
 require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
 require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
 //use Ksfraser\common\GenericFaInterface;
 //use Ksfraser\common\Defines;
 
+/*
 require_once( __DIR__ . '/Views/HTML/HtmlElementInterface.php' );
 require_once( __DIR__ . '/Views/HTML/HtmlElement.php' );
 require_once( __DIR__ . '/Views/HTML/HtmlTableRow.php' );
+*/
 //use Ksfraser\HTML\HtmlElementInterface;
 
-use Ksfraser\HTML\HTML_ROW_LABELDecorator;
+//require_once( __DIR__ . '/src/Ksfraser/HTML/HTML_ROW_LABELDecorator.php' );
+require_once( __DIR__ . '/Views/HTML_ROW_LABELDecorator.php' );
 
-//require_once( __DIR__ . '/Views/HTML_ROW_LABELDecorator.php' );
+class HTML_SUBMIT
+{
+	function __construct()
+	{
+	}
+	function toHTML()
+	{
+	}
+}
+
 require_once( __DIR__ . '/Views/AddCustomerButton.php' );
 require_once( __DIR__ . '/Views/AddVendorButton.php' );
-require_once( __DIR__ . '/Views/AddNoButton.php' );
-require_once( __DIR__ . '/Views/ToggleTransactionTypeButton.php' );
 require_once( __DIR__ . '/Views/TransactionTypeLabel.php' );
-require_once( __DIR__ . '/Views/TransDate.php' );
-require_once( __DIR__ . '/Views/TransType.php' );
-require_once( __DIR__ . '/Views/OurBankAccount.php' );
-require_once( __DIR__ . '/Views/OtherBankAccount.php' );
-require_once( __DIR__ . '/Views/AmountCharges.php' );
-require_once( __DIR__ . '/Views/TransTitle.php' );
 
-use Ksfraser\HTML\AddCustomerButton;
-use Ksfraser\HTML\AddVendorButton;
-use Ksfraser\HTML\ToggleTransactionTypeButton;
-use Ksfraser\HTML\AddNoButton;
-use Ksfraser\HTML\HtmlElementInterface;
+require_once( __DIR__ . '/src/Ksfraser/HTML/HTML_ROW.php' );
+require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlString.php' );
+use Ksfraser\HTML\HTML_ROW;
+use Ksfraser\HTML\HtmlString;
 
-use Ksfraser\FaBankImport\Transaction;
-use Ksfraser\FaBankImport\TransactionFactory;
-use Ksfraser\FaBankImport\TransactionFactoryImp;
-use Ksfraser\FaBankImport\FaGLWrapper;
+require_once( __DIR__ . '/src/Ksfraser/HTML/HTML_ROW_LABEL.php' );
+use Ksfraser\HTML\HTML_ROW_LABEL;
 
-//SupplierTransaction etc moved to FaBankImport\FactoryTransactions.php
-
-//use Ksfraser\HTML\HTML_ROW
-class HTML_ROW
-{
-	protected $data;
-	function __construct( $data )
-	{
-		$this->data = $data;
-	}
-	function toHTML()
-	{
-		return "<tr>" . $this->data . "</tr>";
-	}
-}
-/*
-*/
-
-class HTML_ROW_LABEL extends HTML_ROW
-{
-	protected $label;
-	protected $width;
-	protected $class;
-	function __construct( $data, $label, $width = 25, $class = 'label' )
-	{
-		parent::__construct( $data );
-		$this->label = $label;
-		$this->width = $width;
-		$this->class = $class;
-	}
-	function toHTML()
-	{
-		$extras = "width='" . $this->width . "' class='" . $this->class . "'";
-		label_row( $this->label, $this->data, $extras);
-	}
-}
 class HTML_TABLE
 {
 	protected $rows;
@@ -112,7 +73,7 @@ class HTML_TABLE
 	function toHTML()
 	{
 		start_table( $this->style, "width='" . $this->width . "%'" );
-		foreach( $this->rows as $row )
+		foreach( $rows as $row )
 		{
 			$row->toHTML();
 		}
@@ -123,17 +84,13 @@ class HTML_TABLE
 		if( is_object( $row ) )
 		{
 			//if( is_a( $row, 'ksfraser\HTML\HTML_ROW' ) )	//When using namespaces must be fully spelled out.
-			//if( is_a( $row, HTML_ROW::class ) )
-			if( is_a( $row, 'Ksfraser\HTML\HtmlElementInterface' ) )
+			if( is_a( $row, 'HTML_ROW' ) )
 			{
 				$this->rows[] = $row;
 			}
 			else
 			{
-			var_dump( "<br />" );
-			var_dump( $row );
-			var_dump( "<br />" );
-				throw new Exception( "Passed in class is not an HTML_ROW or child type!". print_r( $row, true ) );
+				throw new Exception( "Passed in class is not an HTML_ROW or child type!" );
 			}
 		}
 		else
@@ -144,92 +101,28 @@ class HTML_TABLE
 		}
 		else
 		{	
-			var_dump( "<br />" );
-			var_dump( $row );
-			var_dump( "<br />" );
-			throw new Exception( "Passed in data for a row is neither a class nor a string::" . print_r( $row, true ) );
+			throw new Exception( "Passed in data for a row is neither a class nor a string" );
 		}
 	}
 }
 
-/***
-*trait lineitemHolder
-*{
-*	protected $bi_lineitem;
-*	function setLineitem( $lineitem )
-*	{
-*		$this->bi_lineitem = $lineitem;
-*	}
-*}
-*
-*class TableCell
-*{
-*	use lineitemHolder;
-*	protected $html_class;
-*	protected $data;
-*	protected $label;
-*	function __construct( $bi_lineitem, $html_class )
-*	{
-*		$this->setLineitem( $bi_lineitem );
-*		$this->html_class = new $html_class( $this->data, $this->label );
-*	}
-*	function toHTML()
-*	{
-*		$this->html_class->toHTML();
-*	}
-*}
-*		
-*
-*class TransDateRow extends TableCell
-*{
-*	function __construct( $bi_lineitem )
-*	{
-*		$this->label = "Trans Date (Event Date):";
-*		$this->data = $bi_lineitem->valueTimestamp . " :: (" . $bi_lineitem->entryTimestamp . ")";
-*		parent::__construct( $bi_lineitem, "HTML_ROW_LABEL" );
-*	}
-*}
-*/
 
-//require_once( __DIR__ . '/Views/LineitemDisplayLeft.php' );
-use Ksfraser\FaBankImport\LineitemDisplayLeft;
+require_once( __DIR__ . '/Views/LineitemDisplayLeft.php' );
 class displayLeft extends LineitemDisplayLeft
 {
 }
 
-use Ksfraser\FaBankImport\LineitemDisplayRight;
-class displayRight extends LineitemDisplayRight
+class displayRight
 {
 }
 
-class displayHidden extends HtmlElement
-{
-	function __construct()
-	{
-/*
-		hidden( "vendor_short_$this->id", $this->otherBankAccount );
-		hidden( "vendor_long_$this->id", $this->otherBankAccountName );
-			hidden( "vendor_short_$this->id", $this->otherBankAccount );
-			hidden( "vendor_long_$this->id", $this->otherBankAccountName );
-				hidden("trans_type_$this->id", $this->matching_trans[0]['type'] );
-				hidden("trans_no_$this->id", $this->matching_trans[0]['type_no'] );
-			hidden("partnerDetailId_$this->id", ANY_NUMERIC);
-		hidden( "customer_$this->id", $this->partnerId );
-		hidden( "customer_branch_$this->id", $this->partnerDetailId );
-		hidden("partnerId_$this->id", 'manual');
-						hidden("partnerId_$this->id", $this->matching_trans[0]['type'] );
-						hidden("partnerDetailId_$this->id", $this->matching_trans[0]['type_no'] );
-						hidden("trans_no_$this->id", $this->matching_trans[0]['type_no'] );
-						hidden("trans_type_$this->id", $this->matching_trans[0]['type'] );
-						hidden("memo_$this->id", $this->memo );
-						hidden("title_$this->id", $this->transactionTitle );
-			hidden("cids[$this->id]",$cids);
-*/
-	
-	}
-}
+require_once( __DIR__ . '/Views/TransDate.php' );
+require_once( __DIR__ . '/Views/TransType.php' );
+require_once( __DIR__ . '/Views/OurBankAccount.php' );
+require_once( __DIR__ . '/Views/OtherBankAccount.php' );
+require_once( __DIR__ . '/Views/AmountCharges.php' );
+require_once( __DIR__ . '/Views/TransTitle.php' );
 
-require_once( 'class.ViewBiLineItems.php' );
 
 /**//**************************************************************************************************************
 * A class to handle displaying the line item of a statement. 
@@ -243,6 +136,36 @@ require_once( 'class.ViewBiLineItems.php' );
 class bi_lineitem extends generic_fa_interface_model 
 {
 
+/**
+	var $id_bi_transactions_model;	//!< Index of table
+	protected $id;		  //| int(11)      | NO   | PRI | NULL    | auto_increment |
+	protected $smt_id;	      //| int(11)      | NO   |     | NULL    |		|
+	protected $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
+	protected $entryTimestamp;      //| date	 | YES  |     | NULL    |		|
+	protected $account;	     //| varchar(24)  | YES  |     | NULL    |		|
+	protected $accountName;	 //| varchar(60)  | YES  |     | NULL    |		|
+	protected $transactionType;     //| varchar(3)   | YES  |     | NULL    |		|
+	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |		|
+	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
+	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |		|
+	protected $transactionAmount;   //| double       | YES  |     | NULL    |		|
+	protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
+	protected $status;	      //| int(11)      | YES  |     | 0       |		|
+	protected $matchinfo;	   //| varchar(256) | YES  |     | NULL    |		|
+	protected $fa_trans_type;       //| int(11)      | YES  |     | 0       |		|
+	protected $fa_trans_no;	 //| int(11)      | YES  |     | 0       |		|
+	protected $fitid;
+	protected $acctid;
+	protected $merchant;	    //| varchar(64)  | NO   |     | NULL    |		|
+	protected $category;	    //| varchar(64)  | NO   |     | NULL    |		|
+	protected $sic;		 //| varchar(64)  | NO   |     | NULL    |		|
+	protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
+	protected $checknumber;	//!<int
+	protected $matched;	//!<bool
+	protected $created;	//!<bool
+	protected $g_partner;	//!<varchar	Which action (bank/Quick Entry/...
+	protected $g_option;	//!<varchar	Which choice - ATB/Groceries/...
+*/
 	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |		|
 	protected $our_account; 	//| varchar()   | YES  |     | NULL    |		|
 	protected $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
@@ -280,14 +203,16 @@ class bi_lineitem extends generic_fa_interface_model
 //
 	protected $matched;	//!<bool
 	protected $created;	//!<bool
-	protected $transaction;		//DTO to handle the trz passed in through the constructor
-	protected $matchingGLTable;	//DTO for formatting Matching GLs for scoring and display
 
 
 	function __construct( $trz, $vendor_list = array(), $optypes = array() )
 	{
+		//display_notification( __FILE__ . "::" . __LINE__ );
+		//display_notification( __FILE__ . "::" . __LINE__ );
 		parent::__construct( null, null, null, null, null);
-
+		//display_notification( __FILE__ . "::" . __LINE__ );
+	//	$this->iam = "bi_transactions";
+	//	$this->define_table();
 		$this->matched = 0;
 		$this->created = 0;
 		$this->charge = 0;
@@ -295,9 +220,75 @@ class bi_lineitem extends generic_fa_interface_model
 		$this->vendor_list = $vendor_list;
 		$this->optypes = $optypes;
 
-		//$this->transaction = new TransactionFactoryImp( $trz );
-		$this->transaction = TransactionFactoryImp::makeTransaction( $trz );
+		$this->transactionDC = $trz['transactionDC'];
+		$this->determineTransactionTypeLabel();
+		$this->memo = $trz['memo'];
+		$this->our_account = $trz['our_account'];
+		$this->valueTimestamp = $trz['valueTimestamp'];
+		$this->entryTimestamp = $trz['entryTimestamp'];
+		try {
+			$this->otherBankAccount = shorten_bankAccount_Names( $trz['accountName'] );
+		}
+		catch( Exception $e )
+		{
+			display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
+			$this->otherBankAccount = $trz['accountName'];
+		}
+		$this->otherBankAccountName = $trz['accountName'];
+		if( strlen( $trz['transactionTitle'] ) < 4 )
+		{
+			if( strlen( $this->memo ) > strlen( $trz['transactionTitle'] ) )
+			{
+				$trz['transactionTitle'] .= $this->memo;
+			}
+		}
+	       	$this->transactionTitle = $trz['transactionTitle'];
+	       	$this->transactionCode = $trz['transactionCode'];
+	       	$this->transactionCodeDesc = $trz['transactionCodeDesc'];
+		$this->currency = $trz['currency'];
+		$this->status = $trz['status'];
+		$this->id = $trz['id'];
+		$this->fa_trans_type = $trz['fa_trans_type'];
+		$this->fa_trans_no = $trz['fa_trans_no'];
+//Original code MT370 can have COM lines that add to the transaction
+		$this->amount = $trz['transactionAmount'];
+		if ($trz['transactionType'] != 'COM') 
+		{
+			$this->has_trans = 1;
+			//moved amount to above IF
+			//$this->amount = $trz['transactionAmount'];
+		} 
+/*
+		else if ($trz['transactionType'] == 'COM')
+		{
+			$this->amount += $trz['transactionAmount'];
+		}
+*/
+	//The following keeps coming up partnerId_xxxxx doesn't exist
+		if( isset( $_POST["partnerId_" . $this->id] ) )
+		{
+			$this->partnerId = $_POST["partnerId_" . $this->id];
+		}
+		else
+		{
+			//We are using if(empty( ->partnerId ) ) so don't want to make it not empty!!
+			//$this->partnerId = "";
+		}
 
+	}
+	/**//*****************************************************************
+	* Determine which label to apply
+	*
+	*@since 20250409
+	*
+	* @param none uses internal
+	* @returns none sets internal
+	**********************************************************************/
+	function determineTransactionTypeLabel(): void
+	{
+		$tTL = new TransactionTypeLabel( $this->transactionDC );
+		$this->transactionTypeLabel = $tTL->getTransactionTypeLabel();
+		return;
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -316,7 +307,11 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function getBankAccountDetails()
 	{
-		$this->transaction->retrieveBankAccountDetails();
+		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php' );
+		$b = new BankAccountByNumber( $this->our_account );
+		$this->ourBankDetails =	$b->getBankDetails();
+		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
+		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -327,14 +322,20 @@ class bi_lineitem extends generic_fa_interface_model
 		start_row();
 		echo '<td width="50%">';
 		start_table(TABLESTYLE2, "width='100%'");
-		$tableLeft = new displayLeft( $this->transaction );
-		$tableLeft->toHtml();
-		$this->transaction->displayAddVendorOrCustomer();
-		$this->transaction->ToggleTransactionTypeButton(); 	// was ->displayEditTransData();
-		if( $this->transaction->isPaired() )
+		label_row("Trans Date (Event Date):", $this->valueTimestamp . " :: (" . $this->entryTimestamp . ")" , "width='25%' class='label'");
+		label_row("Trans type:", $this->transactionTypeLabel);
+		$this->getBankAccountDetails();
+
+		label_row("Our Bank Account - (Account Name)(Number):", $this->our_account . ' - ' . $this->ourBankDetails['bank_name'] . " (" . $this->ourBankAccountName . ")(" . $this->ourBankAccountCode . ")"  );
+		label_row("Other account:", $this->otherBankAccount . ' / '. $this->otherBankAccountName);
+		label_row("Amount/Charge(s):", $this->amount.' / '. $this->charge ." (".$this->currency.")");
+		label_row("Trans Title:", $this->transactionTitle);
+		$this->displayAddVendorOrCustomer();
+		$this->displayEditTransData();
+		if( $this->isPaired() )
 		{
 			//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
-			$this->transaction->displayPaired();
+			$this->displayPaired();
 		}
 		end_table();
 
@@ -353,7 +354,7 @@ class bi_lineitem extends generic_fa_interface_model
 		}
 		catch( Exception $e )
 		{
-			$this->selectAndDisplayButton();
+			$this-> selectAndDisplayButton();
 		}
 		finally
 		{
@@ -365,11 +366,11 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		if( $this->transactionDC=='D' )
 		{
-			$b = new AddVendorButton( $this->transaction->id );
+			$b = new AddVendorButton( $this->id );
 		} else
 		if( $this->transactionDC=='C' )
 		{
-			$b = new AddCustomerButton( $this->transaction->id );
+			$b = new AddCustomerButton( $this->id );
 		}
 		else
 		{
@@ -406,9 +407,32 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function setPartnerType()
 	{
+		switch( $this->transactionDC )
+		{
+			case 'C':
+				$this->partnerType = 'CU';
+				$this->oplabel = "Depost";
+			break;
+			case 'D':
+				$this->partnerType = 'SP';
+				$this->oplabel = "Payment";
+			break;
+			case 'B':
+				$this->partnerType = 'BT';
+				$this->oplabel = "Bank Transfer";
+			break;
+			default:
+				$this->partnerType = 'QE';
+				$this->oplabel = "Quick Entry";
+			break;
+		}
+//Commenting out this IF resets partnerType to SP ALWAYS doesn't matter what was selected :(
+	      	if( !isset( $_POST['partnerType'][$this->id] ) )
+		{
+			$_POST['partnerType'][$this->id] = $this->partnerType;
+		}
 		//temporarily return oplabel for process_statement
-		return $this->transaction->oplabel;
-		throw new Exception( "This function has been moved into the Transaction Factory classes.  Why was this called?" );
+		return $this->oplabel;
 	}
 	/**//**************************************************************
 	* Display our paired transaction
@@ -442,19 +466,6 @@ class bi_lineitem extends generic_fa_interface_model
 			{
 				continue;	//Paired transactions will have opposing DC values.
 			} 
-/**
-					protected $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
-					protected $amount;	//!<float
-					protected $transactionTypeLabel;     //!< string
-					protected $matching_trans;	//!<array was arr_arr
-					protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
-					protected $ourBankDetails;	//!< array
-					protected $ourBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $ourBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $ourBankAccountCode;	 //| varchar(60)  | YES  |     | NULL    |		|
-**/
 			
 		}
 	}
@@ -469,7 +480,7 @@ class bi_lineitem extends generic_fa_interface_model
 	*********************************************************************/
 	function isPaired()
 	{
-		return $this->transaction->isPaired();
+		return false;
 	}
 	/**//***************************************************************
 	* Find any transactions that alraedy exist that look like this one
@@ -477,20 +488,15 @@ class bi_lineitem extends generic_fa_interface_model
 	* @param NONE
 	* @returns array GL record(s) that match
 	********************************************************************/
-	function retrieveMatchingExistingJE()
+	function findMatchingExistingJE()
 	{
-		$new_arr = $this->transaction->retrieveMatchingExistingJE();
-//TODO: Refactor this out.
-		$this->matching_trans = $new_arr;
-	        return $new_arr;
+		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
+		$match = new MatchingJEs( $this );
+		$this->matching_trans = $match->getMatchArr();
+	        return $this->matching_trans;
 	}
 	function makeURLLink( string $URL, array $params, string $text, $target = "target=_blank" )
 	{
-		$link = new HtmlLink( new HtmlString( $text ) );
-		$link->setTarget( $target );
-		$link->addHref( $URL, $text );
-		return $link->getHtml();
-/****
 		$ret = "<a ";
 		$ret .= $target;
 		$ret .= " href='" . $URL;
@@ -515,7 +521,6 @@ class bi_lineitem extends generic_fa_interface_model
 		$ret .= $text;
 		$ret .= "</a>";
 		return $ret;
-****/
 	}
 	/**//***************************************************************
 	* Display the entries from the matching_trans array 
@@ -600,15 +605,19 @@ class bi_lineitem extends generic_fa_interface_model
 					}
 					if( isset( $matchgl["person_type_id"] ) )
 					{
-						require_once( __DIR__ . '/Views/TransactionCustomerDetails.php' );
-						$cdet = new TransactionCustomerDetails( $matchgl['type'], $matchgl['type_no'] );
-						$match_html .= $cdet->getLineitemMatchedCustomerDetails();
+						$cdet = get_customer_details_from_trans(	$matchgl['type'],
+												$matchgl['type_no']
+							);
+						$match_html .= " //Person " . $cdet['name'] . "/" . $cdet["br_name"];
+						//$match_html .= " //Person " . print_r( $cdet, true ) . "/" . $matchgl["person_id"];
+						//$match_html .= " //Person " . $matchgl['person_type_id'] . "/" . $matchgl["person_id"];
 					}
 					$match_html .= "<br />";
 					$matchcount++;
 				} //if isset
 			} //foreach
 			label_row("Matching GLs.  Ensure you double check Accounts and Amounts", $match_html );
+			//label_row("Matching GLs", print_r( $this->matching_trans, true ) );
 		}
 		else
 		{
@@ -622,8 +631,8 @@ class bi_lineitem extends generic_fa_interface_model
 	function getDisplayMatchingTrans()
 	{
 		//our find_... sets matching_trans
-		//$this->matching_trans = $this->retrieveMatchingExistingJE();
-		$this->retrieveMatchingExistingJE();
+		//$this->matching_trans = $this->findMatchingExistingJE();
+		$this->findMatchingExistingJE();
 		if( count( $this->matching_trans ) > 0 )
 		{
 			//Rewards (points) might have a split so only 1 count
@@ -638,6 +647,7 @@ class bi_lineitem extends generic_fa_interface_model
 				//We matched A JE and the score is high.  Suggest trans type.
 				if( 50 <= $this->matching_trans[0]['score'] )
 				{
+					//var_dump( __LINE__ );
 					//It was an excellent match
 					if( $this->matching_trans[0]['is_invoice'] )
 					{
@@ -955,6 +965,11 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		//label_row("Edit this Transaction Data", submit("EditTransaction[$this->id]",_("EditTransaction"),false, '', 'default'));
 		label_row("Toggle Transaction Type Debit/Credit", submit("ToggleTransaction[$this->id]",_("ToggleTransaction"),false, '', 'default'));
+/*
+		label_row("Edit this Transaction Data", submit("EditTransaction[$this->id]",_("EditTransaction"),false, '', 'default'));
+		hidden( "vendor_short_$this->id", $this->otherBankAccount );
+		hidden( "vendor_long_$this->id", $this->otherBankAccountName );
+*/
 	}
 	/**//*****************************************************************
 	* Display a settled transaction
@@ -962,38 +977,31 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function display_settled()
 	{
-/*
-		$settled = new DisplaySettledTransactions( $this );
-		$settled->toHtml();
-*/
-/*
-* 
-* 		// the transaction is settled, we can display full details
-* 		label_row("Status:", "<b>Transaction is settled!</b>", "width='25%' class='label'");
-* 		switch ($this->fa_trans_type)
-* 		{
-* 			case ST_SUPPAYMENT:
-* 				label_row("Operation:", "Payment");
-* 				// get supplier info
-* 				label_row("Supplier:", $minfo['supplierName']);
-* 				label_row("From bank account:", $minfo['coyBankAccountName']);
-* 			break;
-* 			case ST_BANKDEPOSIT:
-* 				label_row("Operation:", "Deposit");
-* 				//get customer info from transaction details
-* //TODO: Refactor to use fa_customer
-* 				$fa_trans = get_customer_trans($this->fa_trans_no, $this->fa_trans_type);
-* 				label_row("Customer/Branch:", get_customer_name($fa_trans['debtor_no']) . " / " . get_branch_name($fa_trans['branch_code']));
-* 			break;
-* 			case 0:
-* 				label_row("Operation:", "Manual settlement");
-* 			break;
-* 			default:
-* 				label_row("Status:", "other transaction type; no info yet " . print_r( $this, true ) );
-* 			break;
-* 	      	}
-* 		label_row( "Unset Transaction Association", submit( "UnsetTrans[$this->id]", _( "Unset Transaction $this->fa_trans_no"), false, '', 'default' ));
-*/
+		// the transaction is settled, we can display full details
+		label_row("Status:", "<b>Transaction is settled!</b>", "width='25%' class='label'");
+		switch ($this->fa_trans_type)
+		{
+			case ST_SUPPAYMENT:
+				label_row("Operation:", "Payment");
+				// get supplier info
+				label_row("Supplier:", $minfo['supplierName']);
+				label_row("From bank account:", $minfo['coyBankAccountName']);
+			break;
+			case ST_BANKDEPOSIT:
+				label_row("Operation:", "Deposit");
+				//get customer info from transaction details
+//TODO: Refactor to use fa_customer
+				$fa_trans = get_customer_trans($this->fa_trans_no, $this->fa_trans_type);
+				label_row("Customer/Branch:", get_customer_name($fa_trans['debtor_no']) . " / " . get_branch_name($fa_trans['branch_code']));
+			break;
+			case 0:
+				label_row("Operation:", "Manual settlement");
+			break;
+			default:
+				label_row("Status:", "other transaction type; no info yet " . print_r( $this, true ) );
+			break;
+	      	}
+		label_row( "Unset Transaction Association", submit( "UnsetTrans[$this->id]", _( "Unset Transaction $this->fa_trans_no"), false, '', 'default' ));
 	}
 
 	/*****************************************************************//**
@@ -1010,7 +1018,10 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function set( $field, $value = null, $enforce = true )
 	{
+		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
+		//display_notification( __FILE__ . "::" . __LINE__ . ":" . "Setting $field to $value" );
 		$ret = parent::set( $field, $value, $enforce );
+		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
 		return $ret;
 	}
 	/**//**********************************************************************
@@ -1022,5 +1033,17 @@ class bi_lineitem extends generic_fa_interface_model
 	function trz2obj( $trz )
 	{
 		return $this->obj2obj( $trz );
+/*
+		$cnt = 0;
+		foreach( get_object_vars($this) as $key )
+		{
+			if( isset( $trz->$key ) )
+			{
+				$this-set( "$key", $trz->$key );	
+				$cnt++;
+			}
+		}
+		return $cnt;
+*/
 	}
 }
