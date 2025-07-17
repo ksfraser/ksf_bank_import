@@ -1,5 +1,7 @@
 <?php
 
+use Ksfraser\FaBankImport\Handlers\AddVendor;
+
 /*
 require_once (__DIR__ . '/vendor/autoload.php' );
         $ofxParser = new OfxParser\Parser();
@@ -529,45 +531,49 @@ function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 **************************************************/
 function add_vendor( $trz )
 {
-	require_once( dirname( __FILE__ ) . '/../../ksf_modules_common/class.fa_suppliers.php' );
-	$sup = new fa_suppliers();
-	$sup->init_values();
-	try {
-                if( strcasecmp( $trz['account'], "THE" ) !== 0 )
-		{
-			$sup->set( "supp_ref", $trz['account'], false );
-		}
-                else
-		{
-			$sup->set( "supp_ref", $trz['accountName'], false );
-		}
-		$sup->set( "supp_name", $trz['accountName'], false );
-		$sup->set( "bank_account", $trz['our_account'], false );
-		$sup->set( "address", $trz['address'], false );
-		$sup->set( "supp_address", $trz['address'], false );
-		$sup->set( "notes", "Created by Bank Import module as extended by Kevin Fraser", false );
-		display_notification( __LINE__ );
-	}
-	catch( Exception $e )
-	{
-		display_notification( __LINE__ . ":: Exception: " . print_r( $e, true ) );
-		if( KSF_FIELD_NOT_CLASS_VAR == $e->getCode() )
-		{
-			display_notification( __LINE__ . ":: " . print_r( $sup, true ) );
-		}
-		throw $e;
-	}
-	try {
-		display_notification( __LINE__ . ":: sup data: " . print_r( $sup, true ) );
-		$id = $sup->add_supplier();
-		display_notification( __LINE__ );
-	}
-	catch( Exception $e )
-	{
-		display_notification( __LINE__ . ":: Exception: " . print_r( $e, true ) );
-		throw $e;
-	}
-	return $id;
+	$v = AddVendor( $trz );
+	return $v->getId();
+/***
+*	require_once( dirname( __FILE__ ) . '/../../ksf_modules_common/class.fa_suppliers.php' );
+*	$sup = new fa_suppliers();
+*	$sup->init_values();
+*	try {
+*                if( strcasecmp( $trz['account'], "THE" ) !== 0 )
+*		{
+*			$sup->set( "supp_ref", $trz['account'], false );
+*		}
+*                else
+*		{
+*			$sup->set( "supp_ref", $trz['accountName'], false );
+*		}
+*		$sup->set( "supp_name", $trz['accountName'], false );
+*		$sup->set( "bank_account", $trz['our_account'], false );
+*		$sup->set( "address", $trz['address'], false );
+*		$sup->set( "supp_address", $trz['address'], false );
+*		$sup->set( "notes", "Created by Bank Import module as extended by Kevin Fraser", false );
+*		display_notification( __LINE__ );
+*	}
+*	catch( Exception $e )
+*	{
+*		display_notification( __LINE__ . ":: Exception: " . print_r( $e, true ) );
+*		if( KSF_FIELD_NOT_CLASS_VAR == $e->getCode() )
+*		{
+*			display_notification( __LINE__ . ":: " . print_r( $sup, true ) );
+*		}
+*		throw $e;
+*	}
+*	try {
+*		display_notification( __LINE__ . ":: sup data: " . print_r( $sup, true ) );
+*		$id = $sup->add_supplier();
+*		display_notification( __LINE__ );
+*	}
+*	catch( Exception $e )
+*	{
+*		display_notification( __LINE__ . ":: Exception: " . print_r( $e, true ) );
+*		throw $e;
+*	}
+*	return $id;
+**/
 }
 /**//**********************************************
 * Add a Customer from a Bank Statement
