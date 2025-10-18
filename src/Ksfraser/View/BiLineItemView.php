@@ -212,49 +212,26 @@ class BiLineItemView
 	*
 	* @param object BiLineItemModel
 	********************************************************************/
+	/**//******************************************************************
+	 * Find and display matching transactions.
+	 * 
+	 * This method delegates to the Model to find matches and determine partner type.
+	 * The business logic is now centralized in BiLineItemModel::determinePartnerTypeFromMatches()
+	 *
+	 * @param BiLineItemModel $model
+	 * @return void
+	 */
 	function getDisplayMatchingTrans( BiLineItemModel $model )
 	{
-		//our find_... sets matching_trans
-		//$this->matching_trans = $this->findMatchingExistingJE();
+		// Model handles finding matches AND determining partner type
 		$model->findMatchingExistingJE();
-		if( count( $model->matching_trans ) > 0 )
-		{
-			//Rewards (points) might have a split so only 1 count
-			//      Walmart
-			//      PC Points
-			//      Gift Cards (Restaurants, Amazon)
-			//but everyone else should have 2
-
-			if( count( $model->matching_trans ) < 3 )
-			{
-
-				//We matched A JE and the score is high.  Suggest trans type.
-				if( 50 <= $model->matching_trans[0]['score'] )
-				{
-					//var_dump( __LINE__ );
-					//It was an excellent match
-					if( $model->matching_trans[0]['is_invoice'] )
-					{
-						//This TRZ is a supplier payment
-						//that matches an invoice exactly.
-							$_POST['partnerType'][$model->id] = 'SP';
-					}
-					else
-					{
-							$_POST['partnerType'][$model->id] = 'ZZ';
-					}
-					$model->oplabel = "MATCH";
-				hidden("trans_type_$model->id", $model->matching_trans[0]['type'] );
-				hidden("trans_no_$model->id", $model->matching_trans[0]['type_no'] );
-
-				}
-				else
-					var_dump( __LINE__ );
-			}
-			else
-			{
-				//If there are 3+ then we need to sort by score and take the highest scored item!
-			}
+		
+		// If we have a high-confidence match, set hidden fields for processing
+		if (count($model->matching_trans) > 0 && 
+			count($model->matching_trans) < 3 &&
+			$model->matching_trans[0]['score'] >= 50) {
+			hidden("trans_type_$model->id", $model->matching_trans[0]['type']);
+			hidden("trans_no_$model->id", $model->matching_trans[0]['type_no']);
 		}
 	}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

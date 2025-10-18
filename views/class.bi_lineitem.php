@@ -1347,26 +1347,34 @@ class bi_lineitem extends generic_fa_interface_model
 			if( count( $this->matching_trans ) < 3 )
 			{
 
-				//We matched A JE and the score is high.  Suggest trans type.
-				if( 50 <= $this->matching_trans[0]['score'] )
+			//We matched A JE and the score is high.  Suggest trans type.
+			if( 50 <= $this->matching_trans[0]['score'] )
+			{
+				//var_dump( __LINE__ );
+				//It was an excellent match
+				if( $this->matching_trans[0]['is_invoice'] )
 				{
-					//var_dump( __LINE__ );
-					//It was an excellent match
-					if( $this->matching_trans[0]['is_invoice'] )
-					{
-						//This TRZ is a supplier payment
-						//that matches an invoice exactly.
-							$_POST['partnerType'][$this->id] = 'SP';
-					}
-					else
-					{
-							$_POST['partnerType'][$this->id] = 'ZZ';
-					}
-					$this->oplabel = "MATCH";
-				hidden("trans_type_$this->id", $this->matching_trans[0]['type'] );
-				hidden("trans_no_$this->id", $this->matching_trans[0]['type_no'] );
-
+					//This TRZ is a supplier payment
+					//that matches an invoice exactly.
+						$_POST['partnerType'][$this->id] = 'SP';
 				}
+				// Check if matched transaction is a Quick Entry (Bank Payment or Bank Deposit)
+				elseif( isset($this->matching_trans[0]['type']) && 
+					   ($this->matching_trans[0]['type'] == ST_BANKPAYMENT || 
+					    $this->matching_trans[0]['type'] == ST_BANKDEPOSIT) )
+				{
+					// This is likely a Quick Entry transaction for recurring expenses
+					// like groceries, insurance, utilities, etc.
+					$_POST['partnerType'][$this->id] = 'QE';
+					$this->oplabel = "Quick Entry MATCH";
+				}
+				else
+				{
+						$_POST['partnerType'][$this->id] = 'ZZ';
+				}
+				$this->oplabel = "MATCH";
+			hidden("trans_type_$this->id", $this->matching_trans[0]['type'] );
+			hidden("trans_no_$this->id", $this->matching_trans[0]['type_no'] );				}
 				else
 					var_dump( __LINE__ );
 			}
