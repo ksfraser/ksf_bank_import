@@ -3,6 +3,8 @@
 namespace Ksfraser\HTML;
 
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\HtmlAttributeList;
+require_once( 'HtmlAttributeList.php' );
 
 /**//***************************************************************************
 * An HTML element is defined by a start tag, some content, and an end tag.
@@ -25,8 +27,13 @@ class HtmlElement implements HtmlElementInterface {
 		//HTML is case insensitive.  XHTML etc requires lowercase.
 		$this->nested = array();
 		$this->addNested( $data );
-		$this->attributes = array();
+		$this->newAttributeList();
 		$this->empty = false;
+	}
+
+	function newAttributeList()
+	{
+		$this->attributeList = new HtmlAttributeList( new HtmlAttribute( "", "") );
 	}
 	function addNested( HtmlElementInterface $element )
 	{
@@ -59,10 +66,7 @@ class HtmlElement implements HtmlElementInterface {
 	public function getHtml()
 	{
 		$html = '<' . $this->tag;
-		if( count( $this->attributes ) > 0 )
-		{
-			$html .=  $this->getAttributes();
-		}
+		$html .=  $this->getAttributes();
 		$html .= '>';
 		if( ! $this->empty )
 		{
@@ -77,10 +81,7 @@ class HtmlElement implements HtmlElementInterface {
 	protected function getAttributes()
 	{
 		$html = " ";
-		foreach( $this->attributes as $attribute )
-		{
-			$html .= $attribute->getHtml() . " ";
-		}
+		$html .= $this->attributeList->getHtml() . " ";
 		return $html;
 	}
 }

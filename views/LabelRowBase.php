@@ -1,11 +1,13 @@
 <?php
 
+namespace Ksfraser\Html;
+
 use  Ksfraser\Html\HtmlElementInterface;
 
-require_once( __DIR__ .  '/HTML/HtmlElementInterface.php' );
+require_once( __DIR__ .  '/HtmlElementInterface.php' );
 
-//class LabelRowBase implements HtmlElementInterface
-class LabelRowBase implements Ksfraser\Html\HtmlElementInterface
+class LabelRowBase implements HtmlElementInterface
+//class LabelRowBase implements Ksfraser\Html\HtmlElementInterface
 {
 	protected $row;
 	protected $label;
@@ -24,7 +26,7 @@ class LabelRowBase implements Ksfraser\Html\HtmlElementInterface
 		{
 			throw new Exception( "label MUST be set by inheriting class!" );
 		}
-		$this->row = new HTML_ROW_LABEL( $this->label, $this->data,  null, null );
+		$this->row = new HtmlRowLabel( $this->label, $this->data,  null, null );
 	}
 	function getHtml()
 	{
