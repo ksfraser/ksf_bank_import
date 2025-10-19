@@ -1,0 +1,24 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Shell scripts should use LF
+*.sh text eol=lf
+
+# Windows scripts should use CRLF  
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# PHP files
+*.php text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# JSON files
+*.json text eol=lf
+composer.lock text eol=lf
+
+# Git hooks should use LF (even on Windows)
+.git/hooks/* text eol=lf
