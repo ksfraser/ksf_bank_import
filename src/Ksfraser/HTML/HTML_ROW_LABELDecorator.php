@@ -15,12 +15,12 @@ class HTML_ROW_LABELDecorator implements HtmlElementInterface
 		$this->HTML_LABEL_ROW = new HTML_ROW_LABEL( $data, $label, $width, $class );
 	}
 
-	public function toHtml()
+	public function toHtml(): void
 	{
 		$this->HTML_LABEL_ROW->toHtml();
 	}
 
-	public function getHtml()
+	public function getHtml(): string
 	{
 		return $this->HTML_LABEL_ROW->getHtml();
 	}
