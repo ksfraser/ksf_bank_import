@@ -32,21 +32,32 @@ The original version only used Band Deposits and Bank Payments.  I've enhanced t
 
 ### Documentation
 
-- **[USER_GUIDE.md](USER_GUIDE.md)** - Complete end-user guide for paired transfer processing
+- **[docs/USER_GUIDE.md](docs/USER_GUIDE.md)** - Complete end-user guide for paired transfer processing
+- **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Technical architecture and system design
 - **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Production deployment instructions
-- **[INTEGRATION_SUMMARY.md](INTEGRATION_SUMMARY.md)** - Technical architecture details
+- **[INTEGRATION_SUMMARY.md](INTEGRATION_SUMMARY.md)** - Integration test details
 - **[UML_DIAGRAMS.md](UML_DIAGRAMS.md)** - System architecture diagrams
 - **[TEST_RESULTS_SUMMARY.md](TEST_RESULTS_SUMMARY.md)** - Test coverage and results
 - **[PROJECT_COMPLETION_SUMMARY.md](PROJECT_COMPLETION_SUMMARY.md)** - Complete refactoring summary
+- **[SETUP.md](SETUP.md)** - First-time setup and dependency management
 
 ### Quick Start
 
-1. Process two related transactions (e.g., debit from account A, credit to account B, same date ±2 days)
-2. Check "Both Sides" for both transactions
-3. Click "Process Transactions"
-4. System automatically creates bank transfer in FrontAccounting
+1. **Install dependencies:** `composer install` (automated via Git hooks - see [SETUP.md](SETUP.md))
+2. **Import statements:** Go to Banking → Import Bank Statements
+3. **Process paired transfers:**
+   - Find two related transactions (debit from account A, credit to account B, same date ±2 days)
+   - Select "Process Both Sides" from the dropdown
+   - Click "Process" button
+   - System automatically creates bank transfer in FrontAccounting
 
-See **[USER_GUIDE.md](USER_GUIDE.md)** for detailed instructions and examples.
+See **[docs/USER_GUIDE.md](docs/USER_GUIDE.md)** for detailed instructions with screenshots and examples.
+
+### PHP Compatibility
+
+- **Minimum:** PHP 7.4
+- **Recommended:** PHP 7.4 or 8.0+
+- **Tested:** PHP 7.4 compatible (union types removed, proper type hints maintained)
 
 
 INSTALLATION
