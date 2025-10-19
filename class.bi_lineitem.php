@@ -1025,40 +1025,14 @@ class bi_lineitem extends generic_fa_interface_model
 	/**//******************************************************************
 	* Get OUR Bank Account Details
 	*
-	*	TODO: REFACTOR to use class fa_bank_accounts instead of an array
+	*	Refactored to use BankAccountByNumber model class
 	*
 	**********************************************************************/
 	function getBankAccountDetails()
 	{
-			//Info from 0_bank_accounts
-			//      Account Name
-			//      Type
-			//      Currency
-			//      GL Account
-			//      Bank
-			//      Number
-			//      Address
-		require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
-		$this->fa_bank_accounts = new fa_bank_accounts( $this );
-		//use Ksfraser\frontaccounting\FaBankAccounts;
-		//$this->fa_bank_accounts = new FaBankAccounts( $this );
-		$this->ourBankDetails =	$this->fa_bank_accounts->getByBankAccountNumber( $this->our_account );
-		//var_dump( $this->ourBankDetails );
-		/*
-			Array ( [account_code] => 1061
-				[account_type] => 0
-				[bank_account_name] => CIBC Savings account
-				[bank_account_number] => 00449 12-93230
-				[bank_name] => CIBC
-				[bank_address] =>
-				[bank_curr_code] => CAD
-				[dflt_curr_act] => 1
-				[id] => 1
-				[bank_charge_act] => 5690
-				[last_reconciled_date] => 0000-00-00 00:00:00
-				[ending_reconcile_balance] => 0
-				[inactive] => 0 )
-		*/
+		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php' );
+		$b = new \Ksfraser\FaBankImport\models\BankAccountByNumber( $this->our_account );
+		$this->ourBankDetails = $b->getBankDetails();
 		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
 		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
 	}
@@ -1252,56 +1226,10 @@ class bi_lineitem extends generic_fa_interface_model
 	********************************************************************/
 	function findMatchingExistingJE()
 	{
-	        //The transaction is imported into a bank account, with the counterparty being trz['accountName']
-	        //      Existing transactions will have 2+ line items.  1 should match the bank, one should match the counterparty.
-	        //      Currently we are matching and scoring each of the line items, rather than matching/scoring the GL itself.
-	
-	        //Check for matching into the accounts
-	        // JE# / Date / Account / (Credit/Debit) / Memo in the GL Account (gl/inquiry/gl_account_inquiry.php)
-	
-	        $new_arr = array();
-		/** Namespace *
-		*	use Ksfraser\frontaccounting\FaGl;
-	        *		Will need to adjust he if( $inc )
-		**/
-	        $inc = include_once( __DIR__ . '/../ksf_modules_common/class.fa_gl.php' );
-	        if( $inc )
-	        {
-		/** Namespace *
-	         *       $fa_gl = new FaGl();
-	         *       $fa_gl = new \KSFRASER\FA\fa_gl();
-		**/
-	                $fa_gl = new fa_gl();
- 			$fa_gl->set( "amount_min", $this->amount );
-                	$fa_gl->set( "amount_max", $this->amount );
-                	$fa_gl->set( "amount", $this->amount );
-                	$fa_gl->set( "transactionDC", $this->transactionDC );
-                	$fa_gl->set( "days_spread", $this->days_spread );
-                	$fa_gl->set( "startdate", $this->valueTimestamp );     //Set converts using sql2date
-                	$fa_gl->set( "enddate", $this->entryTimestamp );       //Set converts using sql2date
-                	$fa_gl->set( "accountName", $this->otherBankAccountName );
-                	$fa_gl->set( "transactionCode", $this->transactionCode );
-                	$fa_gl->set( "memo_", $this->memo );
-		
-
-	                //Customer E-transfers usually get recorded the day after the "payment date" when recurring invoice, or recorded paid on Quick Invoice
-	                //              E-TRANSFER 010667466304;CUSTOMER NAME;...
-	                //      function add_days($date, $days) // accepts negative values as well
-	                try {
-	                        $new_arr = $fa_gl->find_matching_transactions( $this->memo );
-	                                //display_notification( __FILE__ . "::" . __LINE__ );
-	                } catch( Exception $e )
-	                {
-	                        display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
-	                }
-	                                //display_notification( __FILE__ . "::" . __LINE__ );
-	        }
-	        else
-	        {
-	                display_notification( __FILE__ . "::" . __LINE__ . ": Require_Once failed." );
-	        }
-		$this->matching_trans = $new_arr;
-	        return $new_arr;
+		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
+		$match = new \Ksfraser\FaBankImport\models\MatchingJEs( $this );
+		$this->matching_trans = $match->getMatchArr();
+		return $this->matching_trans;
 	}
 	function makeURLLink( string $URL, array $params, string $text, $target = "target=_blank" )
 	{
