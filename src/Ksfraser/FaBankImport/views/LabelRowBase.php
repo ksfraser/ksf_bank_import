@@ -15,8 +15,8 @@ use Ksfraser\HTML\HTML_ROW_LABEL;
  * Follows Single Responsibility: Renders label-data rows
  * 
  * @author Kevin Fraser
- * @since 2.0.0
- * @version 2.0.0
+ * @since 20250119
+ * @version 20250119
  */
 abstract class LabelRowBase implements HtmlElementInterface
 {

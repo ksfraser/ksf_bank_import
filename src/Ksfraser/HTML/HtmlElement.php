@@ -18,8 +18,8 @@ require_once( 'HtmlAttributeList.php' );
  * 
  * @link https://www.w3schools.com/html/html_elements.asp
  * @author Kevin Fraser
- * @since 2.0.0
- * @version 2.0.0
+ * @since 20250119
+ * @version 20250119
  */
 class HtmlElement implements HtmlElementInterface {
     /** @var string HTML tag name */

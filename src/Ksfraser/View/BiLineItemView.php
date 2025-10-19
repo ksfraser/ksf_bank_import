@@ -545,34 +545,52 @@ class BiLineItemView
 		}
 /* ! Mantis 3018 */
 
-	}
-
-
 }
 
+/**
+ * HTML Atomic Element
+ * 
+ * Base class for atomic HTML elements (no nested children).
+ * Follows Single Responsibility Principle: Renders atomic HTML elements
+ * 
+ * @author Kevin Fraser
+ * @since 2.0.0
+ */
 class HTML_atomic extends Origin
 {
-	protected $tag
-	protected $data
+	/** @var string HTML tag name */
+	protected $tag;
+	
+	/** @var mixed Element data/content */
+	protected $data;
+	
+	/** @var array HTML attributes array */
 	protected $attrib_arr;
 
-	function __construct( $data )
+	/**
+	 * Constructor
+	 * 
+	 * @param mixed $data Element data/content
+	 */
+	function __construct($data)
 	{
-		$this->set( "data", $data );
-		//Inheriting classes also need to set TAG
+		$this->set("data", $data);
+		// Inhriting classes also need to set TAG
 	}
-	function get( $field )
+	
+	/**
+	 * Get a field value
+	 * 
+	 * @param string|array|object $field Field name, array of fields, or object
+	 * @return mixed Field value(s)
+	*/
+	function get($field)
 	{
-		if( is_array( $field ) )
-		{
-			foreach( $field as $var )
-			{
-				$ret = $this->get( $var );
+		if (is_array($field)) {
+			foreach ($field as $var) {
+				$ret = $this->get($var);
 			}
-		}
-		else
-		if( is_object( $field ) )
-		{
+		} elseif (is_object($field)) {
 			$ret = $field->toHtml();
 		}
 		else

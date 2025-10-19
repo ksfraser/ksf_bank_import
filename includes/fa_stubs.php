@@ -11,7 +11,7 @@
  * interfere with the real FrontAccounting functions in production.
  * 
  * @author Kevin Fraser
- * @since 2.0.0
+ * @since 20250119
  */
 
 // =============================================================================
@@ -191,6 +191,22 @@ if (!function_exists('hidden')) {
     }
 }
 
+if (!function_exists('text_input')) {
+    /**
+     * Create text input field
+     * @param string $name Field name
+     * @param mixed $value Field value
+     * @param int $size Input size
+     * @param string $max Max length
+     * @param string $title Input title/placeholder
+     * @return string HTML input element
+     */
+    function text_input(string $name, $value = '', int $size = 0, string $max = '', string $title = ''): string {
+        // Stub - returns empty input for development
+        return "<input type='text' name='$name' value='$value' />";
+    }
+}
+
 if (!function_exists('array_selector')) {
     /**
      * Create a select dropdown from array
@@ -355,6 +371,13 @@ if (!defined('PT_CUSTOMER')) {
      * Partner type constant for customers
      */
     define('PT_CUSTOMER', 'customer');
+}
+
+if (!defined('ANY_NUMERIC')) {
+    /**
+     * Constant representing any numeric value
+     */
+    define('ANY_NUMERIC', -1);
 }
 
 // =============================================================================
@@ -554,6 +577,194 @@ if (!function_exists('end_form')) {
      */
     function end_form(int $breaks = 0): void {
         // Stub - actual implementation in FrontAccounting
+    }
+}
+
+// =============================================================================
+// Transaction Type Constants
+// =============================================================================
+
+if (!defined('ST_JOURNAL')) {
+    define('ST_JOURNAL', 0); // Journal Entry
+}
+if (!defined('ST_BANKPAYMENT')) {
+    define('ST_BANKPAYMENT', 1); // Bank Payment
+}
+if (!defined('ST_BANKDEPOSIT')) {
+    define('ST_BANKDEPOSIT', 2); // Bank Deposit
+}
+if (!defined('ST_BANKTRANSFER')) {
+    define('ST_BANKTRANSFER', 4); // Bank Transfer
+}
+if (!defined('ST_SALESINVOICE')) {
+    define('ST_SALESINVOICE', 10); // Sales Invoice
+}
+if (!defined('ST_CUSTCREDIT')) {
+    define('ST_CUSTCREDIT', 11); // Customer Credit Note
+}
+if (!defined('ST_CUSTPAYMENT')) {
+    define('ST_CUSTPAYMENT', 12); // Customer Payment
+}
+if (!defined('ST_CUSTDELIVERY')) {
+    define('ST_CUSTDELIVERY', 13); // Customer Delivery
+}
+if (!defined('ST_LOCTRANSFER')) {
+    define('ST_LOCTRANSFER', 16); // Location Transfer
+}
+if (!defined('ST_INVADJUST')) {
+    define('ST_INVADJUST', 17); // Inventory Adjustment
+}
+if (!defined('ST_PURCHORDER')) {
+    define('ST_PURCHORDER', 18); // Purchase Order
+}
+if (!defined('ST_SUPPINVOICE')) {
+    define('ST_SUPPINVOICE', 20); // Supplier Invoice
+}
+if (!defined('ST_SUPPCREDIT')) {
+    define('ST_SUPPCREDIT', 21); // Supplier Credit Note
+}
+if (!defined('ST_SUPPAYMENT')) {
+    define('ST_SUPPAYMENT', 22); // Supplier Payment
+}
+if (!defined('ST_SUPPRECEIVE')) {
+    define('ST_SUPPRECEIVE', 25); // Supplier Receive
+}
+
+// =============================================================================
+// Quick Entry Constants
+// =============================================================================
+
+if (!defined('QE_DEPOSIT')) {
+    define('QE_DEPOSIT', 1); // Quick Entry Deposit
+}
+if (!defined('QE_PAYMENT')) {
+    define('QE_PAYMENT', 2); // Quick Entry Payment
+}
+if (!defined('QE_JOURNAL')) {
+    define('QE_JOURNAL', 3); // Quick Entry Journal
+}
+
+// =============================================================================
+// Bank & Quick Entry Functions
+// =============================================================================
+
+if (!function_exists('bank_accounts_list')) {
+    /**
+     * Display bank account dropdown list
+     * @param string $name Input name
+     * @param mixed $selected_id Selected account ID
+     * @param mixed $submit_on_change Whether to submit on change
+     * @param bool $spec_option Show special option
+     * @return string HTML select element
+     */
+    function bank_accounts_list(string $name, $selected_id = null, $submit_on_change = false, bool $spec_option = false): string {
+        return "<select name='$name'></select>";
+    }
+}
+
+if (!function_exists('quick_entries_list')) {
+    /**
+     * Display quick entries dropdown list
+     * @param string $name Input name
+     * @param mixed $selected_id Selected entry ID
+     * @param int $type Quick entry type (QE_DEPOSIT, QE_PAYMENT, QE_JOURNAL)
+     * @param bool $submit_on_change Whether to submit on change
+     * @return string HTML select element
+     */
+    function quick_entries_list(string $name, $selected_id = null, int $type = 0, bool $submit_on_change = false): string {
+        return "<select name='$name'></select>";
+    }
+}
+
+if (!function_exists('get_quick_entry')) {
+    /**
+     * Get quick entry details
+     * @param int $id Quick entry ID
+     * @return array Quick entry details with keys: id, type, description, base_amount, base_desc
+     */
+    function get_quick_entry(int $id): array {
+        return [
+            'id' => $id,
+            'type' => 0,
+            'description' => '',
+            'base_amount' => 0,
+            'base_desc' => ''
+        ];
+    }
+}
+
+if (!function_exists('submit')) {
+    /**
+     * Create a submit button
+     * @param string $name Button name
+     * @param string $value Button value/label
+     * @param bool $echo Whether to echo or return
+     * @param string $title Button title attribute
+     * @param string $atype Button style type
+     * @return string HTML button element
+     */
+    function submit(string $name, string $value, bool $echo = true, string $title = '', string $atype = ''): string {
+        $html = "<input type='submit' name='$name' value='$value' title='$title' />";
+        if ($echo) {
+            echo $html;
+            return '';
+        }
+        return $html;
+    }
+}
+
+if (!function_exists('get_customer_trans')) {
+    /**
+     * Get customer transaction details
+     * @param int $trans_no Transaction number
+     * @param int $type Transaction type
+     * @return array Transaction details with keys: trans_no, type, debtor_no, branch_code, etc.
+     */
+    function get_customer_trans(int $trans_no, int $type): array {
+        return [
+            'trans_no' => $trans_no,
+            'type' => $type,
+            'debtor_no' => 0,
+            'branch_code' => 0
+        ];
+    }
+}
+
+if (!function_exists('get_customer_name')) {
+    /**
+     * Get customer name by ID
+     * @param int $customer_id Customer ID
+     * @return string Customer name
+     */
+    function get_customer_name(int $customer_id): string {
+        return "Customer #$customer_id";
+    }
+}
+
+if (!function_exists('get_branch_name')) {
+    /**
+     * Get branch name by code
+     * @param int $branch_code Branch code
+     * @return string Branch name
+     */
+    function get_branch_name(int $branch_code): string {
+        return "Branch #$branch_code";
+    }
+}
+
+if (!function_exists('add_days')) {
+    /**
+     * Add days to a date
+     * @param string $date Date in YYYY-MM-DD or other format
+     * @param int $days Number of days to add (can be negative)
+     * @return string Date with days added
+     */
+    function add_days(string $date, int $days): string {
+        $timestamp = strtotime($date);
+        if ($timestamp === false) {
+            return $date;
+        }
+        return date('Y-m-d', strtotime("+$days days", $timestamp));
     }
 }
 

@@ -6,7 +6,7 @@
  * Allows administrators to modify module settings without editing PHP files
  * 
  * @author Kevin Fraser
- * @since 2.0.0
+ * @since 20241215
  */
 
 $page_security = 'SA_SETUPCOMPANY';  // Admin only

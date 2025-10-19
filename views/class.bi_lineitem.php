@@ -181,13 +181,168 @@ class displayRight
 {
 }
 
-
+/**
+ * View class for displaying bank import line items
+ * 
+ * This class handles the presentation layer for bi_lineitem objects,
+ * displaying transaction data in HTML forms for user processing.
+ * 
+ * Design Pattern: Adapter/Facade Pattern
+ * - Wraps bi_lineitem model and provides view-specific methods
+ * - Adapts model data for HTML presentation
+ * 
+ * SOLID Principles:
+ * - Single Responsibility: Handles only UI display logic
+ * - Open/Closed: Can be extended for different display formats
+ * - Dependency Inversion: Depends on bi_lineitem abstraction
+ * 
+ * @property-read int $id Line item ID
+ * @property-read string $otherBankAccount Other bank account number (shortened)
+ * @property-read string $otherBankAccountName Other bank account full name
+ * @property-read array $vendor_list List of vendors with shortnames/supplier_id
+ * @property-read array $matching_trans Array of matching GL transactions
+ * @property-read string $our_account Our bank account number
+ * @property-read array $ourBankDetails Our bank account details from fa_bank_accounts
+ * @property-read string $transactionDC Transaction type: 'D' (debit), 'C' (credit), 'B' (bank transfer)
+ * @property-read float $amount Transaction amount
+ * @property-read int $partnerId Partner ID (supplier/customer/bank account)
+ * @property-read int $partnerDetailId Partner detail ID (e.g., customer branch)
+ * @property-read string $valueTimestamp Transaction value date
+ * @property-read string $memo Transaction memo/description
+ * @property-read int $status Transaction status (0=unprocessed, 1=settled)
+ * @property-read string $transactionTitle Transaction title
+ * @property-read string $entryTimestamp Transaction entry date
+ * @property-read array $optypes Partner type options (SP/CU/BT/QE/MA/ZZ)
+ * 
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
 class ViewBILineItems
 {
+	/**
+	 * @var bi_lineitem The underlying model object containing transaction data
+	 */
 	protected $bi_lineitem;
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param bi_lineitem $bi_lineitem The line item model to display
+	 */
 	function __construct( $bi_lineitem )
 	{
 		$this->bi_lineitem = $bi_lineitem;
+	}
+	
+	/**
+	 * Magic getter to access bi_lineitem properties
+	 * 
+	 * Allows transparent access to model properties via $this->propertyName
+	 * 
+	 * @param string $name Property name
+	 * @return mixed Property value from bi_lineitem
+	 * @throws \RuntimeException if property doesn't exist
+	 */
+	public function __get( string $name )
+	{
+		if( property_exists( $this->bi_lineitem, $name ) )
+		{
+			return $this->bi_lineitem->$name;
+		}
+		throw new \RuntimeException( "Property $name does not exist on bi_lineitem" );
+	}
+	
+	/**
+	 * Check if transaction is paired with another (e.g., bank transfer)
+	 * 
+	 * Delegates to bi_lineitem::isPaired()
+	 * 
+	 * @return bool True if paired transaction found
+	 */
+	public function isPaired(): bool
+	{
+		return method_exists( $this->bi_lineitem, 'isPaired' ) && $this->bi_lineitem->isPaired();
+	}
+	
+	/**
+	 * Get matched vendor from vendor_list
+	 * 
+	 * Delegates to bi_lineitem::matchedVendor()
+	 * 
+	 * @return mixed Vendor ID or false if not found
+	 * @throws \Exception if vendor_list not set
+	 */
+	public function matchedVendor()
+	{
+		if( method_exists( $this->bi_lineitem, 'matchedVendor' ) )
+		{
+			return $this->bi_lineitem->matchedVendor();
+		}
+		throw new \Exception( "Method matchedVendor() not implemented in bi_lineitem" );
+	}
+	
+	/**
+	 * Get supplier ID for matched vendor
+	 * 
+	 * Delegates to bi_lineitem::matchedSupplierId()
+	 * 
+	 * @param array|int $matchedVendor Matched vendor identifier
+	 * @return int Supplier ID
+	 * @throws \Exception if method not implemented
+	 */
+	public function matchedSupplierId( $matchedVendor ): int
+	{
+		if( method_exists( $this->bi_lineitem, 'matchedSupplierId' ) )
+		{
+			return $this->bi_lineitem->matchedSupplierId( $matchedVendor );
+		}
+		throw new \Exception( "Method matchedSupplierId() not implemented in bi_lineitem" );
+	}
+	
+	/**
+	 * Display button to add vendor or customer based on transaction type
+	 * 
+	 * Delegates to bi_lineitem::selectAndDisplayButton()
+	 * 
+	 * @return void
+	 */
+	public function selectAndDisplayButton(): void
+	{
+		if( method_exists( $this->bi_lineitem, 'selectAndDisplayButton' ) )
+		{
+			$this->bi_lineitem->selectAndDisplayButton();
+		}
+	}
+	
+	/**
+	 * Set partner type based on transaction DC
+	 * 
+	 * Delegates to bi_lineitem::setPartnerType()
+	 * 
+	 * @return string Operation label
+	 */
+	public function setPartnerType(): string
+	{
+		if( method_exists( $this->bi_lineitem, 'setPartnerType' ) )
+		{
+			return $this->bi_lineitem->setPartnerType();
+		}
+		return '';
+	}
+	
+	/**
+	 * Get and display matching transactions
+	 * 
+	 * Delegates to bi_lineitem::getDisplayMatchingTrans()
+	 * 
+	 * @return void
+	 */
+	public function getDisplayMatchingTrans(): void
+	{
+		if( method_exists( $this->bi_lineitem, 'getDisplayMatchingTrans' ) )
+		{
+			$this->bi_lineitem->getDisplayMatchingTrans();
+		}
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -199,8 +354,11 @@ class ViewBILineItems
 		$this->display_right();
 	}
 	/**//*****************************************************************
-	* Display as a row
-	*
+	* Display as a row (left side)
+	* 
+	* Displays transaction details including date, type, accounts, and amount
+	* 
+	* @return void
 	**********************************************************************/
 	function display_left()
 	{
@@ -209,12 +367,12 @@ class ViewBILineItems
 		echo '<td width="50%">';
 		$table = new HTML_TABLE( null, 100 );
 
-		$table->appendRow( new TransDate( $bi_lineitem ) );
-		$table->appendRow( new TransType( $bi_lineitem ) );
-		$table->appendRow( new OurBankAccount( $bi_lineitem ) );
-		$table->appendRow( new OtherBankAccount( $bi_lineitem ) );
-		$table->appendRow( new AmountCharges( $bi_lineitem ) );
-		$table->appendRow( new TransTitle( $bi_lineitem ) );
+		$table->appendRow( new TransDate( $this->bi_lineitem ) );
+		$table->appendRow( new TransType( $this->bi_lineitem ) );
+		$table->appendRow( new OurBankAccount( $this->bi_lineitem ) );
+		$table->appendRow( new OtherBankAccount( $this->bi_lineitem ) );
+		$table->appendRow( new AmountCharges( $this->bi_lineitem ) );
+		$table->appendRow( new TransTitle( $this->bi_lineitem ) );
 
 		$this->displayAddVendorOrCustomer();
 		$this->displayEditTransData();
