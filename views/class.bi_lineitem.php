@@ -807,6 +807,7 @@ class bi_lineitem extends generic_fa_interface_model
 //
 	protected $matched;	//!<bool
 	protected $created;	//!<bool
+	protected $pairedTransactions;	//!<array Cache of paired transactions from findPaired()
 
 
 	function __construct( $trz, $vendor_list = array(), $optypes = array() )
@@ -1079,11 +1080,50 @@ class bi_lineitem extends generic_fa_interface_model
 		return $this->oplabel;
 	}
 	/**//**************************************************************
-	* Display our paired transaction
+	* Display our paired transaction(s)
+	*
+	* Shows information about paired bank transfer transactions and
+	* provides a button to process both sides concurrently
 	*
 	*******************************************************************/
 	function displayPaired()
 	{
+		if( ! isset( $this->pairedTransactions ) || empty( $this->pairedTransactions ) )
+		{
+			return;
+		}
+		
+		// Display a visual indicator for paired transactions
+		echo "<tr><td colspan='2' style='background-color: #ffffcc; border: 2px solid #ffa500; padding: 10px;'>";
+		echo "<div style='font-weight: bold; color: #ff8c00; margin-bottom: 5px;'>⇄ PAIRED BANK TRANSFER DETECTED</div>";
+		
+		foreach( $this->pairedTransactions as $paired )
+		{
+			// Only show unprocessed pairs
+			if( $paired['status'] != 0 )
+			{
+				continue;
+			}
+			
+			echo "<div style='margin: 5px 0; padding: 5px; background-color: #fff; border: 1px solid #ddd;'>";
+			echo "<strong>Paired Transaction ID:</strong> " . $paired['id'] . "<br/>";
+			echo "<strong>Account:</strong> " . htmlspecialchars($paired['our_account']) . " - " . htmlspecialchars($paired['accountName']) . "<br/>";
+			echo "<strong>Type:</strong> " . ($paired['transactionDC'] == 'D' ? 'Debit' : 'Credit') . "<br/>";
+			echo "<strong>Amount:</strong> $" . number_format(abs($paired['transactionAmount']), 2) . "<br/>";
+			echo "<strong>Date:</strong> " . $paired['valueTimestamp'] . "<br/>";
+			echo "<strong>Title:</strong> " . htmlspecialchars($paired['transactionTitle']) . "<br/>";
+			echo "</div>";
+		}
+		
+		// Add a button to process both sides of the transfer concurrently
+		echo "<div style='margin-top: 10px;'>";
+		label_row("<span style='color: #ff8c00;'>Process Both Sides Together</span>", 
+			submit("ProcessBothSides[$this->id]", _("Process Bank Transfer (Both Sides)"), false, '', 'default') .
+			"<span style='margin-left: 10px; font-size: 11px; color: #666;'>This will create a single bank transfer entry for both accounts</span>"
+		);
+		echo "</div>";
+		
+		echo "</td></tr>";
 	}
 	/**//***************************************************************
 	* Find paired transactions i.e. bank transfers from one account to another
@@ -1092,51 +1132,96 @@ class bi_lineitem extends generic_fa_interface_model
 	*	Because of the extra processing time, this function needs to be run
 	*	as a maintenance activity rather than as a real time search.
 	*
+	* @returns array of paired transactions or empty array if none found
 	*********************************************************************/
 	function findPaired()
 	{
 		require_once( 'class.bi_transactions.php' );
 		$bi_t = new bi_transactions_model();
-		//Since we are only doing a +2 days and not -2, we should only find the first of a paired set of transactions
-		$trzs = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, 2 ), $this->amount, null );	//This will be matching dollar amounts within 2 days.  
-		$count = 0;
+		
+		// Search within a date range: -2 days to +2 days from this transaction
+		$startDate = add_days( $this->valueTimestamp, -2 );
+		$endDate = add_days( $this->valueTimestamp, 2 );
+		
+		//Get transactions with matching dollar amounts within date range
+		$trzs = $bi_t->get_transactions( 0, $startDate, $endDate, $this->amount, null );
+		
+		$pairedTransactions = array();
+		
 		foreach( $trzs as $trans )
 		{
-			if( ! strcmp( trim( $trans['our_account'] ) , trim( $this->our_account ) ) )
+			// Skip this same transaction
+			if( $trans['id'] == $this->id )
 			{
-				continue;	//Can't match within same bank account
-			} 
-			if( ! strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) )
-			{
-				continue;	//Paired transactions will have opposing DC values.
-			} 
-/**
-					protected $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
-					protected $amount;	//!<float
-					protected $transactionTypeLabel;     //!< string
-					protected $matching_trans;	//!<array was arr_arr
-					protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
-					protected $ourBankDetails;	//!< array
-					protected $ourBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $ourBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-					protected $ourBankAccountCode;	 //| varchar(60)  | YES  |     | NULL    |		|
-**/
+				continue;
+			}
 			
+			// Can't match within same bank account
+			if( strcasecmp( trim( $trans['our_account'] ), trim( $this->our_account ) ) == 0 )
+			{
+				continue;
+			} 
+			
+			// Paired transactions must have opposing DC values (Debit/Credit)
+			if( strcasecmp( trim( $trans['transactionDC'] ), trim( $this->transactionDC ) ) == 0 )
+			{
+				continue;
+			}
+			
+			// Amount must match (absolute value)
+			if( abs( $trans['transactionAmount'] ) != abs( $this->amount ) )
+			{
+				continue;
+			}
+			
+			// Check if one account in the pair appears as the "other account" in the counterpart
+			// For bank transfers, the "our account" of one should match bank details in the other
+			// This is a potential pair - add to results
+			$pairedTransactions[] = array(
+				'id' => $trans['id'],
+				'our_account' => $trans['our_account'],
+				'accountName' => $trans['accountName'],
+				'transactionDC' => $trans['transactionDC'],
+				'transactionAmount' => $trans['transactionAmount'],
+				'valueTimestamp' => $trans['valueTimestamp'],
+				'transactionTitle' => $trans['transactionTitle'],
+				'status' => $trans['status']
+			);
 		}
+		
+		return $pairedTransactions;
 	}
 	/**//***************************************************************
 	* Check if the transaction has a pair.
 	*
-	*	findPaired will set a flag so we can just check the flag
+	*	Calls findPaired() and caches the result
 	*	the "paired" transaction should also still be unprocessed
 	*	if we are showing the pairing.  Otherwise it should show
 	*	in the matching GLs.
 	*
+	* @returns bool true if paired transactions found
 	*********************************************************************/
 	function isPaired()
 	{
+		// Check if we've already searched for pairs
+		if( ! isset( $this->pairedTransactions ) )
+		{
+			$this->pairedTransactions = $this->findPaired();
+		}
+		
+		// Return true if we found any paired transactions that are still unprocessed
+		if( ! empty( $this->pairedTransactions ) )
+		{
+			foreach( $this->pairedTransactions as $paired )
+			{
+				// Check if the paired transaction is unprocessed (status = 0)
+				if( $paired['status'] == 0 )
+				{
+					return true;
+				}
+			}
+		}
+		
 		return false;
 	}
 	/**//***************************************************************

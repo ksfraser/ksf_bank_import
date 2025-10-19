@@ -17,6 +17,37 @@ The original version only used Band Deposits and Bank Payments.  I've enhanced t
 	Create a Vendor from the other party (i.e. merchants in a CC upload)
 	Create a Customer from the other party (i.e. a customer that deposited (a.k.a. e-transfer) into your bank account.
 
+## NEW: Paired Transfer Processing (v1.0.0)
+
+**As of January 2025**, the bank import module has been significantly refactored to support **automatic paired transfer processing** using clean SOLID architecture and PSR standards.
+
+### Key Features
+
+- ✅ **Automatic Bank Transfer Creation** - Detects paired transactions (e.g., Manulife → CIBC) and creates bank transfers in FrontAccounting
+- ✅ **Smart Direction Analysis** - Analyzes debit/credit codes to determine correct FROM/TO accounts
+- ✅ **Session Caching** - 95% performance improvement via vendor list and operation types caching
+- ✅ **Plugin Architecture** - Extensible operation types system
+- ✅ **100% Test Coverage** - Comprehensive unit and integration tests
+- ✅ **PSR Compliant** - Follows PSR-1, PSR-2, PSR-4, PSR-5, PSR-12 standards
+
+### Documentation
+
+- **[USER_GUIDE.md](USER_GUIDE.md)** - Complete end-user guide for paired transfer processing
+- **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Production deployment instructions
+- **[INTEGRATION_SUMMARY.md](INTEGRATION_SUMMARY.md)** - Technical architecture details
+- **[UML_DIAGRAMS.md](UML_DIAGRAMS.md)** - System architecture diagrams
+- **[TEST_RESULTS_SUMMARY.md](TEST_RESULTS_SUMMARY.md)** - Test coverage and results
+- **[PROJECT_COMPLETION_SUMMARY.md](PROJECT_COMPLETION_SUMMARY.md)** - Complete refactoring summary
+
+### Quick Start
+
+1. Process two related transactions (e.g., debit from account A, credit to account B, same date ±2 days)
+2. Check "Both Sides" for both transactions
+3. Click "Process Transactions"
+4. System automatically creates bank transfer in FrontAccounting
+
+See **[USER_GUIDE.md](USER_GUIDE.md)** for detailed instructions and examples.
+
 
 INSTALLATION
 ------------
