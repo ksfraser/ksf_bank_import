@@ -32,14 +32,29 @@ The original version only used Band Deposits and Bank Payments.  I've enhanced t
 
 ### Documentation
 
+#### User & Technical Documentation
 - **[docs/USER_GUIDE.md](docs/USER_GUIDE.md)** - Complete end-user guide for paired transfer processing
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - Technical architecture and system design
 - **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Production deployment instructions
-- **[INTEGRATION_SUMMARY.md](INTEGRATION_SUMMARY.md)** - Integration test details
+- **[SETUP.md](SETUP.md)** - First-time setup and dependency management
 - **[UML_DIAGRAMS.md](UML_DIAGRAMS.md)** - System architecture diagrams
+
+#### BABOK-Compliant Business Analysis Documentation
+- **[docs/BUSINESS_REQUIREMENTS_DOCUMENT.md](docs/BUSINESS_REQUIREMENTS_DOCUMENT.md)** - Business case, objectives, and stakeholder analysis
+- **[docs/REQUIREMENTS_SPECIFICATION.md](docs/REQUIREMENTS_SPECIFICATION.md)** - 47 numbered requirements (FR, NFR, IR, DR, BR) with acceptance criteria
+- **[docs/REQUIREMENTS_TRACEABILITY_MATRIX.csv](docs/REQUIREMENTS_TRACEABILITY_MATRIX.csv)** - Bidirectional traceability between requirements, design, code, and tests
+- **[docs/USE_CASE_SPECIFICATIONS.md](docs/USE_CASE_SPECIFICATIONS.md)** - 8 detailed use cases with actors, flows, and business rules
+- **[docs/QA_TEST_PLAN.md](docs/QA_TEST_PLAN.md)** - Comprehensive QA strategy, test levels, and quality metrics
+- **[docs/UAT_PLAN.md](docs/UAT_PLAN.md)** - 30 UAT test scenarios with acceptance criteria and sign-off process
+- **[docs/INTEGRATION_TEST_PLAN.md](docs/INTEGRATION_TEST_PLAN.md)** - 30 integration test cases covering database, services, and FrontAccounting
+- **[docs/CHANGE_MANAGEMENT_PLAN.md](docs/CHANGE_MANAGEMENT_PLAN.md)** - Change control process, approval matrix, and templates
+
+#### Test & Integration Documentation
+- **[INTEGRATION_SUMMARY.md](INTEGRATION_SUMMARY.md)** - Integration test details
 - **[TEST_RESULTS_SUMMARY.md](TEST_RESULTS_SUMMARY.md)** - Test coverage and results
 - **[PROJECT_COMPLETION_SUMMARY.md](PROJECT_COMPLETION_SUMMARY.md)** - Complete refactoring summary
-- **[SETUP.md](SETUP.md)** - First-time setup and dependency management
+
+> **BABOK Compliance Note:** This project includes comprehensive business analysis work products following the BABOK® Guide v3 standards, including complete requirements traceability, use case specifications, quality assurance planning, and change management processes.
 
 ### Quick Start
 
