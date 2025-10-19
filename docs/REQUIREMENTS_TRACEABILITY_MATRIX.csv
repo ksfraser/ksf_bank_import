@@ -1,0 +1,45 @@
+Requirement ID,Requirement Name,Priority,Category,Status,Business Requirement,Design Element,Code Module,Unit Test,Integration Test,UAT Test,Verification Status
+FR-001,Automatic Pair Detection,MUST,Core Processing,IMPLEMENTED,BR-001,PairedTransferProcessor,Services/PairedTransferProcessor.php,TC-001-A to TC-001-E,IT-001,UAT-001,PASS
+FR-002,Matching Window Configuration,SHOULD,Core Processing,IMPLEMENTED,BR-001,MATCH_WINDOW_DAYS constant,Services/PairedTransferProcessor.php,TC-002-A to TC-002-D,IT-002,UAT-002,PASS
+FR-003,Amount Matching Tolerance,MUST,Core Processing,IMPLEMENTED,BR-001,Amount comparison logic,Services/TransferDirectionAnalyzer.php,TC-003-A to TC-003-D,IT-003,UAT-003,PASS
+FR-004,DC Indicator-Based Direction,MUST,Business Logic,IMPLEMENTED,BR-002,analyze() method,Services/TransferDirectionAnalyzer.php,TC-004-A to TC-004-D,IT-004,UAT-004,PASS
+FR-005,Transfer Data Construction,MUST,Business Logic,IMPLEMENTED,BR-002,buildTransferData() method,Services/TransferDirectionAnalyzer.php,TC-005-A to TC-005-E,IT-005,UAT-005,PASS
+FR-006,FrontAccounting Integration,MUST,Integration,IMPLEMENTED,BO-001,create() method,Services/BankTransferFactory.php,TC-006-A to TC-006-E,IT-006,UAT-006,PASS
+FR-007,Transfer Validation,MUST,Validation,IMPLEMENTED,BO-002,validate() method,Services/BankTransferFactory.php,TC-007-A to TC-007-F,IT-007,UAT-007,PASS
+FR-008,Transaction Status Management,MUST,Data Management,IMPLEMENTED,BR-003,updateTransactionPair() method,Services/TransactionUpdater.php,TC-008-A to TC-008-E,IT-008,UAT-008,PENDING
+FR-009,Visual Transaction Indicators,MUST,User Interface,IMPLEMENTED,BO-005,UI color coding,process_statements.php,TC-009-A to TC-009-F,IT-009,UAT-009,PASS
+FR-010,Operation Type Selection,MUST,User Interface,IMPLEMENTED,BO-005,Dropdown UI element,process_statements.php,TC-010-A to TC-010-E,IT-010,UAT-010,PASS
+FR-011,Process Action Button,MUST,User Interface,IMPLEMENTED,BO-001,Process button handler,process_statements.php,TC-011-A to TC-011-E,IT-011,UAT-011,PASS
+FR-012,Vendor List Caching,SHOULD,Performance,IMPLEMENTED,BO-003,VendorListManager singleton,Services/VendorListManager.php,TC-012-A to TC-012-E,IT-012,UAT-012,PASS
+FR-013,Operation Types Registry,SHOULD,Performance,IMPLEMENTED,BO-003,OperationTypesRegistry singleton,OperationTypes/OperationTypesRegistry.php,TC-013-A to TC-013-E,IT-013,UAT-013,PASS
+FR-014,Service-Oriented Design,MUST,Architecture,IMPLEMENTED,BO-004,Four core services,Services/,TC-014-A to TC-014-F,IT-014,UAT-014,PASS
+FR-015,Dependency Injection,SHOULD,Architecture,IMPLEMENTED,BO-004,Constructor injection pattern,Services/,TC-015-A to TC-015-D,IT-015,UAT-015,PASS
+FR-016,Validation Error Handling,MUST,Error Management,IMPLEMENTED,BO-002,Error message display,Services/,TC-016-A to TC-016-E,IT-016,UAT-016,PASS
+FR-017,Exception Management,MUST,Error Management,IMPLEMENTED,BO-002,Try-catch blocks,Services/,TC-017-A to TC-017-E,IT-017,UAT-017,PASS
+FR-018,Transaction Audit Trail,MUST,Compliance,IMPLEMENTED,BO-006,Logging mechanism,Services/TransactionUpdater.php,TC-018-A to TC-018-E,IT-018,UAT-018,PENDING
+NFR-001,Response Time,MUST,Performance,VERIFIED,BO-003,N/A,N/A,PT-001-A to PT-001-E,IT-019,UAT-019,PASS
+NFR-002,Throughput,SHOULD,Performance,VERIFIED,BO-003,N/A,N/A,PT-002-A to PT-002-D,IT-020,UAT-020,PENDING
+NFR-003,Scalability,SHOULD,Performance,DESIGN VERIFIED,BO-004,Architecture design,Services/,PT-003-A to PT-003-D,IT-021,UAT-021,PENDING
+NFR-004,Availability,MUST,Reliability,OPERATIONAL,BO-006,Error handling,Services/,RT-004-A to RT-004-D,IT-022,UAT-022,PENDING
+NFR-005,Fault Tolerance,SHOULD,Reliability,IMPLEMENTED,BO-002,Transaction rollback,Services/,RT-005-A to RT-005-D,IT-023,UAT-023,PASS
+NFR-006,Data Integrity,MUST,Reliability,VERIFIED,BO-002,Database transactions,Services/TransactionUpdater.php,RT-006-A to RT-006-D,IT-024,UAT-024,PASS
+NFR-007,Learnability,SHOULD,Usability,UAT PENDING,BO-005,UI design,process_statements.php,UT-007-A to UT-007-D,IT-025,UAT-025,PENDING
+NFR-008,Error Prevention,MUST,Usability,IMPLEMENTED,BO-002,Input validation,Services/,UT-008-A to UT-008-D,IT-026,UAT-026,PASS
+NFR-009,Data Security,MUST,Security,IMPLEMENTED,BO-006,SQL parameterization,All,ST-009-A to ST-009-E,IT-027,UAT-027,PASS
+NFR-010,Audit Security,MUST,Security,IMPLEMENTED,BO-006,Immutable logs,Services/TransactionUpdater.php,ST-010-A to ST-010-D,IT-028,UAT-028,PENDING
+NFR-011,PHP Compatibility,MUST,Compatibility,VERIFIED,TC-001,PHP 7.4 testing,All,CT-011-A to CT-011-D,IT-029,UAT-029,PASS
+NFR-012,FrontAccounting Compatibility,MUST,Compatibility,VERIFIED,TC-002,FA 2.4 API,Services/BankTransferFactory.php,CT-012-A to CT-012-D,IT-030,UAT-030,PASS
+NFR-013,Browser Compatibility,SHOULD,Compatibility,VERIFIED,TC-004,Responsive design,views/,CT-013-A to CT-013-E,IT-031,UAT-031,PENDING
+NFR-014,Code Quality,MUST,Maintainability,VERIFIED,BO-004,PSR standards,All,MT-014-A to MT-014-E,N/A,N/A,PASS
+NFR-015,Documentation,MUST,Maintainability,COMPLETED,BO-004,Documentation files,docs/,MT-015-A to MT-015-F,N/A,N/A,PASS
+NFR-016,Testability,MUST,Maintainability,IMPLEMENTED,BO-004,Test suite,tests/,MT-016-A to MT-016-E,N/A,N/A,PASS
+IR-001,Web Interface,MUST,UI,IMPLEMENTED,BO-005,HTML/CSS interface,views/,TC-009-A to TC-009-F,IT-009,UAT-009,PASS
+IR-002,FrontAccounting API,MUST,Integration,IMPLEMENTED,BO-001,FA function calls,Services/BankTransferFactory.php,TC-006-A to TC-006-E,IT-006,UAT-006,PASS
+IR-003,Database Interface,MUST,Integration,IMPLEMENTED,BO-001,FA DB layer,Services/TransactionUpdater.php,TC-008-A to TC-008-E,IT-008,UAT-008,PENDING
+DR-001,Transaction Data,MUST,Data,IMPLEMENTED,BO-001,bi_transactions table,sql/,N/A,IT-032,UAT-032,PASS
+DR-002,Transfer Data,MUST,Data,FA MANAGED,BO-001,bank_transfers table (FA),N/A,N/A,IT-033,UAT-033,PASS
+DR-003,Referential Integrity,MUST,Data,IMPLEMENTED,BO-002,Foreign keys,sql/,N/A,IT-034,UAT-034,PASS
+BR-001,Matching Criteria,MUST,Business Rule,IMPLEMENTED,BO-001,Matching algorithm,Services/PairedTransferProcessor.php,TC-001-A to TC-001-E,IT-001,UAT-001,PASS
+BR-002,Direction Logic,MUST,Business Rule,IMPLEMENTED,BO-001,Direction analysis,Services/TransferDirectionAnalyzer.php,TC-004-A to TC-004-D,IT-004,UAT-004,PASS
+BR-003,Processing Status,MUST,Business Rule,IMPLEMENTED,BO-006,Status management,Services/TransactionUpdater.php,TC-008-A to TC-008-E,IT-008,UAT-008,PENDING
+BR-004,Validation Sequence,MUST,Business Rule,IMPLEMENTED,BO-002,Validation order,Services/BankTransferFactory.php,TC-007-A to TC-007-F,IT-007,UAT-007,PASS

@@ -433,11 +433,23 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 							//display_notification( __LINE__ . " :: " . print_r( $_POST[$pid], true )  );
 							$bttrf->set( "ToBankAccount", $_POST[$pid] );
 						}
-						$bttrf->set( "amount", $trz['transactionAmount'] );
-						$bttrf->set( "trans_date", $trz['valueTimestamp'] );
+					$bttrf->set( "amount", $trz['transactionAmount'] );
+					$bttrf->set( "trans_date", $trz['valueTimestamp'] );
 //$_POST['comment_' . $tid]
-						$bttrf->set( "memo_", $_POST['comment_' . $tid] . " :: " . $trz['transactionTitle'] . "::" . $trz['transactionCode'] . "::" . $trz['memo'] );
-						$bttrf->set( "target_amount", $trz['transactionAmount'] );
+					$bttrf->set( "memo_", $_POST['comment_' . $tid] . " :: " . $trz['transactionTitle'] . "::" . $trz['transactionCode'] . "::" . $trz['memo'] );
+					
+					// Calculate target_amount using BankTransferAmountCalculator (handles both same and different currencies)
+					require_once('Services/BankTransferAmountCalculator.php');
+					$calculator = new \KsfBankImport\Services\BankTransferAmountCalculator();
+					
+					$target_amount = $calculator->calculateTargetAmount(
+						$bttrf->get("FromBankAccount"),
+						$bttrf->get("ToBankAccount"),
+						$trz['transactionAmount'],
+						$trz['valueTimestamp']
+					);
+					
+					$bttrf->set( "target_amount", $target_amount );
 					}
 					catch( Exception $e )
 					{
