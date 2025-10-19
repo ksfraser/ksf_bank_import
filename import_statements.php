@@ -140,7 +140,7 @@ function importStatement($smt, $file_id = null)
 */
 			} catch( Exception $e )
 			{
-				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );
+				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, true ) );
 			}
 		} catch( Exception $e )
 		{
