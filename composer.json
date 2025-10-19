@@ -13,10 +13,12 @@
             "Ksfraser\\Model\\": "src/Ksfraser/Model/",
             "Ksfraser\\View\\": "src/Ksfraser/View/",
             "KsfBankImport\\Services\\": "Services/",
-            "KsfBankImport\\OperationTypes\\": "OperationTypes/",
-            "Tests\\Unit\\": "tests/unit/",
-            "Tests\\Integration\\": "tests/integration/",
-            "Tests\\Unit\\HTML\\": "tests/unit/HTML/"
+            "KsfBankImport\\OperationTypes\\": "OperationTypes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ksfraser\\FaBankImport\\Tests\\": "tests/"
         }
     },
     "require": {

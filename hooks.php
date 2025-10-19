@@ -33,8 +33,12 @@ class hooks_bank_import extends hooks {
 			$path_to_root."/modules/".$this->module_name."/process_statements.php", 'SA_BANKACCOUNT', MENU_IMPORT);
 		$app->add_lapp_function(3, _("Bank Statements Inquiry"),
 			$path_to_root."/modules/".$this->module_name."/view_statements.php", 'SA_BANKACCOUNT', MENU_INQUIRY);
+		$app->add_lapp_function(3, _("Manage Uploaded Files"),
+			$path_to_root."/modules/".$this->module_name."/manage_uploaded_files.php", 'SA_BANKFILEVIEW', MENU_INQUIRY);
 		$app->add_lapp_function(3, _("Validate GL Entries"),
 			$path_to_root."/modules/".$this->module_name."/validate_gl_entries.php", 'SA_BANKTRANSVIEW', MENU_INQUIRY);
+		$app->add_lapp_function(3, _("Module Configuration"),
+			$path_to_root."/modules/".$this->module_name."/module_config.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
 
 		break;
 	}

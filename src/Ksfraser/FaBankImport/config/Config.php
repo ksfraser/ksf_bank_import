@@ -23,6 +23,11 @@ class Config
             'transaction' => [
                 'allowed_types' => ['C', 'D', 'B'],
                 'max_amount' => 1000000.00
+            ],
+            'upload' => [
+                'check_duplicates' => false,  // Check for duplicate file uploads
+                'duplicate_window_days' => 90,  // How many days back to check for duplicates
+                'duplicate_action' => 'warn'  // Action on duplicate: 'allow', 'warn' (soft deny), 'block' (hard deny)
             ]
         ];
     }
