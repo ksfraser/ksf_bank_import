@@ -30,7 +30,13 @@
     },
     "scripts": {
         "test": "phpunit",
-        "test-file": "phpunit"
+        "test-file": "phpunit",
+        "post-install-cmd": [
+            "@php -r \"echo '\\n✅ Dependencies installed successfully!\\n\\n';\""
+        ],
+        "post-update-cmd": [
+            "@php -r \"echo '\\n✅ Dependencies updated successfully!\\n\\n';\""
+        ]
     },
     "config": {
         "platform": {
