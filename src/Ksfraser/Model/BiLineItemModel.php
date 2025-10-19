@@ -300,7 +300,60 @@ class BiLineItemModel extends GenericFaInterfaceModel
 		$fa_gl->set("transactionCode", $this->transactionCode);
 
 		$this->matching_trans = $fa_gl->find_matching_transactions();
+		
+		// Automatically determine partner type based on matches
+		$this->determinePartnerTypeFromMatches();
+		
 		return $this->matching_trans;
+	}
+
+	/**//**************************************************************************
+	 * Determine the appropriate partner type based on matched transactions.
+	 * 
+	 * This centralizes the logic for suggesting partner types when matches are found.
+	 * Business rule: 
+	 * - If matched transaction is an invoice -> SP (Supplier Payment)
+	 * - If matched transaction is a Bank Payment/Deposit -> QE (Quick Entry)
+	 * - Otherwise -> ZZ (Matched existing transaction)
+	 *
+	 * @return void
+	 */
+	protected function determinePartnerTypeFromMatches(): void
+	{
+		if (count($this->matching_trans) === 0) {
+			return; // No matches, nothing to do
+		}
+
+		// Handle rewards/split transactions (< 3 line items)
+		if (count($this->matching_trans) >= 3) {
+			// TODO: Sort by score and take highest scored item
+			return;
+		}
+
+		// Check if we have a high-confidence match (score >= 50)
+		if ($this->matching_trans[0]['score'] < 50) {
+			return;
+		}
+
+		// High-confidence match found - determine partner type
+		if ($this->matching_trans[0]['is_invoice']) {
+			// This is a supplier payment matching an invoice exactly
+			$_POST['partnerType'][$this->id] = 'SP';
+			$this->oplabel = "INVOICE MATCH";
+		}
+		elseif (isset($this->matching_trans[0]['type']) && 
+				($this->matching_trans[0]['type'] == ST_BANKPAYMENT || 
+				 $this->matching_trans[0]['type'] == ST_BANKDEPOSIT)) {
+			// This is a Quick Entry transaction for recurring expenses
+			// like groceries, insurance, utilities, etc.
+			$_POST['partnerType'][$this->id] = 'QE';
+			$this->oplabel = "Quick Entry MATCH";
+		}
+		else {
+			// Generic match to existing transaction
+			$_POST['partnerType'][$this->id] = 'ZZ';
+			$this->oplabel = "MATCH";
+		}
 	}
 
 	/**//******************************************************************

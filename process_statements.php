@@ -49,14 +49,10 @@ page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
     	$menu = new \Views\ModuleMenuView();
     	$menu->renderMenu(); // Render the module menu
 
-$optypes = array(
-	'SP' => 'Supplier',
-	'CU' => 'Customer',
-	'QE' => 'Quick Entry',
-	'BT' => 'Bank Transfer',
-	'MA' => 'Manual settlement',
-	'ZZ' => 'Matched',
-);
+// Load operation types from registry (session-cached)
+require_once('OperationTypes/OperationTypesRegistry.php');
+use KsfBankImport\OperationTypes\OperationTypesRegistry;
+$optypes = OperationTypesRegistry::getInstance()->getTypes();
 
 include_once($path_to_root . "/modules/ksf_modules_common/defines.inc.php");	//$trans_types_readable
 
@@ -102,6 +98,59 @@ if (isset($_POST['ToggleTransaction']))
 {
 	$bi_controller->toggleDebitCredit();
 	display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
+}
+/*----------------------------------------------------------------------------------------------*/
+/*-------------------Process Both Sides of Paired Bank Transfer---------------------------------*/
+/*----------------------------------------------------------------------------------------------*/
+if ( isset( $_POST['ProcessBothSides'] ) ) {
+	list($k, $v) = each($_POST['ProcessBothSides']);	//K is index (first transaction ID)
+	if (isset($k) && isset($v)) 
+	{
+		try {
+			// Use new PairedTransferProcessor service
+			require_once('Services/PairedTransferProcessor.php');
+			require_once('Services/BankTransferFactory.php');
+			require_once('Services/BankTransferFactoryInterface.php');
+			require_once('Services/TransactionUpdater.php');
+			require_once('Services/TransferDirectionAnalyzer.php');
+			require_once('class.bi_transactions.php');
+			require_once('VendorListManager.php');
+			require_once('OperationTypes/OperationTypesRegistry.php');
+			
+			// Get dependencies
+			$bit = new bi_transactions_model();
+			$vendorList = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
+			$optypes = \KsfBankImport\OperationTypes\OperationTypesRegistry::getInstance()->getTypes();
+			
+			// Create service instances
+			$factory = new \KsfBankImport\Services\BankTransferFactory();
+			$updater = new \KsfBankImport\Services\TransactionUpdater();
+			$analyzer = new \KsfBankImport\Services\TransferDirectionAnalyzer();
+			
+			// Create processor with dependencies
+			$processor = new \KsfBankImport\Services\PairedTransferProcessor(
+				$bit,
+				$vendorList,
+				$optypes,
+				$factory,
+				$updater,
+				$analyzer
+			);
+			
+			// Process the paired transfer
+			$result = $processor->processPairedTransfer($k);
+			
+			// Display success notification
+			display_notification("<span style='color: green; font-weight: bold;'>✓ Paired Bank Transfer Processed Successfully!</span>");
+			display_notification("Both sides of the transfer have been recorded:");
+			display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $result['trans_type'] . "&trans_no=" . $result['trans_no'] . "'>View GL Entry</a>" );
+			
+		} catch (\Exception $e) {
+			display_error("Error processing paired transfer: " . $e->getMessage());
+		}
+		
+		$Ajax->activate('doc_tbl');
+	}
 }
 /*----------------------------------------------------------------------------------------------*/
 /*-------------------Process Transaction--------------------------------------------------------*/
@@ -559,7 +608,12 @@ if (1) {
 	//------------------------------------------------------------------------------------------------
 	// this is data display table
 	$trzs = array();
-	$vendor_list = get_vendor_list();	//array
+	
+	// Load vendor list from singleton manager (session-cached)
+	if (!class_exists('\KsfBankImport\VendorListManager')) {
+		require_once('VendorListManager.php');
+	}
+	$vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
 
 	error_reporting(E_ALL);
 

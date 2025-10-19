@@ -28,6 +28,11 @@ class HtmlElement implements HtmlElementInterface {
 		$this->attributes = array();
 		$this->empty = false;
 	}
+
+	function newAttributeList()
+	{
+		$this->attributeList = new HtmlAttributeList( new HtmlAttribute( "", "") );
+	}
 	function addNested( HtmlElementInterface $element )
 	{
 		$this->nested[] = $element;

@@ -33,4 +33,14 @@ class HtmlAttribute implements HtmlElementInterface
 		}	
 		return "";
 	}
+
+    public function getName(): string
+    {
+        return $this->attribute;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 }

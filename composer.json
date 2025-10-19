@@ -1,37 +1,27 @@
 {
 
-    "name": "ksfraser/fa-bank-import",
-    "description": "A Frontaccounting module for bank import functionality.",
+    "name": "ksfraser/bank-import",
+    "description": "Bank Import Module",
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
-            "Ksfraser\\FaBankImport\\Events\\": "src/Ksfraser/FaBankImport/events/",
-            "Ksfraser\\Application\\": "src/Ksfraser/Application/",
-            "Ksfraser\\Application\\Models\\": "src/Ksfraser/Application/models/",
-            "Ksfraser\\Application\\Interfaces\\": "src/Ksfraser/Application/interfaces/",
             "Ksfraser\\HTML\\": "src/Ksfraser/HTML/",
-            "Tests\\Unit\\": "tests/unit/",
-            "Tests\\Accpetance\\": "tests/acceptance/",
             "Tests\\Unit\\HTML\\": "tests/unit/HTML/"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9.6"
+    "require": {
+        "php": ">=7.4"
     },
-   "scripts": {
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "scripts": {
         "test": "phpunit",
         "test-file": "phpunit"
     },
-    "require": {
-        "php": "^7.3",
-        "codeception/codeception": "^4.2",
-        "asgrim/ofxparser": "^1.2",
-        "mimographix/qif-library": "^1.0"
-    },
     "config": {
         "platform": {
-            "php": "7.3"
+            "php": "7.4"
         }
     }
 }
