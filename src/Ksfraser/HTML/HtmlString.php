@@ -16,11 +16,19 @@ class HtmlString implements HtmlElementInterface
         /**
          * Renders the object in HTML.
          * The Html is echoed directly into the output.
+         * 
+         * @return void
          */
-        public function toHtml() {
+        public function toHtml(): void {
                 echo $this->getHtml();
         }
-        public function getHtml()
+        
+        /**
+         * Get HTML representation as string
+         * 
+         * @return string HTML-escaped string
+         */
+        public function getHtml(): string
         {
                 //A HTML string doesn't have tags, attributes, styles, etc.
                 //Escape the string to prevent XSS vulnerabilities.

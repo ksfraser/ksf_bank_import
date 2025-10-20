@@ -49,6 +49,19 @@ require_once( __DIR__ . '/Views/AddCustomerButton.php' );
 require_once( __DIR__ . '/Views/AddVendorButton.php' );
 require_once( __DIR__ . '/Views/TransactionTypeLabel.php' );
 
+/**
+ * @deprecated Use Ksfraser\HTML\HtmlTableRow instead
+ * @see \Ksfraser\HTML\HtmlTableRow
+ * 
+ * This class has been replaced by HtmlTableRow which provides better:
+ * - Test coverage (covered by HtmlElement tests)
+ * - SOLID compliance
+ * - PSR-4 autoloading
+ * 
+ * Migration:
+ * OLD: $row = new HTML_ROW($data); $row->toHTML();
+ * NEW: $row = new HtmlTableRow($data); echo $row->getHtml();
+ */
 class HTML_ROW
 {
 	protected $data;
@@ -62,6 +75,25 @@ class HTML_ROW
 	}
 }
 
+/**
+ * @deprecated Use Ksfraser\HTML\HtmlLabelRow instead
+ * @see \Ksfraser\HTML\HtmlLabelRow
+ * 
+ * This class has been replaced by HtmlLabelRow which provides:
+ * - 100% test coverage (9 tests, 21 assertions)
+ * - SOLID principles compliance
+ * - Fluent interface for method chaining
+ * - Proper PHPDoc documentation
+ * - PSR-4 autoloading
+ * 
+ * Migration:
+ * OLD: $row = new HTML_ROW_LABEL($data, $label, $width, $class); $row->toHTML();
+ * NEW: $row = new HtmlLabelRow($label, $data); 
+ *      $row->setLabelWidth($width)->setLabelClass($class);
+ *      echo $row->getHtml();
+ * 
+ * @since 20251019 - Marked as deprecated
+ */
 class HTML_ROW_LABEL extends HTML_ROW
 {
 	protected $label;
@@ -314,12 +346,12 @@ class ViewBILineItems
 		echo '<td width="50%">';
 		$table = new HTML_TABLE( null, 100 );
 
-		$table->appendRow( new TransDate( $bi_lineitem ) );
-		$table->appendRow( new TransType( $bi_lineitem ) );
-		$table->appendRow( new OurBankAccount( $bi_lineitem ) );
-		$table->appendRow( new OtherBankAccount( $bi_lineitem ) );
-		$table->appendRow( new AmountCharges( $bi_lineitem ) );
-		$table->appendRow( new TransTitle( $bi_lineitem ) );
+		$table->appendRow( new TransDate( $this->bi_lineitem ) );
+		$table->appendRow( new TransType( $this->bi_lineitem ) );
+		$table->appendRow( new OurBankAccount( $this->bi_lineitem ) );
+		$table->appendRow( new OtherBankAccount( $this->bi_lineitem ) );
+		$table->appendRow( new AmountCharges( $this->bi_lineitem ) );
+		$table->appendRow( new TransTitle( $this->bi_lineitem ) );
 
 		$this->displayAddVendorOrCustomer();
 		$this->displayEditTransData();

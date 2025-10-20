@@ -4,6 +4,7 @@
     "type": "library",
     "autoload": {
         "psr-4": {
+            "Ksfraser\\": "src/Ksfraser/",
             "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
             "Ksfraser\\FaBankImport\\Events\\": "src/Ksfraser/FaBankImport/events/",
             "Ksfraser\\Application\\": "src/Ksfraser/Application/",

@@ -7,18 +7,44 @@ use Ksfraser\HTML\HtmlElementInterface;
 class HtmlAttributeList implements HtmlElementInterface
 {
 	protected $attributeArray;
-	function __constructor( HtmlAttribute $attribute )
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param HtmlAttribute $attribute Initial attribute
+	 */
+	function __construct( HtmlAttribute $attribute )
 	{
+		$this->attributeArray = array(); // Initialize array
 		$this->addAttribute( $attribute );
 	}
-	function addAttribute( HtmlAttribute $attribute )
+	
+	/**
+	 * Add an attribute to the list
+	 * 
+	 * @param HtmlAttribute $attribute Attribute to add
+	 * @return void
+	 */
+	function addAttribute( HtmlAttribute $attribute ): void
 	{
 		$this->attributeArray[] = $attribute;
 	}
-	public function toHtml() {
+	
+	/**
+	 * Output HTML representation
+	 * 
+	 * @return void
+	 */
+	public function toHtml(): void {
 		echo $this->getHtml();
 	}
-	public function getHtml() {
+	
+	/**
+	 * Get HTML representation as string
+	 * 
+	 * @return string HTML string of all attributes
+	 */
+	public function getHtml(): string {
 		$html = "";
 		foreach( $this->attributeArray as $attribute )
 		{
@@ -28,3 +54,4 @@ class HtmlAttributeList implements HtmlElementInterface
 	}
 }
 	
+
