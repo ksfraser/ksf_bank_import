@@ -6,6 +6,10 @@ namespace Ksfraser\Tests\Unit;
 
 use Ksfraser\PartnerFormFactory;
 use Ksfraser\FormFieldNameGenerator;
+use Ksfraser\SupplierDataProvider;
+use Ksfraser\CustomerDataProvider;
+use Ksfraser\BankAccountDataProvider;
+use Ksfraser\QuickEntryDataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,12 +21,122 @@ use PHPUnit\Framework\TestCase;
  * @package    Ksfraser\Tests\Unit
  * @author     Claude AI Assistant
  * @since      20251019
- * @version    1.0.0
+ * @version    2.0.0 Updated for DataProvider integration
  *
  * @covers     \Ksfraser\PartnerFormFactory
  */
 class PartnerFormFactoryTest extends TestCase
 {
+    /**
+     * @var SupplierDataProvider Mock supplier provider
+     */
+    private SupplierDataProvider $supplierProvider;
+
+    /**
+     * @var CustomerDataProvider Mock customer provider
+     */
+    private CustomerDataProvider $customerProvider;
+
+    /**
+     * @var BankAccountDataProvider Mock bank account provider
+     */
+    private BankAccountDataProvider $bankAccountProvider;
+
+    /**
+     * @var QuickEntryDataProvider Mock quick entry provider
+     */
+    private QuickEntryDataProvider $quickEntryProvider;
+
+    /**
+     * Set up test fixtures
+     *
+     * Creates mock DataProviders with test data.
+     *
+     * @since 20251019
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        // Create mock suppliers
+        $suppliers = [
+            ['supplier_id' => 'SUPP1', 'supp_name' => 'Test Supplier 1'],
+            ['supplier_id' => 'SUPP2', 'supp_name' => 'Test Supplier 2']
+        ];
+        $this->supplierProvider = new SupplierDataProvider();
+        $this->supplierProvider->setSuppliers($suppliers);
+
+        // Create mock customers
+        $customers = [
+            ['debtor_no' => 'CUST1', 'name' => 'Test Customer 1', 'branches' => []],
+            ['debtor_no' => 'CUST2', 'name' => 'Test Customer 2', 'branches' => []]
+        ];
+        $this->customerProvider = new CustomerDataProvider();
+        $this->customerProvider->setCustomers($customers);
+
+        // Create mock bank accounts
+        $accounts = [
+            ['id' => '1', 'bank_account_name' => 'Test Account 1'],
+            ['id' => '2', 'bank_account_name' => 'Test Account 2']
+        ];
+        $this->bankAccountProvider = new BankAccountDataProvider();
+        $this->bankAccountProvider->setBankAccounts($accounts);
+
+        // Create mock quick entries
+        $deposits = [
+            ['id' => 'QE1', 'description' => 'Test Deposit 1'],
+            ['id' => 'QE2', 'description' => 'Test Deposit 2']
+        ];
+        $payments = [
+            ['id' => 'QE3', 'description' => 'Test Payment 1'],
+            ['id' => 'QE4', 'description' => 'Test Payment 2']
+        ];
+        $this->quickEntryProvider = new QuickEntryDataProvider();
+        $this->quickEntryProvider->setQuickEntries('QE_DEPOSIT', $deposits);
+        $this->quickEntryProvider->setQuickEntries('QE_PAYMENT', $payments);
+    }
+
+    /**
+     * Tear down test fixtures
+     *
+     * @since 20251019
+     */
+    protected function tearDown(): void
+    {
+        SupplierDataProvider::resetCache();
+        CustomerDataProvider::resetCache();
+        BankAccountDataProvider::resetCache();
+        QuickEntryDataProvider::resetCache();
+
+        parent::tearDown();
+    }
+
+    /**
+     * Helper method to create factory with providers
+     *
+     * @param int                              $lineItemId     Line item ID
+     * @param FormFieldNameGenerator|null      $fieldGenerator Optional field generator
+     * @param array<string, mixed>             $lineItemData   Optional line item data
+     *
+     * @return PartnerFormFactory
+     *
+     * @since 20251019
+     */
+    private function createFactory(
+        int $lineItemId,
+        ?FormFieldNameGenerator $fieldGenerator = null,
+        array $lineItemData = []
+    ): PartnerFormFactory {
+        return new PartnerFormFactory(
+            $lineItemId,
+            $this->supplierProvider,
+            $this->customerProvider,
+            $this->bankAccountProvider,
+            $this->quickEntryProvider,
+            $fieldGenerator,
+            $lineItemData
+        );
+    }
     /**
      * Test basic factory construction
      *
@@ -30,7 +144,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testConstruction(): void
     {
-        $factory = new PartnerFormFactory(123);
+        $factory = $this->createFactory(123);
 
         $this->assertInstanceOf(PartnerFormFactory::class, $factory);
     }
@@ -43,7 +157,7 @@ class PartnerFormFactoryTest extends TestCase
     public function testUsesFieldNameGenerator(): void
     {
         $generator = new FormFieldNameGenerator();
-        $factory = new PartnerFormFactory(123, $generator);
+        $factory = $this->createFactory(123, $generator);
 
         $this->assertInstanceOf(PartnerFormFactory::class, $factory);
     }
@@ -65,7 +179,7 @@ class PartnerFormFactoryTest extends TestCase
             'amount' => 100.50
         ];
 
-        $factory = new PartnerFormFactory(456, null, $lineItemData);
+        $factory = $this->createFactory(456, null, $lineItemData);
 
         $this->assertEquals(456, $factory->getLineItemId());
     }
@@ -77,7 +191,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersSupplierForm(): void
     {
-        $factory = new PartnerFormFactory(100);
+        $factory = $this->createFactory(100);
 
         $html = $factory->renderForm('SP', [
             'partnerId' => null,
@@ -96,7 +210,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersCustomerForm(): void
     {
-        $factory = new PartnerFormFactory(200);
+        $factory = $this->createFactory(200);
 
         $html = $factory->renderForm('CU', [
             'partnerId' => null,
@@ -116,7 +230,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersBankTransferForm(): void
     {
-        $factory = new PartnerFormFactory(300);
+        $factory = $this->createFactory(300);
 
         $html = $factory->renderForm('BT', [
             'partnerId' => null,
@@ -134,7 +248,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersQuickEntryForm(): void
     {
-        $factory = new PartnerFormFactory(400);
+        $factory = $this->createFactory(400);
 
         $html = $factory->renderForm('QE', [
             'transactionDC' => 'D'
@@ -152,7 +266,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersMatchedForm(): void
     {
-        $factory = new PartnerFormFactory(500);
+        $factory = $this->createFactory(500);
 
         $html = $factory->renderForm('MA', []);
 
@@ -168,7 +282,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersHiddenFieldsForUnknown(): void
     {
-        $factory = new PartnerFormFactory(600);
+        $factory = $this->createFactory(600);
 
         $matchingTrans = [
             'type' => 10,
@@ -193,7 +307,7 @@ class PartnerFormFactoryTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid partner type');
 
-        $factory = new PartnerFormFactory(100);
+        $factory = $this->createFactory(100);
         $factory->renderForm('INVALID', []);
     }
 
@@ -204,7 +318,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersCommentField(): void
     {
-        $factory = new PartnerFormFactory(100);
+        $factory = $this->createFactory(100);
         $factory->setMemo('Test comment text');
 
         $html = $factory->renderCommentField();
@@ -221,7 +335,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersProcessButton(): void
     {
-        $factory = new PartnerFormFactory(100);
+        $factory = $this->createFactory(100);
 
         $html = $factory->renderProcessButton();
 
@@ -237,7 +351,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testRendersCompleteForm(): void
     {
-        $factory = new PartnerFormFactory(100);
+        $factory = $this->createFactory(100);
         $factory->setMemo('Complete form test');
 
         $html = $factory->renderCompleteForm('SP', [
@@ -260,7 +374,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testCanBeReusedForMultipleForms(): void
     {
-        $factory = new PartnerFormFactory(100);
+        $factory = $this->createFactory(100);
 
         $html1 = $factory->renderForm('SP', ['partnerId' => 'SUPP1']);
         $html2 = $factory->renderForm('CU', ['partnerId' => 'CUST1']);
@@ -278,7 +392,7 @@ class PartnerFormFactoryTest extends TestCase
     public function testReturnsFieldNameGenerator(): void
     {
         $generator = new FormFieldNameGenerator();
-        $factory = new PartnerFormFactory(100, $generator);
+        $factory = $this->createFactory(100, $generator);
 
         $result = $factory->getFieldNameGenerator();
 
@@ -292,7 +406,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testGetsLineItemId(): void
     {
-        $factory = new PartnerFormFactory(789);
+        $factory = $this->createFactory(789);
 
         $this->assertEquals(789, $factory->getLineItemId());
     }
@@ -304,7 +418,7 @@ class PartnerFormFactoryTest extends TestCase
      */
     public function testFactoryWithZeroId(): void
     {
-        $factory = new PartnerFormFactory(0);
+        $factory = $this->createFactory(0);
 
         $this->assertEquals(0, $factory->getLineItemId());
     }
