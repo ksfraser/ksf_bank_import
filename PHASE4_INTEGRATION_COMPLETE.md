@@ -2,7 +2,22 @@
 
 **Date:** 2025-01-20  
 **Status:** COMPLETE  
-**Result:** 73% Query Reduction Achieved
+**Result:** 73% Query Reduction Achieved  
+**Latest Update:** v2.0.1 (October 20, 2025) - Method naming clarification
+
+---
+
+## Latest Changes (v2.0.1)
+
+**Non-Breaking Improvement:** Renamed 4 private methods for clarity
+- `renderSupplierForm()` → `renderSupplierDropdown()`
+- `renderCustomerForm()` → `renderCustomerDropdown()`
+- `renderBankTransferForm()` → `renderBankTransferDropdown()`
+- `renderQuickEntryForm()` → `renderQuickEntryDropdown()`
+
+These methods render `<select>` elements, not complete forms. The new names accurately reflect their purpose.
+
+**📖 Full Details:** See [PHASE4_METHOD_RENAMING.md](./PHASE4_METHOD_RENAMING.md)
 
 ---
 
