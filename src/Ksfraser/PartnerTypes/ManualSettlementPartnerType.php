@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Matched Transaction Partner Type
+ * Manual Settlement Partner Type
  *
- * Represents a matched transaction partner type in the bank import system.
+ * Represents a manual settlement partner type in the bank import system.
  *
  * @package    Ksfraser\PartnerTypes
  * @author     Original Author
@@ -18,11 +18,11 @@ declare(strict_types=1);
 namespace Ksfraser\PartnerTypes;
 
 /**
- * Matched Transaction Partner Type
+ * Manual Settlement Partner Type
  *
- * Used for manually matching transactions to existing GL entries.
+ * Used for manually settling transactions to existing GL entries.
  */
-class MatchedPartnerType extends AbstractPartnerType
+class ManualSettlementPartnerType extends AbstractPartnerType
 {
     /**
      * @inheritDoc
@@ -37,7 +37,8 @@ class MatchedPartnerType extends AbstractPartnerType
      */
     public function getLabel(): string
     {
-        return 'Matched Transaction';
+        // Updated to match legacy process_statements.php label for backward compatibility
+        return 'Manual settlement';
     }
 
     /**
@@ -45,7 +46,7 @@ class MatchedPartnerType extends AbstractPartnerType
      */
     public function getConstantName(): string
     {
-        return 'MATCHED';
+        return 'MANUAL_SETTLEMENT';
     }
 
     /**

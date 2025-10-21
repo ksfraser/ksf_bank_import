@@ -298,4 +298,55 @@ class PartnerTypeConstantsTest extends TestCase
             PartnerTypeConstants::getLabel('')
         );
     }
+
+    /**
+     * Test getCodeByConstant() returns correct short codes
+     *
+     * @test
+     */
+    public function testGetCodeByConstantReturnsCorrectCodes(): void
+    {
+        $this->assertSame(
+            'SP',
+            PartnerTypeConstants::getCodeByConstant('SUPPLIER')
+        );
+
+        $this->assertSame(
+            'CU',
+            PartnerTypeConstants::getCodeByConstant('CUSTOMER')
+        );
+
+        $this->assertSame(
+            'BT',
+            PartnerTypeConstants::getCodeByConstant('BANK_TRANSFER')
+        );
+
+        $this->assertSame(
+            'QE',
+            PartnerTypeConstants::getCodeByConstant('QUICK_ENTRY')
+        );
+
+        $this->assertSame(
+            'MA',
+            PartnerTypeConstants::getCodeByConstant('MANUAL_SETTLEMENT')
+        );
+
+        $this->assertSame(
+            'ZZ',
+            PartnerTypeConstants::getCodeByConstant('MATCHED')
+        );
+    }
+
+    /**
+     * Test getCodeByConstant() throws exception for invalid constant
+     *
+     * @test
+     */
+    public function testGetCodeByConstantThrowsExceptionForInvalidConstant(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Partner type constant "INVALID_TYPE" not found');
+
+        PartnerTypeConstants::getCodeByConstant('INVALID_TYPE');
+    }
 }

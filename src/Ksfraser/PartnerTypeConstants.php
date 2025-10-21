@@ -60,14 +60,14 @@ final class PartnerTypeConstants
     public const QUICK_ENTRY = 'QE';
 
     /**
-     * Matched transaction partner type
+     * Manual settlement partner type
      */
-    public const MATCHED = 'MA';
+    public const MANUAL_SETTLEMENT = 'MA';
 
     /**
-     * Unknown partner type
+     * Matched transaction partner type
      */
-    public const UNKNOWN = 'ZZ';
+    public const MATCHED = 'ZZ';
 
     /**
      * Prevent instantiation of this constants class
@@ -77,19 +77,23 @@ final class PartnerTypeConstants
     }
 
     /**
-     * Get all partner type constants
+     * Get all partner type constants as short code => label array
+     *
+     * Returns an array suitable for use in dropdowns and form selectors.
+     * Format: ['SP' => 'Supplier', 'CU' => 'Customer', ...]
      *
      * Delegates to PartnerTypeRegistry for dynamic discovery.
      *
-     * @return array<string, string> Array of constant names and values
+     * @return array<string, string> Array of short codes and human-readable labels
      */
     public static function getAll(): array
     {
         $registry = PartnerTypeRegistry::getInstance();
         $result = [];
         
+        // Build array with short codes as keys and labels as values
         foreach ($registry->getAll() as $type) {
-            $result[$type->getConstantName()] = $type->getShortCode();
+            $result[$type->getShortCode()] = $type->getLabel();
         }
         
         return $result;
@@ -131,5 +135,33 @@ final class PartnerTypeConstants
     public static function getRegistry(): PartnerTypeRegistry
     {
         return PartnerTypeRegistry::getInstance();
+    }
+
+    /**
+     * Get partner type short code by constant name
+     *
+     * Allows handlers to get their short code by referencing a constant.
+     * This centralizes the code mapping for easier maintenance.
+     *
+     * Example usage:
+     * ```php
+     * $code = PartnerTypeConstants::getCodeByConstant('SUPPLIER'); // Returns 'SP'
+     * ```
+     *
+     * @param string $constantName The constant name (e.g., 'SUPPLIER', 'CUSTOMER')
+     * @return string The two-character short code
+     * @throws \InvalidArgumentException If constant name not found
+     */
+    public static function getCodeByConstant(string $constantName): string
+    {
+        $type = PartnerTypeRegistry::getInstance()->getByConstant($constantName);
+        
+        if ($type === null) {
+            throw new \InvalidArgumentException(
+                sprintf('Partner type constant "%s" not found', $constantName)
+            );
+        }
+        
+        return $type->getShortCode();
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Unknown Partner Type
+ * Matched Partner Type
  *
- * Represents an unknown or undefined partner type in the bank import system.
+ * Represents a matched transaction partner type in the bank import system.
  *
  * @package    Ksfraser\PartnerTypes
  * @author     Original Author
@@ -18,11 +18,11 @@ declare(strict_types=1);
 namespace Ksfraser\PartnerTypes;
 
 /**
- * Unknown Partner Type
+ * Matched Partner Type
  *
- * Fallback type for unrecognized partner types.
+ * Used for transactions that have been matched.
  */
-class UnknownPartnerType extends AbstractPartnerType
+class MatchedPartnerType extends AbstractPartnerType
 {
     /**
      * @inheritDoc
@@ -37,7 +37,8 @@ class UnknownPartnerType extends AbstractPartnerType
      */
     public function getLabel(): string
     {
-        return 'Unknown';
+        // Updated to match legacy process_statements.php label for backward compatibility
+        return 'Matched';
     }
 
     /**
@@ -45,7 +46,7 @@ class UnknownPartnerType extends AbstractPartnerType
      */
     public function getConstantName(): string
     {
-        return 'UNKNOWN';
+        return 'MATCHED';
     }
 
     /**
@@ -53,7 +54,7 @@ class UnknownPartnerType extends AbstractPartnerType
      */
     public function getPriority(): int
     {
-        return 999; // Lowest priority - fallback type
+        return 60;
     }
 
     /**
@@ -61,6 +62,6 @@ class UnknownPartnerType extends AbstractPartnerType
      */
     public function getDescription(): ?string
     {
-        return 'Unknown or undefined partner type';
+        return 'Matched transactions';
     }
 }

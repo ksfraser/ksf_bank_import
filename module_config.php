@@ -262,6 +262,45 @@ if (isset($allConfigs['performance'])) {
 
 end_table(1);
 
+// Pattern Matching Configuration
+start_table(TABLESTYLE, "width='90%'");
+$th = array("Pattern Matching Configuration");
+table_header($th);
+
+if (isset($allConfigs['pattern_matching'])) {
+    foreach ($allConfigs['pattern_matching'] as $key => $config) {
+        $field_name = 'config_' . $key;
+        $label = ucwords(str_replace(['pattern_matching.', '_'], ['', ' '], $key));
+        
+        start_row();
+        label_cell("<strong>$label</strong><br><small>{$config['description']}</small>", "class='label' style='width:40%'");
+        
+        echo "<td style='width:30%'>";
+        
+        switch ($config['type']) {
+            case 'float':
+                text_cells(null, $field_name, $config['value'], 10, 10, null, null, null, "type='number' step='0.1' min='0' max='1'");
+                break;
+            case 'integer':
+                text_cells(null, $field_name, $config['value'], 10, 10, null, null, null, "type='number'");
+                break;
+            default:
+                text_cells(null, $field_name, $config['value'], 20, 50);
+        }
+        
+        echo "</td>";
+        
+        echo "<td style='width:30%'>";
+        $reason_name = 'reason_' . str_replace('.', '_', $key);
+        text_cells_ex("Reason:", $reason_name, '', 30, 100, null, null, null, "placeholder='Optional'");
+        echo "</td>";
+        
+        end_row();
+    }
+}
+
+end_table(1);
+
 // Security Configuration (Read-only)
 start_table(TABLESTYLE, "width='90%'");
 $th = array("Security Configuration (System Only)");
