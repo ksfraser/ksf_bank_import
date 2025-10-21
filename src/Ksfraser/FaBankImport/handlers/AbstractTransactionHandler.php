@@ -20,6 +20,7 @@ namespace Ksfraser\FaBankImport\Handlers;
 
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
+use Ksfraser\FaBankImport\Services\ReferenceNumberService;
 
 /**
  * Abstract Transaction Handler
@@ -64,15 +65,26 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     private PartnerTypeInterface $partnerType;
 
     /**
+     * Reference number service
+     * 
+     * @var ReferenceNumberService
+     */
+    protected ReferenceNumberService $referenceService;
+
+    /**
      * Constructor - initializes and validates partner type
      *
      * Uses fail-fast pattern - if subclass doesn't provide valid type,
      * exception is thrown immediately on instantiation.
      *
+     * @param ReferenceNumberService|null $referenceService Optional service for testing
      * @throws \InvalidArgumentException If partner type is invalid
      */
-    public function __construct()
+    public function __construct(?ReferenceNumberService $referenceService = null)
     {
+        // Allow injection for testing, create default otherwise
+        $this->referenceService = $referenceService ?? new ReferenceNumberService();
+        
         $this->partnerType = $this->getPartnerTypeInstance();
         
         if (!$this->partnerType instanceof PartnerTypeInterface) {

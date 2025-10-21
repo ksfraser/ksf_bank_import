@@ -121,16 +121,11 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
         string $collectionIds,
         float $charge
     ): TransactionResult {
-        global $Refs;
-        
         $trans_no = 0;
         $trans_type = ST_CUSTPAYMENT;
         
-        // Get new reference
-        $reference = $Refs->get_next($trans_type);
-        while (!is_new_reference($reference, $trans_type)) {
-            $reference = $Refs->get_next($trans_type);
-        }
+        // Get unique reference using service
+        $reference = $this->referenceService->getUniqueReference($trans_type);
         
         // Extract branch ID and invoice number from POST data
         $branchId = $transactionPostData['partnerDetailId'] ?? 0;

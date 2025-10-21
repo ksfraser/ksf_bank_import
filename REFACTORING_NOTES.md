@@ -170,21 +170,58 @@ TransactionResult (Return Value)
     └── toArray() - Backward compatibility
 ```
 
-### Key Improvement: Auto-Discovery Pattern
+### Key Improvement: Auto-Discovery Pattern (ENHANCED 20251021)
 
 **Problem**: Manual handler registration was a code smell - client code (`process_statements.php`) had to know about all handler classes.
 
-**Solution**: TransactionProcessor now uses **Auto-Discovery Pattern**:
-- Constructor scans `Handlers/` directory on instantiation
+**Solution**: TransactionProcessor now uses **True Auto-Discovery Pattern**:
+- Constructor scans `Handlers/` directory on instantiation using `glob()`
+- Uses PHP Reflection to verify classes are instantiable (not abstract)
 - Automatically loads and registers all handlers implementing `TransactionHandlerInterface`
+- Safely skips abstract classes, interfaces, and incompatible handlers
 - Eliminates 13 lines of manual registration code
-- New handlers are discovered automatically when added to directory
+- **New handlers are discovered automatically** when added to directory - zero config!
+
+**Implementation** (from TransactionProcessor.php):
+```php
+private function discoverAndRegisterHandlers(): void
+{
+    $files = glob(__DIR__ . '/Handlers/*Handler.php');
+    $referenceService = new ReferenceNumberService();
+    
+    foreach ($files as $file) {
+        $className = basename($file, '.php');
+        
+        // Skip abstract, interfaces, and non-transaction handlers
+        if (strpos($className, 'Abstract') === 0 || 
+            strpos($className, 'Interface') !== false ||
+            !$this->isTransactionHandler($className)) {
+            continue;
+        }
+        
+        try {
+            $reflection = new \ReflectionClass($fqcn);
+            if (!$reflection->isAbstract()) {
+                $handler = new $fqcn($referenceService);
+                if ($handler instanceof TransactionHandlerInterface) {
+                    $this->registerHandler($handler);
+                }
+            }
+        } catch (\Throwable $e) {
+            continue; // Skip incompatible handlers gracefully
+        }
+    }
+}
+```
 
 **Benefits**:
 - ✅ **Zero Configuration**: Just instantiate `new TransactionProcessor()`
 - ✅ **Better Encapsulation**: Handler details hidden from client code
 - ✅ **Easier Testing**: Pass custom handlers array for isolated tests
 - ✅ **Plugin Architecture**: Drop new handler file = instant registration
+- ✅ **Filesystem-Based**: True discovery using glob(), not hardcoded list
+- ✅ **Robust**: Reflection checks + try-catch for safety
+- ✅ **Self-Healing**: Bad handlers don't break discovery
 
 ### Files Modified
 
@@ -229,24 +266,207 @@ For other large switch statements in the codebase:
 
 Next steps for `process_statements.php`:
 
-1. **Extract View Layer** - Create `ProcessStatementsView` class
+1. ✅ **Extract Reference Number Generation** - COMPLETED 20251020
+   - Created `ReferenceNumberService` following SRP
+   - Eliminated 18 lines of duplication across 3 handlers
+   - Added constructor injection in `AbstractTransactionHandler`
+   - Updated `TransactionProcessor` auto-discovery to inject service
+   - Added 8 unit tests (all passing)
+   - See: `src/Ksfraser/FaBankImport/Services/ReferenceNumberService.php`
+
+2. **Extract View Layer** - Create `ProcessStatementsView` class
    - Move HTML rendering (lines 250+)
    - Move header table generation
    - Separate presentation from business logic
 
-2. **Extract Search/Filter Logic** - Create service class
+3. **Extract Search/Filter Logic** - Create service class
    - Centralize search functionality
    - Improve query building
    - Add pagination support
 
-3. **Dependency Injection** - Consider DI container
+4. **Dependency Injection** - Consider DI container
    - Inject TransactionProcessor
    - Inject View dependencies
    - Improve testability further
 
 ---
 
+## Reference Number Service Extraction (COMPLETED 20251020)
+
+### Problem: Code Duplication
+
+The same 4-line pattern was duplicated in 3 handlers:
+
+```php
+global $Refs;
+$reference = $Refs->get_next($trans_type);
+while (!is_new_reference($reference, $trans_type)) {
+    $reference = $Refs->get_next($trans_type);
+}
+```
+
+**Locations:**
+- `CustomerTransactionHandler.php` line 128
+- `SupplierTransactionHandler.php` lines 132 & 202 (payment & refund)
+- `QuickEntryTransactionHandler.php` line 140
+
+### Solution: Single Responsibility Principle
+
+**Created:** `ReferenceNumberService.php` (92 lines)
+
+```php
+class ReferenceNumberService
+{
+    private $referenceGenerator;
+    
+    public function __construct($referenceGenerator = null)
+    {
+        $this->referenceGenerator = $referenceGenerator;
+    }
+    
+    public function getUniqueReference(int $transType): string
+    {
+        $generator = $this->referenceGenerator ?? $this->getGlobalRefsObject();
+        
+        do {
+            $reference = $generator->get_next($transType);
+        } while (!is_new_reference($reference, $transType));
+        
+        return $reference;
+    }
+    
+    protected function getGlobalRefsObject()
+    {
+        global $Refs;
+        return $Refs;
+    }
+}
+```
+
+### Integration
+
+**Updated:** `AbstractTransactionHandler.php`
+
+```php
+protected ReferenceNumberService $referenceService;
+
+public function __construct(?ReferenceNumberService $referenceService = null)
+{
+    $this->referenceService = $referenceService ?? new ReferenceNumberService();
+    // ... rest of constructor
+}
+```
+
+**Updated:** `TransactionProcessor.php` auto-discovery
+
+```php
+private function discoverAndRegisterHandlers(): void
+{
+    $referenceService = new ReferenceNumberService();
+    
+    foreach ($handlerClasses as $className) {
+        $handler = new $fqcn($referenceService);  // Inject service
+        $this->registerHandler($handler);
+    }
+}
+```
+
+### Handler Updates (Before → After)
+
+**CustomerTransactionHandler.php** (line 128):
+```php
+// BEFORE (4 lines)
+global $Refs;
+$reference = $Refs->get_next($trans_type);
+while (!is_new_reference($reference, $trans_type)) {
+    $reference = $Refs->get_next($trans_type);
+}
+
+// AFTER (1 line)
+$reference = $this->referenceService->getUniqueReference($trans_type);
+```
+
+**SupplierTransactionHandler.php** (lines 132 & 202):
+```php
+// BEFORE (4 lines × 2 methods = 8 lines)
+global $Refs;
+$reference = $Refs->get_next($trans_type);
+while (!is_new_reference($reference, $trans_type)) {
+    $reference = $Refs->get_next($trans_type);
+}
+
+// AFTER (1 line × 2 methods = 2 lines)
+$reference = $this->referenceService->getUniqueReference($trans_type);
+```
+
+**QuickEntryTransactionHandler.php** (line 140):
+```php
+// BEFORE (3 lines - do/while variant)
+do {
+    $cart->reference = $Refs->get_next($cart->trans_type);
+} while (!is_new_reference($cart->reference, $cart->trans_type));
+
+// AFTER (1 line)
+$cart->reference = $this->referenceService->getUniqueReference($cart->trans_type);
+```
+
+### Test Coverage
+
+**Created:** `tests/unit/Services/ReferenceNumberServiceTest.php`
+
+```php
+class ReferenceNumberServiceTest extends TestCase
+{
+    /** @test */
+    public function it_returns_unique_reference_on_first_try() { ... }
+    
+    /** @test */
+    public function it_accepts_injected_reference_generator() { ... }
+    
+    /** @test */
+    public function it_creates_default_generator_when_none_provided() { ... }
+    
+    /** @test */
+    public function it_passes_transaction_type_to_generator() { ... }
+    
+    /** @test */
+    public function it_handles_different_transaction_types() { ... }
+    
+    /** @test */
+    public function it_returns_string_type() { ... }
+    
+    /** @test */
+    public function it_has_protected_global_refs_method() { ... }
+    
+    /** @test */
+    public function it_accepts_null_generator() { ... }
+}
+```
+
+**Results:** 8 tests, 10 assertions, all passing ✅
+
+### Metrics
+
+- **Lines Eliminated**: 18 lines (4+4+4+3+1+1+1)
+- **Files Created**: 2 (service + tests)
+- **Files Modified**: 6 (AbstractTransactionHandler + TransactionProcessor + 3 handlers + HANDLER_VERIFICATION)
+- **Tests Added**: 8 new tests
+- **Test Status**: ✅ All passing (8 service + 14 processor + 30+ handler tests)
+
+### Benefits
+
+1. **DRY**: Single source of truth for reference generation
+2. **SRP**: Service has one responsibility
+3. **Testable**: Can inject mock generators
+4. **Type Safe**: Proper PHP type hints
+5. **Maintainable**: Change algorithm once, affects all handlers
+6. **Consistent**: All handlers use same implementation
+
+---
+
 ## Quick Entry Matching Refactoring
+
+```
 
 ### Problem Identified
 

@@ -129,17 +129,13 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
         float $charge,
         int $transType
     ): TransactionResult {
-        global $Refs;
-
         // Create items cart with appropriate transaction type
         $cart = new \items_cart($transType);
         $cart->order_id = 0;
         $cart->original_amount = $transaction['transactionAmount'] + $charge;
 
-        // Generate unique reference
-        do {
-            $cart->reference = $Refs->get_next($cart->trans_type);
-        } while (!is_new_reference($cart->reference, $cart->trans_type));
+        // Generate unique reference using service
+        $cart->reference = $this->referenceService->getUniqueReference($cart->trans_type);
 
         // Set transaction date
         $cart->tran_date = sql2date($transaction['valueTimestamp']);

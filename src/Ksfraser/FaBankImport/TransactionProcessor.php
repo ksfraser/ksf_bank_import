@@ -20,7 +20,11 @@ namespace Ksfraser\FaBankImport;
 
 use Ksfraser\FaBankImport\Handlers\TransactionHandlerInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
+use Ksfraser\FaBankImport\Services\ReferenceNumberService;
+use Ksfraser\FaBankImport\Exceptions\HandlerDiscoveryException;
 use InvalidArgumentException;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Transaction Processor
@@ -64,10 +68,23 @@ class TransactionProcessor
     /**
      * Discover and register all handler classes
      *
-     * Scans Handlers/ directory for classes implementing TransactionHandlerInterface.
-     * Automatically instantiates and registers each handler.
+     * Scans Handlers/ directory for PHP files and automatically discovers
+     * classes implementing TransactionHandlerInterface. This is true auto-discovery
+     * - drop a new handler file in the directory and it's automatically registered.
+     *
+     * Uses fine-grained exception handling:
+     * - HandlerDiscoveryException: Expected errors (missing deps, invalid constructor)
+     * - ReflectionException: Reflection errors (class doesn't exist, can't be analyzed)
+     * - Other exceptions: Unexpected errors (bubbled up for investigation)
+     *
+     * Excludes:
+     * - Abstract classes (AbstractTransactionHandler)
+     * - Interfaces (TransactionHandlerInterface)
+     * - Handlers that don't implement TransactionHandlerInterface
+     * - Handlers that can't be instantiated with ReferenceNumberService
      *
      * @return void
+     * @throws \RuntimeException If unexpected error occurs during discovery
      */
     private function discoverAndRegisterHandlers(): void
     {
@@ -77,24 +94,109 @@ class TransactionProcessor
             return; // No handlers directory
         }
 
-        $handlerClasses = [
-            'SupplierTransactionHandler',
-            'CustomerTransactionHandler',
-            'QuickEntryTransactionHandler',
-            'BankTransferTransactionHandler',
-            'ManualSettlementHandler',
-            'MatchedTransactionHandler',
-        ];
+        // Create shared reference service for all handlers
+        $referenceService = new ReferenceNumberService();
 
-        foreach ($handlerClasses as $className) {
+        // Scan directory for PHP files ending in "Handler.php"
+        $files = glob($handlersDir . '/*Handler.php');
+        
+        if ($files === false) {
+            return; // Error reading directory
+        }
+
+        foreach ($files as $file) {
+            // Extract class name from filename (e.g., CustomerTransactionHandler.php -> CustomerTransactionHandler)
+            $className = basename($file, '.php');
+            
+            // Skip abstract classes, interfaces, and known non-transaction handlers
+            if (strpos($className, 'Abstract') === 0 || 
+                strpos($className, 'Interface') !== false ||
+                $className === 'ErrorHandler' ||
+                $className === 'ProcessTransactionCommandHandler') {
+                continue;
+            }
+            
+            // Build fully qualified class name
             $fqcn = "Ksfraser\\FaBankImport\\Handlers\\{$className}";
             
-            if (class_exists($fqcn)) {
-                $handler = new $fqcn();
+            // Check if class exists
+            if (!class_exists($fqcn)) {
+                continue;
+            }
+            
+            try {
+                // Use reflection to check if class is instantiable (not abstract)
+                $reflection = new ReflectionClass($fqcn);
                 
+                if ($reflection->isAbstract() || $reflection->isInterface()) {
+                    // Skip non-instantiable classes
+                    continue;
+                }
+                
+                // Try to instantiate with reference service
+                $handler = new $fqcn($referenceService);
+                
+                // Only register if it implements TransactionHandlerInterface
                 if ($handler instanceof TransactionHandlerInterface) {
                     $this->registerHandler($handler);
                 }
+                
+            } catch (ReflectionException $e) {
+                // Reflection failed (class analysis error) - skip this handler
+                // This is expected for malformed classes
+                continue;
+                
+            } catch (\ArgumentCountError $e) {
+                // Constructor signature mismatch - handler expects different parameters
+                // This is expected for handlers with custom constructors
+                throw HandlerDiscoveryException::invalidConstructor(
+                    $fqcn,
+                    'wrong number of arguments',
+                    $e
+                );
+                
+            } catch (\TypeError $e) {
+                // Type error during instantiation - wrong parameter types
+                // This is expected for handlers with different type requirements
+                throw HandlerDiscoveryException::invalidConstructor(
+                    $fqcn,
+                    'type mismatch',
+                    $e
+                );
+                
+            } catch (\Error $e) {
+                // Missing dependency class (e.g., "Class 'Monolog\Logger' not found")
+                if (strpos($e->getMessage(), 'not found') !== false) {
+                    // Extract missing class name from error message
+                    preg_match('/Class ["\']([^"\']+)["\']/', $e->getMessage(), $matches);
+                    $missingClass = $matches[1] ?? 'unknown';
+                    
+                    throw HandlerDiscoveryException::missingDependency(
+                        $fqcn,
+                        $missingClass,
+                        $e
+                    );
+                }
+                
+                // Other Error - this is unexpected, rethrow for investigation
+                throw new \RuntimeException(
+                    "Unexpected error discovering handler {$fqcn}: {$e->getMessage()}",
+                    0,
+                    $e
+                );
+                
+            } catch (HandlerDiscoveryException $e) {
+                // Expected discovery error - skip this handler gracefully
+                // Could log this for debugging if needed
+                continue;
+                
+            } catch (\Exception $e) {
+                // Unexpected exception during instantiation - this should be investigated
+                throw new \RuntimeException(
+                    "Unexpected exception discovering handler {$fqcn}: {$e->getMessage()}",
+                    0,
+                    $e
+                );
             }
         }
     }

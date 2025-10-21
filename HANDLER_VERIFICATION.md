@@ -317,22 +317,39 @@ if (BankImportConfig::getTransRefLoggingEnabled()) {
 
 ## Summary of Outstanding TODOs
 
-### High Priority (Affects Business Logic)
+### Completed ✅
 
-#### 1. **Extract Reference Number Generation to Service Class** 🆕
+#### 1. **Extract Reference Number Generation to Service Class** ✅ COMPLETE
 - **Location**: All 6 handlers + `bank_import_controller.php`
-- **Current**: Duplicated do-while loop in every handler
-- **Existing**: `bank_import_controller::getNewRef()` already implements this
-- **Required**:
-  - Create `ReferenceNumberService` class
-  - Replace duplicated code in all handlers
-  - Add unit tests
-  - Inject service via constructor or use singleton
+- **Status**: ✅ **COMPLETED** (20251020)
+- **Implementation**:
+  - Created `ReferenceNumberService` class in `src/Ksfraser/FaBankImport/Services/`
+  - Injected service via `AbstractTransactionHandler` constructor
+  - Updated 3 handlers that had duplication:
+    - `CustomerTransactionHandler.php` (line 128: 4 lines → 1 line)
+    - `SupplierTransactionHandler.php` (lines 132 & 202: 8 lines → 2 lines)
+    - `QuickEntryTransactionHandler.php` (line 140: 4 lines → 1 line)
+  - **Total reduction**: 18 lines of duplicated code eliminated
+  - Auto-discovery in `TransactionProcessor` updated to inject service
+  - Added 8 unit tests for service (all passing)
+  - Handler tests pass (14 processor tests + 30+ handler tests)
+- **Files Modified**:
+  - Created: `src/Ksfraser/FaBankImport/Services/ReferenceNumberService.php`
+  - Created: `tests/unit/Services/ReferenceNumberServiceTest.php`
+  - Updated: `AbstractTransactionHandler.php` (added constructor parameter)
+  - Updated: `TransactionProcessor.php` (inject service during auto-discovery)
+  - Updated: `CustomerTransactionHandler.php` (replaced 4 lines)
+  - Updated: `SupplierTransactionHandler.php` (replaced 8 lines)
+  - Updated: `QuickEntryTransactionHandler.php` (replaced 4 lines)
+
+### High Priority (Affects Business Logic)
 - **Effort**: 1-2 hours
 - **Risk**: Low (refactoring existing working code)
 - **Benefits**: DRY, testable, follows SRP
 
-#### 2. **Quick Entry: Configurable Transaction Reference Account**
+### High Priority (Affects Business Logic)
+
+#### 1. **Quick Entry: Configurable Transaction Reference Account**
 - **Location**: `QuickEntryTransactionHandler.php` lines 193-194
 - **Current**: Hardcoded to account '0000'
 - **Required**:
@@ -344,13 +361,13 @@ if (BankImportConfig::getTransRefLoggingEnabled()) {
 
 ### Medium Priority (Process Improvements)
 
-#### 3. **Customer: Branch Selection Issue**
+#### 2. **Customer: Branch Selection Issue**
 - **Original Comment** (line 263): "20240304 The BRANCH doesn't seem to get selected though."
 - **Location**: Customer payment form
 - **Investigation Needed**: Determine if this is a UI issue or data issue
 - **Effort**: 1-2 hours investigation
 
-#### 4. **Audit Routine: Validate Allocations**
+#### 3. **Audit Routine: Validate Allocations**
 - **Original Comment** (lines 25-28):
   ```php
   //TODO:
@@ -360,7 +377,7 @@ if (BankImportConfig::getTransRefLoggingEnabled()) {
 - **Location**: Separate audit module
 - **Effort**: 8-16 hours (new feature)
 
-#### 5. **Prevent Duplicate Allocations**
+#### 4. **Prevent Duplicate Allocations**
 - **Original Comment** (lines 29-30):
   ```php
   //TODO:
@@ -371,7 +388,7 @@ if (BankImportConfig::getTransRefLoggingEnabled()) {
 
 ### Low Priority (Nice to Have)
 
-#### 6. **Multi-Book Synchronization**
+#### 5. **Multi-Book Synchronization**
 - **Original Comments** (lines 32-37): Related sets of books (business-specific)
 - **Scope**: Large feature - cross-company GL propagation
 - **Effort**: 40+ hours (major feature)

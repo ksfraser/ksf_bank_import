@@ -123,16 +123,11 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
         string $collectionIds,
         float $charge
     ): TransactionResult {
-        global $Refs;
-        
         $trans_no = 0; // NEW payment (not an update)
         $trans_type = ST_SUPPAYMENT;
         
-        // Get new reference number
-        $reference = $Refs->get_next($trans_type);
-        while (!is_new_reference($reference, $trans_type)) {
-            $reference = $Refs->get_next($trans_type);
-        }
+        // Get unique reference using service
+        $reference = $this->referenceService->getUniqueReference($trans_type);
         
         // Write supplier payment using FrontAccounting function
         $payment_id = write_supp_payment(
@@ -200,16 +195,11 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
         string $collectionIds,
         float $charge
     ): TransactionResult {
-        global $Refs;
-        
         $trans_no = 0;
         $trans_type = ST_BANKDEPOSIT;
         
-        // Get new reference
-        $reference = $Refs->get_next($trans_type);
-        while (!is_new_reference($reference, $trans_type)) {
-            $reference = $Refs->get_next($trans_type);
-        }
+        // Get unique reference using service
+        $reference = $this->referenceService->getUniqueReference($trans_type);
         
         // Create items cart for bank deposit
         $cart = new \items_cart($trans_type);
