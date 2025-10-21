@@ -26,6 +26,7 @@
 namespace Ksfraser\FaBankImport\Handlers;
 
 use Ksfraser\FaBankImport\Results\TransactionResult;
+use Ksfraser\FaBankImport\Config\BankImportConfig;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\QuickEntryPartnerType;
 
@@ -184,9 +185,28 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
 
         // Add transaction reference tracking entries (offset to 0)
         // This allows tracking the original bank transaction code
-        $transCode = $transaction['transactionCode'] ?? 'N/A';
-        $cart->add_gl_item('0000', 0, 0, 0.01, 'TransRef::' . $transCode, "Trans Ref");
-        $cart->add_gl_item('0000', 0, 0, -0.01, 'TransRef::' . $transCode, "Trans Ref");
+        // Configurable via BankImportConfig::getTransRefLoggingEnabled() and getTransRefAccount()
+        if (BankImportConfig::getTransRefLoggingEnabled()) {
+            $transCode = $transaction['transactionCode'] ?? 'N/A';
+            $refAccount = BankImportConfig::getTransRefAccount();
+            
+            $cart->add_gl_item(
+                $refAccount, 
+                0, 
+                0, 
+                0.01, 
+                'TransRef::' . $transCode, 
+                "Trans Ref"
+            );
+            $cart->add_gl_item(
+                $refAccount, 
+                0, 
+                0, 
+                -0.01, 
+                'TransRef::' . $transCode, 
+                "Trans Ref"
+            );
+        }
 
         // Check if cart has items
         $total = $cart->gl_items_total();

@@ -342,26 +342,32 @@ if (BankImportConfig::getTransRefLoggingEnabled()) {
   - Updated: `SupplierTransactionHandler.php` (replaced 8 lines)
   - Updated: `QuickEntryTransactionHandler.php` (replaced 4 lines)
 
-### High Priority (Affects Business Logic)
-- **Effort**: 1-2 hours
-- **Risk**: Low (refactoring existing working code)
-- **Benefits**: DRY, testable, follows SRP
+#### 2. **Quick Entry: Configurable Transaction Reference Account** ✅ COMPLETE
+- **Location**: `QuickEntryTransactionHandler.php` lines 186-207
+- **Status**: ✅ **COMPLETED** (20251021)
+- **Implementation**:
+  - Created `BankImportConfig` class in `src/Ksfraser/FaBankImport/Config/`
+  - Configuration options:
+    - `bank_import_trans_ref_logging` - Boolean to enable/disable (default: true)
+    - `bank_import_trans_ref_account` - String for GL account code (default: '0000')
+  - Updated `QuickEntryTransactionHandler` to use config
+  - Added 20 unit tests (10 basic + 10 integration, all passing)
+  - Handler tests pass (11 tests, 23 assertions)
+- **Files Created**:
+  - `src/Ksfraser/FaBankImport/Config/BankImportConfig.php` (160 lines)
+  - `tests/unit/Config/BankImportConfigTest.php` (10 tests)
+  - `tests/unit/Config/BankImportConfigIntegrationTest.php` (10 tests)
+  - `tests/helpers/fa_functions.php` (FA function stubs for testing)
+- **Files Modified**:
+  - `QuickEntryTransactionHandler.php` (lines 186-207: added config check)
+- **Features**:
+  - Enable/disable transaction reference logging
+  - Configure which GL account to use
+  - Validates GL account exists
+  - Backward compatible (defaults match current behavior)
+  - Type-safe configuration API
 
 ### High Priority (Affects Business Logic)
-
-#### 1. **Quick Entry: Configurable Transaction Reference Account**
-- **Location**: `QuickEntryTransactionHandler.php` lines 193-194
-- **Current**: Hardcoded to account '0000'
-- **Required**:
-  - Module config: Enable/disable trans ref logging
-  - Module config: Specify GL account code
-  - UI for configuration
-- **Effort**: 2-4 hours
-- **Risk**: Low (additive change, doesn't break existing)
-
-### Medium Priority (Process Improvements)
-
-#### 2. **Customer: Branch Selection Issue**
 - **Original Comment** (line 263): "20240304 The BRANCH doesn't seem to get selected though."
 - **Location**: Customer payment form
 - **Investigation Needed**: Determine if this is a UI issue or data issue

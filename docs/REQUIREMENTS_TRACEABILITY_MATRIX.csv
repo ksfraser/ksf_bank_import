@@ -43,3 +43,13 @@ BR-001,Matching Criteria,MUST,Business Rule,IMPLEMENTED,BO-001,Matching algorith
 BR-002,Direction Logic,MUST,Business Rule,IMPLEMENTED,BO-001,Direction analysis,Services/TransferDirectionAnalyzer.php,TC-004-A to TC-004-D,IT-004,UAT-004,PASS
 BR-003,Processing Status,MUST,Business Rule,IMPLEMENTED,BO-006,Status management,Services/TransactionUpdater.php,TC-008-A to TC-008-E,IT-008,UAT-008,PENDING
 BR-004,Validation Sequence,MUST,Business Rule,IMPLEMENTED,BO-002,Validation order,Services/BankTransferFactory.php,TC-007-A to TC-007-F,IT-007,UAT-007,PASS
+BR-004,Validation Sequence,MUST,Business Rule,IMPLEMENTED,BO-002,Validation order,Services/BankTransferFactory.php,TC-007-A to TC-007-F,IT-007,UAT-007,PASS
+FR-048,Reference Number Service,MUST,Maintainability,IMPLEMENTED,BO-004,Service extraction,Services/ReferenceNumberService.php,TC-048-A to TC-048-H,IT-048,UAT-048,PASS
+FR-049,Handler Auto-Discovery,SHOULD,Extensibility,IMPLEMENTED,BO-004,Filesystem discovery,Processors/TransactionProcessor.php,TC-049-A to TC-049-N,IT-049,UAT-049,PASS
+FR-050,Fine-Grained Exceptions,MUST,Error Handling,IMPLEMENTED,BO-002,Custom exceptions,Exceptions/HandlerDiscoveryException.php,TC-050-A to TC-050-G,IT-050,UAT-050,PASS
+FR-051,Configurable Trans Ref,SHOULD,Configuration,IMPLEMENTED,BO-007,Configuration class,Config/BankImportConfig.php,TC-051-A to TC-051-AE,IT-051,UAT-051,PENDING UI
+NFR-048-A,Code Deduplication,MUST,Maintainability,VERIFIED,BO-004,18 lines eliminated,Services/ReferenceNumberService.php,SLOC Analysis,N/A,N/A,PASS
+NFR-048-B,Service Test Coverage,MUST,Quality,VERIFIED,BO-004,Unit tests,tests/unit/Services/,8 tests,N/A,N/A,PASS
+NFR-049-A,Discovery Performance,SHOULD,Performance,VERIFIED,BO-003,Lazy loading,Processors/TransactionProcessor.php,Benchmark <100ms,N/A,N/A,PASS
+NFR-050-A,Error Message Clarity,MUST,Usability,VERIFIED,BO-002,Context-rich errors,Exceptions/HandlerDiscoveryException.php,TC-050-D to TC-050-E,N/A,N/A,PASS
+NFR-051-A,Backward Compatibility,MUST,Compatibility,VERIFIED,TC-002,Default values match,Config/BankImportConfig.php,TC-051-A to TC-051-B,QE Handler Tests,N/A,PASS

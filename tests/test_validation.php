@@ -9,26 +9,8 @@
  * @since 20251018
  */
 
-// Simulate FrontAccounting environment
-define('TB_PREF', '0_');
-
-// Mock database functions for testing
-function db_escape($value) {
-    return is_numeric($value) ? $value : "'" . addslashes($value) . "'";
-}
-
-function db_query($sql, $error_msg) {
-    echo "SQL: " . substr($sql, 0, 100) . "...\n";
-    return null; // Would return result in real environment
-}
-
-function db_fetch($result) {
-    return ['cnt' => 1]; // Mock result
-}
-
-function db_num_rows($result) {
-    return 10; // Mock count
-}
+// Load centralized FA function stubs
+require_once(__DIR__ . '/helpers/fa_functions.php');
 
 // Include the validator
 require_once(__DIR__ . '/src/Ksfraser/FaBankImport/services/TransactionGLValidator.php');

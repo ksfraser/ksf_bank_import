@@ -39,6 +39,8 @@ class hooks_bank_import extends hooks {
 			$path_to_root."/modules/".$this->module_name."/validate_gl_entries.php", 'SA_BANKTRANSVIEW', MENU_INQUIRY);
 		$app->add_lapp_function(3, _("Module Configuration"),
 			$path_to_root."/modules/".$this->module_name."/module_config.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
+		$app->add_lapp_function(2, _("Bank Import Settings"),
+			$path_to_root."/modules/".$this->module_name."/bank_import_settings.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
 
 		break;
 	}

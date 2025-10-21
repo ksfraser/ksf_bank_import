@@ -13,37 +13,11 @@
  * @since      1.0.0
  */
 
-// Define mock functions in global namespace
-namespace {
-    if (!function_exists('db_escape')) {
-        function db_escape($value) {
-            // Simple mock - just return the value
-            // In real FA, this would escape for SQL
-            return addslashes($value);
-        }
-    }
-    
-    if (!function_exists('begin_month')) {
-        function begin_month($date) {
-            return date('Y-m-01');
-        }
-    }
-    
-    if (!function_exists('end_month')) {
-        function end_month($date) {
-            return date('Y-m-t');
-        }
-    }
-    
-    if (!function_exists('Today')) {
-        function Today() {
-            return date('Y-m-d');
-        }
-    }
-}
-
 namespace KsfBankImport\Tests\Services {
     use PHPUnit\Framework\TestCase;
+    
+    // Load centralized FA function stubs
+    require_once(__DIR__ . '/helpers/fa_functions.php');
     
     require_once(__DIR__ . '/../Services/TransactionFilterService.php');
     
