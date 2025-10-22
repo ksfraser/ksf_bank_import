@@ -163,7 +163,17 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             // Set amount and date
             $bttrf->set("amount", $transaction['transactionAmount']);
             $bttrf->set("trans_date", $transaction['valueTimestamp']);
-            $bttrf->set("target_amount", $transaction['transactionAmount']);
+
+			// Calculate target amount (handles currency conversion for different currency accounts)
+			require_once('Services/BankTransferAmountCalculator.php');
+			$calculator = new \KsfBankImport\Services\BankTransferAmountCalculator();
+			$target_amount = $calculator->calculateTargetAmount(
+						$bttrf->get("FromBankAccount"),
+						$bttrf->get("ToBankAccount"),
+						$transaction['transactionAmount'],
+						$transaction['valueTimestamp']
+					);
+			$bttrf->set("target_amount", $target_amount);
             
             // Build comprehensive memo
             $comment = $transactionPostData['comment'] ?? '';

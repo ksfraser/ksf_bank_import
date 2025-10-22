@@ -190,7 +190,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
         ];
         
         // Special case: Type 12 (ST_CUSTPAYMENT) - add link to view payment and invoice
-        if ($existingType == 12) {
+        if ($existingType == ST_CUSTPAYMENT) {
             $resultData['view_receipt_link'] = "../../sales/view/view_receipt.php?type_id={$existingType}&trans_no={$existingEntry}";
         }
         

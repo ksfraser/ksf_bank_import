@@ -12,11 +12,27 @@ The KSF Bank Import module follows a **service-oriented architecture** based on 
 ┌─────────────────────────────────────────────────────────────────────┐
 │                     Application Layer                               │
 │                  (process_statements.php)                           │
-│                   Main Controller / UI                              │
+│                   Main Controller / UI + Command Router             │
 └─────────────────┬───────────────────────────────────────────────────┘
                   │
                   │ uses
                   ▼
+    ┌─────────────────────────────────────────────────────┐
+    │          Command Layer (NEW - Oct 21, 2025)         │
+    │                                                     │
+    │  CommandDispatcher (Front Controller)               │
+    │  + register(action, commandClass)                   │
+    │  + dispatch(action, postData)                       │
+    │                                                     │
+    │  Commands (POST Action Handlers):                   │
+    │  ├─ UnsetTransactionCommand                         │
+    │  ├─ AddCustomerCommand                              │
+    │  ├─ AddVendorCommand                                │
+    │  └─ ToggleDebitCreditCommand                        │
+    └───┬─────────────────────────────────────────────────┘
+        │
+        │ uses
+        ▼
     ┌─────────────────────────────────────────────────────┐
     │          Processor Layer                            │
     │                                                     │
@@ -755,6 +771,23 @@ if ($transferData['amount'] > 1000000) {
 
 ## Error Handling
 
+### Command Execution Errors (NEW - Oct 21, 2025)
+Commands return `TransactionResult` for consistent error handling:
+
+```php
+$result = $commandDispatcher->dispatch('UnsetTrans', $_POST);
+
+if ($result->isSuccess()) {
+    // Green notification displayed automatically
+} elseif ($result->isError()) {
+    // Red error banner displayed automatically
+} elseif ($result->isWarning()) {
+    // Yellow warning banner displayed automatically
+}
+
+$result->display(); // Handles all cases
+```
+
 ### Validation Exceptions
 All services throw `\InvalidArgumentException` for validation failures:
 
@@ -797,6 +830,52 @@ try {
 
 ## Migration Notes
 
+### Command Pattern Implementation (October 21, 2025)
+
+The procedural POST action handling has been refactored into a Command Pattern:
+
+**Before** (procedural, ~130 lines):
+```php
+// process_statements.php lines 100-130
+if (isset($_POST['UnsetTrans'])) {
+    $bi_controller->unsetTrans(); // Direct $_POST access inside
+}
+if (isset($_POST['AddCustomer'])) {
+    $bi_controller->addCustomer(); // Tight coupling
+}
+// ... more if statements
+```
+
+**After** (Command Pattern, ~10 lines):
+```php
+// process_statements.php
+use Ksfraser\FaBankImport\Commands\CommandDispatcher;
+
+$commandDispatcher = new CommandDispatcher($container);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    foreach (['UnsetTrans', 'AddCustomer', 'AddVendor', 'ToggleTransaction'] as $action) {
+        if (isset($_POST[$action])) {
+            $result = $commandDispatcher->dispatch($action, $_POST);
+            $result->display();
+            break;
+        }
+    }
+}
+```
+
+**Benefits**:
+- ✅ 100% testable (no global $_POST dependency)
+- ✅ SOLID compliant (each command has single responsibility)
+- ✅ Extensible (add new commands without modifying existing code)
+- ✅ Consistent error handling via TransactionResult
+
+**Migration Path**:
+1. Commands auto-registered in CommandDispatcher constructor
+2. Existing UI buttons work without changes
+3. Can run old/new code in parallel with feature flag
+4. See `docs/POST_REFACTOR_SUMMARY.md` for full guide
+
 ### From Legacy Code
 The old `ProcessBothSides` handler (lines 105-154) has been replaced with:
 
@@ -826,6 +905,14 @@ $processor->processTransfer($trz1, $trz2, $account1, $account2);
 - [FrontAccounting API](https://frontaccounting.com/)
 
 ## Version History
+
+- **1.2.0** - October 21, 2025 - POST Action Handler Refactoring (Command Pattern)
+  - Added CommandDispatcher (Front Controller for POST actions)
+  - Added Command Pattern for action handling (UnsetTransaction, AddCustomer, AddVendor, ToggleDebitCredit)
+  - Extracted procedural POST handling into testable command classes
+  - 20 unit tests added (100% coverage for dispatcher and UnsetTransactionCommand)
+  - Full SOLID compliance achieved
+  - See: `docs/POST_REFACTOR_SUMMARY.md` for details
 
 - **1.1.0** - October 2025 - Code Quality & Extensibility Enhancements
   - Added Handler Auto-Discovery (zero-configuration extensibility)
