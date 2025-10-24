@@ -120,7 +120,8 @@ if (!function_exists('label_row')) {
      * @return void
      */
     function label_row(string $label, $value, string $params = ''): void {
-        // Stub - actual implementation in FrontAccounting
+        // Stub - output basic HTML structure
+        echo "<tr><td class='label'>$label</td><td>$value</td></tr>";
     }
 }
 

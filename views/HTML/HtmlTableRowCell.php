@@ -3,6 +3,7 @@
 namespace Ksfraser\HTML\HTMLAtomic;
 
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\HtmlElement;
 
 class HtmlTableRowCell extends HtmlElement
 {

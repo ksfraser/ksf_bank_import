@@ -59,6 +59,13 @@ require_once( __DIR__ . '/Views/OtherBankAccount.php' );
 require_once( __DIR__ . '/Views/AmountCharges.php' );
 require_once( __DIR__ . '/Views/TransTitle.php' );
 
+// SRP View classes for partner type displays
+require_once( __DIR__ . '/Views/PartnerMatcher.php' );
+require_once( __DIR__ . '/Views/SupplierPartnerTypeView.php' );
+require_once( __DIR__ . '/Views/CustomerPartnerTypeView.php' );
+require_once( __DIR__ . '/Views/BankTransferPartnerTypeView.php' );
+require_once( __DIR__ . '/Views/QuickEntryPartnerTypeView.php' );
+
 require_once( __DIR__ . '/src/Ksfraser/HTML/HTML_ROW.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlString.php' );
 require_once( __DIR__ . '/Views/HTML/HtmlRawString.php' );
@@ -69,9 +76,10 @@ require_once( __DIR__ . '/Views/HTML/HtmlTableRow.php' );
 require_once( __DIR__ . '/Views/HTML/HtmlElement.php' );
 require_once( __DIR__ . '/Views/HTML/HtmlAttribute.php' );
 require_once( __DIR__ . '/Views/HTML/HtmlLink.php' );
+require_once( __DIR__ . '/Views/HTML/HtmlA.php' );
 use Ksfraser\HTML\HTML_ROW;
 use Ksfraser\HTML\HtmlString;
-use Ksfraser\HTML\HTMLAtomic\{HtmlRawString, HtmlOB, HtmlTable, HtmlTd, HtmlTableRow, HtmlElement, HtmlAttribute, HtmlLink};
+use Ksfraser\HTML\HTMLAtomic\{HtmlRawString, HtmlOB, HtmlTable, HtmlTd, HtmlTableRow, HtmlElement, HtmlAttribute, HtmlLink, HtmlA};
 
 
 require_once( __DIR__ . '/src/Ksfraser/HTML/HTML_ROW_LABEL.php' );
@@ -560,39 +568,34 @@ class bi_lineitem extends generic_fa_interface_model
 	        return $this->matching_trans;
 	}
 	/**//******************************************************************
-	* Create a URL link using HtmlLink class
+	* Create a URL link using HtmlA convenience class
 	*
 	* @param string $URL The base URL
 	* @param array $params Array of parameters (each element is ['key' => 'value'])
-	* @param string $text The link text
+	* @param string $text The link text (accepts string directly!)
 	* @param string $target The target attribute (default "_blank")
 	* @return string The HTML for the link
 	**********************************************************************/
 	function makeURLLink( string $URL, array $params, string $text, $target = "_blank" )
 	{
-		// Build URL with query parameters
-		$fullUrl = $URL;
-		if( count( $params ) > 0 )
+		// Use HtmlA - much simpler! Accepts string directly, no need for HtmlRawString wrapper
+		$link = new HtmlA( $URL, $text );
+		
+		// Flatten nested param array structure and use setParams()
+		$flatParams = [];
+		foreach( $params as $param )
 		{
-			$fullUrl .= "?";
-			$parcount = 0;
-			foreach( $params as $param )
+			foreach( $param as $key => $val )
 			{
-				foreach( $param as $key=>$val )
-				{
-					if( $parcount > 0 )
-					{
-						$fullUrl .= "&";
-					}
-					$fullUrl .= "$key=$val";
-					$parcount++;
-				}
+				$flatParams[$key] = $val;
 			}
 		}
 		
-		// Use HtmlLink class to build the link
-		$link = new HtmlLink( new HtmlRawString($text) );
-		$link->addHref( $fullUrl, $text );
+		if( count( $flatParams ) > 0 )
+		{
+			$link->setParams( $flatParams );
+		}
+		
 		$link->setTarget( $target );
 		
 		return $link->getHtml();
@@ -751,133 +754,68 @@ class bi_lineitem extends generic_fa_interface_model
 	/**//*******************************************************************
 	* Display SUPPLIER partner type
 	*
+	* REFACTORED: Now uses SupplierPartnerTypeView SRP class
+	*
 	************************************************************************/
 	function displaySupplierPartnerType()
 	{
-		//propose supplier
-		$matched_supplier = array();
-		if ( empty( $this->partnerId ) )
-		{
-			$matched_supplier = search_partner_by_bank_account(PT_SUPPLIER, $this->otherBankAccount);
-			if (!empty($matched_supplier))
-			{
-				$this->partnerId = $_POST["partnerId_$this->id"] = $matched_supplier['partner_id'];
-			}
-		}
-		//		       supplier_list($name, $selected_id=null, $spec_option=false, $submit_on_change=false, $all=false, $editkey = false)
-		label_row(_("Payment To:"), supplier_list("partnerId_$this->id", $matched_supplier, false, false));
+		$view = new SupplierPartnerTypeView(
+			$this->id,
+			$this->otherBankAccount,
+			$this->partnerId
+		);
+		$view->display();
 	}
 	/**//*******************************************************************
 	* Display CUSTOMER partner type
 	*
+	* REFACTORED: Now uses CustomerPartnerTypeView SRP class
+	*
 	************************************************************************/
 	function displayCustomerPartnerType()
 	{
-		//propose customer
-		if ( empty( $this->partnerId ) ) 
-		{
-			$match = search_partner_by_bank_account(PT_CUSTOMER, $this->otherBankAccount);
-			if (!empty($match)) {
-				$this->partnerId = $_POST["partnerId_$this->id"] = $match['partner_id'];
-				$this->partnerDetailId = $_POST["partnerDetailId_$this->id"] = $match['partner_detail_id'];
-			}
-		}
-/* ->partnerId already set
-		else
-		{
-			$this->partnerId = $_POST["partnerId_$this->id"];
-		}
-*/
-		$cust_text = customer_list("partnerId_$this->id", null, false, true);
-		if ( db_customer_has_branches( $this->partnerId ) ) {
-			$cust_text .= customer_branches_list( $this->partnerId, "partnerDetailId_$this->id", null, false, true, true);
-		} else {
-			hidden("partnerDetailId_$this->id", ANY_NUMERIC);
-			$_POST["partnerDetailId_$this->id"] = ANY_NUMERIC;
-		}
-		label_row(_("From Customer/Branch:"),  $cust_text);
-		hidden( "customer_$this->id", $this->partnerId );
-		hidden( "customer_branch_$this->id", $this->partnerDetailId );
-		//label_row("debug", "customerid_tid=".$this->partnerId . " branchid[tid]=" . $this->partnerDetailId );
-/** Mantis 3018
- *      List FROM and TO invoices needing payment (allocations) 
-*/
-		$_GET['customer_id'] = $this->partnerId;
-		//if( ! @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
-		if(  @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
-		{
-			$tr = 0;
-			$fcp = new fa_customer_payment();
-			$fcp->set( "trans_date", $this->valueTimestamp );
-			label_row( "Invoices to Pay", $fcp->show_allocatable() );
-			$res = $fcp->get_alloc_details();
-				//Array ( [10] => Array ( [trans_no] => 10 [type_no] => 789 [trans_date] => 12/14/2024 [invoice_amount] => 50 [payments] => 0 [unallocated] => 50 ) )
-			//label_row( "Invoices to Pay", print_r( $res, true) );
-									//function text_input($name, $value=null, $size='', $max='', $title='', $params='')
-			//label_row( (_("Allocate Payment to (1) Invoice")), text_input( "Invoice_$this->id", 0, 6, '', _("Invoice to Allocate Payment:") ) );
-			foreach( $res as $row )
-			{
-				//display_notification( __FILE__ . "::" . __LINE__ . "::" . print_r( $row, true ) );
-				$tr = $row['type_no'];
-				//display_notification( __FILE__ . "::" . __LINE__ . "::" . print_r( $tr, true ) );
-			}
-				//display_notification( __FILE__ . "::" . __LINE__ . "::" . print_r( $tr, true ) );
-			label_row( (_("Allocate Payment to (1) Invoice")), text_input( "Invoice_$this->id", $tr, 6, '', _("Invoice to Allocate Payment:") ) );
-		}
-/* ! Mantis 3018 */
-			//label_row( (_("Allocate Payment to (1) Invoice")), text_input( "Invoice_$this->id", 0, 6, '', _("Invoice to Allocate Payment:") ) );
-
+		$view = new CustomerPartnerTypeView(
+			$this->id,
+			$this->otherBankAccount,
+			$this->valueTimestamp,
+			$this->partnerId,
+			$this->partnerDetailId
+		);
+		$view->display();
 	}
 	/**//*******************************************************************
 	* Display Bank Transfer partner type
 	*
+	* REFACTORED: Now uses BankTransferPartnerTypeView SRP class
+	*
 	************************************************************************/
 	function displayBankTransferPartnerType()
 	{
-		if (empty($_POST["partnerId_$this->id"]))
-		{
-			$match = search_partner_by_bank_account(ST_BANKTRANSFER, $this->otherBankAccount);
-			if (!empty($match))
-			{
-				$_POST["partnerId_$this->id"] = $match['partner_id'];
-				$_POST["partnerDetailId_$this->id"] = $match['partner_detail_id'];
-			}
-			else
-			{
-				$_POST["partnerId_$this->id"] = ANY_NUMERIC;
-			}
-		}
-	//function bank_accounts_list($name, $selected_id=null, $submit_on_change=false, $spec_option=false)
-		 //bank_accounts_list_row( _("From:") , 'bank_account', null, true);
-/** Mantis 2963
-*       Bank Transfer To/From label 
-*/
-		if( $this->transactionDC == 'C' )
-		{
-			$rowlabel = "Transfer to <i>Our Bank Account</i> <b>from (OTHER ACCOUNT</b>):";
-		}
-		else
-		{
-			$rowlabel = "Transfer from <i>Our Bank Account</i> <b>To (OTHER ACCOUNT</b>):";
-		}
-/** ! Mantis 2963 */
-		//bank_accounts_list_row( _("From:") , 'bank_account', null, false)
-		label_row(      _( $rowlabel ),
-			bank_accounts_list( "partnerId_$this->id", $_POST["partnerId_$this->id"], null, false)
+		$view = new BankTransferPartnerTypeView(
+			$this->id,
+			$this->otherBankAccount,
+			$this->transactionDC,
+			$this->partnerId,
+			$this->partnerDetailId
 		);
+		$view->display();
+		
+		// Update partnerId from POST after display
 		$this->partnerId = $_POST["partnerId_$this->id"];
 	}
 	/**//*******************************************************************
 	* Display Quick Entry partner type
 	*
+	* REFACTORED: Now uses QuickEntryPartnerTypeView SRP class
+	*
 	************************************************************************/
 	function displayQuickEntryPartnerType()
 	{
-		//label_row("Option:", "<b>Process via quick entry</b>");
-		$qe_text = quick_entries_list("partnerId_$this->id", null, (($this->transactionDC=='C') ? QE_DEPOSIT : QE_PAYMENT), true);
-		$qe = get_quick_entry(get_post("partnerId_$this->id"));
-		$qe_text .= " " . $qe['base_desc'];
-		label_row("Quick Entry:", $qe_text);
+		$view = new QuickEntryPartnerTypeView(
+			$this->id,
+			$this->transactionDC
+		);
+		$view->display();
 	}
 	/**//*******************************************************************
 	* Display MATCHED partner type
