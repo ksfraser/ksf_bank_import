@@ -3,8 +3,8 @@
 namespace Tests\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HtmlSubmit;
-use Ksfraser\HTML\HtmlString;
+use Ksfraser\HTML\Elements\HtmlSubmit;
+use Ksfraser\HTML\Elements\HtmlString;
 
 /**
  * Unit tests for HtmlSubmit class

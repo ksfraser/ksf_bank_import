@@ -1,6 +1,6 @@
 <?php
 
-use Ksfraser\HTML\LabelRowBase;
+use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
  * OtherBankAccount - Display other party's bank account row

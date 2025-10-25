@@ -18,10 +18,10 @@
 
 namespace Ksfraser;
 
-use Ksfraser\HTML\HtmlLabelRow;
-use Ksfraser\HTML\HtmlString;
-use Ksfraser\HTML\HtmlRaw;
-use Ksfraser\HTML\HtmlSubmit;
+use Ksfraser\HTML\Elements\HtmlLabelRow;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\Elements\HtmlRaw;
+use Ksfraser\HTML\Elements\HtmlSubmit;
 
 /**
  * SettledTransactionDisplay - Display settled transaction details with FA integration

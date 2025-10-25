@@ -3,7 +3,7 @@
 namespace Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HtmlHidden;
+use Ksfraser\HTML\Elements\HtmlHidden;
 
 /**
  * Test HtmlHidden Class

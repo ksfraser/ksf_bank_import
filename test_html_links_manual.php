@@ -4,16 +4,17 @@
  * Run with: php test_html_links_manual.php
  */
 
-require_once __DIR__ . '/Views/HTML/HtmlElementInterface.php';
-require_once __DIR__ . '/Views/HTML/HtmlElement.php';
-require_once __DIR__ . '/Views/HTML/HtmlString.php';
-require_once __DIR__ . '/Views/HTML/HtmlRawString.php';
-require_once __DIR__ . '/Views/HTML/HtmlAttribute.php';
-require_once __DIR__ . '/Views/HTML/HtmlLink.php';
-require_once __DIR__ . '/Views/HTML/HtmlEmail.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlElementInterface.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlElement.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlRaw.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlAttribute.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlEmail.php';
 require_once __DIR__ . '/Views/HTML/HtmlA.php';
 
-use Ksfraser\HTML\HTMLAtomic\{HtmlEmail, HtmlA, HtmlString, HtmlRawString};
+use Ksfraser\HTML\HTMLAtomic\{HtmlEmail, HtmlA, HtmlString};
+use Ksfraser\HTML\Elements\HtmlRaw;
 
 echo "=== Testing HtmlEmail ===\n\n";
 
@@ -63,7 +64,7 @@ echo $link3->getHtml() . "\n\n";
 
 // Test 9: Link with RawString (HTML content)
 echo "9. Link with raw HTML content:\n";
-$link4 = new HtmlA("/page", new HtmlRawString("<strong>Bold</strong> Link"));
+$link4 = new HtmlA("/page", new HtmlRaw("<strong>Bold</strong> Link"));
 echo $link4->getHtml() . "\n\n";
 
 // Test 10: Link with params and target

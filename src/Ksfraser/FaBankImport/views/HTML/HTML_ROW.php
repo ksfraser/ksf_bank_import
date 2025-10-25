@@ -2,7 +2,7 @@
 
 namespace Ksfraser\HTML;
 
-use Ksfraser\HTML\HtmlTableRow;
+use Ksfraser\HTML\Elements\HtmlTableRow;
 
 
 

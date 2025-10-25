@@ -3,8 +3,8 @@
 namespace Tests\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HtmlInputGenericButton;
-use Ksfraser\HTML\HtmlString;
+use Ksfraser\HTML\Elements\HtmlInputGenericButton;
+use Ksfraser\HTML\Elements\HtmlString;
 
 /**
  * Test suite for HtmlInputGenericButton class

@@ -3,8 +3,8 @@
 namespace Ksfraser\FaBankImport;
 
 
-use Ksfraser\HTML\HTML_LABEL_ROW;
-use Ksfraser\HTML\HTML_ROW_LABELDecorator;
+use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
+use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
 require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
 
 

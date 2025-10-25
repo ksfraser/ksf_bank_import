@@ -1,6 +1,6 @@
 <?php
 
-use Ksfraser\HTML\HTML_LABEL_ROW;
+use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
 
 //TODO: Refactor to replace the Submit button with our own class.
 

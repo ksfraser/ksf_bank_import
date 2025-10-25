@@ -1,7 +1,7 @@
 <?php
 
 use Ksfraser\HTML\HtmlElementInterface;
-use Ksfraser\HTML\HTML_TABLE;
+use Ksfraser\HTML\Composites\HTML_TABLE;
 
 /**
  * LineitemDisplayLeft - Left side display for line items

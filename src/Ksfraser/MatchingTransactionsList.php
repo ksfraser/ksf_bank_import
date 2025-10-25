@@ -17,9 +17,9 @@
 
 namespace Ksfraser;
 
-use Ksfraser\HTML\HtmlLabelRow;
-use Ksfraser\HTML\HtmlString;
-use Ksfraser\HTML\HtmlRaw;
+use Ksfraser\HTML\Elements\HtmlLabelRow;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\Elements\HtmlRaw;
 
 /**
  * MatchingTransactionsList - Display matching GL transactions for bank import line items

@@ -19,7 +19,7 @@ use KsfBankImport\Views\DataProviders\SupplierDataProvider;
 require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 // Load the view
-require_once __DIR__ . '/../../../Views/SupplierPartnerTypeView.v2.final.php';
+require_once __DIR__ . '/../../../Views/SupplierPartnerTypeView.v2.php';
 
 /**
  * Test Supplier Partner Type View

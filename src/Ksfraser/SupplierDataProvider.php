@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Ksfraser;
 
-use Ksfraser\HTML\HtmlSelect;
-use Ksfraser\HTML\HtmlOption;
+use Ksfraser\HTML\Elements\HtmlSelect;
+use Ksfraser\HTML\Elements\HtmlOption;
 
 /**
  * SupplierDataProvider

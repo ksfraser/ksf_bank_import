@@ -3,10 +3,10 @@
 namespace Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HtmlTableRow;
+use Ksfraser\HTML\Elements\HtmlTableRow;
 use Ksfraser\HTML\HtmlElementInterface;
-use Ksfraser\HTML\HtmlString;
-use Ksfraser\HTML\HtmlAttribute;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\Elements\HtmlAttribute;
 
 class HtmlTableRowTest extends TestCase
 {

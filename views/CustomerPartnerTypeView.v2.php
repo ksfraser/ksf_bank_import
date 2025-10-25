@@ -26,19 +26,19 @@ namespace KsfBankImport\Views;
 require_once(__DIR__ . '/DataProviders/CustomerDataProvider.php');
 require_once(__DIR__ . '/PartnerMatcher.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HTML_ROW_LABEL.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlString.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlRaw.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlInput.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlHidden.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlInput.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlHidden.php');
 
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 use Ksfraser\PartnerFormData;
-use Ksfraser\HTML\HTML_ROW_LABEL;
-use Ksfraser\HTML\HtmlString;
-use Ksfraser\HTML\HtmlRaw;
-use Ksfraser\HTML\HtmlInput;
-use Ksfraser\HTML\HtmlHidden;
+use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\Elements\HtmlRaw;
+use Ksfraser\HTML\Elements\HtmlInput;
+use Ksfraser\HTML\Elements\HtmlHidden;
 
 /**
  * View for customer/branch partner type selection

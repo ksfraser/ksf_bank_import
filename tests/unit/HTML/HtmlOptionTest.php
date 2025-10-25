@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Ksfraser\Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HtmlOption;
-use Ksfraser\HTML\HtmlString;
+use Ksfraser\HTML\Elements\HtmlOption;
+use Ksfraser\HTML\Elements\HtmlString;
 
 /**
  * HtmlOptionTest

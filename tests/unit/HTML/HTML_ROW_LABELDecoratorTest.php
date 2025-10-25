@@ -3,7 +3,7 @@
 namespace Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HTML_ROW_LABELDecorator;
+use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
 
 class HTML_ROW_LABELDecoratorTest extends TestCase
 {

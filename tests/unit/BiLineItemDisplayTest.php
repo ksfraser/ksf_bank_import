@@ -44,28 +44,6 @@ use Ksfraser\PartnerTypeConstants;
 class BiLineItemDisplayTest extends TestCase
 {
     /**
-     * Check if bi_lineitem class file exists
-     */
-    private function classFileExists(): bool
-    {
-        return file_exists(__DIR__ . '/../../class.bi_lineitem.php');
-    }
-    
-    /**
-     * Skip test if class file doesn't exist
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-        
-        if (!$this->classFileExists()) {
-            $this->markTestSkipped('class.bi_lineitem.php not found');
-        }
-        
-        // Don't require the file - it has too many dependencies
-        // We'll test method existence via reflection on production code
-    }
-    /**
      * Sample transaction data for testing
      *
      * @var array<string, mixed>
@@ -87,12 +65,27 @@ class BiLineItemDisplayTest extends TestCase
     private array $sampleOptypes;
 
     /**
+     * Check if bi_lineitem class file exists
+     */
+    private function classFileExists(): bool
+    {
+        return file_exists(__DIR__ . '/../../class.bi_lineitem.php');
+    }
+    
+    /**
      * Setup test fixtures
      */
     protected function setUp(): void
     {
         parent::setUp();
-
+        
+        if (!$this->classFileExists()) {
+            $this->markTestSkipped('class.bi_lineitem.php not found');
+        }
+        
+        // Don't require the file - it has too many dependencies
+        // We'll test method existence via reflection on production code
+        
         // Minimal transaction data required by bi_lineitem
         $this->sampleTransaction = [
             'transactionDC' => 'C',

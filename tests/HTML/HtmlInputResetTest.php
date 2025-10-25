@@ -3,8 +3,8 @@
 namespace Tests\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HtmlInputReset;
-use Ksfraser\HTML\HtmlString;
+use Ksfraser\HTML\Elements\HtmlInputReset;
+use Ksfraser\HTML\Elements\HtmlString;
 
 /**
  * Test suite for HtmlInputReset class

@@ -3,14 +3,13 @@
  * Quick test for nested link validation
  */
 
-require_once __DIR__ . '/Views/HTML/HtmlElementInterface.php';
-require_once __DIR__ . '/Views/HTML/HtmlElement.php';
-require_once __DIR__ . '/Views/HTML/HtmlString.php';
-require_once __DIR__ . '/Views/HTML/HtmlRawString.php';
-require_once __DIR__ . '/Views/HTML/HtmlAttribute.php';
-require_once __DIR__ . '/Views/HTML/HtmlLink.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlElementInterface.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlElement.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlAttribute.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php';
 require_once __DIR__ . '/Views/HTML/HtmlA.php';
-require_once __DIR__ . '/Views/HTML/HtmlEmail.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlEmail.php';
 
 use Ksfraser\HTML\HTMLAtomic\{HtmlA, HtmlEmail, HtmlString};
 

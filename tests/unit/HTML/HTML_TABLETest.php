@@ -3,8 +3,8 @@
 namespace Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HTML_TABLE;
-use Ksfraser\HTML\HTML_ROW;
+use Ksfraser\HTML\Composites\HTML_TABLE;
+use Ksfraser\HTML\Composites\HTML_ROW;
 
 /**
  * Test HTML_TABLE backward-compatible wrapper

@@ -3,7 +3,7 @@
 namespace Ksfraser\HTML;
 
 use Ksfraser\HTML\HtmlElementInterface;
-use Ksfraser\HTML\HTML_ROW_LABEL;
+use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 
 class HTML_ROW_LABELDecorator implements HtmlElementInterface

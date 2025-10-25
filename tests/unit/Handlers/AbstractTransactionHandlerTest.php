@@ -279,6 +279,14 @@ class TestTransactionHandler extends AbstractTransactionHandler
     /**
      * @inheritDoc
      */
+    protected function getPartnerTypeInstance(): \Ksfraser\PartnerTypes\PartnerTypeInterface
+    {
+        return new \Ksfraser\PartnerTypes\CustomerPartnerType();
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function getPartnerTypeConstant(): string
     {
         return 'CUSTOMER';
@@ -293,7 +301,7 @@ class TestTransactionHandler extends AbstractTransactionHandler
         int $transactionId,
         string $collectionIds,
         array $ourAccount
-    ): array {
+    ): \Ksfraser\FaBankImport\Results\TransactionResult {
         return $this->createSuccessResult(0, 0, 'Test handler');
     }
 
@@ -309,12 +317,12 @@ class TestTransactionHandler extends AbstractTransactionHandler
         return $this->extractPartnerId($transactionPostData);
     }
 
-    public function testCreateErrorResult(string $message): array
+    public function testCreateErrorResult(string $message): \Ksfraser\FaBankImport\Results\TransactionResult
     {
         return $this->createErrorResult($message);
     }
 
-    public function testCreateSuccessResult(int $transNo, int $transType, string $message, array $additionalData = []): array
+    public function testCreateSuccessResult(int $transNo, int $transType, string $message, array $additionalData = []): \Ksfraser\FaBankImport\Results\TransactionResult
     {
         return $this->createSuccessResult($transNo, $transType, $message, $additionalData);
     }

@@ -43,7 +43,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_returns_partner_type_code(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $this->assertSame('CU', $handler->getPartnerType());
     }
@@ -55,7 +55,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_can_process_matching_partner_type(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $this->assertTrue($handler->canProcess('CU'));
     }
@@ -67,7 +67,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_cannot_process_non_matching_partner_type(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $this->assertFalse($handler->canProcess('SP'));
         $this->assertFalse($handler->canProcess('QE'));
@@ -81,7 +81,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_initializes_partner_type_in_constructor(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         // Should have partner type set immediately
         $this->assertSame('CU', $handler->getPartnerType());
@@ -97,7 +97,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_validates_required_transaction_fields(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $transaction = ['transactionAmount' => 100]; // Missing required fields
         
@@ -114,7 +114,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_passes_validation_with_complete_transaction(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $transaction = [
             'transactionDC' => 'D',
@@ -135,7 +135,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_extracts_partner_id_from_transaction_post_data(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $transactionPostData = [
             'partnerId' => 42,
@@ -152,7 +152,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_throws_exception_when_partner_id_missing(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $transactionPostData = [
             'invoice' => 'INV-001'
@@ -172,7 +172,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_throws_exception_for_invalid_partner_id(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $transactionPostData = [
             'partnerId' => 0  // Invalid: not positive
@@ -191,7 +191,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_creates_standard_error_result(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $result = $handler->testCreateErrorResult('Test error');
         
@@ -208,7 +208,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_creates_standard_success_result(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $result = $handler->testCreateSuccessResult(42, 20, 'Success');
         
@@ -225,7 +225,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
      */
     public function it_merges_additional_data_in_success_result(): void
     {
-        $handler = new TestTransactionHandler();
+        $handler = new TestTransactionHandlerRefactored();
         
         $result = $handler->testCreateSuccessResult(
             42,
@@ -246,7 +246,7 @@ class AbstractTransactionHandlerRefactoredTest extends TestCase
  * Concrete implementation for testing AbstractTransactionHandler.
  * Uses CUSTOMER partner type.
  */
-class TestTransactionHandler extends AbstractTransactionHandler
+class TestTransactionHandlerRefactored extends AbstractTransactionHandler
 {
     /**
      * @inheritDoc

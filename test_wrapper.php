@@ -1,8 +1,8 @@
 <?php
 require 'vendor/autoload.php';
 
-use Ksfraser\HTML\HTML_ROW_LABEL;
-use Ksfraser\HTML\HTML_ROW;
+use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
+use Ksfraser\HTML\Composites\HTML_ROW;
 
 echo "Testing HTML_ROW_LABEL wrapper:\n";
 echo "================================\n\n";

@@ -3,7 +3,7 @@
 namespace Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\LabelRowBase;
+use Ksfraser\HTML\Composites\LabelRowBase;
 use Exception;
 
 /**

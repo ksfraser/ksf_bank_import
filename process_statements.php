@@ -10,16 +10,16 @@ include_once($path_to_root . "/includes/session.inc");
 require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
 
 // HTML library imports
-use Ksfraser\HTML\HtmlForm;
-use Ksfraser\HTML\HtmlDiv;
-use Ksfraser\HTML\HtmlTable;
-use Ksfraser\HTML\HtmlTableHead;
-use Ksfraser\HTML\HtmlTableRow;
-use Ksfraser\HTML\HtmlTableBody;
-use Ksfraser\HTML\HtmlTh;
-use Ksfraser\HTML\HtmlString;
-use Ksfraser\HTML\HtmlRaw;
-use Ksfraser\HTML\HtmlAttribute;
+use Ksfraser\HTML\Elements\HtmlForm;
+use Ksfraser\HTML\Elements\HtmlDiv;
+use Ksfraser\HTML\Elements\HtmlTable;
+use Ksfraser\HTML\Elements\HtmlTableHead;
+use Ksfraser\HTML\Elements\HtmlTableRow;
+use Ksfraser\HTML\Elements\HtmlTableBody;
+use Ksfraser\HTML\Elements\HtmlTh;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\Elements\HtmlRaw;
+use Ksfraser\HTML\Elements\HtmlAttribute;
 
 include_once($path_to_root . "/includes/ui/ui_input.inc");
 include_once($path_to_root . "/includes/ui/ui_lists.inc");

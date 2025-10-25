@@ -58,13 +58,13 @@ namespace KsfBankImport\Views;
 
 require_once(__DIR__ . '/DataProviders/QuickEntryDataProvider.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HTML_ROW_LABEL.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlRaw.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
 
 use KsfBankImport\Views\DataProviders\QuickEntryDataProvider;
 use Ksfraser\PartnerFormData;
-use Ksfraser\HTML\HTML_ROW_LABEL;
-use Ksfraser\HTML\HtmlRaw;
+use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
+use Ksfraser\HTML\Elements\HtmlRaw;
 
 /**
  * View for quick entry partner type selection

@@ -27,9 +27,9 @@ require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
 //use Ksfraser\common\GenericFaInterface;
 //use Ksfraser\common\Defines;
 
-require_once( __DIR__ . '/Views/HTML/HtmlElementInterface.php' );
-require_once( __DIR__ . '/Views/HTML/HtmlElement.php' );
-require_once( __DIR__ . '/Views/HTML/HtmlTableRow.php' );
+require_once(__DIR__ . '/src/Ksfraser/HTML/HtmlElementInterface.php');
+require_once(__DIR__ . '/src/Ksfraser/HTML/HtmlElement.php');
+require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTableRow.php');
 //use Ksfraser\HTML\HtmlElementInterface;
 
 

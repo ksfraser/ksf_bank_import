@@ -2,7 +2,9 @@
 
 namespace Ksfraser\HTML;
 
+use Ksfraser\HTML\HtmlElement;
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\Elements\HtmlString;
 
 /**
  * HTML Empty Element

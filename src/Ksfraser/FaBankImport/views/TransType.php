@@ -2,7 +2,7 @@
 
 namespace Ksfraser\FaBankImport;
 
-use Ksfraser\Html\LabelRowBase;
+use Ksfraser\HTML\Composites\LabelRowBase;
 require_once( __DIR__ . '/../../HTML/LabelRowBase.php' );
 
 class TransType extends LabelRowBase

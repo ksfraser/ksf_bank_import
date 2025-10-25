@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HtmlComment;
+use Ksfraser\HTML\Elements\HtmlComment;
 
 /**
  * HtmlCommentTest

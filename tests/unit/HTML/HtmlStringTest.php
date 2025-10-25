@@ -3,7 +3,7 @@
 namespace Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HtmlString;
+use Ksfraser\HTML\Elements\HtmlString;
 
 class HtmlStringTest extends TestCase
 {

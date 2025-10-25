@@ -3,8 +3,8 @@
 namespace Tests\Unit\Views;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HTML_TABLE;
-use Ksfraser\HTML\HtmlString;
+use Ksfraser\HTML\Composites\HTML_TABLE;
+use Ksfraser\HTML\Elements\HtmlString;
 
 /**
  * Test HTML_TABLE accepts HtmlElementInterface

@@ -276,4 +276,70 @@ class PartnerFormData
     {
         return $this->fieldGenerator;
     }
+
+    /**
+     * Get partner type from POST data
+     *
+     * Partner types: SP (Supplier), CU (Customer), BT (Bank Transfer), 
+     * QE (Quick Entry), ZZ (Matched), MA (Manual)
+     *
+     * @return string|null The partner type code or null if not set
+     *
+     * @since 2025-01-24
+     */
+    public function getPartnerType(): ?string
+    {
+        $fieldName = "partnerType[{$this->lineItemId}]";
+        
+        if (!isset($_POST[$fieldName])) {
+            return null;
+        }
+        
+        $value = $_POST[$fieldName];
+        
+        if ($value === '') {
+            return null;
+        }
+        
+        return (string)$value;
+    }
+
+    /**
+     * Set partner type in POST data
+     *
+     * Partner types: SP (Supplier), CU (Customer), BT (Bank Transfer), 
+     * QE (Quick Entry), ZZ (Matched), MA (Manual)
+     *
+     * @param string|null $partnerType The partner type code to set
+     *
+     * @return self For method chaining
+     *
+     * @since 2025-01-24
+     */
+    public function setPartnerType(?string $partnerType): self
+    {
+        $fieldName = "partnerType[{$this->lineItemId}]";
+        
+        if ($partnerType === null) {
+            unset($_POST[$fieldName]);
+        } else {
+            $_POST[$fieldName] = $partnerType;
+        }
+        
+        return $this;
+    }
+
+    /**
+     * Check if partner type exists in POST data
+     *
+     * @return bool True if partner type is set and not empty
+     *
+     * @since 2025-01-24
+     */
+    public function hasPartnerType(): bool
+    {
+        $fieldName = "partnerType[{$this->lineItemId}]";
+        
+        return isset($_POST[$fieldName]) && $_POST[$fieldName] !== '';
+    }
 }
