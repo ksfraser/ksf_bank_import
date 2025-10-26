@@ -819,37 +819,57 @@ class bi_lineitem extends generic_fa_interface_model
 	}
 	/**//*******************************************************************
 	* Display MATCHED partner type
+	* 
+	* REFACTORED: Uses TransactionTypesRegistry for single source of truth
+	* and HTML library classes instead of FA functions.
 	*
 	************************************************************************/
 	function displayMatchedPartnerType()
-	{
-		hidden("partnerId_$this->id", 'manual');
-		//function array_selector($name, $selected_id, $items, $options=null)
-			//value => description
-		$opts_arr = array(
-				ST_JOURNAL => "Journal Entry",
-				ST_BANKPAYMENT => "Bank Payment",
-				ST_BANKDEPOSIT => "Bank Deposit",
-				ST_BANKTRANSFER => "Bank Transfer",
-				//ST_SALESINVOICE => "Sales Invoice",
-				ST_CUSTCREDIT => "Customer Credit",
-				ST_CUSTPAYMENT => "Customer Payment",
-				//ST_CUSTDELIVERY => "Customer Delivery",
-				//ST_LOCTRANSFER => "Location Transfer",
-				//ST_INVADJUST => "Inventory Adjustment",
-				//ST_PURCHORDER => "Purchase Order",
-				//ST_SUPPINVOICE => "Supplier Invoice",
-				ST_SUPPCREDIT => "Supplier Credit",
-				ST_SUPPAYMENT => "Supplier Payment",
-				//ST_SUPPRECEIVE => "Supplier Receiving",
-			);
-		$name="Existing_Type";
-			label_row(_("Existing Entry Type:"), array_selector( $name, 0, $opts_arr ) );
-		//function text_input($name, $value=null, $size='', $max='', $title='', $params='')
-		label_row(
-			(_("Existing Entry:")),
-			text_input( "Existing_Entry", 0, 6, '', _("Existing Entry:") )
-		);
+		require_once(__DIR__ . '/src/Ksfraser/FrontAccounting/TransactionTypes/TransactionTypesRegistry.php');
+		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlHidden.php');
+		require_once(__DIR__ . '/src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
+		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php');
+		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlSelect.php');
+		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOption.php');
+		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlInput.php');
+		require_once(__DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php');
+		
+		// Hidden field for partnerId
+		$hidden = new \Ksfraser\HTML\Elements\HtmlHidden("partnerId_$this->id", 'manual');
+		$hidden->toHtml();
+		
+		// Get transaction types with moneyMoved flag (bank-related only)
+		$registry = \Ksfraser\FrontAccounting\TransactionTypes\TransactionTypesRegistry::getInstance();
+		$transactionTypes = $registry->getLabelsArray(['moneyMoved' => true]);
+		
+		// Build transaction type selector
+		$select = new \Ksfraser\HTML\Elements\HtmlSelect("Existing_Type");
+		$select->setClass('combo');
+		
+		// Add blank option
+		$select->addOption(new \Ksfraser\HTML\Elements\HtmlOption(0, _('Select Transaction Type')));
+		
+		// Add transaction type options
+		foreach ($transactionTypes as $code => $label) {
+			$select->addOption(new \Ksfraser\HTML\Elements\HtmlOption($code, $label));
+		}
+		
+		// Create label row for transaction type
+		$typeLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Existing Entry Type:"));
+		$typeLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($typeLabel, $select);
+		$typeLabelRow->toHtml();
+		
+		// Build existing entry input
+		$entryInput = new \Ksfraser\HTML\Elements\HtmlInput("text");
+		$entryInput->setName("Existing_Entry");
+		$entryInput->setValue('0');
+		$entryInput->addAttribute(new \Ksfraser\HTML\HtmlAttribute("size", "6"));
+		$entryInput->setPlaceholder(_("Existing Entry:"));
+		
+		// Create label row for entry input
+		$entryLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Existing Entry:"));
+		$entryLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($entryLabel, $entryInput);
+		$entryLabelRow->toHtml();
 	}
 	/**//*******************************************************************
 	* Select the right type of partner to display

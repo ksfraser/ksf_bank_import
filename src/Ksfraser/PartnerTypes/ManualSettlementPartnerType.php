@@ -64,4 +64,14 @@ class ManualSettlementPartnerType extends AbstractPartnerType
     {
         return 'Manually match to existing GL entries';
     }
+    
+    /**
+     * @inheritDoc
+     * 
+     * Manual Settlement uses displayManualSettlement method
+     */
+    public function getStrategyMethodName(): string
+    {
+        return 'displayManualSettlement';
+    }
 }

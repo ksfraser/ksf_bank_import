@@ -64,4 +64,14 @@ class MatchedPartnerType extends AbstractPartnerType
     {
         return 'Matched transactions';
     }
+    
+    /**
+     * @inheritDoc
+     * 
+     * Override to use 'displayMatchedExisting' instead of default 'displayMatched'
+     */
+    public function getStrategyMethodName(): string
+    {
+        return 'displayMatchedExisting';
+    }
 }

@@ -61,6 +61,44 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
     {
         return null;
     }
+    
+    /**
+     * Get the view class name for rendering this partner type
+     *
+     * Default implementation constructs view class name from constant name:
+     * 'SUPPLIER' => 'SupplierPartnerTypeView'
+     *
+     * Override in subclass if view class name doesn't follow convention.
+     *
+     * @return string View class name (without namespace)
+     */
+    public function getViewClassName(): string
+    {
+        // Convert SUPPLIER -> Supplier
+        $constantName = $this->getConstantName();
+        $pascalCase = str_replace('_', '', ucwords(strtolower($constantName), '_'));
+        
+        return $pascalCase . 'PartnerTypeView';
+    }
+    
+    /**
+     * Get the strategy method name for this partner type
+     *
+     * Default implementation constructs method name from constant name:
+     * 'SUPPLIER' => 'displaySupplier'
+     *
+     * Override in subclass if method name doesn't follow convention.
+     *
+     * @return string Method name for strategy dispatch
+     */
+    public function getStrategyMethodName(): string
+    {
+        // Convert SUPPLIER -> displaySupplier
+        $constantName = $this->getConstantName();
+        $pascalCase = str_replace('_', '', ucwords(strtolower($constantName), '_'));
+        
+        return 'display' . $pascalCase;
+    }
 
     /**
      * Validate that short code meets requirements

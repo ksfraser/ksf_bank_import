@@ -17,7 +17,7 @@
  * @author     Kevin Fraser / ChatGPT
  * @copyright  2025 KSF
  * @license    MIT
- * @version    2.0.0
+ * @version    2.1.0
  * @since      20250422
  */
 
@@ -26,27 +26,31 @@ namespace KsfBankImport\Views;
 require_once(__DIR__ . '/DataProviders/CustomerDataProvider.php');
 require_once(__DIR__ . '/PartnerMatcher.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlFragment.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
 require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlInput.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php');
 require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlHidden.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
 
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 use Ksfraser\PartnerFormData;
-use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
+use Ksfraser\HTML\HtmlFragment;
+use Ksfraser\HTML\Composites\HtmlLabelRow;
 use Ksfraser\HTML\Elements\HtmlString;
-use Ksfraser\HTML\Elements\HtmlRaw;
-use Ksfraser\HTML\Elements\HtmlInput;
+use Ksfraser\HTML\Elements\HtmlSelect;
+use Ksfraser\HTML\Elements\HtmlOption;
 use Ksfraser\HTML\Elements\HtmlHidden;
+use Ksfraser\HTML\Elements\HtmlRaw;
 
 /**
  * View for customer/branch partner type selection
  * 
- * Step 0: Original implementation with dependency injection added.
- * This ensures we maintain functionality while adding testability.
+ * Refactored to return HtmlFragment with multiple HtmlLabelRow objects.
+ * Builds HtmlSelect for customers and branches from CustomerDataProvider.
  * 
- * @since 2.0.0
+ * @since 2.1.0 Returns HtmlFragment instead of string
  */
 class CustomerPartnerTypeView
 {
@@ -88,13 +92,15 @@ class CustomerPartnerTypeView
     /**
      * Get the HTML for this view
      * 
-     * Step 2: Replace hidden() FA calls with HtmlInput
+     * Returns HtmlFragment containing customer/branch selection UI.
      * 
-     * @return string HTML output
+     * @return HtmlFragment Composable HTML object
+     * 
+     * @since 2.1.0 Returns HtmlFragment instead of string
      */
-    public function getHtml(): string
+    public function getHtml(): HtmlFragment
     {
-        $html = '';
+        $fragment = new HtmlFragment();
         
         // If no partner ID is set, try to match by bank account
         if (empty($this->partnerId)) {
@@ -108,70 +114,133 @@ class CustomerPartnerTypeView
             }
         }
         
-        // Build customer selection UI
-        $cust_text = \customer_list("partnerId_{$this->lineItemId}", null, false, true);
+        // Build customer selection dropdown
+        $customerSelect = $this->buildCustomerSelect();
         
-        // Add branch selection if customer has branches
-        // Use injected dataProvider instead of db_customer_has_branches()
+        // Build branch selection dropdown or hidden field
+        $branchContent = $this->buildBranchContent();
+        
+        // Combine customer and branch into one content fragment
+        $combinedContent = new HtmlFragment();
+        $combinedContent->addChild($customerSelect);
+        $combinedContent->addChild($branchContent);
+        
+        // Create label row for customer/branch
+        $label = new HtmlString(_("From Customer/Branch:"));
+        $labelRow = new HtmlLabelRow($label, $combinedContent);
+        $fragment->addChild($labelRow);
+        
+        // Add hidden fields for form submission
+        $hiddenCustomer = new HtmlHidden("customer_{$this->lineItemId}", (string)($this->partnerId ?? ''));
+        $fragment->addChild($hiddenCustomer);
+        
+        $hiddenCustomerBranch = new HtmlHidden("customer_branch_{$this->lineItemId}", (string)($this->partnerDetailId ?? ''));
+        $fragment->addChild($hiddenCustomerBranch);
+        
+        // Display allocatable invoices if fa_customer_payment class is available
+        $invoicesFragment = $this->displayAllocatableInvoices();
+        if ($invoicesFragment) {
+            $fragment->addChild($invoicesFragment);
+        }
+        
+        return $fragment;
+    }
+    
+    /**
+     * Build customer dropdown selector
+     * 
+     * @return HtmlSelect Customer dropdown
+     */
+    private function buildCustomerSelect(): HtmlSelect
+    {
+        $select = new HtmlSelect("partnerId_{$this->lineItemId}");
+        $select->setClass('combo');
+        $select->setAttribute('onchange', 'this.form.submit()');
+        
+        // Add blank option
+        $select->addOption(new HtmlOption('', _('Select Customer')));
+        
+        // Get customers from data provider
+        $customers = $this->dataProvider->getCustomers();
+        
+        // Build options
+        foreach ($customers as $customer) {
+            $option = new HtmlOption($customer['debtor_no'], $customer['name']);
+            
+            // Mark selected if this is the current customer
+            if ($this->partnerId && $this->partnerId == $customer['debtor_no']) {
+                $option->setSelected(true);
+            }
+            
+            $select->addOption($option);
+        }
+        
+        return $select;
+    }
+    
+    /**
+     * Build branch dropdown or hidden field
+     * 
+     * @return HtmlSelect|HtmlHidden Branch dropdown if customer has branches, hidden field otherwise
+     */
+    private function buildBranchContent()
+    {
+        // If customer has branches, show branch dropdown
         if ($this->partnerId && $this->dataProvider->hasBranches($this->partnerId)) {
-            $cust_text .= \customer_branches_list(
-                $this->partnerId, 
-                "partnerDetailId_{$this->lineItemId}", 
-                null, 
-                false, 
-                true, 
-                true
-            );
+            $select = new HtmlSelect("partnerDetailId_{$this->lineItemId}");
+            $select->setClass('combo');
+            $select->setAttribute('onchange', 'this.form.submit()');
+            
+            // Get branches for customer
+            $branches = $this->dataProvider->getBranches($this->partnerId);
+            
+            // Build options
+            foreach ($branches as $branch) {
+                $option = new HtmlOption($branch['branch_code'], $branch['br_name']);
+                
+                // Mark selected if this is the current branch
+                if ($this->partnerDetailId && $this->partnerDetailId == $branch['branch_code']) {
+                    $option->setSelected(true);
+                }
+                
+                $select->addOption($option);
+            }
+            
+            return $select;
         } else {
+            // No branches - use hidden field
             if (!defined('ANY_NUMERIC')) {
                 define('ANY_NUMERIC', -1);
             }
-            // Step 2: Use HtmlHidden for hidden field instead of FA hidden()
-            $hiddenBranch = new HtmlHidden("partnerDetailId_{$this->lineItemId}", (string)ANY_NUMERIC);
-            $cust_text .= $hiddenBranch->getHtml();
             $this->formData->setPartnerDetailId(null);  // Sets to ANY_NUMERIC
+            return new HtmlHidden("partnerDetailId_{$this->lineItemId}", (string)ANY_NUMERIC);
         }
-        
-        // Step 1: Use HTML_ROW_LABEL instead of label_row()
-        // Note: HTML from customer_list/customer_branches_list is trusted, use HtmlRaw
-        $custTextHtml = new HtmlRaw($cust_text);
-        $labelRow = new HTML_ROW_LABEL($custTextHtml, _("From Customer/Branch:"));
-        $html .= $labelRow->getHtml();
-        
-        // Step 2: Replace hidden() FA calls with HtmlHidden for hidden fields
-        $hiddenCustomer = new HtmlHidden("customer_{$this->lineItemId}", (string)($this->partnerId ?? ''));
-        $html .= $hiddenCustomer->getHtml();
-        
-        $hiddenCustomerBranch = new HtmlHidden("customer_branch_{$this->lineItemId}", (string)($this->partnerDetailId ?? ''));
-        $html .= $hiddenCustomerBranch->getHtml();
-        
-        // Display allocatable invoices if fa_customer_payment class is available
-        $html .= $this->displayAllocatableInvoices();
-        
-        return $html;
     }
     
     /**
      * Display allocatable invoices for the customer (Mantis 3018)
      * 
-     * Step 1: Replace label_row() with HTML_ROW_LABEL
+     * Returns HtmlFragment with invoice allocation UI, or null if not available.
      * 
-     * @return string HTML output
+     * @return HtmlFragment|null Fragment with invoice rows, or null
+     * 
+     * @since 2.1.0 Returns HtmlFragment instead of string
      */
-    private function displayAllocatableInvoices(): string
+    private function displayAllocatableInvoices(): ?HtmlFragment
     {
-        $html = '';
         $_GET['customer_id'] = $this->partnerId;
         
         if (@include_once('../ksf_modules_common/class.fa_customer_payment.php')) {
+            $fragment = new HtmlFragment();
             $tr = 0;
             $fcp = new \fa_customer_payment();
             $fcp->set("trans_date", $this->valueTimestamp);
             
-            // Step 1: Use HTML_ROW_LABEL for "Invoices to Pay"
+            // Show allocatable invoices
             $allocatableHtml = new HtmlRaw($fcp->show_allocatable());
-            $invoicesRow = new HTML_ROW_LABEL($allocatableHtml, "Invoices to Pay");
-            $html .= $invoicesRow->getHtml();
+            $invoicesLabel = new HtmlString("Invoices to Pay");
+            $invoicesRow = new HtmlLabelRow($invoicesLabel, $allocatableHtml);
+            $fragment->addChild($invoicesRow);
             
             $res = $fcp->get_alloc_details();
             
@@ -180,7 +249,7 @@ class CustomerPartnerTypeView
                 $tr = $row['type_no'];
             }
             
-            // Step 1: Use HTML_ROW_LABEL for invoice allocation input
+            // Invoice allocation input (using FA function for now - could be refactored)
             $textInputHtml = new HtmlRaw(
                 \text_input(
                     "Invoice_{$this->lineItemId}", 
@@ -190,21 +259,23 @@ class CustomerPartnerTypeView
                     \_("Invoice to Allocate Payment:")
                 )
             );
-            $allocationRow = new HTML_ROW_LABEL(
-                $textInputHtml,
-                _("Allocate Payment to (1) Invoice")
-            );
-            $html .= $allocationRow->getHtml();
+            $allocationLabel = new HtmlString(_("Allocate Payment to (1) Invoice"));
+            $allocationRow = new HtmlLabelRow($allocationLabel, $textInputHtml);
+            $fragment->addChild($allocationRow);
+            
+            return $fragment;
         }
         
-        return $html;
+        return null;
     }
     
     /**
      * Output HTML directly (for legacy compatibility)
+     * 
+     * @since 2.1.0 Calls toHtml() on returned object
      */
     public function display(): void
     {
-        echo $this->getHtml();
+        $this->getHtml()->toHtml();
     }
 }

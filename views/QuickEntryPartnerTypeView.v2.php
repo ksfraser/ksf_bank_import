@@ -15,15 +15,16 @@
  * - No direct calls to quick_entries_list()
  * - Testable without FrontAccounting framework
  * 
- * Uses HTML library instead of ob_start():
- * - HtmlOB for capturing legacy label_row() output
- * - Future: Replace with HtmlTable, HtmlTr, HtmlTd
+ * Uses HTML library for composable objects:
+ * - HtmlSelect for dropdowns with HtmlOption children
+ * - HtmlLabelRow for labeled form rows
+ * - Returns objects for composition, not strings
  * 
  * @package    KsfBankImport\Views
  * @author     Kevin Fraser / ChatGPT
  * @copyright  2025 KSF
  * @license    MIT
- * @version    2.0.0
+ * @version    2.1.0
  * @since      20250422
  * 
  * @uml.diagram
@@ -35,10 +36,10 @@
  * │ - dataProvider: QuickEntryDataProvider      │
  * ├─────────────────────────────────────────────┤
  * │ + __construct(int, string, Provider)        │
- * │ + getHtml(): string                         │
+ * │ + getHtml(): HtmlLabelRow                   │
  * │ + display(): void                           │
- * │ - renderQuickEntrySelector(): string        │
- * │ - renderQuickEntryDescription(): string     │
+ * │ - buildQuickEntrySelect(): HtmlSelect       │
+ * │ - getQuickEntryDescription(): string        │
  * └─────────────────────────────────────────────┘
  *            │
  *            │ depends on
@@ -58,13 +59,19 @@ namespace KsfBankImport\Views;
 
 require_once(__DIR__ . '/DataProviders/QuickEntryDataProvider.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlFragment.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php');
 
 use KsfBankImport\Views\DataProviders\QuickEntryDataProvider;
 use Ksfraser\PartnerFormData;
-use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
-use Ksfraser\HTML\Elements\HtmlRaw;
+use Ksfraser\HTML\Composites\HtmlLabelRow;
+use Ksfraser\HTML\HtmlFragment;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\Elements\HtmlSelect;
+use Ksfraser\HTML\Elements\HtmlOption;
 
 /**
  * View for quick entry partner type selection
@@ -112,7 +119,7 @@ use Ksfraser\HTML\Elements\HtmlRaw;
  * }
  * </code>
  * 
- * @since 2.0.0
+ * @since 2.1.0 Refactored to return HtmlLabelRow object instead of string
  */
 class QuickEntryPartnerTypeView
 {
@@ -165,68 +172,86 @@ class QuickEntryPartnerTypeView
     /**
      * Get the HTML for this view
      * 
-     * Renders quick entry selection UI using HTML_ROW_LABEL.
+     * Renders quick entry selection UI as HtmlLabelRow object.
      * 
-     * @return string HTML output
+     * @return HtmlLabelRow Composable HTML object
      * 
-     * @since 2.0.0
+     * @since 2.1.0 Returns object instead of string
      */
-    public function getHtml(): string
+    public function getHtml(): HtmlLabelRow
     {
-        // Build quick entry selector using injected data provider
-        $qeSelector = $this->renderQuickEntrySelector();
+        // Build quick entry selector using HTML objects
+        $select = $this->buildQuickEntrySelect();
         
-        // Add base description of selected entry
-        $qeDescription = $this->renderQuickEntryDescription();
+        // Add base description of selected entry as text (if any)
+        $description = $this->getQuickEntryDescription();
         
-        // Combine selector and description
-        $qeContent = new HtmlRaw($qeSelector . $qeDescription);
+        // Create content: select + description
+        if ($description) {
+            $fragment = new HtmlFragment();
+            $fragment->addChild($select);
+            $fragment->addChild(new HtmlString(' ' . $description));
+            $content = $fragment;
+        } else {
+            $content = $select;
+        }
         
-        // Render using HTML_ROW_LABEL (note: legacy parameter order is $data, $label)
-        $row = new HTML_ROW_LABEL($qeContent, "Quick Entry:");
+        // Create label
+        $label = new HtmlString(_("Quick Entry:"));
         
-        return $row->getHtml();
+        // Return composable object
+        return new HtmlLabelRow($label, $content);
     }
     
     /**
-     * Render quick entry dropdown selector
+     * Build quick entry dropdown selector as HtmlSelect object
      * 
-     * Uses FrontAccounting quick_entries_list() function with data from provider.
+     * Uses QuickEntryDataProvider to get entries and builds HtmlSelect with HtmlOption children.
      * Provider ensures entries are loaded only once per page.
      * 
-     * @return string HTML for dropdown selector
+     * @return HtmlSelect Dropdown selector object
      * 
-     * @since 2.0.0
+     * @since 2.1.0 Returns HtmlSelect object instead of string
      */
-    private function renderQuickEntrySelector(): string
+    private function buildQuickEntrySelect(): HtmlSelect
     {
-        // Get quick entry type based on transaction direction
-        $qeType = ($this->transactionDC == 'C') ? QE_DEPOSIT : QE_PAYMENT;
+        // Create select element
+        $select = new HtmlSelect("partnerId_{$this->lineItemId}");
+        $select->setClass('combo');
+        $select->setAttribute('onchange', 'this.form.submit()');
         
-        // Build selector using FrontAccounting function
-        // Data is pre-loaded by provider, so this is just rendering
-        // quick_entries_list($name, $selected_id=null, $type=null, $submit_on_change=false)
-        $selector = quick_entries_list(
-            "partnerId_{$this->lineItemId}", 
-            null, 
-            $qeType, 
-            true
-        );
+        // Add blank option
+        $select->addOption(new HtmlOption('', _('Select Quick Entry')));
         
-        return $selector;
+        // Get entries from data provider
+        $entries = $this->dataProvider->getEntries();
+        
+        // Build options from provider data
+        foreach ($entries as $entry) {
+            $option = new HtmlOption($entry['id'], $entry['description']);
+            
+            // Mark selected if this is the current partner
+            if ($this->formData->hasPartnerId() && $this->formData->getPartnerId() == $entry['id']) {
+                $option->setSelected(true);
+            }
+            
+            $select->addOption($option);
+        }
+        
+        return $select;
     }
     
     /**
-     * Render base description of selected quick entry
+     * Get base description of selected quick entry
      * 
-     * Retrieves and displays the base description of currently selected entry.
+     * Retrieves the base description of currently selected entry.
      * Uses data provider to avoid additional database queries.
      * 
-     * @return string HTML for description (plain text with leading space)
+     * @return string Description text (empty string if none)
      * 
-     * @since 2.0.0
+     * @since 2.1.0 Returns plain string without HTML
      */
-    private function renderQuickEntryDescription(): string
+    private function getQuickEntryDescription(): string
     {
         // Get currently selected entry ID from PartnerFormData
         if (!$this->formData->hasPartnerId()) {
@@ -246,8 +271,8 @@ class QuickEntryPartnerTypeView
             return '';
         }
         
-        // Return base description with leading space
-        return ' ' . ($entry['base_desc'] ?? '');
+        // Return base description
+        return $entry['base_desc'] ?? '';
     }
     
     /**
@@ -255,10 +280,10 @@ class QuickEntryPartnerTypeView
      * 
      * @return void
      * 
-     * @since 2.0.0
+     * @since 2.1.0 Calls toHtml() on returned object
      */
     public function display(): void
     {
-        echo $this->getHtml();
+        $this->getHtml()->toHtml();
     }
 }

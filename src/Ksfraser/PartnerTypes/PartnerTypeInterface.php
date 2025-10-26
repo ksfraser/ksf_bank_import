@@ -80,4 +80,26 @@ interface PartnerTypeInterface
      * @return string|null Description or null if not available
      */
     public function getDescription(): ?string;
+    
+    /**
+     * Get the view class name for rendering this partner type
+     *
+     * Returns the fully qualified class name of the View class that
+     * should be used to render the UI for this partner type.
+     *
+     * Example: 'SupplierPartnerTypeView' for Supplier partner type
+     *
+     * @return string View class name (without namespace)
+     */
+    public function getViewClassName(): string;
+    
+    /**
+     * Get the strategy method name for this partner type
+     *
+     * Returns the method name that the Strategy pattern should call
+     * to display this partner type (e.g., 'displaySupplier').
+     *
+     * @return string Method name for strategy dispatch
+     */
+    public function getStrategyMethodName(): string;
 }

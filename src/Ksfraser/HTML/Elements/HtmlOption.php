@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Ksfraser\HTML\Elements;
 
+use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\HtmlAttribute;
+use Ksfraser\HTML\HtmlAttributeList;
+
 /**
  * HtmlOption
  *

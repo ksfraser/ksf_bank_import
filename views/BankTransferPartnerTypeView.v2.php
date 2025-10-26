@@ -1,12 +1,13 @@
 <?php
 
 /**
- * Bank Transfer Partner Type View - v2 Final (Steps 0-2 complete)
+ * Bank Transfer Partner Type View - v2.1 (Option B - Return Objects)
  * 
  * Refactoring complete:
  * - Step 0: Added BankAccountDataProvider injection ✅
- * - Step 1: Replaced label_row() with HTML_ROW_LABEL ✅
+ * - Step 1: Replaced label_row() with HtmlLabelRow ✅
  * - Step 2: No hidden fields needed (simpler) ✅
+ * - Option B: Changed getHtml() to return HtmlFragment ✅
  * 
  * Single Responsibility: Display bank account selection UI for bank transfer transactions.
  * 
@@ -18,21 +19,27 @@
  * @package    KsfBankImport\Views
  * @author     Kevin Fraser / ChatGPT
  * @since      2025-01-07
- * @version    2.0.0-final
+ * @version    2.1.0
  */
 
 namespace KsfBankImport\Views;
 
 use Ksfraser\BankAccountDataProvider;
 use Ksfraser\PartnerFormData;
-use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
-use Ksfraser\HTML\Elements\HtmlRaw;
+use Ksfraser\HTML\HtmlFragment;
+use Ksfraser\HTML\Composites\HtmlLabelRow;
+use Ksfraser\HTML\Elements\HtmlSelect;
+use Ksfraser\HTML\Elements\HtmlOption;
+use Ksfraser\HTML\Elements\HtmlString;
 
 require_once(__DIR__ . '/PartnerMatcher.php');
 require_once(__DIR__ . '/../src/Ksfraser/BankAccountDataProvider.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlFragment.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php');
 
 class BankTransferPartnerTypeView
 {
@@ -74,12 +81,10 @@ class BankTransferPartnerTypeView
     /**
      * Get the HTML for this view
      * 
-     * @return string HTML output
+     * @return HtmlFragment HTML fragment containing bank account selection
      */
-    public function getHtml(): string
+    public function getHtml(): HtmlFragment
     {
-        $html = '';
-        
         // If no partner ID is set, try to match by bank account
         if (!$this->formData->hasPartnerId()) {
             $match = \PartnerMatcher::searchByBankAccount(ST_BANKTRANSFER, $this->otherBankAccount);
@@ -99,23 +104,51 @@ class BankTransferPartnerTypeView
             $rowLabel = "Transfer from <i>Our Bank Account</i> <b>To (OTHER ACCOUNT</b>):";
         }
         
-        // Generate bank account select list
-        // bank_accounts_list($name, $selected_id=null, $submit_on_change=false, $spec_option=false)
-        $bankListHtml = \bank_accounts_list(
-            "partnerId_{$this->lineItemId}", 
-            $this->formData->getRawPartnerId(), 
-            null, 
-            false
-        );
+        // Build bank account select
+        $bankSelect = $this->buildBankAccountSelect();
         
-        // Build HTML using HTML_ROW_LABEL
-        $bankSelectHtml = new HtmlRaw($bankListHtml);
-        $labelRow = new HTML_ROW_LABEL($bankSelectHtml, _($rowLabel));
-        $html .= $labelRow->getHtml();
+        // Create label row with bank account dropdown
+        $label = new HtmlString(_($rowLabel));
+        $labelRow = new HtmlLabelRow($label, $bankSelect);
         
+        // Update partnerId after building select
         $this->partnerId = $this->formData->getPartnerId();
         
-        return $html;
+        // Return fragment containing the label row
+        $fragment = new HtmlFragment();
+        $fragment->addChild($labelRow);
+        return $fragment;
+    }
+    
+    /**
+     * Build bank account select dropdown
+     * 
+     * @return HtmlSelect Bank account selection dropdown
+     */
+    private function buildBankAccountSelect(): HtmlSelect
+    {
+        $selectName = "partnerId_{$this->lineItemId}";
+        $select = new HtmlSelect($selectName);
+        
+        // Get bank accounts from data provider
+        $bankAccounts = $this->dataProvider->getBankAccounts();
+        $selectedId = $this->formData->getRawPartnerId();
+        
+        // Build options
+        foreach ($bankAccounts as $account) {
+            $option = new HtmlOption(
+                $account['id'], 
+                $account['name']
+            );
+            
+            if ($account['id'] == $selectedId) {
+                $option->setSelected(true);
+            }
+            
+            $select->addOption($option);
+        }
+        
+        return $select;
     }
     
     /**
@@ -123,6 +156,6 @@ class BankTransferPartnerTypeView
      */
     public function display(): void
     {
-        echo $this->getHtml();
+        echo $this->getHtml()->toHtml();
     }
 }

@@ -16,6 +16,10 @@ use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../../../Views/PartnerTypeDisplayStrategy.php';
 require_once __DIR__ . '/../../../Views/ViewFactory.php';
+require_once __DIR__ . '/../../../src/Ksfraser/HTML/HtmlFragment.php';
+require_once __DIR__ . '/../../../src/Ksfraser/HTML/HtmlAttribute.php';
+require_once __DIR__ . '/../../../src/Ksfraser/HTML/Elements/HtmlInput.php';
+require_once __DIR__ . '/../../../src/Ksfraser/HTML/Elements/HtmlHidden.php';
 
 class PartnerTypeDisplayStrategyTest extends TestCase
 {
@@ -311,5 +315,71 @@ class PartnerTypeDisplayStrategyTest extends TestCase
         // Internal data should match what we passed
         $this->assertEquals(123, $internalData['id']);
         $this->assertEquals('D', $internalData['transactionDC']);
+    }
+    
+    /**
+     * Test that render() method returns HtmlFragment
+     * 
+     * The new render() method should return HtmlFragment instead of echoing.
+     * This allows caller to control when/how output happens.
+     */
+    public function testRenderReturnsHtmlFragment()
+    {
+        $strategy = new PartnerTypeDisplayStrategy($this->testData);
+        
+        // Test ZZ (matched existing) - returns HtmlFragment with hidden fields
+        $result = $strategy->render('ZZ');
+        
+        $this->assertInstanceOf('Ksfraser\HTML\HtmlFragment', $result);
+        $this->assertGreaterThan(0, $result->getChildCount(), 'Fragment should contain hidden fields');
+        
+        // HTML should contain hidden inputs
+        $html = $result->getHtml();
+        $this->assertStringContainsString('type="hidden"', $html);
+        $this->assertStringContainsString('partnerId_123', $html);
+    }
+    
+    /**
+     * Test that render() can be composed without immediate echo
+     * 
+     * Major benefit: can build complex HTML structures without side effects
+     */
+    public function testRenderAllowsComposition()
+    {
+        $strategy = new PartnerTypeDisplayStrategy($this->testData);
+        
+        // Render multiple partner types and compose them
+        $fragment1 = $strategy->render('ZZ');
+        $fragment2 = $strategy->render('ZZ'); // Same type, different data
+        
+        // Can get HTML without echoing
+        $html1 = $fragment1->getHtml();
+        $html2 = $fragment2->getHtml();
+        
+        // Both should be valid HTML strings
+        $this->assertIsString($html1);
+        $this->assertIsString($html2);
+        
+        // Neither should have been echoed yet
+        $this->expectOutputString(''); // No output during test
+    }
+    
+    /**
+     * Test backward compatibility - display() still works
+     * 
+     * Old display() method should still work for backward compatibility
+     */
+    public function testDisplayMethodBackwardCompatibility()
+    {
+        $strategy = new PartnerTypeDisplayStrategy($this->testData);
+        
+        // display() should echo output
+        ob_start();
+        $strategy->display('ZZ');
+        $output = ob_get_clean();
+        
+        // Should have echoed hidden fields
+        $this->assertStringContainsString('type="hidden"', $output);
+        $this->assertStringContainsString('partnerId_123', $output);
     }
 }

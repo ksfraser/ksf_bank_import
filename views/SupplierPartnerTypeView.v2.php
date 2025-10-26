@@ -16,7 +16,7 @@
  * @author     Kevin Fraser / ChatGPT
  * @copyright  2025 KSF
  * @license    MIT
- * @version    2.0.0
+ * @version    2.1.0
  * @since      20250422
  */
 
@@ -25,20 +25,25 @@ namespace KsfBankImport\Views;
 require_once(__DIR__ . '/DataProviders/SupplierDataProvider.php');
 require_once(__DIR__ . '/PartnerMatcher.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php');
 
 use KsfBankImport\Views\DataProviders\SupplierDataProvider;
 use Ksfraser\PartnerFormData;
-use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
-use Ksfraser\HTML\Elements\HtmlRaw;
+use Ksfraser\HTML\Composites\HtmlLabelRow;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\Elements\HtmlSelect;
+use Ksfraser\HTML\Elements\HtmlOption;
 
 /**
  * View for supplier partner type selection
  * 
- * Steps 0-2: Fully refactored with HTML library classes
+ * Refactored to return HtmlLabelRow object instead of string.
+ * Builds HtmlSelect with HtmlOption from SupplierDataProvider.
  * 
- * @since 2.0.0
+ * @since 2.1.0 Refactored to return HTML objects
  */
 class SupplierPartnerTypeView
 {
@@ -72,14 +77,14 @@ class SupplierPartnerTypeView
     /**
      * Get the HTML for this view
      * 
-     * Steps 1-2: Uses HTML_ROW_LABEL instead of label_row()
+     * Builds supplier selection dropdown as HtmlLabelRow object.
      * 
-     * @return string HTML output
+     * @return HtmlLabelRow Composable HTML object
+     * 
+     * @since 2.1.0 Returns object instead of string
      */
-    public function getHtml(): string
+    public function getHtml(): HtmlLabelRow
     {
-        $html = '';
-        
         // If no partner ID is set, try to match by bank account
         $matched_supplier = [];
         if (empty($this->partnerId)) {
@@ -91,23 +96,69 @@ class SupplierPartnerTypeView
             }
         }
         
-        // Display supplier selection dropdown
-        // supplier_list returns HTML, so we use HtmlRaw
-        $supplierListHtml = \supplier_list("partnerId_{$this->lineItemId}", $matched_supplier, false, false);
-        $supplierHtml = new HtmlRaw($supplierListHtml);
+        // Build supplier selection dropdown using HTML objects
+        $select = $this->buildSupplierSelect($matched_supplier);
         
-        // Step 1: Use HTML_ROW_LABEL instead of label_row()
-        $labelRow = new HTML_ROW_LABEL($supplierHtml, _("Payment To:"));
-        $html .= $labelRow->getHtml();
+        // Create label
+        $label = new HtmlString(_("Payment To:"));
         
-        return $html;
+        // Return composable object
+        return new HtmlLabelRow($label, $select);
+    }
+    
+    /**
+     * Build supplier dropdown selector as HtmlSelect object
+     * 
+     * Uses SupplierDataProvider to get suppliers and builds HtmlSelect with HtmlOption children.
+     * 
+     * @param array $matchedSupplier Matched supplier data from PartnerMatcher
+     * @return HtmlSelect Dropdown selector object
+     * 
+     * @since 2.1.0
+     */
+    private function buildSupplierSelect(array $matchedSupplier): HtmlSelect
+    {
+        // Create select element
+        $select = new HtmlSelect("partnerId_{$this->lineItemId}");
+        $select->setClass('combo');
+        $select->setAttribute('onchange', 'this.form.submit()');
+        
+        // Add blank option
+        $select->addOption(new HtmlOption('', _('Select Supplier')));
+        
+        // Get suppliers from data provider
+        $suppliers = $this->dataProvider->getSuppliers();
+        
+        // Determine selected value: matched supplier or existing partnerId
+        $selectedId = null;
+        if (\PartnerMatcher::hasMatch($matchedSupplier)) {
+            $selectedId = \PartnerMatcher::getPartnerId($matchedSupplier);
+        } elseif ($this->partnerId) {
+            $selectedId = $this->partnerId;
+        }
+        
+        // Build options from provider data
+        foreach ($suppliers as $supplier) {
+            $option = new HtmlOption($supplier['supplier_id'], $supplier['supp_name']);
+            
+            // Mark selected if this is the current/matched supplier
+            if ($selectedId && $selectedId == $supplier['supplier_id']) {
+                $option->setSelected(true);
+            }
+            
+            $select->addOption($option);
+        }
+        
+        return $select;
     }
     
     /**
      * Output HTML directly (for legacy compatibility)
+     * 
+     * @since 2.1.0 Calls toHtml() on returned object
      */
     public function display(): void
     {
-        echo $this->getHtml();
+        $this->getHtml()->toHtml();
     }
 }
