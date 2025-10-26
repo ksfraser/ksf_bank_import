@@ -108,7 +108,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createSupplierPaymentData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('Transaction is settled', $html);
         $this->assertStringContainsString('Status:', $html);
@@ -122,7 +122,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createSupplierPaymentData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('Operation:', $html);
         $this->assertStringContainsString('Payment', $html);
@@ -136,7 +136,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createSupplierPaymentData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('Supplier:', $html);
         $this->assertStringContainsString('Acme Corp', $html);
@@ -150,7 +150,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createSupplierPaymentData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('From bank account:', $html);
         $this->assertStringContainsString('Main Checking Account', $html);
@@ -164,7 +164,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createBankDepositData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('Operation:', $html);
         $this->assertStringContainsString('Deposit', $html);
@@ -178,7 +178,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createBankDepositData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('Customer/Branch:', $html);
         $this->assertStringContainsString('John Doe', $html);
@@ -193,7 +193,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createManualSettlementData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('Operation:', $html);
         $this->assertStringContainsString('Manual settlement', $html);
@@ -207,7 +207,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createSupplierPaymentData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('Unset Transaction Association', $html);
         $this->assertStringContainsString('UnsetTrans', $html);
@@ -222,7 +222,7 @@ class SettledTransactionDisplayTest extends TestCase
         $data = $this->createSupplierPaymentData();
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('UnsetTrans[123]', $html);
     }
@@ -239,7 +239,7 @@ class SettledTransactionDisplayTest extends TestCase
         ];
         
         $display = new SettledTransactionDisplay($data);
-        $html = $display->render();
+        $html = $display->render()->getHtml();
         
         $this->assertStringContainsString('other transaction type', $html);
     }
@@ -253,10 +253,10 @@ class SettledTransactionDisplayTest extends TestCase
         $data2 = $this->createBankDepositData();
         
         $display1 = new SettledTransactionDisplay($data1);
-        $html1 = $display1->render();
+        $html1 = $display1->render()->getHtml();
         
         $display2 = new SettledTransactionDisplay($data2);
-        $html2 = $display2->render();
+        $html2 = $display2->render()->getHtml();
         
         $this->assertStringContainsString('Payment', $html1);
         $this->assertStringNotContainsString('Deposit', $html1);

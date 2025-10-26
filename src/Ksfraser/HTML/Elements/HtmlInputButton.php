@@ -3,8 +3,8 @@
 namespace Ksfraser\HTML\Elements;
 
 use Ksfraser\HTML\HtmlEmptyElement;
-
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\HtmlAttribute;
 
 /**
  * Base class for button-type input elements

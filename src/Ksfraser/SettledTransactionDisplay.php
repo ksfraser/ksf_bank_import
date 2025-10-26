@@ -13,15 +13,23 @@
  * @package    KsfBankImport
  * @subpackage Components
  * @since      20251019
- * @version    1.2.0 - Now uses HtmlLabelRow and HtmlSubmit for proper HTML generation
+ * @version    2.0.0 - Now returns HtmlFragment for composability (Option B pattern)
  */
 
 namespace Ksfraser;
 
-use Ksfraser\HTML\Elements\HtmlLabelRow;
+use Ksfraser\HTML\HtmlFragment;
+use Ksfraser\HTML\Composites\HtmlLabelRow;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\HtmlRaw;
 use Ksfraser\HTML\Elements\HtmlSubmit;
+
+require_once(__DIR__ . '/HTML/HtmlFragment.php');
+require_once(__DIR__ . '/HTML/HtmlAttribute.php');
+require_once(__DIR__ . '/HTML/Composites/HtmlLabelRow.php');
+require_once(__DIR__ . '/HTML/Elements/HtmlString.php');
+require_once(__DIR__ . '/HTML/Elements/HtmlRaw.php');
+require_once(__DIR__ . '/HTML/Elements/HtmlSubmit.php');
 
 /**
  * SettledTransactionDisplay - Display settled transaction details with FA integration
@@ -34,8 +42,10 @@ use Ksfraser\HTML\Elements\HtmlSubmit;
  * - Provides "Unset Transaction Association" button (using HtmlSubmit)
  * - Handles various FA transaction types (ST_SUPPAYMENT, ST_BANKDEPOSIT, etc.)
  *
+ * Returns HtmlFragment for composability (follows Option B pattern from PartnerTypeViews)
+ *
  * @since 20251019
- * @version 1.2.0
+ * @version 2.0.0
  */
 class SettledTransactionDisplay
 {
@@ -114,49 +124,62 @@ class SettledTransactionDisplay
     }
 
     /**
-     * Render the settled transaction display as HTML
+     * Render the settled transaction display as HtmlFragment
      *
-     * @return string HTML output
+     * @return HtmlFragment HTML fragment containing all settled transaction details
      * @since 20251019
+     * @version 2.0.0 - Now returns HtmlFragment instead of string
      */
-    public function render(): string
+    public function render(): HtmlFragment
     {
-        $html = "";
+        $fragment = new HtmlFragment();
 
         // Status label
-        $html .= $this->renderStatusLabel();
+        $fragment->addChild($this->renderStatusLabel());
 
         // Operation-specific details
-        $html .= $this->renderOperationDetails();
+        $fragment->addChild($this->renderOperationDetails());
 
         // Unset button
-        $html .= $this->renderUnsetButton();
+        $fragment->addChild($this->renderUnsetButton());
 
-        return $html;
+        return $fragment;
+    }
+
+    /**
+     * Display method for backward compatibility (echoes HTML)
+     * 
+     * @return void
+     * @since 2.0.0
+     */
+    public function display(): void
+    {
+        echo $this->render()->toHtml();
     }
 
     /**
      * Render status label (Transaction is settled!)
      *
-     * @return string HTML output
+     * @return HtmlLabelRow HTML label row element
      * @since 20251019
+     * @version 2.0.0 - Returns HtmlLabelRow instead of string
      */
-    private function renderStatusLabel(): string
+    private function renderStatusLabel(): HtmlLabelRow
     {
         $label = new HtmlString('Status:');
         $content = new HtmlRaw('<b>Transaction is settled!</b>'); // Use HtmlRaw for HTML markup
-        $row = new HtmlLabelRow($label, $content);
         
-        return $row->getHtml();
+        return new HtmlLabelRow($label, $content);
     }
 
     /**
      * Render operation-specific details based on transaction type
      *
-     * @return string HTML output
+     * @return HtmlFragment HTML fragment containing operation details
      * @since 20251019
+     * @version 2.0.0 - Returns HtmlFragment instead of string
      */
-    private function renderOperationDetails(): string
+    private function renderOperationDetails(): HtmlFragment
     {
         $transType = $this->getTransactionType();
 
@@ -178,19 +201,20 @@ class SettledTransactionDisplay
     /**
      * Render supplier payment details
      *
-     * @return string HTML output
+     * @return HtmlFragment HTML fragment with operation, supplier, and bank account rows
      * @since 20251019
+     * @version 2.0.0 - Returns HtmlFragment instead of string
      */
-    private function renderSupplierPaymentDetails(): string
+    private function renderSupplierPaymentDetails(): HtmlFragment
     {
-        $html = "";
+        $fragment = new HtmlFragment();
         
         // Operation
         $operationRow = new HtmlLabelRow(
             new HtmlString('Operation:'),
             new HtmlString('Payment')
         );
-        $html .= $operationRow->getHtml();
+        $fragment->addChild($operationRow);
         
         // Supplier name
         $supplierName = $this->transactionData['supplier_name'] ?? 'Unknown Supplier';
@@ -198,7 +222,7 @@ class SettledTransactionDisplay
             new HtmlString('Supplier:'),
             new HtmlString(htmlspecialchars($supplierName))
         );
-        $html .= $supplierRow->getHtml();
+        $fragment->addChild($supplierRow);
         
         // Bank account
         $bankAccountName = $this->transactionData['bank_account_name'] ?? 'Unknown Account';
@@ -206,27 +230,28 @@ class SettledTransactionDisplay
             new HtmlString('From bank account:'),
             new HtmlString(htmlspecialchars($bankAccountName))
         );
-        $html .= $bankRow->getHtml();
+        $fragment->addChild($bankRow);
         
-        return $html;
+        return $fragment;
     }
 
     /**
      * Render bank deposit details
      *
-     * @return string HTML output
+     * @return HtmlFragment HTML fragment with operation and customer/branch rows
      * @since 20251019
+     * @version 2.0.0 - Returns HtmlFragment instead of string
      */
-    private function renderBankDepositDetails(): string
+    private function renderBankDepositDetails(): HtmlFragment
     {
-        $html = "";
+        $fragment = new HtmlFragment();
         
         // Operation
         $operationRow = new HtmlLabelRow(
             new HtmlString('Operation:'),
             new HtmlString('Deposit')
         );
-        $html .= $operationRow->getHtml();
+        $fragment->addChild($operationRow);
         
         // Customer and branch
         $customerName = $this->transactionData['customer_name'] ?? 'Unknown Customer';
@@ -237,50 +262,59 @@ class SettledTransactionDisplay
             new HtmlString('Customer/Branch:'),
             new HtmlString($customerBranch)
         );
-        $html .= $customerRow->getHtml();
+        $fragment->addChild($customerRow);
         
-        return $html;
+        return $fragment;
     }
 
     /**
      * Render manual settlement details
      *
-     * @return string HTML output
+     * @return HtmlFragment HTML fragment with manual settlement row
      * @since 20251019
+     * @version 2.0.0 - Returns HtmlFragment instead of string
      */
-    private function renderManualSettlementDetails(): string
+    private function renderManualSettlementDetails(): HtmlFragment
     {
+        $fragment = new HtmlFragment();
+        
         $row = new HtmlLabelRow(
             new HtmlString('Operation:'),
             new HtmlString('Manual settlement')
         );
+        $fragment->addChild($row);
         
-        return $row->getHtml();
+        return $fragment;
     }
 
     /**
      * Render unknown transaction type message
      *
-     * @return string HTML output
+     * @return HtmlFragment HTML fragment with unknown type message
      * @since 20251019
+     * @version 2.0.0 - Returns HtmlFragment instead of string
      */
-    private function renderUnknownTransactionType(): string
+    private function renderUnknownTransactionType(): HtmlFragment
     {
+        $fragment = new HtmlFragment();
+        
         $row = new HtmlLabelRow(
             new HtmlString('Status:'),
             new HtmlString('other transaction type; no info yet')
         );
+        $fragment->addChild($row);
         
-        return $row->getHtml();
+        return $fragment;
     }
 
     /**
      * Render unset transaction button
      *
-     * @return string HTML output
+     * @return HtmlLabelRow HTML label row with unset button
      * @since 20251019
+     * @version 2.0.0 - Returns HtmlLabelRow instead of string
      */
-    private function renderUnsetButton(): string
+    private function renderUnsetButton(): HtmlLabelRow
     {
         $lineItemId = $this->getLineItemId();
         $transNo = $this->getTransactionNumber();
@@ -293,11 +327,9 @@ class SettledTransactionDisplay
         $button->setName($buttonName);
         $button->setClass('default'); // FA uses 'default' class
         
-        $row = new HtmlLabelRow(
+        return new HtmlLabelRow(
             new HtmlString('Unset Transaction Association'),
             new HtmlRaw($button->getHtml())
         );
-        
-        return $row->getHtml();
     }
 }

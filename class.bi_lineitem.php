@@ -53,6 +53,18 @@ use KsfBankImport\Views\ViewFactory;
 // Feature flag to enable v2 Views (set to true to use ViewFactory)
 define('USE_V2_PARTNER_VIEWS', true);
 
+// SettledTransactionDisplay for displaying settled transactions
+require_once( __DIR__ . '/src/Ksfraser/SettledTransactionDisplay.php' );
+use Ksfraser\SettledTransactionDisplay;
+
+// CommentSubmitView for comment input and submit button
+require_once( __DIR__ . '/src/Ksfraser/Views/CommentSubmitView.php' );
+use Ksfraser\Views\CommentSubmitView;
+
+// PartnerTypeSelectorView for partner type dropdown
+require_once( __DIR__ . '/src/Ksfraser/Views/PartnerTypeSelectorView.php' );
+use Ksfraser\Views\PartnerTypeSelectorView;
+
 require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOB.php' );
@@ -358,7 +370,12 @@ class bi_lineitem extends generic_fa_interface_model
 		try {
 			$matchedVendor = $this->matchedVendor();
 			$matched_supplier = $this->matchedSupplierId( $matchedVendor );
-			hidden( 'vendor_id', $matchedVendor );
+			
+			// Vendor ID hidden field
+			$vendorIdHidden = new \Ksfraser\HTML\Elements\HtmlHidden('vendor_id', $matchedVendor);
+			$vendorIdHidden->toHtml();
+			
+			// Debug label row (TODO: Consider removing or making conditional)
 			label_row("Matched Vendor", print_r( $matchedVendor, true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supp_name'], true ) );
 		}
 		catch( Exception $e )
@@ -367,8 +384,12 @@ class bi_lineitem extends generic_fa_interface_model
 		}
 		finally
 		{
-			hidden( "vendor_short_$this->id", $this->otherBankAccount );
-			hidden( "vendor_long_$this->id", $this->otherBankAccountName );
+			// Vendor short and long name hidden fields
+			$vendorShortHidden = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$this->id", $this->otherBankAccount);
+			$vendorShortHidden->toHtml();
+			
+			$vendorLongHidden = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$this->id", $this->otherBankAccountName);
+			$vendorLongHidden->toHtml();
 		}
 	}
 	function selectAndDisplayButton()
@@ -634,12 +655,21 @@ class bi_lineitem extends generic_fa_interface_model
 					$matchcount++;
 				} //if isset
 			} //foreach
-			label_row("Matching GLs.  Ensure you double check Accounts and Amounts", $match_html );
+			
+			// Display matching GLs using HtmlLabelRow
+			$label = new \Ksfraser\HTML\Elements\HtmlString("Matching GLs.  Ensure you double check Accounts and Amounts");
+			$content = new \Ksfraser\HTML\Elements\HtmlRaw($match_html);
+			$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($label, $content);
+			$labelRow->toHtml();
 			//label_row("Matching GLs", print_r( $this->matching_trans, true ) );
 		}
 		else
 		{
-				label_row("Matching GLs", "No Matches found automatically" );
+			// Display no matches message using HtmlLabelRow
+			$label = new \Ksfraser\HTML\Elements\HtmlString("Matching GLs");
+			$content = new \Ksfraser\HTML\Elements\HtmlString("No Matches found automatically");
+			$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($label, $content);
+			$labelRow->toHtml();
 		}
 	}
 	/**//***************************************************************
@@ -678,8 +708,13 @@ class bi_lineitem extends generic_fa_interface_model
 							$this->formData->setPartnerType('ZZ');
 					}
 					$this->oplabel = "MATCH";
-				hidden("trans_type_$this->id", $this->matching_trans[0]['type'] );
-				hidden("trans_no_$this->id", $this->matching_trans[0]['type_no'] );
+					
+				// Transaction type and number hidden fields
+				$transTypeHidden = new \Ksfraser\HTML\Elements\HtmlHidden("trans_type_$this->id", $this->matching_trans[0]['type']);
+				$transTypeHidden->toHtml();
+				
+				$transNoHidden = new \Ksfraser\HTML\Elements\HtmlHidden("trans_no_$this->id", $this->matching_trans[0]['type_no']);
+				$transNoHidden->toHtml();
 
 				}
 				else
@@ -825,6 +860,7 @@ class bi_lineitem extends generic_fa_interface_model
 	*
 	************************************************************************/
 	function displayMatchedPartnerType()
+	{
 		require_once(__DIR__ . '/src/Ksfraser/FrontAccounting/TransactionTypes/TransactionTypesRegistry.php');
 		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlHidden.php');
 		require_once(__DIR__ . '/src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
@@ -909,12 +945,17 @@ class bi_lineitem extends generic_fa_interface_model
 			display_error("Unknown partner type: $partnerType");
 		}
 
-		// Common display elements (displayed for all partner types)
-		label_row(
-			(_("Comment:")),
-			text_input( "comment_$this->id", $this->memo, strlen($this->memo), '', _("Comment:") )
-		);
- 		label_row("", submit("ProcessTransaction[$this->id]",_("Process"),false, '', 'default'));
+		// Common display elements (displayed for all partner types) using CommentSubmitView
+		$commentSubmitData = [
+			'id' => $this->id,
+			'comment' => $this->memo,
+			'comment_label' => _("Comment:"),
+			'button_name' => "ProcessTransaction[$this->id]",
+			'button_label' => _("Process")
+		];
+		
+		$commentSubmitView = new CommentSubmitView($commentSubmitData);
+		$commentSubmitView->display();
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -957,11 +998,26 @@ class bi_lineitem extends generic_fa_interface_model
 			//Leaving in process_statement
 			$this->getDisplayMatchingTrans();
 			//display_notification( __FILE__ . "::" . __LINE__ . ": ->partnerType and _POST['partnerType']: " . $this->id . "::"  . $this->partnerType . "::" . $_POST['partnerType'][$this->id] );
-			label_row("Operation:", $this->oplabel, "width='25%' class='label'");
+			
+			// Display Operation label using HtmlLabelRow
+			$operationLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
+			$operationContent = new \Ksfraser\HTML\Elements\HtmlString($this->oplabel);
+			$operationLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($operationLabel, $operationContent);
+			$operationLabelRow->toHtml();
 			////label_row("Operation:", (($transactionDC=='C') ? "Deposit" : "Payment"), "width='25%' class='label'");
 //Something is clobbering $this->partnerType but not $_POST['partnerType'][$this->id]
 			//label_row("Partner:", array_selector("partnerType[$this->id]", $this->partnerType, $this->optypes, array('select_submit'=> true)));
-			label_row("Partner:", array_selector("partnerType[$this->id]", $this->formData->getPartnerType(), $this->optypes, array('select_submit'=> true)));
+			
+			// Display Partner Type selector using PartnerTypeSelectorView
+			$partnerSelectorData = [
+				'id' => $this->id,
+				'selected_value' => $this->formData->getPartnerType(),
+				'options' => $this->optypes,
+				'label' => 'Partner:',
+				'select_submit' => true
+			];
+			$partnerSelector = new PartnerTypeSelectorView($partnerSelectorData);
+			$partnerSelector->display();
 	/*************************************************************************************************************/
 		//3rd cell
 			if ( !$this->formData->hasPartnerId() )
@@ -1005,34 +1061,41 @@ class bi_lineitem extends generic_fa_interface_model
 	/**//*****************************************************************
 	* Display a settled transaction
 	*
+	* Uses SettledTransactionDisplay component (Option B - returns HtmlFragment)
+	* 
+	* @since 20251025 - Refactored to use SettledTransactionDisplay
 	**********************************************************************/
 	function display_settled()
 	{
-		// the transaction is settled, we can display full details
-		label_row("Status:", "<b>Transaction is settled!</b>", "width='25%' class='label'");
-		switch ($this->fa_trans_type)
-		{
+		// Build transaction data array for SettledTransactionDisplay
+		$transactionData = [
+			'id' => $this->id,
+			'fa_trans_type' => $this->fa_trans_type,
+			'fa_trans_no' => $this->fa_trans_no,
+		];
+		
+		// Add type-specific data based on transaction type
+		switch ($this->fa_trans_type) {
 			case ST_SUPPAYMENT:
-				label_row("Operation:", "Payment");
-				// get supplier info
-				label_row("Supplier:", $minfo['supplierName']);
-				label_row("From bank account:", $minfo['coyBankAccountName']);
-			break;
+				// Note: $minfo is undefined in original code - this was a bug
+				// SettledTransactionDisplay handles missing data gracefully
+				$transactionData['supplier_name'] = $this->supplier_name ?? 'Unknown Supplier';
+				$transactionData['bank_account_name'] = $this->bank_account_name ?? 'Unknown Account';
+				break;
+				
 			case ST_BANKDEPOSIT:
-				label_row("Operation:", "Deposit");
-				//get customer info from transaction details
-//TODO: Refactor to use fa_customer
+				// Get customer info from FA transaction details
 				$fa_trans = get_customer_trans($this->fa_trans_no, $this->fa_trans_type);
-				label_row("Customer/Branch:", get_customer_name($fa_trans['debtor_no']) . " / " . get_branch_name($fa_trans['branch_code']));
-			break;
-			case 0:
-				label_row("Operation:", "Manual settlement");
-			break;
-			default:
-				label_row("Status:", "other transaction type; no info yet " . print_r( $this, true ) );
-			break;
-	      	}
-		label_row( "Unset Transaction Association", submit( "UnsetTrans[$this->id]", _( "Unset Transaction $this->fa_trans_no"), false, '', 'default' ));
+				$transactionData['customer_name'] = get_customer_name($fa_trans['debtor_no'] ?? null);
+				$transactionData['branch_name'] = get_branch_name($fa_trans['branch_code'] ?? null);
+				break;
+		}
+		
+		// Use SettledTransactionDisplay component
+		$display = new SettledTransactionDisplay($transactionData);
+		
+		// Echo HTML directly (display() method handles toHtml())
+		$display->display();
 	}
 
 	/*****************************************************************//**
