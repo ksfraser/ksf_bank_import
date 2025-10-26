@@ -9,3 +9,6 @@ ini_set('display_startup_errors', '1');
 
 // Initialize any test-specific configurations
 define('FA_ROOT', dirname(__DIR__));
+
+// Load test base classes (not autoloaded)
+require_once __DIR__ . '/integration/DatabaseTestCase.php';

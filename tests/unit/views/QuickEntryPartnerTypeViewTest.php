@@ -82,8 +82,13 @@ class QuickEntryPartnerTypeViewTest extends TestCase
             $this->dataProvider
         );
         
-        $html = $view->getHtml();
+        $htmlObject = $view->getHtml();
         
+        // V2: Returns HtmlLabelRow object, not string
+        $this->assertInstanceOf(\Ksfraser\HTML\Composites\HtmlLabelRow::class, $htmlObject);
+        
+        // Can be converted to string
+        $html = $htmlObject->getHtml();
         $this->assertIsString($html);
         $this->assertNotEmpty($html);
     }
@@ -102,7 +107,8 @@ class QuickEntryPartnerTypeViewTest extends TestCase
         );
         
         $html = $view->getHtml();
-        
+        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
+
         $this->assertStringContainsString('Quick Entry', $html);
     }
     
@@ -124,7 +130,8 @@ class QuickEntryPartnerTypeViewTest extends TestCase
         );
         
         $html = $view->getHtml();
-        
+        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
+
         // Should use data provider to get entry details
         $this->assertIsString($html);
     }
@@ -165,7 +172,8 @@ class QuickEntryPartnerTypeViewTest extends TestCase
         );
         
         $html = $view->getHtml();
-        
+        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
+
         // Check for basic HTML structure
         $this->assertStringContainsString('<tr', $html);
         $this->assertStringContainsString('</tr>', $html);
@@ -185,7 +193,8 @@ class QuickEntryPartnerTypeViewTest extends TestCase
         );
         
         $html = $view->getHtml();
-        
+        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
+
         // Should render without errors
         $this->assertIsString($html);
     }
@@ -207,7 +216,8 @@ class QuickEntryPartnerTypeViewTest extends TestCase
         );
         
         $html = $view->getHtml();
-        
+        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
+
         // Should render without errors
         $this->assertIsString($html);
     }
@@ -229,7 +239,8 @@ class QuickEntryPartnerTypeViewTest extends TestCase
         );
         
         $html = $view->getHtml();
-        
+        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
+
         // Should attempt to fetch and display base description
         $this->assertIsString($html);
     }
@@ -250,7 +261,8 @@ class QuickEntryPartnerTypeViewTest extends TestCase
         );
         
         $html = $view->getHtml();
-        
+        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
+
         // Should render dropdown but no description
         $this->assertIsString($html);
         $this->assertStringContainsString('Quick Entry', $html);
