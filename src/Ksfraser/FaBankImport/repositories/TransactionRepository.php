@@ -6,7 +6,7 @@
  * Implements Repository pattern with dependency injection of QueryBuilder.
  * Separates data access from business logic (Single Responsibility Principle).
  * 
- * @package    Ksfraser\FaBankImport\Database
+ * @package    Ksfraser\FaBankImport\Repositories
  * @author     Kevin Fraser / GitHub Copilot
  * @since      20251104
  * @version    20251104.1
@@ -19,7 +19,9 @@
  * ```
  */
 
-namespace Ksfraser\FaBankImport\Database;
+namespace Ksfraser\FaBankImport\Repositories;
+
+use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
 
 /**
  * Repository for bi_transactions table
