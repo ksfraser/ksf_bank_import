@@ -52,7 +52,7 @@ class ksf_modules_table_filter_by_date extends origin
 	function display( $tablestype = TABLESTYLE_NOBORDER )
 	{
  		// this is filter table
-        	start_table( $tablestyle );
+        	start_table( $tablestype );
         	start_row();
         	if (!isset($_POST['statusFilter']))
         	        $_POST['statusFilter'] = 0;
@@ -92,7 +92,7 @@ class ksf_modules_table_filter_by_date extends origin
 	function bank_import_header( $tablestype = TABLESTYLE_NOBORDER )
 	{
  		// this is filter table
-        	start_table( $tablestyle );
+        	start_table( $tablestype );
         	start_row();
         	if (!isset($_POST['statusFilter']))
         	        $_POST['statusFilter'] = 0;

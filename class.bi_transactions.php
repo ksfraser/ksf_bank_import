@@ -396,7 +396,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 	******************************************************************************/
 	function db_prevoid( $type, $trans_no )
 	{
-		if( is_array( $trans_type ) )
+		if( is_array( $type ) )
 		{
 			$trans_type = $type['trans_type'];
 		}
@@ -517,7 +517,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 		$sql = "SELECT count(*) as count, `account`, `g_option`, `g_partner` FROM `0_bi_transactions` group by account, g_option, g_partner";
 		if( null != $account )
 			$sql .= " WHERE account = '" . $account . "'";
-	        $result = db_query($sql, "could not get transaction with id $tid");
+	        $result = db_query($sql, "could not get transaction with account $account");
 	        return db_fetch($result);
 	}
 	/**//**********************************************************************

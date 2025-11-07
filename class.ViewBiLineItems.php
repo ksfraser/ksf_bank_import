@@ -468,7 +468,8 @@ class ViewBILineItems
 	function display_right()
 	{
 	 	echo "</td><td width='50%' valign='top'>";
-		start_table(TABLESTYLE2, "width='100%'");
+		// Use standalone HTML instead of FA's start_table() - for independence from FA
+		echo '<table class="tablestyle2" width="100%">';
 		//now display stuff: forms and information
 
 		if ($this->status == 1)
@@ -516,9 +517,10 @@ class ViewBILineItems
 			hidden("cids[$this->id]",$cids);
 			$this->displayMatchingTransArr();
 		}
-		end_table();
+		// Use standalone HTML instead of FA's end_table() - for independence from FA
+		echo '</table>';
 		echo "</td>";
-		end_row();
+		// Note: end_row() is handled by parent context
 
 	}
 	/**//*****************************************************************

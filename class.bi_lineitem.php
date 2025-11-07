@@ -76,10 +76,11 @@ require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlElement.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlA.php' );
+require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlFragment.php' );
 use Ksfraser\HTML\Composites\HTML_ROW;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA};
-use Ksfraser\HTML\{HtmlElement, HtmlAttribute};
+use Ksfraser\HTML\{HtmlElement, HtmlAttribute, HtmlFragment};
 
 
 
@@ -89,6 +90,13 @@ use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 require_once( __DIR__ . '/src/Ksfraser/PartnerFormData.php' );
 require_once( __DIR__ . '/src/Ksfraser/FormFieldNameGenerator.php' );
 use Ksfraser\PartnerFormData;
+
+// Models
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php' );
+use Ksfraser\FaBankImport\models\BankAccountByNumber;
+
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
+use Ksfraser\FaBankImport\models\MatchingJEs;
 
 require_once( __DIR__ . '/Views/LineitemDisplayLeft.php' );
 
@@ -274,14 +282,26 @@ class bi_lineitem extends generic_fa_interface_model
 	* Get complete HTML for line item (for testability and HTML library integration)
 	*
 	* Returns the complete HTML for a transaction row.
-	* This combines left and right columns and enables testing 
-	* and future HTML library usage.
+	* Uses HtmlTableRow as a container for left and right TD elements,
+	* ensuring proper recursive rendering with automatic opening/closing tags.
 	*
-	* @return string Complete HTML for transaction row
+	* @return string Complete HTML for transaction row: <tr><td>LEFT</td><td>RIGHT</td></tr>
 	**********************************************************************/
 	function getHtml(): string
 	{
-		return $this->getLeftHtml() . $this->getRightHtml();
+		// Get left and right TD elements (not full HTML strings)
+		$leftTd = $this->getLeftTd();
+		$rightTd = $this->getRightTd();
+		
+		// Create HtmlTableRow container with both TDs
+		$fragment = new HtmlFragment();
+		$fragment->addChild($leftTd);
+		$fragment->addChild($rightTd);
+		
+		$tr = new HtmlTableRow($fragment);
+		
+		// Recursively renders: <tr><td>LEFT</td><td>RIGHT</td></tr>
+		return $tr->getHtml();
 	}
 	/**//******************************************************************
 	* Get OUR Bank Account Details
@@ -303,18 +323,30 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function display_left()
 	{
-		echo $this->getLeftHtml();
+		echo $this->getLeftTd()->getHtml();
 	}
+	
 	/**//****************************************************************
-	* Get left column HTML (for testability and HTML library integration)
+	* Get left column HTML (backward compatibility wrapper)
 	*
-	* Returns the HTML that display_left() currently echoes.
-	* Uses SRP View classes with recursive string rendering (no ob_start).
-	* Uses HtmlOB to capture output from legacy display methods.
-	*
+	* @deprecated Use getLeftTd() for proper HTML element structure
 	* @return string HTML for left column
 	**********************************************************************/
 	function getLeftHtml(): string
+	{
+		return $this->getLeftTd()->getHtml();
+	}
+	
+	/**//****************************************************************
+	* Get left column TD element (for testability and HTML library integration)
+	*
+	* Returns HtmlTd element containing the left column content.
+	* Uses SRP View classes with recursive string rendering.
+	* Uses HtmlOB to capture output from legacy display methods.
+	*
+	* @return HtmlTd TD element for left column
+	**********************************************************************/
+	function getLeftTd(): HtmlTd
 	{
 		// Populate bank details first
 		$this->getBankAccountDetails();
@@ -357,9 +389,7 @@ class bi_lineitem extends generic_fa_interface_model
 		$td = new HtmlTd($innerTable);
 		$td->addAttribute(new HtmlAttribute('width', '50%'));
 		
-		$tr = new HtmlTableRow($td);
-		
-		return $tr->getHtml();
+		return $td;
 	}
 	/**//****************************************************************
 	* Add a display button to add a Customer or a Vendor
@@ -408,7 +438,14 @@ class bi_lineitem extends generic_fa_interface_model
 		}
 		$b->toHtml();
 	}
-	function matchedSupplierId( array $matchedVendor ) : int
+	/**
+	 * Get the supplier ID for a matched vendor
+	 * 
+	 * @param int|string $matchedVendor The vendor array key (from array_search)
+	 * @return int The supplier ID
+	 * @throws Exception if vendor_list is not set
+	 */
+	function matchedSupplierId( $matchedVendor ) : int
 	{
 		if( ! isset( $this->vendor_list ) )
 		{
@@ -963,100 +1000,132 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function display_right()
 	{
-		echo $this->getRightHtml();
+		echo $this->getRightTd()->getHtml();
 	}
+	
 	/**//****************************************************************
-	* Get right column HTML (for testability and HTML library integration)
+	* Get right column HTML (backward compatibility wrapper)
 	*
-	* Returns the HTML that display_right() currently echoes.
-	* This enables testing and future HTML library usage.
-	*
+	* @deprecated Use getRightTd() for proper HTML element structure
 	* @return string HTML for right column
 	**********************************************************************/
 	function getRightHtml(): string
 	{
-		ob_start();
-	 	echo "</td><td width='50%' valign='top'>";
-		start_table(TABLESTYLE2, "width='100%'");
-		//now display stuff: forms and information
-
-		if ($this->status == 1)
-		{
-			$this->display_settled();
-	 	} else {
-			//transaction NOT settled
-			// this is a new transaction, but not matched by routine so just display some forms
-/*
-			if( $this->transactionDC == 'C' )
-				$this->oplabel = "Depost";
-			else
-				$this->oplabel = "Payment";
-*/
-			//display_notification( __FILE__ . "::" . __LINE__ . ": ->id and  ->partnerType (EMPTY?) and _POST['partnerType']: " . $this->id . "::" . $this->partnerType . "::" . $_POST['partnerType'][$this->id] );
-			$this->setPartnerType();
-			//display_notification( __FILE__ . "::" . __LINE__ . ": ->partnerType and _POST['partnerType']: "  . $this->id . "::" . $this->partnerType . "::" . $_POST['partnerType'][$this->id] );
-			//Leaving in process_statement
-			$this->getDisplayMatchingTrans();
-			//display_notification( __FILE__ . "::" . __LINE__ . ": ->partnerType and _POST['partnerType']: " . $this->id . "::"  . $this->partnerType . "::" . $_POST['partnerType'][$this->id] );
-			
-			// Display Operation label using HtmlLabelRow
-			$operationLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
-			$operationContent = new \Ksfraser\HTML\Elements\HtmlString($this->oplabel);
-			$operationLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($operationLabel, $operationContent);
-			$operationLabelRow->toHtml();
-			////label_row("Operation:", (($transactionDC=='C') ? "Deposit" : "Payment"), "width='25%' class='label'");
-//Something is clobbering $this->partnerType but not $_POST['partnerType'][$this->id]
-			//label_row("Partner:", array_selector("partnerType[$this->id]", $this->partnerType, $this->optypes, array('select_submit'=> true)));
-			
-			// Display Partner Type selector using PartnerTypeSelectorView
-			$partnerSelectorData = [
-				'id' => $this->id,
-				'selected_value' => $this->formData->getPartnerType(),
-				'options' => $this->optypes,
-				'label' => 'Partner:',
-				'select_submit' => true
-			];
-			$partnerSelector = new PartnerTypeSelectorView($partnerSelectorData);
-			$partnerSelector->display();
-	/*************************************************************************************************************/
-		//3rd cell
-			if ( !$this->formData->hasPartnerId() )
+		return $this->getRightTd()->getHtml();
+	}
+	
+	/**//****************************************************************
+	* Get right column TD element (for testability and HTML library integration)
+	*
+	* Returns HtmlTd element containing the right column content.
+	* This method captures output from legacy display methods using HtmlOB,
+	* wraps it in proper HTML structure.
+	*
+	* @return HtmlTd TD element for right column
+	**********************************************************************/
+	function getRightTd(): HtmlTd
+	{
+		// Use HtmlOB to capture echoed output from display methods
+		$contentHtml = (new HtmlOB(function() {
+			//now display stuff: forms and information
+			if ($this->status == 1)
 			{
-				$this->formData->setPartnerId(null);
+				$this->display_settled();
+			} else {
+				//transaction NOT settled
+				// this is a new transaction, but not matched by routine so just display some forms
+				$this->setPartnerType();
+				$this->getDisplayMatchingTrans();
+				
+				// Display Operation label using HtmlLabelRow
+				$operationLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
+				$operationContent = new \Ksfraser\HTML\Elements\HtmlString($this->oplabel);
+				$operationLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($operationLabel, $operationContent);
+				$operationLabelRow->toHtml();
+				
+				// Display Partner Type selector using PartnerTypeSelectorView
+				$partnerSelectorData = [
+					'id' => $this->id,
+					'selected_value' => $this->formData->getPartnerType(),
+					'options' => $this->optypes,
+					'label' => 'Partner:',
+					'select_submit' => true
+				];
+				$partnerSelector = new PartnerTypeSelectorView($partnerSelectorData);
+				$partnerSelector->display();
+		
+				//3rd cell
+				if ( !$this->formData->hasPartnerId() )
+				{
+					$this->formData->setPartnerId(null);
+				}
+
+				//Leaving in process_statement
+				$this->displayPartnerType();
+
+				//other common info
+				//Apparantly cids is just an empty array at this point in the original code
+				if( ! isset( $cids ) )
+				{
+					$cids = array();
+				}
+				$cids = implode(',', $cids);
+				
+				// Use HtmlHidden instead of hidden() function
+				$hiddenInput = new \Ksfraser\HTML\Elements\HtmlHidden("cids[$this->id]", $cids);
+				$hiddenInput->toHtml();
+				
+				$this->displayMatchingTransArr();
 			}
-
-			//Leaving in process_statement
-			$this->displayPartnerType();
-
-			//label_row("", submit("ProcessTransaction[$this->id]",_("Process"),false, '', 'default'));
-
-			//other common info
-			//Apparantly cids is just an empty array at this point in the original code
-			if( ! isset( $cids ) )
-			{
-				$cids = array();
-			}
-			$cids = implode(',', $cids);
-			hidden("cids[$this->id]",$cids);
-			$this->displayMatchingTransArr();
-		}
-		end_table();
-		echo "</td>";
-		end_row();
-		return ob_get_clean();
+		}))->getHtml();
+		
+		// Wrap content in HtmlTable with proper attributes
+		$tableData = new HtmlRaw($contentHtml);
+		$table = new HtmlTable($tableData);
+		$table->addAttribute(new HtmlAttribute("class", "tablestyle2"));
+		$table->addAttribute(new HtmlAttribute("width", "100%"));
+		
+		// Create the TD wrapper for right column
+		$td = new HtmlTd($table);
+		$td->addAttribute(new HtmlAttribute("width", "50%"));
+		$td->addAttribute(new HtmlAttribute("valign", "top"));
+		
+		return $td;
 	}
 	/**//*****************************************************************
 	* We want the ability to edit the raw trans data since some banks don't follow standards
 	*************************************************************************************/
 	function displayEditTransData()
 	{
-		//label_row("Edit this Transaction Data", submit("EditTransaction[$this->id]",_("EditTransaction"),false, '', 'default'));
-		label_row("Toggle Transaction Type Debit/Credit", submit("ToggleTransaction[$this->id]",_("ToggleTransaction"),false, '', 'default'));
-/*
-		label_row("Edit this Transaction Data", submit("EditTransaction[$this->id]",_("EditTransaction"),false, '', 'default'));
-		hidden( "vendor_short_$this->id", $this->otherBankAccount );
-		hidden( "vendor_long_$this->id", $this->otherBankAccountName );
-*/
+		// Create submit button using HtmlSubmit class
+		$buttonLabel = new \Ksfraser\HTML\Elements\HtmlString(_("ToggleTransaction"));
+		$submitButton = new \Ksfraser\HTML\Elements\HtmlSubmit($buttonLabel);
+		$submitButton->setName("ToggleTransaction[$this->id]");
+		$submitButton->setClass("default");
+		
+		// Display using HtmlLabelRow
+		$labelText = new \Ksfraser\HTML\Elements\HtmlString("Toggle Transaction Type Debit/Credit");
+		$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($labelText, $submitButton);
+		$labelRow->toHtml();
+		
+		// Optionally add edit button (commented in original)
+		/*
+		$editButtonLabel = new \Ksfraser\HTML\Elements\HtmlString(_("EditTransaction"));
+		$editButton = new \Ksfraser\HTML\Elements\HtmlSubmit($editButtonLabel);
+		$editButton->setName("EditTransaction[$this->id]");
+		$editButton->setClass("default");
+		
+		$editLabelText = new \Ksfraser\HTML\Elements\HtmlString("Edit this Transaction Data");
+		$editLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($editLabelText, $editButton);
+		$editLabelRow->toHtml();
+		*/
+		
+		// Use HtmlHidden instead of hidden() function
+		$hiddenVendorShort = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$this->id", $this->otherBankAccount);
+		$hiddenVendorShort->toHtml();
+		
+		$hiddenVendorLong = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$this->id", $this->otherBankAccountName);
+		$hiddenVendorLong->toHtml();
 	}
 	/**//*****************************************************************
 	* Display a settled transaction
