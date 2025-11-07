@@ -11,9 +11,9 @@ require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlRaw.php';
 require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlAttribute.php';
 require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php';
 require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlEmail.php';
-require_once __DIR__ . '/Views/HTML/HtmlA.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlA.php';
 
-use Ksfraser\HTML\HTMLAtomic\{HtmlEmail, HtmlA, HtmlString};
+use Ksfraser\HTML\Elements\{HtmlEmail, HtmlA, HtmlString};
 use Ksfraser\HTML\Elements\HtmlRaw;
 
 echo "=== Testing HtmlEmail ===\n\n";
@@ -105,3 +105,4 @@ try {
 }
 
 echo "=== All Tests Complete ===\n";
+

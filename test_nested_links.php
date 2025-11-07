@@ -8,10 +8,10 @@ require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlElement.php';
 require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php';
 require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlAttribute.php';
 require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php';
-require_once __DIR__ . '/Views/HTML/HtmlA.php';
+require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlA.php';
 require_once __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlEmail.php';
 
-use Ksfraser\HTML\HTMLAtomic\{HtmlA, HtmlEmail, HtmlString};
+use Ksfraser\HTML\Elements\{HtmlA, HtmlEmail, HtmlString};
 
 echo "=== Testing Nested Link Prevention ===\n\n";
 
@@ -73,3 +73,4 @@ try {
 }
 
 echo "=== All Validation Tests Complete ===\n";
+

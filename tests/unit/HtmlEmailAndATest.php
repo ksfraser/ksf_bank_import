@@ -18,12 +18,12 @@ class HtmlEmailAndATest extends TestCase
 		require_once __DIR__ . '/../../src/Ksfraser/HTML/HtmlAttribute.php';
 		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlLink.php';
 		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlEmail.php';
-		require_once __DIR__ . '/../../Views/HTML/HtmlA.php';
+		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlA.php';
 	}
 	
 	public function testHtmlEmailCreatesMailtoLink()
 	{
-		$email = new \Ksfraser\HTML\HTMLAtomic\HtmlEmail( "test@example.com", new \Ksfraser\HTML\HTMLAtomic\HtmlString( "Email Me" ) );
+		$email = new \Ksfraser\HTML\Elements\HtmlEmail( "test@example.com", new \Ksfraser\HTML\Elements\HtmlString( "Email Me" ) );
 		$html = $email->getHtml();
 		
 		$this->assertStringContainsString( 'href="mailto:test@example.com"', $html );
@@ -35,7 +35,7 @@ class HtmlEmailAndATest extends TestCase
 	public function testHtmlEmailWithStringContent()
 	{
 		// Accepts plain string - should wrap in HtmlString automatically
-		$email = new \Ksfraser\HTML\HTMLAtomic\HtmlEmail( "test@example.com", "Contact Us" );
+		$email = new \Ksfraser\HTML\Elements\HtmlEmail( "test@example.com", "Contact Us" );
 		$html = $email->getHtml();
 		
 		$this->assertStringContainsString( 'href="mailto:test@example.com"', $html );
@@ -45,7 +45,7 @@ class HtmlEmailAndATest extends TestCase
 	public function testHtmlEmailWithNullContentUsesEmailAddress()
 	{
 		// Null content should use email address as link text
-		$email = new \Ksfraser\HTML\HTMLAtomic\HtmlEmail( "info@example.com" );
+		$email = new \Ksfraser\HTML\Elements\HtmlEmail( "info@example.com" );
 		$html = $email->getHtml();
 		
 		$this->assertStringContainsString( 'href="mailto:info@example.com"', $html );
@@ -57,13 +57,13 @@ class HtmlEmailAndATest extends TestCase
 		$this->expectException( \Exception::class );
 		$this->expectExceptionMessage( "Invalid email address" );
 		
-		$email = new \Ksfraser\HTML\HTMLAtomic\HtmlEmail( "not-an-email", "Click" );
+		$email = new \Ksfraser\HTML\Elements\HtmlEmail( "not-an-email", "Click" );
 	}
 	
 	public function testHtmlEmailCanSkipValidation()
 	{
 		// Should not throw even with invalid format
-		$email = new \Ksfraser\HTML\HTMLAtomic\HtmlEmail( "custom-format", "Click", false );
+		$email = new \Ksfraser\HTML\Elements\HtmlEmail( "custom-format", "Click", false );
 		$html = $email->getHtml();
 		
 		$this->assertStringContainsString( 'href="mailto:custom-format"', $html );
@@ -74,12 +74,12 @@ class HtmlEmailAndATest extends TestCase
 		$this->expectException( \Exception::class );
 		$this->expectExceptionMessage( "Invalid link content type" );
 		
-		$email = new \Ksfraser\HTML\HTMLAtomic\HtmlEmail( "test@example.com", 123 ); // Invalid: integer
+		$email = new \Ksfraser\HTML\Elements\HtmlEmail( "test@example.com", 123 ); // Invalid: integer
 	}
 	
 	public function testHtmlACreatesStandardLink()
 	{
-		$link = new \Ksfraser\HTML\HTMLAtomic\HtmlA( "https://example.com", new \Ksfraser\HTML\HTMLAtomic\HtmlString( "Visit Site" ) );
+		$link = new \Ksfraser\HTML\Elements\HtmlA( "https://example.com", new \Ksfraser\HTML\Elements\HtmlString( "Visit Site" ) );
 		$html = $link->getHtml();
 		
 		$this->assertStringContainsString( 'href="https://example.com"', $html );
@@ -91,7 +91,7 @@ class HtmlEmailAndATest extends TestCase
 	public function testHtmlAWithStringContent()
 	{
 		// Accepts plain string - should wrap automatically
-		$link = new \Ksfraser\HTML\HTMLAtomic\HtmlA( "https://example.com", "Click Here" );
+		$link = new \Ksfraser\HTML\Elements\HtmlA( "https://example.com", "Click Here" );
 		$html = $link->getHtml();
 		
 		$this->assertStringContainsString( 'href="https://example.com"', $html );
@@ -101,7 +101,7 @@ class HtmlEmailAndATest extends TestCase
 	public function testHtmlAWithNullContentUsesUrl()
 	{
 		// Null content should use URL as link text
-		$link = new \Ksfraser\HTML\HTMLAtomic\HtmlA( "https://example.com" );
+		$link = new \Ksfraser\HTML\Elements\HtmlA( "https://example.com" );
 		$html = $link->getHtml();
 		
 		$this->assertStringContainsString( 'href="https://example.com"', $html );
@@ -110,7 +110,7 @@ class HtmlEmailAndATest extends TestCase
 	
 	public function testHtmlAWithRawHtmlContent()
 	{
-		$link = new \Ksfraser\HTML\HTMLAtomic\HtmlA( "/page", new \Ksfraser\HTML\HTMLAtomic\HtmlRawString( "<strong>Bold</strong> Link" ) );
+		$link = new \Ksfraser\HTML\Elements\HtmlA( "/page", new \Ksfraser\HTML\Elements\HtmlRaw( "<strong>Bold</strong> Link" ) );
 		$html = $link->getHtml();
 		
 		$this->assertStringContainsString( 'href="/page"', $html );
@@ -122,12 +122,12 @@ class HtmlEmailAndATest extends TestCase
 		$this->expectException( \Exception::class );
 		$this->expectExceptionMessage( "Invalid link content type" );
 		
-		$link = new \Ksfraser\HTML\HTMLAtomic\HtmlA( "https://example.com", ['invalid'] ); // Invalid: array
+		$link = new \Ksfraser\HTML\Elements\HtmlA( "https://example.com", ['invalid'] ); // Invalid: array
 	}
 	
 	public function testHtmlAInheritsParamMethods()
 	{
-		$link = new \Ksfraser\HTML\HTMLAtomic\HtmlA( "/search", new \Ksfraser\HTML\HTMLAtomic\HtmlString( "Search" ) );
+		$link = new \Ksfraser\HTML\Elements\HtmlA( "/search", new \Ksfraser\HTML\Elements\HtmlString( "Search" ) );
 		$link->addParam( "q", "test query" );
 		$link->addParam( "page", "2" );
 		
@@ -142,7 +142,7 @@ class HtmlEmailAndATest extends TestCase
 	public function testHtmlEmailInheritsParamMethods()
 	{
 		// Email links can have query params too (subject, body, cc, etc.)
-		$email = new \Ksfraser\HTML\HTMLAtomic\HtmlEmail( "support@example.com", new \Ksfraser\HTML\HTMLAtomic\HtmlString( "Contact Support" ) );
+		$email = new \Ksfraser\HTML\Elements\HtmlEmail( "support@example.com", new \Ksfraser\HTML\Elements\HtmlString( "Contact Support" ) );
 		$email->addParam( "subject", "Help Request" );
 		$email->addParam( "body", "I need assistance" );
 		
@@ -155,7 +155,7 @@ class HtmlEmailAndATest extends TestCase
 	
 	public function testHtmlACanSetTarget()
 	{
-		$link = new \Ksfraser\HTML\HTMLAtomic\HtmlA( "https://external.com", new \Ksfraser\HTML\HTMLAtomic\HtmlString( "External" ) );
+		$link = new \Ksfraser\HTML\Elements\HtmlA( "https://external.com", new \Ksfraser\HTML\Elements\HtmlString( "External" ) );
 		$link->setTarget( "_blank" );
 		
 		$html = $link->getHtml();
@@ -163,3 +163,5 @@ class HtmlEmailAndATest extends TestCase
 		$this->assertStringContainsString( 'target="_blank"', $html );
 	}
 }
+
+
