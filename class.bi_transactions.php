@@ -18,7 +18,22 @@ $path_to_root = "../..";
  * */
 
 //TODO
-//	Update the queries in the functions to use $this->table_details['tablename'] instead of .TB_PREF."bi_transactions 
+//	Update the queries in the functions to use $this->table_details['tablename'] instead of .TB_PREF."bi_transactions
+//
+// TODO - Future Filter Enhancements (Mantis #3188 follow-up):
+//	1. Add transaction amount range filter (min/max) - see get_transactions() line 425
+//	   - Useful for finding large transactions or specific amount ranges
+//	   - Should support: minAmount and maxAmount parameters
+//	   - Implementation: WHERE t.transactionAmount >= minAmount AND t.transactionAmount <= maxAmount
+//	
+//	2. Add transaction title filter (LIKE search) - see get_transactions() line 430
+//	   - Useful for searching by vendor name, description, memo text
+//	   - Should support: partial text matching with wildcards
+//	   - Implementation: WHERE t.transactionTitle LIKE '%searchText%'
+//	   - Consider: Case-insensitive search, multiple keywords (AND/OR logic)
+//	
+//	See: Services/TransactionFilterService.php for scaffolded implementation
+//	See: header_table.php for UI element placement notes 
 
 /*
  *
@@ -381,7 +396,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 	******************************************************************************/
 	function db_prevoid( $type, $trans_no )
 	{
-		if( is_array( $trans_type ) )
+		if( is_array( $type ) )
 		{
 			$trans_type = $type['trans_type'];
 		}
@@ -406,7 +421,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 	* @param int status
 	* @returns array transaction rows sorted
 	***************************************************************************/
-	function get_transactions( $status = null, $transAfterDate = null, $transToDate = null, $transactionAmount = null, $transactionTitle = null, $limit = null ) 
+	function get_transactions( $status = null, $transAfterDate = null, $transToDate = null, $transactionAmount = null, $transactionTitle = null, $limit = null, $bankAccount = null ) 
 	{
 		if( null == $transAfterDate )
 		{
@@ -416,25 +431,18 @@ class bi_transactions_model extends generic_fa_interface_model {
 		{
 			$transToDate = $_POST['TransToDate'];
 		}
+		if( null == $bankAccount )
+		{
+			$bankAccount = isset($_POST['bankAccountFilter']) ? $_POST['bankAccountFilter'] : 'ALL';
+		}
+		
 		$trzs = array();
    		$sql = " SELECT t.*, s.account our_account, s.currency from " . TB_PREF . "bi_transactions t LEFT JOIN " . TB_PREF . "bi_statements as s ON t.smt_id = s.id";
-	       	$sql .= " WHERE t.valueTimestamp >= '" . date2sql( $transAfterDate ) . "' AND t.valueTimestamp < '" . date2sql( $transToDate ) . "'";
-		if( null !== $status )
-        	{
-              		$sql .= "  AND t.status = '" . $status . "'";
-        	}
-/*
-		if( null !== $transactionAmount )
-        	{
-              		$sql .= "  AND t.transactionAmount = '" . $transactionAmount . "'";
-        	}
-*/
-/*
-		if( null !== $transactionTitle )
-        	{
-              		$sql .= "  AND t.transactionTitle = '" . $transactionTitle . "'";
-        	}
-*/
+		
+		// Use TransactionFilterService to build WHERE clause
+		require_once(__DIR__ . '/Services/TransactionFilterService.php');
+		$filterService = new \KsfBankImport\Services\TransactionFilterService();
+		$sql .= $filterService->buildWhereClause($transAfterDate, $transToDate, $status, $bankAccount);
 
 		if( null !== $limit )
 		{
@@ -509,7 +517,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 		$sql = "SELECT count(*) as count, `account`, `g_option`, `g_partner` FROM `0_bi_transactions` group by account, g_option, g_partner";
 		if( null != $account )
 			$sql .= " WHERE account = '" . $account . "'";
-	        $result = db_query($sql, "could not get transaction with id $tid");
+	        $result = db_query($sql, "could not get transaction with account $account");
 	        return db_fetch($result);
 	}
 	/**//**********************************************************************

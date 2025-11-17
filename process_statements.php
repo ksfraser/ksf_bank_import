@@ -6,6 +6,21 @@ include_once( __DIR__  . "/vendor/autoload.php");
 include_once($path_to_root . "/includes/date_functions.inc");
 include_once($path_to_root . "/includes/session.inc");
 
+// Include Command Pattern Bootstrap (handles POST actions via CommandDispatcher)
+require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
+
+// HTML library imports
+use Ksfraser\HTML\Elements\HtmlForm;
+use Ksfraser\HTML\Elements\HtmlDiv;
+use Ksfraser\HTML\Elements\HtmlTable;
+use Ksfraser\HTML\Elements\HtmlTableHead;
+use Ksfraser\HTML\Elements\HtmlTableRow;
+use Ksfraser\HTML\Elements\HtmlTableBody;
+use Ksfraser\HTML\Elements\HtmlTh;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\Elements\HtmlRaw;
+use Ksfraser\HTML\Elements\HtmlAttribute;
+
 include_once($path_to_root . "/includes/ui/ui_input.inc");
 include_once($path_to_root . "/includes/ui/ui_lists.inc");
 include_once($path_to_root . "/includes/ui/ui_globals.inc");
@@ -24,16 +39,36 @@ include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
 //TODO:
 //	Audit routine to ensure that all processed entries match what they are allocated to
 //		For example if an entry says it matches JE XXX, ensure that the dates are close, and the amount is exact.
-//	Audit that no 2 transactions point to the same type+number.  i.e. recurring payments aren't matched to the same payment.
-//		During the insert/update we should make sure this dupe doesn't pre-exist before doing the update.
+//TODO:
+//	Audit that no 2 transactions point to the same type+number.  
+// 		i.e. recurring payments aren't matched to the same payment.
+//			During the insert/update we should make sure this dupe doesn't pre-exist before doing the update.
+//TODO:
 //	Make sure that all Processing (i.e. bi_transactions is having status set to 1) triggers a reload/re-search
+//TODO:
 //	Ensure pre_dbwrite and post_dbwrite are called on all updates so that other modules can also be triggered
-//		Looking to have related sets of books (i.e. business specific ones) to be matched/updated/created
-//			i.e. Marcia's CM payments or commissions should match/create entries in that specific set of books from our household books.
-//			i.e. FHS Expenditures and Payments should match/create entries in the FHS books.
-//		Is there a way to trap on GL Accounts being created and propogate those between sets of books?
-//		If so, is there a way to also trap creation of bank accounts?
-//	Add a filter on the search screen to filter by "our account"
+//		Using the built in FA routines probably does this.  If we have any non FA db writes we need to add them there.
+//TODO:
+//	(INT01) Craft the ability to write to other sets of books held in a separate FA company
+//		This would probably be best through an API (REST/SOAP).  Does the SLIM API already write where we need to?
+//		We would need a config to set up a target set of books 
+//			URL, username, password (or OAUTH tokens)
+//		We would need granular matching.  We don't want to replicate all transactions to a second set
+//			e.g. deposits into CIBC account from Square Up is most likely FHS related.  We have a history in partner data for this BT.
+//	 		e.g. using the QE for FHS expense/reimbursement should try to match entries for date/amount in the FHS books and if not there create.
+//			e.g. Marcia's CM payments or commissions should match/create entries in that specific set of books from our household books.
+//TODO:
+//		(INT02) Is there a way to trap on GL Accounts being created and propogate those between sets of books?
+//			I use the account codes that appear on the CRA T1 for easy matching for business expenses.  If I create a code in one set of books chances are it needs to be in ALL business sets of books
+// 			REST/SOAP?
+//			reuse the config from INT01 above
+//			pre-create check that the other sets of books don't already have this code.
+//TODO:
+//		(INT03) creation of bank accounts across multiple sets of books
+// 	 	 	We would need to be able to select which sets of books to propogate the creation.	 
+//			reuse the config from INT01 above
+//			Have a 1 stop creation of a new bank account AND related GL account.
+//				Integrate with INT02 to propogate.  Would need pre-create checking of the other accounts to ensure the Bank Account and GL code aren't already in use.
 
 
 $js = "";
@@ -49,14 +84,18 @@ page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
     	$menu = new \Views\ModuleMenuView();
     	$menu->renderMenu(); // Render the module menu
 
-$optypes = array(
-	'SP' => 'Supplier',
-	'CU' => 'Customer',
-	'QE' => 'Quick Entry',
-	'BT' => 'Bank Transfer',
-	'MA' => 'Manual settlement',
-	'ZZ' => 'Matched',
-);
+// REFACTOR STEP 1 COMPLETE: Replaced hardcoded array with PartnerTypeConstants::getAll()
+// Previous code (array) replaced by PartnerTypeConstants class - See commit/PR for details
+// Test: tests/unit/ProcessStatementsPartnerTypesTest.php (16 tests, 110 assertions - ALL PASSING)
+// This provides dynamic partner type discovery while maintaining backward compatibility
+$optypes = \Ksfraser\PartnerTypeConstants::getAll();
+// TODO END STEP 1
+/*
+// Load operation types from registry (session-cached)
+require_once('OperationTypes/OperationTypesRegistry.php');
+use KsfBankImport\OperationTypes\OperationTypesRegistry;
+$optypes = OperationTypesRegistry::getInstance()->getTypes();
+*/
 
 include_once($path_to_root . "/modules/ksf_modules_common/defines.inc.php");	//$trans_types_readable
 
@@ -72,13 +111,30 @@ require_once( 'class.bank_import_controller.php' );
 //---------------------------------------------------------------------------------
 //--------------Unset (Reset) a Transaction----------------------------------------
 //---------------------------------------------------------------------------------
-// actions
-unset($k, $v);
+// NOTE: The command_bootstrap.php file (included above) handles these four POST actions:
+//   - UnsetTrans: Resets transaction status (via UnsetTransactionCommand)
+//   - AddCustomer: Creates customer from transaction (via AddCustomerCommand)
+//   - AddVendor: Creates vendor/supplier from transaction (via AddVendorCommand)
+//   - ToggleTransaction: Toggles debit/credit indicator (via ToggleDebitCreditCommand)
+//
+// The bootstrap file:
+//   1. Initializes the DI container with all dependencies
+//   2. Registers the CommandDispatcher
+//   3. Handles POST actions using Command Pattern (if USE_COMMAND_PATTERN = true)
+//   4. Falls back to legacy bi_controller methods (if USE_COMMAND_PATTERN = false)
+//
+// To toggle between new Command Pattern and legacy code, set USE_COMMAND_PATTERN in config.
+// For now, both paths are supported for backward compatibility.
+//---------------------------------------------------------------------------------
 
-if( isset( $_POST['UnsetTrans'] ) )
-{
-	$bi_controller->unsetTrans();
-}
+// Legacy fallback handlers (only used if USE_COMMAND_PATTERN = false)
+if (!defined('USE_COMMAND_PATTERN') || USE_COMMAND_PATTERN === false) {
+	// Unset (Reset) a Transaction
+	unset($k, $v);
+	if( isset( $_POST['UnsetTrans'] ) )
+	{
+		$bi_controller->unsetTrans();
+	}
 
 /*----------------------------------------------------------------------------------------------*/
 /*------------------------Add Customer----------------------------------------------------------*/
@@ -104,8 +160,64 @@ if (isset($_POST['ToggleTransaction']))
 	display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
 }
 /*----------------------------------------------------------------------------------------------*/
+/*-------------------Process Both Sides of Paired Bank Transfer---------------------------------*/
+/*----------------------------------------------------------------------------------------------*/
+if ( isset( $_POST['ProcessBothSides'] ) ) {
+	list($k, $v) = each($_POST['ProcessBothSides']);	//K is index (first transaction ID)
+	if (isset($k) && isset($v)) 
+	{
+		try {
+			// Use new PairedTransferProcessor service
+			require_once('Services/PairedTransferProcessor.php');
+			require_once('Services/BankTransferFactory.php');
+			require_once('Services/BankTransferFactoryInterface.php');
+			require_once('Services/TransactionUpdater.php');
+			require_once('Services/TransferDirectionAnalyzer.php');
+			require_once('class.bi_transactions.php');
+			require_once('VendorListManager.php');
+			require_once('OperationTypes/OperationTypesRegistry.php');
+			
+			// Get dependencies
+			$bit = new bi_transactions_model();
+			$vendorList = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
+			$optypes = \KsfBankImport\OperationTypes\OperationTypesRegistry::getInstance()->getTypes();
+			
+			// Create service instances
+			$factory = new \KsfBankImport\Services\BankTransferFactory();
+			$updater = new \KsfBankImport\Services\TransactionUpdater();
+			$analyzer = new \KsfBankImport\Services\TransferDirectionAnalyzer();
+			
+			// Create processor with dependencies
+			$processor = new \KsfBankImport\Services\PairedTransferProcessor(
+				$bit,
+				$vendorList,
+				$optypes,
+				$factory,
+				$updater,
+				$analyzer
+			);
+			
+			// Process the paired transfer
+			$result = $processor->processPairedTransfer($k);
+			
+			// Display success notification
+			display_notification("<span style='color: green; font-weight: bold;'>✓ Paired Bank Transfer Processed Successfully!</span>");
+			display_notification("Both sides of the transfer have been recorded:");
+			display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $result['trans_type'] . "&trans_no=" . $result['trans_no'] . "'>View GL Entry</a>" );
+			
+		} catch (\Exception $e) {
+			display_error("Error processing paired transfer: " . $e->getMessage());
+		}
+		
+		$Ajax->activate('doc_tbl');
+	}
+}
+/*----------------------------------------------------------------------------------------------*/
 /*-------------------Process Transaction--------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------*/
+
+
+
 if ( isset( $_POST['ProcessTransaction'] ) ) {
 //20240208 EACH is depreciated.  Should rewrite with foreach
 	list($k, $v) = each($_POST['ProcessTransaction']);	//K is index.  V is "process/..."
@@ -176,319 +288,52 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 			$bi_controller->set( "trz", $trz );
 			$bi_controller->set( "tid", $tid );
 			$bi_controller->set( "our_account", $our_account );
-			switch(true) 
-			{
-		            case ($_POST['partnerType'][$k] == 'SP'):
-				display_notification( __FILE__ . "::" . __LINE__ . " CALL controller::processSupplierTransaction ");
-				try
-				{
-					$bi_controller->processSupplierTransaction();
-				} catch( Exception $e )
-				{
-					display_error( "Error processing supplier transaction: " . print_r( $e, true ) );
-				}
-			break;
-	/*************************************************************************************************************/
-				//TODO:
-				//	Match customers to records
-				//		i.e. E-Transfer from XXYYY (CIBC statements)
-			case ($_POST['partnerType'][$k] == 'CU' && $trz['transactionDC'] == 'C'):
-					//display_notification( __FILE__ . "::" . __LINE__ . " Index passed in (processTransaction from post): " . $k );
-					//display_notification( __FILE__ . "::" . __LINE__ . " Invoice for this Index: " . $_POST['Invoice_' .$k] );
-					//display_notification( __FILE__ . "::" . __LINE__ . ":: " .  print_r( $_POST, true ) );
-				/*
-					display_notification( __FILE__ . "::" . __LINE__ . "Partner ID: " . $partnerId );
-					display_notification( __FILE__ . "::" . __LINE__ . "Transaction Data: " . print_r( $trz, true ) );
-					display_notification( __FILE__ . "::" . __LINE__ . print_r( $_POST, true ) );
-				*/
-				//20240211 Works.  Not sure why BANKDEPOSIT vice CUSTPAYMENT in original module.
-				$trans_type = ST_BANKDEPOSIT;
-				$trans_type = ST_CUSTPAYMENT;
-				//insert customer payment into database
-				do {
-					$reference = $Refs->get_next($trans_type);
-				} while(!is_new_reference($reference, $trans_type));
-				//20240304 The BRANCH doesn't seem to get selected though.
-				if( strlen( $trz['transactionTitle'] ) < 4 )
-				{
-					if( strlen( $trz['memo'] ) > 0 ) 
-					{
-						$trz['transactionTitle'] .= " : " . $trz['memo'];
-					}
-				}
-/** Mantis 3018
-*	We are trying to allocate Customer Payments against a specific invoice
-*		Should we be setting trans_no?   It is currently NULL.
-*		partnerId is being set right before the opening of this switch statement
-*/
-	//TODO:
-	//	check that we have partnerId	
-					//display_notification( __FILE__ . "::" . __LINE__ );
+			// REFACTOR COMPLETE (Steps 3-9): Replaced switch statement with TransactionProcessor pattern
+			// Delegates to handler classes: SupplierTransactionHandler, CustomerTransactionHandler,
+			// QuickEntryTransactionHandler, BankTransferTransactionHandler, ManualSettlementHandler, MatchedTransactionHandler
+			// See: handlers/*.php and TransactionProcessor.php
+			// Test: tests/unit/Handlers/*HandlerTest.php (70 tests - ALL PASSING)
 
+			// Initialize TransactionProcessor for ProcessTransaction action
+			// Auto-discovers and loads all handlers from Handlers/ directory
+			$transactionProcessor = new \Ksfraser\FaBankImport\TransactionProcessor();
 
 			try {
-/*
-*					$deposit_id = $fcp->write_customer_payment();
-*					$invoice_no = $_POST['Invoice_$k'];
-*					display_notification("Invoice Number and Deposit Number: $invoice_no :: $deposit_id ");
-*/
-
-				$invoice_no = $_POST['Invoice_' . $k];
-				$amount = user_numeric($trz['transactionAmount']);
-				$deposit_id = my_write_customer_payment(
-					$trans_no = 0, $customer_id=$partnerId, $branch_id=$_POST["partnerDetailId_$k"], $bank_account=$our_account['id'],
-					$date_ = sql2date($trz['valueTimestamp']), $reference, $amount,
-					$discount=0, $trz['transactionTitle'] . "::" . $_POST['comment_' . $tid], $rate=0, user_numeric($charge), $bank_amount=0, $trans_type);
-				if( $invoice_no )
-				{
-//sales/allocations/customer_allocate.php?trans_no=521&trans_type=12&debtor_no=108
-//$alloc = new allocation($_GET['trans_type'], $_GET['trans_no'], @$_GET['debtor_no'], PT_CUSTOMER);
-//$alloc->write();
-						// /sales/includes/db/custalloc_db.inc
-                        		add_cust_allocation($amount, ST_CUSTPAYMENT, $deposit_id, ST_SALESINVOICE, $invoice_no, $customer_id, $date_);
-                        		update_debtor_trans_allocation(ST_SALESINVOICE, $invoice_no, $customer_id);
-                        		update_debtor_trans_allocation(ST_CUSTPAYMENT, $deposit_id, $customer_id);
-				}
-
-
-					//update trans with payment_id details
-					if( $deposit_id )
-					{
-						//Alolocate payment against an invoice
-						$counterparty_arr = get_trans_counterparty( $deposit_id, $trans_type );
-						update_transactions($tid, $_cids, $status=1, $deposit_id, $trans_type, false, true,  "CU", $partnerId);
-//We want to update fa_trans_type, fa_trans_no, account/accountName, status, matchinfo, matched/created, g_partner
-						update_partner_data($partnerId, PT_CUSTOMER, $_POST["partnerDetailId_$k"], $trz['memo']);
-						update_partner_data($partnerId, $trans_type, $_POST["partnerDetailId_$k"], $trz['memo']);
-						display_notification('Customer Payment/Deposit processed');
-						display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View GL Entry</a>" );
-						display_notification("<a target=_blank href='../../sales/view/view_receipt.php?type_id=" . $trans_type . "&trans_no=" . $deposit_id . "'>View Payment and Associated Invoice</a>" );
-					}
-					else {
-						//No allocation - only record (above) the payment
-					}
-			}
-			catch( Exception $e )
-			{
-				display_notification('Exception' . print_r( $e, true ) );
-			}
-
-			break;
-	/*************************************************************************************************************/
-			case ($_POST['partnerType'][$k] == 'QE'):
-				$trans_type = ($trz['transactionDC'] == 'D')?ST_BANKPAYMENT:ST_BANKDEPOSIT;
-				//gl_bank uses items_cart from includes/ui/items_cart.inc
-				//gl_bank creates the cart using ST_BANKPAYMENT.  But later a check on that uses QE_DEPOSIT or QE_PAYMENT
-				//  Then Refs, tran_date, checks in fiscal year
-				// Then sets _POST fr memo, ref, date, and sets _SESSION['pay_items_ to &cart
-				$cart = new items_cart($trans_type);
-					$cart->order_id = 0;
-					$cart->original_amount = $trz['transactionAmount'] + $charge;
-					do {
-						$cart->reference = $Refs->get_next($cart->trans_type);
-					} while(!is_new_reference($cart->reference, $cart->trans_type));
-					$cart->tran_date = sql2date($trz['valueTimestamp']);
-				//While if I am up todate with the books this should be fine,
-				//what about catching up on historical?  Should be throw an error and a link
-				//to set the date?
-					if (!is_date_in_fiscalyear($cart->tran_date)) 
-					{
-						$cart->tran_date = end_fiscalyear();
-					}
-					//this loads the QE into cart!!!
-				try {
-					if( strlen( $trz['transactionTitle'] ) < 4 )
-					{
-						if( strlen( $trz['memo'] ) > 0 ) 
-						{
-							$trz['transactionTitle'] .= " : " . $trz['memo'];
-						}
-					}
-					//display_notification('QE TRANS: ' . print_r( $trz, true ) );
-
-					//function qe_to_cart(&$cart, $id, $base, $type, $descr='')
-				//gl_bank uses handle_new_item to call cart->add_gl_item but that's within the edit screen, which we don't have.
-				//GL_BANK PERSON_ID is the index of which QE was seleteded.  totamount is the master dollar amount.
-					$qe_memo = $_POST['comment_' . $tid] . " A:" . $our_account['bank_account_name'] . ":" . $trz['account_name'] . " M:" . $trz['account'] . ":" . $trz['transactionTitle'] . ": " . $trz['transactionCode'];
-					$rval = qe_to_cart($cart, $partnerId, $trz['transactionAmount'], ($trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
-				} catch( Exception $e )
-				{
-					display_notification('RVAL Exception' . print_r( $e, true ) );
-				}
-				// function add_gl_item($code_id, $dimension_id, $dimension2_id, $amount, $memo='', $act_descr=null, $person_id=null, $date=null)
-	//TODO:
-	//	Config which account to log these in
-	//	Conig whether to log these.
-				$cart->add_gl_item( '0000', 0, 0, 0.01, 'TransRef::'.$trz['transactionCode'], "Trans Ref");
-				$cart->add_gl_item( '0000', 0, 0, -0.01, 'TransRef::'.$trz['transactionCode'], "Trans Ref");
-				$total = $cart->gl_items_total();
-				if ($total != 0) 
-				{
-					//need to add the charge to the cart
-					$cart->add_gl_item(get_company_pref('bank_charge_act'), 0, 0, $charge, 'Charge/'.$trz['transactionTitle']);
-					//process the transaction
-					begin_transaction();
-	
-					$trans = write_bank_transaction(
-						$cart->trans_type, $cart->order_id, $our_account['id'],
-						$cart, sql2date($trz['valueTimestamp']),
-							PT_QUICKENTRY, $partnerId, 0,
-							$cart->reference, $qe_memo, true, null);
-							//$cart->reference, $trz['transactionTitle'], true, null);
-	
-					$counterparty_arr = get_trans_counterparty( $trans[1], $trans_type );
-					update_transactions($tid, $_cids, $status=1, $trans[1], $trans_type, false, true, "QE", $partnerId );
-					commit_transaction();
-					//Don't want this preventing the commit!
-					set_bank_partner_data( $our_account['id'], $trans_type, $partnerId, $trz['transactionTitle'] );
+				$partnerType = $_POST['partnerType'][$k];
+				$collectionIds = implode(',', array_filter(explode(',', $_POST['cids'][$tid] ?? '')));
+				
+				// Process transaction using appropriate handler
+				$result = $transactionProcessor->process(
+					$partnerType,
+					$trz,              // Database transaction data
+					$_POST,            // Form POST data
+					$tid,              // Transaction ID
+					$collectionIds,    // Charge transaction IDs
+					$our_account       // Our bank account
+				);
+				
+				// Display result using TransactionResult's display() method
+				$result->display();
+				
+				// Display transaction links if available
+				if ($result->isSuccess() && $result->getTransNo() > 0) {
+					$transNo = $result->getTransNo();
+					$transType = $result->getTransType();
 					
-					//Let User attach a document
-					display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $trans_type . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
-					//Let the user view the created transaction
-					//http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
-					display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
-
-	
-					} 
-				else 
-				{
-					display_notification('CART4B ' . print_r( $cart, true ) );
-					display_notification("QE not loaded: rval=$rval, k=$k, total=$total");
-					//display_notification("debug: <pre>".print_r($_POST, true).'</pre>');
-					}
-			break;
-	/*************************************************************************************************************/
-			case ($_POST['partnerType'][$k] == 'BT'):
-				$inc = require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
-				if( $inc )
-				{
-					$bttrf = new fa_bank_transfer();
-					try
-					{
-						$bttrf->set( "trans_type", ST_BANKTRANSFER );
-						if( $trz['transactionDC'] == 'C' OR $trz['transactionDC'] == 'B' )
-						{
-							//display_notification( __LINE__ . " :: " . print_r( $our_account, true )  );
-							$bttrf->set( "ToBankAccount", $our_account['id'] );
-							$pid = 'partnerId_' . $tid;
-							//display_notification( __LINE__ . " :: " . print_r( $_POST[$pid], true )  );
-							$bttrf->set( "FromBankAccount", $_POST[$pid] );
-						}
-						else
-						if( $trz['transactionDC'] == 'D' )
-						{
-							//On a Debit, the bank accounts are reversed.
-							//display_notification( __LINE__ . " :: " . print_r( $our_account, true )  );
-							$bttrf->set( "FromBankAccount", $our_account['id'] );
-							$pid = 'partnerId_' . $tid;
-							//display_notification( __LINE__ . " :: " . print_r( $_POST[$pid], true )  );
-							$bttrf->set( "ToBankAccount", $_POST[$pid] );
-						}
-						$bttrf->set( "amount", $trz['transactionAmount'] );
-						$bttrf->set( "trans_date", $trz['valueTimestamp'] );
-//$_POST['comment_' . $tid]
-						$bttrf->set( "memo_", $_POST['comment_' . $tid] . " :: " . $trz['transactionTitle'] . "::" . $trz['transactionCode'] . "::" . $trz['memo'] );
-						$bttrf->set( "target_amount", $trz['transactionAmount'] );
-					}
-					catch( Exception $e )
-					{
-						//display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
-						break;
-					}
-					try
-					{
-						$bttrf->getNextRef();
-						//$bttrf->trans_date_in_fiscal_year();
-					}
-					catch( Exception $e )
-					{
-						break;
-					}
-					begin_transaction();
-					//can_process is baked into add_bank_transfer
-					$bttrf->add_bank_transfer();
-					$counterparty_arr = get_trans_counterparty( $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ) );
-					$trans_no = $bttrf->get( "trans_no" );
-					$trans_type = $bttrf->get( "trans_type" );
-					update_transactions( $tid, $_cids, $status=1, $trans_no, $trans_type, false, true,  "BT", $partnerId );
-					//update_transactions( $tid, $_cids, $status=1, $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ), false, true );
-
-					set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $trz['memo'] );	//Short Form
-								//memo/transactionTitle holds the reference number, which would be unique :(
-					commit_transaction();
-					display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans_no . "'>View Entry</a>" );
-				}
-				else
-				{
-						//display_notification( __LINE__  );
-				}
-			break;
-	/*************************************************************************************************************/
-			case ($_POST['partnerType'][$k] == 'MA'):
-				$counterparty_arr = get_trans_counterparty( $_POST['Existing_Entry'], $_POST['Existing_Type'] );
-					display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-				update_transactions($tid, $_cids, $status=1, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
-				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
-				set_partner_data( $counterparty_arr['person_type'], $_POST['Existing_Type'], $counterparty_arr['person_type_id'], $trz['memo'] );	//Short Form
-				display_notification("Transaction was manually settled " . print_r( $_POST['Existing_Type'], true ) . ":" . print_r( $_POST['Existing_Entry'], true ) );
-				if( $_POST['Existing_Type'] == 12 )
-				{
-					display_notification("<a target=_blank href='../../sales/view/view_receipt.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Payment and Associated Invoice</a>" );
-				}
-			break;
-	/*************************************************************************************************************/
-				//TODO:
-				//	*When the Match score is too low, switching to MATCH still gets overwritten the next ajax load
-				//	*Test what happens if there are 3+ matches
-				//		right now it doesn't auto match, because we don't have a way to select the trans type/number
-				//		Sort by scoring.  Go with highest?
-				//20240214 Matching Works.  As long as score is high enough, can "process".
-			case ($_POST['partnerType'][$k] == 'ZZ'):
-				//display_notification("Entry Matched against an existing Entry (LE/Cp/SP/...)");
-				//display_notification(__FILE__ . "::" . __LINE__ . ":" . " Trans Type and No: ".print_r( $_POST["trans_type_$tid"], true) . ":" . print_r( $_POST["trans_no_$tid"], true ) );
-					$counterparty_arr = get_trans_counterparty( $_POST["trans_no_$tid"], $_POST["trans_type_$tid"] );
-				//display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-				if( isset( $_POST["memo_$tid"] ) AND strlen ($_POST["memo_$tid"]) > 0 )
-				{
-					$memo = $_POST["memo_$tid"];
-				}
-				else
-				if( isset( $_POST["title_$tid"] ) AND strlen ($_POST["title_$tid"]) > 0 )
-				{
-					$memo = $_POST["title_$tid"];
-				}
-				else
-				{
-					$memo = "";
-				}
-				foreach( $counterparty_arr as $row )
-				{
-					//display_notification(__FILE__ . "::" . __LINE__  );
-					//Any given transaction should only have 1 person associated.
-					if( isset( $row['person_id'] ) )
-					{
-						if( is_numeric( $row['person_id'] ) )
-						{
-							$person_id = $row['person_id'];
-						}
-						if( is_numeric( $row['person_type_id'] ) )
-						{
-							$person_type_id = $row['person_type_id'];
-						}
+					display_notification("<a target='_blank' href='../../gl/view/gl_trans_view.php?type_id={$transType}&trans_no={$transNo}'>View GL Entry</a>");
+					
+					// Special handling for customer payments (ST_CUSTPAYMENT = 12)
+					if ($transType == 12) {
+						display_notification("<a target='_blank' href='../../sales/view/view_receipt.php?type_id={$transType}&trans_no={$transNo}'>View Payment and Associated Invoice</a>");
 					}
 				}
-					//display_notification(__FILE__ . "::" . __LINE__  );
-					update_transactions( $tid, $_cids, $status=1, $_POST["trans_no_$tid"], $_POST["trans_type_$tid"], true, false,  "ZZ", $partnerId );
-					//display_notification(__FILE__ . "::" . __LINE__  );
-					display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$tid"] . "::" . $_POST["trans_no_$tid"] . "::" . "<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$tid"] . "&trans_no=" . $_POST["trans_no_$tid"] . "'>View Entry</a>");
-					if( $_POST["trans_no_$tid"] == 12 )
-					{
-						display_notification("<a target=_blank href='../../sales/view/view_receipt.php?type_id=" . $_POST["trans_type_$tid"] . "&trans_no=" . $_POST["trans_no_$tid"] . "'>View Payment and associated Invoice</a>" );
-					}
-				set_partner_data( $person_type, $_POST["trans_type_$tid"], $person_type_id, $memo );	
-					//display_notification(__FILE__ . "::" . __LINE__  );
-			break;
-			} // end of switch
+				
+			} catch (\InvalidArgumentException $e) {
+				display_error("No handler registered for partner type: {$_POST['partnerType'][$k]}");
+			} catch (\Exception $e) {
+				display_error("Error processing transaction: " . $e->getMessage());
+			}
+			// END REFACTOR
 			$Ajax->activate('doc_tbl');
 		} //end of if !error
 
@@ -513,6 +358,10 @@ if (isset($k) && isset($v)) {
 /************************************************************************************************************************/
 /**********************************************  GUI  *******************************************************************/
 /************************************************************************************************************************/
+
+// TODO REFACTOR STEP 10: Move all HTML rendering below to ProcessStatementsView class
+// Should use existing HTML components for clean separation of concerns
+// Test: tests/unit/Views/ProcessStatementsViewTest.php
 
 // search button pressed
 if (get_post('RefreshInquiry')) {
@@ -559,7 +408,12 @@ if (1) {
 	//------------------------------------------------------------------------------------------------
 	// this is data display table
 	$trzs = array();
-	$vendor_list = get_vendor_list();	//array
+	
+	// Load vendor list from singleton manager (session-cached)
+	if (!class_exists('\KsfBankImport\VendorListManager')) {
+		require_once('VendorListManager.php');
+	}
+	$vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
 
 	error_reporting(E_ALL);
 
@@ -617,5 +471,6 @@ if (1) {
 div_end();
 end_form();
 
+// End page
 end_page(@$_GET['popup'], false, false);
 ?>

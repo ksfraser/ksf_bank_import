@@ -1,37 +1,49 @@
 {
-
     "name": "ksfraser/fa-bank-import",
-    "description": "A Frontaccounting module for bank import functionality.",
+    "description": "A FrontAccounting module for bank import functionality with paired transfer processing.",
     "type": "library",
     "autoload": {
         "psr-4": {
+            "Ksfraser\\": "src/Ksfraser/",
             "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
             "Ksfraser\\FaBankImport\\Events\\": "src/Ksfraser/FaBankImport/events/",
             "Ksfraser\\Application\\": "src/Ksfraser/Application/",
             "Ksfraser\\Application\\Models\\": "src/Ksfraser/Application/models/",
             "Ksfraser\\Application\\Interfaces\\": "src/Ksfraser/Application/interfaces/",
             "Ksfraser\\HTML\\": "src/Ksfraser/HTML/",
-            "Tests\\Unit\\": "tests/unit/",
-            "Tests\\Accpetance\\": "tests/acceptance/",
-            "Tests\\Unit\\HTML\\": "tests/unit/HTML/"
+            "Ksfraser\\Model\\": "src/Ksfraser/Model/",
+            "Ksfraser\\View\\": "src/Ksfraser/View/",
+            "KsfBankImport\\Services\\": "Services/",
+            "KsfBankImport\\OperationTypes\\": "OperationTypes/"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9.6"
-    },
-   "scripts": {
-        "test": "phpunit",
-        "test-file": "phpunit"
+    "autoload-dev": {
+        "psr-4": {
+            "Ksfraser\\FaBankImport\\Tests\\": "tests/"
+        }
     },
     "require": {
-        "php": "^7.3",
-        "codeception/codeception": "^4.2",
+        "php": ">=7.4",
         "asgrim/ofxparser": "^1.2",
         "mimographix/qif-library": "^1.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "codeception/codeception": "^4.2"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-file": "phpunit",
+        "post-install-cmd": [
+            "@php -r \"echo '\\n✅ Dependencies installed successfully!\\n\\n';\""
+        ],
+        "post-update-cmd": [
+            "@php -r \"echo '\\n✅ Dependencies updated successfully!\\n\\n';\""
+        ]
+    },
     "config": {
         "platform": {
-            "php": "7.3"
+            "php": "7.4"
         }
     }
 }

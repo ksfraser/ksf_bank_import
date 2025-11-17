@@ -3,7 +3,13 @@
 namespace {
     // Mock the global db_query function used by FrontAccounting
     if (!function_exists('db_query')) {
-        function db_query(string $query, array $params = []): array|bool {
+        /**
+         * Mock database query function
+         * @param string $query
+         * @param array $params
+         * @return array|bool
+         */
+        function db_query(string $query, array $params = []) {
             return \Ksfraser\FaBankImport\TestHelpers\FaDbMock::mockQuery($query, $params);
         }
     }
@@ -33,7 +39,13 @@ namespace Ksfraser\FaBankImport\TestHelpers {
             self::$shouldFail = false;
         }
 
-        public static function mockQuery(string $query, array $params = []): array|bool {
+        /**
+         * Mock query execution
+         * @param string $query
+         * @param array $params
+         * @return array|bool
+         */
+        public static function mockQuery(string $query, array $params = []) {
             // Log the query for test assertions
             self::$queryLog[] = [
                 'query' => $query,

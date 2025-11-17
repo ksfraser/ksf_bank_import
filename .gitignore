@@ -1,1 +1,38 @@
+# Composer Dependencies
 /vendor/
+composer.phar
+
+# PHPUnit
+.phpunit.result.cache
+/coverage/
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary Files
+*.log
+*.tmp
+*.bak
+*.old
+*.orig
+
+# Environment Files
+.env
+.env.local
+.env.*.local
+
+# Build/Cache Directories
+/build/
+/cache/
+/tmp/
+
+# Backup and development files (added by DRY cleanup)
+*.php~
+*.copilot.php
+*-old.php
+*.bak

@@ -22,10 +22,18 @@ class HtmlAttribute implements HtmlElementInterface
 		$this->attribute = $attribute;
 		$this->value = $value;
 	}
-	public function toHtml() {
+	/**
+	 * Output the HTML string directly
+	 * @return void
+	 */
+	public function toHtml(): void {
 		echo $this->getHtml();
 	}
-	public function getHtml() {
+	/**
+	 * Get the HTML string for this attribute
+	 * @return string The attribute in format: name="value"
+	 */
+	public function getHtml(): string {
 		if( strlen( $this->attribute ) > 0 )
 		{
 			$html = $this->attribute . '="' . $this->value . '"';
@@ -33,4 +41,14 @@ class HtmlAttribute implements HtmlElementInterface
 		}	
 		return "";
 	}
+
+    public function getName(): string
+    {
+        return $this->attribute;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
+    }
 }

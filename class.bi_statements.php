@@ -64,6 +64,19 @@ require_once( '../ksf_modules_common/defines.inc.php' );
 *	
 *
 ******************************************************************************************************************/
+
+/**
+ * Bank Import Statements Model
+ * 
+ * Extends generic_fa_interface_model which provides magic methods:
+ * 
+ * @method mixed get(string $property) Get a property value
+ * @method void set(string $property, mixed $value) Set a property value
+ * @method void obj2obj(object $source) Copy properties from another object
+ * @method bool insert() Insert this record into database
+ * @method bool update() Update this record in database
+ * @method bool delete() Delete this record from database
+ */
 class bi_statements_model extends generic_fa_interface_model 
 {
 	protected $id;                  	//| int(11)      | NO   | PRI | NULL    | auto_increment |

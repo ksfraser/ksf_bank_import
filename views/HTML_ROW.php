@@ -1,6 +1,6 @@
 <?php
 
-use Ksfraser\HTML\HtmlTableRow;
+use Ksfraser\HTML\Elements\HtmlTableRow;
 
 
 class HTML_ROW implements HtmlElementInterface

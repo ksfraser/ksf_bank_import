@@ -26,7 +26,7 @@ class LabelRowBase implements HtmlElementInterface
 		{
 			throw new Exception( "label MUST be set by inheriting class!" );
 		}
-		$this->row = new HTML_ROW_LABEL( $this->data, $this->label,  null, null );
+		$this->row = new HtmlRowLabel( $this->label, $this->data,  null, null );
 	}
 	function getHtml()
 	{

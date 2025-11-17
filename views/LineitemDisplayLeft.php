@@ -1,10 +1,28 @@
 <?php
 
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\Composites\HTML_TABLE;
 
+/**
+ * LineitemDisplayLeft - Left side display for line items
+ * 
+ * Composes a table with transaction details: date, type, accounts, amount, title
+ * 
+ * @package Views
+ * @since 20251019 - Added PHPDoc, use statements, return type hints
+ */
 class LineitemDisplayLeft implements HtmlElementInterface
 {
+        /**
+         * @var HTML_TABLE
+         */
         protected $table;
+        
+        /**
+         * Create left display panel
+         * 
+         * @param object $bi_lineitem The bank import line item data
+         */
         function __construct( $bi_lineitem )
         {
                 $this->table = $table = new HTML_TABLE( null, 100 );
@@ -15,11 +33,23 @@ class LineitemDisplayLeft implements HtmlElementInterface
                 $table->appendRow( new AmountCharges( $bi_lineitem ) );
                 $table->appendRow( new TransTitle( $bi_lineitem ) );
         }
-	function toHtml():void
+        
+        /**
+         * Output HTML directly to screen
+         * 
+         * @return void
+         */
+	function toHtml(): void
 	{
 		$this->table->toHtml();
 	}
-	function getHtml():string
+	
+	/**
+	 * Get HTML as string
+	 * 
+	 * @return string The HTML
+	 */
+	function getHtml(): string
 	{
 		return $this->table->getHtml();
 	}

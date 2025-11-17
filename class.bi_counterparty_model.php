@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
-
 /****************************************************************************************
  * Table and handling class for staging of imported financial data
  *
@@ -30,11 +25,8 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-// require_once( '../ksf_modules_commone/class.generic_fa_interface.php' );
-use Ksfraser\common\GenericFaInterface;
-
-// require_once( '../ksf_modules_commone/defines.inc.php' );
-use Ksfraser\common\Defines;
+require_once( '../ksf_modules_commone/class.generic_fa_interface.php' );
+require_once( '../ksf_modules_commone/defines.inc.php' );
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
