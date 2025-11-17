@@ -30,3 +30,9 @@ composer.phar
 /build/
 /cache/
 /tmp/
+
+# Backup and development files (added by DRY cleanup)
+*.php~
+*.copilot.php
+*-old.php
+*.bak
