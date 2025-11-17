@@ -57,14 +57,18 @@ class transaction_table
 	*****************************************************/
 	function display()
 	{
-		// Use standalone HTML instead of FA's start_table() - for independence from FA
-		echo '<table class="tablestyle" width="100%">';
+		// Use HtmlTable instead of hardcoded HTML
+		$table = new \Ksfraser\HTML\Elements\HtmlTable();
+		$table->setClass('tablestyle');
+		$table->setWidth('100%');
+		
 		table_header(array("Transaction Details", "Operation/Status"));
 		foreach( $this->transaction_table_rows as $row )
 		{
 			$row->display();	
 		}
-		echo '</table>';
+		
+		echo $table->closeTable();
 	}
 }
 
@@ -208,12 +212,20 @@ class ttr_label_row
 		$cids = implode(',', $cids);
 
 
-		// Use standalone HTML instead of FA's start_row() - for independence from FA
-		echo '<tr>';
-		echo '<td width="50%">';
+		// Use HtmlTableRow and HtmlTableCell instead of hardcoded HTML
+		$mainRow = new \Ksfraser\HTML\Elements\HtmlTableRow();
+		echo $mainRow->openRow();
 		
-		// Use standalone HTML instead of FA's start_table() - for independence from FA
-		echo '<table class="tablestyle2" width="100%">';
+		$leftCell = new \Ksfraser\HTML\Elements\HtmlTableCell();
+		$leftCell->setWidth('50%');
+		echo $leftCell->openCell();
+		
+		// Use HtmlTable instead of hardcoded HTML
+		$detailsTable = new \Ksfraser\HTML\Elements\HtmlTable();
+		$detailsTable->setClass('tablestyle2');
+		$detailsTable->setWidth('100%');
+		echo $detailsTable->openTable();
+		
 		// Use HtmlLabelRow instead of label_row()
 		$labelText = new \Ksfraser\HTML\Elements\HtmlString("Trans Date (Event Date):");
 		$valueText = new \Ksfraser\HTML\Elements\HtmlString($valueTimestamp . " :: (" . $trz['entryTimestamp'] . ")");
@@ -327,11 +339,21 @@ class ttr_label_row
 			$matchedVendorRow->toHtml();
 			//label_row("Add Vendor", submit("AddVendor[$tid]",_("AddVendor"),false, '', 'default'));
 		}
-		echo '</table>'; // Close the tablestyle2 table
+		echo $detailsTable->closeTable(); // Close the tablestyle2 table
 		$arr_arr = find_matching_existing( $trz, $bank );
 
-		echo "</td><td width='50%' valign='top'>";
-		echo '<table class="tablestyle2" width="100%">';
+		echo $leftCell->closeCell();
+		
+		$rightCell = new \Ksfraser\HTML\Elements\HtmlTableCell();
+		$rightCell->setWidth('50%');
+		$rightCell->setVAlign('top');
+		echo $rightCell->openCell();
+		
+		// Use HtmlTable instead of hardcoded HTML
+		$operationsTable = new \Ksfraser\HTML\Elements\HtmlTable();
+		$operationsTable->setClass('tablestyle2');
+		$operationsTable->setWidth('100%');
+		echo $operationsTable->openTable();
 		//now display stuff: forms and information
 
 /*************************************************************************************************************/
@@ -765,11 +787,11 @@ class ttr_label_row
 					label_row("Matching GLs", "No Matches found automatically" );
 			}
 		}
-		echo '</table>'; // Close tablestyle2 table
-		echo "</td>";
-		echo '</tr>'; // Close the row
+		echo $operationsTable->closeTable(); // Close tablestyle2 table
+		echo $rightCell->closeCell();
+		echo $mainRow->closeRow();
 		}
-		echo '</table>'; // Close main tablestyle table
+		// Main table closing handled by transaction_table class display() method
 	}
 	
 	
