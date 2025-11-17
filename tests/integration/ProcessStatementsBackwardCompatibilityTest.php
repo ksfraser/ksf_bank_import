@@ -253,37 +253,66 @@ class ProcessStatementsBackwardCompatibilityTest extends TestCase
     }
     
     /**
-     * TEST: Switch statement partner type handling (PROD BASELINE)
+     * TEST: All partner types have handlers (PROD BASELINE)
      *
-     * Verifies that process_statements.php handles all partner types.
-     * In prod: uses switch statement. In main: may use TransactionProcessor.
-     * This test validates the logic exists regardless of implementation.
+     * Verifies that ALL partner types can be processed.
+     * - PROD: Uses switch statement with case 'SP', 'CU', 'QE', 'BT', 'MA', 'ZZ'
+     * - MAIN: Uses TransactionProcessor with handler classes
+     * 
+     * This test verifies functionality exists regardless of implementation.
      *
      * @test
      */
-    public function testPartnerTypeHandlingExists_BackwardCompatible()
+    public function testAllPartnerTypesHaveHandlers_BackwardCompatible()
     {
-        // Test that process_statements.php file exists and contains partner type handling
-        $process_statements_file = __DIR__ . '/../../process_statements.php';
-        
-        $this->assertFileExists($process_statements_file, 
-            "process_statements.php should exist");
-        
-        $content = file_get_contents($process_statements_file);
-        
-        // Verify partner type handling exists (either switch or TransactionProcessor)
-        $has_switch = (strpos($content, "switch(") !== false && strpos($content, "partnerType") !== false);
-        $has_processor = (strpos($content, "TransactionProcessor") !== false);
-        
-        $this->assertTrue($has_switch || $has_processor, 
-            "process_statements.php should have partner type handling (switch or TransactionProcessor)");
-        
-        // Verify key partner types are mentioned in file
         $partner_types = ['SP', 'CU', 'QE', 'BT', 'MA', 'ZZ'];
-        foreach ($partner_types as $type) {
-            $this->assertStringContainsString("'$type'", $content, 
-                "Partner type '$type' should be handled in process_statements.php");
+        
+        // Check if we're using TransactionProcessor (main) or switch statement (prod)
+        $process_statements_file = __DIR__ . '/../../process_statements.php';
+        $content = file_get_contents($process_statements_file);
+        $uses_processor = (strpos($content, "TransactionProcessor") !== false);
+        
+        if ($uses_processor) {
+            // MAIN BRANCH: Check handlers exist for each type
+            $this->assertTrue(class_exists('\Ksfraser\FaBankImport\TransactionProcessor'), 
+                "TransactionProcessor should exist on main branch");
+            
+            $processor = new \Ksfraser\FaBankImport\TransactionProcessor();
+            
+            // Verify each partner type has a handler
+            foreach ($partner_types as $type) {
+                // Check if handler exists by looking in Handlers directory
+                $handler_files = glob(__DIR__ . '/../../src/Ksfraser/FaBankImport/Handlers/*Handler.php');
+                $handler_names = array_map(function($f) { return basename($f, '.php'); }, $handler_files);
+                
+                // Map partner types to expected handler names
+                $expected_handlers = [
+                    'SP' => 'SupplierTransactionHandler',
+                    'CU' => 'CustomerTransactionHandler', 
+                    'QE' => 'QuickEntryTransactionHandler',
+                    'BT' => 'BankTransferTransactionHandler',
+                    'MA' => 'ManualSettlementHandler',
+                    'ZZ' => 'MatchedTransactionHandler'
+                ];
+                
+                $this->assertContains($expected_handlers[$type], $handler_names,
+                    "Handler for partner type '$type' should exist: {$expected_handlers[$type]}");
+            }
+        } else {
+            // PROD BRANCH: Check switch statement has cases for each type
+            foreach ($partner_types as $type) {
+                // Look for switch case handling this partner type
+                $pattern = "/case.*partnerType.*==.*['\"]" . $type . "['\"]/";
+                $has_case = (preg_match($pattern, $content) === 1);
+                
+                $this->assertTrue($has_case, 
+                    "PROD switch statement should have case for partner type '$type'");
+            }
         }
+        
+        // Verify process_statements.php references partnerType POST parameter (both branches)
+        $this->assertStringContainsString('$_POST[\'partnerType\']', $content,
+            "process_statements.php should handle partnerType POST parameter");
     }
     
     /**
