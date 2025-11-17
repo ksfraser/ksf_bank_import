@@ -23,14 +23,8 @@ class ViewBiLineItemsProductionBaselineTest extends TestCase
 {
     protected function setUp(): void
     {
-        // Ensure we're testing against prod branch code
-        $currentBranch = trim(shell_exec('git rev-parse --abbrev-ref HEAD'));
-        if ($currentBranch !== 'prod-bank-import-2025') {
-            $this->markTestSkipped(
-                'These production baseline tests must be run on prod-bank-import-2025 branch. ' .
-                'Current branch: ' . $currentBranch
-            );
-        }
+        // REMOVED BRANCH CHECK - Tests run on BOTH branches for true regression testing
+        // Tests capture prod behavior and verify main preserves it
     }
     
     /**
