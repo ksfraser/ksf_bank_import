@@ -15,7 +15,12 @@
             "Ksfraser\\View\\": "src/Ksfraser/View/",
             "KsfBankImport\\Services\\": "Services/",
             "KsfBankImport\\OperationTypes\\": "OperationTypes/"
-        }
+        },
+        "classmap": [
+            "src/Ksfraser/FaBankImport/FactoryTransactions.php",
+            "src/Ksfraser/FaBankImport/controllers/BankImportController.php",
+            "src/Ksfraser/FaBankImport/models/"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
