@@ -4,6 +4,11 @@ namespace Ksfraser\FaBankImport\Contracts;
 
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
+// Debug: CommandInterface loaded
+if (defined('BANK_IMPORT_DEBUG') && BANK_IMPORT_DEBUG) {
+    echo "DEBUG: CommandInterface.php loaded\n";
+}
+
 /**
  * Command Interface
  *

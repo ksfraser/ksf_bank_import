@@ -78,11 +78,16 @@ class CommandDispatcher implements CommandDispatcherInterface
 
         // Validate that class implements CommandInterface
         bank_import_debug("Checking if class implements CommandInterface", ['interface' => CommandInterface::class]);
+        bank_import_debug("CommandInterface class exists", ['exists' => class_exists(CommandInterface::class)]);
+        bank_import_debug("Command class exists", ['exists' => class_exists($commandClass)]);
+        
         if (!is_subclass_of($commandClass, CommandInterface::class)) {
             bank_import_debug("Command class validation FAILED", [
                 'class' => $commandClass,
                 'interface' => CommandInterface::class,
-                'is_subclass' => is_subclass_of($commandClass, CommandInterface::class)
+                'is_subclass' => is_subclass_of($commandClass, CommandInterface::class),
+                'class_parents' => class_parents($commandClass),
+                'class_implements' => class_implements($commandClass)
             ]);
             throw new InvalidArgumentException(
                 sprintf(
