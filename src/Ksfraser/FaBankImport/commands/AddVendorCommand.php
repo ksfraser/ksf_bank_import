@@ -36,9 +36,9 @@ class AddVendorCommand implements CommandInterface
      * @param object $transactionRepository Repository to fetch transaction data
      */
     public function __construct(
-        array $postData,
-        object $vendorService,
-        object $transactionRepository
+        $postData,
+        $vendorService,
+        $transactionRepository
     ) {
         $this->postData = $postData;
         $this->vendorService = $vendorService;

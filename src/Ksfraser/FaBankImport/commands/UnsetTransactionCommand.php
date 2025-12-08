@@ -40,7 +40,7 @@ class UnsetTransactionCommand implements CommandInterface
      * @param array $postData POST data with UnsetTrans key
      * @param object $repository Transaction repository with reset() method
      */
-    public function __construct(array $postData, object $repository)
+    public function __construct($postData, $repository)
     {
         $this->postData = $postData;
         $this->repository = $repository;

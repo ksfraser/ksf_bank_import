@@ -34,8 +34,8 @@ class ToggleDebitCreditCommand implements CommandInterface
      * @param object $transactionService Service for transaction operations
      */
     public function __construct(
-        array $postData,
-        object $transactionService
+        $postData,
+        $transactionService
     ) {
         $this->postData = $postData;
         $this->transactionService = $transactionService;

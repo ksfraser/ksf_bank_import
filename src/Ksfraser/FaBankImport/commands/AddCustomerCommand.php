@@ -36,9 +36,9 @@ class AddCustomerCommand implements CommandInterface
      * @param object $transactionRepository Repository to fetch transaction data
      */
     public function __construct(
-        array $postData,
-        object $customerService,
-        object $transactionRepository
+        $postData,
+        $customerService,
+        $transactionRepository
     ) {
         $this->postData = $postData;
         $this->customerService = $customerService;

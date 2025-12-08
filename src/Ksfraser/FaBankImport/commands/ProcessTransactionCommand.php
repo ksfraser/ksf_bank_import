@@ -8,7 +8,7 @@ class ProcessTransactionCommand
     private $type;
     private $userId;
 
-    public function __construct(int $transactionId, string $type, ?int $userId = null)
+    public function __construct($transactionId, $type, $userId = null)
     {
         $this->transactionId = $transactionId;
         $this->type = $type;
