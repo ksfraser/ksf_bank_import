@@ -11,8 +11,6 @@
  * @since   2025-10-21
  */
 
-echo "BOOTSTRAP: Starting command_bootstrap.php\n";
-
 use Ksfraser\FaBankImport\Container\SimpleContainer;
 use Ksfraser\FaBankImport\Commands\CommandDispatcher;
 
@@ -32,16 +30,8 @@ if (!defined('USE_COMMAND_PATTERN')) {
 // INITIALIZE DI CONTAINER
 // ============================================================================
 
-echo "BOOTSTRAP: About to create SimpleContainer\n";
 if (!isset($container)) {
-    try {
-        $container = new SimpleContainer();
-        echo "BOOTSTRAP: SimpleContainer created successfully\n";
-    } catch (Throwable $e) {
-        echo "BOOTSTRAP: ERROR creating SimpleContainer: " . $e->getMessage() . "\n";
-        echo "BOOTSTRAP: Stack trace: " . $e->getTraceAsString() . "\n";
-        die();
-    }
+    $container = new SimpleContainer();
     
     // Bind repositories (existing models)
     if (isset($bi_transactions_model)) {
@@ -155,5 +145,3 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' &
         }
     }
 }
-
-echo "BOOTSTRAP: command_bootstrap.php completed\n";
