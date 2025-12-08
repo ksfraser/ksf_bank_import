@@ -1,6 +1,44 @@
 <?php
 
-$path_to_root = "../..";
+// Load configuration
+$config_file = __DIR__ . '/config.php';
+if (file_exists($config_file)) {
+    $config = include $config_file;
+} else {
+    // Fallback configuration
+    $config = [
+        'fa_root' => '../..',
+        'fa_paths' => ['../..', '../../accounting', '/var/www/html/infra/accounting'],
+        'debug' => true
+    ];
+}
+
+// Dynamic path resolution for FA installation
+$path_to_root = $config['fa_root'];
+
+// Check if FA includes exist at the configured location
+$fa_includes_path = $path_to_root . "/includes/session.inc";
+if (!file_exists($fa_includes_path)) {
+    // Try alternative paths from config
+    $found = false;
+    foreach ($config['fa_paths'] as $test_path) {
+        if (file_exists($test_path . "/includes/session.inc")) {
+            $path_to_root = $test_path;
+            $found = true;
+            break;
+        }
+    }
+
+    // If still not found, provide helpful error
+    if (!$found) {
+        if ($config['debug']) {
+            die("ERROR: FrontAccounting includes not found. Please check your config.php file and ensure FA_ROOT points to a valid FrontAccounting installation. Tried paths: " . implode(', ', $config['fa_paths']) . ". Create config.php from config.example.php");
+        } else {
+            die("System configuration error. Please contact administrator.");
+        }
+    }
+}
+
 $page_security = 'SA_SALESTRANSVIEW';
 include_once( __DIR__  . "/vendor/autoload.php");
 include_once($path_to_root . "/includes/date_functions.inc");
@@ -355,6 +393,7 @@ if (isset($k) && isset($v)) {
 	display_notification('Manually processed');
 }
 */
+}
 /************************************************************************************************************************/
 /**********************************************  GUI  *******************************************************************/
 /************************************************************************************************************************/
