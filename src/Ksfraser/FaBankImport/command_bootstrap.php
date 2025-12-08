@@ -32,6 +32,7 @@ if (!defined('USE_COMMAND_PATTERN')) {
 
 if (!isset($container)) {
     $container = new SimpleContainer();
+    echo "DEBUG: Container initialized\n";
     
     // Bind repositories (existing models)
     if (isset($bi_transactions_model)) {
@@ -56,6 +57,7 @@ if (!isset($container)) {
 
 if (!isset($commandDispatcher)) {
     $commandDispatcher = new CommandDispatcher($container);
+    echo "DEBUG: CommandDispatcher initialized\n";
 }
 
 // ============================================================================
@@ -124,8 +126,10 @@ function handleLegacyAction($bi_controller, $Ajax = null): void
 // MAIN POST HANDLER
 // ============================================================================
 
+echo "DEBUG: About to check POST request\n";
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && !defined('COMMAND_HANDLER_PROCESSED')) {
     define('COMMAND_HANDLER_PROCESSED', true);
+    echo "DEBUG: Processing POST request\n";
     
     if (USE_COMMAND_PATTERN) {
         // NEW IMPLEMENTATION: Command Pattern
@@ -145,3 +149,5 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' &
         }
     }
 }
+
+echo "DEBUG: command_bootstrap completed\n";
