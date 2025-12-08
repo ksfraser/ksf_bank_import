@@ -24,9 +24,9 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  */
 class AddVendorCommand implements CommandInterface
 {
-    private array $postData;
-    private object $vendorService;
-    private object $transactionRepository;
+    private $postData;
+    private $vendorService;
+    private $transactionRepository;
 
     /**
      * Constructor

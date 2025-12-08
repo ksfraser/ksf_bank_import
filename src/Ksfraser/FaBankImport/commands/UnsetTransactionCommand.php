@@ -27,12 +27,12 @@ class UnsetTransactionCommand implements CommandInterface
     /**
      * @var array POST data containing transaction IDs to unset
      */
-    private array $postData;
+    private $postData;
 
     /**
      * @var object Transaction repository
      */
-    private object $repository;
+    private $repository;
 
     /**
      * Constructor

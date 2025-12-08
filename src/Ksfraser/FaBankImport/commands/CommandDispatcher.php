@@ -26,14 +26,14 @@ use RuntimeException;
 class CommandDispatcher implements CommandDispatcherInterface
 {
     /**
-     * @var array<string, string> Map of action names to command classes
+     * @var array Map of action names to command classes
      */
-    private array $commands = [];
+    private $commands = [];
 
     /**
      * @var object DI container for instantiating commands
      */
-    private object $container;
+    private $container;
 
     /**
      * Constructor

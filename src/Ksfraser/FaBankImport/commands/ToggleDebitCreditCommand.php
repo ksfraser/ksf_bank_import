@@ -24,8 +24,8 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  */
 class ToggleDebitCreditCommand implements CommandInterface
 {
-    private array $postData;
-    private object $transactionService;
+    private $postData;
+    private $transactionService;
 
     /**
      * Constructor
