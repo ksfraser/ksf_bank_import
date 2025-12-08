@@ -1,10 +1,38 @@
 <?php
 
+// ============================================================================
+// DEBUG CONFIGURATION
+// ============================================================================
+
+/**
+ * Global debug flag for the bank import module
+ * Set to true to enable debug output, false to disable
+ */
+define('BANK_IMPORT_DEBUG', true);
+
+/**
+ * Debug output function - only outputs when debug is enabled
+ *
+ * @param string $message Debug message to output
+ * @param mixed $data Optional data to dump
+ */
+function bank_import_debug($message, $data = null) {
+    if (!BANK_IMPORT_DEBUG) {
+        return;
+    }
+
+    echo "DEBUG: $message\n";
+    if ($data !== null) {
+        echo "DEBUG DATA: " . print_r($data, true) . "\n";
+    }
+}
+
 try {
     // Load configuration
     $config_file = __DIR__ . '/config.php';
     if (file_exists($config_file)) {
         $config = include $config_file;
+        bank_import_debug("Config loaded from file", $config);
     } else {
         // Fallback configuration
         $config = [
@@ -12,20 +40,25 @@ try {
             'fa_paths' => ['../..', '../../accounting', '/var/www/html/infra/accounting'],
             'debug' => true
         ];
+        bank_import_debug("Using fallback config", $config);
     }
 
     // Dynamic path resolution for FA installation
     $path_to_root = $config['fa_root'];
+    bank_import_debug("Initial path_to_root", $path_to_root);
 
     // Check if FA includes exist at the configured location
     $fa_includes_path = $path_to_root . "/includes/session.inc";
     if (!file_exists($fa_includes_path)) {
+        bank_import_debug("FA includes not found at configured path, trying alternatives", $fa_includes_path);
         // Try alternative paths from config
         $found = false;
         foreach ($config['fa_paths'] as $test_path) {
+            bank_import_debug("Checking alternative path", $test_path . "/includes/session.inc");
             if (file_exists($test_path . "/includes/session.inc")) {
                 $path_to_root = $test_path;
                 $found = true;
+                bank_import_debug("Found FA includes at alternative path", $test_path);
                 break;
             }
         }
@@ -40,18 +73,27 @@ try {
         }
     }
     $page_security = 'SA_SALESTRANSVIEW';
+    bank_import_debug("Including autoload");
     include_once( __DIR__  . "/vendor/autoload.php");
+    bank_import_debug("Including FA date_functions");
     include_once($path_to_root . "/includes/date_functions.inc");
+    bank_import_debug("Including FA session");
     include_once($path_to_root . "/includes/session.inc");
+    bank_import_debug("Final path_to_root", $path_to_root);
 
 } catch (Throwable $e) {
-    die("Fatal error during initialization: " . $e->getMessage());
+    bank_import_debug("Exception caught", $e->getMessage());
+    bank_import_debug("Stack trace", $e->getTraceAsString());
+    die();
 }
 
 // Include Command Pattern Bootstrap (handles POST actions via CommandDispatcher)
+bank_import_debug("Including command_bootstrap");
 require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
+bank_import_debug("command_bootstrap included");
 
 // HTML library imports
+bank_import_debug("Declaring HTML library imports");
 use Ksfraser\HTML\Elements\HtmlForm;
 use Ksfraser\HTML\Elements\HtmlDiv;
 use Ksfraser\HTML\Elements\HtmlTable;

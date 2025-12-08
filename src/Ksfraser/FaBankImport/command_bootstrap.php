@@ -11,6 +11,8 @@
  * @since   2025-10-21
  */
 
+bank_import_debug("command_bootstrap.php starting");
+
 use Ksfraser\FaBankImport\Container\SimpleContainer;
 use Ksfraser\FaBankImport\Commands\CommandDispatcher;
 
@@ -18,6 +20,7 @@ use Ksfraser\FaBankImport\Commands\CommandDispatcher;
 // FEATURE FLAG - Toggle between old/new implementations
 // ============================================================================
 
+bank_import_debug("Checking USE_COMMAND_PATTERN flag");
 if (!defined('USE_COMMAND_PATTERN')) {
     /**
      * Feature flag for Command Pattern
@@ -25,40 +28,45 @@ if (!defined('USE_COMMAND_PATTERN')) {
      */
     define('USE_COMMAND_PATTERN', true);
 }
+bank_import_debug("USE_COMMAND_PATTERN defined", USE_COMMAND_PATTERN);
 
 // ============================================================================
 // INITIALIZE DI CONTAINER
 // ============================================================================
 
+bank_import_debug("Initializing DI container");
 if (!isset($container)) {
     $container = new SimpleContainer();
-    echo "DEBUG: Container initialized\n";
-    
+    bank_import_debug("SimpleContainer created");
+
     // Bind repositories (existing models)
     if (isset($bi_transactions_model)) {
         $container->instance('TransactionRepository', $bi_transactions_model);
+        bank_import_debug("TransactionRepository bound");
     }
-    
+
     // Bind legacy controller (for transitional period)
     if (isset($bi_controller)) {
         $container->instance('LegacyController', $bi_controller);
+        bank_import_debug("LegacyController bound");
     }
-    
+
     // Bind services (these can be created as they're extracted)
     // Example future bindings:
     // $container->bind('CustomerService', CustomerService::class);
     // $container->bind('VendorService', VendorService::class);
     // $container->bind('TransactionService', TransactionService::class);
 }
-
-// ============================================================================
+bank_import_debug("DI container initialized");// ============================================================================
 // INITIALIZE COMMAND DISPATCHER
 // ============================================================================
 
+bank_import_debug("Initializing CommandDispatcher");
 if (!isset($commandDispatcher)) {
     $commandDispatcher = new CommandDispatcher($container);
-    echo "DEBUG: CommandDispatcher initialized\n";
+    bank_import_debug("CommandDispatcher created");
 }
+bank_import_debug("CommandDispatcher initialized");
 
 // ============================================================================
 // POST ACTION HANDLER
@@ -126,10 +134,10 @@ function handleLegacyAction($bi_controller, $Ajax = null): void
 // MAIN POST HANDLER
 // ============================================================================
 
-echo "DEBUG: About to check POST request\n";
+bank_import_debug("Checking for POST request", ['method' => $_SERVER['REQUEST_METHOD'] ?? 'unknown', 'processed' => defined('COMMAND_HANDLER_PROCESSED')]);
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && !defined('COMMAND_HANDLER_PROCESSED')) {
     define('COMMAND_HANDLER_PROCESSED', true);
-    echo "DEBUG: Processing POST request\n";
+    bank_import_debug("Processing POST request", $_POST);
     
     if (USE_COMMAND_PATTERN) {
         // NEW IMPLEMENTATION: Command Pattern
@@ -150,4 +158,4 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' &
     }
 }
 
-echo "DEBUG: command_bootstrap completed\n";
+bank_import_debug("command_bootstrap.php completed");
