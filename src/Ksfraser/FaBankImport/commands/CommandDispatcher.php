@@ -42,8 +42,11 @@ class CommandDispatcher implements CommandDispatcherInterface
      */
     public function __construct(object $container)
     {
+        bank_import_debug("CommandDispatcher constructor called", get_class($container));
         $this->container = $container;
+        bank_import_debug("Container assigned, calling registerDefaultCommands");
         $this->registerDefaultCommands();
+        bank_import_debug("registerDefaultCommands completed");
     }
 
     /**
@@ -55,10 +58,15 @@ class CommandDispatcher implements CommandDispatcherInterface
      */
     private function registerDefaultCommands(): void
     {
+        bank_import_debug("Registering UnsetTrans command");
         $this->register('UnsetTrans', UnsetTransactionCommand::class);
+        bank_import_debug("Registering AddCustomer command");
         $this->register('AddCustomer', AddCustomerCommand::class);
+        bank_import_debug("Registering AddVendor command");
         $this->register('AddVendor', AddVendorCommand::class);
+        bank_import_debug("Registering ToggleTransaction command");
         $this->register('ToggleTransaction', ToggleDebitCreditCommand::class);
+        bank_import_debug("All default commands registered");
     }
 
     /**
@@ -66,8 +74,16 @@ class CommandDispatcher implements CommandDispatcherInterface
      */
     public function register(string $actionName, string $commandClass): void
     {
+        bank_import_debug("Registering command", ['action' => $actionName, 'class' => $commandClass]);
+
         // Validate that class implements CommandInterface
+        bank_import_debug("Checking if class implements CommandInterface", ['interface' => CommandInterface::class]);
         if (!is_subclass_of($commandClass, CommandInterface::class)) {
+            bank_import_debug("Command class validation FAILED", [
+                'class' => $commandClass,
+                'interface' => CommandInterface::class,
+                'is_subclass' => is_subclass_of($commandClass, CommandInterface::class)
+            ]);
             throw new InvalidArgumentException(
                 sprintf(
                     'Command class "%s" must implement %s',
@@ -77,7 +93,10 @@ class CommandDispatcher implements CommandDispatcherInterface
             );
         }
 
+        bank_import_debug("Command class validation PASSED");
         $this->commands[$actionName] = $commandClass;
+        bank_import_debug("Command registered successfully", ['commands' => array_keys($this->commands)]);
+    }
     }
 
     /**
