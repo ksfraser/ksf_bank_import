@@ -34,8 +34,14 @@ if (!defined('USE_COMMAND_PATTERN')) {
 
 echo "BOOTSTRAP: About to create SimpleContainer\n";
 if (!isset($container)) {
-    $container = new SimpleContainer();
-    echo "BOOTSTRAP: SimpleContainer created successfully\n";
+    try {
+        $container = new SimpleContainer();
+        echo "BOOTSTRAP: SimpleContainer created successfully\n";
+    } catch (Throwable $e) {
+        echo "BOOTSTRAP: ERROR creating SimpleContainer: " . $e->getMessage() . "\n";
+        echo "BOOTSTRAP: Stack trace: " . $e->getTraceAsString() . "\n";
+        die();
+    }
     
     // Bind repositories (existing models)
     if (isset($bi_transactions_model)) {
