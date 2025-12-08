@@ -1,14 +1,10 @@
 <?php
 
-// DEBUG: Start of script
-echo "DEBUG: Script started\n";
-
 try {
     // Load configuration
     $config_file = __DIR__ . '/config.php';
     if (file_exists($config_file)) {
         $config = include $config_file;
-        echo "DEBUG: Config loaded from file\n";
     } else {
         // Fallback configuration
         $config = [
@@ -16,25 +12,20 @@ try {
             'fa_paths' => ['../..', '../../accounting', '/var/www/html/infra/accounting'],
             'debug' => true
         ];
-        echo "DEBUG: Using fallback config\n";
     }
 
     // Dynamic path resolution for FA installation
     $path_to_root = $config['fa_root'];
-    echo "DEBUG: Initial path_to_root: $path_to_root\n";
 
     // Check if FA includes exist at the configured location
     $fa_includes_path = $path_to_root . "/includes/session.inc";
     if (!file_exists($fa_includes_path)) {
-        echo "DEBUG: FA includes not found at $fa_includes_path, trying alternatives\n";
         // Try alternative paths from config
         $found = false;
         foreach ($config['fa_paths'] as $test_path) {
-            echo "DEBUG: Checking $test_path/includes/session.inc\n";
             if (file_exists($test_path . "/includes/session.inc")) {
                 $path_to_root = $test_path;
                 $found = true;
-                echo "DEBUG: Found FA includes at $test_path\n";
                 break;
             }
         }
@@ -47,37 +38,20 @@ try {
                 die("System configuration error. Please contact administrator.");
             }
         }
-    } else {
-        echo "DEBUG: FA includes found at $fa_includes_path\n";
     }
-
-    echo "DEBUG: Final path_to_root: $path_to_root\n";
     $page_security = 'SA_SALESTRANSVIEW';
-    echo "DEBUG: Including autoload\n";
     include_once( __DIR__  . "/vendor/autoload.php");
-    echo "DEBUG: Autoload included\n";
-
-    echo "DEBUG: Including FA date_functions\n";
     include_once($path_to_root . "/includes/date_functions.inc");
-    echo "DEBUG: date_functions included\n";
-
-    echo "DEBUG: Including FA session\n";
     include_once($path_to_root . "/includes/session.inc");
-    echo "DEBUG: session included\n";
 
 } catch (Throwable $e) {
-    echo "DEBUG: Exception caught: " . $e->getMessage() . "\n";
-    echo "DEBUG: Stack trace:\n" . $e->getTraceAsString() . "\n";
-    die();
+    die("Fatal error during initialization: " . $e->getMessage());
 }
 
 // Include Command Pattern Bootstrap (handles POST actions via CommandDispatcher)
-echo "DEBUG: About to include command_bootstrap\n";
 require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
-echo "DEBUG: command_bootstrap included\n";
 
 // HTML library imports
-echo "DEBUG: About to declare HTML library imports\n";
 use Ksfraser\HTML\Elements\HtmlForm;
 use Ksfraser\HTML\Elements\HtmlDiv;
 use Ksfraser\HTML\Elements\HtmlTable;

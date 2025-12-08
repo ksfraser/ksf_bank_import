@@ -11,18 +11,13 @@
  * @since   2025-10-21
  */
 
-echo "DEBUG: command_bootstrap.php started\n";
-
 use Ksfraser\FaBankImport\Container\SimpleContainer;
 use Ksfraser\FaBankImport\Commands\CommandDispatcher;
-
-echo "DEBUG: use statements declared\n";
 
 // ============================================================================
 // FEATURE FLAG - Toggle between old/new implementations
 // ============================================================================
 
-echo "DEBUG: About to check USE_COMMAND_PATTERN\n";
 if (!defined('USE_COMMAND_PATTERN')) {
     /**
      * Feature flag for Command Pattern
@@ -30,27 +25,22 @@ if (!defined('USE_COMMAND_PATTERN')) {
      */
     define('USE_COMMAND_PATTERN', true);
 }
-echo "DEBUG: USE_COMMAND_PATTERN defined\n";
 
 // ============================================================================
 // INITIALIZE DI CONTAINER
 // ============================================================================
 
-echo "DEBUG: About to initialize DI container\n";
 if (!isset($container)) {
     $container = new SimpleContainer();
-    echo "DEBUG: SimpleContainer created\n";
     
     // Bind repositories (existing models)
     if (isset($bi_transactions_model)) {
         $container->instance('TransactionRepository', $bi_transactions_model);
-        echo "DEBUG: TransactionRepository bound\n";
     }
     
     // Bind legacy controller (for transitional period)
     if (isset($bi_controller)) {
         $container->instance('LegacyController', $bi_controller);
-        echo "DEBUG: LegacyController bound\n";
     }
     
     // Bind services (these can be created as they're extracted)
@@ -59,18 +49,14 @@ if (!isset($container)) {
     // $container->bind('VendorService', VendorService::class);
     // $container->bind('TransactionService', TransactionService::class);
 }
-echo "DEBUG: DI container initialized\n";
 
 // ============================================================================
 // INITIALIZE COMMAND DISPATCHER
 // ============================================================================
 
-echo "DEBUG: About to initialize CommandDispatcher\n";
 if (!isset($commandDispatcher)) {
     $commandDispatcher = new CommandDispatcher($container);
-    echo "DEBUG: CommandDispatcher created\n";
 }
-echo "DEBUG: CommandDispatcher initialized\n";
 
 // ============================================================================
 // POST ACTION HANDLER
@@ -159,5 +145,3 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' &
         }
     }
 }
-
-echo "DEBUG: command_bootstrap.php completed successfully\n";
