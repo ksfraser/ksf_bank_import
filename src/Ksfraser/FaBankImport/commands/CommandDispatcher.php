@@ -78,7 +78,14 @@ class CommandDispatcher implements CommandDispatcherInterface
 
         // Validate that class implements CommandInterface
         bank_import_debug("Checking if class implements CommandInterface", ['interface' => CommandInterface::class]);
-        bank_import_debug("CommandInterface class exists", ['exists' => class_exists(CommandInterface::class)]);
+        
+        // Force autoload of the interface and command class
+        bank_import_debug("Forcing autoload of CommandInterface");
+        class_exists(CommandInterface::class, true);
+        bank_import_debug("Forcing autoload of command class", ['class' => $commandClass]);
+        class_exists($commandClass, true);
+        
+        bank_import_debug("CommandInterface class exists", ['exists' => class_exists(CommandInterface::class) || interface_exists(CommandInterface::class)]);
         bank_import_debug("Command class exists", ['exists' => class_exists($commandClass)]);
         
         if (!is_subclass_of($commandClass, CommandInterface::class)) {

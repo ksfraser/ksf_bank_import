@@ -47,6 +47,8 @@ if (defined('BANK_IMPORT_DEBUG') && BANK_IMPORT_DEBUG) {
  */
 interface CommandInterface
 {
+    // Debug: Interface definition reached
+    const DEBUG_INTERFACE_DEFINED = true;
     /**
      * Execute the command
      *
