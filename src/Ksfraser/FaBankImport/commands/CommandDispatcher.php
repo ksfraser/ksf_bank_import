@@ -97,7 +97,6 @@ class CommandDispatcher implements CommandDispatcherInterface
         $this->commands[$actionName] = $commandClass;
         bank_import_debug("Command registered successfully", ['commands' => array_keys($this->commands)]);
     }
-    }
 
     /**
      * {@inheritDoc}
