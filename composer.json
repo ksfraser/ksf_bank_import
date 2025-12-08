@@ -21,7 +21,7 @@
             "src/Ksfraser/FaBankImport/controllers/BankImportController.php",
             "src/Ksfraser/FaBankImport/models/",
             "src/Ksfraser/FaBankImport/Container/SimpleContainer.php",
-            "src/Ksfraser/FaBankImport/Commands/CommandDispatcher.php",
+            "src/Ksfraser/FaBankImport/commands/CommandDispatcher.php",
             "src/Ksfraser/FaBankImport/Contracts/CommandInterface.php"
         ]
     },
