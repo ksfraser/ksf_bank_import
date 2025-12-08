@@ -1,48 +1,75 @@
 <?php
 
-// Load configuration
-$config_file = __DIR__ . '/config.php';
-if (file_exists($config_file)) {
-    $config = include $config_file;
-} else {
-    // Fallback configuration
-    $config = [
-        'fa_root' => '../..',
-        'fa_paths' => ['../..', '../../accounting', '/var/www/html/infra/accounting'],
-        'debug' => true
-    ];
-}
+// DEBUG: Start of script
+echo "DEBUG: Script started\n";
 
-// Dynamic path resolution for FA installation
-$path_to_root = $config['fa_root'];
-
-// Check if FA includes exist at the configured location
-$fa_includes_path = $path_to_root . "/includes/session.inc";
-if (!file_exists($fa_includes_path)) {
-    // Try alternative paths from config
-    $found = false;
-    foreach ($config['fa_paths'] as $test_path) {
-        if (file_exists($test_path . "/includes/session.inc")) {
-            $path_to_root = $test_path;
-            $found = true;
-            break;
-        }
+try {
+    // Load configuration
+    $config_file = __DIR__ . '/config.php';
+    if (file_exists($config_file)) {
+        $config = include $config_file;
+        echo "DEBUG: Config loaded from file\n";
+    } else {
+        // Fallback configuration
+        $config = [
+            'fa_root' => '../..',
+            'fa_paths' => ['../..', '../../accounting', '/var/www/html/infra/accounting'],
+            'debug' => true
+        ];
+        echo "DEBUG: Using fallback config\n";
     }
 
-    // If still not found, provide helpful error
-    if (!$found) {
-        if ($config['debug']) {
-            die("ERROR: FrontAccounting includes not found. Please check your config.php file and ensure FA_ROOT points to a valid FrontAccounting installation. Tried paths: " . implode(', ', $config['fa_paths']) . ". Create config.php from config.example.php");
-        } else {
-            die("System configuration error. Please contact administrator.");
-        }
-    }
-}
+    // Dynamic path resolution for FA installation
+    $path_to_root = $config['fa_root'];
+    echo "DEBUG: Initial path_to_root: $path_to_root\n";
 
-$page_security = 'SA_SALESTRANSVIEW';
-include_once( __DIR__  . "/vendor/autoload.php");
-include_once($path_to_root . "/includes/date_functions.inc");
-include_once($path_to_root . "/includes/session.inc");
+    // Check if FA includes exist at the configured location
+    $fa_includes_path = $path_to_root . "/includes/session.inc";
+    if (!file_exists($fa_includes_path)) {
+        echo "DEBUG: FA includes not found at $fa_includes_path, trying alternatives\n";
+        // Try alternative paths from config
+        $found = false;
+        foreach ($config['fa_paths'] as $test_path) {
+            echo "DEBUG: Checking $test_path/includes/session.inc\n";
+            if (file_exists($test_path . "/includes/session.inc")) {
+                $path_to_root = $test_path;
+                $found = true;
+                echo "DEBUG: Found FA includes at $test_path\n";
+                break;
+            }
+        }
+
+        // If still not found, provide helpful error
+        if (!$found) {
+            if ($config['debug']) {
+                die("ERROR: FrontAccounting includes not found. Please check your config.php file and ensure FA_ROOT points to a valid FrontAccounting installation. Tried paths: " . implode(', ', $config['fa_paths']) . ". Create config.php from config.example.php");
+            } else {
+                die("System configuration error. Please contact administrator.");
+            }
+        }
+    } else {
+        echo "DEBUG: FA includes found at $fa_includes_path\n";
+    }
+
+    echo "DEBUG: Final path_to_root: $path_to_root\n";
+    $page_security = 'SA_SALESTRANSVIEW';
+    echo "DEBUG: Including autoload\n";
+    include_once( __DIR__  . "/vendor/autoload.php");
+    echo "DEBUG: Autoload included\n";
+
+    echo "DEBUG: Including FA date_functions\n";
+    include_once($path_to_root . "/includes/date_functions.inc");
+    echo "DEBUG: date_functions included\n";
+
+    echo "DEBUG: Including FA session\n";
+    include_once($path_to_root . "/includes/session.inc");
+    echo "DEBUG: session included\n";
+
+} catch (Throwable $e) {
+    echo "DEBUG: Exception caught: " . $e->getMessage() . "\n";
+    echo "DEBUG: Stack trace:\n" . $e->getTraceAsString() . "\n";
+    die();
+}
 
 // Include Command Pattern Bootstrap (handles POST actions via CommandDispatcher)
 require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
