@@ -124,7 +124,7 @@ function handleLegacyAction($bi_controller, $Ajax = null): void
 // MAIN POST HANDLER
 // ============================================================================
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !defined('COMMAND_HANDLER_PROCESSED')) {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && !defined('COMMAND_HANDLER_PROCESSED')) {
     define('COMMAND_HANDLER_PROCESSED', true);
     
     if (USE_COMMAND_PATTERN) {
