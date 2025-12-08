@@ -19,7 +19,9 @@
         "classmap": [
             "src/Ksfraser/FaBankImport/FactoryTransactions.php",
             "src/Ksfraser/FaBankImport/controllers/BankImportController.php",
-            "src/Ksfraser/FaBankImport/models/"
+            "src/Ksfraser/FaBankImport/models/",
+            "src/Ksfraser/FaBankImport/Container/SimpleContainer.php",
+            "src/Ksfraser/FaBankImport/Commands/CommandDispatcher.php"
         ]
     },
     "autoload-dev": {
