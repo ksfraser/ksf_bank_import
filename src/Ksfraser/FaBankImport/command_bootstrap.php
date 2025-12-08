@@ -62,11 +62,21 @@ bank_import_debug("DI container initialized");// ===============================
 // ============================================================================
 
 bank_import_debug("Initializing CommandDispatcher");
+bank_import_debug("Container check", ['type' => gettype($container), 'class' => is_object($container) ? get_class($container) : 'not object']);
 if (!isset($commandDispatcher)) {
-    $commandDispatcher = new CommandDispatcher($container);
-    bank_import_debug("CommandDispatcher created");
+    bank_import_debug("CommandDispatcher not set, about to instantiate");
+    try {
+        $commandDispatcher = new CommandDispatcher($container);
+        bank_import_debug("CommandDispatcher instantiated successfully");
+    } catch (Throwable $e) {
+        bank_import_debug("CommandDispatcher instantiation failed", $e->getMessage());
+        bank_import_debug("Stack trace", $e->getTraceAsString());
+        die();
+    }
+} else {
+    bank_import_debug("CommandDispatcher already exists", gettype($commandDispatcher));
 }
-bank_import_debug("CommandDispatcher initialized");
+bank_import_debug("CommandDispatcher initialization completed");
 
 // ============================================================================
 // POST ACTION HANDLER
