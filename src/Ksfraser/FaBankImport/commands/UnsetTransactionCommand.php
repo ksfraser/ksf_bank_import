@@ -5,11 +5,6 @@ namespace Ksfraser\FaBankImport\Commands;
 use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
-// Debug: UnsetTransactionCommand loaded
-if (defined('BANK_IMPORT_DEBUG') && BANK_IMPORT_DEBUG) {
-    echo "DEBUG: UnsetTransactionCommand.php loaded\n";
-}
-
 /**
  * Unset Transaction Command
  *
