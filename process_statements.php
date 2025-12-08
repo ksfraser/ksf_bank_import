@@ -72,9 +72,12 @@ try {
 }
 
 // Include Command Pattern Bootstrap (handles POST actions via CommandDispatcher)
+echo "DEBUG: About to include command_bootstrap\n";
 require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
+echo "DEBUG: command_bootstrap included\n";
 
 // HTML library imports
+echo "DEBUG: About to declare HTML library imports\n";
 use Ksfraser\HTML\Elements\HtmlForm;
 use Ksfraser\HTML\Elements\HtmlDiv;
 use Ksfraser\HTML\Elements\HtmlTable;
@@ -85,6 +88,7 @@ use Ksfraser\HTML\Elements\HtmlTh;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\HtmlRaw;
 use Ksfraser\HTML\Elements\HtmlAttribute;
+echo "DEBUG: HTML library imports declared\n";
 
 include_once($path_to_root . "/includes/ui/ui_input.inc");
 include_once($path_to_root . "/includes/ui/ui_lists.inc");
@@ -142,7 +146,9 @@ if ($use_popup_windows)
 if ($use_date_picker)
 	$js .= get_js_date_picker();
 
+echo "DEBUG: About to call page() function\n";
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
+echo "DEBUG: page() function called successfully\n";
 
 
 	include_once "Views/module_menu_view.php"; // Include the ModuleMenuView class
