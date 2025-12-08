@@ -116,6 +116,7 @@ include_once($path_to_root . "/includes/data_checks.inc");
 
 include_once($path_to_root . "/modules/bank_import/includes/includes.inc");
 include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
+bank_import_debug("Bank import includes loaded");
 
 //20240316
 //	QE is working.
@@ -161,21 +162,24 @@ if ($use_popup_windows)
 	$js .= get_js_open_window(900, 500);
 if ($use_date_picker)
 	$js .= get_js_date_picker();
+bank_import_debug("JS setup completed", ['popup_windows' => $use_popup_windows, 'date_picker' => $use_date_picker]);
 
 echo "DEBUG: About to call page() function\n";
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
 echo "DEBUG: page() function called successfully\n";
-
+bank_import_debug("Page header rendered");
 
 	include_once "Views/module_menu_view.php"; // Include the ModuleMenuView class
     	$menu = new \Views\ModuleMenuView();
     	$menu->renderMenu(); // Render the module menu
+bank_import_debug("Module menu rendered");
 
 // REFACTOR STEP 1 COMPLETE: Replaced hardcoded array with PartnerTypeConstants::getAll()
 // Previous code (array) replaced by PartnerTypeConstants class - See commit/PR for details
 // Test: tests/unit/ProcessStatementsPartnerTypesTest.php (16 tests, 110 assertions - ALL PASSING)
 // This provides dynamic partner type discovery while maintaining backward compatibility
 $optypes = \Ksfraser\PartnerTypeConstants::getAll();
+bank_import_debug("Partner types loaded", ['count' => count($optypes)]);
 // TODO END STEP 1
 /*
 // Load operation types from registry (session-cached)
@@ -185,13 +189,18 @@ $optypes = OperationTypesRegistry::getInstance()->getTypes();
 */
 
 include_once($path_to_root . "/modules/ksf_modules_common/defines.inc.php");	//$trans_types_readable
+bank_import_debug("Common defines included");
 
 require_once( 'class.bank_import_controller.php' );
+bank_import_debug("Bank import controller class loaded");
+
 	try {
 		$bi_controller = new bank_import_controller();	//no vars for constructor.
+		bank_import_debug("Bank import controller instantiated");
 	} catch( Exception $e )
 	{	
 		display_error( __LINE__ . "::" . print_r( $e, true ) );
+		bank_import_debug("Bank import controller instantiation failed", $e->getMessage());
 	}
 
 
@@ -474,21 +483,22 @@ if (isset($_POST['partnerType'])) {
 
 
 start_form();
+bank_import_debug("Main form started");
 
 div_start('doc_tbl');
+bank_import_debug("Document table div started");
+
 $custinv = array();
 
 if (1) {
 	//------------------------------------------------------------------------------------------------
 	// this is filter table
+	bank_import_debug("Starting filter table section");
 
 	require_once( 'header_table.php' );
 	$headertable = new ksf_modules_table_filter_by_date();
 	$headertable->bank_import_header();
-
-	//if (!@$_GET['popup'])
-	//	end_form();
-
+	bank_import_debug("Header table rendered");
 
 /*************************************************************************************************************/
 /***********************************  Transactions  **********************************************************/
@@ -496,35 +506,43 @@ if (1) {
 	//------------------------------------------------------------------------------------------------
 	// this is data display table
 	$trzs = array();
+	bank_import_debug("Starting transaction data display section");
 	
 	// Load vendor list from singleton manager (session-cached)
 	if (!class_exists('\KsfBankImport\VendorListManager')) {
 		require_once('VendorListManager.php');
 	}
 	$vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
+	bank_import_debug("Vendor list loaded", ['count' => count($vendor_list)]);
 
 	error_reporting(E_ALL);
 
 	require_once( 'class.bi_transactions.php' );
 	$bit = new bi_transactions_model();
+	bank_import_debug("bi_transactions_model instantiated");
+
 	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
 	{
 		$trzs = $bit->get_transactions( $_POST['statusFilter'] );
+		bank_import_debug("Transactions loaded with status filter", ['status' => $_POST['statusFilter'], 'count' => count($trzs)]);
 	}
 	else
 	{
 		$trzs = $bit->get_transactions();
+		bank_import_debug("Transactions loaded without filter", ['count' => count($trzs)]);
 	}
 	
 /*************************************************************************************************************/
 	start_table(TABLESTYLE, "width='100%'");
 	table_header(array("Transaction Details", "Operation/Status"));
+	bank_import_debug("Transaction table started");
 
 	//load data
 	
 	//This foreach loop should probably be rolled up into the WHILE loop above.
 	foreach($trzs as $trz_code => $trz_data) 
 	{
+		bank_import_debug("Processing transaction", ['id' => $trz_code, 'amount' => $trz_data['transactionAmount'] ?? 'unknown']);
 		//try to match something, interpreting saved info if status=TR_SETTLED
 		//$minfo = doMatching($myrow, $coyBankAccounts, $custBankAccounts, $suppBankAccounts);
 	/*
@@ -553,12 +571,17 @@ if (1) {
 		$bi_lineitem->display();
 	} //Foreach
 	end_table();
+	bank_import_debug("Transaction table completed");
 /*************************************************************************************************************/
 }
 
 div_end();
+bank_import_debug("Document table div ended");
+
 end_form();
+bank_import_debug("Main form ended");
 
 // End page
 end_page(@$_GET['popup'], false, false);
+bank_import_debug("Page rendering completed");
 ?>
