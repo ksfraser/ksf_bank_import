@@ -40,9 +40,14 @@ if (!isset($container)) {
     bank_import_debug("SimpleContainer created");
 
     // Bind repositories (existing models)
-    if (isset($bi_transactions_model)) {
+    if (isset($bit)) {
+        $container->instance('TransactionRepository', $bit);
+        bank_import_debug("TransactionRepository bound to \$bit");
+    } elseif (isset($bi_transactions_model)) {
         $container->instance('TransactionRepository', $bi_transactions_model);
-        bank_import_debug("TransactionRepository bound");
+        bank_import_debug("TransactionRepository bound to \$bi_transactions_model");
+    } else {
+        bank_import_debug("No transaction repository found to bind");
     }
 
     // Bind legacy controller (for transitional period)

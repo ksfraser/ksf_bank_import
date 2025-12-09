@@ -95,10 +95,14 @@ class CommandDispatcher implements CommandDispatcherInterface
         $commandClass = $this->commands[$actionName];
 
         try {
+            // Get repository dependency
+            $repository = $this->container->make('TransactionRepository');
+            
             // Instantiate command with dependencies
             /** @var CommandInterface $command */
             $command = $this->container->make($commandClass, [
-                "postData" => $postData
+                "postData" => $postData,
+                "repository" => $repository
             ]);
 
             // Execute command
