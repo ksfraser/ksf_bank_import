@@ -494,27 +494,24 @@ if (!class_exists('\KsfBankImport\VendorListManager')) {
 	require_once('VendorListManager.php');
 }
 $vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
-bank_import_debug("Vendor list loaded", ['count' => count($vendor_list)]);
 
-error_reporting(E_ALL);
-
+div_start('doc_tbl');
+// Load transactions based on filter
+$trzs = array();
 if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
 {
 	$trzs = $bit->get_transactions( $_POST['statusFilter'] );
-	bank_import_debug("Transactions loaded with status filter", ['status' => $_POST['statusFilter'], 'count' => count($trzs)]);
 }
 else
 {
 	$trzs = $bit->get_transactions();
-	bank_import_debug("Transactions loaded without filter", ['count' => count($trzs)]);
 }
 
 // Create and render the ProcessStatementsView
-require_once('src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php');
+require_once('src/Ksfraser/FaBankImport/views/ProcessStatementsView.php');
 $view = new \Ksfraser\FaBankImport\Views\ProcessStatementsView($trzs, $optypes, $vendor_list);
 echo $view->render();
 
 // End page
 end_page(@$_GET['popup'], false, false);
-bank_import_debug("Page rendering completed");
 ?>
