@@ -481,105 +481,38 @@ if (isset($_POST['partnerType'])) {
 	$Ajax->activate('doc_tbl');
 }
 
+// Load transaction data before creating view
+$trzs = array();
+bank_import_debug("Starting transaction data display section");
 
-start_form();
-bank_import_debug("Main form started");
+// Load vendor list from singleton manager (session-cached)
+if (!class_exists('\KsfBankImport\VendorListManager')) {
+	require_once('VendorListManager.php');
+}
+$vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
+bank_import_debug("Vendor list loaded", ['count' => count($vendor_list)]);
 
-div_start('doc_tbl');
-bank_import_debug("Document table div started");
+error_reporting(E_ALL);
 
-$custinv = array();
+require_once( 'class.bi_transactions.php' );
+$bit = new bi_transactions_model();
+bank_import_debug("bi_transactions_model instantiated");
 
-if (1) {
-	//------------------------------------------------------------------------------------------------
-	// this is filter table
-	bank_import_debug("Starting filter table section");
-
-	require_once( 'header_table.php' );
-	$headertable = new ksf_modules_table_filter_by_date();
-	$headertable->bank_import_header();
-	bank_import_debug("Header table rendered");
-
-/*************************************************************************************************************/
-/***********************************  Transactions  **********************************************************/
-/*************************************************************************************************************/
-	//------------------------------------------------------------------------------------------------
-	// this is data display table
-	$trzs = array();
-	bank_import_debug("Starting transaction data display section");
-	
-	// Load vendor list from singleton manager (session-cached)
-	if (!class_exists('\KsfBankImport\VendorListManager')) {
-		require_once('VendorListManager.php');
-	}
-	$vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
-	bank_import_debug("Vendor list loaded", ['count' => count($vendor_list)]);
-
-	error_reporting(E_ALL);
-
-	require_once( 'class.bi_transactions.php' );
-	$bit = new bi_transactions_model();
-	bank_import_debug("bi_transactions_model instantiated");
-
-	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
-	{
-		$trzs = $bit->get_transactions( $_POST['statusFilter'] );
-		bank_import_debug("Transactions loaded with status filter", ['status' => $_POST['statusFilter'], 'count' => count($trzs)]);
-	}
-	else
-	{
-		$trzs = $bit->get_transactions();
-		bank_import_debug("Transactions loaded without filter", ['count' => count($trzs)]);
-	}
-	
-/*************************************************************************************************************/
-	start_table(TABLESTYLE, "width='100%'");
-	table_header(array("Transaction Details", "Operation/Status"));
-	bank_import_debug("Transaction table started");
-
-	//load data
-	
-	//This foreach loop should probably be rolled up into the WHILE loop above.
-	foreach($trzs as $trz_code => $trz_data) 
-	{
-		bank_import_debug("Processing transaction", ['id' => $trz_code, 'amount' => $trz_data['transactionAmount'] ?? 'unknown']);
-		//try to match something, interpreting saved info if status=TR_SETTLED
-		//$minfo = doMatching($myrow, $coyBankAccounts, $custBankAccounts, $suppBankAccounts);
-	/*
-	*	//now group data from tranzaction
-	*	$tid = 0;
-	*	$cids = array();
-	*
-	*	//bring trans details
-	*	$has_trz = 0;
-	*	$amount = 0;
-	*	$charge = 0;
-	*/
-	
-		require_once( 'class.bi_lineitem.php' );
-		foreach($trz_data as $idx => $trz) 
-		{
-			//LOGIC ERROR?
-				//We are handling line items, but then ->display out of the loop?
-				//I assume this is for lines with charges, etc which could be in the MT940 format but not QFX and therefore I'm not seeing  an issue?
-			$bi_lineitem = new bi_lineitem( $trz, $vendor_list, $optypes );
-		}	//foreach trz_data
-	/*
-	*	//cids is an empty array at this point.
-	*	$cids = implode(',', $cids);
-	*/
-		$bi_lineitem->display();
-	} //Foreach
-	end_table();
-	bank_import_debug("Transaction table completed");
-/*************************************************************************************************************/
+if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
+{
+	$trzs = $bit->get_transactions( $_POST['statusFilter'] );
+	bank_import_debug("Transactions loaded with status filter", ['status' => $_POST['statusFilter'], 'count' => count($trzs)]);
+}
+else
+{
+	$trzs = $bit->get_transactions();
+	bank_import_debug("Transactions loaded without filter", ['count' => count($trzs)]);
 }
 
-div_end();
-bank_import_debug("Document table div ended");
-
-end_form();
-bank_import_debug("Main form ended");
+// Create and render the ProcessStatementsView
+require_once('src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php');
+$view = new \Ksfraser\FaBankImport\Views\ProcessStatementsView($trzs, $optypes, $vendor_list);
+echo $view->render();
 
 // End page
 end_page(@$_GET['popup'], false, false);

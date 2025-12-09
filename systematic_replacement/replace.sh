@@ -1,7 +1,7 @@
 # Systematic File Replacement Script
 # Run this from the project root directory
 
-WORKING_DIR="/path/to/working/version"  # Set this to your working version directory
+WORKING_DIR="C:/Users/prote/Documents/bank_import"  # Set this to your working version directory
 CURRENT_DIR="$(pwd)"
 
 echo "Systematic File Replacement Tool"

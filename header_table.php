@@ -120,5 +120,92 @@ class ksf_modules_table_filter_by_date extends origin
 	        end_row();
 	        end_table();
 	}
-}
 
+	/**
+	 * Get the bank import header HTML as a string (for SRP view classes)
+	 *
+	 * @param string $tablestype Table style constant
+	 * @return string Complete HTML for the filter header table
+	 */
+	function getBankImportHeaderHtml( $tablestype = TABLESTYLE_NOBORDER )
+	{
+		// Set defaults (same logic as bank_import_header)
+		$statusFilter = $_POST['statusFilter'] ?? 0;
+		$transAfterDate = $_POST['TransAfterDate'] ?? begin_month(Today());
+		$transToDate = $_POST['TransToDate'] ?? end_month(Today());
+		$bankAccountFilter = $_POST['bankAccountFilter'] ?? 'ALL';
+
+		// Build HTML using string concatenation instead of echo functions
+		$html = '<table class="' . $tablestype . '">';
+		$html .= '<tr>';
+
+		// From date field
+		$html .= $this->renderDateCell(_("From:"), 'TransAfterDate', $transAfterDate, -30);
+
+		// To date field
+		$html .= $this->renderDateCell(_("To:"), 'TransToDate', $transToDate, 1);
+
+		// Status selector
+		$statusOptions = array(0 => 'Unsettled', 1 => 'Settled', 255 => 'All');
+		$html .= $this->renderLabelCell(_("Status:"), 'statusFilter', $statusFilter, $statusOptions);
+
+		// Bank account selector (Mantis Bug #3188)
+		$html .= $this->renderBankAccountSelector($bankAccountFilter);
+
+		// Submit button
+		$html .= $this->renderSubmitCell('RefreshInquiry', _("Search"), '', _('Refresh Inquiry'), 'default');
+
+		$html .= '</tr>';
+		$html .= '</table>';
+
+		return $html;
+	}
+
+	/**
+	 * Render a date input cell as HTML string
+	 */
+	private function renderDateCell($label, $name, $value, $months_offset = 0)
+	{
+		// Use output buffering to capture date_cells() output
+		ob_start();
+		date_cells($label, $name, $value, null, $months_offset);
+		return ob_get_clean();
+	}
+
+	/**
+	 * Render a label cell with selector as HTML string
+	 */
+	private function renderLabelCell($label, $name, $value, $options)
+	{
+		// Use output buffering to capture label_cells() output
+		ob_start();
+		label_cells($label, array_selector($name, $value, $options));
+		return ob_get_clean();
+	}
+
+	/**
+	 * Render bank account selector as HTML string
+	 */
+	private function renderBankAccountSelector($selected_value)
+	{
+		// Use output buffering to capture the bank account selector output
+		ob_start();
+		require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
+		$ba_model = new fa_bank_accounts_MODEL();
+		$ba_view = new fa_bank_accounts_VIEW( $ba_model );
+		$ba_view->set( "b_showNoneAll", true );
+		$ba_view->bank_accounts_list_row( _("Bank Account:") , 'bankAccountFilter', null, false);
+		return ob_get_clean();
+	}
+
+	/**
+	 * Render a submit button cell as HTML string
+	 */
+	private function renderSubmitCell($name, $value, $extra = '', $title = '', $class = 'default')
+	{
+		// Use output buffering to capture submit_cells() output
+		ob_start();
+		submit_cells($name, $value, $extra, $title, $class);
+		return ob_get_clean();
+	}
+}

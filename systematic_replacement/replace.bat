@@ -2,7 +2,7 @@
 REM Systematic File Replacement Script for Windows
 REM Run this from the project root directory
 
-set WORKING_DIR=C:\path\to\working\version
+set WORKING_DIR=C:\Users\prote\Documents\bank_import
 set CURRENT_DIR=%CD%
 
 echo Systematic File Replacement Tool

@@ -19,6 +19,25 @@
 # Files with PHP 7.3 compatibility issues
 - **Command classes**: COMPATIBILITY_ISSUES - Removed typed parameters for PHP 7.3 compatibility
 
+### REFACTORING_IMPROVEMENTS
+# Code structure improvements that maintain functionality
+- **process_statements.php**: REFACTORING_IMPROVEMENTS - Extracted HTML generation into ProcessStatementsView class for SRP compliance
+  - Moved inline HTML construction (start_form, div_start, table rendering, etc.) into dedicated view class
+  - Created ProcessStatementsView.php with proper separation of concerns
+  - Maintained all existing functionality while improving code maintainability
+
+- **header_table.php**: REFACTORING_IMPROVEMENTS - Added getBankImportHeaderHtml() method to return HTML strings instead of echoing
+  - Eliminated output buffering (ob_start/ob_get_clean) from ProcessStatementsView
+  - Created proper SRP methods: renderDateCell(), renderLabelCell(), renderBankAccountSelector(), renderSubmitCell()
+  - Maintained backward compatibility with existing bank_import_header() method
+  - Improved testability and composability of filter table generation
+
+## Current Status:
+# ✅ CommandDispatcher: FIXED - Encoding issue resolved, basic instantiation works
+# ✅ ProcessStatementsView: IMPLEMENTED - HTML generation extracted to SRP view class
+# 🔄 Next Priority: Test ProcessStatementsView integration with full FA environment
+# 🔄 Next: Validate that refactored version produces identical output to working version
+
 ## Current Status:
 # ✅ CommandDispatcher: FIXED - Encoding issue resolved, basic instantiation works
 # 🔄 Next Priority: POST action handling in process_statements.php

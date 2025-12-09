@@ -18,7 +18,7 @@ class qfx_parser extends parser {
 	protected $bank_from_file;	//!<bool did we get bank info from the imported file
 	protected $bankid_from_file;	//!<bool did we get bank ID from the imported file
 	/**//**
-	 * Convert an array of  CSV lines into assoc array
+	 * Convert an OFX file into assoc array
 	 *
 	 * Called by parse
 	 */
@@ -36,15 +36,9 @@ class qfx_parser extends parser {
 	*
 	**************************************************************/
     function parse($content, $static_data = array(), $debug = true) {
-	//echo __FILE__ . "::" . __LINE__ . "::" . " In Parser QFX\n";
-			var_dump( __FILE__ . "::" . __LINE__ );
-	//var_dump( $content );
-
 	$ofxParser = new OfxParser\Parser();
 	$ofx = $ofxParser->loadFromString( $content );
-	//$ofx = $ofxParser->loadFromFile('test.qfx');
 
-	//var_dump( $ofx->signOn );
 /**
 [CREDITCARDMSGSRSV1] => SimpleXMLElement Object
         (
@@ -73,7 +67,6 @@ class qfx_parser extends parser {
                                     [DTEND] => 20240220120000
 **/
 			//var_dump( __FILE__ . "::" . __LINE__ );
-	//var_dump( $institute );
 	$institute = $ofx->signOn->institute;
 	if( null !== $institute->name )
 	{
@@ -93,7 +86,6 @@ class qfx_parser extends parser {
 			$this->bank_from_file = false;
 		}
 	}
-			//var_dump( __FILE__ . "::" . __LINE__ );
 	if( null !== $institute->id )
 	{
 		$bankid = (string) $institute->id;
@@ -108,15 +100,11 @@ class qfx_parser extends parser {
 			$bankid = '1060';
 	}
 
-	//var_dump( __FILE__ . "::" . __LINE__ );
-	//var_dump( $ofx );
 //bankAccounts is an array.  Can be multiple accounts....
 //	Reset rewinds an array and returns a pointer to the first element.
 //	next can be used to go to the next element.
 
-		//var_dump( __FILE__ . "::" . __LINE__ );
 /***********************************************************************************************************************************/
-		//var_dump( __FILE__ . "::" . __LINE__ );
 	//$bankAccount = reset($ofx->bankAccounts);
 	/*    	public $accountNumber;	//<! string
     		public $accountType; 	//<! string
@@ -151,18 +139,13 @@ class qfx_parser extends parser {
 	$smts = array();
 	$accountCount = 0;
 
-		//var_dump( __FILE__ . "::" . __LINE__ );
 	reset($ofx->bankAccounts);
-		//var_dump( $ofx->bankAccounts );
-			//var_dump( __FILE__ . "::" . __LINE__ );
 	foreach( $ofx->bankAccounts as $bankAccount )
 	{
 		if( null == $bankAccount )
 			continue;
 		$accountCount++;
 
-		//var_dump( __FILE__ . "::" . __LINE__ );
-		//var_dump( $bankAccount );
 		$accountNumber = (string) $bankAccount->accountNumber;	//CIBC Savings as branch <space> ac-count.  VISA is just 16c XXXXyyyyzzzzaaaa.  PCMC is just the last 4.
 		$accountType = (string) $bankAccount->accountType;	//CIBC sets this as CREDITLINE or SAVINGS.   PCMC doesn't set.
 		$branchId = (string) $bankAccount->agencyNumber;	//CIBC doesn't include this.  PCMC doesn't set
@@ -173,36 +156,25 @@ class qfx_parser extends parser {
 									//ATB sets ORG as ATB Financial, FID 1, BID 12883
 		//bankid (vice bankId) and bank set above from either STATIC or file
 		//Need to look up BANK to ensure it matches the accountNumber from the file.
-		//var_dump( __FILE__ . "::" . __LINE__ );
-			//var_dump( __FILE__ . "::" . __LINE__ );
 		$gba = get_bank_account_by_acctid($accountNumber);
-		//var_dump( __FILE__ . "::" . __LINE__ );
 		//var_dump( $gba );
-		//var_dump( __FILE__ . "::" . __LINE__ );
-			//var_dump( __FILE__ . "::" . __LINE__ );
 		if( isset( $gba['bank_account_name'] ) )
 		{
-			//var_dump( __FILE__ . "::" . __LINE__ );
 			$bank = $gba['bank_account_name'];
 		}
 		else
 		{
-			//Why didn't it reset?
-			//var_dump( __FILE__ . "::" . __LINE__ );
 		}
 	
 		if( isset( $bankAccount->balance ) )
 		{
 			if( is_float( $bankAccount->balance ) )
 			{
-				//echo "It's a Float\n";
 				$endbalance = $bankAccount->balance;
 			}
 			else
 			{
-				//echo "It's NOT a Float\n";
 				$endbalance = (string) $bankAccount->balance;
-				//$endbalance = '0.00';
 			}
 		}
 		else
@@ -218,14 +190,10 @@ class qfx_parser extends parser {
 		$endDate = $bankAccount->statement->endDate->format(DATE_ATOM);
 		if( !empty( $balanceDate ) ) {
 			$sid = $balanceDate . "-" . $accountCount;
-			//$sid = $balanceDate;
 		}
 	
 	
 		//if smtid exists in results, add to this statement else create new statement
-		//var_dump( __FILE__ . "::" . __LINE__ );
-		//var_dump( $accountNumber );
-		//var_dump( $bank );
 		if( empty( $smts[$sid] ) ) {
 			$smts[$sid] = new statement;
 			$smts[$sid]->account = $accountNumber;		//This is an account number string i.e. from the bank. PCMC - 5181....
@@ -247,7 +215,6 @@ class qfx_parser extends parser {
 			//echo "debug: statement exists for sid=$sid\n";
 		}
 		//var_dump( $smts );
-			//var_dump( __FILE__ . "::" . __LINE__ );
 	
 		//current transaction
 		$trz = null;
@@ -261,29 +228,13 @@ class qfx_parser extends parser {
 			//Pub 5812
 			//Costco 5300
 			//Direct Energy 4900
-		//var_dump( $transactions );
 		foreach( $transactions as $transaction ) 
 		{
-			//var_dump( $transaction );
-		
-			    //echo "----------------------------------------------------\n";
-				//var_dump( $transaction );
-			//var_dump( __FILE__ . "::" . __LINE__ );
-		
 			//state machine
 			// in transaction && new transaction indicator => close transaction
-	/*
-			if ( $trz ) 
-			{
-				$trz->dump();
-			//	$smts[$trz->valueTimestamp]->addTransaction($trz);
-			}
-	*/
 			    
 			if ($debug) echo "debug: adding new transaction....\n";
 			$trz = new transaction;
-			//var_dump( __LINE__ );
-		
 			/*	TRANSACTION
 				public $type;		//<! string				CREDIT (Payment) or DEBIT (Charge)
 		    		public $date;		//!< DateTimeInterface			POSTING		Probably needs massaging
@@ -306,18 +257,15 @@ class qfx_parser extends parser {
 //MANULIFE sends Regular Interest as INT.  
 			if( "CREDIT" == $transaction->type )
 			{
-			var_dump( __FILE__ . "::" . __LINE__ );
 				//Payment
 				if( false !== strpos( $transaction->name, "PAYMENT" ) )
 				{
-			//var_dump( __LINE__ );
 					//PAYMENT, comes from a Bank
 			    		$trz->transactionDC = 'B';
 					$trz->transactionType = 'TRF';
 				}		
 				else
 				{
-			//var_dump( __LINE__ );
 					//IF Not PAYMENT - REFUND
 			    		$trz->transactionDC = 'C';
 		  			$trz->transactionType = 'TRF';
@@ -327,14 +275,12 @@ class qfx_parser extends parser {
  *	SIMPLII and MANU sends type as INT rather than CREDIT for interest */
 			else if( "DEP" == $transaction->type )
 			{
-				var_dump( __FILE__ . "::" . __LINE__ );
 				//SIMPLII Deposit - CREDIT
 			    	$trz->transactionDC = 'C';
 				$trz->transactionType = 'TRF';
 			}
 			else if( "INT" == $transaction->type )
 			{
-				var_dump( __FILE__ . "::" . __LINE__ );
 				//SIMPLII INTEREST - CREDIT
 			    	$trz->transactionDC = 'C';
 				$trz->transactionType = 'TRF';
@@ -346,7 +292,6 @@ class qfx_parser extends parser {
 			    	$trz->transactionDC = 'D';
 		  		$trz->transactionType = 'TRF';
 			}
-				//$amount = floatval(preg_replace('/[^\d\.]/', '', $f[12]));
 			$amnt = (string) $transaction->amount;
 //ATB CC sends everything as a CREDIT and then amount is +/-
 //CIBC Visa sends CREDIT (payment) as + and DEBIT (Charge) as -
@@ -365,7 +310,6 @@ class qfx_parser extends parser {
 			}
 /* ! Mantis 2778 */
 			$trz->transactionAmount = abs((float)$amnt);
-			//$trz->transactionAmount =  (string) $transaction->amount;
 		  	$trz->entryTimestamp = $transaction->date->format(DATE_ATOM);		//Posted Date
 			if( null !== $transaction->userInitiatedDate )
 				$value = $transaction->userInitiatedDate->format(DATE_ATOM);
@@ -375,15 +319,6 @@ class qfx_parser extends parser {
 			$trz->currency = $currency;
 			//$trz->currency = $smts[$sid]->currency;
 		
-		                //$trz->transactionTitle1 = $f[7];	//Merchant
-		                //$trz->transactionTitle2 = $f[8] . ", ";	//City
-		                //$trz->transactionTitle3 = $f[9] . "  ";	//State
-		                //$trz->transactionTitle4 = $f[10] . " ";	//Country
-		                //$trz->transactionTitle5 = $f[11] . "  ";	//Postal Code
-		                //$trz->transactionTitle6 = $f[6] . "; ";	//Category
-		                //$trz->transactionTitle7 = $f[13] . " ";	//Rewards
-		                //$trz->category = $f[6] . "; ";	//Category
-		
 			$trz->transactionCode = (string) $transaction->uniqueId;		//Reference Number
 			$trz->fitid = (string) $transaction->uniqueId;	
 			$trz->acctid = $accountNumber;		//This is an account number string i.e. from the bank. PCMC - 5181....
@@ -391,13 +326,6 @@ class qfx_parser extends parser {
 			$trz->reference = (string) $transaction->uniqueId;		//Reference Number
 			$trz->transactionCodeDesc = (string) $transaction->type;	//Status
 			$trz->checknumber = (string) $transaction->checkNumber;		//Cheque  Number
-	/*
-			$Merchant = explode( " ", (string) $transaction->name );
-	                if( strcasecmp( $Merchant[0], "THE" ) !== 0 )
-				$trz->account = $Merchant[0];			//Merchant.These become supplier payments, so we want to match against the merchant
-	                else
-				$trz->account = (string) $transaction->name;			//Merchant.These become supplier payments, so we want to match against the merchant
-	*/
 			if( include_once( 'includes.inc' ) )
 			{
 				//Does shorten_bankAccount_Names check bi_partners_data?
@@ -413,7 +341,6 @@ class qfx_parser extends parser {
 			$trz->account = $shortname;
 	
 			$trz->accountName1 = (string) $transaction->name;	//Merchant Full name
-			//$trz->accountName2 = " " . $bank;
 			$trz->transactionTitle1 = (string) $transaction->name;	//Merchant
 			$trz->transactionTitle2 = (string) $transaction->sic;
 			$trz->sic = (string) $transaction->sic;
@@ -426,28 +353,109 @@ class qfx_parser extends parser {
 			{
 				if( strlen( $trz->memo ) > 2 )
 				{
+/** Example Memos
+*	CIBC Savings / HISA
+		<MEMO>DEPOSIT;Square, Inc.;Square, Inc.;Electronic Funds Transfer
+		<MEMO>ATM WITHDRAWAL;SIERRA SPRINGS BKNG CTR 2F0O;Automated Banking Machine
+		<MEMO>INTERNET TRANSFER 000000239204;Internet Banking
+		<MEMO>PAY;MANULIFE;Electronic Funds Transfer
+		<MEMO>E-TRANSFER 011337432529;CONNIE CRAIG;Internet Banking
+		<NAME>MASTERCARD, WALMART<MEMO>INTERNET BILL PAY 000000100765;Internet Banking
+		<NAME>343104<MEMO>PREAUTHORIZED DEBIT;NON-GROUP;Electronic Funds Transfer
+		<MEMO>E-TRANSFER NETWORK FEE;Branch Transaction
+		<MEMO>SERVICE CHARGE;Branch Transaction
+		<MEMO>ATM DEPOSIT;SIERRA SPRINGS BKNG CTR 1C0F;Automated Banking Machine
+	CIBC VISA
+		<NAME>UBER CANADA/UBERTRIP<MEMO>TORONTO, ON;CC#4503********0307
+		<NAME>ALBERTA INSURANCE COUNCIL<MEMO>EDMONTON, AB;CC#4503********0307
+	PCMC
+		<NAME>McDonalds 40613<MEMO>7293
+		<NAME>Payment MBC<MEMO>2992
+	Manulife
+		<NAME>TAX AIRDRIE Taxes</NAME><MEMO>TAX AIRDRIE Taxes</MEMO>
+	ATB
+		<NAME>PAYMENT - THANK YOU
+		<NAME>WAL-MART #1050           AIRDRIE
+		
+*/
+/** Example Transaction Type
+	Manulife
+		<TRNTYPE>XFER</TRNTYPE>
+		<TRNTYPE>INT</TRNTYPE>
+		<TRNTYPE>POS</TRNTYPE>
+		<TRNTYPE>CREDIT</TRNTYPE>
+		<TRNTYPE>DIRECTDEBIT</TRNTYPE>
+	CIBC
+		<TRNTYPE>CREDIT
+		<TRNTYPE>DEBIT
+		<TRNTYPE>SRVCHG
+	PCMC
+		<TRNTYPE>DEBIT
+		<TRNTYPE>CREDIT
+	ATB
+		<TRNTYPE>CREDIT
+
+*/
+/** FITID examples
+	ATB uses account# + integer
+		<FITID>5439979006836030240605500000002
+	CIBC - Integer
+		<FITID>25150154033310731052280000
+	Manu
+		<FITID>24306000001
+		<FITID>24358000001
+		<FITID>24362000002
+	PCMC
+		<FITID>0000012540257974842202517420251751848488-85445645174524865626100-MWEBBQHJX
+		<FITID>0000012540257974842202517420251751848478-85445645174524864835629-MWEQWEYSF
+		<FITID>0000012540257974842202517320251741859139-55181365173882678823851-MWEOFL0JJ
+*/
 					$accs = explode( ";", $trz->memo );
 					if( strpos( $accs[0], "E-TRANSFER" ) )
 					{
 						$trz->account = $trz->accountName = $accs[1];	//Customer
 					}
 					else
+					if( strpos( $accs[0], "Interest Deposit" ) OR strpos( $accs[0], "BONUS INTEREST" ) )
+					{
+						//account to account transfer.  Maybe visa pay
+						$trz->account = $trz->accountName = $accs[0];	//Action
+//TODO - should Interest have it's own indicator so that we have a quick entry automatically applied?
+			    			//$trz->transactionDC = 'B';
+						//$trz->transactionType = 'TRF';
+					}
+					else
 					if( strpos( $accs[0], "INTERNET TRANSFER" ) )
 					{
 						//account to account transfer.  Maybe visa pay
-						$trz->account = $trz->accountName = $accs[1];	//Customer
+						$trz->account = $trz->accountName = $accs[1];	//Bank Account
+			    			$trz->transactionDC = 'B';
+						$trz->transactionType = 'TRF';
+					}
+					else
+					if( strpos( $accs[0], "External Transfer" ) )
+					{
+						//account to account transfer.  Manulife sending money to diff bank
+						$external = explode( " ", $trz->memo );
+						$trz->account = $trz->accountName = $external[2];	//Bank Account
+			    			$trz->transactionDC = 'B';
+						$trz->transactionType = 'TRF';
 					}
 					else
 					if( strpos( $accs[0], "PAY" ) )
 					{
 						//account to account transfer.  Maybe visa pay
-						$trz->account = $trz->accountName = $accs[1];	//Customer
+						$trz->account = $trz->accountName = $accs[1];	//CC 
+			    			$trz->transactionDC = 'B';
+						$trz->transactionType = 'TRF';
 					}
 					else
-					if( strpos( $accs[0], "PAY" ) )
+					if( strpos( $accs[0], "Pay" ) )
 					{
 						//account to account transfer.  Maybe visa pay
-						$trz->account = $trz->accountName = $accs[1];	//Customer
+						$trz->account = $trz->accountName = str_replace( "Pay ", "", $accs[0] );
+			    			$trz->transactionDC = 'B';
+						$trz->transactionType = 'TRF';
 					}
 					else
 					if( strpos( $accs[0], "DEPOSIT" ) )
@@ -472,11 +480,8 @@ class qfx_parser extends parser {
 				}
 			}
 			$trz->merchant = (string) $transaction->name;	//Merchant
-			//var_dump( $trz );
 			if ($trz)
 			    $smts[$sid]->addTransaction($trz);
-			//display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $trz, true ) );
-			echo( __FILE__ . "::" . __LINE__ . " " . print_r( $trz, true ) );
 	
 		}
 		//parsing ended, cleanup

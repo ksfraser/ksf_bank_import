@@ -140,7 +140,8 @@ function get_bank_account_by_number($account_number)
 	//display_notification( __FILE__ . "::" . __LINE__ );
 	$sql = "SELECT a.*
 		FROM ".TB_PREF."bank_accounts a 
-		WHERE a.bank_account_number = ".db_escape($account_number);
+		WHERE a.bank_account_number = '". trim($account_number) . "'";
+		//WHERE a.bank_account_number = ".db_escape($account_number);
 	//display_notification( __FILE__ . "::" . __LINE__ . "::" . $sql );
 	$result = db_query($sql,"could not get bank account");
 	return db_fetch($result);
