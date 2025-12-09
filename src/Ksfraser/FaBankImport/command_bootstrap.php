@@ -26,7 +26,7 @@ if (!defined('USE_COMMAND_PATTERN')) {
      * Feature flag for Command Pattern
      * Set to true to use new architecture, false for legacy code
      */
-    define('USE_COMMAND_PATTERN', true);
+    define('USE_COMMAND_PATTERN', false);
 }
 bank_import_debug("USE_COMMAND_PATTERN defined", USE_COMMAND_PATTERN);
 
