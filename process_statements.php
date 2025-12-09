@@ -92,10 +92,9 @@ require_once( 'class.bi_transactions.php' );
 $bit = new bi_transactions_model();
 bank_import_debug("bi_transactions_model instantiated");
 
-// Include Command Pattern Bootstrap (handles POST actions via CommandDispatcher)
-bank_import_debug("Including command_bootstrap");
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
-bank_import_debug("command_bootstrap included");
+// TEMPORARILY DISABLE COMMAND PATTERN - Using legacy handlers in process_statements.php
+// require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
+// bank_import_debug("command_bootstrap included");
 
 // HTML library imports
 bank_import_debug("Declaring HTML library imports");
