@@ -17,6 +17,9 @@
         <testsuite name="Services">
             <directory>./tests/Service</directory>
         </testsuite>
+        <testsuite name="Views">
+            <directory>./tests/Views</directory>
+        </testsuite>
         <testsuite name="Unit (Legacy)">
             <directory suffix="Test.php">./tests/unit</directory>
         </testsuite>
