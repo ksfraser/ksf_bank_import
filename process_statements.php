@@ -445,7 +445,7 @@ else
 }
 
 // Create and render the ProcessStatementsView
-require_once('src/Ksfraser/FaBankImport/views/ProcessStatementsView.php');
+require_once('src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php');
 $view = new \Ksfraser\FaBankImport\Views\ProcessStatementsView($trzs, $optypes, $vendor_list);
 echo $view->render();
 
