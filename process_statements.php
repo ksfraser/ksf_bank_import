@@ -87,6 +87,11 @@ try {
     die();
 }
 
+// Instantiate bi_transactions_model before command_bootstrap for dependency injection
+require_once( 'class.bi_transactions.php' );
+$bit = new bi_transactions_model();
+bank_import_debug("bi_transactions_model instantiated");
+
 // Include Command Pattern Bootstrap (handles POST actions via CommandDispatcher)
 bank_import_debug("Including command_bootstrap");
 require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
@@ -493,10 +498,6 @@ $vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
 bank_import_debug("Vendor list loaded", ['count' => count($vendor_list)]);
 
 error_reporting(E_ALL);
-
-require_once( 'class.bi_transactions.php' );
-$bit = new bi_transactions_model();
-bank_import_debug("bi_transactions_model instantiated");
 
 if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
 {
