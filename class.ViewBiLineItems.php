@@ -1,23 +1,10 @@
 <?php
 
 /**
- * ViewBILineItems - Legacy View Class for Bank Import Line Items
- * 
- * @deprecated This class is deprecated and should not be used in new code.
- *             The bi_lineitem class now handles its own view logic using proper
- *             HTML library classes. See class.bi_lineitem.php methods:
- *             - display() - Outputs complete HTML row
- *             - getHtml() - Returns complete HTML row as string
- *             - getLeftTd() / getRightTd() - Returns HtmlTd elements
- * 
  * @author Kevin Fraser / ChatGPT
  * @since 20250409
- * @deprecated 20251106 - Replaced by bi_lineitem's own display methods
- * 
- * Replacement Pattern:
- * OLD: $view = new ViewBILineItems($lineitem); $view->display();
- * NEW: $lineitem->display();
  */
+
 class ViewBILineItems
 {
 	protected $bi_lineitem;
@@ -481,8 +468,7 @@ class ViewBILineItems
 	function display_right()
 	{
 	 	echo "</td><td width='50%' valign='top'>";
-		// Use standalone HTML instead of FA's start_table() - for independence from FA
-		echo '<table class="tablestyle2" width="100%">';
+		start_table(TABLESTYLE2, "width='100%'");
 		//now display stuff: forms and information
 
 		if ($this->status == 1)
@@ -530,10 +516,9 @@ class ViewBILineItems
 			hidden("cids[$this->id]",$cids);
 			$this->displayMatchingTransArr();
 		}
-		// Use standalone HTML instead of FA's end_table() - for independence from FA
-		echo '</table>';
+		end_table();
 		echo "</td>";
-		// Note: end_row() is handled by parent context
+		end_row();
 
 	}
 	/**//*****************************************************************
