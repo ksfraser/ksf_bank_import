@@ -5,23 +5,14 @@
          colors="true"
          testdox="true">
     <testsuites>
-        <testsuite name="Value Objects">
-            <directory>./tests/ValueObject</directory>
-        </testsuite>
-        <testsuite name="Entities">
-            <directory>./tests/Entity</directory>
-        </testsuite>
-        <testsuite name="Strategies">
-            <directory>./tests/Strategy</directory>
-        </testsuite>
-        <testsuite name="Services">
-            <directory>./tests/Service</directory>
-        </testsuite>
-        <testsuite name="Unit (Legacy)">
+        <testsuite name="Unit">
             <directory suffix="Test.php">./tests/unit</directory>
         </testsuite>
-        <testsuite name="Integration (Legacy)">
+        <testsuite name="Integration">
             <directory suffix="Test.php">./tests/integration</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory suffix="Test.php">./tests/feature</directory>
         </testsuite>
     </testsuites>
     <coverage processUncoveredFiles="true">

@@ -57,18 +57,12 @@ class transaction_table
 	*****************************************************/
 	function display()
 	{
-		// Use HtmlTable instead of hardcoded HTML
-		$table = new \Ksfraser\HTML\Elements\HtmlTable();
-		$table->setClass('tablestyle');
-		$table->setWidth('100%');
-		
+		start_table(TABLESTYLE, "width='100%'");
 		table_header(array("Transaction Details", "Operation/Status"));
 		foreach( $this->transaction_table_rows as $row )
 		{
 			$row->display();	
 		}
-		
-		echo $table->closeTable();
 	}
 }
 
@@ -153,8 +147,7 @@ class ttr_table
 	*****************************************************/
 	function display()
 	{
-		// Use standalone HTML instead of FA's start_table() - for independence from FA
-		return '<table class="' . strtolower($this->style) . '" width="' . $this->width . '%">';
+		return start_table( $this->style, "width='" . $this->width . "%'");
 	}
 	
 }
@@ -212,43 +205,23 @@ class ttr_label_row
 		$cids = implode(',', $cids);
 
 
-		// Use HtmlTableRow and HtmlTableCell instead of hardcoded HTML
-		$mainRow = new \Ksfraser\HTML\Elements\HtmlTableRow();
-		echo $mainRow->openRow();
+		start_row();
+		echo '<td width="50%">';
 		
-		$leftCell = new \Ksfraser\HTML\Elements\HtmlTableCell();
-		$leftCell->setWidth('50%');
-		echo $leftCell->openCell();
-		
-		// Use HtmlTable instead of hardcoded HTML
-		$detailsTable = new \Ksfraser\HTML\Elements\HtmlTable();
-		$detailsTable->setClass('tablestyle2');
-		$detailsTable->setWidth('100%');
-		echo $detailsTable->openTable();
-		
-		// Use HtmlLabelRow instead of label_row()
-		$labelText = new \Ksfraser\HTML\Elements\HtmlString("Trans Date (Event Date):");
-		$valueText = new \Ksfraser\HTML\Elements\HtmlString($valueTimestamp . " :: (" . $trz['entryTimestamp'] . ")");
-		$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($labelText, $valueText);
-		$labelRow->toHtml();
-		
-		// Replace label_row with HtmlLabelRow for transaction type
-		$transTypeLabel = new \Ksfraser\HTML\Elements\HtmlString("Trans Type:");
+		start_table(TABLESTYLE2, "width='100%'");
+		label_row("Trans Date (Event Date):", $valueTimestamp . " :: (" . $trz['entryTimestamp'] . ")" , "width='25%' class='label'");
 		switch( $transactionDC )
 		{
 			case 'C':
-				$transTypeContent = new \Ksfraser\HTML\Elements\HtmlString("Credit");
+				label_row("Trans Type:", "Credit");
 			break;
 			case 'D':
-				$transTypeContent = new \Ksfraser\HTML\Elements\HtmlString("Debit");
+				label_row("Trans Type:", "Debit");
 			break;
 			case 'B':
-				$transTypeContent = new \Ksfraser\HTML\Elements\HtmlString("Bank Transfer");
+				label_row("Trans Type:", "Bank Transfer");
 			break;
 		}
-		$transTypeRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($transTypeLabel, $transTypeContent);
-		$transTypeRow->toHtml();
-		
 		$bank = get_bank_account_by_number( $our_account );
 			//Info from 0_bank_accounts
 			//	Account Name
@@ -274,52 +247,20 @@ class ttr_label_row
 				[ending_reconcile_balance] => 0 
 				[inactive] => 0 )
 		*/
-		
-		// Replace label_row calls with HtmlLabelRow
-		$bankAcctLabel = new \Ksfraser\HTML\Elements\HtmlString("Our Bank Account - (Account Name)(Number):");
-		$bankAcctContent = new \Ksfraser\HTML\Elements\HtmlString($our_account . ' - ' . $bank['bank_name'] . " (" . $bank['bank_account_name'] . ")(" . $bank['account_code'] . ")");
-		$bankAcctRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($bankAcctLabel, $bankAcctContent);
-		$bankAcctRow->toHtml();
-		
-		$otherAcctLabel = new \Ksfraser\HTML\Elements\HtmlString("Other account:");
-		$otherAcctContent = new \Ksfraser\HTML\Elements\HtmlString($bankAccount . ' / '. $bankAccountName);
-		$otherAcctRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($otherAcctLabel, $otherAcctContent);
-		$otherAcctRow->toHtml();
-		
-		$amountLabel = new \Ksfraser\HTML\Elements\HtmlString("Amount/Charge(s):");
-		$amountContent = new \Ksfraser\HTML\Elements\HtmlString($amount.' / '.$charge." (".$currency.")");
-		$amountRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($amountLabel, $amountContent);
-		$amountRow->toHtml();
-		
-		$titleLabel = new \Ksfraser\HTML\Elements\HtmlString("Trans Title:");
-		$titleContent = new \Ksfraser\HTML\Elements\HtmlString($transactionTitle);
-		$titleRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($titleLabel, $titleContent);
-		$titleRow->toHtml();
-		
+		label_row("Our Bank Account - (Account Name)(Number):", $our_account . ' - ' . $bank['bank_name'] . " (" . $bank['bank_account_name'] . ")(" . $bank['account_code'] . ")"  );
+		label_row("Other account:", $bankAccount . ' / '. $bankAccountName);
+		label_row("Amount/Charge(s):", $amount.' / '.$charge." (".$currency.")");
+		label_row("Trans Title:", $transactionTitle);
 		if( ! in_array(  trim($bankAccount), $vendor_list['shortnames'] ) )
 		{
 	
 			//display_notification( __FILE__ . "::" . __LINE__ . "::" . " Looked for: //" . trim($bankAccount) . "// but didn't fint it.  :: " . print_r( $vendor_list['shortnames'], true )  );
 			
-			// Replace submit button with HtmlSubmit
-			$addVendorLabel = new \Ksfraser\HTML\Elements\HtmlString(_("AddVendor"));
-			$addVendorButton = new \Ksfraser\HTML\Elements\HtmlSubmit($addVendorLabel);
-			$addVendorButton->setName("AddVendor[$tid]");
-			$addVendorButton->setClass("default");
-			
-			$addVendorLabelText = new \Ksfraser\HTML\Elements\HtmlString("Add Vendor");
-			$addVendorRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($addVendorLabelText, $addVendorButton);
-			$addVendorRow->toHtml();
-			
-			//label_row("Add Customer", submit("AddCustomer[$tid]",_("AddCustomer"),false, '', 'default'));
-			
-			// Replace hidden() with HtmlHidden
-			$hiddenVendorShort = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$tid", $bankAccount);
-			$hiddenVendorShort->toHtml();
-			
-			$hiddenVendorLong = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$tid", $bankAccountName);
-			$hiddenVendorLong->toHtml();
-			
+				         //function submit($name, $value, $echo=true, $title=false, $atype=false, $icon=false)
+				label_row("Add Vendor", submit("AddVendor[$tid]",_("AddVendor"),false, '', 'default'));
+				//label_row("Add Customer", submit("AddCustomer[$tid]",_("AddCustomer"),false, '', 'default'));
+			hidden( "vendor_short_$tid", $bankAccount );
+			hidden( "vendor_long_$tid", $bankAccountName );
 			$matched_supplier = null;
 		}
 		else
@@ -327,100 +268,46 @@ class ttr_label_row
 			//IS INARRAY
 			$matched_vendor = array_search( trim($bankAccount), $vendor_list['shortnames'], true );
 			$matched_supplier = $vendor_list[$matched_vendor]['supplier_id'];
-			
-			// Replace hidden() with HtmlHidden
-			$hiddenVendorId = new \Ksfraser\HTML\Elements\HtmlHidden('vendor_id', $matched_vendor);
-			$hiddenVendorId->toHtml();
-			
-			// Replace label_row with HtmlLabelRow
-			$matchedVendorLabel = new \Ksfraser\HTML\Elements\HtmlString("Matched Vendor");
-			$matchedVendorContent = new \Ksfraser\HTML\Elements\HtmlString(print_r( $matched_vendor, true ) . "::" . print_r( $vendor_list[$matched_vendor]['supplier_id'], true ) . "::" . print_r( $vendor_list[$matched_vendor]['supp_name'], true ));
-			$matchedVendorRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($matchedVendorLabel, $matchedVendorContent);
-			$matchedVendorRow->toHtml();
+			hidden( 'vendor_id', $matched_vendor );
+			label_row("Matched Vendor", print_r( $matched_vendor, true ) . "::" . print_r( $vendor_list[$matched_vendor]['supplier_id'], true ) . "::" . print_r( $vendor_list[$matched_vendor]['supp_name'], true ) );
 			//label_row("Add Vendor", submit("AddVendor[$tid]",_("AddVendor"),false, '', 'default'));
 		}
-		echo $detailsTable->closeTable(); // Close the tablestyle2 table
+		end_table();
 		$arr_arr = find_matching_existing( $trz, $bank );
 
-		echo $leftCell->closeCell();
-		
-		$rightCell = new \Ksfraser\HTML\Elements\HtmlTableCell();
-		$rightCell->setWidth('50%');
-		$rightCell->setVAlign('top');
-		echo $rightCell->openCell();
-		
-		// Use HtmlTable instead of hardcoded HTML
-		$operationsTable = new \Ksfraser\HTML\Elements\HtmlTable();
-		$operationsTable->setClass('tablestyle2');
-		$operationsTable->setWidth('100%');
-		echo $operationsTable->openTable();
+		echo "</td><td width='50%' valign='top'>";
+		start_table(TABLESTYLE2, "width='100%'");
 		//now display stuff: forms and information
 
 /*************************************************************************************************************/
 		if ($status == 1) 
 		{
 			// the transaction is settled, we can display full details
-			$statusLabel = new \Ksfraser\HTML\Elements\HtmlString("Status:");
-			$statusContent = new \Ksfraser\HTML\Elements\HtmlString("<b>Transaction is settled!</b>");
-			$statusRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($statusLabel, $statusContent);
-			$statusRow->toHtml();
-			
+			label_row("Status:", "<b>Transaction is settled!</b>", "width='25%' class='label'");
 			switch ($trz['fa_trans_type']) 
 			{
 				case ST_SUPPAYMENT:
-					$opLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
-					$opContent = new \Ksfraser\HTML\Elements\HtmlString("Payment");
-					$opRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($opLabel, $opContent);
-					$opRow->toHtml();
-					
+					label_row("Operation:", "Payment");
 					// get supplier info
-					$supplierLabel = new \Ksfraser\HTML\Elements\HtmlString("Supplier:");
-					$supplierContent = new \Ksfraser\HTML\Elements\HtmlString($minfo['supplierName']);
-					$supplierRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($supplierLabel, $supplierContent);
-					$supplierRow->toHtml();
 					
-					$bankLabel = new \Ksfraser\HTML\Elements\HtmlString("From bank account:");
-					$bankContent = new \Ksfraser\HTML\Elements\HtmlString($minfo['coyBankAccountName']);
-					$bankRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($bankLabel, $bankContent);
-					$bankRow->toHtml();
+					label_row("Supplier:", $minfo['supplierName']);
+					label_row("From bank account:", $minfo['coyBankAccountName']);
 				break;
 				case ST_BANKDEPOSIT:
-					$opLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
-					$opContent = new \Ksfraser\HTML\Elements\HtmlString("Deposit");
-					$opRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($opLabel, $opContent);
-					$opRow->toHtml();
-					
+					label_row("Operation:", "Deposit");
 					//get customer info from transaction details
 					$fa_trans = get_customer_trans($fa_trz_no, $fa_trz_type);
-					$custLabel = new \Ksfraser\HTML\Elements\HtmlString("Customer/Branch:");
-					$custContent = new \Ksfraser\HTML\Elements\HtmlString(get_customer_name($fa_trans['debtor_no']) . " / " . get_branch_name($fa_trans['branch_code']));
-					$custRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($custLabel, $custContent);
-					$custRow->toHtml();
+					label_row("Customer/Branch:", get_customer_name($fa_trans['debtor_no']) . " / " . get_branch_name($fa_trans['branch_code']));
 				break;
 				case 0:
-					$opLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
-					$opContent = new \Ksfraser\HTML\Elements\HtmlString("Manual settlement");
-					$opRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($opLabel, $opContent);
-					$opRow->toHtml();
+					label_row("Operation:", "Manual settlement");
 				break;
 				default:
-					$otherLabel = new \Ksfraser\HTML\Elements\HtmlString("Status:");
-					$otherContent = new \Ksfraser\HTML\Elements\HtmlString("other transaction type; no info yet " . print_r( $trz, true ));
-					$otherRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($otherLabel, $otherContent);
-					$otherRow->toHtml();
+					label_row("Status:", "other transaction type; no info yet " . print_r( $trz, true ) );
 					$pid = $trz['id'];
 				break;
 			}
-			
-			// Replace submit button with HtmlSubmit
-			$unsetLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Unset Transaction $fa_trans_no"));
-			$unsetButton = new \Ksfraser\HTML\Elements\HtmlSubmit($unsetLabel);
-			$unsetButton->setName("UnsetTrans[$pid]");
-			$unsetButton->setClass("default");
-			
-			$unsetLabelText = new \Ksfraser\HTML\Elements\HtmlString("Unset Transaction Association");
-			$unsetRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($unsetLabelText, $unsetButton);
-			$unsetRow->toHtml();
+				label_row(	"Unset Transaction Association", submit( 	"UnsetTrans[$pid]", _("Unset Transaction $fa_trans_no"), false, '', 'default' ));
 	/*************************************************************************************************************/
 		} else {	
 			//transaction NOT settled
@@ -474,13 +361,8 @@ class ttr_label_row
 						else
 								$_POST['partnerType'][$tid] = 'ZZ';
 						$oplabel = "MATCH";
-						
-						// Replace hidden() with HtmlHidden
-						$hiddenTransType = new \Ksfraser\HTML\Elements\HtmlHidden("trans_type_$tid", $arr_arr[0]['type']);
-						$hiddenTransType->toHtml();
-						
-						$hiddenTransNo = new \Ksfraser\HTML\Elements\HtmlHidden("trans_no_$tid", $arr_arr[0]['type_no']);
-						$hiddenTransNo->toHtml();
+					hidden("trans_type_$tid", $arr_arr[0]['type'] );
+					hidden("trans_no_$tid", $arr_arr[0]['type_no'] );
 						
 					}
 					else
@@ -492,23 +374,9 @@ class ttr_label_row
 				}
 			}
 	/**/
-			// Replace label_row with HtmlLabelRow
-			$opLabelText = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
-			$opContent = new \Ksfraser\HTML\Elements\HtmlString($oplabel);
-			$opRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($opLabelText, $opContent);
-			$opRow->toHtml();
-			
+			label_row("Operation:", $oplabel, "width='25%' class='label'");
 			//label_row("Operation:", (($transactionDC=='C') ? "Deposit" : "Payment"), "width='25%' class='label'");
-			
-			// Use HtmlSelect directly for array_selector (SOLID: data already in array)
-			$partnerSelect = new \Ksfraser\HTML\Elements\HtmlSelect("partnerType[$tid]");
-			$partnerSelect->addOptionsFromArray($optypes, $_POST['partnerType'][$tid]);
-			$partnerSelect->setAttribute('onchange', 'this.form.submit()'); // select_submit option
-			
-			$partnerLabelText = new \Ksfraser\HTML\Elements\HtmlString("Partner:");
-			$partnerContent = new \Ksfraser\HTML\Elements\HtmlString($partnerSelect->getHtml());
-			$partnerRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($partnerLabelText, $partnerContent);
-			$partnerRow->toHtml();
+			label_row("Partner:", array_selector("partnerType[$tid]", $_POST['partnerType'][$tid], $optypes, array('select_submit'=> true)));
 	
 	/*************************************************************************************************************/
 		//3rd cell
@@ -529,14 +397,7 @@ class ttr_label_row
 				}
 				//			 supplier_list($name, $selected_id=null, $spec_option=false, $submit_on_change=false, $all=false, $editkey = false)
 	
-				// Use SupplierDataProvider with HtmlSelect (SOLID: separated data from presentation)
-				$supplierProvider = new \Ksfraser\SupplierDataProvider();
-				$supplierSelectHtml = $supplierProvider->generateSelectHtml("partnerId_$tid", $matched_supplier);
-				
-				$paymentToLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Payment To:"));
-				$supplierContent = new \Ksfraser\HTML\Elements\HtmlString($supplierSelectHtml);
-				$paymentToRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($paymentToLabel, $supplierContent);
-				$paymentToRow->toHtml();
+				label_row(_("Payment To:"), supplier_list("partnerId_$tid", $matched_supplier, false, false));
 				break;
 			//customer deposit
 			case 'CU':
@@ -548,30 +409,14 @@ class ttr_label_row
 					$_POST["partnerDetailId_$tid"] = $match['partner_detail_id'];
 					}
 				}
-				
-				// Use CustomerDataProvider with HtmlSelect (SOLID: separated data from presentation)
-				$customerProvider = new \Ksfraser\CustomerDataProvider();
-				$customerSelectHtml = $customerProvider->generateCustomerSelectHtml("partnerId_$tid", $_POST["partnerId_$tid"] ?? null);
-				
-				// Check if customer has branches and add branch selector
-				if (!empty($_POST["partnerId_$tid"]) && count($customerProvider->getBranches($_POST["partnerId_$tid"])) > 0) {
-					$branchSelectHtml = $customerProvider->generateBranchSelectHtml($_POST["partnerId_$tid"], "partnerDetailId_$tid", $_POST["partnerDetailId_$tid"] ?? null);
-					$cust_text = $customerSelectHtml . $branchSelectHtml;
+				$cust_text = customer_list("partnerId_$tid", null, false, true);
+				if (db_customer_has_branches($_POST["partnerId_$tid"])) {
+					$cust_text .= customer_branches_list($_POST["partnerId_$tid"], "partnerDetailId_$tid", null, false, true, true);
 				} else {
-					// Replace hidden() with HtmlHidden
-					$hiddenPartnerDetailId = new \Ksfraser\HTML\Elements\HtmlHidden("partnerDetailId_$tid", ANY_NUMERIC);
-					ob_start();
-					$hiddenPartnerDetailId->toHtml();
-					$hiddenHtml = ob_get_clean();
-					$cust_text = $customerSelectHtml . $hiddenHtml;
+					hidden("partnerDetailId_$tid", ANY_NUMERIC);
 					$_POST["partnerDetailId_$tid"] = ANY_NUMERIC;
 				}
-				
-				// Display customer/branch selector
-				$customerLabel = new \Ksfraser\HTML\Elements\HtmlString(_("From Customer/Branch:"));
-				$customerContent = new \Ksfraser\HTML\Elements\HtmlString($cust_text);
-				$customerRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($customerLabel, $customerContent);
-				$customerRow->toHtml();
+				label_row(_("From Customer/Branch:"),  $cust_text);
 				//label_row("debug", "customerid_tid=".$_POST["partnerId_$tid"]." branchid[tid]=".$_POST["partnerDetailId_$tid"]);
 	
 			break;
@@ -592,45 +437,22 @@ class ttr_label_row
 				}
 			//function bank_accounts_list($name, $selected_id=null, $submit_on_change=false, $spec_option=false)
 				 //bank_accounts_list_row( _("From:") , 'bank_account', null, true);
-				
-				// Use BankAccountDataProvider with HtmlSelect (SOLID: separated data from presentation)
-				$bankAccountProvider = new \Ksfraser\BankAccountDataProvider();
-				$bankAccountSelectHtml = $bankAccountProvider->generateSelectHtml("partnerId_$tid", $_POST["partnerId_$tid"] ?? null);
-				
-				$transferFromLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Transfer From:"));
-				$bankAccountsContent = new \Ksfraser\HTML\Elements\HtmlString($bankAccountSelectHtml);
-				$transferFromRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($transferFromLabel, $bankAccountsContent);
-				$transferFromRow->toHtml();
+					label_row(	_("Transfer From:"), 
+				 		bank_accounts_list( "partnerId_$tid", $_POST["partnerId_$tid"], null, false)
 				 		//bank_accounts_list_row( _("From:") , 'bank_account', null, false)
+				);
 			break;
 			// quick entry
 			case 'QE':	//partnerType
 				//label_row("Option:", "<b>Process via quick entry</b>");
-				
-				// Use QuickEntryDataProvider with HtmlSelect (SOLID: separated data from presentation)
-				$qeType = ($transactionDC == 'C') ? QE_DEPOSIT : QE_PAYMENT;
-				$qeProvider = new \Ksfraser\QuickEntryDataProvider();
-				$qeSelectHtml = $qeProvider->generateSelectHtml($qeType, "partnerId_$tid", get_post("partnerId_$tid"));
-				
-				// Get description for selected quick entry
-				$selectedId = get_post("partnerId_$tid");
-				$qe_text = $qeSelectHtml;
-				if ($selectedId) {
-					$qe = $qeProvider->getQuickEntryById($qeType, $selectedId);
-					if ($qe) {
-						$qe_text .= " " . $qe['base_desc'];
-					}
-				}
+				$qe_text = quick_entries_list("partnerId_$tid", null, (($transactionDC=='C') ? QE_DEPOSIT : QE_PAYMENT), true);
+				$qe = get_quick_entry(get_post("partnerId_$tid"));
+				$qe_text .= " " . $qe['base_desc'];
 			
-				$quickEntryLabel = new \Ksfraser\HTML\Elements\HtmlString("Quick Entry:");
-				$quickEntryContent = new \Ksfraser\HTML\Elements\HtmlString($qe_text);
-				$quickEntryRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($quickEntryLabel, $quickEntryContent);
-				$quickEntryRow->toHtml();
+				label_row("Quick Entry:", $qe_text);
 			break;
 			case 'MA':
-				// Replace hidden() with HtmlHidden
-				$hiddenPartnerId = new \Ksfraser\HTML\Elements\HtmlHidden("partnerId_$tid", 'manual');
-				$hiddenPartnerId->toHtml();
+				hidden("partnerId_$tid", 'manual');
 				//function array_selector($name, $selected_id, $items, $options=null)
 					//value => description
 				$opts_arr = array( 
@@ -651,56 +473,24 @@ class ttr_label_row
 						//ST_SUPPRECEIVE => "Supplier Receiving",
 					);
 				$name="Existing_Type";
-				
-				// Use HtmlSelect directly for array_selector (SOLID: data already in array)
-				$existingTypeSelect = new \Ksfraser\HTML\Elements\HtmlSelect($name);
-				$existingTypeSelect->addOptionsFromArray($opts_arr, '0');
-				
-				$existingTypeLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Existing Entry Type:"));
-				$existingTypeContent = new \Ksfraser\HTML\Elements\HtmlString($existingTypeSelect->getHtml());
-				$existingTypeRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($existingTypeLabel, $existingTypeContent);
-				$existingTypeRow->toHtml();
-				
+					label_row(_("Existing Entry Type:"), array_selector( $name, 0, $opts_arr ) );
 				//function text_input($name, $value=null, $size='', $max='', $title='', $params='')
-				// Note: text_input returns HTML, wrap in HtmlString for now
-				$existingEntryLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Existing Entry:"));
-				$existingEntryInput = text_input( "Existing_Entry", 0, 6, '', _("Existing Entry:") );
-				$existingEntryContent = new \Ksfraser\HTML\Elements\HtmlString($existingEntryInput);
-				$existingEntryRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($existingEntryLabel, $existingEntryContent);
-				$existingEntryRow->toHtml();
+				label_row( 
+					(_("Existing Entry:")), 
+					text_input( "Existing_Entry", 0, 6, '', _("Existing Entry:") ) 
+				);
 			break;
 			case 'ZZ':	//partnerType
 				//Matched an existing item
-				// Replace hidden() calls with HtmlHidden
-				$hiddenPartnerIdZZ = new \Ksfraser\HTML\Elements\HtmlHidden("partnerId_$tid", $arr_arr[0]['type']);
-				$hiddenPartnerIdZZ->toHtml();
-				
-				$hiddenPartnerDetailIdZZ = new \Ksfraser\HTML\Elements\HtmlHidden("partnerDetailId_$tid", $arr_arr[0]['type_no']);
-				$hiddenPartnerDetailIdZZ->toHtml();
-				
-				$hiddenTransTypeZZ = new \Ksfraser\HTML\Elements\HtmlHidden("trans_type_$tid", $arr_arr[0]['type']);
-				$hiddenTransTypeZZ->toHtml();
-				
-				$hiddenTransNoZZ = new \Ksfraser\HTML\Elements\HtmlHidden("trans_no_$tid", $arr_arr[0]['type_no']);
-				$hiddenTransNoZZ->toHtml();
-				
-				$hiddenMemoZZ = new \Ksfraser\HTML\Elements\HtmlHidden("memo_$tid", $trz['memo']);
-				$hiddenMemoZZ->toHtml();
-				
-				$hiddenTitleZZ = new \Ksfraser\HTML\Elements\HtmlHidden("title_$tid", $trz['transactionTitle']);
-				$hiddenTitleZZ->toHtml();
+				hidden("partnerId_$tid", $arr_arr[0]['type'] );
+				hidden("partnerDetailId_$tid", $arr_arr[0]['type_no'] );
+				hidden("trans_type_$tid", $arr_arr[0]['type'] );
+				hidden("trans_no_$tid", $arr_arr[0]['type_no'] );
+				hidden("memo_$tid", $trz['memo'] );
+				hidden("title_$tid", $trz['transactionTitle'] );
 			break;
 			}
-			
-			// Replace submit button with HtmlSubmit
-			$processLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Process"));
-			$processButton = new \Ksfraser\HTML\Elements\HtmlSubmit($processLabel);
-			$processButton->setName("ProcessTransaction[$tid]");
-			$processButton->setClass("default");
-			
-			$emptyLabel = new \Ksfraser\HTML\Elements\HtmlString("");
-			$processRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($emptyLabel, $processButton);
-			$processRow->toHtml();
+			label_row("", submit("ProcessTransaction[$tid]",_("Process"),false, '', 'default'));
 	
 			//other common info
 			hidden("cids[$tid]",$cids);
@@ -774,24 +564,19 @@ class ttr_label_row
 						$matchcount++;
 					} //if isset
 				} //foreach
-				
-				// Replace label_row with HtmlLabelRow
-				$matchingGLsLabel = new \Ksfraser\HTML\Elements\HtmlString("Matching GLs");
-				$matchingGLsContent = new \Ksfraser\HTML\Elements\HtmlString($match_html);
-				$matchingGLsRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($matchingGLsLabel, $matchingGLsContent);
-				$matchingGLsRow->toHtml();
-				//label_row("Matching GLs", print_r( $arr_arr, true ) );
+					label_row("Matching GLs", $match_html );
+					//label_row("Matching GLs", print_r( $arr_arr, true ) );
 			}
 			else
 			{
 					label_row("Matching GLs", "No Matches found automatically" );
 			}
 		}
-		echo $operationsTable->closeTable(); // Close tablestyle2 table
-		echo $rightCell->closeCell();
-		echo $mainRow->closeRow();
+		end_table();
+		echo "</td>";
+		end_row();
 		}
-		// Main table closing handled by transaction_table class display() method
+		end_table();
 	}
 	
 	

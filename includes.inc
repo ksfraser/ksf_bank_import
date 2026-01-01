@@ -7,7 +7,8 @@ require_once (__DIR__ . '/vendor/autoload.php' );
         //$ofx = $ofxParser->loadFromFile('test.qfx');
 */
 
-require_once( __DIR__ . '/../class.bi_transactions.php' );
+require_once( __DIR__ . '/class.bi_transactions.php' );
+//require_once( __DIR__ . '/../class.bi_transactions.php' );
 
 
 /**//**************************************************

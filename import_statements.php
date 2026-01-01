@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 /**********************************************************************
     Copyright (C) FrontAccounting, LLC.
 	Released under the terms of the GNU General Public License, GPL, 
@@ -20,11 +22,6 @@ include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 require_once 'includes/qfx_parser.php';
 
-// Mantis #2708: File upload management - Refactored (Phase 2)
-require_once __DIR__ . '/vendor/autoload.php';
-use Ksfraser\FaBankImport\Service\FileUploadService;
-use Ksfraser\FaBankImport\ValueObject\FileInfo;
-
 //TODO Migrate to use HTML classes
 
 page(_($help_context = "Import Bank Statement"));
@@ -41,17 +38,11 @@ function import_statements() {
     echo '<pre>';
 /** 20250716 add in capability to import multiple files at once **/
     $multistatements = unserialize($_SESSION['multistatements']);
-    // Mantis #2708: Get uploaded file IDs from session
-    $uploaded_file_ids = isset($_SESSION['uploaded_file_ids']) ? $_SESSION['uploaded_file_ids'] : array();
-    
-	foreach( $multistatements as $file_index => $statements )
+	foreach( $multistatements as $statements )
 	{
-	    // Get file ID for this set of statements
-	    $file_id = isset($uploaded_file_ids[$file_index]) ? $uploaded_file_ids[$file_index] : null;
-	    
 	    foreach($statements as $id => $smt) {
 		echo "importing statement {$smt->statementId} ...";
-		echo importStatement($smt, $file_id);  // Pass file_id
+		echo importStatement($smt);
 		echo "\n";
 	    }
 	}
@@ -71,10 +62,9 @@ function import_statements() {
 * Import the statements
 *
 * @param array statements
-* @param int|null file_id Optional uploaded file ID to link
 * @return string summary of import (errors, imports, updates)
 *************************************************************/
-function importStatement($smt, $file_id = null) 
+function importStatement($smt) 
 {
 	$message = '';
 /** Moving to namespaces **/
@@ -107,17 +97,6 @@ function importStatement($smt, $file_id = null)
 	}
 	$smt_id = $bis->get( "id" );
 /* */
-	
-	// Mantis #2708: Link uploaded file to statement (Phase 2 refactored)
-	if ($file_id !== null) {
-		try {
-			$uploadService = FileUploadService::create();
-			$uploadService->linkToStatements($file_id, array($smt_id));
-		} catch (\Exception $e) {
-			display_error("Failed to link file to statement: " . $e->getMessage());
-		}
-	}
-	
 	$newinserted=0;
 	$dupecount=0;
 	$dupeupdated=0;
@@ -140,7 +119,7 @@ function importStatement($smt, $file_id = null)
 */
 			} catch( Exception $e )
 			{
-				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, true ) );
+				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );
 			}
 		} catch( Exception $e )
 		{
@@ -234,11 +213,6 @@ function parse_uploaded_files() {
 
     echo "<td width=100%><pre>\n";
 
-    // Mantis #2708: Initialize file upload service (Phase 2 refactored)
-    $uploadService = FileUploadService::create();
-    $uploaded_file_ids = [];
-    $has_blocked_duplicates = false;  // Track if any files were blocked
-
     // initialize parser class
     $parserClass = $_POST['parser'] . '_parser';
     $parser = new $parserClass;
@@ -272,72 +246,6 @@ function parse_uploaded_files() {
 
     foreach($_FILES['files']['name'] as $id=>$fname) {
     	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
-
-    	// Mantis #2708: Save uploaded file (Phase 2 refactored)
-    	$bank_account_id = isset($_POST['bank_account']) ? $_POST['bank_account'] : null;
-    	$file_info_array = array(
-    	    'name' => $_FILES['files']['name'][$id],
-    	    'type' => $_FILES['files']['type'][$id],
-    	    'tmp_name' => $_FILES['files']['tmp_name'][$id],
-    	    'size' => $_FILES['files']['size'][$id],
-    	    'error' => $_FILES['files']['error'][$id]
-    	);
-    	
-    	// Check if user is forcing upload of this file (bypass duplicate check)
-    	$force_upload = isset($_POST['force_upload_' . $id]) && $_POST['force_upload_' . $id] == '1';
-    	
-    	try {
-    	    // Create FileInfo from upload
-    	    $fileInfo = FileInfo::fromUpload($file_info_array);
-    	    
-    	    // Upload using new service
-    	    $result = $uploadService->upload(
-    	        $fileInfo,
-    	        $_POST['parser'],
-    	        $bank_account_id,
-    	        $force_upload,
-    	        "Uploaded from import_statements.php"
-    	    );
-    	    
-    	    if ($result->isSuccess()) {
-    	        // New file saved or reused
-    	        $file_id = $result->getFileId();
-    	        $uploaded_file_ids[$id] = $file_id;
-    	        
-    	        if ($result->isReused()) {
-    	            display_notification("Duplicate file detected! Reusing existing file ID: $file_id (saving disk space)");
-    	        } elseif ($force_upload) {
-    	            display_notification("File saved with ID: $file_id (forced upload, duplicate check bypassed)");
-    	        } else {
-    	            display_notification("File saved with ID: $file_id");
-    	        }
-    	    } elseif ($result->isDuplicate()) {
-    	        // Duplicate detected - warn or block
-    	        if ($result->allowForce()) {
-    	            // Warn mode - show message and allow force
-    	            display_warning($result->getMessage());
-    	            display_warning("To upload anyway, check the 'Force Upload' box and try again.");
-    	            $smt_err++;
-    	            continue;
-    	        } else {
-    	            // Block mode - hard reject
-    	            display_error("BLOCKED: " . $result->getMessage());
-    	            $has_blocked_duplicates = true;
-    	            $smt_err++;
-    	            continue;
-    	        }
-    	    } else {
-    	        // Upload failed
-    	        display_error("Upload failed: " . $result->getMessage());
-    	        $smt_err++;
-    	        continue;
-    	    }
-    	    
-    	} catch (\Exception $e) {
-    	    display_error("Failed to upload file '$fname': " . $e->getMessage());
-    	    $smt_err++;
-    	    continue;
-    	}
 
     	$content = file_get_contents($_FILES['files']['tmp_name'][$id]);
 
@@ -375,48 +283,10 @@ function parse_uploaded_files() {
     }
     echo "</pre></td>";
     end_row();
-    
-    // Show duplicate warnings if in 'warn' mode
-    if (!empty($_SESSION['duplicate_warnings'])) {
-        start_row();
-        echo '<td>';
-        echo '<div style="background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin: 10px 0;">';
-        echo '<h3 style="color: #856404; margin-top: 0;">⚠️ Duplicate Files Detected</h3>';
-        echo '<p>The following files appear to be duplicates (same filename, size, and content):</p>';
-        echo '<form method="post" enctype="multipart/form-data">';
-        
-        foreach ($_SESSION['duplicate_warnings'] as $dup) {
-            echo '<div style="margin: 10px 0; padding: 10px; background: white; border-left: 4px solid #ffc107;">';
-            echo '<strong>' . htmlspecialchars($dup['filename']) . '</strong><br>';
-            echo 'Size: ' . number_format($dup['size'] / 1024, 2) . ' KB<br>';
-            echo 'Previously uploaded: ' . $dup['upload_date'] . ' by ' . htmlspecialchars($dup['upload_user']) . '<br>';
-            echo 'Existing file ID: ' . $dup['existing_id'] . '<br>';
-            echo '<input type="hidden" name="force_upload_' . $dup['file_index'] . '" value="1">';
-            echo '<input type="hidden" name="files_data_' . $dup['file_index'] . '" value="' . htmlspecialchars(json_encode($dup['file_data'])) . '">';
-            echo '</div>';
-        }
-        
-        echo '<p><strong>What would you like to do?</strong></p>';
-        echo '<input type="hidden" name="parser" value="' . htmlspecialchars($_POST['parser']) . '">';
-        if (isset($_POST['bank_account'])) {
-            echo '<input type="hidden" name="bank_account" value="' . htmlspecialchars($_POST['bank_account']) . '">';
-        }
-        echo '<button type="submit" name="force_reupload" style="background-color: #dc3545; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-right: 10px;">Force Upload & Process Anyway</button>';
-        echo '<button type="submit" name="cancel_duplicates" style="background-color: #6c757d; color: white; padding: 10px 20px; border: none; cursor: pointer;">Cancel - Do Not Upload</button>';
-        echo '</form>';
-        echo '</div>';
-        echo '</td>';
-        end_row();
-        
-        // Don't show import button when there are warnings to resolve
-        unset($_SESSION['duplicate_warnings']);
-        return;  // Stop here, wait for user decision
-    }
-    
     start_row();
     echo '<td>';
 	submit_center_first('goback', 'Go back');
-	if ($smt_err == 0 && !$has_blocked_duplicates)
+	if ($smt_err == 0)
 	    submit_center_last('import', 'Import');
 
     echo '</td>';
@@ -427,8 +297,6 @@ function parse_uploaded_files() {
     if ($smt_err == 0) {
 	$_SESSION['statements'] = serialize($statements);
 	$_SESSION['multistatements'] = serialize($multistatements);
-	// Mantis #2708: Store uploaded file IDs for linking to statements
-	$_SESSION['uploaded_file_ids'] = $uploaded_file_ids;
     }
 }
 
