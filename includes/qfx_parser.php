@@ -6,8 +6,17 @@
 //	Have a config whether we should match MEMO field i.e. INTERNET TRASFER/PAY/DEPOSIT/...
 //	Have a further config to indicate chunk delimiters.  CIBC uses ";".  Is this standard?
 
-require_once (__DIR__ . '/vendor/autoload.php' );
-include_once( 'includes.inc' );
+// Load OFX parser version configuration
+// This allows easy switching between different OFX parser implementations
+if (file_exists(__DIR__ . '/../config/ofx_parser_config.php')) {
+    require_once(__DIR__ . '/../config/ofx_parser_config.php');
+    require_once(OFX_PARSER_AUTOLOAD);
+} else {
+    // Fallback to current version if config doesn't exist
+    require_once(__DIR__ . '/vendor/autoload.php');
+}
+
+include_once('includes.inc');
 
 /**//************************************************
 * Class to parse a QFX/OFX file

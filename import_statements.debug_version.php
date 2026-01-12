@@ -20,19 +20,6 @@ include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 require_once 'includes/qfx_parser.php';
 
-// Emergency error handler for blank screen debugging
-register_shutdown_function(function() {
-    $error = error_get_last();
-    if ($error && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
-        $log = __DIR__ . '/debug_import.log';
-        $msg = "\n*** FATAL ERROR ***\n";
-        $msg .= "Type: " . $error['type'] . "\n";
-        $msg .= "Message: " . $error['message'] . "\n";
-        $msg .= "File: " . $error['file'] . ":" . $error['line'] . "\n";
-        file_put_contents($log, $msg, FILE_APPEND);
-    }
-});
-
 // Mantis #2708: File upload management - Refactored (Phase 2)
 require_once __DIR__ . '/vendor/autoload.php';
 use Ksfraser\FaBankImport\Service\FileUploadService;
@@ -269,20 +256,7 @@ function parse_uploaded_files() {
 		$static_data['account_number'] = $bank_account['bank_account_number'];
 		$static_data['currency'] = $bank_account['bank_curr_code'];
 		$static_data['account_code'] = $bank_account['account_code'];
-		
-		// Convert numeric account_type to string expected by parser
-		// FA stores: 0 = Bank Account, 1 = Petty Cash, 2 = Credit Card
-		// Parser expects: "CHECKING", "SAVINGS", "CREDIT", etc.
-		$account_type_numeric = $bank_account['account_type'];
-		if ($account_type_numeric == 2) {
-		    $static_data['account_type'] = "CREDIT";  // Credit card
-		} elseif ($account_type_numeric == 1) {
-		    $static_data['account_type'] = "CHECKING";  // Petty cash treated as checking
-		} else {
-		    $static_data['account_type'] = "CHECKING";  // Default bank account
-		}
-		display_notification( __FILE__ . "::" . __LINE__ . "  Converted account_type from $account_type_numeric to {$static_data['account_type']}" );
-		
+		$static_data['account_type'] = $bank_account['account_type'];
 		$static_data['account_name'] = $bank_account['bank_account_name'];
 		$static_data['bank_charge_act'] = $bank_account['bank_charge_act'];
 		//$static_data['raw'] = $bank_account;
@@ -290,17 +264,6 @@ function parse_uploaded_files() {
 	}
     }
 
-    // EMERGENCY DEBUG: Log to file for blank screen issues
-    $debug_log = __DIR__ . '/debug_import.log';
-    $log_msg = "\n\n=== " . date('Y-m-d H:i:s') . " ===\n";
-    $log_msg .= "Function: parse_uploaded_files\n";
-    $log_msg .= "Parser: " . $_POST['parser'] . "\n";
-    $log_msg .= "Files count: " . count($_FILES['files']['name']) . "\n";
-    $log_msg .= "PHP Version: " . phpversion() . "\n";
-    $log_msg .= "Error Reporting: " . error_reporting() . "\n";
-    $log_msg .= "Display Errors: " . ini_get('display_errors') . "\n";
-    file_put_contents($debug_log, $log_msg, FILE_APPEND);
-    
     $smt_ok = 0;
     $trz_ok = 0;
     $smt_err = 0;
@@ -308,7 +271,6 @@ function parse_uploaded_files() {
 	$multistatements = array();
 
     foreach($_FILES['files']['name'] as $id=>$fname) {
-    	file_put_contents($debug_log, "Processing file: $fname\n", FILE_APPEND);
     	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
     	display_notification( __FILE__ . "::" . __LINE__ . "  File ID: $id, TMP: {$_FILES['files']['tmp_name'][$id]}, Size: {$_FILES['files']['size'][$id]}" );
 
@@ -392,31 +354,8 @@ function parse_uploaded_files() {
         
         display_notification( __FILE__ . "::" . __LINE__ . "  About to parse with debug=true..." );
         display_notification( __FILE__ . "::" . __LINE__ . "  Static data: " . print_r($static_data, true) );
-        
-        file_put_contents($debug_log, "About to call parser->parse() for file: $fname\n", FILE_APPEND);
-        file_put_contents($debug_log, "Content length: " . strlen($content) . "\n", FILE_APPEND);
-        file_put_contents($debug_log, "Parser class: " . get_class($parser) . "\n", FILE_APPEND);
-        
-        try {
-            display_notification( __FILE__ . "::" . __LINE__ . "  Calling parser->parse()..." );
-            $statements = $parser->parse($content, $static_data, $debug=true);
-            file_put_contents($debug_log, "Parse SUCCESS! Statements: " . count($statements) . "\n", FILE_APPEND);
-            display_notification( __FILE__ . "::" . __LINE__ . "  Parse complete! Statement count: " . count($statements) );
-        } catch (\Exception $e) {
-            file_put_contents($debug_log, "EXCEPTION: " . $e->getMessage() . "\n", FILE_APPEND);
-            file_put_contents($debug_log, "File: " . $e->getFile() . ":" . $e->getLine() . "\n", FILE_APPEND);
-            display_error( __FILE__ . "::" . __LINE__ . "  PARSE EXCEPTION: " . $e->getMessage());
-            display_error( __FILE__ . "::" . __LINE__ . "  Stack trace: " . $e->getTraceAsString());
-            $smt_err++;
-            $statements = array();  // Empty array to avoid further errors
-        } catch (\Error $e) {
-            file_put_contents($debug_log, "ERROR (Fatal): " . $e->getMessage() . "\n", FILE_APPEND);
-            file_put_contents($debug_log, "File: " . $e->getFile() . ":" . $e->getLine() . "\n", FILE_APPEND);
-            display_error( __FILE__ . "::" . __LINE__ . "  PARSE ERROR (Fatal): " . $e->getMessage());
-            display_error( __FILE__ . "::" . __LINE__ . "  Stack trace: " . $e->getTraceAsString());
-            $smt_err++;
-            $statements = array();
-        }
+    	$statements = $parser->parse($content, $static_data, $debug=true); // false for no debug, true for debug
+    	display_notification( __FILE__ . "::" . __LINE__ . "  Parse complete! Statement count: " . count($statements) );
 
 	foreach ($statements as $smt) {
 	    echo "statement: {$smt->statementId}:";
