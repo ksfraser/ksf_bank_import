@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Mapping Review UI Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .file-selector {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .file-selector input[type="file"] {
+            margin-right: 10px;
+            padding: 5px;
+        }
+        .file-selector select {
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+        .file-selector input[type="text"] {
+            padding: 5px;
+        }
+        .file-selector button {
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .file-selector button:hover {
+            background: #0056b3;
+        }
+        .file-selector hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ddd;
+        }
+        .file-selector form {
+            margin: 15px 0;
+        }
+        .file-selector label {
+            display: block;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .message {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .message.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .message.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info-box {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .info-box h3 {
+            margin-top: 0;
+        }
+        .quick-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .quick-links a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #6c757d;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .quick-links a:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CSV Mapping Review UI - Test Page</h1>
+            <p>This page allows you to test the CSV field mapping review interface.</p>
+        </div>
+        
+                
+                
+        <div class="file-selector">
+            <h2>Select CSV File to Analyze</h2>
+            
+            <div class="quick-links">
+                <a href="?file=qfx_files/20260112_1518404_transactions.csv&bank=manulife">Manulife CSV</a>
+                <a href="?">Clear Selection</a>
+            </div>
+            
+            <br>
+            
+            <form method="POST" enctype="multipart/form-data" id="file-upload-form">
+                <label>
+                    Bank Name:
+                    <select name="bank" required>
+                        <option value="">-- Select Bank --</option>
+                        <option value="manulife" >Manulife Bank</option>
+<option value="cibc" >CIBC</option>
+<option value="td" >TD Bank</option>
+<option value="bmo" >BMO</option>
+<option value="scotiabank" >Scotiabank</option>
+<option value="rbc" >RBC</option>
+<option value="wmmc" selected>Walmart Mastercard</option>
+<option value="pcfinancial" >PC Financial</option>
+<option value="tangerine" >Tangerine</option>
+<option value="other" >Other Bank</option>
+                    </select>
+                </label>
+                <br><br>
+                <label>
+                    Upload CSV File:
+                    <input type="file" name="csv_file" accept=".csv,.txt" required>
+                </label>
+                <button type="submit" name="upload_action" value="analyze">Analyze File</button>
+            </form>
+            
+            <hr style="margin: 20px 0;">
+            
+            <form method="GET">
+                <p><strong>Or use existing file:</strong></p>
+                <label>
+                    CSV File Path (relative to root):
+                    <input type="text" name="file" value="qfx_files/wmmc.csv" size="50" placeholder="e.g., qfx_files/myfile.csv">
+                </label>
+                <label>
+                    Bank:
+                    <select name="bank">
+                        <option value="">-- Select Bank --</option>
+                        <option value="manulife" >Manulife Bank</option>
+<option value="cibc" >CIBC</option>
+<option value="td" >TD Bank</option>
+<option value="bmo" >BMO</option>
+<option value="scotiabank" >Scotiabank</option>
+<option value="rbc" >RBC</option>
+<option value="wmmc" selected>Walmart Mastercard</option>
+<option value="pcfinancial" >PC Financial</option>
+<option value="tangerine" >Tangerine</option>
+<option value="other" >Other Bank</option>
+                    </select>
+                </label>
+                <button type="submit">Load File</button>
+            </form>
+        </div>
+        
+                    
+            <div class="info-box">
+                <h3>File Information</h3>
+                <p><strong>File:</strong> qfx_files/wmmc.csv</p>
+                <p><strong>Size:</strong> 69,990 bytes</p>
+                <p><strong>Bank:</strong> wmmc</p>
+            </div>
+            
+                        
+            <div class="info-box">
+                <h3>CSV Headers Detected</h3>
+                <p><strong>Columns:</strong> 18</p>
+                <p><strong>Headers:</strong> Date, Transaction ID, Number, Description, Notes, Commodity/Currency, Void Reason, Action, Memo, Full Account Name, Account Name, Amount With Sym, Amount Num., Value With Sym, Value Num., Reconcile, Reconcile Date, Rate/Price</p>
+                <p><strong>Has Header Row:</strong> Yes</p>
+                <p><strong>Sample Rows:</strong> 5</p>
+            </div>
+            
+                        
+            <!-- Display the mapping review UI -->
+                        <div class="csv-mapping-review">
+                <h2>CSV Field Mapping Review</h2>
+                <p><strong>Bank:</strong> wmmc</p>
+                <p><strong>CSV Headers Found:</strong> 18</p>
+                
+                <div class="mapping-status excellent">
+                    <h3>Mapping Quality: Excellent (100%)</h3>
+                                    </div>
+                
+                <form method="POST" id="mapping-form">
+                    <input type="hidden" name="bank_name" value="wmmc">
+                    <input type="hidden" name="csv_headers" value="[&quot;Date&quot;,&quot;Transaction ID&quot;,&quot;Number&quot;,&quot;Description&quot;,&quot;Notes&quot;,&quot;Commodity\/Currency&quot;,&quot;Void Reason&quot;,&quot;Action&quot;,&quot;Memo&quot;,&quot;Full Account Name&quot;,&quot;Account Name&quot;,&quot;Amount With Sym&quot;,&quot;Amount Num.&quot;,&quot;Value With Sym&quot;,&quot;Value Num.&quot;,&quot;Reconcile&quot;,&quot;Reconcile Date&quot;,&quot;Rate\/Price&quot;]">
+                    
+                    <table class="mapping-table">
+                        <thead>
+                            <tr>
+                                <th>Our Field</th>
+                                <th>Required</th>
+                                <th>CSV Column</th>
+                                <th>Sample Data</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>date</strong>
+                                        <br>
+                                        <small>date, transaction date, trans date</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="required-badge">Required</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[date]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        selected>
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        >
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        >
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        >
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        >
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        >
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        >
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        >
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        >
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small>01/01/2023 | 01/01/2023 | 01/01/2023</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>description</strong>
+                                        <br>
+                                        <small>description, merchant, merchant name</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="required-badge">Required</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[description]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        >
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        >
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        >
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        selected>
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        >
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        >
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        >
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        >
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        >
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small>WAL-MART #1050 | WAL-MART #1050 | WAL-MART #1050</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>amount</strong>
+                                        <br>
+                                        <small>amount, value, transaction amount</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="required-badge">Required</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[amount]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        >
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        selected>
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        >
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        >
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        >
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        >
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        >
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        >
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        >
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small>f85a4893912540a3d7e37f3ec1e2435c | f85a4893912540a3d7e37f3ec1e2435c | f85a4893912540a3d7e37f3ec1e243</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>debit</strong>
+                                        <br>
+                                        <small>debit, withdrawal, payment</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="optional-badge">Optional</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[debit]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        >
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        >
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        >
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        >
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        >
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        >
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        >
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        selected>
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        >
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small>(123.28) | 81.28 | 42.00</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>credit</strong>
+                                        <br>
+                                        <small>credit, deposit, credit amount</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="optional-badge">Optional</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[credit]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        >
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        >
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        >
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        >
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        >
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        >
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        >
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        >
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        selected>
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small>1.0000 | 1.0000 | 1.0000</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>balance</strong>
+                                        <br>
+                                        <small>balance, running balance, account balance</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="optional-badge">Optional</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[balance]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        >
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        >
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        >
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        >
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        >
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        >
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        selected>
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        >
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        >
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small>1070 Walmart Mastercard 2251 | 8523.2 Groceries | 5785.4 Lucy</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>reference</strong>
+                                        <br>
+                                        <small>reference, ref, reference number</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="optional-badge">Optional</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[reference]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        >
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        >
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        selected>
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        >
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        >
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        >
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        >
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        >
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        >
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small>FA 10001 gbg &quot;55503803002004032174578&quot; | FA 10001 gbg &quot;55503803002004032174578&quot; | FA 10001 gbg &quot;5550</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>category</strong>
+                                        <br>
+                                        <small>category, type, transaction type</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="optional-badge">Optional</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[category]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        >
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        >
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        >
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        >
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        selected>
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        >
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        >
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        >
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        >
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small> |  | </small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                                                            <tr class="mapped">
+                                    <td>
+                                        <strong>account</strong>
+                                        <br>
+                                        <small>account, account number, account name</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="optional-badge">Optional</span>
+                                                                            </td>
+                                    <td>
+                                        <select name="mapping[account]" class="mapping-select">
+                                            <option value="">-- Not Mapped --</option>
+                                                                                            <option value="Date"
+                                                        >
+                                                    Date                                                </option>
+                                                                                            <option value="Transaction ID"
+                                                        >
+                                                    Transaction ID                                                </option>
+                                                                                            <option value="Number"
+                                                        >
+                                                    Number                                                </option>
+                                                                                            <option value="Description"
+                                                        >
+                                                    Description                                                </option>
+                                                                                            <option value="Notes"
+                                                        >
+                                                    Notes                                                </option>
+                                                                                            <option value="Commodity/Currency"
+                                                        >
+                                                    Commodity/Currency                                                </option>
+                                                                                            <option value="Void Reason"
+                                                        >
+                                                    Void Reason                                                </option>
+                                                                                            <option value="Action"
+                                                        >
+                                                    Action                                                </option>
+                                                                                            <option value="Memo"
+                                                        >
+                                                    Memo                                                </option>
+                                                                                            <option value="Full Account Name"
+                                                        selected>
+                                                    Full Account Name                                                </option>
+                                                                                            <option value="Account Name"
+                                                        >
+                                                    Account Name                                                </option>
+                                                                                            <option value="Amount With Sym"
+                                                        >
+                                                    Amount With Sym                                                </option>
+                                                                                            <option value="Amount Num."
+                                                        >
+                                                    Amount Num.                                                </option>
+                                                                                            <option value="Value With Sym"
+                                                        >
+                                                    Value With Sym                                                </option>
+                                                                                            <option value="Value Num."
+                                                        >
+                                                    Value Num.                                                </option>
+                                                                                            <option value="Reconcile"
+                                                        >
+                                                    Reconcile                                                </option>
+                                                                                            <option value="Reconcile Date"
+                                                        >
+                                                    Reconcile Date                                                </option>
+                                                                                            <option value="Rate/Price"
+                                                        >
+                                                    Rate/Price                                                </option>
+                                                                                    </select>
+                                    </td>
+                                    <td class="sample-data">
+                                        <small>Liabilities:Credit Card:1070 Walmart Mastercard 2251 | Expenses:8523.2 Groceries | Expenses:Living:5</small>
+                                    </td>
+                                    <td>
+                                                                                    <span class="status-ok">✓ Mapped</span>
+                                                                            </td>
+                                </tr>
+                                                    </tbody>
+                    </table>
+                    
+                    <div class="unmapped-columns">
+                        <h3>Unmapped CSV Columns</h3>
+                                                    <ul>
+                                                                    <li>Notes</li>
+                                                                    <li>Commodity/Currency</li>
+                                                                    <li>Void Reason</li>
+                                                                    <li>Memo</li>
+                                                                    <li>Amount With Sym</li>
+                                                                    <li>Value With Sym</li>
+                                                                    <li>Value Num.</li>
+                                                                    <li>Reconcile</li>
+                                                                    <li>Reconcile Date</li>
+                                                            </ul>
+                            <p><small>These columns will be ignored during import.</small></p>
+                                            </div>
+                    
+                    <div class="template-options">
+                        <h3>Template Options</h3>
+                        <label>
+                            <input type="checkbox" name="save_as_template" value="1" checked>
+                            Save this mapping as a template for future imports
+                        </label>
+                        <br>
+                        <label>
+                            Template Name:
+                            <input type="text" name="template_name" 
+                                   value="wmmc" 
+                                   placeholder="e.g., manulife, cibc_checking">
+                        </label>
+                        <br>
+                        <label>
+                            Description (optional):
+                            <input type="text" name="template_description" 
+                                   placeholder="e.g., Manulife Advantage Account CSV format">
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" name="action" value="save_and_proceed" class="btn-primary">
+                            Save Mapping &amp; Proceed with Import
+                        </button>
+                        <button type="submit" name="action" value="save_only" class="btn-secondary">
+                            Save Template Only
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <style>
+                .csv-mapping-review {
+                    background: #fff;
+                    padding: 20px;
+                    border-radius: 4px;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                
+                .mapping-status {
+                    padding: 15px;
+                    margin: 15px 0;
+                    border-radius: 4px;
+                }
+                
+                .mapping-status.excellent {
+                    background: #d4edda;
+                    border: 1px solid #c3e6cb;
+                    color: #155724;
+                }
+                
+                .mapping-status.good {
+                    background: #d1ecf1;
+                    border: 1px solid #bee5eb;
+                    color: #0c5460;
+                }
+                
+                .mapping-status.fair {
+                    background: #fff3cd;
+                    border: 1px solid #ffeaa7;
+                    color: #856404;
+                }
+                
+                .mapping-status.poor {
+                    background: #f8d7da;
+                    border: 1px solid #f5c6cb;
+                    color: #721c24;
+                }
+                
+                .mapping-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 20px 0;
+                }
+                
+                .mapping-table th,
+                .mapping-table td {
+                    padding: 10px;
+                    text-align: left;
+                    border: 1px solid #ddd;
+                }
+                
+                .mapping-table th {
+                    background: #f8f9fa;
+                    font-weight: bold;
+                }
+                
+                .mapping-table tr.missing-required {
+                    background: #fff5f5;
+                }
+                
+                .mapping-table tr.mapped {
+                    background: #f0fff0;
+                }
+                
+                .mapping-select {
+                    width: 100%;
+                    padding: 5px;
+                }
+                
+                .sample-data {
+                    font-family: monospace;
+                    font-size: 0.9em;
+                    color: #666;
+                }
+                
+                .required-badge {
+                    background: #dc3545;
+                    color: white;
+                    padding: 2px 8px;
+                    border-radius: 3px;
+                    font-size: 0.85em;
+                }
+                
+                .optional-badge {
+                    background: #6c757d;
+                    color: white;
+                    padding: 2px 8px;
+                    border-radius: 3px;
+                    font-size: 0.85em;
+                }
+                
+                .status-ok {
+                    color: #28a745;
+                    font-weight: bold;
+                }
+                
+                .status-error {
+                    color: #dc3545;
+                    font-weight: bold;
+                }
+                
+                .status-na {
+                    color: #6c757d;
+                }
+                
+                .unmapped-columns {
+                    margin: 20px 0;
+                    padding: 15px;
+                    background: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    border-radius: 4px;
+                }
+                
+                .template-options {
+                    margin: 20px 0;
+                    padding: 15px;
+                    background: #e7f3ff;
+                    border: 1px solid #b3d9ff;
+                    border-radius: 4px;
+                }
+                
+                .template-options label {
+                    display: block;
+                    margin: 10px 0;
+                }
+                
+                .template-options input[type="text"] {
+                    width: 300px;
+                    padding: 5px;
+                    margin-left: 10px;
+                }
+                
+                .form-actions {
+                    margin-top: 20px;
+                    padding-top: 20px;
+                    border-top: 2px solid #dee2e6;
+                    text-align: right;
+                }
+                
+                .form-actions button {
+                    padding: 10px 20px;
+                    margin-left: 10px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 14px;
+                }
+                
+                .btn-primary {
+                    background: #007bff;
+                    color: white;
+                }
+                
+                .btn-primary:hover {
+                    background: #0056b3;
+                }
+                
+                .btn-secondary {
+                    background: #6c757d;
+                    color: white;
+                }
+                
+                .btn-secondary:hover {
+                    background: #545b62;
+                }
+                
+                .warning {
+                    color: #856404;
+                    background: #fff3cd;
+                    border: 1px solid #ffeaa7;
+                    padding: 10px;
+                    margin: 10px 0;
+                    border-radius: 4px;
+                }
+            </style>
+            
+                
+    </div>
+</body>
+</html>

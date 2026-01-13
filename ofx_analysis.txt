@@ -1,0 +1,174 @@
+﻿
+=========================================
+ANALYZING: jacques-ofxparser
+=========================================
+
+DIFFERENT FILES (Modified from baseline):
+-----------------------------------------
+  composer.json
+  LICENSE
+  phpunit.xml.dist
+  README.md
+  lib\OfxParser\Ofx.php
+  lib\OfxParser\Parser.php
+  lib\OfxParser\Entities\AbstractEntity.php
+  lib\OfxParser\Entities\Investment.php
+  lib\OfxParser\Entities\SignOn.php
+  lib\OfxParser\Entities\Statement.php
+  lib\OfxParser\Entities\Status.php
+  lib\OfxParser\Entities\Transaction.php
+  lib\OfxParser\Ofx\Investment.php
+  lib\OfxParser\Parsers\Investment.php
+  tests\OfxParser\OfxTest.php
+  tests\OfxParser\ParserTest.php
+  tests\OfxParser\UtilsTest.php
+  tests\OfxParser\Entities\InvestmentTest.php
+  tests\OfxParser\Parsers\InvestmentTest.php
+
+MISSING FILES (Not in fork):
+-----------------------------
+  phpcs.xml
+  phpunit.xml
+  tests\fixtures\ofx-multiple-accounts-xml.ofx
+  tests\fixtures\ofxdata-banking-xml200.ofx
+  tests\fixtures\ofxdata-bb-two-stmtrs.ofx
+  tests\fixtures\ofxdata-bb.ofx
+  tests\fixtures\ofxdata-bpbfc.ofx
+  tests\fixtures\ofxdata-cmfr.ofx
+  tests\fixtures\ofxdata-credit-card.ofx
+  tests\fixtures\ofxdata-emptyDateTime.ofx
+  tests\fixtures\ofxdata-google.ofx
+  tests\fixtures\ofxdata-investments-multiple-accounts-xml.ofx
+  tests\fixtures\ofxdata-investments-oneline-xml.ofx
+  tests\fixtures\ofxdata-investments-xml.ofx
+  tests\fixtures\ofxdata-memoWithAmpersand.ofx
+  tests\fixtures\ofxdata-memoWithQuotes.ofx
+  tests\fixtures\ofxdata-oneline.ofx
+  tests\fixtures\ofxdata-selfclose.ofx
+  tests\fixtures\ofxdata-xml.ofx
+  tests\fixtures\ofxdata.ofx
+
+
+
+=========================================
+ANALYZING: memhetcoban-ofxparser
+=========================================
+
+DIFFERENT FILES (Modified from baseline):
+-----------------------------------------
+  composer.json
+  phpunit.xml.dist
+  README.md
+  lib\OfxParser\Ofx.php
+  lib\OfxParser\Parser.php
+  tests\fixtures\ofxdata-emptyDateTime.ofx
+  tests\fixtures\ofxdata.ofx
+  tests\OfxParser\OfxTest.php
+  tests\OfxParser\ParserTest.php
+
+MISSING FILES (Not in fork):
+-----------------------------
+  phpcs.xml
+  phpunit.xml
+  lib\OfxParser\Utils.php
+  lib\OfxParser\Entities\Inspectable.php
+  lib\OfxParser\Entities\Investment.php
+  lib\OfxParser\Entities\OfxLoadable.php
+  lib\OfxParser\Entities\Investment\Account.php
+  lib\OfxParser\Entities\Investment\Transaction\Banking.php
+  lib\OfxParser\Entities\Investment\Transaction\BuyMutualFund.php
+  lib\OfxParser\Entities\Investment\Transaction\BuySecurity.php
+  lib\OfxParser\Entities\Investment\Transaction\BuyStock.php
+  lib\OfxParser\Entities\Investment\Transaction\Income.php
+  lib\OfxParser\Entities\Investment\Transaction\Reinvest.php
+  lib\OfxParser\Entities\Investment\Transaction\SellMutualFund.php
+  lib\OfxParser\Entities\Investment\Transaction\SellSecurity.php
+  lib\OfxParser\Entities\Investment\Transaction\SellStock.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\BuyType.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\IncomeType.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\InvTran.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\Pricing.php
+
+
+
+=========================================
+ANALYZING: ofx2
+=========================================
+
+DIFFERENT FILES (Modified from baseline):
+-----------------------------------------
+  composer.json
+  LICENSE
+  phpunit.xml.dist
+  README.md
+  lib\OfxParser\Ofx.php
+  lib\OfxParser\Parser.php
+  tests\fixtures\ofxdata.ofx
+  tests\OfxParser\OfxTest.php
+  tests\OfxParser\ParserTest.php
+
+MISSING FILES (Not in fork):
+-----------------------------
+  phpcs.xml
+  phpunit.xml
+  lib\OfxParser\Utils.php
+  lib\OfxParser\Entities\Inspectable.php
+  lib\OfxParser\Entities\Investment.php
+  lib\OfxParser\Entities\OfxLoadable.php
+  lib\OfxParser\Entities\Investment\Account.php
+  lib\OfxParser\Entities\Investment\Transaction\Banking.php
+  lib\OfxParser\Entities\Investment\Transaction\BuyMutualFund.php
+  lib\OfxParser\Entities\Investment\Transaction\BuySecurity.php
+  lib\OfxParser\Entities\Investment\Transaction\BuyStock.php
+  lib\OfxParser\Entities\Investment\Transaction\Income.php
+  lib\OfxParser\Entities\Investment\Transaction\Reinvest.php
+  lib\OfxParser\Entities\Investment\Transaction\SellMutualFund.php
+  lib\OfxParser\Entities\Investment\Transaction\SellSecurity.php
+  lib\OfxParser\Entities\Investment\Transaction\SellStock.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\BuyType.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\IncomeType.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\InvTran.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\Pricing.php
+
+
+
+=========================================
+ANALYZING: ofx3
+=========================================
+
+DIFFERENT FILES (Modified from baseline):
+-----------------------------------------
+  composer.json
+  LICENSE
+  phpunit.xml.dist
+  README.md
+  lib\OfxParser\Ofx.php
+  lib\OfxParser\Parser.php
+  tests\fixtures\ofxdata.ofx
+  tests\OfxParser\OfxTest.php
+  tests\OfxParser\ParserTest.php
+
+MISSING FILES (Not in fork):
+-----------------------------
+  phpcs.xml
+  phpunit.xml
+  lib\OfxParser\Utils.php
+  lib\OfxParser\Entities\Inspectable.php
+  lib\OfxParser\Entities\Investment.php
+  lib\OfxParser\Entities\OfxLoadable.php
+  lib\OfxParser\Entities\Investment\Account.php
+  lib\OfxParser\Entities\Investment\Transaction\Banking.php
+  lib\OfxParser\Entities\Investment\Transaction\BuyMutualFund.php
+  lib\OfxParser\Entities\Investment\Transaction\BuySecurity.php
+  lib\OfxParser\Entities\Investment\Transaction\BuyStock.php
+  lib\OfxParser\Entities\Investment\Transaction\Income.php
+  lib\OfxParser\Entities\Investment\Transaction\Reinvest.php
+  lib\OfxParser\Entities\Investment\Transaction\SellMutualFund.php
+  lib\OfxParser\Entities\Investment\Transaction\SellSecurity.php
+  lib\OfxParser\Entities\Investment\Transaction\SellStock.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\BuyType.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\IncomeType.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\InvTran.php
+  lib\OfxParser\Entities\Investment\Transaction\Traits\Pricing.php
+
+

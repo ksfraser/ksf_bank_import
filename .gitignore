@@ -36,3 +36,8 @@ composer.phar
 *.copilot.php
 *-old.php
 *.bak
+
+# QFX Test Files (financial data - do not commit)
+/qfx_files/
+*.qfx
+*.ofx

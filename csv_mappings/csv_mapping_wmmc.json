@@ -1,0 +1,40 @@
+{
+    "bank_name": "wmmc",
+    "version": "1.0",
+    "created": "2026-01-13 01:16:46",
+    "updated": "2026-01-13 01:16:46",
+    "header_fingerprint": "74aaf4b2fa63d324fc6b395a5b00c3e7",
+    "csv_headers": [
+        "Date",
+        "Transaction ID",
+        "Number",
+        "Description",
+        "Notes",
+        "Commodity\/Currency",
+        "Void Reason",
+        "Action",
+        "Memo",
+        "Full Account Name",
+        "Account Name",
+        "Amount With Sym",
+        "Amount Num.",
+        "Value With Sym",
+        "Value Num.",
+        "Reconcile",
+        "Reconcile Date",
+        "Rate\/Price"
+    ],
+    "mapping": {
+        "Date": "date",
+        "Description": "description",
+        "Value Num.": "amount",
+        "Value With Sym": "credit",
+        "Memo": "reference",
+        "Notes": "category",
+        "Full Account Name": "account"
+    },
+    "metadata": {
+        "description": "",
+        "created_by": "test_user"
+    }
+}

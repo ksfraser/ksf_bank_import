@@ -22,6 +22,11 @@ include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 require_once 'includes/qfx_parser.php';
 
+// Mantis #2708: File upload management - Refactored (Phase 2)
+require_once __DIR__ . '/vendor/autoload.php';
+use Ksfraser\FaBankImport\Service\FileUploadService;
+use Ksfraser\FaBankImport\ValueObject\FileInfo;
+
 //TODO Migrate to use HTML classes
 
 page(_($help_context = "Import Bank Statement"));
@@ -119,7 +124,7 @@ function importStatement($smt)
 */
 			} catch( Exception $e )
 			{
-				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );
+				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, true ) );
 			}
 		} catch( Exception $e )
 		{
