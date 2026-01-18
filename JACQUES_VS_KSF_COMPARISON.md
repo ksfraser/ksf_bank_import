@@ -55,8 +55,8 @@ Line 130: var_dump(__LINE__); // DEBUG CODE LEFT IN!
 ### **RECOMMENDATION:**
 **Keep KSF version BUT apply these fixes:**
 1. ✅ Already has strict_types=1
-2. ❌ Add type hints to methods: `public function loadFromFile(string $ofxFile): \OfxParser\Ofx`
-3. ❌ Add return type hints: `private function createOfx(SimpleXMLElement $xml): \OfxParser\Ofx`
+2. ✅ **[COMPLETED]** Added type hints to all methods (PHP 7.3 compatible)
+3. ✅ **[COMPLETED]** Added return type hints to all methods
 4. ❌ **Remove var_dump(__LINE__) debug code**
 5. ❌ **Fix duplicate $ofxSgml assignment**
 6. ✅ Keep mb_convert_encoding (PHP 8.2+ compatible)
@@ -105,11 +105,12 @@ Line 108: if( isset( $xml->FI->FID ) ) // Inconsistent spacing
 4. ❌ **Remove var_dump(__LINE__)**
 5. ❌ Add `public $header = [];` property
 6. ❌ Add `public function buildHeader(array $header): self` method from Jacques
-7. ❌ Add type hints: `private function buildSignOn(SimpleXMLElement $xml): SignOn`
+7. ✅ **[COMPLETED]** Added type hints to all methods (15 methods updated)
 8. ❌ Replace `$this->createDateTimeFromStr()` with `Utils::createDateTimeFromStr()`
 9. ❌ Use `property_exists()` instead of `isset()` for better null handling
 10. ✅ Keep Payee support (unique to KSF)
 11. ✅ Keep INTU.BID fallback (real-world fix)
+12. ✅ **[COMPLETED]** Fixed duplicate `createAmountFromStr()` - kept upgastao version (more robust)
 
 ---
 
@@ -190,24 +191,78 @@ Line 130: var_dump(__LINE__); // REMOVE
 
 ## Improvements from Jacques to Apply ✅
 
-### Type Hints to Add
+### ✅ Type Hints Added (COMPLETED - Jan 13, 2026)
 ```php
-// Parser.php
-public function loadFromFile(string $ofxFile): \OfxParser\Ofx
-public function loadFromString(string $ofxContent): \OfxParser\Ofx
-private function createOfx(SimpleXMLElement $xml): \OfxParser\Ofx
+// Parser.php - ALL METHODS UPDATED
+public function loadFromFile(string $ofxFile): Ofx
+public function loadFromString(string $ofxContent): Ofx
+protected function createOfx(\SimpleXMLElement $xml): Ofx
 private function conditionallyAddNewlines(string $ofxContent): string
 private function xmlLoadString(string $xmlString): \SimpleXMLElement
 private function closeUnclosedXmlTags(string $line): string
+function extract_tag(string $line): string
+private function convertSgmlToXml(string $sgml): string
 private function parseHeader(string $ofxHeader): array
 
-// Ofx.php
-public function buildHeader(array $header): self
-protected function buildSignOn(SimpleXMLElement $xml): \OfxParser\Entities\SignOn
+// Ofx.php - ALL METHODS UPDATED (15 methods)
+public function getTransactions(): array
+private function buildSignOn(SimpleXMLElement $xml): SignOn
 private function buildAccountInfo(?SimpleXMLElement $xml = null): array
 private function buildBankAccounts(SimpleXMLElement $xml): array
 private function buildCreditAccounts(SimpleXMLElement $xml): array
+private function buildBankAccount(string $transactionUid, SimpleXMLElement $statementResponse): BankAccount
+private function buildCreditAccount(SimpleXMLElement $xml): BankAccount
+private function buildTransactions(SimpleXMLElement $transactions): array
+private function buildStatus(SimpleXMLElement $xml): Status
+private function createDateTimeFromStr(string $dateString, bool $ignoreErrors = false): ?\DateTime
+private function createAmountFromStr(string $amountString): float
+public function createTags(SimpleXMLElement $xml): SimpleXMLElement
+public function copyChildren(SimpleXMLElement $from, SimpleXMLElement $to): void
+private function buildPayee(SimpleXMLElement $xml): Payee
+public function buildBankAccountTo(SimpleXMLElement $xml): BankAccount
+public function buildCardAccountTo(SimpleXMLElement $xml): BankAccount
+
+// Utils.php - ALL METHODS UPDATED
+public static function createDateTimeFromStr(string $dateString, bool $ignoreErrors = false): ?\DateTime
+public static function createAmountFromStr(string $amountString): float
+
+// Entity Classes - ALL METHODS UPDATED
+AbstractEntity::__get(string $name)
+Transaction::typeDesc(): string
+Status::codeDesc(): string
+Investment::getProperties(): array
+Investment::loadOfx(SimpleXMLElement $node): self
+Investment::loadMap(array $map, SimpleXMLElement $node): self
+
+// Investment Transaction Classes - ALL loadOfx() METHODS UPDATED
+Banking::loadOfx(SimpleXMLElement $node): self
+BuyStock::loadOfx(SimpleXMLElement $node): self
+BuySecurity::loadOfx(SimpleXMLElement $node): self
+Income::loadOfx(SimpleXMLElement $node): self
+SellStock::loadOfx(SimpleXMLElement $node): self
+SellSecurity::loadOfx(SimpleXMLElement $node): self
+
+// Investment Traits - ALL METHODS UPDATED
+InvTran::loadInvTran(SimpleXMLElement $node): self
+SecId::loadSecId(SimpleXMLElement $node): self
+Pricing::loadPricing(SimpleXMLElement $node): self
+BuyType::loadBuyType(SimpleXMLElement $node): self
+IncomeType::loadIncomeType(SimpleXMLElement $node): self
+SellType::loadSellType(SimpleXMLElement $node): self
+
+// Investment Parser Classes - ALL METHODS UPDATED
+Parsers/Investment::createOfx(SimpleXMLElement $xml): InvestmentOfx
+Ofx/Investment::buildAccounts(SimpleXMLElement $xml): array
+Ofx/Investment::buildAccount(string $transactionUid, SimpleXMLElement $statementResponse): InvestmentAccount
+Ofx/Investment::buildTransactions(SimpleXMLElement $transactions): array
+
+// Interfaces - ALL METHODS UPDATED
+Inspectable::getProperties(): array
 ```
+
+**Note:** Discovered and fixed duplicate `createAmountFromStr()` method in Ofx.php. Kept the more robust upgastao implementation that handles more edge cases and includes `trim()`.
+
+**All 40 PHP files pass syntax validation** ✅
 
 ### Method to Add (from Jacques)
 ```php
@@ -243,10 +298,10 @@ Utils::createDateTimeFromStr()
 4. Fix duplicate $ofxSgml assignment in Parser.php
 
 ### 🔧 APPLY FROM JACQUES:
-1. Add type hints to all public/private methods
-2. Add `buildHeader()` method and `$header` property
-3. Use `Utils::createDateTimeFromStr()` consistently
-4. Use `property_exists()` instead of `isset()` where appropriate
+1. ✅ **[COMPLETED - Jan 13, 2026]** Add type hints to all public/private methods (40 files updated)
+2. ❌ Add `buildHeader()` method and `$header` property
+3. ❌ Use `Utils::createDateTimeFromStr()` consistently
+4. ❌ Use `property_exists()` instead of `isset()` where appropriate
 
 ### 🏆 YOUR UNIQUE VALUE (Don't lose):
 - Credit Card support (CreditCardAccount, CreditCardAccountInfo)
@@ -261,10 +316,13 @@ Utils::createDateTimeFromStr()
 
 ## Action Plan
 
-1. **Phase 1:** Fix critical bugs (typos, debug code) ⚠️
-2. **Phase 2:** Add type hints from Jacques ✅
-3. **Phase 3:** Add buildHeader() method ✅
-4. **Phase 4:** Refactor to use Utils class ✅
-5. **Phase 5:** Test with real OFX files 🧪
-6. **Phase 6:** Update composer.json to PHP 7.3+ ✅
+1. **Phase 1:** Fix critical bugs (typos, debug code) ⚠️ **[TODO]**
+2. **Phase 2:** Add type hints from Jacques ✅ **[COMPLETED - Jan 13, 2026]**
+   - All 40 PHP files updated with PHP 7.3 compatible type hints
+   - Fixed duplicate method issue in Ofx.php
+   - All files pass syntax validation
+3. **Phase 3:** Add buildHeader() method ✅ **[TODO]**
+4. **Phase 4:** Refactor to use Utils class ✅ **[TODO]**
+5. **Phase 5:** Test with real OFX files 🧪 **[TODO]**
+6. **Phase 6:** Update composer.json to PHP 7.3+ ✅ **[TODO]**
 
