@@ -1,7 +1,7 @@
 #!/usr/bin/php -f
 <?php
 /**
- * Test the PRODUCTION parser (includes/vendor) with real files
+ * Test the parser with real files
  * 
  * Usage: php test_production_parser.php [qfx_file]
  */
@@ -9,7 +9,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-echo "=== Production Parser Test (includes/vendor) ===\n\n";
+echo "=== OFX Parser Test ===\n\n";
 
 // Test file from command line or use default
 $test_file = $argv[1] ?? __DIR__ . '/includes/CIBC_VISA.qfx';
@@ -21,8 +21,8 @@ if (!file_exists($test_file)) {
 echo "Test File: $test_file\n";
 echo "File Size: " . number_format(filesize($test_file)) . " bytes\n\n";
 
-// Load the PRODUCTION parser directly
-require_once __DIR__ . '/includes/vendor/autoload.php';
+// Load the parser via composer autoload
+require_once __DIR__ . '/vendor/autoload.php';
 
 try {
     $content = file_get_contents($test_file);

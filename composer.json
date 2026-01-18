@@ -3,6 +3,15 @@
     "name": "ksfraser/fa-bank-import",
     "description": "A Frontaccounting module for bank import functionality.",
     "type": "library",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./lib/ksf_ofxparser",
+            "options": {
+                "symlink": false
+            }
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
@@ -26,7 +35,7 @@
     "require": {
         "php": "^7.3",
         "codeception/codeception": "^4.2",
-        "asgrim/ofxparser": "^1.2",
+        "ksfraser/ksf_ofxparser": "@dev",
         "mimographix/qif-library": "^1.0"
     },
     "config": {
