@@ -14,9 +14,12 @@ use Ksfraser\FaBankImport\Entity\UploadedFile;
  */
 class DuplicateResult
 {
-    private bool $isDuplicate;
-    private ?UploadedFile $existingFile;
-    private string $action; // 'allow', 'warn', 'block'
+    private  $isDuplicate;
+    //private bool $isDuplicate;
+    private  $existingFile;
+    //private ?UploadedFile $existingFile;
+    private  $action; // 'allow', 'warn', 'block'
+    //private string $action; // 'allow', 'warn', 'block'
     
     /**
      * Constructor

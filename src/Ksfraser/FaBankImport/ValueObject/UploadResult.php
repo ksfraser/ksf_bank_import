@@ -14,22 +14,28 @@ namespace Ksfraser\FaBankImport\ValueObject;
 class UploadResult
 {
     /** @var bool Upload successful */
-    private bool $success;
+    private  $success;
+    //private bool $success;
     
     /** @var string Result message */
-    private string $message;
+    private  $message;
+    //private string $message;
     
     /** @var int|null File ID if successful */
-    private ?int $fileId;
+    private  $fileId;
+    //private ?int $fileId;
     
     /** @var string|null Unique filename if successful */
-    private ?string $filename;
+    private  $filename;
+    //private ?string $filename;
     
     /** @var string Result type: success, error, duplicate, reused */
-    private string $type;
+    private  $type;
+    //private string $type;
     
     /** @var bool Allow force override for duplicates */
-    private bool $allowForce;
+    private  $allowForce;
+    //private bool $allowForce;
     
     /**
      * Private constructor - use static factory methods

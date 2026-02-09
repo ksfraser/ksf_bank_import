@@ -18,10 +18,12 @@ use Ksfraser\FaBankImport\ValueObject\FileInfo;
 class FileStorageService implements FileStorageServiceInterface
 {
     /** @var string Base storage directory */
-    private string $storageDir;
+    private  $storageDir;
+    //private string $storageDir;
     
     /** @var int File permissions (0640 = rw-r-----) */
     private const FILE_PERMISSIONS = 0640;
+    //private const FILE_PERMISSIONS = 0640;
     
     /** @var int Directory permissions (0750 = rwxr-x---) */
     private const DIR_PERMISSIONS = 0750;

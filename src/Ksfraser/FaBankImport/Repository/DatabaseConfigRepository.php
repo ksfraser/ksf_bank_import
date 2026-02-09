@@ -17,10 +17,12 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     private const HISTORY_TABLE = 'bi_config_history';
     
     /** @var array In-memory cache of config values */
-    private array $cache = [];
+    private $cache = [];
+    //private array $cache = [];
     
     /** @var bool Whether cache is loaded */
-    private bool $cacheLoaded = false;
+    private  $cacheLoaded = false;
+    //private bool $cacheLoaded = false;
     
     /**
      * Get configuration value by key
