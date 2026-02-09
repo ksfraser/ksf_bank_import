@@ -2,6 +2,11 @@
 
 define( 'MENU_IMPORT', 'menu_import' );
 
+// Define security areas
+if (!defined('SA_BANKFILEVIEW')) {
+    define('SA_BANKFILEVIEW', 100);
+}
+
 class hooks_bank_import extends hooks {
     var $module_name = 'bank_import'; 
 
@@ -14,17 +19,7 @@ class hooks_bank_import extends hooks {
 
 
 	switch($app->id) {
-	    case 'GL':
-/*
-		$app->add_lapp_function(0, _("Process Bank Statements"),
-			$path_to_root."/modules/".$this->module_name."/process_statements.php", 'SA_BANKACCOUNT', MENU_TRANSACTION);
-		$app->add_lapp_function(2, _("Manage Partners Bank Accounts"),
-			$path_to_root."/modules/".$this->module_name."/manage_partners_data.php", 'SA_CUSTOMER', MENU_MAINTENANCE);
-		$app->add_lapp_function(2, _("Import Bank Statements"),
-			$path_to_root."/modules/".$this->module_name."/import_statements.php", 'SA_BANKACCOUNT', MENU_MAINTENANCE);
-		$app->add_lapp_function(1, _("Bank Statements Inquiry"),
-			$path_to_root."/modules/".$this->module_name."/view_statements.php", 'SA_BANKACCOUNT', MENU_INQUIRY);
-*/
+	    case 'AP':  // Banking application
 		$app->add_lapp_function(3, _("Manage Partners Bank Accounts"),
 			$path_to_root."/modules/".$this->module_name."/manage_partners_data.php", 'SA_CUSTOMER', MENU_IMPORT);
 		$app->add_lapp_function(3, _("Import Bank Statements"),
@@ -42,6 +37,9 @@ class hooks_bank_import extends hooks {
 		$app->add_lapp_function(2, _("Bank Import Settings"),
 			$path_to_root."/modules/".$this->module_name."/bank_import_settings.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
 
+		break;
+	    case 'GL':
+		// Keep some in GL if needed
 		break;
 	}
     }
