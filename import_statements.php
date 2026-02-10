@@ -279,7 +279,7 @@ function parse_uploaded_files() {
     $trz_err = 0;
 	$multistatements = array();
 
-		foreach($_FILES['files']['name'] as $id=>$fname) {
+    foreach($_FILES['files']['name'] as $id=>$fname) {
     	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
 
     	// Mantis #2708: Save uploaded file (Phase 2 refactored)
@@ -294,6 +294,14 @@ function parse_uploaded_files() {
     	
 	    // Force upload can be applied globally or per-file (set by duplicate resolution screen)
 	    $force_upload = $force_upload_all || (isset($_POST['force_upload_' . $id]) && $_POST['force_upload_' . $id] == '1');
+
+	    // Read content BEFORE uploading (upload service may move tmp file)
+	    $content = @file_get_contents($file_info_array['tmp_name']);
+	    if ($content === false) {
+	    	display_error(_("Failed to read uploaded file") . ': ' . $file_info_array['name']);
+	    	$smt_err++;
+	    	continue;
+	    }
     	
     	try {
     	    // Create FileInfo from upload
@@ -326,7 +334,8 @@ function parse_uploaded_files() {
 	    	        // Warn mode - stage the uploaded temp file so user can choose ignore vs force-upload
 	    	        display_warning($result->getMessage());
 
-	    	        $pendingDir = company_path() . 'bank_imports' . DIRECTORY_SEPARATOR . 'pending';
+	    	        $companyBase = rtrim(company_path(), '/\\');
+	    	        $pendingDir = $companyBase . DIRECTORY_SEPARATOR . 'bank_imports' . DIRECTORY_SEPARATOR . 'pending';
 	    	        if (!is_dir($pendingDir)) {
 	    	            @mkdir($pendingDir, 0750, true);
 	    	        }
@@ -372,8 +381,6 @@ function parse_uploaded_files() {
     	    $smt_err++;
     	    continue;
     	}
-
-		$content = file_get_contents($_FILES['files']['tmp_name'][$id]);
 
 	$bom = pack('CCC', 0xEF, 0xBB, 0xBF);
         if (strncmp($content, $bom, 3) === 0) {
@@ -543,6 +550,14 @@ function resolve_duplicate_uploads() {
 		}
 
 		try {
+			// Read content BEFORE upload (upload service will move/rename the staged file)
+			$content = @file_get_contents($dup['staged_path']);
+			if ($content === false) {
+				display_error(_("Failed to read staged file for") . ' ' . $dup['filename'] . _(". Please upload again."));
+				$smt_err++;
+				continue;
+			}
+
 			$fileInfo = new FileInfo(
 				$dup['filename'],
 				$dup['staged_path'],
@@ -567,7 +582,6 @@ function resolve_duplicate_uploads() {
 			$uploaded_file_ids[$idx] = $result->getFileId();
 			display_notification(_("File saved with ID") . ': ' . $result->getFileId());
 
-			$content = file_get_contents($dup['staged_path']);
 			$bom = pack('CCC', 0xEF, 0xBB, 0xBF);
 			if (strncmp($content, $bom, 3) === 0) {
 				$content = substr($content, 3);
