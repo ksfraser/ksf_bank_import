@@ -65,16 +65,21 @@ end_table();
 
 //------------------------------------------------------------------------------------------------
 // this is data display table
-$sql = " SELECT bank, account, currency, startBalance, endBalance, smtDate, number, seq, statementId
-	FROM
-	".TB_PREF."bi_statements WHERE smtDate >= ".db_escape(date2sql($_POST['TransAfterDate']))." AND smtDate <= ".
-	db_escape(date2sql($_POST['TransToDate']))." ORDER BY smtDate ASC";
+$sql = " SELECT s.id, s.bank, s.account, s.currency, s.startBalance, s.endBalance, s.smtDate, s.number, s.seq, s.statementId,
+        GROUP_CONCAT(CONCAT(f.id, ':', f.original_filename) ORDER BY f.id SEPARATOR ', ') AS files
+    FROM ".TB_PREF."bi_statements s
+    LEFT JOIN ".TB_PREF."bi_file_statements fs ON fs.statement_id = s.id
+    LEFT JOIN ".TB_PREF."bi_uploaded_files f ON f.id = fs.file_id
+    WHERE s.smtDate >= ".db_escape(date2sql($_POST['TransAfterDate']))." AND s.smtDate <= ".
+    db_escape(date2sql($_POST['TransToDate']))."
+    GROUP BY s.id
+    ORDER BY s.smtDate ASC";
 
 $res=db_query($sql, 'unable to get transactions data');
 
 div_start('doc_tbl');
 start_table(TABLESTYLE, "width='100%'");
-table_header(array("Bank", "Statement#", "Date", "Account(Currency)", "Start Balance", "End Balance", "Delta"));
+table_header(array("Bank", "Statement#", "Date", "Account(Currency)", "Start Balance", "End Balance", "Delta", "Uploaded File(s)"));
 while($myrow = db_fetch($res)) {
     start_row();
     echo "<td>". $myrow['bank'] . "</td>";
@@ -84,6 +89,14 @@ while($myrow = db_fetch($res)) {
     amount_cell($myrow['startBalance']);
     amount_cell($myrow['endBalance']);
     amount_cell($myrow['endBalance'] - $myrow['startBalance']);
+	$files = $myrow['files'] ?? '';
+	if (!empty($files)) {
+		// Link to Manage Uploaded Files; can be extended later to deep-link specific file IDs.
+		$label = htmlspecialchars($files);
+		echo "<td><a href='manage_uploaded_files.php'>" . $label . "</a></td>";
+	} else {
+		echo "<td></td>";
+	}
     
     end_row();
 }

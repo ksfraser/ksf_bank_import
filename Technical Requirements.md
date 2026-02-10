@@ -1,5 +1,11 @@
 # Technical Requirements
 
+## Project Documentation
+
+This file is an engineering/agent-oriented technical guide. Feature requirements and UAT artifacts live under:
+
+- Project Documents/
+
 ## Platform and Environment
 
 - **FrontAccounting Version**: 2.3.22
@@ -154,3 +160,4 @@
 - Memory-efficient processing of large CSV files
 - Transaction management for data consistency
 - Caching where appropriate for repeated operations
+

@@ -41,6 +41,8 @@ class hooks_bank_import extends hooks {
 				$path_to_root."/modules/".$this->module_name."/manage_uploaded_files.php", 'SA_BANKFILEVIEW', MENU_INQUIRY);
 			$app->add_lapp_function(3, _("Validate GL Entries"),
 				$path_to_root."/modules/".$this->module_name."/validate_gl_entries.php", 'SA_BANKTRANSVIEW', MENU_INQUIRY);
+			$app->add_lapp_function(3, _("View Import Logs"),
+				$path_to_root."/modules/".$this->module_name."/view_import_logs.php", 'SA_BANKIMPORTLOGVIEW', MENU_INQUIRY);
 			$app->add_lapp_function(3, _("Module Configuration"),
 				$path_to_root."/modules/".$this->module_name."/module_config.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
 			$app->add_lapp_function(2, _("Bank Import Settings"),
@@ -55,6 +57,7 @@ class hooks_bank_import extends hooks {
 		$security_sections[SS_BANKIMPORT] = _("Bank Files Import");
 		$security_areas['SA_BANKIMPORT'] = array(SS_BANKIMPORT | 1, _("Bank Files Import"));
 		$security_areas['SA_BANKFILEVIEW'] = array(SS_BANKIMPORT | 2, _("Bank Files View"));
+		$security_areas['SA_BANKIMPORTLOGVIEW'] = array(SS_BANKIMPORT | 3, _("Bank Import Logs View"));
 		return array($security_areas, $security_sections);
 	}
 

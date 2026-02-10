@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
+use Ksfraser\FaBankImport\Service\BankImportPathResolver;
 
 /**
  * UploadedFileManager - Manage uploaded bank statement files
@@ -34,8 +35,8 @@ class UploadedFileManager
         
         // Use company-specific directory like FA attachments
         if ($upload_dir === null) {
-            // Store in company_path/bank_imports/
-            $this->upload_dir = $comp_path . '/' . user_company() . '/bank_imports';
+            // Store in company/#/bank_imports/uploads
+            $this->upload_dir = BankImportPathResolver::forCurrentCompany()->uploadsDir();
         } else {
             $this->upload_dir = $upload_dir;
         }

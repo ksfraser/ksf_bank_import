@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Service;
 
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
+use Ksfraser\FaBankImport\Service\BankImportPathResolver;
 
 /**
  * File Storage Service
@@ -210,11 +211,7 @@ class FileStorageService implements FileStorageServiceInterface
      */
     private function getDefaultStorageDirectory(): string
     {
-        // Get FrontAccounting company directory
-        // Typically: /path/to/frontaccounting/company/X/
-        $companyPath = company_path();
-        
-        return $companyPath . 'bank_imports' . DIRECTORY_SEPARATOR . 'uploads';
+        return BankImportPathResolver::forCurrentCompany()->uploadsDir();
     }
     
     /**

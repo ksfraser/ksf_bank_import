@@ -24,6 +24,11 @@ require_once 'includes/qfx_parser.php';
 require_once __DIR__ . '/vendor/autoload.php';
 use Ksfraser\FaBankImport\Service\FileUploadService;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
+use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
+use Ksfraser\FaBankImport\Service\StatementAccountMappingService;
+use Ksfraser\FaBankImport\Service\DetectedAccountAssociationKey;
+use Ksfraser\FaBankImport\Service\ImportRunLogger;
+use Ksfraser\FaBankImport\Service\BankImportPathResolver;
 
 //TODO Migrate to use HTML classes
 
@@ -43,6 +48,26 @@ function import_statements() {
     $multistatements = unserialize($_SESSION['multistatements']);
     // Mantis #2708: Get uploaded file IDs from session
     $uploaded_file_ids = isset($_SESSION['uploaded_file_ids']) ? $_SESSION['uploaded_file_ids'] : array();
+
+	$logPath = isset($_SESSION['bank_import_run_log_path']) ? (string)$_SESSION['bank_import_run_log_path'] : '';
+	$logFileName = $logPath !== '' ? basename($logPath) : '';
+	if ($logFileName !== '' && preg_match('/^import_run_[0-9]{8}_[0-9]{6}_[a-zA-Z0-9_-]{6,64}\.jsonl$/', $logFileName) !== 1) {
+		$logFileName = '';
+	}
+
+	$logger = bank_import_get_logger();
+	$fileCount = is_array($multistatements) ? count($multistatements) : 0;
+	$statementCount = 0;
+	if (is_array($multistatements)) {
+		foreach ($multistatements as $list) {
+			$statementCount += is_array($list) ? count($list) : 0;
+		}
+	}
+	bank_import_log_event($logger, 'import.started', [
+		'file_count' => (int)$fileCount,
+		'statement_count' => (int)$statementCount,
+	]);
+	$importedStatements = 0;
     
 	foreach( $multistatements as $file_index => $statements )
 	{
@@ -51,20 +76,32 @@ function import_statements() {
 	    
 	    foreach($statements as $id => $smt) {
 		echo "importing statement {$smt->statementId} ...";
-		echo importStatement($smt, $file_id);  // Pass file_id
+		echo importStatement($smt, $file_id, $logger);  // Pass file_id
+		$importedStatements++;
 		echo "\n";
 	    }
 	}
+	bank_import_log_event($logger, 'import.completed', [
+		'statements_processed' => (int)$importedStatements,
+	]);
     echo '</pre>';
     echo "</pre></td>";
     end_row();
     start_row();
     echo '<td>';
 	submit_center_first('goback', 'Go back');
+	$canViewLogs = true;
+	if (function_exists('has_access') && isset($_SESSION['wa_current_user']) && isset($_SESSION['wa_current_user']->access)) {
+		$canViewLogs = has_access($_SESSION['wa_current_user']->access, 'SA_BANKIMPORTLOGVIEW');
+	}
+	if ($canViewLogs && $logFileName !== '' && $logPath !== '' && @is_file($logPath)) {
+		echo " <a class='button' href='view_import_logs.php?file=" . urlencode($logFileName) . "'>" . _("View Import Log") . "</a>";
+	}
     echo '</td>';
     end_row();
     end_table(1);
     hidden('parser', $_POST['parser']);
+	unset($_SESSION['bank_import_run_log_path']);
 }
 
 /**//*******************************************************
@@ -77,6 +114,7 @@ function import_statements() {
 function importStatement($smt, $file_id = null) 
 {
 	$message = '';
+	$logger = func_num_args() >= 3 ? func_get_arg(2) : null;
 /** Moving to namespaces **/
 	require_once(  './class.bi_statements.php' );
 	$bis = new bi_statements_model();
@@ -106,6 +144,12 @@ function importStatement($smt, $file_id = null)
     		$message .= "existing, updated";
 	}
 	$smt_id = $bis->get( "id" );
+	bank_import_log_event($logger, 'statement.upserted', [
+		'statement_id' => (int)$smt_id,
+		'statement_identifier' => (string)($smt->statementId ?? ''),
+		'existed' => (bool)$exists,
+		'file_id' => $file_id !== null ? (int)$file_id : null,
+	]);
 /* */
 	
 	// Mantis #2708: Link uploaded file to statement (Phase 2 refactored)
@@ -113,8 +157,17 @@ function importStatement($smt, $file_id = null)
 		try {
 			$uploadService = FileUploadService::create();
 			$uploadService->linkToStatements($file_id, array($smt_id));
+			bank_import_log_event($logger, 'statement.file_linked', [
+				'statement_id' => (int)$smt_id,
+				'file_id' => (int)$file_id,
+			]);
 		} catch (\Exception $e) {
 			display_error("Failed to link file to statement: " . $e->getMessage());
+			bank_import_log_event($logger, 'statement.file_link_failed', [
+				'statement_id' => (int)$smt_id,
+				'file_id' => (int)$file_id,
+				'error' => $e->getMessage(),
+			]);
 		}
 	}
 	
@@ -184,6 +237,14 @@ function importStatement($smt, $file_id = null)
 			display_notification( __FILE__ . "::" . __LINE__ . " Inserted transactions: $newinserted " );
 			display_notification( __FILE__ . "::" . __LINE__ . " Duplicates Total: $dupecount " );
 			display_notification( __FILE__ . "::" . __LINE__ . " Updated Duplicates: $dupeupdated " );
+			bank_import_log_event($logger, 'statement.transactions_summary', [
+				'statement_id' => (int)$smt_id,
+				'statement_identifier' => (string)($smt->statementId ?? ''),
+				'transactions_total' => is_array($smt->transactions) ? count($smt->transactions) : 0,
+				'inserted' => (int)$newinserted,
+				'duplicates' => (int)$dupecount,
+				'duplicates_updated' => (int)$dupeupdated,
+			]);
 	return $message;
 /* */
 }	//import_statement fc
@@ -233,6 +294,39 @@ function do_upload_form() {
     div_end();
 }
 
+function bank_import_log_dir(): string
+{
+	return BankImportPathResolver::forCurrentCompany()->logsDir();
+}
+
+function bank_import_get_logger(): ?ImportRunLogger
+{
+	if (empty($_SESSION['bank_import_run_log_path'])) {
+		return null;
+	}
+	$logPath = (string)$_SESSION['bank_import_run_log_path'];
+	try {
+		return ImportRunLogger::resume($logPath);
+	} catch (\Throwable $e) {
+		return null;
+	}
+}
+
+/**
+ * @param array<string,mixed> $context
+ */
+function bank_import_log_event(?ImportRunLogger $logger, string $eventName, array $context = []): void
+{
+	if ($logger === null) {
+		return;
+	}
+	try {
+		$logger->event($eventName, $context);
+	} catch (\Throwable $e) {
+		// Never block import flow on logging.
+	}
+}
+
 
 function parse_uploaded_files() {
     start_table(TABLESTYLE);
@@ -244,9 +338,26 @@ function parse_uploaded_files() {
     // Mantis #2708: Initialize file upload service (Phase 2 refactored)
     $uploadService = FileUploadService::create();
 	$uploaded_file_ids = [];
+	$uploaded_filenames = [];
 	$has_blocked_duplicates = false;  // Track if any files were blocked
 	$pending_duplicates = [];         // Track duplicates requiring user decision
 	$force_upload_all = !empty($_POST['force_upload_all']);
+
+	// Import Run Audit Log (start a new run)
+	$logger = null;
+	try {
+		$logger = ImportRunLogger::start(bank_import_log_dir());
+		$_SESSION['bank_import_run_log_path'] = $logger->getLogPath();
+		bank_import_log_event($logger, 'run.started', [
+			'parser' => (string)($_POST['parser'] ?? ''),
+			'bank_account_id' => isset($_POST['bank_account']) ? (int)$_POST['bank_account'] : null,
+			'force_upload_all' => (bool)$force_upload_all,
+			'file_count' => isset($_FILES['files']['name']) && is_array($_FILES['files']['name']) ? count($_FILES['files']['name']) : 0,
+		]);
+	} catch (\Throwable $e) {
+		$logger = null;
+		unset($_SESSION['bank_import_run_log_path']);
+	}
 
     // initialize parser class
     $parserClass = $_POST['parser'] . '_parser';
@@ -288,10 +399,19 @@ function parse_uploaded_files() {
 		return;
 	}
 
+
     foreach($_FILES['files']['name'] as $id=>$fname) {
 		if ($fname === '' || $fname === null) {
 			continue;
 		}
+		$uploaded_filenames[$id] = $fname;
+		bank_import_log_event($logger, 'file.begin', [
+			'file_index' => (int)$id,
+			'filename' => (string)$fname,
+			'size' => (int)($_FILES['files']['size'][$id] ?? 0),
+			'type' => (string)($_FILES['files']['type'][$id] ?? ''),
+			'force_upload' => (bool)($force_upload_all || (isset($_POST['force_upload_' . $id]) && $_POST['force_upload_' . $id] == '1')),
+		]);
     	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
 
     	// Mantis #2708: Save uploaded file (Phase 2 refactored)
@@ -311,6 +431,10 @@ function parse_uploaded_files() {
 	    $content = @file_get_contents($file_info_array['tmp_name']);
 	    if ($content === false) {
 	    	display_error(_("Failed to read uploaded file") . ': ' . $file_info_array['name']);
+	    	bank_import_log_event($logger, 'file.read_failed', [
+	    		'file_index' => (int)$id,
+	    		'filename' => (string)$file_info_array['name'],
+	    	]);
 	    	$smt_err++;
 	    	continue;
 	    }
@@ -332,6 +456,13 @@ function parse_uploaded_files() {
     	        // New file saved or reused
     	        $file_id = $result->getFileId();
     	        $uploaded_file_ids[$id] = $file_id;
+	        	bank_import_log_event($logger, 'file.upload.success', [
+	        		'file_index' => (int)$id,
+	        		'filename' => (string)$file_info_array['name'],
+	        		'file_id' => (int)$file_id,
+	        		'reused' => (bool)$result->isReused(),
+	        		'forced' => (bool)$force_upload,
+	        	]);
     	        
     	        if ($result->isReused()) {
     	            display_notification("Duplicate file detected! Reusing existing file ID: $file_id (saving disk space)");
@@ -346,10 +477,7 @@ function parse_uploaded_files() {
 	    	        // Warn mode - stage the uploaded temp file so user can choose ignore vs force-upload
 	    	        display_warning($result->getMessage());
 
-	    	        $companyBase = rtrim(company_path(), '/\\');
-	    	        $pendingDir = $companyBase
-	    	        	. DIRECTORY_SEPARATOR . 'bank_imports'
-	    	        	. DIRECTORY_SEPARATOR . 'pending';
+	    	        $pendingDir = BankImportPathResolver::forCurrentCompany()->pendingDir();
 	    	        if (!is_dir($pendingDir)) {
 	    	            @mkdir($pendingDir, 0750, true);
 	    	        }
@@ -374,11 +502,23 @@ function parse_uploaded_files() {
 	    	            'message' => $result->getMessage(),
 	    	        ];
 
+	    	        bank_import_log_event($logger, 'file.upload.duplicate_pending', [
+	    	        	'file_index' => (int)$id,
+	    	        	'filename' => (string)$file_info_array['name'],
+	    	        	'staged_path' => (string)$stagedPath,
+	    	        	'message' => (string)$result->getMessage(),
+	    	        ]);
+
 	    	        // Skip parsing/importing this file until user decides
 	    	        continue;
     	        } else {
     	            // Block mode - hard reject
     	            display_error("BLOCKED: " . $result->getMessage());
+	            bank_import_log_event($logger, 'file.upload.duplicate_blocked', [
+	            	'file_index' => (int)$id,
+	            	'filename' => (string)$file_info_array['name'],
+	            	'message' => (string)$result->getMessage(),
+	            ]);
     	            $has_blocked_duplicates = true;
     	            $smt_err++;
     	            continue;
@@ -386,6 +526,11 @@ function parse_uploaded_files() {
     	    } else {
     	        // Upload failed
     	        display_error("Upload failed: " . $result->getMessage());
+	        bank_import_log_event($logger, 'file.upload.failed', [
+	        	'file_index' => (int)$id,
+	        	'filename' => (string)$file_info_array['name'],
+	        	'message' => (string)$result->getMessage(),
+	        ]);
     	        $smt_err++;
     	        continue;
     	    }
@@ -401,7 +546,22 @@ function parse_uploaded_files() {
             $content = substr($content, 3);
         }
 
-    	$statements = $parser->parse($content, $static_data, $debug=false); // false for no debug, true for debug
+		bank_import_log_event($logger, 'file.parse.started', [
+			'file_index' => (int)$id,
+			'filename' => (string)$fname,
+		]);
+		try {
+			$statements = $parser->parse($content, $static_data, $debug=false); // false for no debug, true for debug
+		} catch (\Throwable $e) {
+			bank_import_log_event($logger, 'file.parse.error', [
+				'file_index' => (int)$id,
+				'filename' => (string)$fname,
+				'error' => $e->getMessage(),
+			]);
+			display_error(_("Failed to parse uploaded file") . ': ' . $fname . ' (' . $e->getMessage() . ')');
+			$smt_err++;
+			continue;
+		}
 	if( $debug )
 	{
 		var_dump( __FILE__ . "::" . __LINE__ . ":: Statements post parsing"  );
@@ -421,6 +581,15 @@ function parse_uploaded_files() {
 		    $smt_err ++;
 	    }
 	}
+	bank_import_log_event($logger, 'file.parse.completed', [
+		'file_index' => (int)$id,
+		'filename' => (string)$fname,
+		'statement_count' => is_array($statements) ? count($statements) : 0,
+		'valid_statements_total_so_far' => (int)$smt_ok,
+		'invalid_statements_total_so_far' => (int)$smt_err,
+		'transactions_total_so_far' => (int)$trz_ok,
+		'statement_ids' => array_values(array_map(function ($s) { return $s->statementId ?? null; }, is_array($statements) ? $statements : [])),
+	]);
 
     	echo "======================================\n";
     	echo "Valid statements   : $smt_ok\n";
@@ -439,8 +608,13 @@ function parse_uploaded_files() {
 			'bank_account' => isset($_POST['bank_account']) ? $_POST['bank_account'] : null,
 			'multistatements' => serialize($multistatements),
 			'uploaded_file_ids' => $uploaded_file_ids,
+			'uploaded_filenames' => $uploaded_filenames,
 			'duplicates' => $pending_duplicates,
+			'log_path' => isset($_SESSION['bank_import_run_log_path']) ? $_SESSION['bank_import_run_log_path'] : null,
 		];
+		bank_import_log_event($logger, 'duplicate.review.required', [
+			'count' => count($pending_duplicates),
+		]);
 
 		start_row();
 		echo '<td>';
@@ -481,6 +655,12 @@ function parse_uploaded_files() {
 		end_table(1);
 		return;
 	}
+
+	// Bank Account Resolution step (detected account numbers \u2192 FA bank accounts)
+	if (maybe_render_account_resolution_screen($_POST['parser'], isset($_POST['bank_account']) ? $_POST['bank_account'] : null, $multistatements, $uploaded_file_ids, $uploaded_filenames)) {
+		end_table(1);
+		return;
+	}
     
     start_row();
     echo '<td>';
@@ -498,7 +678,290 @@ function parse_uploaded_files() {
 	$_SESSION['multistatements'] = serialize($multistatements);
 	// Mantis #2708: Store uploaded file IDs for linking to statements
 	$_SESSION['uploaded_file_ids'] = $uploaded_file_ids;
+	$_SESSION['uploaded_filenames'] = $uploaded_filenames;
+	bank_import_log_event($logger, 'run.upload_parse.completed', [
+		'valid_statements' => (int)$smt_ok,
+		'invalid_statements' => (int)$smt_err,
+		'total_transactions' => (int)$trz_ok,
+		'blocked_duplicates' => (bool)$has_blocked_duplicates,
+	]);
     }
+}
+
+/**
+ * Determine if a bank account number exists in FA.
+ *
+ * @param string $bankAccountNumber
+ * @return bool
+ */
+function fa_bank_account_number_exists(string $bankAccountNumber): bool
+{
+	$bankAccountNumber = trim($bankAccountNumber);
+	if ($bankAccountNumber === '') {
+		return false;
+	}
+
+	// Prefer FA helper if available
+	if (function_exists('get_bank_account_by_number')) {
+		$ba = @get_bank_account_by_number($bankAccountNumber);
+		return is_array($ba) && !empty($ba);
+	}
+
+	$sql = "SELECT id FROM " . TB_PREF . "bank_accounts WHERE bank_account_number=" . db_escape($bankAccountNumber) . " LIMIT 1";
+	$res = db_query($sql, "Could not check bank account number");
+	return (bool)db_fetch($res);
+}
+
+/**
+ * Apply any saved associations (detected acctid \u2192 FA bank account id) to parsed statements.
+ * Returns a map of detectedAcct => resolved FA bank_account_number.
+ *
+ * @param array $multistatements
+ * @return array<string,string>
+ */
+function load_saved_account_associations(array $multistatements): array
+{
+	$service = new StatementAccountMappingService();
+	$repo = new DatabaseConfigRepository();
+	$detectedByFile = $service->collectDetectedAccountsByFile($multistatements);
+
+	$detectedAll = [];
+	foreach ($detectedByFile as $list) {
+		foreach ($list as $detected) {
+			$detectedAll[$detected] = true;
+		}
+	}
+
+	$resolved = [];
+	foreach (array_keys($detectedAll) as $detected) {
+		$key = DetectedAccountAssociationKey::forDetectedAccount($detected);
+		$bankAccountId = $repo->get($key);
+		if ($bankAccountId === null || $bankAccountId === '') {
+			continue;
+		}
+		$bankAccountId = (int)$bankAccountId;
+		if ($bankAccountId <= 0) {
+			continue;
+		}
+		$ba = get_bank_account($bankAccountId);
+		if (is_array($ba) && !empty($ba['bank_account_number'])) {
+			$resolved[$detected] = $ba['bank_account_number'];
+		}
+	}
+
+	return $resolved;
+}
+
+/**
+ * Render the account-resolution UI if needed.
+ *
+ * Returns true if it rendered a blocking screen and caller should return early.
+ */
+function maybe_render_account_resolution_screen($parserType, $bankAccountId, array &$multistatements, array $uploaded_file_ids, array $uploaded_filenames): bool
+{
+	$mappingService = new StatementAccountMappingService();
+	$logger = bank_import_get_logger();
+
+	// Auto-apply any previously-saved associations.
+	$saved = load_saved_account_associations($multistatements);
+	if (!empty($saved)) {
+		$multistatements = $mappingService->applyAccountNumberMapping($multistatements, $saved);
+	}
+
+	// Collect unresolved detected accounts (unique), grouped by file index.
+	$detectedByFile = $mappingService->collectDetectedAccountsByFile($multistatements);
+	$unresolved = [];
+	foreach ($detectedByFile as $fileIndex => $detectedList) {
+		foreach ($detectedList as $detected) {
+			// If statement->account was already mapped to a valid FA bank account number, we're good.
+			// Otherwise we require user resolution for this detected account.
+			if (isset($saved[$detected]) && fa_bank_account_number_exists($saved[$detected])) {
+				continue;
+			}
+			if (fa_bank_account_number_exists($detected)) {
+				continue;
+			}
+			if (!isset($unresolved[$detected])) {
+				$unresolved[$detected] = [];
+			}
+			$unresolved[$detected][(int)$fileIndex] = true;
+		}
+	}
+
+	if (empty($unresolved)) {
+		return false;
+	}
+
+	// Persist pending state and render UI
+	$_SESSION['bank_import_account_resolution'] = [
+		'parser' => $parserType,
+		'bank_account' => $bankAccountId,
+		'multistatements' => serialize($multistatements),
+		'uploaded_file_ids' => $uploaded_file_ids,
+		'uploaded_filenames' => $uploaded_filenames,
+		'unresolved' => array_map(function ($files) {
+			return array_keys($files);
+		}, $unresolved),
+		'log_path' => isset($_SESSION['bank_import_run_log_path']) ? $_SESSION['bank_import_run_log_path'] : null,
+	];
+
+	bank_import_log_event($logger, 'account_resolution.required', [
+		'unresolved_count' => count($unresolved),
+		'detected_accounts' => array_keys($unresolved),
+	]);
+
+	echo '<tr><td>';
+	echo '<div style="background-color:#fff3cd;border:1px solid #ffc107;padding:15px;margin:10px 0;">';
+	echo '<h3 style="color:#856404;margin-top:0;">' . _("Bank Account Resolution Required") . '</h3>';
+	echo '<p>' . _("Some files contain detected account numbers that don't match any FrontAccounting bank account. Please choose which FA bank account to use.") . '</p>';
+	
+	echo '<form method="post">';
+	// carry forward minimal context
+	echo '<input type="hidden" name="parser" value="' . htmlspecialchars((string)$parserType) . '">';
+	if ($bankAccountId !== null) {
+		echo '<input type="hidden" name="bank_account" value="' . htmlspecialchars((string)$bankAccountId) . '">';
+	}
+
+	echo '<table class="tablestyle" style="width:100%;">';
+	echo '<tr><th>' . _("File(s)") . '</th><th>' . _("Detected Account") . '</th><th>' . _("Use FA Bank Account") . '</th><th>' . _("Remember") . '</th></tr>';
+
+	foreach ($unresolved as $detected => $fileMap) {
+		$detKey = substr(sha1($detected), 0, 12);
+		$fileNames = [];
+		foreach (array_keys($fileMap) as $fileIndex) {
+			$fileNames[] = $uploaded_filenames[$fileIndex] ?? ('#' . $fileIndex);
+		}
+		$fileLabel = htmlspecialchars(implode(', ', $fileNames));
+
+		echo '<tr>';
+		echo '<td>' . $fileLabel . '</td>';
+		echo '<td><code>' . htmlspecialchars($detected) . '</code></td>';
+		echo '<td>';
+		// bank_accounts_list(name, selected_id, submit_on_change, spec_option)
+		echo bank_accounts_list('resolved_bank_account[' . $detKey . ']', null, false, false);
+		echo '</td>';
+		echo '<td style="text-align:center;">'
+			. '<input type="checkbox" name="remember_mapping[' . $detKey . ']" value="1" checked>'
+			. '</td>';
+		echo '</tr>';
+		// include original detected value for this row
+		echo '<input type="hidden" name="detected_account[' . $detKey . ']" value="' . htmlspecialchars($detected) . '">';
+	}
+
+	echo '</table>';
+
+	echo '<div style="margin-top:12px;">';
+	echo '<button type="submit" name="resolve_accounts" value="1" style="background-color:#0d6efd;color:white;padding:10px 20px;border:none;cursor:pointer;margin-right:10px;">'
+		. _("Proceed")
+		. '</button>';
+	echo '<button type="submit" name="cancel_account_resolution" value="1" style="background-color:#6c757d;color:white;padding:10px 20px;border:none;cursor:pointer;">'
+		. _("Cancel")
+		. '</button>';
+	echo '</div>';
+	
+	echo '</form>';
+	echo '</div>';
+	echo '</td></tr>';
+
+	return true;
+}
+
+function resolve_account_mappings() {
+	start_table(TABLESTYLE);
+	start_row();
+	echo "<td width=100%><pre>\n";
+
+	if (empty($_SESSION['bank_import_account_resolution'])) {
+		display_error(_("No pending account resolution session found. Please upload the file(s) again."));
+		echo "</pre></td>";
+		end_row();
+		end_table(1);
+		return;
+	}
+
+	$pending = $_SESSION['bank_import_account_resolution'];
+	if (!empty($pending['log_path']) && empty($_SESSION['bank_import_run_log_path'])) {
+		$_SESSION['bank_import_run_log_path'] = $pending['log_path'];
+	}
+	$logger = bank_import_get_logger();
+	$parserType = $pending['parser'];
+	$bankAccountId = $pending['bank_account'];
+	$multistatements = !empty($pending['multistatements']) ? unserialize($pending['multistatements']) : [];
+	$uploaded_file_ids = !empty($pending['uploaded_file_ids']) ? $pending['uploaded_file_ids'] : [];
+	$uploaded_filenames = !empty($pending['uploaded_filenames']) ? $pending['uploaded_filenames'] : [];
+	
+	$detected_account = isset($_POST['detected_account']) && is_array($_POST['detected_account']) ? $_POST['detected_account'] : [];
+	$resolved_bank_account = isset($_POST['resolved_bank_account']) && is_array($_POST['resolved_bank_account']) ? $_POST['resolved_bank_account'] : [];
+	$remember_mapping = isset($_POST['remember_mapping']) && is_array($_POST['remember_mapping']) ? $_POST['remember_mapping'] : [];
+
+	$detectedToAccountNumber = [];
+	$repo = new DatabaseConfigRepository();
+	$rememberedCount = 0;
+
+	foreach ($detected_account as $detKey => $detected) {
+		$detected = (string)$detected;
+		$selectedId = isset($resolved_bank_account[$detKey]) ? (int)$resolved_bank_account[$detKey] : 0;
+		if ($selectedId <= 0) {
+			display_error(_("Please select a FrontAccounting bank account for detected account") . ': ' . htmlspecialchars($detected));
+			continue;
+		}
+		$ba = get_bank_account($selectedId);
+		if (!is_array($ba) || empty($ba['bank_account_number'])) {
+			display_error(_("Invalid bank account selection for detected account") . ': ' . htmlspecialchars($detected));
+			continue;
+		}
+		$detectedToAccountNumber[$detected] = $ba['bank_account_number'];
+
+		if (!empty($remember_mapping[$detKey])) {
+			$key = DetectedAccountAssociationKey::forDetectedAccount($detected);
+			$username = isset($_SESSION['wa_current_user']) && isset($_SESSION['wa_current_user']->name)
+				? $_SESSION['wa_current_user']->name
+				: null;
+			$repo->set($key, (string)$selectedId, $username, 'Associate detected account to FA bank account');
+			$rememberedCount++;
+		}
+	}
+
+	// If any errors were emitted above, stop here and re-render the form.
+	if (empty($detectedToAccountNumber)) {
+		echo "</pre></td>";
+		end_row();
+		end_table(1);
+		return;
+	}
+
+	$mappingService = new StatementAccountMappingService();
+	$multistatements = $mappingService->applyAccountNumberMapping($multistatements, $detectedToAccountNumber);
+	bank_import_log_event($logger, 'account_resolution.applied', [
+		'mapping_count' => count($detectedToAccountNumber),
+		'remembered_count' => (int)$rememberedCount,
+		'mappings' => $detectedToAccountNumber,
+	]);
+
+	echo "Resolved detected accounts successfully.\n";
+	echo "</pre></td>";
+	end_row();
+	start_row();
+	echo '<td>';
+	submit_center_first('goback', 'Go back');
+	submit_center_last('import', 'Import');
+	echo '</td>';
+	end_row();
+	end_table(1);
+	hidden('parser', $parserType);
+	if ($bankAccountId !== null) {
+		hidden('bank_account', $bankAccountId);
+	}
+
+	$_SESSION['multistatements'] = serialize($multistatements);
+	$_SESSION['uploaded_file_ids'] = $uploaded_file_ids;
+	$_SESSION['uploaded_filenames'] = $uploaded_filenames;
+
+	unset($_SESSION['bank_import_account_resolution']);
+}
+
+function cancel_account_resolution() {
+	unset($_SESSION['bank_import_account_resolution']);
 }
 
 function resolve_duplicate_uploads() {
@@ -515,10 +978,15 @@ function resolve_duplicate_uploads() {
 	}
 
 	$pending = $_SESSION['bank_import_pending'];
+	if (!empty($pending['log_path']) && empty($_SESSION['bank_import_run_log_path'])) {
+		$_SESSION['bank_import_run_log_path'] = $pending['log_path'];
+	}
+	$logger = bank_import_get_logger();
 	$parserType = $pending['parser'];
 	$bank_account_id = $pending['bank_account'];
 	$multistatements = !empty($pending['multistatements']) ? unserialize($pending['multistatements']) : [];
 	$uploaded_file_ids = !empty($pending['uploaded_file_ids']) ? $pending['uploaded_file_ids'] : [];
+	$uploaded_filenames = !empty($pending['uploaded_filenames']) ? $pending['uploaded_filenames'] : [];
 	$duplicates = !empty($pending['duplicates']) ? $pending['duplicates'] : [];
 	$actions = isset($_POST['dup_action']) && is_array($_POST['dup_action']) ? $_POST['dup_action'] : [];
 
@@ -550,6 +1018,10 @@ function resolve_duplicate_uploads() {
 		$action = isset($actions[$idx]) ? $actions[$idx] : 'ignore';
 
 		if ($action !== 'force') {
+			bank_import_log_event($logger, 'duplicate.review.ignored', [
+				'file_index' => (int)$idx,
+				'filename' => (string)($dup['filename'] ?? ''),
+			]);
 			if (!empty($dup['staged_path']) && file_exists($dup['staged_path'])) {
 				@unlink($dup['staged_path']);
 			}
@@ -568,6 +1040,11 @@ function resolve_duplicate_uploads() {
 			$content = @file_get_contents($dup['staged_path']);
 			if ($content === false) {
 				display_error(_("Failed to read staged file for") . ' ' . $dup['filename'] . _(". Please upload again."));
+				bank_import_log_event($logger, 'duplicate.review.force_read_failed', [
+					'file_index' => (int)$idx,
+					'filename' => (string)($dup['filename'] ?? ''),
+					'staged_path' => (string)($dup['staged_path'] ?? ''),
+				]);
 				$smt_err++;
 				continue;
 			}
@@ -589,11 +1066,21 @@ function resolve_duplicate_uploads() {
 
 			if (!$result->isSuccess()) {
 				display_error(_("Force upload failed") . ': ' . $result->getMessage());
+				bank_import_log_event($logger, 'duplicate.review.force_upload_failed', [
+					'file_index' => (int)$idx,
+					'filename' => (string)($dup['filename'] ?? ''),
+					'message' => (string)$result->getMessage(),
+				]);
 				$smt_err++;
 				continue;
 			}
 
 			$uploaded_file_ids[$idx] = $result->getFileId();
+			bank_import_log_event($logger, 'duplicate.review.force_uploaded', [
+				'file_index' => (int)$idx,
+				'filename' => (string)($dup['filename'] ?? ''),
+				'file_id' => (int)$result->getFileId(),
+			]);
 			display_notification(_("File saved with ID") . ': ' . $result->getFileId());
 
 			$bom = pack('CCC', 0xEF, 0xBB, 0xBF);
@@ -601,6 +1088,11 @@ function resolve_duplicate_uploads() {
 				$content = substr($content, 3);
 			}
 
+			bank_import_log_event($logger, 'file.parse.started', [
+				'file_index' => (int)$idx,
+				'filename' => (string)($dup['filename'] ?? ''),
+				'forced_duplicate_upload' => true,
+			]);
 			$statements = $parser->parse($content, $static_data, $debug=false);
 			foreach ($statements as $smt) {
 				echo "statement: {$smt->statementId}:";
@@ -617,8 +1109,19 @@ function resolve_duplicate_uploads() {
 			}
 
 			$multistatements[$idx] = $statements;
+			$uploaded_filenames[$idx] = $dup['filename'];
+			bank_import_log_event($logger, 'file.parse.completed', [
+				'file_index' => (int)$idx,
+				'filename' => (string)($dup['filename'] ?? ''),
+				'statement_count' => is_array($statements) ? count($statements) : 0,
+			]);
 		} catch (\Exception $e) {
 			display_error(_("Failed to force upload") . ' ' . $dup['filename'] . ': ' . $e->getMessage());
+			bank_import_log_event($logger, 'duplicate.review.force_exception', [
+				'file_index' => (int)$idx,
+				'filename' => (string)($dup['filename'] ?? ''),
+				'error' => $e->getMessage(),
+			]);
 			$smt_err++;
 			continue;
 		}
@@ -631,6 +1134,16 @@ function resolve_duplicate_uploads() {
 
 	echo "</pre></td>";
 	end_row();
+
+	// Bank Account Resolution step
+	if ($smt_err == 0) {
+		if (maybe_render_account_resolution_screen($parserType, $bank_account_id, $multistatements, $uploaded_file_ids, $uploaded_filenames)) {
+			end_table(1);
+			unset($_SESSION['bank_import_pending']);
+			return;
+		}
+	}
+
 	start_row();
 	echo '<td>';
 	submit_center_first('goback', 'Go back');
@@ -647,6 +1160,7 @@ function resolve_duplicate_uploads() {
 	if ($smt_err == 0) {
 		$_SESSION['multistatements'] = serialize($multistatements);
 		$_SESSION['uploaded_file_ids'] = $uploaded_file_ids;
+		$_SESSION['uploaded_filenames'] = $uploaded_filenames;
 	}
 
 	unset($_SESSION['bank_import_pending']);
@@ -702,6 +1216,17 @@ if (!empty($_POST['resolve_duplicates'])) {
 //if user cancels duplicate resolution
 if (!empty($_POST['cancel_duplicates'])) {
 	cancel_duplicate_uploads();
+	do_upload_form();
+}
+
+// if user is resolving bank account mappings
+if (!empty($_POST['resolve_accounts'])) {
+	resolve_account_mappings();
+}
+
+// if user cancels bank account resolution
+if (!empty($_POST['cancel_account_resolution'])) {
+	cancel_account_resolution();
 	do_upload_form();
 }
 
