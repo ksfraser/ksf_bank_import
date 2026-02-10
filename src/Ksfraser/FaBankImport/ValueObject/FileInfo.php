@@ -13,10 +13,14 @@ namespace Ksfraser\FaBankImport\ValueObject;
  */
 class FileInfo
 {
-    private string $originalFilename;
-    private string $tmpPath;
-    private int $size;
-    private string $mimeType;
+    private  $originalFilename;
+    //private string $originalFilename;
+    private  $tmpPath;
+    //private string $tmpPath;
+    private $size;
+    //private int $size;
+    private  $mimeType;
+    //private string $mimeType;
     
     /**
      * Constructor

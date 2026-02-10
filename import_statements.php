@@ -29,7 +29,7 @@ use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 page(_($help_context = "Import Bank Statement"));
 
-        include_once "Views/module_menu_view.php"; // Include the ModuleMenuView class
+        include_once "views/module_menu_view.php"; // Include the ModuleMenuView class
         $menu = new \Views\ModuleMenuView();
         $menu->renderMenu(); // Render the module menu
 

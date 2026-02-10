@@ -26,16 +26,20 @@ use Ksfraser\FaBankImport\Strategy\DuplicateStrategyFactory;
 class FileUploadService
 {
     /** @var UploadedFileRepositoryInterface */
-    private UploadedFileRepositoryInterface $fileRepository;
+    private  $fileRepository;
+    //private UploadedFileRepositoryInterface $fileRepository;
     
     /** @var FileStorageServiceInterface */
-    private FileStorageServiceInterface $storageService;
+    private  $storageService;
+    //private FileStorageServiceInterface $storageService;
     
     /** @var DuplicateDetector */
-    private DuplicateDetector $duplicateDetector;
+    private  $duplicateDetector;
+    //private DuplicateDetector $duplicateDetector;
     
     /** @var ConfigRepositoryInterface */
-    private ConfigRepositoryInterface $configRepository;
+    private  $configRepository;
+    //private ConfigRepositoryInterface $configRepository;
     
     /**
      * Constructor - Dependency Injection

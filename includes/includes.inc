@@ -11,26 +11,11 @@ require_once (__DIR__ . '/vendor/autoload.php' );
 
 require_once( __DIR__ . '/../class.bi_transactions.php' );
 
-
-/**//**************************************************
-* This has been cloned into bi_controller
-****************************************************/
-function get_transaction($tid) 
+function get_transaction($tid)
 {
-	//display_notification( __FILE__ . "::" . __LINE__ );
-	//error_reporting(E_ALL);
-	$bit = new bi_transactions_model();
-	//display_notification( __FILE__ . "::" . __LINE__ );
-	return $bit->get_transaction( $tid );
-
-/*
-*	$sql = "
-*	    SELECT t.*, s.account our_account FROM ".TB_PREF."bi_transactions t
-*    	    LEFT JOIN ".TB_PREF."bi_statements as s ON t.smt_id = s.id
-*	    WHERE t.id=".db_escape($tid);
-*	$result = db_query($sql, "could not get transaction with id $tid");	
-*	return db_fetch($result);
-*/
+        require_once( 'GetTransaction.php' );
+        $t = new GetTransaction();
+        return $t->get_transaction( $tid );
 }
 
 /**//**************************************************************
@@ -43,20 +28,10 @@ function get_transaction($tid)
 ******************************************************************************/
 function get_trans_counterparty( $trans_no, $trans_type )
 {
-	$arr = array();
-	$result = get_gl_trans( $trans_type, $trans_no );
-	//	display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $result, true ) );
-	while ($myrow = db_fetch($result))
-	{
-		//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $myrow, true ) );
-		//$counterpartyname = get_subaccount_name($myrow["account"], $myrow["person_id"]);
-		//$counterparty_id = $counterpartyname ? sprintf(' %05d', $myrow["person_id"]) : '';
-		$arr[] = $myrow;
-	}
-		//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $arr, true ) );
-	return $arr;
+	require_once( 'GetTransCounterparty.php' );
+	$t = new  GetTransCounterparty();
+	return $t->get_trans_counterparty( $trans_no, $trans_type );
 }
-
 
 /**//*************************************************************************
 * Update bi_trans clearing status
@@ -74,6 +49,7 @@ function reset_transactions($tid, $cids, $trans_no, $trans_type)
 	$bit = new bi_transactions_model();
 	return $bit->reset_transactions($tid, $cids, $trans_no, $trans_type);
 }
+
 /**//*************************************************************************
 * Update bi_trans with the related info to FA gl transactions
 *
@@ -137,6 +113,8 @@ function get_bank_account_by_acctid($acctid)
 ******************************************************************************/
 function get_bank_account_by_number($account_number) 
 {
+       throw new Exception ("This function has been replaced by class.fa_bank_accounts.php" );
+
 	//display_notification( __FILE__ . "::" . __LINE__ );
 	$sql = "SELECT a.*
 		FROM ".TB_PREF."bank_accounts a 
@@ -295,11 +273,11 @@ function my_write_customer_payment($trans_no, $customer_id, $branch_id, $bank_ac
 *	gl_bank uses display_quick_entry from includes/ui/ui_view.php
 *
 *
-*@params items_object cart
-*@params int ID - Quick Entry index
-*@params float BASE
-*@params int TYPE
-*@params string description
+* @params items_object cart
+* @params int ID - Quick Entry index
+* @params float BASE
+* @params int TYPE
+* @params string description
 * @returns float bank_amount
 ***********************************************************/
 function qe_to_cart(&$cart, $id, $base, $type, $descr='') 

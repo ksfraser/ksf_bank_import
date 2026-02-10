@@ -26,13 +26,16 @@ use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 class DuplicateDetector
 {
     /** @var UploadedFileRepositoryInterface */
-    private UploadedFileRepositoryInterface $fileRepository;
+    private  $fileRepository;
+    //private UploadedFileRepositoryInterface $fileRepository;
     
     /** @var ConfigRepositoryInterface */
-    private ConfigRepositoryInterface $configRepository;
+    private  $configRepository;
+    //private ConfigRepositoryInterface $configRepository;
     
     /** @var FileStorageServiceInterface */
-    private FileStorageServiceInterface $storageService;
+    private  $storageService;
+    //private FileStorageServiceInterface $storageService;
     
     /**
      * Constructor - Dependency Injection
