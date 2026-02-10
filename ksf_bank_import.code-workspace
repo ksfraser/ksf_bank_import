@@ -4,5 +4,9 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"chat.tools.terminal.autoApprove": {
+			"git -C \"c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\"": true
+		}
+	}
 }

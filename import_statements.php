@@ -336,7 +336,6 @@ function parse_uploaded_files() {
 
 	    	        $companyBase = rtrim(company_path(), '/\\');
 	    	        $pendingDir = $companyBase
-	    	        	. DIRECTORY_SEPARATOR . 'tmp'
 	    	        	. DIRECTORY_SEPARATOR . 'bank_imports'
 	    	        	. DIRECTORY_SEPARATOR . 'pending';
 	    	        if (!is_dir($pendingDir)) {
