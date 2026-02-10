@@ -2,26 +2,50 @@
 
 namespace Ksfraser\Application\Services;
 
-use Ksfraser\Application\Interfaces\CommandBusInterface;
+use Ksfraser\Application\Config\Config;
 
-class SimpleCommandBus implements CommandBusInterface
+class TransactionLogger
 {
-    private $handlers = [];
+    private $logFile;
 
-    public function register(string $commandClass, $handler): void
+    public function __construct(?string $logFile = null)
     {
-        $this->handlers[$commandClass] = $handler;
-    }
+        $config = Config::getInstance();
+        $logDir = $config->get('logging.path', __DIR__ . '/../../../../logs');
 
-    public function dispatch($command)
-    {
-        $commandClass = get_class($command);
-        
-        if (!isset($this->handlers[$commandClass])) {
-            throw new \RuntimeException("No handler registered for command {$commandClass}");
+        if (!is_dir($logDir)) {
+            mkdir($logDir, 0755, true);
         }
 
-        $handler = $this->handlers[$commandClass];
-        return $handler->handle($command);
+        $this->logFile = $logFile ?? rtrim($logDir, "\\/\\") . DIRECTORY_SEPARATOR . 'transactions.log';
+    }
+
+    public function logTransactionProcessed($event): void
+    {
+        $timestamp = null;
+        if (is_object($event) && method_exists($event, 'getTimestamp')) {
+            $timestamp = $event->getTimestamp();
+        }
+
+        $timestampString = $timestamp instanceof \DateTimeInterface
+            ? $timestamp->format('Y-m-d H:i:s')
+            : date('Y-m-d H:i:s');
+
+        $transactionId = is_object($event) && method_exists($event, 'getTransactionId')
+            ? $event->getTransactionId()
+            : null;
+
+        $type = is_object($event) && method_exists($event, 'getType')
+            ? $event->getType()
+            : null;
+
+        $message = sprintf(
+            '[%s] Transaction %s processed as type %s',
+            $timestampString,
+            $transactionId !== null ? (string) $transactionId : '?',
+            $type !== null ? (string) $type : '?'
+        );
+
+        file_put_contents($this->logFile, $message . PHP_EOL, FILE_APPEND);
     }
 }

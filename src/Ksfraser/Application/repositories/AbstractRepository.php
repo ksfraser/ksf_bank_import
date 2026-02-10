@@ -24,7 +24,7 @@ abstract class AbstractRepository
             ->first();
     }
 
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null)
     {
         foreach ($criteria as $key => $value) {
             $this->queryBuilder->where($key, $value);

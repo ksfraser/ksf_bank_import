@@ -5,7 +5,21 @@ namespace Ksfraser\FaBankImport;
 //use Ksfraser\FaBankImport\TransactionTypeLabel.php;
 use \Exception;
 
-require_once( __DIR__ . "../../../../Views/TransactionTypeLabel.php" );
+// Legacy compatibility: some code paths may run without Composer autoload.
+// Keep this include safe so tools like PHPUnit coverage can load this file.
+if (!class_exists(__NAMESPACE__ . '\\TransactionTypeLabel', false)) {
+	$transactionTypeLabelCandidates = [
+		__DIR__ . '/views/TransactionTypeLabel.php',
+		__DIR__ . '/../../../views/TransactionTypeLabel.php',
+	];
+
+	foreach ($transactionTypeLabelCandidates as $candidate) {
+		if (is_file($candidate)) {
+			require_once $candidate;
+			break;
+		}
+	}
+}
 
 abstract class Transaction
 {
