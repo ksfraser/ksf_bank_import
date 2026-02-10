@@ -335,7 +335,10 @@ function parse_uploaded_files() {
 	    	        display_warning($result->getMessage());
 
 	    	        $companyBase = rtrim(company_path(), '/\\');
-	    	        $pendingDir = $companyBase . DIRECTORY_SEPARATOR . 'bank_imports' . DIRECTORY_SEPARATOR . 'pending';
+	    	        $pendingDir = $companyBase
+	    	        	. DIRECTORY_SEPARATOR . 'tmp'
+	    	        	. DIRECTORY_SEPARATOR . 'bank_imports'
+	    	        	. DIRECTORY_SEPARATOR . 'pending';
 	    	        if (!is_dir($pendingDir)) {
 	    	            @mkdir($pendingDir, 0750, true);
 	    	        }
