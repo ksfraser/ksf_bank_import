@@ -278,8 +278,20 @@ function parse_uploaded_files() {
     $smt_err = 0;
     $trz_err = 0;
 	$multistatements = array();
+	$statements = array();
+
+	if (!isset($_FILES['files']) || !isset($_FILES['files']['name']) || !is_array($_FILES['files']['name'])) {
+		display_error(_("No files were uploaded. Please choose at least one file."));
+		echo "</pre></td>";
+		end_row();
+		end_table(1);
+		return;
+	}
 
     foreach($_FILES['files']['name'] as $id=>$fname) {
+		if ($fname === '' || $fname === null) {
+			continue;
+		}
     	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
 
     	// Mantis #2708: Save uploaded file (Phase 2 refactored)
@@ -673,8 +685,13 @@ if (empty($_POST['upload']) && empty($_POST['import'])) {
 
 
 //if upload is hit, parse the files and store result in session
-if (@$_POST['upload'] && ($_FILES['files']['error'][0] == 0)) {
-    parse_uploaded_files();
+if (!empty($_POST['upload'])) {
+	if (isset($_FILES['files']) && isset($_FILES['files']['error']) && is_array($_FILES['files']['error']) && $_FILES['files']['error'][0] == 0) {
+		parse_uploaded_files();
+	} else {
+		display_error(_("No files were uploaded. Please choose at least one file."));
+		do_upload_form();
+	}
 }
 
 //if user is resolving duplicates, force upload selected duplicates and parse them
