@@ -96,13 +96,21 @@ function get_bank_account_by_acctid($acctid)
 {
 	//display_notification( __FILE__ . "::" . __LINE__ );
 	//var_dump( __FILE__ . "::" . __LINE__ );
+	$acctid_normalized = is_string($acctid) ? ltrim($acctid, '0') : $acctid;
+	if ($acctid_normalized === '') {
+		$acctid_normalized = '0';
+	}
+
+	// FrontAccounting core schema uses bank_account_number, not ACCTID.
+	// OFX/QFX ACCTID is typically the account number from the bank.
 	$sql = "SELECT a.*
 		FROM ".TB_PREF."bank_accounts a 
-		WHERE a.ACCTID = ".db_escape($acctid);
+		WHERE a.bank_account_number IN (" . db_escape($acctid) . ", " . db_escape($acctid_normalized) . ")";
 	//display_notification( __FILE__ . "::" . __LINE__ . "::" . $sql );
 	//var_dump( __FILE__ . "::" . __LINE__ );
 	$result = db_query($sql,"could not get bank account");
-	return db_fetch($result);
+	$row = db_fetch($result);
+	return is_array($row) ? $row : [];
 }
 
 /**//***************************************************************************
