@@ -17,7 +17,7 @@ foreach ($autoloadCandidates as $autoload) {
 		break;
 	}
 }
-include_once( 'includes.inc' );
+include_once __DIR__ . '/includes.inc';
 
 /**//************************************************
 * Class to parse a QFX/OFX file
@@ -49,7 +49,9 @@ class qfx_parser extends parser {
 	//echo __FILE__ . "::" . __LINE__ . "::" . " In Parser QFX\n";
 			if ($debug) {
 				// Lightweight trace only when debugging.
-				// var_dump( __FILE__ . "::" . __LINE__ );
+				//This is not an extraneous var_dump - it's here to show we actually
+				//got into the function by dumping file and line.
+				 var_dump( __FILE__ . "::" . __LINE__ );
 			}
 	//var_dump( $content );
 

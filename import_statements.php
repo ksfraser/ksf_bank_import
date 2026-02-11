@@ -9,6 +9,10 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
     See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
 ***********************************************************************/
+
+// Ensure all relative includes resolve from this module directory.
+chdir(__DIR__);
+
 $page_security = 'SA_BANKACCOUNT';
 $path_to_root = "../..";
 include($path_to_root . "/includes/session.inc");
@@ -18,7 +22,7 @@ include_once($path_to_root . "/includes/ui.inc");
 
 include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
-require_once 'includes/qfx_parser.php';
+require_once __DIR__ . '/includes/qfx_parser.php';
 
 // Mantis #2708: File upload management - Refactored (Phase 2)
 require_once __DIR__ . '/vendor/autoload.php';
@@ -34,7 +38,7 @@ use Ksfraser\FaBankImport\Service\BankImportPathResolver;
 
 page(_($help_context = "Import Bank Statement"));
 
-        include_once "views/module_menu_view.php"; // Include the ModuleMenuView class
+		include_once __DIR__ . "/views/module_menu_view.php"; // Include the ModuleMenuView class
         $menu = new \Views\ModuleMenuView();
         $menu->renderMenu(); // Render the module menu
 
@@ -116,7 +120,7 @@ function importStatement($smt, $file_id = null)
 	$message = '';
 	$logger = func_num_args() >= 3 ? func_get_arg(2) : null;
 /** Moving to namespaces **/
-	require_once(  './class.bi_statements.php' );
+	require_once(__DIR__ . '/class.bi_statements.php');
 	$bis = new bi_statements_model();
 /*
 	$bis = new BiStatements();
@@ -175,7 +179,7 @@ function importStatement($smt, $file_id = null)
 	$dupecount=0;
 	$dupeupdated=0;
 /** Moving to Namespaces **/
-	require_once( 'class.bi_transactions.php' );
+	require_once(__DIR__ . '/class.bi_transactions.php');
 /**/
 	foreach($smt->transactions as $id => $t) 
 	{

@@ -1,5 +1,8 @@
 <?php
 
+// Ensure relative paths resolve from this module directory (FA expects $path_to_root to be a web-relative path).
+chdir(__DIR__);
+
 // Load configuration
 $config_file = __DIR__ . '/config.php';
 if (file_exists($config_file)) {
@@ -22,11 +25,15 @@ if (!file_exists($fa_includes_path)) {
     // Try alternative paths from config
     $found = false;
     foreach ($config['fa_paths'] as $test_path) {
-        if (file_exists($test_path . "/includes/session.inc")) {
-            $path_to_root = $test_path;
-            $found = true;
-            break;
-        }
+		// Never use absolute filesystem paths for $path_to_root; it is used to build web URLs (CSS/JS/images).
+		if (preg_match('/^[A-Za-z]:\\\\|^\//', $test_path)) {
+			continue;
+		}
+		if (file_exists($test_path . "/includes/session.inc")) {
+			$path_to_root = $test_path;
+			$found = true;
+			break;
+		}
     }
 
     // If still not found, provide helpful error
@@ -118,7 +125,7 @@ if ($use_date_picker)
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
 
 
-	include_once "Views/module_menu_view.php"; // Include the ModuleMenuView class
+	include_once __DIR__ . "/views/module_menu_view.php"; // Include the ModuleMenuView class
     	$menu = new \Views\ModuleMenuView();
     	$menu->renderMenu(); // Render the module menu
 
@@ -137,7 +144,7 @@ $optypes = OperationTypesRegistry::getInstance()->getTypes();
 
 include_once($path_to_root . "/modules/ksf_modules_common/defines.inc.php");	//$trans_types_readable
 
-require_once( 'class.bank_import_controller.php' );
+require_once(__DIR__ . '/class.bank_import_controller.php');
 	try {
 		$bi_controller = new bank_import_controller();	//no vars for constructor.
 	} catch( Exception $e )
@@ -206,14 +213,14 @@ if ( isset( $_POST['ProcessBothSides'] ) ) {
 	{
 		try {
 			// Use new PairedTransferProcessor service
-			require_once('Services/PairedTransferProcessor.php');
-			require_once('Services/BankTransferFactory.php');
-			require_once('Services/BankTransferFactoryInterface.php');
-			require_once('Services/TransactionUpdater.php');
-			require_once('Services/TransferDirectionAnalyzer.php');
-			require_once('class.bi_transactions.php');
-			require_once('VendorListManager.php');
-			require_once('OperationTypes/OperationTypesRegistry.php');
+			require_once(__DIR__ . '/Services/PairedTransferProcessor.php');
+			require_once(__DIR__ . '/Services/BankTransferFactory.php');
+			require_once(__DIR__ . '/Services/BankTransferFactoryInterface.php');
+			require_once(__DIR__ . '/Services/TransactionUpdater.php');
+			require_once(__DIR__ . '/Services/TransferDirectionAnalyzer.php');
+			require_once(__DIR__ . '/class.bi_transactions.php');
+			require_once(__DIR__ . '/VendorListManager.php');
+			require_once(__DIR__ . '/OperationTypes/OperationTypesRegistry.php');
 			
 			// Get dependencies
 			$bit = new bi_transactions_model();
@@ -433,7 +440,7 @@ if (1) {
 	//------------------------------------------------------------------------------------------------
 	// this is filter table
 
-	require_once( 'header_table.php' );
+	require_once(__DIR__ . '/header_table.php');
 	$headertable = new ksf_modules_table_filter_by_date();
 	$headertable->bank_import_header();
 
@@ -450,13 +457,13 @@ if (1) {
 	
 	// Load vendor list from singleton manager (session-cached)
 	if (!class_exists('\KsfBankImport\VendorListManager')) {
-		require_once('VendorListManager.php');
+		require_once(__DIR__ . '/VendorListManager.php');
 	}
 	$vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
 
 	error_reporting(E_ALL);
 
-	require_once( 'class.bi_transactions.php' );
+	require_once(__DIR__ . '/class.bi_transactions.php');
 	$bit = new bi_transactions_model();
 	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
 	{
@@ -489,7 +496,7 @@ if (1) {
 	*	$charge = 0;
 	*/
 	
-		require_once( 'class.bi_lineitem.php' );
+		require_once(__DIR__ . '/class.bi_lineitem.php');
 		foreach($trz_data as $idx => $trz) 
 		{
 			//LOGIC ERROR?
