@@ -701,9 +701,9 @@ function fa_bank_account_number_exists(string $bankAccountNumber): bool
 		return false;
 	}
 
-	// Prefer FA helper if available
-	if (function_exists('get_bank_account_by_number')) {
-		$ba = @get_bank_account_by_number($bankAccountNumber);
+	// Prefer our fa_bank_accounts-based helper if available.
+	if (function_exists('fa_get_bank_account_by_number')) {
+		$ba = fa_get_bank_account_by_number($bankAccountNumber);
 		return is_array($ba) && !empty($ba);
 	}
 

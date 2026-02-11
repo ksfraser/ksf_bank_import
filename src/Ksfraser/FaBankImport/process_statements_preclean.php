@@ -176,7 +176,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 	
 			//check bank account
 			//	display_notification( __FILE__ . "::" . __LINE__ );
-			$our_account = get_bank_account_by_number($trz['our_account']);
+			$our_account = fa_get_bank_account_by_number($trz['our_account']);
 			//	display_notification( __FILE__ . "::" . __LINE__ );
 			if (empty($our_account)) 
 			{

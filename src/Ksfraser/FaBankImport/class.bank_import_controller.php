@@ -600,7 +600,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 	function retrieveOurAccount()
 	{
 		//check bank account
-		$this->our_account = get_bank_account_by_number($this->trz['our_account']);
+		$this->our_account = fa_get_bank_account_by_number($this->trz['our_account']);
 		if (empty($this->our_account))
 		{
 			$Ajax->activate('doc_tbl');

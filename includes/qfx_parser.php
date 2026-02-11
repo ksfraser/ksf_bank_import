@@ -6,7 +6,17 @@
 //	Have a config whether we should match MEMO field i.e. INTERNET TRASFER/PAY/DEPOSIT/...
 //	Have a further config to indicate chunk delimiters.  CIBC uses ";".  Is this standard?
 
-require_once (__DIR__ . '/vendor/autoload.php' );
+// Be resilient: module installs keep vendor/ at module root, not under includes/.
+$autoloadCandidates = [
+	__DIR__ . '/../vendor/autoload.php',
+	__DIR__ . '/vendor/autoload.php',
+];
+foreach ($autoloadCandidates as $autoload) {
+	if (is_file($autoload)) {
+		require_once $autoload;
+		break;
+	}
+}
 include_once( 'includes.inc' );
 
 /**//************************************************
@@ -37,7 +47,10 @@ class qfx_parser extends parser {
 	**************************************************************/
     function parse($content, $static_data = array(), $debug = true) {
 	//echo __FILE__ . "::" . __LINE__ . "::" . " In Parser QFX\n";
-			var_dump( __FILE__ . "::" . __LINE__ );
+			if ($debug) {
+				// Lightweight trace only when debugging.
+				// var_dump( __FILE__ . "::" . __LINE__ );
+			}
 	//var_dump( $content );
 
 	$ofxParser = new OfxParser\Parser();
@@ -171,25 +184,9 @@ class qfx_parser extends parser {
 									//Manulife sends proper XML with closing tags.
 									//Manulife has a BankID of 1  BID 00034
 									//ATB sets ORG as ATB Financial, FID 1, BID 12883
-		//bankid (vice bankId) and bank set above from either STATIC or file
-		//Need to look up BANK to ensure it matches the accountNumber from the file.
-		//var_dump( __FILE__ . "::" . __LINE__ );
-			//var_dump( __FILE__ . "::" . __LINE__ );
-		$gba = get_bank_account_by_acctid($accountNumber);
-		//var_dump( __FILE__ . "::" . __LINE__ );
-		//var_dump( $gba );
-		//var_dump( __FILE__ . "::" . __LINE__ );
-			//var_dump( __FILE__ . "::" . __LINE__ );
-		if( isset( $gba['bank_account_name'] ) )
-		{
-			//var_dump( __FILE__ . "::" . __LINE__ );
-			$bank = $gba['bank_account_name'];
-		}
-		else
-		{
-			//Why didn't it reset?
-			//var_dump( __FILE__ . "::" . __LINE__ );
-		}
+		// Important: do not query FA bank_accounts during parsing.
+		// We may be importing a file containing multiple accounts, and account resolution
+		// is handled later in the import flow (prompt + optional persistence).
 	
 		if( isset( $bankAccount->balance ) )
 		{

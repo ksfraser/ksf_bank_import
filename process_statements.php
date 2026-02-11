@@ -280,7 +280,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
         			//$trz = $bit->get_transaction( $tid, true );
 
 			//check bank account
-			$our_account = get_bank_account_by_number($trz['our_account']);
+			$our_account = fa_get_bank_account_by_number($trz['our_account']);
 			if (empty($our_account)) 
 			{
 				$Ajax->activate('doc_tbl');

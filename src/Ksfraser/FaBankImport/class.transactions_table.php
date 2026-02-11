@@ -222,7 +222,7 @@ class ttr_label_row
 				label_row("Trans Type:", "Bank Transfer");
 			break;
 		}
-		$bank = get_bank_account_by_number( $our_account );
+		$bank = fa_get_bank_account_by_number( $our_account );
 			//Info from 0_bank_accounts
 			//	Account Name
 			//	Type

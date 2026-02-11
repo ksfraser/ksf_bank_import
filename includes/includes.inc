@@ -121,15 +121,67 @@ function get_bank_account_by_acctid($acctid)
 ******************************************************************************/
 function get_bank_account_by_number($account_number) 
 {
-       throw new Exception ("This function has been replaced by class.fa_bank_accounts.php" );
+	throw new Exception ("This function has been replaced by class.fa_bank_accounts.php" );
+}
 
-	//display_notification( __FILE__ . "::" . __LINE__ );
+/**//***************************************************************************
+*	Replacement for get_bank_account_by_number() using class.fa_bank_accounts.php
+*
+*	Select bank info from 0_bank_accounts filtered by input bank_account_number.
+*	This intentionally does NOT call get_bank_account_by_number(), which now throws.
+*
+* @param string $account_number
+* @returns array
+******************************************************************************/
+function fa_get_bank_account_by_number($account_number)
+{
+	$account_number = is_string($account_number) ? trim($account_number) : $account_number;
+	if (!is_string($account_number) || $account_number === '') {
+		return [];
+	}
+
+	$account_number_normalized = ltrim($account_number, '0');
+	if ($account_number_normalized === '') {
+		$account_number_normalized = '0';
+	}
+
+	// Preferred: use shared ksf_modules_common fa_bank_accounts class when available.
+	$faBankAccountsFile = __DIR__ . '/../../ksf_modules_common/class.fa_bank_accounts.php';
+	if (is_file($faBankAccountsFile)) {
+		require_once $faBankAccountsFile;
+		if (class_exists('fa_bank_accounts')) {
+			$shim = new class($account_number) {
+				public $our_account;
+				public function __construct(string $accountNumber)
+				{
+					$this->our_account = $accountNumber;
+				}
+			};
+			try {
+				$fa = new \fa_bank_accounts($shim);
+				$row = $fa->getByBankAccountNumber($account_number);
+				if (is_array($row) && !empty($row)) {
+					return $row;
+				}
+				if ($account_number_normalized !== $account_number) {
+					$row = $fa->getByBankAccountNumber($account_number_normalized);
+					return is_array($row) ? $row : [];
+				}
+				return [];
+			} catch (Throwable $e) {
+				// Fall back to SQL below.
+			}
+		}
+	}
+
+	// Fallback: direct query by bank_account_number.
 	$sql = "SELECT a.*
 		FROM ".TB_PREF."bank_accounts a 
-		WHERE a.bank_account_number = ".db_escape($account_number);
-	//display_notification( __FILE__ . "::" . __LINE__ . "::" . $sql );
+		WHERE a.bank_account_number IN (" . db_escape($account_number) . ", " . db_escape($account_number_normalized) . ")
+		LIMIT 1";
 	$result = db_query($sql,"could not get bank account");
-	return db_fetch($result);
+	$row = db_fetch($result);
+	return is_array($row) ? $row : [];
 }
 
 /**//***************************************************

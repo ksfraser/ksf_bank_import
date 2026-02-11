@@ -297,7 +297,7 @@ class PairedTransferProcessor
      */
     private function loadBankAccount($accountNumber)
     {
-        $account = get_bank_account_by_number($accountNumber);
+        $account = fa_get_bank_account_by_number($accountNumber);
         if (empty($account)) {
             throw new \RuntimeException("Bank account '$accountNumber' not defined");
         }

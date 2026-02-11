@@ -74,7 +74,7 @@ function processTransaction($controller)
         if (!$error) {
             $tid = $k;
             $trz = get_transaction($tid);
-            $our_account = get_bank_account_by_number($trz['our_account']);
+            $our_account = fa_get_bank_account_by_number($trz['our_account']);
             if (empty($our_account)) {
                 $Ajax->activate('doc_tbl');
                 display_error(__FILE__ . "::" . __LINE__ . "::" . ' the bank account <b>' . $trz['our_account'] . '</b> is not defined in Bank Accounts');

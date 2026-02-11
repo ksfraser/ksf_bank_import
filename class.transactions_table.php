@@ -249,7 +249,7 @@ class ttr_label_row
 		$transTypeRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($transTypeLabel, $transTypeContent);
 		$transTypeRow->toHtml();
 		
-		$bank = get_bank_account_by_number( $our_account );
+		$bank = fa_get_bank_account_by_number( $our_account );
 			//Info from 0_bank_accounts
 			//	Account Name
 			//	Type
