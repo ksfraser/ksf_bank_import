@@ -79,6 +79,13 @@ require_once( '../ksf_modules_common/defines.inc.php' );
  */
 class bi_statements_model extends generic_fa_interface_model 
 {
+	/**
+	 * Cache of table columns to keep INSERT generation schema-tolerant.
+	 *
+	 * @var array<string, array<string, bool>>
+	 */
+	private static $tableColumnsCache = [];
+
 	protected $id;                  	//| int(11)      | NO   | PRI | NULL    | auto_increment |
 	protected $bank;		// varchar(22) | YES  | MUL | NULL    |                |
 	protected $account;		// varchar(24) | YES  |     | NULL    |                |
@@ -212,24 +219,83 @@ class bi_statements_model extends generic_fa_interface_model
 	*****************************************************************/
 	function hand_insert_sql()
 	{
-               $sql = 	"INSERT IGNORE INTO " . $this->table_details['tablename'] . 
-			"(bank, account, currency, startBalance, endBalance, smtDate, number, seq, statementId, acctid, fitid, bankid, intu_bid)" .
-			" VALUES( " .
-				db_escape($this->bank) . ", " .
-				db_escape($this->account) . ", " .
-				db_escape($this->currency) . ", " .
-				db_escape($this->startBalance) . ", " .
-				db_escape($this->endBalance) . ", " .
-				db_escape($this->timestamp) . ", " .
-				db_escape($this->number) . ", " .
-				db_escape($this->sequence) . ", " .
-				db_escape($this->statementId) . ", " .
-				db_escape($this->acctid) . ", " .
-				db_escape($this->fitid) . ", " .
-				db_escape($this->bankid) . ", " .
-				db_escape($this->intu_bid) . 
-			")";
-		return $sql;
+		$table = $this->table_details['tablename'];
+		$cols = $this->get_table_columns($table);
+
+		// Build candidate values from whatever properties exist on this model/statement.
+		$smtDateValue = null;
+		if (isset($this->smtDate)) {
+			$smtDateValue = $this->smtDate;
+		} elseif (isset($this->timestamp)) {
+			$smtDateValue = $this->timestamp;
+		}
+
+		$seqValue = null;
+		if (isset($this->seq)) {
+			$seqValue = $this->seq;
+		} elseif (isset($this->sequence)) {
+			$seqValue = $this->sequence;
+		}
+
+		$candidates = [
+			'bank' => $this->bank ?? null,
+			'account' => $this->account ?? null,
+			'currency' => $this->currency ?? null,
+			'startBalance' => $this->startBalance ?? null,
+			'endBalance' => $this->endBalance ?? null,
+			'smtDate' => $smtDateValue,
+			'number' => $this->number ?? null,
+			'seq' => $seqValue,
+			'statementId' => $this->statementId ?? null,
+			'acctid' => $this->acctid ?? null,
+			'fitid' => $this->fitid ?? null,
+			'bankid' => $this->bankid ?? null,
+			'intu_bid' => $this->intu_bid ?? null,
+		];
+
+		$fields = [];
+		$values = [];
+		foreach ($candidates as $field => $value) {
+			if (!isset($cols[$field])) {
+				continue;
+			}
+			$fields[] = $field;
+			$values[] = db_escape($value);
+		}
+
+		if (empty($fields)) {
+			throw new Exception('No matching columns found for bi_statements insert.');
+		}
+
+		return "INSERT IGNORE INTO {$table} (" . implode(', ', $fields) . ") VALUES (" . implode(', ', $values) . ")";
+	}
+
+	/**
+	 * @return array<string,bool>
+	 */
+	private function get_table_columns(string $tableName): array
+	{
+		if (isset(self::$tableColumnsCache[$tableName])) {
+			return self::$tableColumnsCache[$tableName];
+		}
+
+		$cols = [];
+		try {
+			$res = db_query("SHOW COLUMNS FROM {$tableName}", 'Could not read table columns');
+			while ($row = db_fetch($res)) {
+				if (!empty($row['Field'])) {
+					$cols[(string)$row['Field']] = true;
+				}
+			}
+		} catch (Exception $e) {
+			// If introspection fails, fall back to the historical column set.
+			foreach (['bank','account','currency','startBalance','endBalance','smtDate','number','seq','statementId','acctid','fitid','bankid','intu_bid'] as $f) {
+				$cols[$f] = true;
+			}
+		}
+
+		self::$tableColumnsCache[$tableName] = $cols;
+		return $cols;
 	}
 	/**//************************************************************
 	* Determine if this particular statement already exists in the staging table
