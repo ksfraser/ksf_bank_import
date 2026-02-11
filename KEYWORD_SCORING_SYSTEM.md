@@ -582,7 +582,7 @@ ORDER BY partner_count DESC;
 
 ## Related Files
 
-- `update.sql` - Original schema (reference)
+- `sql/update.sql` - Installer schema (canonical)
 - `sql/add_occurrence_count_to_bi_partners_data.sql` - Migration
 - `build_partner_keyword_data.php` - Build script
 - `includes/search_partner_keywords.inc` - Search functions
