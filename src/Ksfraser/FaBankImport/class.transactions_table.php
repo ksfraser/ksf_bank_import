@@ -81,9 +81,9 @@ class transaction_table_row
 			try {
 				$this->bankAccount = shorten_bankAccount_Names( $res_arr['accountName'] );
 			}
-			catch( Exception $this->e )
+			catch( Exception $e )
 			{
-				display_notification( __FILE__ . "::" . __LINE__ . ":" . $this->e->getMessage() );
+				display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
 				$this->bankAccount = $res_arr['accountName'];
 			}
 			$this->bankAccountName = $res_arr['accountName'];

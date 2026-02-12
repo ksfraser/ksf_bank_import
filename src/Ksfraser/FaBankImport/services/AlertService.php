@@ -24,6 +24,11 @@ class AlertService
         return self::$instance;
     }
 
+    public static function resetInstance(): void
+    {
+        self::$instance = null;
+    }
+
     public function checkAndSendAlerts(): void
     {
         if (!$this->config->get('alerts.enabled', false)) {

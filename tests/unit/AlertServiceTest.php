@@ -28,9 +28,9 @@ class AlertServiceTest extends TestCase
                 ['alerts.email.to', null, 'admin@example.com'],
                 ['alerts.email.from', null, 'monitoring@example.com'],
                 ['alerts.email.subject_prefix', null, '[Test] '],
-                ['monitoring.anomaly_threshold', null, 2.0],
-                ['monitoring.slow_transaction_threshold', null, 1000],
-                ['monitoring.high_memory_threshold', null, 10485760],
+                ['monitoring.anomaly_threshold', 2.0, 2.0],
+                ['monitoring.slow_transaction_threshold', 1000, 1000],
+                ['monitoring.high_memory_threshold', 10485760, 10485760],
                 ['logging.path', null, vfsStream::url('root')]
             ]);
 
@@ -45,6 +45,8 @@ class AlertServiceTest extends TestCase
         ]) . "\n";
         vfsStream::newFile('performance_test.log')->at($this->root)->setContent($logContent);
 
+        Config::setInstance($this->config);
+        AlertService::resetInstance();
         $this->alertService = AlertService::getInstance();
     }
 
@@ -53,11 +55,18 @@ class AlertServiceTest extends TestCase
         $this->alertService->checkAndSendAlerts();
         
         $this->assertGreaterThan(0, count($GLOBALS['mock_mail_log']));
-        $lastEmail = end($GLOBALS['mock_mail_log']);
-        
-        $this->assertStringContainsString('Slow Transactions Detected', $lastEmail['subject']);
-        $this->assertStringContainsString('slow_metric', $lastEmail['message']);
-        $this->assertEquals('admin@example.com', $lastEmail['to']);
+
+        $slowEmail = null;
+        foreach ($GLOBALS['mock_mail_log'] as $email) {
+            if (strpos($email['subject'], 'Slow Transactions Detected') !== false) {
+                $slowEmail = $email;
+                break;
+            }
+        }
+
+        $this->assertNotNull($slowEmail);
+        $this->assertStringContainsString('slow_metric', $slowEmail['message']);
+        $this->assertEquals('admin@example.com', $slowEmail['to']);
     }
 
     public function testCheckAndSendAlertsDetectsHighMemoryUsage(): void
@@ -100,5 +109,7 @@ class AlertServiceTest extends TestCase
     protected function tearDown(): void
     {
         $GLOBALS['mock_mail_log'] = [];
+        AlertService::resetInstance();
+        Config::resetInstance();
     }
 }

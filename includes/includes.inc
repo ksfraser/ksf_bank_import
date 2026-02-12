@@ -96,16 +96,37 @@ function get_bank_account_by_acctid($acctid)
 {
 	//display_notification( __FILE__ . "::" . __LINE__ );
 	//var_dump( __FILE__ . "::" . __LINE__ );
+	$acctid = is_string($acctid) ? trim($acctid) : $acctid;
 	$acctid_normalized = is_string($acctid) ? ltrim($acctid, '0') : $acctid;
 	if ($acctid_normalized === '') {
 		$acctid_normalized = '0';
 	}
+	if (!is_string($acctid) || $acctid === '') {
+		return [];
+	}
 
-	// FrontAccounting core schema uses bank_account_number, not ACCTID.
-	// OFX/QFX ACCTID is typically the account number from the bank.
+	// Preferred: resolve OFX/QFX ACCTID using module-owned mapping table.
+	// This avoids relying on any non-core columns that may have existed in PROD.
+	$biTable = TB_PREF . 'bi_bank_accounts';
+	$existsRes = db_query('SHOW TABLES LIKE ' . db_escape($biTable), 'Failed checking bi_bank_accounts existence');
+	if (db_num_rows($existsRes) > 0) {
+		$sql = "SELECT a.*
+			FROM " . TB_PREF . "bank_accounts a
+			INNER JOIN `{$biTable}` bb ON bb.bank_account_id = a.id
+			WHERE bb.acctid IN (" . db_escape($acctid) . ", " . db_escape($acctid_normalized) . ")
+			LIMIT 1";
+		$result = db_query($sql, 'could not get bank account');
+		$row = db_fetch($result);
+		if (is_array($row) && !empty($row)) {
+			return $row;
+		}
+	}
+
+	// Fallback: FrontAccounting core schema lookup by bank_account_number.
 	$sql = "SELECT a.*
 		FROM ".TB_PREF."bank_accounts a 
-		WHERE a.bank_account_number IN (" . db_escape($acctid) . ", " . db_escape($acctid_normalized) . ")";
+		WHERE a.bank_account_number IN (" . db_escape($acctid) . ", " . db_escape($acctid_normalized) . ")
+		LIMIT 1";
 	//display_notification( __FILE__ . "::" . __LINE__ . "::" . $sql );
 	//var_dump( __FILE__ . "::" . __LINE__ );
 	$result = db_query($sql,"could not get bank account");

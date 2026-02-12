@@ -25,29 +25,31 @@ $path_to_root = "../..";
 require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
 require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
 
-require_once( __DIR__ . '/Views/HTML_ROW_LABELDecorator.php' );
+$viewsDir = is_dir(__DIR__ . '/Views') ? __DIR__ . '/Views' : __DIR__ . '/views';
 
-require_once( __DIR__ . '/Views/AddCustomerButton.php' );
-require_once( __DIR__ . '/Views/AddVendorButton.php' );
-require_once( __DIR__ . '/Views/TransactionTypeLabel.php' );
+require_once( $viewsDir . '/HTML_ROW_LABELDecorator.php' );
+
+require_once( $viewsDir . '/AddCustomerButton.php' );
+require_once( $viewsDir . '/AddVendorButton.php' );
+require_once( $viewsDir . '/TransactionTypeLabel.php' );
 
 // SRP View classes for label rows
-require_once( __DIR__ . '/Views/TransDate.php' );
-require_once( __DIR__ . '/Views/TransType.php' );
-require_once( __DIR__ . '/Views/OurBankAccount.php' );
-require_once( __DIR__ . '/Views/OtherBankAccount.php' );
-require_once( __DIR__ . '/Views/AmountCharges.php' );
-require_once( __DIR__ . '/Views/TransTitle.php' );
+require_once( $viewsDir . '/TransDate.php' );
+require_once( $viewsDir . '/TransType.php' );
+require_once( $viewsDir . '/OurBankAccount.php' );
+require_once( $viewsDir . '/OtherBankAccount.php' );
+require_once( $viewsDir . '/AmountCharges.php' );
+require_once( $viewsDir . '/TransTitle.php' );
 
 // SRP View classes for partner type displays
-require_once( __DIR__ . '/Views/PartnerMatcher.php' );
-require_once( __DIR__ . '/Views/SupplierPartnerTypeView.php' );
-require_once( __DIR__ . '/Views/CustomerPartnerTypeView.php' );
-require_once( __DIR__ . '/Views/BankTransferPartnerTypeView.php' );
-require_once( __DIR__ . '/Views/QuickEntryPartnerTypeView.php' );
+require_once( $viewsDir . '/PartnerMatcher.php' );
+require_once( $viewsDir . '/SupplierPartnerTypeView.php' );
+require_once( $viewsDir . '/CustomerPartnerTypeView.php' );
+require_once( $viewsDir . '/BankTransferPartnerTypeView.php' );
+require_once( $viewsDir . '/QuickEntryPartnerTypeView.php' );
 
 // V2 Views with ViewFactory (feature flag controlled)
-require_once( __DIR__ . '/Views/ViewFactory.php' );
+require_once( $viewsDir . '/ViewFactory.php' );
 use KsfBankImport\Views\ViewFactory;
 
 // Feature flag to enable v2 Views (set to true to use ViewFactory)

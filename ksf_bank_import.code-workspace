@@ -6,7 +6,44 @@
 	],
 	"settings": {
 		"chat.tools.terminal.autoApprove": {
-			"git -C \"c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\"": true
+			"git -C \"c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\"": true,
+			"/^php -l \"c:\\\\Users\\\\prote\\\\Documents\\\\software-devel\\\\ksf_bank_import\\\\import_statements\\.php\"$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^php -l c:\\\\Users\\\\prote\\\\Documents\\\\software-devel\\\\ksf_bank_import\\\\import_statements\\.php$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^php -l \"c:\\\\Users\\\\prote\\\\Documents\\\\software-devel\\\\ksf_bank_import\\\\hooks\\.php\"$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^php -l \"c:\\\\Users\\\\prote\\\\Documents\\\\software-devel\\\\ksf_bank_import\\\\includes\\\\qfx_parser\\.php\"; php -l \"c:\\\\Users\\\\prote\\\\Documents\\\\software-devel\\\\ksf_bank_import\\\\import_statements\\.php\"$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^php \\.\\\\vendor\\\\phpunit\\\\phpunit\\\\phpunit -c \\.\\\\phpunit\\.xml$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"Get-Item": true,
+			"/^php \\.\\\\vendor\\\\phpunit\\\\phpunit\\\\phpunit -c \\.\\\\phpunit\\.xml --colors=never --verbose$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^php \\.\\\\vendor\\\\phpunit\\\\phpunit\\\\phpunit -c \\.\\\\phpunit\\.xml --no-coverage --colors=never tests\\\\unit\\\\AlertServiceTest\\.php$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^@'\n<\\?php\n\nnamespace Models;\n\nclass SquareTransaction extends AbstractThirdPartyTransaction\n\\{\n    public function addCustomerFromTransaction\\(\\$transactionId\\)\n    \\{\n        \\$transaction = \\$this->getTransactionById\\(\\$transactionId\\);\n        if \\(\\$transaction\\) \\{\n            my_add_customer\\(\\$transaction\\);\n        \\}\n    \\}\n\n    public function addVendorFromTransaction\\(\\$transactionId\\)\n    \\{\n        \\$transaction = \\$this->getTransactionById\\(\\$transactionId\\);\n        if \\(\\$transaction\\) \\{\n            add_vendor\\(\\$transaction\\);\n        \\}\n    \\}\n\n    public function processSupplierTransaction\\(\\$transactionId\\)\n    \\{\n        \\$transaction = \\$this->getTransactionById\\(\\$transactionId\\);\n        if \\(\\$transaction\\) \\{\n            // Process supplier transaction logic\n        \\}\n    \\}\n\n    public function processCustomerTransaction\\(\\$transactionId\\)\n    \\{\n        \\$transaction = \\$this->getTransactionById\\(\\$transactionId\\);\n        if \\(\\$transaction\\) \\{\n            // Process customer transaction logic\n        \\}\n    \\}\n\n    public function processBankTransfer\\(\\$transactionId\\)\n    \\{\n        \\$transaction = \\$this->getTransactionById\\(\\$transactionId\\);\n        if \\(\\$transaction\\) \\{\n            // Process bank transfer logic\n        \\}\n    \\}\n\n    public function toggleDebitCredit\\(\\$transactionId\\)\n    \\{\n        \\$transaction = \\$this->getTransactionById\\(\\$transactionId\\);\n        if \\(\\$transaction\\) \\{\n            // Toggle debit/credit logic\n        \\}\n    \\}\n\\}\n'@ \\| Set-Content -Path \\.\\\\Models\\\\SquareTransaction\\.php -Encoding UTF8\n\nphp -l \\.\\\\Models\\\\SquareTransaction\\.php$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^php -l \\.\\\\Models\\\\SquareTransaction\\.php$/": {
+				"approve": true,
+				"matchCommandLine": true
+			}
 		}
 	}
 }

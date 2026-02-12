@@ -33,6 +33,16 @@ class Config
         return self::$instance;
     }
 
+    public static function setInstance(?self $instance): void
+    {
+        self::$instance = $instance;
+    }
+
+    public static function resetInstance(): void
+    {
+        self::$instance = null;
+    }
+
     public function get(string $key, $default = null)
     {
         $parts = explode('.', $key);
