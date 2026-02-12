@@ -5,6 +5,9 @@ composer.phar
 # PHPUnit
 .phpunit.result.cache
 /coverage/
+coverage.txt
+phpunit_full_output*.txt
+phpunit_no_coverage*.txt
 
 # IDE Files
 .vscode/
