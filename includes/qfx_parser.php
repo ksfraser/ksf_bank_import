@@ -116,11 +116,11 @@ class qfx_parser extends parser {
 	}
 	else
 	{
+		// IMPORTANT: `intu_bid` should represent the bank/institute identifier (e.g. INTU.BID),
+		// not a FrontAccounting GL account code. Older logic incorrectly fell back to
+		// static_data['account_code'] (e.g. 1060), which polluted staging data.
 		$this->bankid_from_file = false;
-		if( isset( $static_data['account_code'] ) )
-			$bankid = $static_data['account_code'];
-		else
-			$bankid = '1060';
+		$bankid = '';
 	}
 
 	//var_dump( __FILE__ . "::" . __LINE__ );
@@ -229,7 +229,12 @@ class qfx_parser extends parser {
 			$smts[$sid] = new statement;
 			$smts[$sid]->account = $accountNumber;		//This is an account number string i.e. from the bank. PCMC - 5181....
 			$smts[$sid]->acctid = $accountNumber;		//This is an account number string i.e. from the bank. PCMC - 5181....
-			$smts[$sid]->intu_bid = $bankid;			
+			// bankid: BANKACCTFROM/BANKID (routing number) when available
+			$smts[$sid]->bankid = $bankId;
+			// intu_bid: signOn institute id (legacy usage in this module)
+			$smts[$sid]->intu_bid = $bankid;
+			// fitid: statement-level request uid (TRNUID) when available
+			$smts[$sid]->fitid = isset($bankAccount->transactionUid) ? (string)$bankAccount->transactionUid : null;
 			$smts[$sid]->bank = $bank;			
 			//get additional info from static_data
 				//Someone might want to extend this if you have multiple cards on the account,

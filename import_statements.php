@@ -119,6 +119,48 @@ function importStatement($smt, $file_id = null)
 {
 	$message = '';
 	$logger = func_num_args() >= 3 ? func_get_arg(2) : null;
+
+	// Currency should come from the OFX/QFX statement (bank-provided).
+	// We only use FrontAccounting's bank account currency as a *fallback* when the
+	// statement currency is missing/blank. If there is a mismatch, we log it but do not
+	// override the bank-provided value.
+	try {
+		$faAccountNumber = isset($smt->account) ? trim((string)$smt->account) : '';
+		$faBankAccountId = $faAccountNumber !== '' ? fa_get_bank_account_id_by_number($faAccountNumber) : null;
+		if ($faBankAccountId !== null) {
+			$ba = get_bank_account((int)$faBankAccountId);
+			$faCurrency = is_array($ba) && isset($ba['bank_curr_code']) ? trim((string)$ba['bank_curr_code']) : '';
+			$ofxCurrency = isset($smt->currency) ? trim((string)$smt->currency) : '';
+
+			// Fallback only when statement currency is missing.
+			if ($ofxCurrency === '' && $faCurrency !== '') {
+				$smt->currency = $faCurrency;
+				if (isset($smt->transactions) && is_array($smt->transactions)) {
+					foreach ($smt->transactions as $t) {
+						if (is_object($t) && (!isset($t->currency) || trim((string)$t->currency) === '')) {
+							$t->currency = $faCurrency;
+						}
+					}
+				}
+				bank_import_log_event($logger, 'statement.currency_fallback_applied', [
+					'file_id' => $file_id !== null ? (int)$file_id : null,
+					'fa_bank_account_id' => (int)$faBankAccountId,
+					'fa_bank_account_number' => $faAccountNumber,
+					'fa_currency' => $faCurrency,
+				]);
+			} elseif ($faCurrency !== '' && $ofxCurrency !== '' && $faCurrency !== $ofxCurrency) {
+				bank_import_log_event($logger, 'statement.currency_mismatch', [
+					'file_id' => $file_id !== null ? (int)$file_id : null,
+					'fa_bank_account_id' => (int)$faBankAccountId,
+					'fa_bank_account_number' => $faAccountNumber,
+					'ofx_currency' => $ofxCurrency,
+					'fa_currency' => $faCurrency,
+				]);
+			}
+		}
+	} catch (\Throwable $e) {
+		// Never block import flow on currency normalization.
+	}
 /** Moving to namespaces **/
 	require_once(__DIR__ . '/class.bi_statements.php');
 	$bis = new bi_statements_model();
@@ -205,6 +247,16 @@ function importStatement($smt, $file_id = null)
 		}
 		$bit->trz2obj( $t );
 		$bit->set( "smt_id", $smt_id );
+		// Ensure posting-time bank association metadata is available per transaction.
+		if (isset($smt->acctid) && ($bit->get('acctid') === null || trim((string)$bit->get('acctid')) === '')) {
+			$bit->set('acctid', $smt->acctid);
+		}
+		if (isset($smt->bankid)) {
+			$bit->set('bankid', $smt->bankid);
+		}
+		if (isset($smt->intu_bid)) {
+			$bit->set('intu_bid', $smt->intu_bid);
+		}
 		$dupe = $bit->trans_exists();
 		if( $dupe )
 		{
@@ -274,11 +326,14 @@ function do_upload_form() {
 
 	switch($param) {
 	    case 'bank_account':
-		bank_accounts_list_row($label, 'bank_account', $selected_id=null, $submit_on_change=false);
+		// Bank account selection is resolved post-parse (per-statement) using detected account mapping.
+		// Keeping this commented out during UAT in case we reverse course.
+		// bank_accounts_list_row($label, 'bank_account', $selected_id=null, $submit_on_change=false);
 	    break;
 
 	}
     }
+	label_row(_("Bank Account"), "<span class='smalltext'>" . _("Determined from file (per statement) using saved account mappings.") . "</span>");
     label_row(_("Files"), "<input type='file' name='files[]' multiple />");
 
 	label_row(
@@ -373,6 +428,9 @@ function parse_uploaded_files() {
     foreach($_parsers[$_POST['parser']]['select'] as $param => $label) {
 	switch($param) {
 	    case 'bank_account':
+		if (empty($_POST['bank_account'])) {
+			break;
+		}
 		//get bank account data
 		$bank_account = get_bank_account($_POST['bank_account']);
     //display_notification( __FILE__ . "::" . __LINE__ . "::" . "Bank Account Details from get_bank_account for Bank passed in from form::" .  print_r( $bank_account, true ) );
@@ -665,6 +723,7 @@ function parse_uploaded_files() {
 		end_table(1);
 		return;
 	}
+	// bi_bank_accounts mappings are persisted during account resolution.
     
     start_row();
     echo '<td>';
@@ -704,16 +763,310 @@ function fa_bank_account_number_exists(string $bankAccountNumber): bool
 	if ($bankAccountNumber === '') {
 		return false;
 	}
+	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	return bi_bank_accounts_model::fa_get_bank_account_id_by_number($bankAccountNumber) !== null;
+}
 
-	// Prefer our fa_bank_accounts-based helper if available.
-	if (function_exists('fa_get_bank_account_by_number')) {
-		$ba = fa_get_bank_account_by_number($bankAccountNumber);
-		return is_array($ba) && !empty($ba);
+/**
+ * Resolve FA bank account id by bank_account_number.
+ */
+function fa_get_bank_account_id_by_number(string $bankAccountNumber): ?int
+{
+	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	return bi_bank_accounts_model::fa_get_bank_account_id_by_number($bankAccountNumber);
+}
+
+function bi_bank_accounts_table_exists(): bool
+{
+	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	return bi_bank_accounts_model::table_exists();
+}
+
+function bi_bank_accounts_get_row(int $bankAccountId): ?array
+{
+	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	return bi_bank_accounts_model::get_row((int)$bankAccountId);
+}
+
+function bi_bank_accounts_upsert(int $bankAccountId, array $meta): void
+{
+	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	bi_bank_accounts_model::upsert((int)$bankAccountId, $meta);
+}
+
+/**
+ * Build desired bi_bank_accounts values from parsed statements.
+ *
+ * @return array<int,array{acctid:string,bankid:string,intu_bid:string,curdef:string,accttype:string,detected_acctid:string,bank_account_number:string}>
+ */
+function collect_desired_bi_bank_accounts_rows(array $multistatements): array
+{
+	$desired = [];
+	foreach ($multistatements as $fileIndex => $statements) {
+		if (!is_array($statements)) {
+			continue;
+		}
+		foreach ($statements as $smt) {
+			if (!is_object($smt)) {
+				continue;
+			}
+			$detectedAcctid = isset($smt->acctid) ? trim((string)$smt->acctid) : '';
+			$faAccountNumber = isset($smt->account) ? trim((string)$smt->account) : '';
+			if ($detectedAcctid === '' || $faAccountNumber === '') {
+				continue;
+			}
+			$bankAccountId = fa_get_bank_account_id_by_number($faAccountNumber);
+			if ($bankAccountId === null) {
+				continue;
+			}
+			if (isset($desired[$bankAccountId])) {
+				// If multiple statements map to the same FA bank account, keep the first.
+				continue;
+			}
+			$desired[$bankAccountId] = [
+				'acctid' => $detectedAcctid,
+				'bankid' => isset($smt->bankid) ? trim((string)$smt->bankid) : '',
+				'intu_bid' => isset($smt->intu_bid) ? trim((string)$smt->intu_bid) : '',
+				'curdef' => isset($smt->currency) ? trim((string)$smt->currency) : '',
+				'accttype' => '',
+				'detected_acctid' => $detectedAcctid,
+				'bank_account_number' => $faAccountNumber,
+			];
+		}
+	}
+	return $desired;
+}
+
+function bi_bank_accounts_meta_differs(array $existing, array $desired): bool
+{
+	$fields = ['acctid', 'bankid', 'intu_bid', 'curdef'];
+	foreach ($fields as $f) {
+		$ex = isset($existing[$f]) ? trim((string)$existing[$f]) : '';
+		$de = isset($desired[$f]) ? trim((string)$desired[$f]) : '';
+		if ($de === '') {
+			continue;
+		}
+		if ($ex !== $de) {
+			return true;
+		}
+	}
+	return false;
+}
+
+/**
+ * Prompt user to add/update bi_bank_accounts mapping based on file metadata.
+ * Returns true if it rendered a blocking screen and caller should return.
+ */
+function maybe_render_bi_bank_accounts_confirmation_screen($parserType, $bankAccountId, array $multistatements, array $uploaded_file_ids, array $uploaded_filenames): bool
+{
+	$logger = bank_import_get_logger();
+	if (!bi_bank_accounts_table_exists()) {
+		return false;
 	}
 
-	$sql = "SELECT id FROM " . TB_PREF . "bank_accounts WHERE bank_account_number=" . db_escape($bankAccountNumber) . " LIMIT 1";
-	$res = db_query($sql, "Could not check bank account number");
-	return (bool)db_fetch($res);
+	$desired = collect_desired_bi_bank_accounts_rows($multistatements);
+	if (empty($desired)) {
+		return false;
+	}
+
+	$pending = [];
+	foreach ($desired as $faId => $meta) {
+		$existing = bi_bank_accounts_get_row((int)$faId);
+		if ($existing === null || empty($existing)) {
+			$pending[(int)$faId] = ['existing' => null, 'desired' => $meta, 'mode' => 'add'];
+			continue;
+		}
+		if (bi_bank_accounts_meta_differs($existing, $meta)) {
+			$pending[(int)$faId] = ['existing' => $existing, 'desired' => $meta, 'mode' => 'update'];
+		}
+	}
+
+	if (empty($pending)) {
+		return false;
+	}
+
+	$_SESSION['bank_import_bi_bank_accounts_confirm'] = [
+		'parser' => $parserType,
+		'bank_account' => $bankAccountId,
+		'multistatements' => serialize($multistatements),
+		'uploaded_file_ids' => $uploaded_file_ids,
+		'uploaded_filenames' => $uploaded_filenames,
+		'pending' => $pending,
+		'log_path' => isset($_SESSION['bank_import_run_log_path']) ? $_SESSION['bank_import_run_log_path'] : null,
+	];
+
+	bank_import_log_event($logger, 'bi_bank_accounts.confirm.required', [
+		'count' => count($pending),
+		'bank_account_ids' => array_keys($pending),
+	]);
+
+	echo '<tr><td>';
+	echo '<div style="background-color:#e7f3ff;border:1px solid #0d6efd;padding:15px;margin:10px 0;">';
+	echo '<h3 style="color:#0d6efd;margin-top:0;">' . _("Confirm Bank Account Mapping") . '</h3>';
+	echo '<p>' . _("The imported file contains bank metadata (OFX/QFX ACCTID/BANKID/BID). Do you want to save/update this mapping for the selected FrontAccounting bank account(s)?") . '</p>';
+	echo '<form method="post">';
+	echo '<input type="hidden" name="parser" value="' . htmlspecialchars((string)$parserType) . '">';
+	if ($bankAccountId !== null) {
+		echo '<input type="hidden" name="bank_account" value="' . htmlspecialchars((string)$bankAccountId) . '">';
+	}
+
+	echo '<table class="tablestyle" style="width:100%;">';
+	echo '<tr><th>' . _("FA Bank Account") . '</th><th>' . _("Detected (from file)") . '</th><th>' . _("Existing (saved)") . '</th><th>' . _("Action") . '</th></tr>';
+	foreach ($pending as $faId => $row) {
+		$desiredMeta = $row['desired'];
+		$existingMeta = $row['existing'];
+		$ba = get_bank_account((int)$faId);
+		$baLabel = is_array($ba)
+			? (trim((string)($ba['bank_account_name'] ?? '')) . ' (' . trim((string)($ba['bank_account_number'] ?? $desiredMeta['bank_account_number'])) . ')')
+			: ('#' . (int)$faId . ' (' . $desiredMeta['bank_account_number'] . ')');
+
+		$detectedLabel = 'ACCTID=' . ($desiredMeta['acctid'] !== '' ? $desiredMeta['acctid'] : '-')
+			. ' | BANKID=' . ($desiredMeta['bankid'] !== '' ? $desiredMeta['bankid'] : '-')
+			. ' | BID=' . ($desiredMeta['intu_bid'] !== '' ? $desiredMeta['intu_bid'] : '-')
+			. ' | CUR=' . ($desiredMeta['curdef'] !== '' ? $desiredMeta['curdef'] : '-');
+
+		$existingLabel = '-';
+		if (is_array($existingMeta)) {
+			$existingLabel = 'ACCTID=' . (trim((string)($existingMeta['acctid'] ?? '')) !== '' ? trim((string)($existingMeta['acctid'] ?? '')) : '-')
+				. ' | BANKID=' . (trim((string)($existingMeta['bankid'] ?? '')) !== '' ? trim((string)($existingMeta['bankid'] ?? '')) : '-')
+				. ' | BID=' . (trim((string)($existingMeta['intu_bid'] ?? '')) !== '' ? trim((string)($existingMeta['intu_bid'] ?? '')) : '-')
+				. ' | CUR=' . (trim((string)($existingMeta['curdef'] ?? '')) !== '' ? trim((string)($existingMeta['curdef'] ?? '')) : '-');
+		}
+
+		$defaultAction = 'update';
+		echo '<tr>';
+		echo '<td>' . htmlspecialchars($baLabel) . '</td>';
+		echo '<td><code>' . htmlspecialchars($detectedLabel) . '</code></td>';
+		echo '<td><code>' . htmlspecialchars($existingLabel) . '</code></td>';
+		echo '<td>';
+		echo '<label style="margin-right:12px;">'
+			. '<input type="radio" name="bi_action[' . (int)$faId . ']" value="keep"> '
+			. _("Keep existing")
+			. '</label>';
+		echo '<label>'
+			. '<input type="radio" name="bi_action[' . (int)$faId . ']" value="update" checked> '
+			. ($row['mode'] === 'add' ? _("Add mapping") : _("Update mapping"))
+			. '</label>';
+		echo '</td>';
+		echo '</tr>';
+	}
+	echo '</table>';
+
+	echo '<div style="margin-top:12px;">';
+	echo '<button type="submit" name="confirm_bi_bank_accounts" value="1" style="background-color:#0d6efd;color:white;padding:10px 20px;border:none;cursor:pointer;margin-right:10px;">'
+		. _("Continue")
+		. '</button>';
+	echo '<button type="submit" name="skip_bi_bank_accounts_confirm" value="1" style="background-color:#6c757d;color:white;padding:10px 20px;border:none;cursor:pointer;">'
+		. _("Skip")
+		. '</button>';
+	echo '</div>';
+
+	echo '</form>';
+	echo '</div>';
+	echo '</td></tr>';
+
+	return true;
+}
+
+function confirm_bi_bank_accounts_mappings(): void
+{
+	// Deprecated: bi_bank_accounts mappings are now persisted during account resolution.
+	unset($_SESSION['bank_import_bi_bank_accounts_confirm']);
+	return;
+}
+
+function skip_bi_bank_accounts_confirmation(): void
+{
+	if (empty($_SESSION['bank_import_bi_bank_accounts_confirm'])) {
+		return;
+	}
+	$pending = $_SESSION['bank_import_bi_bank_accounts_confirm'];
+	$parserType = $pending['parser'];
+	$bankAccountId = $pending['bank_account'];
+	$multistatements = !empty($pending['multistatements']) ? unserialize($pending['multistatements']) : [];
+	$uploaded_file_ids = !empty($pending['uploaded_file_ids']) ? $pending['uploaded_file_ids'] : [];
+	$uploaded_filenames = !empty($pending['uploaded_filenames']) ? $pending['uploaded_filenames'] : [];
+
+	start_table(TABLESTYLE);
+	start_row();
+	echo "<td width=100%><pre>\n";
+	echo "Skipped saving bank account mappings.\n";
+	echo "</pre></td>";
+	end_row();
+	start_row();
+	echo '<td>';
+	submit_center_first('goback', 'Go back');
+	submit_center_last('import', 'Import');
+	echo '</td>';
+	end_row();
+	end_table(1);
+	hidden('parser', $parserType);
+	if ($bankAccountId !== null) {
+		hidden('bank_account', $bankAccountId);
+	}
+
+	$_SESSION['multistatements'] = serialize($multistatements);
+	$_SESSION['uploaded_file_ids'] = $uploaded_file_ids;
+	$_SESSION['uploaded_filenames'] = $uploaded_filenames;
+
+	unset($_SESSION['bank_import_bi_bank_accounts_confirm']);
+}
+
+/**
+ * Resolve detected OFX ACCTID to a FA bank_account_number using the module-owned
+ * bi_bank_accounts xref table (if present).
+ *
+ * @param array<int,string> $detectedAccounts
+ * @return array<string,string> map detectedAcctid => FA bank_account_number
+ */
+function resolve_detected_accounts_via_bi_bank_accounts(array $detectedAccounts): array
+{
+	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	return bi_bank_accounts_model::resolve_detected_accounts_to_bank_account_numbers($detectedAccounts);
+}
+
+/**
+ * Collect detected identity metadata for each detected acctid.
+ *
+ * @return array<string,array{acctid:string,bankid:string,intu_bid:string,curdef:string,accttype:string}>
+ */
+function collect_detected_identity_meta(array $multistatements): array
+{
+	$metaByDetected = [];
+	foreach ($multistatements as $statements) {
+		if (!is_array($statements)) {
+			continue;
+		}
+		foreach ($statements as $smt) {
+			if (!is_object($smt)) {
+				continue;
+			}
+			$detectedAcctid = isset($smt->acctid) ? trim((string)$smt->acctid) : '';
+			if ($detectedAcctid === '') {
+				continue;
+			}
+			if (!isset($metaByDetected[$detectedAcctid])) {
+				$metaByDetected[$detectedAcctid] = [
+					'acctid' => $detectedAcctid,
+					'bankid' => isset($smt->bankid) ? trim((string)$smt->bankid) : '',
+					'intu_bid' => isset($smt->intu_bid) ? trim((string)$smt->intu_bid) : '',
+					'curdef' => isset($smt->currency) ? trim((string)$smt->currency) : '',
+					'accttype' => '',
+				];
+				continue;
+			}
+			if ($metaByDetected[$detectedAcctid]['bankid'] === '' && isset($smt->bankid)) {
+				$metaByDetected[$detectedAcctid]['bankid'] = trim((string)$smt->bankid);
+			}
+			if ($metaByDetected[$detectedAcctid]['intu_bid'] === '' && isset($smt->intu_bid)) {
+				$metaByDetected[$detectedAcctid]['intu_bid'] = trim((string)$smt->intu_bid);
+			}
+			if ($metaByDetected[$detectedAcctid]['curdef'] === '' && isset($smt->currency)) {
+				$metaByDetected[$detectedAcctid]['curdef'] = trim((string)$smt->currency);
+			}
+		}
+	}
+	return $metaByDetected;
 }
 
 /**
@@ -768,18 +1121,40 @@ function maybe_render_account_resolution_screen($parserType, $bankAccountId, arr
 
 	// Auto-apply any previously-saved associations.
 	$saved = load_saved_account_associations($multistatements);
-	if (!empty($saved)) {
-		$multistatements = $mappingService->applyAccountNumberMapping($multistatements, $saved);
+	$resolvedMap = $saved;
+	if (!empty($resolvedMap)) {
+		$multistatements = $mappingService->applyAccountNumberMapping($multistatements, $resolvedMap);
 	}
 
 	// Collect unresolved detected accounts (unique), grouped by file index.
 	$detectedByFile = $mappingService->collectDetectedAccountsByFile($multistatements);
+	$detectedAll = [];
+	foreach ($detectedByFile as $detectedList) {
+		foreach ($detectedList as $detected) {
+			$detected = trim((string)$detected);
+			if ($detected !== '') {
+				$detectedAll[$detected] = true;
+			}
+		}
+	}
+
+	// Attempt automatic resolution using module-owned bi_bank_accounts (legacy PROD stored this on bank_accounts).
+	$auto = resolve_detected_accounts_via_bi_bank_accounts(array_keys($detectedAll));
+	foreach ($auto as $detected => $bankAccountNumber) {
+		if (!isset($resolvedMap[$detected]) && fa_bank_account_number_exists($bankAccountNumber)) {
+			$resolvedMap[$detected] = $bankAccountNumber;
+		}
+	}
+	if (!empty($resolvedMap)) {
+		$multistatements = $mappingService->applyAccountNumberMapping($multistatements, $resolvedMap);
+	}
+
 	$unresolved = [];
 	foreach ($detectedByFile as $fileIndex => $detectedList) {
 		foreach ($detectedList as $detected) {
 			// If statement->account was already mapped to a valid FA bank account number, we're good.
 			// Otherwise we require user resolution for this detected account.
-			if (isset($saved[$detected]) && fa_bank_account_number_exists($saved[$detected])) {
+			if (isset($resolvedMap[$detected]) && fa_bank_account_number_exists($resolvedMap[$detected])) {
 				continue;
 			}
 			if (fa_bank_account_number_exists($detected)) {
@@ -901,6 +1276,7 @@ function resolve_account_mappings() {
 	$detectedToAccountNumber = [];
 	$repo = new DatabaseConfigRepository();
 	$rememberedCount = 0;
+	$metaByDetected = collect_detected_identity_meta($multistatements);
 
 	foreach ($detected_account as $detKey => $detected) {
 		$detected = (string)$detected;
@@ -917,6 +1293,10 @@ function resolve_account_mappings() {
 		$detectedToAccountNumber[$detected] = $ba['bank_account_number'];
 
 		if (!empty($remember_mapping[$detKey])) {
+			if (isset($metaByDetected[$detected])) {
+				bi_bank_accounts_upsert((int)$selectedId, $metaByDetected[$detected]);
+			}
+
 			$key = DetectedAccountAssociationKey::forDetectedAccount($detected);
 			$username = isset($_SESSION['wa_current_user']) && isset($_SESSION['wa_current_user']->name)
 				? $_SESSION['wa_current_user']->name
@@ -945,6 +1325,8 @@ function resolve_account_mappings() {
 	echo "Resolved detected accounts successfully.\n";
 	echo "</pre></td>";
 	end_row();
+
+	// bi_bank_accounts mappings are persisted during account resolution.
 	start_row();
 	echo '<td>';
 	submit_center_first('goback', 'Go back');
@@ -1226,6 +1608,16 @@ if (!empty($_POST['cancel_duplicates'])) {
 // if user is resolving bank account mappings
 if (!empty($_POST['resolve_accounts'])) {
 	resolve_account_mappings();
+}
+
+// if user is confirming bi_bank_accounts updates
+if (!empty($_POST['confirm_bi_bank_accounts'])) {
+	confirm_bi_bank_accounts_mappings();
+}
+
+// if user skips bi_bank_accounts updates
+if (!empty($_POST['skip_bi_bank_accounts_confirm'])) {
+	skip_bi_bank_accounts_confirmation();
 }
 
 // if user cancels bank account resolution

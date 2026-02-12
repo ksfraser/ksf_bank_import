@@ -48,6 +48,8 @@ CREATE TABLE IF NOT EXISTS `0_bi_transactions` (
     -- transaction info
     `fitid`               VARCHAR(32),
     `acctid`              VARCHAR(32),
+    `bankid`              VARCHAR(64),
+    `intu_bid`            VARCHAR(64),
     `merchant`            VARCHAR(64),
     `category`            VARCHAR(64),
     `sic`                 VARCHAR(64),
@@ -146,4 +148,24 @@ CREATE TABLE IF NOT EXISTS `0_bi_config_history` (
   PRIMARY KEY (`id`),
   KEY `config_key` (`config_key`),
   KEY `changed_at` (`changed_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- PROD previously stored OFX/Intuit identifiers on 0_bank_accounts.
+-- Store them in a module-owned table instead.
+-- One FA bank account may have multiple OFX/Intuit identities (e.g. multiple cards).
+CREATE TABLE IF NOT EXISTS `0_bi_bank_accounts` (
+    `id`              INT NOT NULL AUTO_INCREMENT,
+    `bank_account_id` SMALLINT(6) NOT NULL,
+    `updated_ts`      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `intu_bid`        VARCHAR(64) NOT NULL DEFAULT '',
+    `bankid`          VARCHAR(64) NOT NULL DEFAULT '',
+    `acctid`          VARCHAR(64) NOT NULL DEFAULT '',
+    `accttype`        VARCHAR(32) NULL,
+    `curdef`          VARCHAR(3) NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `uniq_detected_identity` UNIQUE (`acctid`, `bankid`, `intu_bid`),
+    INDEX `idx_bank_account_id` (`bank_account_id`),
+    INDEX `idx_acctid` (`acctid`),
+    INDEX `idx_bankid` (`bankid`),
+    INDEX `idx_intu_bid` (`intu_bid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

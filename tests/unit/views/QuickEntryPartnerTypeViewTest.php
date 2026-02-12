@@ -19,7 +19,7 @@ use KsfBankImport\Views\DataProviders\QuickEntryDataProvider;
 require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 // Load the view
-require_once __DIR__ . '/../../../Views/QuickEntryPartnerTypeView.v2.php';
+require_once __DIR__ . '/../../../views/QuickEntryPartnerTypeView.v2.php';
 
 /**
  * Test Quick Entry Partner Type View

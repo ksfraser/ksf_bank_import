@@ -141,6 +141,49 @@ require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
 *
 ******************************************************************************************************************/
 class bi_transactions_model extends generic_fa_interface_model {
+	/**
+	 * Ensure the staging table schema is present (idempotent, non-destructive).
+	 *
+	 * Table creation is handled by sql/update.sql during module activation; this only
+	 * repairs drift (missing columns) for older installs.
+	 */
+	public static function ensure_schema(): void
+	{
+		$table = TB_PREF . 'bi_transactions';
+		if (!self::table_exists($table)) {
+			return;
+		}
+
+		self::ensure_column($table, 'updated_ts', "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
+		self::ensure_column($table, 'matched', 'INTEGER DEFAULT 0');
+		self::ensure_column($table, 'created', 'INTEGER DEFAULT 0');
+		self::ensure_column($table, 'g_partner', 'VARCHAR(32) NULL');
+		self::ensure_column($table, 'g_option', 'VARCHAR(32) NULL');
+		// Bank identity metadata for posting-time account association
+		self::ensure_column($table, 'bankid', 'VARCHAR(64) NULL');
+		self::ensure_column($table, 'intu_bid', 'VARCHAR(64) NULL');
+	}
+
+	private static function table_exists(string $table): bool
+	{
+		$res = db_query('SHOW TABLES LIKE ' . db_escape($table), 'Failed checking table existence');
+		return db_num_rows($res) > 0;
+	}
+
+	private static function column_exists(string $table, string $column): bool
+	{
+		$res = db_query('SHOW COLUMNS FROM `' . $table . '` LIKE ' . db_escape($column), 'Failed checking column existence');
+		return db_num_rows($res) > 0;
+	}
+
+	private static function ensure_column(string $table, string $column, string $definition): void
+	{
+		if (!self::table_exists($table) || self::column_exists($table, $column)) {
+			return;
+		}
+		db_query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $column . '` ' . $definition, 'Failed adding column to bi_transactions');
+	}
+
 	var $id_bi_transactions_model;	//!< Index of table
 	protected $id;                  //| int(11)      | NO   | PRI | NULL    | auto_increment |
 	protected $smt_id;              //| int(11)      | NO   |     | NULL    |                |
@@ -160,6 +203,8 @@ class bi_transactions_model extends generic_fa_interface_model {
 	protected $fa_trans_no;         //| int(11)      | YES  |     | 0       |                |
 	protected $fitid;
 	protected $acctid;
+	protected $bankid;
+	protected $intu_bid;
 	protected $merchant;            //| varchar(64)  | NO   |     | NULL    |                |
 	protected $category;            //| varchar(64)  | NO   |     | NULL    |                |
 	protected $sic;                 //| varchar(64)  | NO   |     | NULL    |                |
@@ -225,6 +270,8 @@ class bi_transactions_model extends generic_fa_interface_model {
 		$this->fields_array[] = array('name'=> 'fa_trans_no', 'label' => 'FA Transaction Number', 'type' => 'int(11)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => '0' );
 		$this->fields_array[] = array('name'=> 'fitid', 'label' => 'Financial Institute Transaction ID', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'acctid', 'label' => 'Account ID', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'bankid', 'label' => 'Bank ID', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'intu_bid', 'label' => 'Intuit Bank ID', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'merchant', 'label' => 'Merchant', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'category', 'label' => 'Category', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'sic', 'label' => 'S I Code', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );

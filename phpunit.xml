@@ -31,6 +31,10 @@
         <exclude>
             <directory suffix=".php">./src/Ksfraser/Application/tests</directory>
             <directory suffix=".php">./src/Ksfraser/FaBankImport/tests</directory>
+            <!-- Copilot scratch/backup file: not part of production code, and may be syntactically invalid. -->
+            <file>./src/Ksfraser/FaBankImport/class.bi_transactions.copilot.php</file>
+            <!-- Legacy file contains invalid PHP syntax; exclude from coverage parsing. -->
+            <file>./src/Ksfraser/FaBankImport/class.transactions_table.php</file>
         </exclude>
         <report>
             <html outputDirectory="coverage"/>

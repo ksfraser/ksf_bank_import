@@ -79,106 +79,23 @@ class hooks_bank_import extends hooks {
 
 	private function ensure_bank_import_schema()
 	{
-		$this->ensure_core_tables();
-
-		// Core staging tables
-		$this->ensure_column(TB_PREF . 'bi_statements', 'updated_ts', "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
-		$this->ensure_column(TB_PREF . 'bi_statements', 'acctid', "VARCHAR(64) NULL");
-		$this->ensure_column(TB_PREF . 'bi_statements', 'fitid', "VARCHAR(64) NULL");
-		$this->ensure_column(TB_PREF . 'bi_statements', 'bankid', "VARCHAR(64) NULL");
-		$this->ensure_column(TB_PREF . 'bi_statements', 'intu_bid', "VARCHAR(64) NULL");
-		$this->ensure_unique_index(TB_PREF . 'bi_statements', 'unique_smt', array('bank', 'statementId'));
-
-		$this->ensure_column(TB_PREF . 'bi_transactions', 'updated_ts', "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
-		$this->ensure_column(TB_PREF . 'bi_transactions', 'matched', "INTEGER DEFAULT 0");
-		$this->ensure_column(TB_PREF . 'bi_transactions', 'created', "INTEGER DEFAULT 0");
-		$this->ensure_column(TB_PREF . 'bi_transactions', 'g_partner', "VARCHAR(32) NULL");
-		$this->ensure_column(TB_PREF . 'bi_transactions', 'g_option', "VARCHAR(32) NULL");
-
-		// Partner keyword table enhancements
-		$this->ensure_column(TB_PREF . 'bi_partners_data', 'updated_ts', "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
-		$this->ensure_column(TB_PREF . 'bi_partners_data', 'occurrence_count', "INTEGER DEFAULT 1");
-		$this->ensure_index(TB_PREF . 'bi_partners_data', 'idx_partner_type_data', array('partner_type', 'data'));
-		$this->ensure_index(TB_PREF . 'bi_partners_data', 'idx_occurrence_count', array('occurrence_count'));
-		$this->ensure_partner_keyword_unique_index(TB_PREF . 'bi_partners_data');
-		$this->set_default_occurrence_count(TB_PREF . 'bi_partners_data');
+		// Delegate per-table drift repair to the owning model classes.
+		require_once(__DIR__ . '/class.bi_statements.php');
+		bi_statements_model::ensure_schema();
+		require_once(__DIR__ . '/class.bi_transactions.php');
+		bi_transactions_model::ensure_schema();
+		require_once(__DIR__ . '/class.bi_partners_data.php');
+		bi_partners_data::ensure_schema();
 
 		// Configuration tables
 		$this->ensure_config_tables();
 
 		// Uploaded files tracking tables
 		$this->ensure_uploaded_files_tables();
-	}
 
-	private function ensure_core_tables()
-	{
-		// These are safe to run repeatedly and ensure fresh installs align with current code.
-		$sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . "bi_statements` (
-		    `id`            INTEGER NOT NULL AUTO_INCREMENT,
-		    `updated_ts`    TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		    `bank`          VARCHAR(64),
-		    `account`       VARCHAR(64),
-		    `currency`      VARCHAR(3),
-		    `startBalance`  DOUBLE,
-		    `endBalance`    DOUBLE,
-		    `smtDate`       DATE,
-		    `number`        INTEGER,
-		    `seq`           INTEGER,
-		    `statementId`   VARCHAR(64),
-		    `acctid`        VARCHAR(64),
-		    `fitid`         VARCHAR(64),
-		    `bankid`        VARCHAR(64),
-		    `intu_bid`      VARCHAR(64),
-		    PRIMARY KEY(`id`),
-		    CONSTRAINT `unique_smt` UNIQUE(`bank`, `statementId`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-		db_query($sql, 'Failed to ensure bi_statements table');
-
-		$sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . "bi_transactions` (
-		    `id`                  INTEGER NOT NULL AUTO_INCREMENT,
-		    `updated_ts`          TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		    `smt_id`              INTEGER NOT NULL,
-		    `valueTimestamp`      DATE,
-		    `entryTimestamp`      DATE,
-		    `account`             VARCHAR(24),
-		    `accountName`         VARCHAR(60),
-		    `transactionType`     VARCHAR(3),
-		    `transactionCode`     VARCHAR(255),
-		    `transactionCodeDesc` VARCHAR(32),
-		    `transactionDC`       VARCHAR(2),
-		    `transactionAmount`   DOUBLE,
-		    `transactionTitle`    VARCHAR(256),
-		    `status`              INTEGER DEFAULT 0,
-		    `matchinfo`           VARCHAR(256),
-		    `fa_trans_type`       INTEGER DEFAULT 0,
-		    `fa_trans_no`         INTEGER DEFAULT 0,
-		    `fitid`               VARCHAR(32),
-		    `acctid`              VARCHAR(32),
-		    `merchant`            VARCHAR(64),
-		    `category`            VARCHAR(64),
-		    `sic`                 VARCHAR(64),
-		    `memo`                VARCHAR(64),
-		    `checknumber`         INTEGER,
-		    `matched`             INTEGER DEFAULT 0,
-		    `created`             INTEGER DEFAULT 0,
-		    `g_partner`           VARCHAR(32),
-		    `g_option`            VARCHAR(32),
-		    PRIMARY KEY(`id`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-		db_query($sql, 'Failed to ensure bi_transactions table');
-
-		$sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . "bi_partners_data` (
-		    `updated_ts`        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		    `partner_id`        INTEGER NOT NULL,
-		    `partner_detail_id` INTEGER NOT NULL,
-		    `partner_type`      INTEGER NOT NULL,
-		    `data`              VARCHAR(256) NOT NULL,
-		    `occurrence_count`  INTEGER DEFAULT 1,
-		    CONSTRAINT `idx_partner_keyword` UNIQUE(`partner_id`, `partner_detail_id`, `partner_type`, `data`),
-		    INDEX `idx_partner_type_data` (`partner_type`, `data`),
-		    INDEX `idx_occurrence_count` (`occurrence_count`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-		db_query($sql, 'Failed to ensure bi_partners_data table');
+		// Bank account OFX/Intuit metadata xref (do not modify FA core bank_accounts)
+		$this->ensure_bi_bank_accounts_table();
+		$this->migrate_legacy_bank_accounts_to_bi_bank_accounts();
 	}
 
 	private function ensure_column($table, $column, $definition)
@@ -238,35 +155,6 @@ class hooks_bank_import extends hooks {
 		}
 		$sql = "ALTER TABLE `{$table}` ADD INDEX `{$indexName}` (" . implode(', ', $colsSql) . ")";
 		db_query($sql, 'Failed adding index for bank import schema');
-	}
-
-	private function ensure_partner_keyword_unique_index($table)
-	{
-		if (!$this->table_exists($table)) {
-			return;
-		}
-		// Prefer the newer unique key used for keyword scoring.
-		if ($this->index_exists($table, 'idx_partner_keyword')) {
-			return;
-		}
-
-		// Drop the legacy unique key if present (partner_id, partner_detail_id, partner_type)
-		if ($this->index_exists($table, 'idx')) {
-			$sql = "ALTER TABLE `{$table}` DROP INDEX `idx`";
-			db_query($sql, 'Failed dropping legacy partner data unique index');
-		}
-
-		$sql = "ALTER TABLE `{$table}` ADD CONSTRAINT `idx_partner_keyword` UNIQUE(`partner_id`, `partner_detail_id`, `partner_type`, `data`)";
-		db_query($sql, 'Failed adding partner keyword unique index');
-	}
-
-	private function set_default_occurrence_count($table)
-	{
-		if (!$this->table_exists($table) || !$this->column_exists($table, 'occurrence_count')) {
-			return;
-		}
-		$sql = "UPDATE `{$table}` SET `occurrence_count` = 1 WHERE `occurrence_count` IS NULL";
-		db_query($sql, 'Failed initializing occurrence_count');
 	}
 
 	private function ensure_config_tables()
@@ -351,6 +239,68 @@ class hooks_bank_import extends hooks {
 		    INDEX `idx_statement_id` (`statement_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		db_query($sql, 'Failed to ensure bi_file_statements table');
+	}
+
+	private function ensure_bi_bank_accounts_table()
+	{
+		$table = TB_PREF . 'bi_bank_accounts';
+		$sql = "CREATE TABLE IF NOT EXISTS `{$table}` (
+		    `id`              INT NOT NULL AUTO_INCREMENT,
+		    `bank_account_id` SMALLINT(6) NOT NULL,
+		    `updated_ts`      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		    `intu_bid`        VARCHAR(64) NOT NULL DEFAULT '',
+		    `bankid`          VARCHAR(64) NOT NULL DEFAULT '',
+		    `acctid`          VARCHAR(64) NOT NULL DEFAULT '',
+		    `accttype`        VARCHAR(32) NULL,
+		    `curdef`          VARCHAR(3) NULL,
+		    PRIMARY KEY(`id`),
+		    CONSTRAINT `uniq_detected_identity` UNIQUE (`acctid`, `bankid`, `intu_bid`),
+		    INDEX `idx_bank_account_id` (`bank_account_id`),
+		    INDEX `idx_acctid` (`acctid`),
+		    INDEX `idx_bankid` (`bankid`),
+		    INDEX `idx_intu_bid` (`intu_bid`)
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+		db_query($sql, 'Failed to ensure bi_bank_accounts table');
+
+		// Ensure expected indexes exist (idempotent).
+		$this->ensure_index($table, 'idx_bank_account_id', array('bank_account_id'));
+		$this->ensure_index($table, 'idx_acctid', array('acctid'));
+		$this->ensure_index($table, 'idx_bankid', array('bankid'));
+		$this->ensure_index($table, 'idx_intu_bid', array('intu_bid'));
+
+		// NOTE: We intentionally do not attempt to add the `uniq_detected_identity` constraint here for
+		// pre-existing installs, because db_query() hard-fails on SQL errors and legacy data may contain
+		// duplicate/blank identity rows. Fresh installs get the constraint from sql/update.sql.
+	}
+
+	private function migrate_legacy_bank_accounts_to_bi_bank_accounts()
+	{
+		$faTable = TB_PREF . 'bank_accounts';
+		$biTable = TB_PREF . 'bi_bank_accounts';
+		if (!$this->table_exists($faTable) || !$this->table_exists($biTable)) {
+			return;
+		}
+
+		// Legacy installs stored OFX/Intuit identifiers directly on bank_accounts.
+		// Only attempt this migration when all legacy columns are present.
+		$requiredLegacyCols = array('ACCTID', 'BANKID', 'ACCTTYPE', 'CURDEF', 'intu_bid');
+		foreach ($requiredLegacyCols as $col) {
+			if (!$this->column_exists($faTable, $col)) {
+				return;
+			}
+		}
+
+		// Insert rows for each legacy bank_accounts record that had OFX identifiers.
+		// Use INSERT IGNORE to avoid overwriting existing mappings if detected identity already exists.
+		$sql = "INSERT IGNORE INTO `{$biTable}` (`bank_account_id`, `intu_bid`, `bankid`, `acctid`, `accttype`, `curdef`)
+			SELECT b.`id`, IFNULL(b.`intu_bid`, ''), IFNULL(b.`BANKID`, ''), IFNULL(b.`ACCTID`, ''), b.`ACCTTYPE`, b.`CURDEF`
+			FROM `{$faTable}` b
+			WHERE (
+				(b.`ACCTID` IS NOT NULL AND b.`ACCTID` <> '')
+				OR (b.`BANKID` IS NOT NULL AND b.`BANKID` <> '')
+				OR (b.`intu_bid` IS NOT NULL AND b.`intu_bid` <> '')
+			  )";
+		db_query($sql, 'Failed migrating legacy bank_accounts OFX metadata into bi_bank_accounts');
 	}
 
 	//this is required to cancel bank transactions when a voiding operation occurs

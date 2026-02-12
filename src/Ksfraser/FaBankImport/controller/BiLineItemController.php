@@ -1,5 +1,5 @@
 <?php
-<namespace Ksfraser\FaBankImport\Controller;
+namespace Ksfraser\FaBankImport\Controller;
 
 use Ksfraser\FaBankImport\Model\BiLineItemModel;
 use Ksfraser\FaBankImport\View\BiLineItemView;
