@@ -76,7 +76,29 @@ Review and process staged bank transactions into FA transactions, or link them t
 ### FR-PROC-013 — Master data assist
 - The system shall support “Add Customer” and “Add Vendor” actions when needed.
 
+### FR-PROC-014 — Inter-company routing examples maintained outside controller
+- The project shall maintain a canonical set of practical routing examples (including cross-book and organization-specific mappings) in project documentation.
+- The examples shall include at minimum the known legacy scenarios (Square→CIBC likely FHS, FHS expense QE→FHS, Creative Memories payments→CM books).
+- The canonical location for these examples shall be [Intercompany Routing Examples.md](Intercompany%20Routing%20Examples.md), not inline TODOs in [process_statements.php](../../process_statements.php).
+
+### FR-PROC-015 — Paired dual-side action extracted to SRP class
+- Parsing/validation of dual-side transfer POST payload shall be implemented in a dedicated SRP class.
+- Controller file [process_statements.php](../../process_statements.php) shall keep only a one-line marker comment at the former inline block location while baseline compatibility mode is active.
+- The extracted class shall be: [src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php](../../src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php).
+
+### FR-PROC-016 — Legacy inline POST handlers extracted to SRP action classes
+- Legacy inline handlers for `UnsetTrans`, `AddCustomer`, `AddVendor`, and `ToggleTransaction` shall each have a dedicated SRP action class.
+- During baseline-compat mode, [process_statements.php](../../process_statements.php) shall retain current inline behavior and include commented one-line invocation markers for the extracted classes.
+- Extracted classes:
+  - [src/Ksfraser/FaBankImport/Actions/UnsetTransactionAction.php](../../src/Ksfraser/FaBankImport/Actions/UnsetTransactionAction.php)
+  - [src/Ksfraser/FaBankImport/Actions/AddCustomerAction.php](../../src/Ksfraser/FaBankImport/Actions/AddCustomerAction.php)
+  - [src/Ksfraser/FaBankImport/Actions/AddVendorAction.php](../../src/Ksfraser/FaBankImport/Actions/AddVendorAction.php)
+  - [src/Ksfraser/FaBankImport/Actions/ToggleTransactionAction.php](../../src/Ksfraser/FaBankImport/Actions/ToggleTransactionAction.php)
+
 ## Implementation Anchors
 - Page/controller: [process_statements.php](../../process_statements.php)
 - Handler routing: [src/Ksfraser/FaBankImport/TransactionProcessor.php](../../src/Ksfraser/FaBankImport/TransactionProcessor.php)
 - Handlers: [src/Ksfraser/FaBankImport/handlers](../../src/Ksfraser/FaBankImport/handlers)
+- Inter-company examples: [Intercompany Routing Examples.md](Intercompany%20Routing%20Examples.md)
+- Paired action SRP class: [src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php](../../src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php)
+- Legacy inline action SRP classes: [src/Ksfraser/FaBankImport/Actions](../../src/Ksfraser/FaBankImport/Actions)

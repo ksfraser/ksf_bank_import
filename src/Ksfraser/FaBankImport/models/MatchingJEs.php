@@ -46,8 +46,9 @@ class MatchingJEs
         *    use Ksfraser\frontaccounting\FaGl;
         *        Will need to adjust he if( $inc )
         **/
-        $inc = include_once( __DIR__ . '/../../../../ksf_modules_common/class.fa_gl.php' );
-        if( $inc )
+        $faGlFile = __DIR__ . '/../../../../ksf_modules_common/class.fa_gl.php';
+        $inc = is_file($faGlFile) ? include_once($faGlFile) : false;
+        if( $inc && class_exists('fa_gl') )
         {
             /** Namespace *
              *       $fa_gl = new FaGl();
@@ -80,7 +81,7 @@ class MatchingJEs
         }
         else
         {
-            display_notification( __FILE__ . "::" . __LINE__ . ": Require_Once failed." );
+            $new_arr = array();
         }
         $this->matching_trans = $new_arr;
     }

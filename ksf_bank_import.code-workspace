@@ -43,7 +43,16 @@
 			"/^php -l \\.\\\\Models\\\\SquareTransaction\\.php$/": {
 				"approve": true,
 				"matchCommandLine": true
-			}
+			},
+			"/^php vendor\\\\bin\\\\phpunit --no-coverage 2>&1 \\| Tee-Object -FilePath phpunit_no_coverage_latest\\.txt; Get-Content -Path phpunit_no_coverage_latest\\.txt -Tail 25$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^php vendor\\\\bin\\\\phpunit --no-configuration --colors=never --no-coverage --bootstrap tests\\\\bootstrap\\.php tests\\\\ValueObject tests\\\\Entity tests\\\\Strategy tests\\\\Service tests\\\\unit tests\\\\integration tests\\\\HTML$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"Tee-Object": true
 		}
 	}
 }

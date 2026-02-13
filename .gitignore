@@ -8,6 +8,9 @@ composer.phar
 coverage.txt
 phpunit_full_output*.txt
 phpunit_no_coverage*.txt
+phpunit_plain_*.txt
+phpunit_summary_*.txt
+phpunit_*_latest.txt
 
 # IDE Files
 .vscode/
@@ -39,3 +42,6 @@ phpunit_no_coverage*.txt
 *.copilot.php
 *-old.php
 *.bak
+
+# Local test shim for external dependency (do not commit)
+/ksf_modules_common/

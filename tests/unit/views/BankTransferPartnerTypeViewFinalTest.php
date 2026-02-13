@@ -14,6 +14,7 @@ namespace KsfBankImport\Tests\Unit\Views;
 use PHPUnit\Framework\TestCase;
 use KsfBankImport\Views\BankTransferPartnerTypeView;
 use Ksfraser\BankAccountDataProvider;
+use Ksfraser\HTML\HtmlFragment;
 
 // Load FA stubs
 require_once __DIR__ . '/../../../includes/fa_stubs.php';
@@ -83,9 +84,9 @@ class BankTransferPartnerTypeViewFinalTest extends TestCase
             $this->dataProvider
         );
         
-        $html = $view->getHtml();
-        
-        $this->assertIsString($html);
+        $htmlObject = $view->getHtml();
+        $this->assertInstanceOf(HtmlFragment::class, $htmlObject);
+        $this->assertIsString($htmlObject->getHtml());
     }
     
     /**
@@ -106,7 +107,8 @@ class BankTransferPartnerTypeViewFinalTest extends TestCase
         
         // With proper FA implementation, would contain "from (OTHER ACCOUNT"
         // For now, just verify it doesn't crash
-        $this->assertIsString($html);
+        $this->assertInstanceOf(HtmlFragment::class, $html);
+        $this->assertIsString($html->getHtml());
     }
     
     /**
@@ -127,7 +129,8 @@ class BankTransferPartnerTypeViewFinalTest extends TestCase
         
         // With proper FA implementation, would contain "To (OTHER ACCOUNT"
         // For now, just verify it doesn't crash
-        $this->assertIsString($html);
+        $this->assertInstanceOf(HtmlFragment::class, $html);
+        $this->assertIsString($html->getHtml());
     }
     
     /**
@@ -154,7 +157,8 @@ class BankTransferPartnerTypeViewFinalTest extends TestCase
         
         // Should not crash
         $html = $view->getHtml();
-        $this->assertIsString($html);
+        $this->assertInstanceOf(HtmlFragment::class, $html);
+        $this->assertIsString($html->getHtml());
     }
     
     /**

@@ -70,7 +70,7 @@ class ReferenceNumberService
     public function getUniqueReference(int $transType): string
     {
         // Use injected generator or FA global
-        $generator = $this->referenceGenerator ?? $this->getGlobalRefsObject();
+        $generator = $this->resolveReferenceGenerator();
 
         do {
             $reference = $generator->get_next($transType);
@@ -90,5 +90,48 @@ class ReferenceNumberService
     {
         global $Refs;
         return $Refs;
+    }
+
+    /**
+     * Resolve generator from injected dependency, FA global, or test fallback.
+     *
+     * @return object
+     */
+    protected function resolveReferenceGenerator()
+    {
+        if (is_object($this->referenceGenerator) && method_exists($this->referenceGenerator, 'get_next')) {
+            return $this->referenceGenerator;
+        }
+
+        $globalRefs = $this->getGlobalRefsObject();
+        if (is_object($globalRefs) && method_exists($globalRefs, 'get_next')) {
+            return $globalRefs;
+        }
+
+        $this->referenceGenerator = $this->createFallbackReferenceGenerator();
+        return $this->referenceGenerator;
+    }
+
+    /**
+     * Minimal in-memory generator for tests outside a full FrontAccounting context.
+     *
+     * @return object
+     */
+    protected function createFallbackReferenceGenerator()
+    {
+        return new class {
+            /** @var array<int, int> */
+            private $counters = array();
+
+            public function get_next(int $transType): string
+            {
+                if (!isset($this->counters[$transType])) {
+                    $this->counters[$transType] = 0;
+                }
+
+                $this->counters[$transType]++;
+                return (string) ($transType . '-' . $this->counters[$transType]);
+            }
+        };
     }
 }

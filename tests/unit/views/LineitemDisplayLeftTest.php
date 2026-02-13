@@ -31,12 +31,25 @@ class LineitemDisplayLeftTest extends TestCase
         $mock = new \stdClass();
         $mock->valueTimestamp = '2025-10-19';
         $mock->entryTimestamp = '2025-10-19 10:00:00';
-        $mock->type = 'deposit';
-        $mock->our_bank_account = 'ACC-001';
-        $mock->other_bank_account = 'ACC-002';
+
+        // Properties expected by the view components
+        $mock->transactionDC = 'D';
+
+        $mock->our_account = 'ACC-001';
+        $mock->ourBankDetails = [
+            'bank_name' => 'Test Bank',
+        ];
+        $mock->ourBankAccountName = 'Main Account';
+        $mock->ourBankAccountCode = 'BANK-001';
+
+        $mock->otherBankAccount = 'ACC-002';
+        $mock->otherBankAccountName = 'Counterparty';
+
         $mock->amount = '1000.00';
-        $mock->charges = '5.00';
-        $mock->title = 'Test Transaction';
+        $mock->charge = '5.00';
+        $mock->currency = 'CAD';
+
+        $mock->transactionTitle = 'Test Transaction';
         
         return $mock;
     }

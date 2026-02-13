@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Controllers\ProcessStatementsController;
-use Models\SquareTransaction;
+use Ksfraser\FaBankImport\Service\ThirdPartyTransactionActionsInterface;
 use Views\TransactionView;
 
 class ProcessStatementsControllerTest extends TestCase
@@ -13,7 +13,7 @@ class ProcessStatementsControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->transactionModelMock = $this->createMock(SquareTransaction::class);
+        $this->transactionModelMock = $this->createMock(ThirdPartyTransactionActionsInterface::class);
         $this->viewMock = $this->createMock(TransactionView::class);
 
         $this->controller = new ProcessStatementsController();

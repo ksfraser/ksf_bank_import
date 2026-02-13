@@ -228,3 +228,14 @@
 ## 10. Related Use Cases
 - Import statements into staging: [Project Documents/Import Statements/Use Case - Import Bank Statements.md](../Import%20Statements/Use%20Case%20-%20Import%20Bank%20Statements.md)
 - Validate created/linkage integrity: [Project Documents/Validation/Use Case - Validate GL Entries.md](../Validation/Use%20Case%20-%20Validate%20GL%20Entries.md)
+
+## 11. Architecture / Implementation Notes (Current)
+- Menu view include in [process_statements.php](../../process_statements.php) uses a cross-platform file-path strategy:
+  - prefer `views/module_menu_view.php`
+  - fallback to `Views/module_menu_view.php`
+- Partner type options are initialized from legacy hardcoded defaults for baseline compatibility, then may be overridden by discovered types via `PartnerTypeRegistry` when available.
+- Operational routing examples previously captured as inline TODO narrative are maintained in [Intercompany Routing Examples.md](Intercompany%20Routing%20Examples.md).
+- Paired dual-side transfer POST handling is extracted to [src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php](../../src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php), including payload parsing, processor invocation, and legacy UI notification dispatch helper.
+- During baseline-compat mode, [process_statements.php](../../process_statements.php) retains a one-line marker comment in the former inline paired-transfer location instead of restoring the full block.
+- Additional legacy inline handlers are also represented by SRP action classes in [src/Ksfraser/FaBankImport/Actions](../../src/Ksfraser/FaBankImport/Actions): `UnsetTransactionAction`, `AddCustomerAction`, `AddVendorAction`, and `ToggleTransactionAction`.
+- For baseline compatibility, one-line invocation markers are kept commented in [process_statements.php](../../process_statements.php) adjacent to each corresponding inline block.

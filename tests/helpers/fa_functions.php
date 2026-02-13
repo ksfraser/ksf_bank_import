@@ -19,6 +19,123 @@ global $_test_company_prefs;
 $_test_company_prefs = [];
 
 /**
+ * Very small in-memory DB result set for unit tests.
+ */
+class TestDbResult
+{
+    /** @var array<int, array<string, mixed>> */
+    private array $rows;
+    private int $index = 0;
+
+    /** @param array<int, array<string, mixed>> $rows */
+    public function __construct(array $rows)
+    {
+        $this->rows = array_values($rows);
+    }
+
+    /** @return array<string, mixed>|false */
+    public function fetch()
+    {
+        if ($this->index >= count($this->rows)) {
+            return false;
+        }
+        return $this->rows[$this->index++];
+    }
+
+    public function rowCount(): int
+    {
+        return count($this->rows);
+    }
+}
+
+/**
+ * Return fake rows based on a SQL string.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function _test_db_rows_for_sql(string $sql): array
+{
+    $sqlLower = strtolower($sql);
+
+    // Customers
+    if (strpos($sqlLower, 'debtors_master') !== false) {
+        return [
+            [
+                'debtor_no' => 1,
+                'name' => 'Acme Customer',
+                'debtor_ref' => 'ACME',
+                'address' => '123 Main St',
+                'email' => 'acme@example.com',
+                'inactive' => 0,
+            ],
+            [
+                'debtor_no' => 2,
+                'name' => 'Beta Customer',
+                'debtor_ref' => 'BETA',
+                'address' => '456 Side St',
+                'email' => 'beta@example.com',
+                'inactive' => 0,
+            ],
+        ];
+    }
+
+    // Customer branches
+    if (strpos($sqlLower, 'cust_branch') !== false) {
+        return [
+            [
+                'branch_code' => 10,
+                'debtor_no' => 1,
+                'br_name' => 'Acme Branch',
+                'br_address' => '123 Main St',
+                'contact_name' => 'Alice',
+                'email' => 'alice@example.com',
+                'inactive' => 0,
+            ],
+            [
+                'branch_code' => 20,
+                'debtor_no' => 2,
+                'br_name' => 'Beta Branch',
+                'br_address' => '456 Side St',
+                'contact_name' => 'Bob',
+                'email' => 'bob@example.com',
+                'inactive' => 0,
+            ],
+        ];
+    }
+
+    // Suppliers
+    if (strpos($sqlLower, 'suppliers') !== false) {
+        return [
+            [
+                'supplier_id' => 1,
+                'supp_name' => 'Acme Supplier',
+                'supp_ref' => 'ACME-S',
+                'address' => '1 Supplier Way',
+                'email' => 'sup@example.com',
+                'inactive' => 0,
+            ],
+            [
+                'supplier_id' => 2,
+                'supp_name' => 'Beta Supplier',
+                'supp_ref' => 'BETA-S',
+                'address' => '2 Supplier Way',
+                'email' => 'beta-sup@example.com',
+                'inactive' => 0,
+            ],
+        ];
+    }
+
+    // Generic COUNT queries
+    if (strpos($sqlLower, 'count(') !== false) {
+        return [
+            ['count' => 1],
+        ];
+    }
+
+    return [];
+}
+
+/**
  * Get company preference (test stub)
  *
  * @param string $name Preference name
@@ -63,8 +180,8 @@ function db_escape($value)
  */
 function db_query($sql, $error_msg = '')
 {
-    // Mock result for account existence check
-    return ['count' => 1];
+    $rows = _test_db_rows_for_sql((string)$sql);
+    return new TestDbResult($rows);
 }
 
 /**
@@ -75,7 +192,16 @@ function db_query($sql, $error_msg = '')
  */
 function db_fetch($result)
 {
-    return $result;
+    if ($result instanceof TestDbResult) {
+        return $result->fetch();
+    }
+
+    // Fallback: if a single row array is passed, return it once.
+    if (is_array($result)) {
+        return $result;
+    }
+
+    return false;
 }
 
 /**
@@ -86,7 +212,13 @@ function db_fetch($result)
  */
 function db_num_rows($result)
 {
-    return is_array($result) && isset($result['count']) ? (int)$result['count'] : 10;
+    if ($result instanceof TestDbResult) {
+        return $result->rowCount();
+    }
+    if (is_array($result) && isset($result['count'])) {
+        return (int)$result['count'];
+    }
+    return 0;
 }
 
 /**

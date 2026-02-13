@@ -4,6 +4,8 @@ namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\FaBankImport\Entity\UploadedFile;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
+use Ksfraser\ModulesDAO\Db\DbAdapterInterface;
+use Ksfraser\ModulesDAO\Db\FaDbAdapter;
 
 /**
  * Database Implementation of Uploaded File Repository
@@ -19,6 +21,14 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
 {
     private const TABLE_FILES = 'bi_uploaded_files';
     private const TABLE_LINKS = 'bi_file_statements';
+
+    /** @var DbAdapterInterface */
+    private $db;
+
+    public function __construct(?DbAdapterInterface $db = null)
+    {
+        $this->db = $db ?? new FaDbAdapter();
+    }
     
     /**
      * Ensure database tables exist (auto-migration on first use)
@@ -29,7 +39,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     {
         // Check if tables exist
         $check = "SHOW TABLES LIKE '" . TB_PREF . self::TABLE_FILES . "'";
-        $result = db_query($check);
+        $result = $this->db->query($check);
         
         if (db_num_rows($result) === 0) {
             // Tables don't exist, create them
@@ -67,7 +77,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
         COMMENT='File metadata only - actual files stored in company directory'";
         
-        db_query($sql, "Failed to create bi_uploaded_files table");
+        $this->db->query($sql, "Failed to create bi_uploaded_files table");
         
         // Create bi_file_statements link table
         $sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . self::TABLE_LINKS . "` (
@@ -78,7 +88,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         COMMENT='Links uploaded files to imported statements (many-to-many)'";
         
-        db_query($sql, "Failed to create bi_file_statements table");
+        $this->db->query($sql, "Failed to create bi_file_statements table");
     }
     
     /**
@@ -112,7 +122,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                     " . db_escape($file->getNotes()) . "
                 )";
         
-        if (!db_query($sql, "Failed to save file metadata")) {
+        if (!$this->db->query($sql, "Failed to save file metadata")) {
             throw new \RuntimeException("Failed to save file metadata to database");
         }
         
@@ -135,9 +145,9 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         $sql = "SELECT * FROM " . TB_PREF . self::TABLE_FILES . "
                 WHERE id = " . db_escape($id);
         
-        $result = db_query($sql, "Failed to find file by ID");
+        $result = $this->db->query($sql, "Failed to find file by ID");
         
-        if ($row = db_fetch($result)) {
+        if ($row = $this->db->fetch($result)) {
             return $this->hydrateEntity($row);
         }
         
@@ -165,9 +175,9 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                 ORDER BY upload_date DESC
                 LIMIT 1";
         
-        $result = db_query($sql, "Failed to check for duplicates");
+        $result = $this->db->query($sql, "Failed to check for duplicates");
         
-        if ($row = db_fetch($result)) {
+        if ($row = $this->db->fetch($result)) {
             return $this->hydrateEntity($row);
         }
         
@@ -196,7 +206,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                     (file_id, statement_id)
                     VALUES (" . db_escape($fileId) . ", " . db_escape($statementId) . ")";
             
-            if (!db_query($sql, "Failed to link file to statement")) {
+            if (!$this->db->query($sql, "Failed to link file to statement")) {
                 $success = false;
             }
         }
@@ -225,10 +235,10 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                 WHERE fs.file_id = " . db_escape($fileId) . "
                 ORDER BY s.smtDate DESC";
         
-        $result = db_query($sql, "Failed to get linked statements");
+        $result = $this->db->query($sql, "Failed to get linked statements");
         
         $statements = [];
-        while ($row = db_fetch($result)) {
+        while ($row = $this->db->fetch($result)) {
             $statements[] = $row;
         }
         
@@ -253,7 +263,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                 )
                 WHERE id = " . db_escape($fileId);
         
-        return db_query($sql, "Failed to update statement count");
+        return $this->db->query($sql, "Failed to update statement count") ? true : false;
     }
     
     /**
@@ -271,13 +281,13 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         // Delete links first
         $sql = "DELETE FROM " . TB_PREF . self::TABLE_LINKS . "
                 WHERE file_id = " . db_escape($fileId);
-        db_query($sql, "Failed to delete file links");
+        $this->db->query($sql, "Failed to delete file links");
         
         // Delete file metadata
         $sql = "DELETE FROM " . TB_PREF . self::TABLE_FILES . "
                 WHERE id = " . db_escape($fileId);
         
-        return db_query($sql, "Failed to delete file metadata");
+        return $this->db->query($sql, "Failed to delete file metadata") ? true : false;
     }
     
     /**
@@ -314,10 +324,10 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         $sql .= " ORDER BY upload_date DESC
                   LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
         
-        $result = db_query($sql, "Failed to retrieve uploaded files");
+        $result = $this->db->query($sql, "Failed to retrieve uploaded files");
         
         $files = [];
-        while ($row = db_fetch($result)) {
+        while ($row = $this->db->fetch($result)) {
             $files[] = $this->hydrateEntity($row);
         }
         
@@ -353,8 +363,12 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
             $sql .= " AND parser_type = " . db_escape($filters['parser_type']);
         }
         
-        $result = db_query($sql, "Failed to count files");
-        $row = db_fetch($result);
+        $result = $this->db->query($sql, "Failed to count files");
+        $row = $this->db->fetch($result);
+
+        if (!$row) {
+            return 0;
+        }
         
         return (int)$row['cnt'];
     }
@@ -375,8 +389,17 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                     MIN(upload_date) as first_upload
                 FROM " . TB_PREF . self::TABLE_FILES;
         
-        $result = db_query($sql, "Failed to get storage statistics");
-        $stats = db_fetch($result);
+        $result = $this->db->query($sql, "Failed to get storage statistics");
+        $stats = $this->db->fetch($result);
+
+        if (!$stats) {
+            return [
+                'total_files' => 0,
+                'total_size' => 0,
+                'latest_upload' => null,
+                'first_upload' => null,
+            ];
+        }
         
         return [
             'total_files' => (int)$stats['total_files'],

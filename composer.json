@@ -4,7 +4,7 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Models\\": "Models/",
+            "Controllers\\": "src/Controllers/",
             "Ksfraser\\": "src/Ksfraser/",
             "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
             "Ksfraser\\FaBankImport\\Events\\": "src/Ksfraser/FaBankImport/events/",
@@ -15,7 +15,8 @@
             "Ksfraser\\Model\\": "src/Ksfraser/Model/",
             "Ksfraser\\View\\": "src/Ksfraser/View/",
             "KsfBankImport\\Services\\": "Services/",
-            "KsfBankImport\\OperationTypes\\": "OperationTypes/"
+            "KsfBankImport\\OperationTypes\\": "OperationTypes/",
+            "Views\\": "src/Views/"
         }
     },
     "autoload-dev": {
@@ -33,7 +34,9 @@
     "require-dev": {
         "phpunit/phpunit": "^9.3",
         "codeception/codeception": "^4.1",
-        "mikey179/vfsstream": "^1.6.12"
+        "mikey179/vfsstream": "^1.6.12",
+        "symfony/http-foundation": "^5.4",
+        "monolog/monolog": "^2.0"
     },
     "scripts": {
         "test": "phpunit",

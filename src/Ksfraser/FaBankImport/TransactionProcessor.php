@@ -42,7 +42,7 @@ class TransactionProcessor
      *
      * @var array<string, TransactionHandlerInterface>
      */
-    private array $handlers = [];
+    protected array $handlers = [];
 
     /**
      * Constructor - Auto-discovers and registers handlers
@@ -86,7 +86,7 @@ class TransactionProcessor
      * @return void
      * @throws \RuntimeException If unexpected error occurs during discovery
      */
-    private function discoverAndRegisterHandlers(): void
+    protected function discoverAndRegisterHandlers(): void
     {
         $handlersDir = __DIR__ . '/Handlers';
         
@@ -331,6 +331,16 @@ class TransactionProcessor
     public function getRegisteredTypes(): array
     {
         return array_keys($this->handlers);
+    }
+
+    /**
+     * Get all registered handler instances.
+     *
+     * @return array<int, TransactionHandlerInterface>
+     */
+    public function getRegisteredHandlers(): array
+    {
+        return array_values($this->handlers);
     }
 
     /**

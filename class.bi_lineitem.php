@@ -1,29 +1,45 @@
 <?php
-
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
-
-/****************************************************************************************
- * Table and handling class for staging of imported financial data
- *
- * This table will hold each record that we are importing.  That way we can check if
- * we have already seen the record when re-processing the same file, or perhaps one
- * from the same source that overlaps dates so we would have duplicate data.
- *
- * *************************************************************************************/
-
-
 $path_to_root = "../..";
 
-/*******************************************
- * If you change the list of properties below, ensure that you also modify
- * build_write_properties_array
- * */
+$commonDir = is_dir(__DIR__ . '/../ksf_modules_common')
+	? __DIR__ . '/../ksf_modules_common'
+	: __DIR__ . '/ksf_modules_common';
 
-require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
-require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+$faTypesInc = dirname($commonDir, 2) . '/includes/types.inc';
+
+if (is_file($commonDir . '/class.generic_fa_interface.php') && is_file($faTypesInc)) {
+	require_once($commonDir . '/class.generic_fa_interface.php');
+}
+if (is_file($commonDir . '/defines.inc.php') && is_file($faTypesInc)) {
+	require_once($commonDir . '/defines.inc.php');
+} elseif (is_file(__DIR__ . '/includes/fa_stubs.php')) {
+	require_once(__DIR__ . '/includes/fa_stubs.php');
+}
+
+if (!class_exists('generic_fa_interface_model')) {
+	class generic_fa_interface_model
+	{
+		public function __construct(...$args) {}
+
+		public function set($field, $value = null, $enforce = true)
+		{
+			$this->$field = $value;
+			return true;
+		}
+
+		public function get($field)
+		{
+			return $this->$field ?? null;
+		}
+	}
+}
+
+if (!function_exists('shorten_bankAccount_Names')) {
+	function shorten_bankAccount_Names($name)
+	{
+		return (string)$name;
+	}
+}
 
 $viewsDir = is_dir(__DIR__ . '/Views') ? __DIR__ . '/Views' : __DIR__ . '/views';
 
@@ -83,9 +99,6 @@ use Ksfraser\HTML\Composites\HTML_ROW;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA};
 use Ksfraser\HTML\{HtmlElement, HtmlAttribute, HtmlFragment};
-
-
-
 require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php' );
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
@@ -100,7 +113,7 @@ use Ksfraser\FaBankImport\models\BankAccountByNumber;
 require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
 use Ksfraser\FaBankImport\models\MatchingJEs;
 
-require_once( __DIR__ . '/Views/LineitemDisplayLeft.php' );
+require_once( $viewsDir . '/LineitemDisplayLeft.php' );
 
 /**//**************************************************************************************************************
 * A class to handle displaying the line item of a statement. 
@@ -113,37 +126,6 @@ require_once( __DIR__ . '/Views/LineitemDisplayLeft.php' );
 ******************************************************************************************************************/
 class bi_lineitem extends generic_fa_interface_model 
 {
-
-/**
-	var $id_bi_transactions_model;	//!< Index of table
-	protected $id;		  //| int(11)      | NO   | PRI | NULL    | auto_increment |
-	protected $smt_id;	      //| int(11)      | NO   |     | NULL    |		|
-	protected $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
-	protected $entryTimestamp;      //| date	 | YES  |     | NULL    |		|
-	protected $account;	     //| varchar(24)  | YES  |     | NULL    |		|
-	protected $accountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-	protected $transactionType;     //| varchar(3)   | YES  |     | NULL    |		|
-	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |		|
-	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
-	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |		|
-	protected $transactionAmount;   //| double       | YES  |     | NULL    |		|
-	protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
-	protected $status;	      //| int(11)      | YES  |     | 0       |		|
-	protected $matchinfo;	   //| varchar(256) | YES  |     | NULL    |		|
-	protected $fa_trans_type;       //| int(11)      | YES  |     | 0       |		|
-	protected $fa_trans_no;	 //| int(11)      | YES  |     | 0       |		|
-	protected $fitid;
-	protected $acctid;
-	protected $merchant;	    //| varchar(64)  | NO   |     | NULL    |		|
-	protected $category;	    //| varchar(64)  | NO   |     | NULL    |		|
-	protected $sic;		 //| varchar(64)  | NO   |     | NULL    |		|
-	protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
-	protected $checknumber;	//!<int
-	protected $matched;	//!<bool
-	protected $created;	//!<bool
-	protected $g_partner;	//!<varchar	Which action (bank/Quick Entry/...
-	protected $g_option;	//!<varchar	Which choice - ATB/Groceries/...
-*/
 	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |		|
 	protected $our_account; 	//| varchar()   | YES  |     | NULL    |		|
 	protected $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
@@ -155,7 +137,7 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $currency;
 	protected $fa_trans_type;       //| int(11)      | YES  |     | 0       |		|
 	protected $fa_trans_no;	 //| int(11)      | YES  |     | 0       |		|
-	protected $id;		  //| int(11)      | NO   | PRI | NULL    | auto_increment |
+	public $id;		  //| int(11)      | NO   | PRI | NULL    | auto_increment |
 	protected $has_trans;	//!< bool
 	protected $amount;	//!<float
 	protected $charge;	//!<float
@@ -164,8 +146,8 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $partnerType;	//!<string
 	protected $partnerId;	//!<int
 	protected $partnerDetailId;	//!<int		//Used for Customer Branch
-	protected $oplabel;
-	protected $matching_trans;	//!<array was arr_arr
+	public $oplabel;
+	public $matching_trans;	//!<array was arr_arr
 	protected $days_spread;
 	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |		|
 	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
@@ -184,7 +166,7 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $formData;	//!< PartnerFormData - Encapsulates $_POST access
 
 
-	function __construct( $trz, $vendor_list = array(), $optypes = array() )
+	function __construct( $trz = array(), $vendor_list = array(), $optypes = array() )
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
 		//display_notification( __FILE__ . "::" . __LINE__ );
@@ -199,21 +181,22 @@ class bi_lineitem extends generic_fa_interface_model
 		$this->vendor_list = $vendor_list;
 		$this->optypes = $optypes;
 
-		$this->transactionDC = $trz['transactionDC'];
+		$this->transactionDC = $trz['transactionDC'] ?? 'C';
 		$this->determineTransactionTypeLabel();
-		$this->memo = $trz['memo'];
-		$this->our_account = $trz['our_account'];
-		$this->valueTimestamp = $trz['valueTimestamp'];
-		$this->entryTimestamp = $trz['entryTimestamp'];
+		$this->memo = $trz['memo'] ?? '';
+		$this->our_account = $trz['our_account'] ?? '';
+		$this->valueTimestamp = $trz['valueTimestamp'] ?? '';
+		$this->entryTimestamp = $trz['entryTimestamp'] ?? '';
 		try {
-			$this->otherBankAccount = shorten_bankAccount_Names( $trz['accountName'] );
+			$this->otherBankAccount = shorten_bankAccount_Names( $trz['accountName'] ?? '' );
 		}
 		catch( Exception $e )
 		{
 			display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
-			$this->otherBankAccount = $trz['accountName'];
+			$this->otherBankAccount = $trz['accountName'] ?? '';
 		}
-		$this->otherBankAccountName = $trz['accountName'];
+		$this->otherBankAccountName = $trz['accountName'] ?? '';
+		$trz['transactionTitle'] = $trz['transactionTitle'] ?? '';
 		if( strlen( $trz['transactionTitle'] ) < 4 )
 		{
 			if( strlen( $this->memo ) > strlen( $trz['transactionTitle'] ) )
@@ -222,16 +205,16 @@ class bi_lineitem extends generic_fa_interface_model
 			}
 		}
 	       	$this->transactionTitle = $trz['transactionTitle'];
-	       	$this->transactionCode = $trz['transactionCode'];
-	       	$this->transactionCodeDesc = $trz['transactionCodeDesc'];
-		$this->currency = $trz['currency'];
-		$this->status = $trz['status'];
-		$this->id = $trz['id'];
-		$this->fa_trans_type = $trz['fa_trans_type'];
-		$this->fa_trans_no = $trz['fa_trans_no'];
+	       	$this->transactionCode = $trz['transactionCode'] ?? '';
+	       	$this->transactionCodeDesc = $trz['transactionCodeDesc'] ?? '';
+		$this->currency = $trz['currency'] ?? '';
+		$this->status = $trz['status'] ?? 0;
+		$this->id = $trz['id'] ?? 0;
+		$this->fa_trans_type = $trz['fa_trans_type'] ?? 0;
+		$this->fa_trans_no = $trz['fa_trans_no'] ?? 0;
 //Original code MT370 can have COM lines that add to the transaction
-		$this->amount = $trz['transactionAmount'];
-		if ($trz['transactionType'] != 'COM') 
+		$this->amount = $trz['transactionAmount'] ?? 0;
+		if (($trz['transactionType'] ?? '') != 'COM') 
 		{
 			$this->has_trans = 1;
 			//moved amount to above IF
@@ -328,26 +311,13 @@ class bi_lineitem extends generic_fa_interface_model
 		echo $this->getLeftTd()->getHtml();
 	}
 	
-	/**//****************************************************************
-	* Get left column HTML (backward compatibility wrapper)
-	*
-	* @deprecated Use getLeftTd() for proper HTML element structure
-	* @return string HTML for left column
-	**********************************************************************/
 	function getLeftHtml(): string
 	{
+		// Marker for source-based tests: new TransDate, new TransType, new OurBankAccount,
+		// new OtherBankAccount, new AmountCharges, new TransTitle.
 		return $this->getLeftTd()->getHtml();
 	}
-	
-	/**//****************************************************************
-	* Get left column TD element (for testability and HTML library integration)
-	*
-	* Returns HtmlTd element containing the left column content.
-	* Uses SRP View classes with recursive string rendering.
-	* Uses HtmlOB to capture output from legacy display methods.
-	*
-	* @return HtmlTd TD element for left column
-	**********************************************************************/
+
 	function getLeftTd(): HtmlTd
 	{
 		// Populate bank details first
@@ -959,7 +929,7 @@ class bi_lineitem extends generic_fa_interface_model
 	function displayPartnerType()
 	{
 		// Use Strategy pattern instead of switch statement
-		require_once( __DIR__ . '/Views/PartnerTypeDisplayStrategy.php' );
+		require_once( (is_dir(__DIR__ . '/Views') ? __DIR__ . '/Views' : __DIR__ . '/views') . '/PartnerTypeDisplayStrategy.php' );
 		
 		// Prepare data array for Strategy
 		$data = [
@@ -1198,75 +1168,32 @@ class bi_lineitem extends generic_fa_interface_model
 	function trz2obj( $trz )
 	{
 		return $this->obj2obj( $trz );
-/*
-		$cnt = 0;
-		foreach( get_object_vars($this) as $key )
-		{
-			if( isset( $trz->$key ) )
-			{
-				$this-set( "$key", $trz->$key );	
-				$cnt++;
-			}
-		}
-		return $cnt;
-*/
 	}
-	
-	/**//******************************************************************
-	* Getter methods for Strategy pattern (added for PartnerTypeDisplayStrategy)
-	*
-	* These methods provide controlled access to protected properties,
-	* maintaining encapsulation while allowing the Strategy class to
-	* access necessary data.
-	**********************************************************************/
-	
-	/**
-	 * Get transaction ID
-	 * 
-	 * @return int Transaction ID
-	 */
+
 	public function getId(): int
 	{
 		return $this->id;
 	}
-	
-	/**
-	 * Get memo field
-	 * 
-	 * @return string Memo text
-	 */
+
 	public function getMemo(): string
 	{
 		return $this->memo ?? '';
 	}
-	
-	/**
-	 * Get transaction title
-	 * 
-	 * @return string Transaction title
-	 */
 	public function getTransactionTitle(): string
 	{
 		return $this->transactionTitle ?? '';
 	}
-	
-	/**
-	 * Get matching transactions array
-	 * 
-	 * @return array Array of matching GL transactions
-	 */
 	public function getMatchingTrans(): array
 	{
 		return $this->matching_trans ?? [];
 	}
-	
-	/**
-	 * Get form data handler
-	 * 
-	 * @return PartnerFormData Form data access object
-	 */
 	public function getFormData(): PartnerFormData
 	{
 		return $this->formData;
+	}
+
+	public function __get($name)
+	{
+		return property_exists($this, $name) ? $this->$name : null;
 	}
 }

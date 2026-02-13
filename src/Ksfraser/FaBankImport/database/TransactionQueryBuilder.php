@@ -33,12 +33,12 @@ class TransactionQueryBuilder
     /**
      * @var string Database table name with prefix
      */
-    private string $tableName;
+    private $tableName;
     
     /**
      * @var string Statements table name with prefix
      */
-    private string $statementsTable;
+    private $statementsTable;
     
     /**
      * Constructor

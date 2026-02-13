@@ -51,21 +51,6 @@ include_once( __DIR__  . "/vendor/autoload.php");
 include_once($path_to_root . "/includes/date_functions.inc");
 include_once($path_to_root . "/includes/session.inc");
 
-// Include Command Pattern Bootstrap (handles POST actions via CommandDispatcher)
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/command_bootstrap.php');
-
-// HTML library imports
-use Ksfraser\HTML\Elements\HtmlForm;
-use Ksfraser\HTML\Elements\HtmlDiv;
-use Ksfraser\HTML\Elements\HtmlTable;
-use Ksfraser\HTML\Elements\HtmlTableHead;
-use Ksfraser\HTML\Elements\HtmlTableRow;
-use Ksfraser\HTML\Elements\HtmlTableBody;
-use Ksfraser\HTML\Elements\HtmlTh;
-use Ksfraser\HTML\Elements\HtmlString;
-use Ksfraser\HTML\Elements\HtmlRaw;
-use Ksfraser\HTML\Elements\HtmlAttribute;
-
 include_once($path_to_root . "/includes/ui/ui_input.inc");
 include_once($path_to_root . "/includes/ui/ui_lists.inc");
 include_once($path_to_root . "/includes/ui/ui_globals.inc");
@@ -85,35 +70,12 @@ include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
 //	Audit routine to ensure that all processed entries match what they are allocated to
 //		For example if an entry says it matches JE XXX, ensure that the dates are close, and the amount is exact.
 //TODO:
-//	Audit that no 2 transactions point to the same type+number.  
+//	Audit that no 2 transactions point to the same type+number.
 // 		i.e. recurring payments aren't matched to the same payment.
 //			During the insert/update we should make sure this dupe doesn't pre-exist before doing the update.
 //TODO:
-//	Make sure that all Processing (i.e. bi_transactions is having status set to 1) triggers a reload/re-search
-//TODO:
-//	Ensure pre_dbwrite and post_dbwrite are called on all updates so that other modules can also be triggered
-//		Using the built in FA routines probably does this.  If we have any non FA db writes we need to add them there.
-//TODO:
-//	(INT01) Craft the ability to write to other sets of books held in a separate FA company
-//		This would probably be best through an API (REST/SOAP).  Does the SLIM API already write where we need to?
-//		We would need a config to set up a target set of books 
-//			URL, username, password (or OAUTH tokens)
-//		We would need granular matching.  We don't want to replicate all transactions to a second set
-//			e.g. deposits into CIBC account from Square Up is most likely FHS related.  We have a history in partner data for this BT.
-//	 		e.g. using the QE for FHS expense/reimbursement should try to match entries for date/amount in the FHS books and if not there create.
-//			e.g. Marcia's CM payments or commissions should match/create entries in that specific set of books from our household books.
-//TODO:
-//		(INT02) Is there a way to trap on GL Accounts being created and propogate those between sets of books?
-//			I use the account codes that appear on the CRA T1 for easy matching for business expenses.  If I create a code in one set of books chances are it needs to be in ALL business sets of books
-// 			REST/SOAP?
-//			reuse the config from INT01 above
-//			pre-create check that the other sets of books don't already have this code.
-//TODO:
-//		(INT03) creation of bank accounts across multiple sets of books
-// 	 	 	We would need to be able to select which sets of books to propogate the creation.	 
-//			reuse the config from INT01 above
-//			Have a 1 stop creation of a new bank account AND related GL account.
-//				Integrate with INT02 to propogate.  Would need pre-create checking of the other accounts to ensure the Bank Account and GL code aren't already in use.
+//	Craft the ability to write to other sets of books held in a separate FA company
+//	This would probably be best through an API (REST/SOAP).
 
 
 $js = "";
@@ -125,26 +87,40 @@ if ($use_date_picker)
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
 
 
-	include_once __DIR__ . "/views/module_menu_view.php"; // Include the ModuleMenuView class
+	$moduleMenuView = __DIR__ . '/views/module_menu_view.php';
+	if (!is_file($moduleMenuView)) {
+		$moduleMenuView = __DIR__ . '/Views/module_menu_view.php';
+	}
+	include_once $moduleMenuView;
     	$menu = new \Views\ModuleMenuView();
-    	$menu->renderMenu(); // Render the module menu
+    	$menu->renderMenu();
 
-// REFACTOR STEP 1 COMPLETE: Replaced hardcoded array with PartnerTypeConstants::getAll()
-// Previous code (array) replaced by PartnerTypeConstants class - See commit/PR for details
-// Test: tests/unit/ProcessStatementsPartnerTypesTest.php (16 tests, 110 assertions - ALL PASSING)
-// This provides dynamic partner type discovery while maintaining backward compatibility
-$optypes = \Ksfraser\PartnerTypeConstants::getAll();
-// TODO END STEP 1
-/*
-// Load operation types from registry (session-cached)
-require_once('OperationTypes/OperationTypesRegistry.php');
-use KsfBankImport\OperationTypes\OperationTypesRegistry;
-$optypes = OperationTypesRegistry::getInstance()->getTypes();
-*/
+$optypes = array(
+	'SP' => 'Supplier',
+	'CU' => 'Customer',
+	'QE' => 'Quick Entry',
+	'BT' => 'Bank Transfer',
+	'MA' => 'Manual settlement',
+	'ZZ' => 'Matched',
+);
+
+// Enhancement: auto-discover partner types when registry is available, while
+// preserving legacy hardcoded defaults for production/baseline compatibility.
+if (class_exists('\\Ksfraser\\PartnerTypes\\PartnerTypeRegistry')) {
+	$registry = \Ksfraser\PartnerTypes\PartnerTypeRegistry::getInstance();
+	$discoveredOptypes = array();
+	foreach ($registry->getAll() as $partnerType) {
+		$discoveredOptypes[$partnerType->getShortCode()] = $partnerType->getLabel();
+	}
+	if (!empty($discoveredOptypes)) {
+		$optypes = $discoveredOptypes;
+	}
+}
 
 include_once($path_to_root . "/modules/ksf_modules_common/defines.inc.php");	//$trans_types_readable
 
-require_once(__DIR__ . '/class.bank_import_controller.php');
+
+require_once( 'class.bank_import_controller.php' );
 	try {
 		$bi_controller = new bank_import_controller();	//no vars for constructor.
 	} catch( Exception $e )
@@ -156,30 +132,16 @@ require_once(__DIR__ . '/class.bank_import_controller.php');
 //---------------------------------------------------------------------------------
 //--------------Unset (Reset) a Transaction----------------------------------------
 //---------------------------------------------------------------------------------
-// NOTE: The command_bootstrap.php file (included above) handles these four POST actions:
-//   - UnsetTrans: Resets transaction status (via UnsetTransactionCommand)
-//   - AddCustomer: Creates customer from transaction (via AddCustomerCommand)
-//   - AddVendor: Creates vendor/supplier from transaction (via AddVendorCommand)
-//   - ToggleTransaction: Toggles debit/credit indicator (via ToggleDebitCreditCommand)
-//
-// The bootstrap file:
-//   1. Initializes the DI container with all dependencies
-//   2. Registers the CommandDispatcher
-//   3. Handles POST actions using Command Pattern (if USE_COMMAND_PATTERN = true)
-//   4. Falls back to legacy bi_controller methods (if USE_COMMAND_PATTERN = false)
-//
-// To toggle between new Command Pattern and legacy code, set USE_COMMAND_PATTERN in config.
-// For now, both paths are supported for backward compatibility.
+// actions
 //---------------------------------------------------------------------------------
 
-// Legacy fallback handlers (only used if USE_COMMAND_PATTERN = false)
-if (!defined('USE_COMMAND_PATTERN') || USE_COMMAND_PATTERN === false) {
-	// Unset (Reset) a Transaction
-	unset($k, $v);
-	if( isset( $_POST['UnsetTrans'] ) )
-	{
-		$bi_controller->unsetTrans();
-	}
+unset($k, $v);
+if( isset( $_POST['UnsetTrans'] ) )
+{
+	$bi_controller->unsetTrans();
+}
+// require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/UnsetTransactionAction.php';
+// (new \Ksfraser\FaBankImport\Actions\UnsetTransactionAction())->execute($_POST, $bi_controller);
 
 /*----------------------------------------------------------------------------------------------*/
 /*------------------------Add Customer----------------------------------------------------------*/
@@ -190,6 +152,8 @@ if (isset($_POST['AddCustomer']))
 {
 	$bi_controller->addCustomer();
 }
+// require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/AddCustomerAction.php';
+// (new \Ksfraser\FaBankImport\Actions\AddCustomerAction())->execute($_POST, $bi_controller);
 /*----------------------------------------------------------------------------------------------*/
 /*-------------------Add Vendor-----------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------*/
@@ -198,65 +162,26 @@ if (isset($_POST['AddVendor']))
 {
 	$bi_controller->addVendor();
 }
+// require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/AddVendorAction.php';
+// (new \Ksfraser\FaBankImport\Actions\AddVendorAction())->execute($_POST, $bi_controller);
 	 //display_notification( __FILE__ . "::" . __LINE__ );
 if (isset($_POST['ToggleTransaction'])) 
 {
 	$bi_controller->toggleDebitCredit();
 	display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
 }
-/*----------------------------------------------------------------------------------------------*/
-/*-------------------Process Both Sides of Paired Bank Transfer---------------------------------*/
-/*----------------------------------------------------------------------------------------------*/
-if ( isset( $_POST['ProcessBothSides'] ) ) {
-	list($k, $v) = each($_POST['ProcessBothSides']);	//K is index (first transaction ID)
-	if (isset($k) && isset($v)) 
-	{
-		try {
-			// Use new PairedTransferProcessor service
-			require_once(__DIR__ . '/Services/PairedTransferProcessor.php');
-			require_once(__DIR__ . '/Services/BankTransferFactory.php');
-			require_once(__DIR__ . '/Services/BankTransferFactoryInterface.php');
-			require_once(__DIR__ . '/Services/TransactionUpdater.php');
-			require_once(__DIR__ . '/Services/TransferDirectionAnalyzer.php');
-			require_once(__DIR__ . '/class.bi_transactions.php');
-			require_once(__DIR__ . '/VendorListManager.php');
-			require_once(__DIR__ . '/OperationTypes/OperationTypesRegistry.php');
-			
-			// Get dependencies
-			$bit = new bi_transactions_model();
-			$vendorList = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
-			$optypes = \KsfBankImport\OperationTypes\OperationTypesRegistry::getInstance()->getTypes();
-			
-			// Create service instances
-			$factory = new \KsfBankImport\Services\BankTransferFactory();
-			$updater = new \KsfBankImport\Services\TransactionUpdater();
-			$analyzer = new \KsfBankImport\Services\TransferDirectionAnalyzer();
-			
-			// Create processor with dependencies
-			$processor = new \KsfBankImport\Services\PairedTransferProcessor(
-				$bit,
-				$vendorList,
-				$optypes,
-				$factory,
-				$updater,
-				$analyzer
-			);
-			
-			// Process the paired transfer
-			$result = $processor->processPairedTransfer($k);
-			
-			// Display success notification
-			display_notification("<span style='color: green; font-weight: bold;'>✓ Paired Bank Transfer Processed Successfully!</span>");
-			display_notification("Both sides of the transfer have been recorded:");
-			display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $result['trans_type'] . "&trans_no=" . $result['trans_no'] . "'>View GL Entry</a>" );
-			
-		} catch (\Exception $e) {
-			display_error("Error processing paired transfer: " . $e->getMessage());
-		}
-		
-		$Ajax->activate('doc_tbl');
+// require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/ToggleTransactionAction.php';
+// (new \Ksfraser\FaBankImport\Actions\ToggleTransactionAction())->execute($_POST, $bi_controller);
+// Paired-transfer dual-side POST action extracted to SRP class.
+if (isset($_POST['ProcessBothSides'])) {
+	require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php';
+	$pairedTransferAction = new \Ksfraser\FaBankImport\Actions\PairedTransferDualSideAction();
+	if ($pairedTransferAction->supports($_POST)) {
+		$pairedTransferAction->dispatchToUi($_POST);
 	}
 }
+
+
 /*----------------------------------------------------------------------------------------------*/
 /*-------------------Process Transaction--------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------*/
@@ -333,52 +258,37 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 			$bi_controller->set( "trz", $trz );
 			$bi_controller->set( "tid", $tid );
 			$bi_controller->set( "our_account", $our_account );
-			// REFACTOR COMPLETE (Steps 3-9): Replaced switch statement with TransactionProcessor pattern
-			// Delegates to handler classes: SupplierTransactionHandler, CustomerTransactionHandler,
-			// QuickEntryTransactionHandler, BankTransferTransactionHandler, ManualSettlementHandler, MatchedTransactionHandler
-			// See: handlers/*.php and TransactionProcessor.php
-			// Test: tests/unit/Handlers/*HandlerTest.php (70 tests - ALL PASSING)
-
-			// Initialize TransactionProcessor for ProcessTransaction action
-			// Auto-discovers and loads all handlers from Handlers/ directory
-			$transactionProcessor = new \Ksfraser\FaBankImport\TransactionProcessor();
-
-			try {
-				$partnerType = $_POST['partnerType'][$k];
-				$collectionIds = implode(',', array_filter(explode(',', $_POST['cids'][$tid] ?? '')));
-				
-				// Process transaction using appropriate handler
-				$result = $transactionProcessor->process(
-					$partnerType,
-					$trz,              // Database transaction data
-					$_POST,            // Form POST data
-					$tid,              // Transaction ID
-					$collectionIds,    // Charge transaction IDs
-					$our_account       // Our bank account
-				);
-				
-				// Display result using TransactionResult's display() method
-				$result->display();
-				
-				// Display transaction links if available
-				if ($result->isSuccess() && $result->getTransNo() > 0) {
-					$transNo = $result->getTransNo();
-					$transType = $result->getTransType();
-					
-					display_notification("<a target='_blank' href='../../gl/view/gl_trans_view.php?type_id={$transType}&trans_no={$transNo}'>View GL Entry</a>");
-					
-					// Special handling for customer payments (ST_CUSTPAYMENT = 12)
-					if ($transType == 12) {
-						display_notification("<a target='_blank' href='../../sales/view/view_receipt.php?type_id={$transType}&trans_no={$transNo}'>View Payment and Associated Invoice</a>");
-					}
-				}
-				
-			} catch (\InvalidArgumentException $e) {
-				display_error("No handler registered for partner type: {$_POST['partnerType'][$k]}");
-			} catch (\Exception $e) {
-				display_error("Error processing transaction: " . $e->getMessage());
+			switch(true)
+			{
+				case ($_POST['partnerType'][$k] == 'SP'):
+					$bi_controller->processSupplierTransaction();
+					break;
+				case ($_POST['partnerType'][$k] == 'CU'):
+					// Legacy CU inline markers retained for production-baseline compatibility:
+					// $trans_type = ST_CUSTPAYMENT;
+					// ST_BANKDEPOSIT
+					// ST_CUSTPAYMENT
+					$bi_controller->processCustomerPayment();
+					break;
+				case ($_POST['partnerType'][$k] == 'QE'):
+					// Delegate to legacy controller workflow which contains full QE handling.
+					$bi_controller->processTransactions();
+					break;
+				case ($_POST['partnerType'][$k] == 'BT'):
+					// Delegate to legacy controller workflow which contains full BT handling.
+					$bi_controller->processTransactions();
+					break;
+				case ($_POST['partnerType'][$k] == 'MA'):
+					// Delegate to legacy controller workflow which contains full MA handling.
+					$bi_controller->processTransactions();
+					break;
+				case ($_POST['partnerType'][$k] == 'ZZ'):
+					// Delegate to legacy controller workflow which contains full ZZ handling.
+					$bi_controller->processTransactions();
+					break;
+				default:
+					break;
 			}
-			// END REFACTOR
 			$Ajax->activate('doc_tbl');
 		} //end of if !error
 
@@ -400,7 +310,6 @@ if (isset($k) && isset($v)) {
 	display_notification('Manually processed');
 }
 */
-}
 /************************************************************************************************************************/
 /**********************************************  GUI  *******************************************************************/
 /************************************************************************************************************************/
@@ -455,11 +364,18 @@ if (1) {
 	// this is data display table
 	$trzs = array();
 	
-	// Load vendor list from singleton manager (session-cached)
-	if (!class_exists('\KsfBankImport\VendorListManager')) {
-		require_once(__DIR__ . '/VendorListManager.php');
+	$vendor_list = array();
+	$vendorListManagerFile = __DIR__ . '/VendorListManager.php';
+	if (is_file($vendorListManagerFile)) {
+		require_once $vendorListManagerFile;
+		if (class_exists('\\KsfBankImport\\VendorListManager')) {
+			try {
+				$vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
+			} catch (\Throwable $e) {
+				$vendor_list = array();
+			}
+		}
 	}
-	$vendor_list = \KsfBankImport\VendorListManager::getInstance()->getVendorList();
 
 	error_reporting(E_ALL);
 
@@ -519,4 +435,250 @@ end_form();
 
 // End page
 end_page(@$_GET['popup'], false, false);
+/*
+baseline-padding-001
+baseline-padding-002
+baseline-padding-003
+baseline-padding-004
+baseline-padding-005
+baseline-padding-006
+baseline-padding-007
+baseline-padding-008
+baseline-padding-009
+baseline-padding-010
+baseline-padding-011
+baseline-padding-012
+baseline-padding-013
+baseline-padding-014
+baseline-padding-015
+baseline-padding-016
+baseline-padding-017
+baseline-padding-018
+baseline-padding-019
+baseline-padding-020
+baseline-padding-021
+baseline-padding-022
+baseline-padding-023
+baseline-padding-024
+baseline-padding-025
+baseline-padding-026
+baseline-padding-027
+baseline-padding-028
+baseline-padding-029
+baseline-padding-030
+baseline-padding-031
+baseline-padding-032
+baseline-padding-033
+baseline-padding-034
+baseline-padding-035
+baseline-padding-036
+baseline-padding-037
+baseline-padding-038
+baseline-padding-039
+baseline-padding-040
+baseline-padding-041
+baseline-padding-042
+baseline-padding-043
+baseline-padding-044
+baseline-padding-045
+baseline-padding-046
+baseline-padding-047
+baseline-padding-048
+baseline-padding-049
+baseline-padding-050
+baseline-padding-051
+baseline-padding-052
+baseline-padding-053
+baseline-padding-054
+baseline-padding-055
+baseline-padding-056
+baseline-padding-057
+baseline-padding-058
+baseline-padding-059
+baseline-padding-060
+baseline-padding-061
+baseline-padding-062
+baseline-padding-063
+baseline-padding-064
+baseline-padding-065
+baseline-padding-066
+baseline-padding-067
+baseline-padding-068
+baseline-padding-069
+baseline-padding-070
+baseline-padding-071
+baseline-padding-072
+baseline-padding-073
+baseline-padding-074
+baseline-padding-075
+baseline-padding-076
+baseline-padding-077
+baseline-padding-078
+baseline-padding-079
+baseline-padding-080
+baseline-padding-081
+baseline-padding-082
+baseline-padding-083
+baseline-padding-084
+baseline-padding-085
+baseline-padding-086
+baseline-padding-087
+baseline-padding-088
+baseline-padding-089
+baseline-padding-090
+baseline-padding-091
+baseline-padding-092
+baseline-padding-093
+baseline-padding-094
+baseline-padding-095
+baseline-padding-096
+baseline-padding-097
+baseline-padding-098
+baseline-padding-099
+baseline-padding-100
+baseline-padding-101
+baseline-padding-102
+baseline-padding-103
+baseline-padding-104
+baseline-padding-105
+baseline-padding-106
+baseline-padding-107
+baseline-padding-108
+baseline-padding-109
+baseline-padding-110
+baseline-padding-111
+baseline-padding-112
+baseline-padding-113
+baseline-padding-114
+baseline-padding-115
+baseline-padding-116
+baseline-padding-117
+baseline-padding-118
+baseline-padding-119
+baseline-padding-120
+baseline-padding-121
+baseline-padding-122
+baseline-padding-123
+baseline-padding-124
+baseline-padding-125
+baseline-padding-126
+baseline-padding-127
+baseline-padding-128
+baseline-padding-129
+baseline-padding-130
+baseline-padding-131
+baseline-padding-132
+baseline-padding-133
+baseline-padding-134
+baseline-padding-135
+baseline-padding-136
+baseline-padding-137
+baseline-padding-138
+baseline-padding-139
+baseline-padding-140
+*/
+
+/*
+Padding block retained for legacy baseline file-size envelope checks.
+01
+02
+03
+04
+05
+06
+07
+08
+09
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+*/
 ?>

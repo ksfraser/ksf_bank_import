@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Kevin Fraser
+ * @since 20250409
+ */
+
 /****************************************************************************************
  * Table and handling class for staging of imported financial data
  *
@@ -25,6 +30,11 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
+// require_once( '../ksf_modules_commone/class.generic_fa_interface.php' );
+// require_once( '../ksf_modules_commone/defines.inc.php' );
+// PROD baseline markers:
+// use Ksfraser\common\GenericFaInterface;
+// use Ksfraser\common\Defines;
 require_once( '../ksf_modules_commone/class.generic_fa_interface.php' );
 require_once( '../ksf_modules_commone/defines.inc.php' );
 

@@ -116,6 +116,36 @@ Steps:
 Expected:
 - Both sides are recorded consistently.
 
+### UAT-PROC-013 — Inter-company routing examples documented
+Steps:
+1. Open [Intercompany Routing Examples.md](Intercompany%20Routing%20Examples.md).
+2. Verify examples include the legacy operational intents:
+  - Square to CIBC likely FHS.
+  - FHS expense QE is FHS.
+  - Creative Memories payments route to CM books.
+3. Confirm examples are specific enough for a bookkeeper to choose SP/CU/QE/BT/MA/ZZ routing.
+Expected:
+- Operational examples are present, readable, and maintained in docs (not only code comments).
+- Team can classify at least one transaction per listed pattern without consulting source code TODOs.
+
+### UAT-PROC-014 — Paired dual-side action extraction verified
+Steps:
+1. Confirm [process_statements.php](../../process_statements.php) contains a one-line marker comment where the inline paired-transfer chunk previously lived.
+2. Open [src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php](../../src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php).
+3. Verify unit tests cover supports/id extraction/action extraction behavior.
+Expected:
+- Controller remains baseline-compatible.
+- Paired dual-side action logic is isolated in an SRP class and test-covered.
+
+### UAT-PROC-015 — Legacy inline handlers extraction markers verified
+Steps:
+1. Confirm [process_statements.php](../../process_statements.php) includes commented one-line marker calls for extracted actions near `UnsetTrans`, `AddCustomer`, `AddVendor`, and `ToggleTransaction` inline blocks.
+2. Verify corresponding classes exist in [src/Ksfraser/FaBankImport/Actions](../../src/Ksfraser/FaBankImport/Actions).
+3. Verify unit tests cover supports/execute behavior.
+Expected:
+- Inline behavior remains intact for baseline compatibility.
+- Equivalent SRP action classes exist and are test-covered for future activation.
+
 ## Exit Criteria
 - All UAT test cases pass.
 - No workflow requires DB edits to recover from common errors.

@@ -63,8 +63,34 @@ if (!function_exists('start_table')) {
      * @param mixed ...$args Additional arguments
      * @return void
      */
-    function start_table(string $class = '', ...$args): void {
-        // Stub - actual implementation in FrontAccounting
+    function start_table($class = '', ...$args): void {
+        // Minimal HTML output for standalone testing
+        $classAttr = '';
+        $classStr = (string)$class;
+        if ($classStr !== '') {
+            // FA often passes numeric TABLESTYLE constants like 2
+            if (ctype_digit($classStr)) {
+                $classAttr = 'tablestyle' . $classStr;
+            } else {
+                $classAttr = $classStr;
+            }
+        }
+
+        $attrs = '';
+        foreach ($args as $arg) {
+            if (is_string($arg) && trim($arg) !== '') {
+                $attrs .= ' ' . trim($arg);
+            }
+        }
+
+        echo '<table';
+        if ($classAttr !== '') {
+            echo " class='" . htmlspecialchars($classAttr, ENT_QUOTES, 'UTF-8') . "'";
+        }
+        if ($attrs !== '') {
+            echo $attrs;
+        }
+        echo ">\n";
     }
 }
 
@@ -75,7 +101,10 @@ if (!function_exists('end_table')) {
      * @return void
      */
     function end_table(int $breaks = 0): void {
-        // Stub - actual implementation in FrontAccounting
+        echo "</table>\n";
+        if ($breaks > 0) {
+            echo str_repeat("<br />\n", $breaks);
+        }
     }
 }
 
@@ -86,7 +115,11 @@ if (!function_exists('start_row')) {
      * @return void
      */
     function start_row(string $class = ''): void {
-        // Stub - actual implementation in FrontAccounting
+        if ($class !== '') {
+            echo "<tr class='" . htmlspecialchars($class, ENT_QUOTES, 'UTF-8') . "'>";
+        } else {
+            echo '<tr>';
+        }
     }
 }
 
@@ -96,7 +129,7 @@ if (!function_exists('end_row')) {
      * @return void
      */
     function end_row(): void {
-        // Stub - actual implementation in FrontAccounting
+        echo "</tr>\n";
     }
 }
 

@@ -45,12 +45,12 @@ class ViewBILineItems
 		echo '<td width="50%">';
 		$table = new HTML_TABLE( null, 100 );
 
-		$table->appendRow( new TransDate( $bi_lineitem ) );
-		$table->appendRow( new TransType( $bi_lineitem ) );
-		$table->appendRow( new OurBankAccount( $bi_lineitem ) );
-		$table->appendRow( new OtherBankAccount( $bi_lineitem ) );
-		$table->appendRow( new AmountCharges( $bi_lineitem ) );
-		$table->appendRow( new TransTitle( $bi_lineitem ) );
+		$table->appendRow( new TransDate( $this->bi_lineitem ) );
+		$table->appendRow( new TransType( $this->bi_lineitem ) );
+		$table->appendRow( new OurBankAccount( $this->bi_lineitem ) );
+		$table->appendRow( new OtherBankAccount( $this->bi_lineitem ) );
+		$table->appendRow( new AmountCharges( $this->bi_lineitem ) );
+		$table->appendRow( new TransTitle( $this->bi_lineitem ) );
 
 		$this->displayAddVendorOrCustomer();
 		$this->displayEditTransData();

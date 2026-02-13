@@ -16,6 +16,7 @@ This step must support multiple real-world processing patterns:
 - BR-PROC-003 — Support common accounting entry types (supplier/customer/quick entry/transfers) directly from the processing screen.
 - BR-PROC-004 — Provide auditability by retaining linkage from staged transaction → FA transaction type/number and exposing view links.
 - BR-PROC-005 — Allow correction workflows (unset/reset, toggle debit/credit) without requiring direct DB edits.
+- BR-PROC-006 — Preserve and formalize cross-book/inter-company routing examples in documentation so operational knowledge is not tied to inline TODO comments in controller code.
 
 ## In Scope
 - Processing actions for partner types: SP, CU, QE, BT, MA, ZZ.
@@ -35,3 +36,7 @@ This step must support multiple real-world processing patterns:
 ## Constraints
 - Must use FA’s transaction-writing functions where available.
 - Must operate under FA permissions model.
+
+## Documentation Baseline
+- Legacy inline TODO examples in [process_statements.php](../../process_statements.php) are treated as non-authoritative reminders.
+- Authoritative routing examples and intent now live in [Intercompany Routing Examples.md](Intercompany%20Routing%20Examples.md).

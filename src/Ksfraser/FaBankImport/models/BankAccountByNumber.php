@@ -45,11 +45,34 @@ class BankAccountByNumber
         //      Bank
         //      Number
         //      Address
-        require_once( __DIR__ . '/../../../../ksf_modules_common/class.fa_bank_accounts.php' );
+        $faBankAccountsFile = __DIR__ . '/../../../../ksf_modules_common/class.fa_bank_accounts.php';
+        if (!is_file($faBankAccountsFile)) {
+            $this->bankDetails = array(
+                'bank_account_name' => (string)$this->bankAccountNumber,
+                'account_code' => ''
+            );
+            return;
+        }
+
+        require_once($faBankAccountsFile);
+        if (!class_exists('fa_bank_accounts')) {
+            $this->bankDetails = array(
+                'bank_account_name' => (string)$this->bankAccountNumber,
+                'account_code' => ''
+            );
+            return;
+        }
+
         $fa_bank_accounts = new \fa_bank_accounts( $this );
         //use Ksfraser\frontaccounting\FaBankAccounts;
         //$fa_bank_accounts = new FaBankAccounts( $this );
         $this->bankDetails = $fa_bank_accounts->getByBankAccountNumber( $this->bankAccountNumber );
+        if (!is_array($this->bankDetails)) {
+            $this->bankDetails = array(
+                'bank_account_name' => (string)$this->bankAccountNumber,
+                'account_code' => ''
+            );
+        }
         //var_dump( $this->bankDetails );
         /*
             Array ( [account_code] => 1061
