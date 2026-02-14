@@ -141,9 +141,7 @@ HERE
      */
     public function testLoadFromFileWhenFileDoesExist($filename)
     {
-        if (!file_exists($filename)) {
-            self::markTestSkipped('Could not find data file, cannot test loadFromFile method fully');
-        }
+        self::assertFileExists($filename, 'Fixture file is required for loadFromFile test');
 
         /** @var Parser|\PHPUnit_Framework_MockObject_MockObject $parser */
         $parser = $this->getMockBuilder(Parser::class)
@@ -177,9 +175,7 @@ HERE
      */
     public function testLoadFromString($filename)
     {
-        if (!file_exists($filename)) {
-            self::markTestSkipped('Could not find data file, cannot test loadFromString method fully');
-        }
+        self::assertFileExists($filename, 'Fixture file is required for loadFromString test');
 
         $content = file_get_contents($filename);
 

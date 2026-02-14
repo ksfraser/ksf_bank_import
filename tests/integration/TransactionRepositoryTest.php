@@ -15,7 +15,7 @@
 namespace Tests\Integration;
 
 use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
-use Ksfraser\FaBankImport\Database\TransactionRepository;
+use Ksfraser\FaBankImport\Repositories\TransactionRepository;
 use Tests\Integration\DatabaseTestCase;
 
 /**
@@ -194,7 +194,8 @@ class TransactionRepositoryTest extends DatabaseTestCase
         $allTransactions = $this->repository->findAll();
         $this->assertNotEmpty($allTransactions);
         
-        $searchTitle = $allTransactions[0]['title'];
+        $searchTitle = $allTransactions[0]['transactionTitle'] ?? $allTransactions[0]['title'] ?? '';
+        $this->assertNotSame('', $searchTitle);
         $searchWord = explode(' ', $searchTitle)[0]; // Get first word
         
         $transactions = $this->repository->findByFilters([
@@ -226,19 +227,17 @@ class TransactionRepositoryTest extends DatabaseTestCase
             }
         }
         
-        if ($account) {
-            $transactions = $this->repository->findByFilters([
-                'bankAccount' => $account
-            ]);
-            
-            $this->assertIsArray($transactions);
-            
-            // Verify all have matching account
-            foreach ($transactions as $transaction) {
-                $this->assertEquals($account, $transaction['our_account']);
-            }
-        } else {
-            $this->markTestSkipped('No transactions with bank account found');
+        $this->assertNotNull($account, 'Expected fixture transactions to include bank account data');
+
+        $transactions = $this->repository->findByFilters([
+            'bankAccount' => $account
+        ]);
+        
+        $this->assertIsArray($transactions);
+        
+        // Verify all have matching account
+        foreach ($transactions as $transaction) {
+            $this->assertEquals($account, $transaction['our_account']);
         }
     }
     
@@ -297,7 +296,7 @@ class TransactionRepositoryTest extends DatabaseTestCase
         $newStatus = $originalStatus == 1 ? 2 : 1; // Toggle status
         
         // Update the transaction
-        $affected = $this->repository->update(
+        $affected = $this->repository->updateTransactionsWithFaInfo(
             [$transaction['id']],
             $newStatus,
             0,
@@ -315,7 +314,7 @@ class TransactionRepositoryTest extends DatabaseTestCase
         $this->assertEquals($newStatus, $updated['status']);
         
         // Restore original status
-        $this->repository->update(
+        $this->repository->updateTransactionsWithFaInfo(
             [$transaction['id']],
             $originalStatus,
             0,
@@ -341,15 +340,12 @@ class TransactionRepositoryTest extends DatabaseTestCase
             'limit' => 1
         ]);
         
-        if (empty($transactions)) {
-            $this->markTestSkipped('No status=1 transactions available for testing');
-            return;
-        }
+        $this->assertNotEmpty($transactions, 'Expected fixture transactions with status=1');
         
         $transaction = $transactions[0];
         
         // Reset the transaction
-        $affected = $this->repository->reset(
+        $affected = $this->repository->resetTransactionsWithFaInfo(
             [$transaction['id']],
             123, // Test FA trans no
             456  // Test FA trans type
@@ -406,10 +402,10 @@ class TransactionRepositoryTest extends DatabaseTestCase
         
         // Each pairing should have required fields
         foreach ($pairings as $pairing) {
-            $this->assertArrayHasKey('our_account', $pairing);
+            $this->assertArrayHasKey('account', $pairing);
             $this->assertArrayHasKey('g_option', $pairing);
             $this->assertArrayHasKey('g_partner', $pairing);
-            $this->assertArrayHasKey('transaction_count', $pairing);
+            $this->assertArrayHasKey('count', $pairing);
         }
     }
     
@@ -433,17 +429,15 @@ class TransactionRepositoryTest extends DatabaseTestCase
             }
         }
         
-        if ($account) {
-            $pairings = $this->repository->findNormalPairing($account);
-            
-            $this->assertIsArray($pairings);
-            
-            // All pairings should be for the specified account
-            foreach ($pairings as $pairing) {
-                $this->assertEquals($account, $pairing['our_account']);
-            }
-        } else {
-            $this->markTestSkipped('No transactions with account found');
+        $this->assertNotNull($account, 'Expected fixture transactions with account values');
+
+        $pairings = $this->repository->findNormalPairing($account);
+        
+        $this->assertIsArray($pairings);
+        
+        // All pairings should be for the specified account
+        foreach ($pairings as $pairing) {
+            $this->assertEquals($account, $pairing['account']);
         }
     }
     

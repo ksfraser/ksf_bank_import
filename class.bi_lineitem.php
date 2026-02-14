@@ -1,4 +1,20 @@
 <?php
+
+/**
+ * @author Kevin Fraser / ChatGPT
+ * @since 20250409
+ */
+
+/****************************************************************************************
+ * Table and handling class for staging of imported financial data
+ *
+ * This table will hold each record that we are importing.  That way we can check if
+ * we have already seen the record when re-processing the same file, or perhaps one
+ * from the same source that overlaps dates so we would have duplicate data.
+ *
+ * *************************************************************************************/
+
+
 $path_to_root = "../..";
 
 $commonDir = is_dir(__DIR__ . '/../ksf_modules_common')
@@ -113,6 +129,9 @@ use Ksfraser\FaBankImport\models\BankAccountByNumber;
 require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
 use Ksfraser\FaBankImport\models\MatchingJEs;
 
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/TransactionDC/TransactionDCRules.php' );
+use Ksfraser\FaBankImport\TransactionDC\TransactionDCRules;
+
 require_once( $viewsDir . '/LineitemDisplayLeft.php' );
 
 /**//**************************************************************************************************************
@@ -181,7 +200,7 @@ class bi_lineitem extends generic_fa_interface_model
 		$this->vendor_list = $vendor_list;
 		$this->optypes = $optypes;
 
-		$this->transactionDC = $trz['transactionDC'] ?? 'C';
+		$this->transactionDC = TransactionDCRules::resolve($trz['transactionDC'] ?? null);
 		$this->determineTransactionTypeLabel();
 		$this->memo = $trz['memo'] ?? '';
 		$this->our_account = $trz['our_account'] ?? '';
@@ -241,6 +260,7 @@ class bi_lineitem extends generic_fa_interface_model
 		}
 
 	}
+
 	/**//*****************************************************************
 	* Determine which label to apply
 	*
@@ -311,13 +331,28 @@ class bi_lineitem extends generic_fa_interface_model
 		echo $this->getLeftTd()->getHtml();
 	}
 	
+	/**//****************************************************************
+	* Get left column HTML (backward compatibility wrapper)
+	*
+	* @deprecated Use getLeftTd() for proper HTML element structure
+	* @return string HTML for left column
+	**********************************************************************/
 	function getLeftHtml(): string
 	{
 		// Marker for source-based tests: new TransDate, new TransType, new OurBankAccount,
 		// new OtherBankAccount, new AmountCharges, new TransTitle.
 		return $this->getLeftTd()->getHtml();
 	}
-
+	
+	/**//****************************************************************
+	* Get left column TD element (for testability and HTML library integration)
+	*
+	* Returns HtmlTd element containing the left column content.
+	* Uses SRP View classes with recursive string rendering.
+	* Uses HtmlOB to capture output from legacy display methods.
+	*
+	* @return HtmlTd TD element for left column
+	**********************************************************************/
 	function getLeftTd(): HtmlTd
 	{
 		// Populate bank details first
@@ -1168,21 +1203,63 @@ class bi_lineitem extends generic_fa_interface_model
 	function trz2obj( $trz )
 	{
 		return $this->obj2obj( $trz );
+/*
+		$cnt = 0;
+		foreach( get_object_vars($this) as $key )
+		{
+			if( isset( $trz->$key ) )
+			{
+				$this-set( "$key", $trz->$key );	
+				$cnt++;
+			}
+		}
+		return $cnt;
+*/
 	}
-
+	
+	/**//******************************************************************
+	* Getter methods for Strategy pattern (added for PartnerTypeDisplayStrategy)
+	*
+	* These methods provide controlled access to protected properties,
+	* maintaining encapsulation while allowing the Strategy class to
+	* access necessary data.
+	**********************************************************************/
+	
+	/**
+	 * Get transaction ID
+	 * 
+	 * @return int Transaction ID
+	 */
 	public function getId(): int
 	{
 		return $this->id;
 	}
-
+	
+	/**
+	 * Get memo field
+	 * 
+	 * @return string Memo text
+	 */
 	public function getMemo(): string
 	{
 		return $this->memo ?? '';
 	}
+	
+	/**
+	 * Get transaction title
+	 * 
+	 * @return string Transaction title
+	 */
 	public function getTransactionTitle(): string
 	{
 		return $this->transactionTitle ?? '';
 	}
+	
+	/**
+	 * Get matching transactions array
+	 * 
+	 * @return array Array of matching GL transactions
+	 */
 	public function getMatchingTrans(): array
 	{
 		return $this->matching_trans ?? [];

@@ -37,8 +37,16 @@ class hooks_bank_import extends hooks {
 				$path_to_root."/modules/".$this->module_name."/process_statements.php", 'SA_BANKACCOUNT', MENU_IMPORT);
 			$app->add_lapp_function(3, _("Bank Statements Inquiry"),
 				$path_to_root."/modules/".$this->module_name."/view_statements.php", 'SA_BANKACCOUNT', MENU_INQUIRY);
+			$app->add_lapp_function(3, _("Manage Uploaded Files"),
+				$path_to_root."/modules/".$this->module_name."/manage_uploaded_files.php", 'SA_BANKFILEVIEW', MENU_INQUIRY);
+			$app->add_lapp_function(3, _("Validate GL Entries"),
+				$path_to_root."/modules/".$this->module_name."/validate_gl_entries.php", 'SA_BANKTRANSVIEW', MENU_INQUIRY);
 			$app->add_lapp_function(3, _("View Import Logs"),
 				$path_to_root."/modules/".$this->module_name."/view_import_logs.php", 'SA_BANKIMPORTLOGVIEW', MENU_INQUIRY);
+			$app->add_lapp_function(3, _("Module Configuration"),
+				$path_to_root."/modules/".$this->module_name."/module_config.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
+			$app->add_lapp_function(2, _("Bank Import Settings"),
+				$path_to_root."/modules/".$this->module_name."/bank_import_settings.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
 	
 			break;
 		}
@@ -86,67 +94,22 @@ class hooks_bank_import extends hooks {
 		$this->ensure_uploaded_files_tables();
 
 		// Bank account OFX/Intuit metadata xref (do not modify FA core bank_accounts)
-		$this->ensure_bi_bank_accounts_table();
-		$this->migrate_legacy_bank_accounts_to_bi_bank_accounts();
-	}
-
-	private function ensure_column($table, $column, $definition)
-	{
-		if (!$this->table_exists($table)) {
-			return;
-		}
-		if ($this->column_exists($table, $column)) {
-			return;
-		}
-		$sql = "ALTER TABLE `{$table}` ADD COLUMN `{$column}` {$definition}";
-		db_query($sql, 'Failed adding column to bank import schema');
-	}
-
-	private function table_exists($table)
-	{
-		$sql = "SHOW TABLES LIKE " . db_escape($table);
-		$res = db_query($sql, 'Failed checking table existence');
-		return db_num_rows($res) > 0;
-	}
-
-	private function column_exists($table, $column)
-	{
-		$sql = "SHOW COLUMNS FROM `{$table}` LIKE " . db_escape($column);
-		$res = db_query($sql, 'Failed checking column existence');
-		return db_num_rows($res) > 0;
-	}
-
-	private function index_exists($table, $indexName)
-	{
-		$sql = "SHOW INDEX FROM `{$table}` WHERE Key_name = " . db_escape($indexName);
-		$res = db_query($sql, 'Failed checking index existence');
-		return db_num_rows($res) > 0;
-	}
-
-	private function ensure_unique_index($table, $indexName, $columns)
-	{
-		if (!$this->table_exists($table) || $this->index_exists($table, $indexName)) {
-			return;
-		}
-		$colsSql = array();
-		foreach ($columns as $col) {
-			$colsSql[] = "`{$col}`";
-		}
-		$sql = "ALTER TABLE `{$table}` ADD CONSTRAINT `{$indexName}` UNIQUE(" . implode(', ', $colsSql) . ")";
-		db_query($sql, 'Failed adding unique index for bank import schema');
-	}
-
-	private function ensure_index($table, $indexName, $columns)
-	{
-		if (!$this->table_exists($table) || $this->index_exists($table, $indexName)) {
-			return;
-		}
-		$colsSql = array();
-		foreach ($columns as $col) {
-			$colsSql[] = "`{$col}`";
-		}
-		$sql = "ALTER TABLE `{$table}` ADD INDEX `{$indexName}` (" . implode(', ', $colsSql) . ")";
-		db_query($sql, 'Failed adding index for bank import schema');
+		require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Service/Schema/BiBankAccountsSchemaInstaller.php');
+		$bankAccountsSchemaInstaller = new \Ksfraser\FaBankImport\Service\Schema\BiBankAccountsSchemaInstaller(
+			'db_query',
+			'db_escape',
+			'db_num_rows',
+			TB_PREF
+		);
+		$bankAccountsSchemaInstaller->ensureTable();
+		require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Service/LegacyBankAccountsMigrator.php');
+		$migrator = new \Ksfraser\FaBankImport\Service\LegacyBankAccountsMigrator(
+			'db_query',
+			'db_escape',
+			'db_num_rows',
+			TB_PREF
+		);
+		$migrator->migrate();
 	}
 
 	private function ensure_config_tables()
@@ -231,68 +194,6 @@ class hooks_bank_import extends hooks {
 		    INDEX `idx_statement_id` (`statement_id`)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 		db_query($sql, 'Failed to ensure bi_file_statements table');
-	}
-
-	private function ensure_bi_bank_accounts_table()
-	{
-		$table = TB_PREF . 'bi_bank_accounts';
-		$sql = "CREATE TABLE IF NOT EXISTS `{$table}` (
-		    `id`              INT NOT NULL AUTO_INCREMENT,
-		    `bank_account_id` SMALLINT(6) NOT NULL,
-		    `updated_ts`      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		    `intu_bid`        VARCHAR(64) NOT NULL DEFAULT '',
-		    `bankid`          VARCHAR(64) NOT NULL DEFAULT '',
-		    `acctid`          VARCHAR(64) NOT NULL DEFAULT '',
-		    `accttype`        VARCHAR(32) NULL,
-		    `curdef`          VARCHAR(3) NULL,
-		    PRIMARY KEY(`id`),
-		    CONSTRAINT `uniq_detected_identity` UNIQUE (`acctid`, `bankid`, `intu_bid`),
-		    INDEX `idx_bank_account_id` (`bank_account_id`),
-		    INDEX `idx_acctid` (`acctid`),
-		    INDEX `idx_bankid` (`bankid`),
-		    INDEX `idx_intu_bid` (`intu_bid`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-		db_query($sql, 'Failed to ensure bi_bank_accounts table');
-
-		// Ensure expected indexes exist (idempotent).
-		$this->ensure_index($table, 'idx_bank_account_id', array('bank_account_id'));
-		$this->ensure_index($table, 'idx_acctid', array('acctid'));
-		$this->ensure_index($table, 'idx_bankid', array('bankid'));
-		$this->ensure_index($table, 'idx_intu_bid', array('intu_bid'));
-
-		// NOTE: We intentionally do not attempt to add the `uniq_detected_identity` constraint here for
-		// pre-existing installs, because db_query() hard-fails on SQL errors and legacy data may contain
-		// duplicate/blank identity rows. Fresh installs get the constraint from sql/update.sql.
-	}
-
-	private function migrate_legacy_bank_accounts_to_bi_bank_accounts()
-	{
-		$faTable = TB_PREF . 'bank_accounts';
-		$biTable = TB_PREF . 'bi_bank_accounts';
-		if (!$this->table_exists($faTable) || !$this->table_exists($biTable)) {
-			return;
-		}
-
-		// Legacy installs stored OFX/Intuit identifiers directly on bank_accounts.
-		// Only attempt this migration when all legacy columns are present.
-		$requiredLegacyCols = array('ACCTID', 'BANKID', 'ACCTTYPE', 'CURDEF', 'intu_bid');
-		foreach ($requiredLegacyCols as $col) {
-			if (!$this->column_exists($faTable, $col)) {
-				return;
-			}
-		}
-
-		// Insert rows for each legacy bank_accounts record that had OFX identifiers.
-		// Use INSERT IGNORE to avoid overwriting existing mappings if detected identity already exists.
-		$sql = "INSERT IGNORE INTO `{$biTable}` (`bank_account_id`, `intu_bid`, `bankid`, `acctid`, `accttype`, `curdef`)
-			SELECT b.`id`, IFNULL(b.`intu_bid`, ''), IFNULL(b.`BANKID`, ''), IFNULL(b.`ACCTID`, ''), b.`ACCTTYPE`, b.`CURDEF`
-			FROM `{$faTable}` b
-			WHERE (
-				(b.`ACCTID` IS NOT NULL AND b.`ACCTID` <> '')
-				OR (b.`BANKID` IS NOT NULL AND b.`BANKID` <> '')
-				OR (b.`intu_bid` IS NOT NULL AND b.`intu_bid` <> '')
-			  )";
-		db_query($sql, 'Failed migrating legacy bank_accounts OFX metadata into bi_bank_accounts');
 	}
 
 	//this is required to cancel bank transactions when a voiding operation occurs

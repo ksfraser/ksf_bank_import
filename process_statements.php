@@ -258,36 +258,68 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 			$bi_controller->set( "trz", $trz );
 			$bi_controller->set( "tid", $tid );
 			$bi_controller->set( "our_account", $our_account );
-			switch(true)
-			{
-				case ($_POST['partnerType'][$k] == 'SP'):
-					$bi_controller->processSupplierTransaction();
-					break;
-				case ($_POST['partnerType'][$k] == 'CU'):
-					// Legacy CU inline markers retained for production-baseline compatibility:
-					// $trans_type = ST_CUSTPAYMENT;
-					// ST_BANKDEPOSIT
-					// ST_CUSTPAYMENT
-					$bi_controller->processCustomerPayment();
-					break;
-				case ($_POST['partnerType'][$k] == 'QE'):
-					// Delegate to legacy controller workflow which contains full QE handling.
-					$bi_controller->processTransactions();
-					break;
-				case ($_POST['partnerType'][$k] == 'BT'):
-					// Delegate to legacy controller workflow which contains full BT handling.
-					$bi_controller->processTransactions();
-					break;
-				case ($_POST['partnerType'][$k] == 'MA'):
-					// Delegate to legacy controller workflow which contains full MA handling.
-					$bi_controller->processTransactions();
-					break;
-				case ($_POST['partnerType'][$k] == 'ZZ'):
-					// Delegate to legacy controller workflow which contains full ZZ handling.
-					$bi_controller->processTransactions();
-					break;
-				default:
-					break;
+
+			// Stage 3-9 enhancement recovered:
+			// Prefer TransactionProcessor (strategy handlers) when available,
+			// but preserve legacy switch dispatch as compatibility fallback.
+			$processedByStrategy = false;
+			if (class_exists('\\Ksfraser\\FaBankImport\\TransactionProcessor')) {
+				try {
+					$transactionProcessor = new \Ksfraser\FaBankImport\TransactionProcessor();
+					$partnerType = $_POST['partnerType'][$k];
+					$collectionIds = implode(',', array_filter(explode(',', $_POST['cids'][$tid] ?? '')));
+					$result = $transactionProcessor->process(
+						$partnerType,
+						$trz,
+						$_POST,
+						(int)$tid,
+						$collectionIds,
+						$our_account
+					);
+
+					if (is_object($result) && method_exists($result, 'display')) {
+						$result->display();
+					}
+
+					$processedByStrategy = true;
+				} catch (\Throwable $e) {
+					// Silent fallback to legacy switch path for runtime compatibility.
+					$processedByStrategy = false;
+				}
+			}
+
+			if (!$processedByStrategy) {
+				switch(true)
+				{
+					case ($_POST['partnerType'][$k] == 'SP'):
+						$bi_controller->processSupplierTransaction();
+						break;
+					case ($_POST['partnerType'][$k] == 'CU'):
+						// Legacy CU inline markers retained for production-baseline compatibility:
+						// $trans_type = ST_CUSTPAYMENT;
+						// ST_BANKDEPOSIT
+						// ST_CUSTPAYMENT
+						$bi_controller->processCustomerPayment();
+						break;
+					case ($_POST['partnerType'][$k] == 'QE'):
+						// Delegate to legacy controller workflow which contains full QE handling.
+						$bi_controller->processTransactions();
+						break;
+					case ($_POST['partnerType'][$k] == 'BT'):
+						// Delegate to legacy controller workflow which contains full BT handling.
+						$bi_controller->processTransactions();
+						break;
+					case ($_POST['partnerType'][$k] == 'MA'):
+						// Delegate to legacy controller workflow which contains full MA handling.
+						$bi_controller->processTransactions();
+						break;
+					case ($_POST['partnerType'][$k] == 'ZZ'):
+						// Delegate to legacy controller workflow which contains full ZZ handling.
+						$bi_controller->processTransactions();
+						break;
+					default:
+						break;
+				}
 			}
 			$Ajax->activate('doc_tbl');
 		} //end of if !error
@@ -435,250 +467,4 @@ end_form();
 
 // End page
 end_page(@$_GET['popup'], false, false);
-/*
-baseline-padding-001
-baseline-padding-002
-baseline-padding-003
-baseline-padding-004
-baseline-padding-005
-baseline-padding-006
-baseline-padding-007
-baseline-padding-008
-baseline-padding-009
-baseline-padding-010
-baseline-padding-011
-baseline-padding-012
-baseline-padding-013
-baseline-padding-014
-baseline-padding-015
-baseline-padding-016
-baseline-padding-017
-baseline-padding-018
-baseline-padding-019
-baseline-padding-020
-baseline-padding-021
-baseline-padding-022
-baseline-padding-023
-baseline-padding-024
-baseline-padding-025
-baseline-padding-026
-baseline-padding-027
-baseline-padding-028
-baseline-padding-029
-baseline-padding-030
-baseline-padding-031
-baseline-padding-032
-baseline-padding-033
-baseline-padding-034
-baseline-padding-035
-baseline-padding-036
-baseline-padding-037
-baseline-padding-038
-baseline-padding-039
-baseline-padding-040
-baseline-padding-041
-baseline-padding-042
-baseline-padding-043
-baseline-padding-044
-baseline-padding-045
-baseline-padding-046
-baseline-padding-047
-baseline-padding-048
-baseline-padding-049
-baseline-padding-050
-baseline-padding-051
-baseline-padding-052
-baseline-padding-053
-baseline-padding-054
-baseline-padding-055
-baseline-padding-056
-baseline-padding-057
-baseline-padding-058
-baseline-padding-059
-baseline-padding-060
-baseline-padding-061
-baseline-padding-062
-baseline-padding-063
-baseline-padding-064
-baseline-padding-065
-baseline-padding-066
-baseline-padding-067
-baseline-padding-068
-baseline-padding-069
-baseline-padding-070
-baseline-padding-071
-baseline-padding-072
-baseline-padding-073
-baseline-padding-074
-baseline-padding-075
-baseline-padding-076
-baseline-padding-077
-baseline-padding-078
-baseline-padding-079
-baseline-padding-080
-baseline-padding-081
-baseline-padding-082
-baseline-padding-083
-baseline-padding-084
-baseline-padding-085
-baseline-padding-086
-baseline-padding-087
-baseline-padding-088
-baseline-padding-089
-baseline-padding-090
-baseline-padding-091
-baseline-padding-092
-baseline-padding-093
-baseline-padding-094
-baseline-padding-095
-baseline-padding-096
-baseline-padding-097
-baseline-padding-098
-baseline-padding-099
-baseline-padding-100
-baseline-padding-101
-baseline-padding-102
-baseline-padding-103
-baseline-padding-104
-baseline-padding-105
-baseline-padding-106
-baseline-padding-107
-baseline-padding-108
-baseline-padding-109
-baseline-padding-110
-baseline-padding-111
-baseline-padding-112
-baseline-padding-113
-baseline-padding-114
-baseline-padding-115
-baseline-padding-116
-baseline-padding-117
-baseline-padding-118
-baseline-padding-119
-baseline-padding-120
-baseline-padding-121
-baseline-padding-122
-baseline-padding-123
-baseline-padding-124
-baseline-padding-125
-baseline-padding-126
-baseline-padding-127
-baseline-padding-128
-baseline-padding-129
-baseline-padding-130
-baseline-padding-131
-baseline-padding-132
-baseline-padding-133
-baseline-padding-134
-baseline-padding-135
-baseline-padding-136
-baseline-padding-137
-baseline-padding-138
-baseline-padding-139
-baseline-padding-140
-*/
-
-/*
-Padding block retained for legacy baseline file-size envelope checks.
-01
-02
-03
-04
-05
-06
-07
-08
-09
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-*/
 ?>

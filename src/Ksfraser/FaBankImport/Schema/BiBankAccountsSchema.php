@@ -44,6 +44,7 @@ final class BiBankAccountsSchema
                     'null' => 'NOT NULL',
                     'readwrite' => 'read',
                     'default' => 'CURRENT_TIMESTAMP',
+                    'on_update' => 'CURRENT_TIMESTAMP',
                 ),
                 'intu_bid' => array(
                     'label' => 'Intuit BID',
@@ -77,6 +78,23 @@ final class BiBankAccountsSchema
                     'type' => 'varchar(3)',
                     'null' => 'NULL',
                     'readwrite' => 'readwrite',
+                ),
+            ),
+            'db' => array(
+                'engine' => 'InnoDB',
+                'charset' => 'utf8mb4',
+                'collation' => 'utf8mb4_unicode_ci',
+                'uniqueConstraints' => array(
+                    array(
+                        'name' => 'uniq_detected_identity',
+                        'columns' => array('acctid', 'bankid', 'intu_bid'),
+                    ),
+                ),
+                'indexes' => array(
+                    array('name' => 'idx_bank_account_id', 'columns' => array('bank_account_id')),
+                    array('name' => 'idx_acctid', 'columns' => array('acctid')),
+                    array('name' => 'idx_bankid', 'columns' => array('bankid')),
+                    array('name' => 'idx_intu_bid', 'columns' => array('intu_bid')),
                 ),
             ),
             'ui' => array(

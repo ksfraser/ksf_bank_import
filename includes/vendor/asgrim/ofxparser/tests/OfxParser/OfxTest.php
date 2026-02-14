@@ -18,9 +18,7 @@ class OfxTest extends \PHPUnit_Framework_TestCase
     {
         $ofxFile = dirname(__DIR__).'/fixtures/ofxdata-xml.ofx';
 
-        if (!file_exists($ofxFile)) {
-            self::markTestSkipped('Could not find data file, cannot test Ofx Class');
-        }
+        self::assertFileExists($ofxFile, 'Fixture file is required for Ofx tests');
         $this->ofxData = simplexml_load_string(file_get_contents($ofxFile));
     }
 
@@ -106,9 +104,7 @@ class OfxTest extends \PHPUnit_Framework_TestCase
     public function testBuildsMultipleBankAccounts()
     {
         $multiOfxFile = dirname(__DIR__).'/fixtures/ofx-multiple-accounts-xml.ofx';
-        if (!file_exists($multiOfxFile)) {
-            self::markTestSkipped('Could not find multiple account data file, cannot fully test Multiple Bank Accounts');
-        }
+        self::assertFileExists($multiOfxFile, 'Fixture file is required for multiple accounts test');
         $multiOfxData = simplexml_load_string(file_get_contents($multiOfxFile));
         $ofx = new Ofx($multiOfxData);
 

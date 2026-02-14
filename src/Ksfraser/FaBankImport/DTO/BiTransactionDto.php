@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\DTO;
 
-use Ksfraser\FaBankImport\Config\Config;
 use Ksfraser\FaBankImport\Schema\BiTransactionsSchema;
+use Ksfraser\FaBankImport\TransactionDC\TransactionDCRules;
 
 final class BiTransactionDto
     extends AbstractArrayDto
@@ -36,28 +36,11 @@ final class BiTransactionDto
 
     public function getTransactionDC(): string
     {
-        $value = strtoupper(trim((string) $this->get('transactionDC', '')));
-        if ($value !== '') {
-            return $value;
+        $rawValue = (string) $this->get('transactionDC', '');
+        if (TransactionDCRules::isAllowed($rawValue)) {
+            return TransactionDCRules::normalize($rawValue);
         }
 
-        $config = Config::getInstance();
-        $configuredDefault = strtoupper(trim((string) $config->get('transaction.default_dc', 'D')));
-        $allowedTypes = $config->get('transaction.allowed_types', ['C', 'D', 'B']);
-
-        if (is_array($allowedTypes)) {
-            $allowedTypes = array_map(
-                static function ($type): string {
-                    return strtoupper(trim((string) $type));
-                },
-                $allowedTypes
-            );
-
-            if (in_array($configuredDefault, $allowedTypes, true)) {
-                return $configuredDefault;
-            }
-        }
-
-        return 'D';
+        return TransactionDCRules::resolve(null);
     }
 }

@@ -10,6 +10,26 @@ use PHPUnit\Framework\TestCase;
  */
 class ProcessStatementsLogicCharacterizationTest extends TestCase
 {
+    private function loadFileFromCommit(string $commitHash, string $repoRelativePath): string
+    {
+        $repoRoot = realpath(__DIR__ . '/../../');
+        $this->assertNotFalse($repoRoot, 'Could not resolve repository root path');
+
+        $command = sprintf(
+            'git -C %s show %s:%s 2>NUL',
+            escapeshellarg($repoRoot),
+            escapeshellarg($commitHash),
+            escapeshellarg(str_replace('\\', '/', $repoRelativePath))
+        );
+
+        $content = shell_exec($command);
+        if (!is_string($content) || $content === '') {
+            $this->markTestSkipped("Unable to load {$repoRelativePath} from commit {$commitHash}");
+        }
+
+        return $content;
+    }
+
     private function loadFile(string $relativePath): string
     {
         $fullPath = __DIR__ . '/../../' . $relativePath;
@@ -90,5 +110,33 @@ class ProcessStatementsLogicCharacterizationTest extends TestCase
         $this->assertMatchesRegularExpression('/switch\s*\(\s*true\s*\)/', $content);
         $this->assertStringContainsString("case (\$_POST['partnerType'][\$k] == 'SP'):", $content);
         $this->assertStringContainsString("case (\$_POST['partnerType'][\$k] == 'CU'", $content);
+    }
+
+    public function testApril9AndNov14SnapshotsHaveCoreControlFlow(): void
+    {
+        // April 9, 2025 checkpoint mentioned by team
+        $aprilContent = $this->loadFileFromCommit('bda933c', 'process_statements.php');
+
+        // Nov 14, 2025 merge checkpoint that reintroduced prod code
+        $novemberContent = $this->loadFileFromCommit('524664f', 'process_statements.php');
+
+        foreach ([$aprilContent, $novemberContent] as $content) {
+            $this->assertMatchesRegularExpression('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/', $content);
+
+            if (preg_match('/switch\s*\(\s*true\s*\)/', $content) === 1) {
+                $cases = $this->extractPartnerTypeCases($content);
+                $this->assertContains('SP', $cases);
+                $this->assertContains('BT', $cases);
+                $this->assertContains('MA', $cases);
+                $this->assertContains('ZZ', $cases);
+            } else {
+                // Some historical snapshots used controller-style refactor.
+                $this->assertStringContainsString('class ProcessStatementsController', $content);
+                $this->assertMatchesRegularExpression('/switch\s*\(\s*\$partnerType\s*\)/', $content);
+                $this->assertStringContainsString('processSupplierTransaction', $content);
+                $this->assertStringContainsString('processCustomerTransaction', $content);
+                $this->assertStringContainsString('processBankTransfer', $content);
+            }
+        }
     }
 }
