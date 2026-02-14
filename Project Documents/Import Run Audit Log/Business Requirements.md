@@ -23,6 +23,12 @@ Bank imports can fail or behave unexpectedly due to duplicates, format issues, o
 - Faster resolution of import issues.
 - Reduced need for direct server access to inspect logs.
 
+## 2026-02-14 Update
+- Transaction and link URL generation is centralized into single-responsibility builders.
+- Environment-safe URL handling removes hardcoded host and application path dependencies.
+- Matched, manual, BT, QE, customer, and supplier flow link rendering is aligned to shared notification/link helpers.
+- Test expectations for UAT readiness are updated: any skipped test outside the baseline is treated as a failure.
+
 ## Assumptions
 - Server filesystem is available for company-scoped persistent storage.
 

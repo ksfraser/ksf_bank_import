@@ -281,9 +281,18 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 						$result->display();
 					}
 
+					if (class_exists('\\Ksfraser\\FA\\Notifications\\TransactionResultLinkPresenter')) {
+						$linkPresenter = new \Ksfraser\FA\Notifications\TransactionResultLinkPresenter();
+						$linkPresenter->displayFromResult($result, is_array($config) ? $config : [], (string)$partnerType);
+					}
+
 					$processedByStrategy = true;
 				} catch (\Throwable $e) {
-					// Silent fallback to legacy switch path for runtime compatibility.
+					if (function_exists('display_warning')) {
+						display_warning('TransactionProcessor strategy fallback: ' . $e->getMessage());
+					} elseif (function_exists('display_notification')) {
+						display_notification('TransactionProcessor strategy fallback: ' . $e->getMessage());
+					}
 					$processedByStrategy = false;
 				}
 			}

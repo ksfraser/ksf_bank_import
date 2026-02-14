@@ -54,7 +54,11 @@
 			},
 			"Tee-Object": true,
 			"short": true,
-			"format:\"%h": true
+			"format:\"%h": true,
+			"/^& \\.\\\\vendor\\\\bin\\\\codecept build; & \\.\\\\vendor\\\\bin\\\\codecept run --no-interaction --no-ansi$/": {
+				"approve": true,
+				"matchCommandLine": true
+			}
 		}
 	}
 }

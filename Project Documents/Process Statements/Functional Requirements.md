@@ -82,6 +82,12 @@ Review and process staged bank transactions into FA transactions, or link them t
 - The canonical location for these examples shall be [Intercompany Routing Examples.md](Intercompany%20Routing%20Examples.md), not inline TODOs in [process_statements.php](../../process_statements.php).
 
 ### FR-PROC-015 — Paired dual-side action extracted to SRP class
+
+## 2026-02-14 Update
+- Transaction and link URL generation is centralized into single-responsibility builders.
+- Environment-safe URL handling removes hardcoded host and application path dependencies.
+- Matched, manual, BT, QE, customer, and supplier flow link rendering is aligned to shared notification/link helpers.
+- Test expectations for UAT readiness are updated: any skipped test outside the baseline is treated as a failure.
 - Parsing/validation of dual-side transfer POST payload shall be implemented in a dedicated SRP class.
 - Controller file [process_statements.php](../../process_statements.php) shall keep only a one-line marker comment at the former inline block location while baseline compatibility mode is active.
 - The extracted class shall be: [src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php](../../src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php).

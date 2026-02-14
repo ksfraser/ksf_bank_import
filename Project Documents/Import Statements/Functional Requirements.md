@@ -40,6 +40,12 @@ Upload and parse bank statement files and import them into staging tables, with 
 ### FR-IMP-007 — Import statements into staging
 - For each parsed statement, the system shall insert a new staging statement when it does not exist, or update the existing statement when it does.
 
+## 2026-02-14 Update
+- Transaction and link URL generation is centralized into single-responsibility builders.
+- Environment-safe URL handling removes hardcoded host and application path dependencies.
+- Matched, manual, BT, QE, customer, and supplier flow link rendering is aligned to shared notification/link helpers.
+- Test expectations for UAT readiness are updated: any skipped test outside the baseline is treated as a failure.
+
 ### FR-IMP-008 — Import transactions into staging
 - For each parsed statement transaction, the system shall insert a new staging transaction when it does not exist.
 - The system shall not create duplicate staging transactions for duplicates detected by the transaction model.

@@ -29,6 +29,12 @@ Resolve detected bank account identifiers from imported files to existing FrontA
 - For each detected identifier, the screen shall include a “Remember/Associate” checkbox.
 - If selected, the system shall persist an internal association so future imports can auto-resolve the detected identifier.
 
+## 2026-02-14 Update
+- Transaction and link URL generation is centralized into single-responsibility builders.
+- Environment-safe URL handling removes hardcoded host and application path dependencies.
+- Matched, manual, BT, QE, customer, and supplier flow link rendering is aligned to shared notification/link helpers.
+- Test expectations for UAT readiness are updated: any skipped test outside the baseline is treated as a failure.
+
 ### FR-006 — Auto-apply saved associations
 - On subsequent imports, the system shall apply any saved associations automatically and only prompt for remaining unresolved identifiers.
 

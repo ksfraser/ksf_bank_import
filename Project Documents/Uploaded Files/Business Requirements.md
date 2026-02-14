@@ -13,6 +13,12 @@ When users import bank statement files, auditors and support often need to know 
 - Download file content.
 - Delete file and its stored content.
 
+## 2026-02-14 Update
+- Transaction and link URL generation is centralized into single-responsibility builders.
+- Environment-safe URL handling removes hardcoded host and application path dependencies.
+- Matched, manual, BT, QE, customer, and supplier flow link rendering is aligned to shared notification/link helpers.
+- Test expectations for UAT readiness are updated: any skipped test outside the baseline is treated as a failure.
+
 ## Out of Scope
 - Changing the imported statement/transaction data itself.
 

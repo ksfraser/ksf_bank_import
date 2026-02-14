@@ -15,6 +15,35 @@
  */
 
 // =============================================================================
+// Generic FA model fallback (for standalone tests)
+// =============================================================================
+
+if (!class_exists('generic_fa_interface_model')) {
+    class generic_fa_interface_model
+    {
+        public function __construct(...$args) {}
+
+        public function set($field, $value = null, $enforce = true)
+        {
+            $this->$field = $value;
+            return true;
+        }
+
+        public function get($field)
+        {
+            return $this->$field ?? null;
+        }
+    }
+}
+
+if (!function_exists('shorten_bankAccount_Names')) {
+    function shorten_bankAccount_Names($name)
+    {
+        return (string)$name;
+    }
+}
+
+// =============================================================================
 // Display Functions
 // =============================================================================
 

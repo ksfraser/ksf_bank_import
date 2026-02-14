@@ -33,6 +33,12 @@ This step must support multiple real-world processing patterns:
 - Lower error rate in transaction classification.
 - Fewer manual DB corrections.
 
+## 2026-02-14 Update
+- Transaction and link URL generation is centralized into single-responsibility builders.
+- Environment-safe URL handling removes hardcoded host and application path dependencies.
+- Matched, manual, BT, QE, customer, and supplier flow link rendering is aligned to shared notification/link helpers.
+- Test expectations for UAT readiness are updated: any skipped test outside the baseline is treated as a failure.
+
 ## Constraints
 - Must use FA’s transaction-writing functions where available.
 - Must operate under FA permissions model.

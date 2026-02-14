@@ -39,6 +39,12 @@ Record a structured audit log for each import run and provide a permission-gated
 ### FR-LOG-006 — View logs permission
 - The system shall restrict log viewing to users with the appropriate permission.
 
+## 2026-02-14 Update
+- Transaction and link URL generation is centralized into single-responsibility builders.
+- Environment-safe URL handling removes hardcoded host and application path dependencies.
+- Matched, manual, BT, QE, customer, and supplier flow link rendering is aligned to shared notification/link helpers.
+- Test expectations for UAT readiness are updated: any skipped test outside the baseline is treated as a failure.
+
 ### FR-LOG-007 — Read-only log viewer
 - The system shall provide a read-only UI to:
   - list available import run logs (newest first)

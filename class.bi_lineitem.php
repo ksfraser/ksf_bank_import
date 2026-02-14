@@ -21,40 +21,14 @@ $commonDir = is_dir(__DIR__ . '/../ksf_modules_common')
 	? __DIR__ . '/../ksf_modules_common'
 	: __DIR__ . '/ksf_modules_common';
 
-$faTypesInc = dirname($commonDir, 2) . '/includes/types.inc';
-
-if (is_file($commonDir . '/class.generic_fa_interface.php') && is_file($faTypesInc)) {
+if (is_file($commonDir . '/class.generic_fa_interface.php')) {
 	require_once($commonDir . '/class.generic_fa_interface.php');
 }
-if (is_file($commonDir . '/defines.inc.php') && is_file($faTypesInc)) {
+
+if (is_file($commonDir . '/defines.inc.php')) {
 	require_once($commonDir . '/defines.inc.php');
 } elseif (is_file(__DIR__ . '/includes/fa_stubs.php')) {
 	require_once(__DIR__ . '/includes/fa_stubs.php');
-}
-
-if (!class_exists('generic_fa_interface_model')) {
-	class generic_fa_interface_model
-	{
-		public function __construct(...$args) {}
-
-		public function set($field, $value = null, $enforce = true)
-		{
-			$this->$field = $value;
-			return true;
-		}
-
-		public function get($field)
-		{
-			return $this->$field ?? null;
-		}
-	}
-}
-
-if (!function_exists('shorten_bankAccount_Names')) {
-	function shorten_bankAccount_Names($name)
-	{
-		return (string)$name;
-	}
 }
 
 $viewsDir = is_dir(__DIR__ . '/Views') ? __DIR__ . '/Views' : __DIR__ . '/views';
@@ -1264,6 +1238,12 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		return $this->matching_trans ?? [];
 	}
+	
+	/**
+	 * Get form data handler
+	 * 
+	 * @return PartnerFormData Form data access object
+	 */
 	public function getFormData(): PartnerFormData
 	{
 		return $this->formData;

@@ -30,6 +30,12 @@ The import flow must also cope with real-world conditions:
 - Reduced frequency of “duplicate import” errors.
 - Improved ability to audit which file produced which statements.
 
+## 2026-02-14 Update
+- Transaction and link URL generation is centralized into single-responsibility builders.
+- Environment-safe URL handling removes hardcoded host and application path dependencies.
+- Matched, manual, BT, QE, customer, and supplier flow link rendering is aligned to shared notification/link helpers.
+- Test expectations for UAT readiness are updated: any skipped test outside the baseline is treated as a failure.
+
 ## Assumptions
 - Users have the correct permissions and have configured FA bank accounts.
 - At least one supported parser exists for the bank’s file format.
