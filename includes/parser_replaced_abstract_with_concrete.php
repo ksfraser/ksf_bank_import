@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :Parser [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Defines Parser behavior for this module.
+ */
 namespace OfxParser;
 
 /**
@@ -97,112 +108,7 @@ class Parser
      * @param string $line
      * @return string
      */
-    private function closeUnclosedXmlTags_orig($line)
-    {
-	var_dump( __FILE__ . "::" .( __FILE__ . "::" . __LINE__ )); 
-	var_dump( $line );
- 	$line = trim($line);
-        $tag = ltrim(
-			substr(	$line, 
-				1, 
-				strpos($line, '>') - 1
-			), 
-			'/' );
-
-        // Line is "<SOMETHING>" or "</SOMETHING>"
-        if ($line === '<' . $tag . '>' || $line === '</' . $tag . '>') {
-		var_dump( __FILE__ . "::" .( __FILE__ . "::" . __LINE__ )); 
-		var_dump( $line );
-            return $line;
-        }
-
- 	// Tag is properly closed i.e. there is a close tag on the line.  Doesn't mean the TAG matches though!
-        if (strpos($line, '</' . $tag . '>') !== false) {
-		var_dump( __FILE__ . "::" .( __FILE__ . "::" . __LINE__ )); 
-		var_dump( $line );
-            return $line;
-        }
-
-        $lines = explode("\n", str_replace('</', "\n" . '</', $line));
-        $lines[0] = trim($lines[0]) . '</' . $tag .'>';
-        return implode('', $lines);
-    }
-
-    /**
-     * Detect any unclosed XML tags - if they exist, close them
-     *
-  string(68) "<OFX><SIGNONMSGSRSV1><SONRS><STATUS><CODE>0<SEVERITY>INFO<MESSAGE>OK"
-  [1]=>
-  string(109) "</STATUS><DTSERVER>20240223062422<LANGUAGE>ENG<DTPROFUP>20240223062422<DTACCTUP>20240223062422<INTU.BID>00005"
-  [2]=>
-  string(8) "</SONRS>"
-  [3]=>
-  string(17) "</SIGNONMSGSRSV1>"
-}
-*/
     private function closeUnclosedXmlTags($line)
-	{
- 	$line = trim($line);
-        $tag = ltrim(
-			substr(	$line, 
-				1, 
-				strpos($line, '>') - 1
-			), 
-			'/' );
-
-        // Line is "<SOMETHING>" or "</SOMETHING>"
-        if ($line === '<' . $tag . '>' || $line === '</' . $tag . '>') {
-		var_dump( __FILE__ . "::" .( __FILE__ . "::" . __LINE__ )); 
-		var_dump( $line );
-            return $line;
-        }
-
- 	// Tag is properly closed i.e. there is a close tag on the line.  Doesn't mean the TAG matches though!
-        if (strpos($line, '</' . $tag . '>') !== false) {
-		var_dump( __FILE__ . "::" .( __FILE__ . "::" . __LINE__ )); 
-		var_dump( $line );
-            return $line;
-        }
-
-	var_dump(( __FILE__ . "::" . __LINE__ ));
-//This separates on closing tags.  However, some files are <tag1><tag2><tag3><tag4></tag1> so this isn't working.
-        $lines = explode("\n", str_replace('</', "\n" . '</', $line));
-		var_dump( __FILE__ . "::" .( __FILE__ . "::" . __LINE__ )); 
-		var_dump( $lines );
-/*
-        $newline = explode("\n", str_replace('<', "\n" . '<', $lines));
-		var_dump(( __FILE__ . "::" . __LINE__ ));
-		var_dump( $newline );
-	foreach( $newline as $line2 )
-	{
-		var_dump(( __FILE__ . "::" . __LINE__ ));
-		var_dump( $line2 );
-		$newline[] = $this->closeUnclosedXmlTags( $line2 );
-	}
-*/
-	foreach( $lines as $line2 )
-	{
-		var_dump(( __FILE__ . "::" . __LINE__ ));
-		var_dump( $line2 );
-		$newline[] = $this->closeUnclosedXmlTags( $line2 );
-	}
-	var_dump(( __FILE__ . "::" . __LINE__ ));
-	var_dump( $newline );
-	implode( '', $newline );
-	var_dump(( __FILE__ . "::" . __LINE__ ));
-	var_dump( $newline );
-        $lines[0] = trim($lines[0]) . '</' . $tag .'>';
-	var_dump(( __FILE__ . "::" . __LINE__ ));
-	var_dump( $lines );
-        return implode('', $lines);
-    }
-    /**
-     * Detect any unclosed XML tags - if they exist, close them
-     *
-     * @param string $line
-     * @return string
-     */
-    private function closeUnclosedXmlTags_orig($line)
     {
         // Matches: <SOMETHING>blah
         // Does not match: <SOMETHING>
@@ -227,3 +133,69 @@ class Parser
      */
     private function convertSgmlToXml_orig($sgml)
     {
+	//20240227 New Lines were not being inserted so matching in cluseUnclosed wasn't working
+		//20240707 Adding the following line seems to fix CIBC at least as far as test.php goes...
+		//Either way Manulife is broken
+		//Manu is 1 giant line.
+		//ATB works when the following line ISN"T uncommented.
+        // - Part of conditionalAdd$sgml = str_replace("<", "\n<", $sgml);
+	//--20240227
+        $sgml = str_replace(["\r\n", "\r", "\n\n"], "\n", $sgml);
+
+        $lines = explode("\n", $sgml);
+
+        $xml = '';
+        foreach ($lines as $line) {
+		//	var_dump( $line );
+		//ATB is ending up with extra blank lines
+		if( strlen( $line ) > 1 )
+		{
+			//var_dump( $line );
+            		$res = trim( $this->closeUnclosedXmlTags($line) ) . "\n";
+			//var_dump( $res );
+            		$xml .= $res;
+		}
+        }
+
+        return trim($xml);
+    }
+    /**
+     * Convert an SGML to an XML string
+     *
+	*
+	*	20240707 This is what is on the archived repository.  Not sure why this didn't pull by composer...
+     * @param string $sgml
+     * @return string
+     */
+    private function convertSgmlToXml($sgml)
+    {
+        $sgml = preg_replace('/&(?!#?[a-z0-9]+;)/', '&amp;', $sgml);
+
+        $lines = explode("\n", $sgml);
+        $tags = [];
+
+        foreach ($lines as $i => &$line) {
+		var_dump( $line );
+            $line = trim($this->closeUnclosedXmlTags($line)) . "\n";
+
+            // Matches tags like <SOMETHING> or </SOMETHING>
+            if (!preg_match("/^<(\/?[A-Za-z0-9.]+)>$/", trim($line), $matches)) {
+                continue;
+            }
+
+            // If matches </SOMETHING>, looks back and replaces all tags like
+            // <OTHERTHING> to <OTHERTHING/> until finds the opening tag <SOMETHING>
+            if ($matches[1][0] == '/') {
+                $tag = substr($matches[1], 1);
+
+                while (($last = array_pop($tags)) && $last[1] != $tag) {
+                    $lines[$last[0]] = "<{$last[1]}/>";
+                }
+            } else {
+                $tags[] = [$i, $matches[1]];
+            }
+        }
+
+        return implode("\n", array_map('trim', $lines));
+    }
+}

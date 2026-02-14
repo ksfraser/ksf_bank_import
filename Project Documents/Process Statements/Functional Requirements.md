@@ -101,6 +101,33 @@ Review and process staged bank transactions into FA transactions, or link them t
   - [src/Ksfraser/FaBankImport/Actions/AddVendorAction.php](../../src/Ksfraser/FaBankImport/Actions/AddVendorAction.php)
   - [src/Ksfraser/FaBankImport/Actions/ToggleTransactionAction.php](../../src/Ksfraser/FaBankImport/Actions/ToggleTransactionAction.php)
 
+### FR-PROC-017 — Four-column transaction row layout
+- The transaction review row shall render in four columns for unprocessed transactions:
+  - Details,
+  - Operation,
+  - Partner / Actions,
+  - Matching GLs.
+- Column order and header labels shall remain stable to support operator workflow and UAT reproducibility.
+
+### FR-PROC-018 — Backward compatibility for legacy left/right APIs
+- Legacy methods `getLeftTd`, `getLeftHtml`, `display_left`, `getRightTd`, `getRightHtml`, and `display_right` shall remain available during migration.
+- New four-column methods may be introduced, but they shall not remove or rename legacy methods while baseline compatibility mode is active.
+
+### FR-PROC-019 — Render-fragment migration policy
+- Rendering internals shall progressively move from output side effects toward `HtmlElement`/`HtmlFragment` return values.
+- Legacy `display*`/`toHtml` entry points shall remain, delegating to `render*`/fragment-producing methods where available.
+- Remaining `HtmlOB` usage is accepted as transitional technical debt and shall be tracked until fully removed.
+
+### FR-PROC-020 — Process statements date-range responsiveness instrumentation
+- The process statements page shall include server-side timing instrumentation for transaction fetch and render phases to support diagnosis of date-range timeout issues.
+- The controller shall send no-cache response headers for this page to reduce stale-response ambiguity during troubleshooting.
+
+## Known Technical Backlog (Tracked)
+- Remove residual `HtmlOB` capture points in [class.bi_lineitem.php](../../class.bi_lineitem.php) once equivalent fragment-returning render methods are complete.
+- Complete TODO for paired-transfer normalization comment in [class.bi_lineitem.php](../../class.bi_lineitem.php).
+- Refactor `our_bank_accounts` array dependency to class-based bank account model in [class.bi_lineitem.php](../../class.bi_lineitem.php).
+- Review/remove debug label output in operation rendering path after acceptance verification.
+
 ## Implementation Anchors
 - Page/controller: [process_statements.php](../../process_statements.php)
 - Handler routing: [src/Ksfraser/FaBankImport/TransactionProcessor.php](../../src/Ksfraser/FaBankImport/TransactionProcessor.php)

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :Parser [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Defines Parser behavior for this module.
+ */
 namespace OfxParser;
 
 /**
@@ -99,7 +110,7 @@ class Parser
      */
     private function closeUnclosedXmlTags($line)
     {
-	var_dump( __LINE__ );) 
+    var_dump( __LINE__ );
 	var_dump( $line );
  	$line = trim($line);
         $tag = ltrim(

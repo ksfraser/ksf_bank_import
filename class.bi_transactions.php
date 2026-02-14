@@ -504,7 +504,6 @@ class bi_transactions_model extends generic_fa_interface_model {
 		}
         	$sql .= " ORDER BY t.valueTimestamp ASC";
 
-         	$res = db_query($sql, 'unable to get transactions data');
 	        $result = db_query($sql, "could not get transaction data");
         	while($myrow = db_fetch($result))
         	{

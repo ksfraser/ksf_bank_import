@@ -1,5 +1,14 @@
 <?php
 
+// Prevent conditional-cache responses (304) that can break legacy jsHttpRequest flows.
+if (!headers_sent()) {
+	header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+	header('Cache-Control: post-check=0, pre-check=0', false);
+	header('Pragma: no-cache');
+	header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
+	header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+}
+
 // Ensure relative paths resolve from this module directory (FA expects $path_to_root to be a web-relative path).
 chdir(__DIR__);
 
@@ -61,10 +70,19 @@ include_once($path_to_root . "/includes/data_checks.inc");
 
 include_once($path_to_root . "/modules/bank_import/includes/includes.inc");
 include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
+require_once(__DIR__ . '/src/Ksfraser/HTML/Ajax/DivActivator.php');
 
 //20240316
 //	QE is working.
 //	BT is working.
+
+/**
+ * Safely activate Ajax refresh target when FA Ajax object is available.
+ */
+function activate_doc_tbl_safe(): void
+{
+	\Ksfraser\HTML\Ajax\DivActivator::activateDocTable();
+}
 
 //TODO:
 //	Audit routine to ensure that all processed entries match what they are allocated to
@@ -135,7 +153,6 @@ require_once( 'class.bank_import_controller.php' );
 // actions
 //---------------------------------------------------------------------------------
 
-unset($k, $v);
 if( isset( $_POST['UnsetTrans'] ) )
 {
 	$bi_controller->unsetTrans();
@@ -190,7 +207,14 @@ if (isset($_POST['ProcessBothSides'])) {
 
 if ( isset( $_POST['ProcessTransaction'] ) ) {
 //20240208 EACH is depreciated.  Should rewrite with foreach
-	list($k, $v) = each($_POST['ProcessTransaction']);	//K is index.  V is "process/..."
+	$k = null;
+	$v = null;
+	if (is_array($_POST['ProcessTransaction']) && !empty($_POST['ProcessTransaction'])) {
+		reset($_POST['ProcessTransaction']);
+		$k = key($_POST['ProcessTransaction']);
+		$v = current($_POST['ProcessTransaction']);
+	}
+	//K is index.  V is "process/..."
 	if (isset($k) && isset($v) && isset($_POST['partnerType'][$k])) 
 	{
 		//check params
@@ -369,7 +393,13 @@ if (get_post('RefreshInquiry')) {
 unset($k, $v);
 if (isset($_POST['partnerId'])) {
 			//display_notification( __FILE__ . "::" . __LINE__ );
-	list($k, $v) = each($_POST['partnerId']);
+	$k = null;
+	$v = null;
+	if (is_array($_POST['partnerId']) && !empty($_POST['partnerId'])) {
+		reset($_POST['partnerId']);
+		$k = key($_POST['partnerId']);
+		$v = current($_POST['partnerId']);
+	}
 	if (isset($k) && isset($v)) {
 		$Ajax->activate('doc_tbl');
 	}
@@ -422,6 +452,7 @@ if (1) {
 
 	require_once(__DIR__ . '/class.bi_transactions.php');
 	$bit = new bi_transactions_model();
+	$fetchStartedAt = microtime(true);
 	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
 	{
 		$trzs = $bit->get_transactions( $_POST['statusFilter'] );
@@ -430,14 +461,24 @@ if (1) {
 	{
 		$trzs = $bit->get_transactions();
 	}
+	$fetchDurationMs = (int)round((microtime(true) - $fetchStartedAt) * 1000);
+	error_log('[bank_import] process_statements fetch_transactions_ms=' . $fetchDurationMs
+		. ' statusFilter=' . (isset($_POST['statusFilter']) ? (string)$_POST['statusFilter'] : 'null')
+		. ' from=' . (isset($_POST['TransAfterDate']) ? (string)$_POST['TransAfterDate'] : 'null')
+		. ' to=' . (isset($_POST['TransToDate']) ? (string)$_POST['TransToDate'] : 'null')
+		. ' bank=' . (isset($_POST['bankAccountFilter']) ? (string)$_POST['bankAccountFilter'] : 'ALL')
+		. ' groups=' . (is_array($trzs) ? (string)count($trzs) : '0')
+	);
 	
 /*************************************************************************************************************/
 	start_table(TABLESTYLE, "width='100%'");
-	table_header(array("Transaction Details", "Operation/Status"));
+	table_header(array("Transaction Details", "Operation", "Partner/Processing", "Matching GLs"));
 
 	//load data
 	
 	//This foreach loop should probably be rolled up into the WHILE loop above.
+	$renderStartedAt = microtime(true);
+	$renderedRows = 0;
 	foreach($trzs as $trz_code => $trz_data) 
 	{
 		//try to match something, interpreting saved info if status=TR_SETTLED
@@ -466,7 +507,10 @@ if (1) {
 	*	$cids = implode(',', $cids);
 	*/
 		$bi_lineitem->display();
+		$renderedRows++;
 	} //Foreach
+	$renderDurationMs = (int)round((microtime(true) - $renderStartedAt) * 1000);
+	error_log('[bank_import] process_statements render_rows_ms=' . $renderDurationMs . ' rows=' . $renderedRows);
 	end_table();
 /*************************************************************************************************************/
 }

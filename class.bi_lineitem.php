@@ -72,10 +72,21 @@ use Ksfraser\Views\CommentSubmitView;
 // PartnerTypeSelectorView for partner type dropdown
 require_once( __DIR__ . '/src/Ksfraser/Views/PartnerTypeSelectorView.php' );
 use Ksfraser\Views\PartnerTypeSelectorView;
+require_once( __DIR__ . '/src/Ksfraser/Views/MatchedPartnerTypeHtmlBuilder.php' );
+use Ksfraser\Views\MatchedPartnerTypeHtmlBuilder;
+require_once( __DIR__ . '/src/Ksfraser/Views/OperationTdBuilder.php' );
+use Ksfraser\Views\OperationTdBuilder;
+require_once( __DIR__ . '/src/Ksfraser/Views/PartnerTdBuilder.php' );
+use Ksfraser\Views\PartnerTdBuilder;
+require_once( __DIR__ . '/src/Ksfraser/Views/MatchingTdBuilder.php' );
+use Ksfraser\Views\MatchingTdBuilder;
+require_once( __DIR__ . '/src/Ksfraser/Views/LeftTdBuilder.php' );
+use Ksfraser\Views\LeftTdBuilder;
+require_once( __DIR__ . '/src/Ksfraser/Views/RightTdBuilder.php' );
+use Ksfraser\Views\RightTdBuilder;
 
 require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOB.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlRaw.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTable.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTd.php' );
@@ -87,7 +98,7 @@ require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlA.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlFragment.php' );
 use Ksfraser\HTML\Composites\HTML_ROW;
 use Ksfraser\HTML\Elements\HtmlString;
-use Ksfraser\HTML\Elements\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA};
+use Ksfraser\HTML\Elements\{HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA};
 use Ksfraser\HTML\{HtmlElement, HtmlAttribute, HtmlFragment};
 require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php' );
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
@@ -119,6 +130,10 @@ require_once( $viewsDir . '/LineitemDisplayLeft.php' );
 ******************************************************************************************************************/
 class bi_lineitem extends generic_fa_interface_model 
 {
+	// TODO(SRP-HTML): Continue module-wide migration target
+	// Replace remaining display*/toHtml()/echo/string-return rendering paths with
+	// HtmlElement/HtmlFragment-returning builders and remove residual side effects.
+
 	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |		|
 	protected $our_account; 	//| varchar()   | YES  |     | NULL    |		|
 	protected $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
@@ -268,14 +283,27 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function getHtml(): string
 	{
-		// Get left and right TD elements (not full HTML strings)
-		$leftTd = $this->getLeftTd();
-		$rightTd = $this->getRightTd();
+		// Precompute shared state for unsettled transactions once per row
+		if ($this->status != 1) {
+			$this->setPartnerType();
+			$this->getDisplayMatchingTrans();
+			if (!$this->formData->hasPartnerId()) {
+				$this->formData->setPartnerId(null);
+			}
+		}
+
+		// Four-column layout: details, operation, partner/actions, matching GLs
+		$detailsTd = $this->getDetailsTd();
+		$operationTd = $this->getOperationTd();
+		$partnerTd = $this->getPartnerTd();
+		$matchingTd = $this->getMatchingTd();
 		
-		// Create HtmlTableRow container with both TDs
+		// Create HtmlTableRow container with all TDs
 		$fragment = new HtmlFragment();
-		$fragment->addChild($leftTd);
-		$fragment->addChild($rightTd);
+		$fragment->addChild($detailsTd);
+		$fragment->addChild($operationTd);
+		$fragment->addChild($partnerTd);
+		$fragment->addChild($matchingTd);
 		
 		$tr = new HtmlTableRow($fragment);
 		
@@ -317,13 +345,13 @@ class bi_lineitem extends generic_fa_interface_model
 		// new OtherBankAccount, new AmountCharges, new TransTitle.
 		return $this->getLeftTd()->getHtml();
 	}
-	
+
 	/**//****************************************************************
 	* Get left column TD element (for testability and HTML library integration)
 	*
 	* Returns HtmlTd element containing the left column content.
 	* Uses SRP View classes with recursive string rendering.
-	* Uses HtmlOB to capture output from legacy display methods.
+	* Uses fragment composition for legacy add-vendor/customer rendering.
 	*
 	* @return HtmlTd TD element for left column
 	**********************************************************************/
@@ -346,29 +374,106 @@ class bi_lineitem extends generic_fa_interface_model
 		foreach ($rows as $row) {
 			$labelRowsHtml .= $row->getHtml();
 		}
+
+		$builder = new LeftTdBuilder();
+		return $builder->build($labelRowsHtml, $this->getLeftLegacyContentFragment());
+	}
+
+	/**
+	 * Build legacy left-column content as a fragment for builder composition.
+	 *
+	 * @return HtmlFragment
+	 */
+	function getLeftLegacyContentFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
+		$fragment->addChild($this->renderAddVendorOrCustomerFragment());
+		$fragment->addChild($this->renderEditTransDataFragment());
+		if( $this->isPaired() )
+		{
+			//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
+			$this->displayPaired();
+		}
+		return $fragment;
+	}
+
+	/**
+	 * Render add-vendor/customer UI as fragment.
+	 *
+	 * @return HtmlFragment
+	 */
+	function renderAddVendorOrCustomerFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
+		try {
+			$matchedVendor = $this->matchedVendor();
+			$matched_supplier = $this->matchedSupplierId( $matchedVendor );
+
+			$fragment->addChild(new \Ksfraser\HTML\Elements\HtmlHidden('vendor_id', (string)$matchedVendor));
+
+			$matchedVendorLabel = new \Ksfraser\HTML\Elements\HtmlString("Matched Vendor");
+			$matchedVendorText = print_r( $matchedVendor, true )
+				. "::"
+				. print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true )
+				. "::"
+				. print_r( $this->vendor_list[$matchedVendor]['supp_name'], true );
+			$matchedVendorContent = new \Ksfraser\HTML\Elements\HtmlString($matchedVendorText);
+			$fragment->addChild(new \Ksfraser\HTML\Composites\HtmlLabelRow($matchedVendorLabel, $matchedVendorContent));
+		}
+		catch( Exception $e )
+		{
+			$fragment->addChild($this->getAddVendorOrCustomerButtonFragment());
+		}
+		finally
+		{
+			$fragment->addChild(new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$this->id", $this->otherBankAccount));
+			$fragment->addChild(new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$this->id", $this->otherBankAccountName));
+		}
+		return $fragment;
+	}
+	
+	/**//****************************************************************
+	* Get details column TD element (4-column layout)
+	*
+	* This keeps 4-column behavior independent from legacy getLeftTd().
+	*
+	* @return HtmlTd TD element for details column
+	**********************************************************************/
+	function getDetailsTd(): HtmlTd
+	{
+		// Populate bank details first
+		$this->getBankAccountDetails();
 		
-		// Complex components - capture their echoed output using HtmlOB
-		// TODO: Refactor these methods to return strings directly
-		$complexHtml = (new HtmlOB(function() {
-			$this->displayAddVendorOrCustomer();
-			$this->displayEditTransData();
-			if( $this->isPaired() )
-			{
-				//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
-				$this->displayPaired();
-			}
-		}))->getHtml();
+		$rows = [];
+		$rows[] = new TransDate($this);
+		$rows[] = new TransType($this);
+		$rows[] = new OurBankAccount($this);
+		$rows[] = new OtherBankAccount($this);
+		$rows[] = new AmountCharges($this);
+		$rows[] = new TransTitle($this);
 		
-		// Build complete HTML structure using HTML library classes
-		// Wrap content strings in HtmlRaw since they're pre-generated HTML
-		$tableContent = new HtmlRaw($labelRowsHtml . $complexHtml);
-		
+		$labelRowsHtml = '';
+		foreach ($rows as $row) {
+			$labelRowsHtml .= $row->getHtml();
+		}
+
+		$fragment = new HtmlFragment();
+		$fragment->addChild(new HtmlRaw($labelRowsHtml));
+		$fragment->addChild($this->renderAddVendorOrCustomerFragment());
+		if( $this->isPaired() )
+		{
+			//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
+			$this->displayPaired();
+		}
+
+		$tableContent = new HtmlRaw($fragment->getHtml());
 		$innerTable = new HtmlTable($tableContent);
 		$innerTable->addAttribute(new HtmlAttribute('class', TABLESTYLE2));
 		$innerTable->addAttribute(new HtmlAttribute('width', '100%'));
 		
 		$td = new HtmlTd($innerTable);
-		$td->addAttribute(new HtmlAttribute('width', '50%'));
+		$td->addAttribute(new HtmlAttribute('width', '25%'));
+		$td->addAttribute(new HtmlAttribute('valign', 'top'));
 		
 		return $td;
 	}
@@ -378,46 +483,47 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function displayAddVendorOrCustomer()
 	{
-		try {
-			$matchedVendor = $this->matchedVendor();
-			$matched_supplier = $this->matchedSupplierId( $matchedVendor );
-			
-			// Vendor ID hidden field
-			$vendorIdHidden = new \Ksfraser\HTML\Elements\HtmlHidden('vendor_id', $matchedVendor);
-			$vendorIdHidden->toHtml();
-			
-			// Debug label row (TODO: Consider removing or making conditional)
-			label_row("Matched Vendor", print_r( $matchedVendor, true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supp_name'], true ) );
-		}
-		catch( Exception $e )
-		{
-			$this-> selectAndDisplayButton();
-		}
-		finally
-		{
-			// Vendor short and long name hidden fields
-			$vendorShortHidden = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$this->id", $this->otherBankAccount);
-			$vendorShortHidden->toHtml();
-			
-			$vendorLongHidden = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$this->id", $this->otherBankAccountName);
-			$vendorLongHidden->toHtml();
-		}
+		$this->renderAddVendorOrCustomerFragment()->toHtml();
 	}
 	function selectAndDisplayButton()
 	{
+		$this->getAddVendorOrCustomerButtonFragment()->toHtml();
+	}
+
+	/**
+	 * Build add-vendor/customer button row as HTML fragment.
+	 *
+	 * @return HtmlFragment
+	 */
+	function getAddVendorOrCustomerButtonFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
+
 		if( $this->transactionDC=='D' )
 		{
-			$b = new AddVendorButton( $this->id );
-		} else
-		if( $this->transactionDC=='C' )
+			$buttonName = "AddVendor[$this->id]";
+			$buttonLabel = _("AddVendor");
+			$rowLabel = "Add Vendor";
+		}
+		else if( $this->transactionDC=='C' )
 		{
-			$b = new AddCustomerButton( $this->id );
+			$buttonName = "AddCustomer[$this->id]";
+			$buttonLabel = _("AddCustomer");
+			$rowLabel = "Add Customer";
 		}
 		else
 		{
-			return;
+			return $fragment;
 		}
-		$b->toHtml();
+
+		$submit = new \Ksfraser\HTML\Elements\HtmlSubmit(new \Ksfraser\HTML\Elements\HtmlString($buttonLabel));
+		$submit->setName($buttonName);
+		$submit->setClass('default');
+
+		$label = new \Ksfraser\HTML\Elements\HtmlString($rowLabel);
+		$fragment->addChild(new \Ksfraser\HTML\Composites\HtmlLabelRow($label, $submit));
+
+		return $fragment;
 	}
 	/**
 	 * Get the supplier ID for a matched vendor
@@ -587,6 +693,17 @@ class bi_lineitem extends generic_fa_interface_model
 	********************************************************************/
 	function displayMatchingTransArr()
 	{
+		$this->renderMatchingTransFragment()->toHtml();
+	}
+
+	/**
+	 * Render matching transaction rows as fragment.
+	 *
+	 * @return HtmlFragment
+	 */
+	function renderMatchingTransFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
 		if( count( $this->matching_trans ) > 0 )
 		{
 			$match_html = "";
@@ -678,7 +795,7 @@ class bi_lineitem extends generic_fa_interface_model
 			$label = new \Ksfraser\HTML\Elements\HtmlString("Matching GLs.  Ensure you double check Accounts and Amounts");
 			$content = new \Ksfraser\HTML\Elements\HtmlRaw($match_html);
 			$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($label, $content);
-			$labelRow->toHtml();
+			$fragment->addChild($labelRow);
 			//label_row("Matching GLs", print_r( $this->matching_trans, true ) );
 		}
 		else
@@ -687,8 +804,9 @@ class bi_lineitem extends generic_fa_interface_model
 			$label = new \Ksfraser\HTML\Elements\HtmlString("Matching GLs");
 			$content = new \Ksfraser\HTML\Elements\HtmlString("No Matches found automatically");
 			$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($label, $content);
-			$labelRow->toHtml();
+			$fragment->addChild($labelRow);
 		}
+		return $fragment;
 	}
 	/**//***************************************************************
 	* Look for transactions with the same date and amount and list them
@@ -879,51 +997,19 @@ class bi_lineitem extends generic_fa_interface_model
 	************************************************************************/
 	function displayMatchedPartnerType()
 	{
-		require_once(__DIR__ . '/src/Ksfraser/FrontAccounting/TransactionTypes/TransactionTypesRegistry.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlHidden.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlSelect.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOption.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlInput.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php');
-		
-		// Hidden field for partnerId
-		$hidden = new \Ksfraser\HTML\Elements\HtmlHidden("partnerId_$this->id", 'manual');
-		$hidden->toHtml();
-		
-		// Get transaction types with moneyMoved flag (bank-related only)
-		$registry = \Ksfraser\FrontAccounting\TransactionTypes\TransactionTypesRegistry::getInstance();
-		$transactionTypes = $registry->getLabelsArray(['moneyMoved' => true]);
-		
-		// Build transaction type selector
-		$select = new \Ksfraser\HTML\Elements\HtmlSelect("Existing_Type");
-		$select->setClass('combo');
-		
-		// Add blank option
-		$select->addOption(new \Ksfraser\HTML\Elements\HtmlOption(0, _('Select Transaction Type')));
-		
-		// Add transaction type options
-		foreach ($transactionTypes as $code => $label) {
-			$select->addOption(new \Ksfraser\HTML\Elements\HtmlOption($code, $label));
-		}
-		
-		// Create label row for transaction type
-		$typeLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Existing Entry Type:"));
-		$typeLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($typeLabel, $select);
-		$typeLabelRow->toHtml();
-		
-		// Build existing entry input
-		$entryInput = new \Ksfraser\HTML\Elements\HtmlInput("text");
-		$entryInput->setName("Existing_Entry");
-		$entryInput->setValue('0');
-		$entryInput->addAttribute(new \Ksfraser\HTML\HtmlAttribute("size", "6"));
-		$entryInput->setPlaceholder(_("Existing Entry:"));
-		
-		// Create label row for entry input
-		$entryLabel = new \Ksfraser\HTML\Elements\HtmlString(_("Existing Entry:"));
-		$entryLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($entryLabel, $entryInput);
-		$entryLabelRow->toHtml();
+		// Backward-compatible wrapper: object creation is SRP and display delegates to fragment rendering.
+		$this->getMatchedPartnerTypeFragment()->toHtml();
+	}
+
+	/**
+	 * Build MATCHED partner type UI as HTML object graph.
+	 *
+	 * @return HtmlFragment
+	 */
+	function getMatchedPartnerTypeFragment(): HtmlFragment
+	{
+		$builder = new MatchedPartnerTypeHtmlBuilder();
+		return $builder->build((int)$this->id);
 	}
 	/**//*******************************************************************
 	* Select the right type of partner to display
@@ -936,6 +1022,16 @@ class bi_lineitem extends generic_fa_interface_model
 	*
 	************************************************************************/
 	function displayPartnerType()
+	{
+		$this->renderPartnerTypeFragment()->toHtml();
+	}
+
+	/**
+	 * Render partner-type section as fragment.
+	 *
+	 * @return HtmlFragment
+	 */
+	function renderPartnerTypeFragment(): HtmlFragment
 	{
 		// Use Strategy pattern instead of switch statement
 		require_once( (is_dir(__DIR__ . '/Views') ? __DIR__ . '/Views' : __DIR__ . '/views') . '/PartnerTypeDisplayStrategy.php' );
@@ -955,9 +1051,10 @@ class bi_lineitem extends generic_fa_interface_model
 		
 		$strategy = new PartnerTypeDisplayStrategy($data);
 		$partnerType = $this->formData->getPartnerType();
+		$fragment = new HtmlFragment();
 		
 		try {
-			$strategy->display($partnerType);
+			$fragment->addChild($strategy->render($partnerType));
 		} catch (Exception $e) {
 			// Fallback for unknown partner type
 			display_error("Unknown partner type: $partnerType");
@@ -973,7 +1070,8 @@ class bi_lineitem extends generic_fa_interface_model
 		];
 		
 		$commentSubmitView = new CommentSubmitView($commentSubmitData);
-		$commentSubmitView->display();
+		$fragment->addChild($commentSubmitView->render());
+		return $fragment;
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -999,114 +1097,197 @@ class bi_lineitem extends generic_fa_interface_model
 	* Get right column TD element (for testability and HTML library integration)
 	*
 	* Returns HtmlTd element containing the right column content.
-	* This method captures output from legacy display methods using HtmlOB,
-	* wraps it in proper HTML structure.
+	* Uses fragment composition and wraps result in proper HTML structure.
 	*
 	* @return HtmlTd TD element for right column
 	**********************************************************************/
 	function getRightTd(): HtmlTd
 	{
-		// Use HtmlOB to capture echoed output from display methods
-		$contentHtml = (new HtmlOB(function() {
-			//now display stuff: forms and information
+		$builder = new RightTdBuilder();
+		return $builder->build($this->getRightContentFragment());
+	}
+
+	/**
+	 * Build legacy right-column content as a fragment for builder composition.
+	 *
+	 * @return HtmlFragment
+	 */
+	function getRightContentFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
+			// Legacy right-column behavior (2-column layout compatibility)
 			if ($this->status == 1)
 			{
-				$this->display_settled();
-			} else {
-				//transaction NOT settled
-				// this is a new transaction, but not matched by routine so just display some forms
-				$this->setPartnerType();
-				$this->getDisplayMatchingTrans();
-				
-				// Display Operation label using HtmlLabelRow
-				$operationLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
-				$operationContent = new \Ksfraser\HTML\Elements\HtmlString($this->oplabel);
-				$operationLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($operationLabel, $operationContent);
-				$operationLabelRow->toHtml();
-				
-				// Display Partner Type selector using PartnerTypeSelectorView
-				$partnerSelectorData = [
-					'id' => $this->id,
-					'selected_value' => $this->formData->getPartnerType(),
-					'options' => $this->optypes,
-					'label' => 'Partner:',
-					'select_submit' => true
-				];
-				$partnerSelector = new PartnerTypeSelectorView($partnerSelectorData);
-				$partnerSelector->display();
-		
-				//3rd cell
-				if ( !$this->formData->hasPartnerId() )
-				{
-					$this->formData->setPartnerId(null);
-				}
-
-				//Leaving in process_statement
-				$this->displayPartnerType();
-
-				//other common info
-				//Apparantly cids is just an empty array at this point in the original code
-				if( ! isset( $cids ) )
-				{
-					$cids = array();
-				}
-				$cids = implode(',', $cids);
-				
-				// Use HtmlHidden instead of hidden() function
-				$hiddenInput = new \Ksfraser\HTML\Elements\HtmlHidden("cids[$this->id]", $cids);
-				$hiddenInput->toHtml();
-				
-				$this->displayMatchingTransArr();
+				$fragment->addChild($this->renderSettledFragment());
+				return $fragment;
 			}
-		}))->getHtml();
-		
-		// Wrap content in HtmlTable with proper attributes
-		$tableData = new HtmlRaw($contentHtml);
-		$table = new HtmlTable($tableData);
-		$table->addAttribute(new HtmlAttribute("class", "tablestyle2"));
-		$table->addAttribute(new HtmlAttribute("width", "100%"));
-		
-		// Create the TD wrapper for right column
-		$td = new HtmlTd($table);
-		$td->addAttribute(new HtmlAttribute("width", "50%"));
-		$td->addAttribute(new HtmlAttribute("valign", "top"));
-		
-		return $td;
+
+			// Preserve legacy right-column initialization when called directly
+			$this->setPartnerType();
+			$this->getDisplayMatchingTrans();
+			if (!$this->formData->hasPartnerId()) {
+				$this->formData->setPartnerId(null);
+			}
+
+			$operationLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
+			$operationContent = new \Ksfraser\HTML\Elements\HtmlString($this->oplabel);
+			$operationLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($operationLabel, $operationContent);
+			$fragment->addChild($operationLabelRow);
+
+			$partnerSelectorData = [
+				'id' => $this->id,
+				'selected_value' => $this->formData->getPartnerType(),
+				'options' => $this->optypes,
+				'label' => 'Partner:',
+				'select_submit' => true
+			];
+			$partnerSelector = new PartnerTypeSelectorView($partnerSelectorData);
+			$fragment->addChild($partnerSelector->render());
+
+			$fragment->addChild($this->renderPartnerTypeFragment());
+
+			if (!isset($cids)) {
+				$cids = array();
+			}
+			$cids = implode(',', $cids);
+			$hiddenInput = new \Ksfraser\HTML\Elements\HtmlHidden("cids[$this->id]", $cids);
+			$fragment->addChild($hiddenInput);
+
+			$fragment->addChild($this->renderMatchingTransFragment());
+		return $fragment;
+	}
+
+	/**//****************************************************************
+	* Get operation column TD element (4-column layout)
+	*
+	* @return HtmlTd TD element for operation column
+	**********************************************************************/
+	function getOperationTd(): HtmlTd
+	{
+		$builder = new OperationTdBuilder();
+		return $builder->build($this->getOperationContentFragment());
+	}
+
+	/**
+	 * Build operation-column content as a fragment for builder composition.
+	 *
+	 * @return HtmlFragment
+	 */
+	function getOperationContentFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
+			if ($this->status == 1)
+			{
+				$fragment->addChild($this->renderSettledFragment());
+				return $fragment;
+			}
+
+			$fragment->addChild($this->renderEditTransDataFragment());
+			$operationLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
+			$operationContent = new \Ksfraser\HTML\Elements\HtmlString($this->oplabel);
+			$operationLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($operationLabel, $operationContent);
+			$fragment->addChild($operationLabelRow);
+		return $fragment;
+	}
+
+	/**//****************************************************************
+	* Get partner/action column TD element
+	*
+	* Column contains partner selector, partner-specific controls, comment and process.
+	*
+	* @return HtmlTd TD element for partner/actions column
+	**********************************************************************/
+	function getPartnerTd(): HtmlTd
+	{
+		$builder = new PartnerTdBuilder();
+		return $builder->build($this->getPartnerContentFragment());
+	}
+
+	/**
+	 * Build partner/action-column content as a fragment for builder composition.
+	 *
+	 * @return HtmlFragment
+	 */
+	function getPartnerContentFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
+			if ($this->status == 1) {
+				return $fragment;
+			}
+
+			$partnerSelectorData = [
+				'id' => $this->id,
+				'selected_value' => $this->formData->getPartnerType(),
+				'options' => $this->optypes,
+				'label' => 'Partner:',
+				'select_submit' => true
+			];
+			$partnerSelector = new PartnerTypeSelectorView($partnerSelectorData);
+			$fragment->addChild($partnerSelector->render());
+
+			$fragment->addChild($this->renderPartnerTypeFragment());
+
+			$hiddenInput = new \Ksfraser\HTML\Elements\HtmlHidden("cids[$this->id]", '');
+			$fragment->addChild($hiddenInput);
+		return $fragment;
+	}
+
+	/**//****************************************************************
+	* Get matching GLs column TD element
+	*
+	* @return HtmlTd TD element for matching GLs column
+	**********************************************************************/
+	function getMatchingTd(): HtmlTd
+	{
+		$builder = new MatchingTdBuilder();
+		return $builder->build($this->getMatchingContentFragment());
+	}
+
+	/**
+	 * Build matching-GL-column content as a fragment for builder composition.
+	 *
+	 * @return HtmlFragment
+	 */
+	function getMatchingContentFragment(): HtmlFragment
+	{
+		if ($this->status == 1) {
+			return new HtmlFragment();
+		}
+		return $this->renderMatchingTransFragment();
 	}
 	/**//*****************************************************************
 	* We want the ability to edit the raw trans data since some banks don't follow standards
 	*************************************************************************************/
 	function displayEditTransData()
 	{
-		// Create submit button using HtmlSubmit class
+		$this->renderEditTransDataFragment()->toHtml();
+	}
+
+	/**
+	 * Render edit/toggle controls as fragment.
+	 *
+	 * @return HtmlFragment
+	 */
+	function renderEditTransDataFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
+
 		$buttonLabel = new \Ksfraser\HTML\Elements\HtmlString(_("ToggleTransaction"));
 		$submitButton = new \Ksfraser\HTML\Elements\HtmlSubmit($buttonLabel);
 		$submitButton->setName("ToggleTransaction[$this->id]");
 		$submitButton->setClass("default");
-		
-		// Display using HtmlLabelRow
+
 		$labelText = new \Ksfraser\HTML\Elements\HtmlString("Toggle Transaction Type Debit/Credit");
 		$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($labelText, $submitButton);
-		$labelRow->toHtml();
-		
-		// Optionally add edit button (commented in original)
-		/*
-		$editButtonLabel = new \Ksfraser\HTML\Elements\HtmlString(_("EditTransaction"));
-		$editButton = new \Ksfraser\HTML\Elements\HtmlSubmit($editButtonLabel);
-		$editButton->setName("EditTransaction[$this->id]");
-		$editButton->setClass("default");
-		
-		$editLabelText = new \Ksfraser\HTML\Elements\HtmlString("Edit this Transaction Data");
-		$editLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($editLabelText, $editButton);
-		$editLabelRow->toHtml();
-		*/
-		
-		// Use HtmlHidden instead of hidden() function
+		$fragment->addChild($labelRow);
+
 		$hiddenVendorShort = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$this->id", $this->otherBankAccount);
-		$hiddenVendorShort->toHtml();
-		
+		$fragment->addChild($hiddenVendorShort);
+
 		$hiddenVendorLong = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$this->id", $this->otherBankAccountName);
-		$hiddenVendorLong->toHtml();
+		$fragment->addChild($hiddenVendorLong);
+
+		return $fragment;
 	}
 	/**//*****************************************************************
 	* Display a settled transaction
@@ -1116,6 +1297,16 @@ class bi_lineitem extends generic_fa_interface_model
 	* @since 20251025 - Refactored to use SettledTransactionDisplay
 	**********************************************************************/
 	function display_settled()
+	{
+		$this->renderSettledFragment()->toHtml();
+	}
+
+	/**
+	 * Render settled transaction section as fragment.
+	 *
+	 * @return HtmlFragment
+	 */
+	function renderSettledFragment(): HtmlFragment
 	{
 		// Build transaction data array for SettledTransactionDisplay
 		$transactionData = [
@@ -1143,9 +1334,7 @@ class bi_lineitem extends generic_fa_interface_model
 		
 		// Use SettledTransactionDisplay component
 		$display = new SettledTransactionDisplay($transactionData);
-		
-		// Echo HTML directly (display() method handles toHtml())
-		$display->display();
+		return $display->render();
 	}
 
 	/*****************************************************************//**

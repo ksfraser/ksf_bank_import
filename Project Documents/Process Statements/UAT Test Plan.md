@@ -146,6 +146,38 @@ Expected:
 - Inline behavior remains intact for baseline compatibility.
 - Equivalent SRP action classes exist and are test-covered for future activation.
 
+### UAT-PROC-016 — Four-column transaction row layout
+Steps:
+1. Open Process Statements with unprocessed rows.
+2. Verify each unprocessed row presents four logical sections in order: Details, Operation, Partner/Actions, Matching GLs.
+3. Verify the table header reflects the same four-column structure.
+Expected:
+- Four-column layout is consistently rendered.
+- Operator can locate controls and matching information without horizontal ambiguity.
+
+### UAT-PROC-017 — Legacy left/right compatibility paths remain callable
+Steps:
+1. Execute existing workflow paths that rely on legacy row rendering wrappers (`display_left`, `display_right`, related `getLeft*`/`getRight*` methods).
+2. Confirm no fatal errors/warnings are emitted during normal rendering.
+Expected:
+- Legacy compatibility methods remain available and functional while migration is in progress.
+
+### UAT-PROC-018 — Render-fragment delegation remains behaviorally equivalent
+Steps:
+1. For a representative sample (SP, CU, QE, BT, MA, ZZ), compare rendered controls/links before and after delegation changes.
+2. Verify presence of action controls, hidden fields, and expected labels per partner type.
+Expected:
+- Delegation to fragment/render methods does not change user-visible business behavior.
+
+### UAT-PROC-019 — Date-range search responsiveness diagnostics available
+Steps:
+1. Perform a date-range search expected to return a larger dataset.
+2. Verify the page responds and transaction list refreshes.
+3. Confirm server logs include fetch/render timing markers for the request.
+Expected:
+- Search request completes without ambiguous stale-cache behavior.
+- Timing diagnostics are available for troubleshooting slow cases.
+
 ## Exit Criteria
 - All UAT test cases pass.
 - No workflow requires DB edits to recover from common errors.

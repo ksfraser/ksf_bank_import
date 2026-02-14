@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Actions;
 
+use Ksfraser\HTML\Ajax\DivActivator;
+
 /**
  * PairedTransferDualSideAction
  *
@@ -142,8 +144,15 @@ final class PairedTransferDualSideAction
     {
         $result = $this->execute($post);
 
-        if (isset($GLOBALS['Ajax']) && is_object($GLOBALS['Ajax']) && method_exists($GLOBALS['Ajax'], 'activate')) {
-            $GLOBALS['Ajax']->activate('doc_tbl');
+        if (!class_exists(DivActivator::class)) {
+            $candidate = dirname(__DIR__, 3) . '/HTML/Ajax/DivActivator.php';
+            if (is_file($candidate)) {
+                require_once $candidate;
+            }
+        }
+
+        if (class_exists(DivActivator::class)) {
+            DivActivator::activateDocTable();
         }
 
         if (!empty($result['success'])) {
