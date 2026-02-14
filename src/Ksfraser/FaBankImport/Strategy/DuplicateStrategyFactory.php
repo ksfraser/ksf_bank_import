@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :DuplicateStrategyFactory [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for DuplicateStrategyFactory.
+ */
 namespace Ksfraser\FaBankImport\Strategy;
 
 /**

@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionTableTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionTableTest.
+ */
 use PHPUnit\Framework\TestCase;
 
 class TransactionTableTest extends TestCase

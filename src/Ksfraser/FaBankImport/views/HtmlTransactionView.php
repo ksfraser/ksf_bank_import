@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :HtmlTransactionView [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for HtmlTransactionView.
+ */
 namespace Ksfraser\FaBankImport\Views;
 
 use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionProcessingFeatureTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionProcessingFeatureTest.
+ */
 namespace Tests\Feature;
 
 use Tests\Integration\DatabaseTestCase;

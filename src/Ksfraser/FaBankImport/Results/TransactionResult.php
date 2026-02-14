@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionResult [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionResult.
+ */
+/**
  * Transaction Result
  *
  * Represents the outcome of a transaction processing operation.

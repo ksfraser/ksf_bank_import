@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :MetricsAggregator [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for MetricsAggregator.
+ */
 namespace Ksfraser\FaBankImport\Services;
 
 class MetricsAggregator

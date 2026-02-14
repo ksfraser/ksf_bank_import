@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :SupplierTransactionHandler [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for SupplierTransactionHandler.
+ */
+/**
  * Supplier Transaction Handler
  *
  * Handles processing of supplier (SP) transactions in the bank import system.

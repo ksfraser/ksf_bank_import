@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionLogger [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionLogger.
+ */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;

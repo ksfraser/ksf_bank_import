@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :DuplicateResult [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for DuplicateResult.
+ */
 namespace Ksfraser\FaBankImport\ValueObject;
 
 use Ksfraser\FaBankImport\Entity\UploadedFile;

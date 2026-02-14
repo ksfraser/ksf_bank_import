@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :KeywordExtractorService [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for KeywordExtractorService.
+ */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\Keyword;
@@ -21,17 +32,17 @@ class KeywordExtractorService
     /**
      * @var array<string> Stopwords to filter out
      */
-    private array $stopwords;
+    private $stopwords;
 
     /**
      * @var int Minimum keyword length
      */
-    private int $minKeywordLength;
+    private $minKeywordLength;
 
     /**
      * @var ConfigService|null Configuration service
      */
-    private ?ConfigService $configService;
+    private $configService;
 
     /**
      * Default stopwords (common English words with no semantic value)
@@ -136,7 +147,9 @@ class KeywordExtractorService
     public function extractAsStrings(string $text): array
     {
         $keywords = $this->extract($text);
-        return array_map(fn(Keyword $k) => $k->getText(), $keywords);
+        return array_map(function (Keyword $k): string {
+            return $k->getText();
+        }, $keywords);
     }
 
     /**
@@ -241,6 +254,8 @@ class KeywordExtractorService
             return [];
         }
         
-        return array_filter($tokens, fn($token) => trim($token) !== '');
+        return array_filter($tokens, function ($token): bool {
+            return trim((string)$token) !== '';
+        });
     }
 }

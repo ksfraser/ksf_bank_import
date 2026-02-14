@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionRepository [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionRepository.
+ */
 /**
  * Transaction Repository
  * 

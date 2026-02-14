@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ThirdPartyTransactionInterface [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ThirdPartyTransactionInterface.
+ */
+/**
  * @author Kevin Fraser / ChatGPT
  * @since 20250409
  */

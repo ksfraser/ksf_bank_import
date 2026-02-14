@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ErrorHandler [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ErrorHandler.
+ */
 namespace Ksfraser\FaBankImport\Handlers;
 
 use Monolog\Logger;

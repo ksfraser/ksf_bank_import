@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :Transaction [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for Transaction.
+ */
 namespace Ksfraser\FaBankImport;
 
 //use Ksfraser\FaBankImport\TransactionTypeLabel.php;
@@ -28,7 +39,9 @@ abstract class Transaction
 	public $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
 	public $entryTimestamp;      //| date	 | YES  |     | NULL    |		|
 	public $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		|
+	public $otherBankAccount;
 	public $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
+	public $otherBankAccountName;
 	public $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
 	public $status;	      //| int(11)      | YES  |     | 0       |		|
 	public $currency;
@@ -48,6 +61,7 @@ abstract class Transaction
 	public $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
 	public $optypes;	//!< array
 	public $memo;		//| varchar(64)  | NO   |     | NULL    |		|
+	public $vendor_list = [];
 //REFACTOR:
 //		refactor to use class.fa_bank_accounts.php instead of an array!
 	public $ourBankDetails;	//!< array
@@ -145,7 +159,7 @@ abstract class Transaction
 	function retrieveBankAccountDetails()
 	{
 		require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
-		$fa_bank_accounts = new fa_bank_accounts( $this );
+		$fa_bank_accounts = new \fa_bank_accounts( $this );
 		$this->ourBankDetails =	$fa_bank_accounts->getByBankAccountNumber( $this->our_account );
 		/*
 			Array ( [account_code] => 1061
@@ -267,12 +281,21 @@ abstract class Transaction
 		{
 			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
 		}
-		if( ! isset( $this->otherBankAccountt ) )
+		if( ! isset( $this->otherBankAccount ) )
 		{
-			throw new Exception( "Field not set ->otherBankAccountt", KSF_FIELD_NOT_SET );
+			throw new Exception( "Field not set ->otherBankAccount", KSF_FIELD_NOT_SET );
 		}
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
 		return $matchedVendor;
+	}
+
+	protected function matchedSupplierId($matchedVendor): ?int
+	{
+		if (!is_array($this->vendor_list) || !isset($this->vendor_list[$matchedVendor]['supplier_id'])) {
+			throw new Exception("Field not set ->vendor_list[supplier_id]", KSF_FIELD_NOT_SET);
+		}
+
+		return (int)$this->vendor_list[$matchedVendor]['supplier_id'];
 	}
 	function ToggleTransactionTypeButton()
 	{

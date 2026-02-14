@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :RequestHandler [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for RequestHandler.
+ */
 namespace Ksfraser\FaBankImport\Http;
 
 use Symfony\Component\HttpFoundation\Request;

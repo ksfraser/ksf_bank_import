@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :AbstractArrayDto [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for AbstractArrayDto.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\DTO;

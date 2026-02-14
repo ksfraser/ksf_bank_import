@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :CommandInterface [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for CommandInterface.
+ */
 namespace Ksfraser\FaBankImport\Contracts;
 
 use Ksfraser\FaBankImport\Results\TransactionResult;

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionValidationException [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionValidationException.
+ */
 namespace Ksfraser\FaBankImport\Exceptions;
 
 //TODO:  flesh out specific validations and their resulting exceptions

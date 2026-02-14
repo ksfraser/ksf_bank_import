@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :StatementAccountMappingService [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for StatementAccountMappingService.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Service;

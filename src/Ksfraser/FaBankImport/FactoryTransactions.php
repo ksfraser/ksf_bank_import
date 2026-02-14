@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :SupplierTransaction [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for SupplierTransaction.
+ */
 namespace Ksfraser\FaBankImport;
 
 use Ksfraser\FaBankImport\Transaction;

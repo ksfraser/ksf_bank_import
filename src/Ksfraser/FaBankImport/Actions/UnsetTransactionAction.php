@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :UnsetTransactionAction [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for UnsetTransactionAction.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Actions;

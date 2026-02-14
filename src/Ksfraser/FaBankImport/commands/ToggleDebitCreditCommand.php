@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ToggleDebitCreditCommand [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ToggleDebitCreditCommand.
+ */
 namespace Ksfraser\FaBankImport\Commands;
 
 use Ksfraser\FaBankImport\Contracts\CommandInterface;

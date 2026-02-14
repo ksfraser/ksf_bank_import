@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ThirdPartyTransactionRepositoryInterface [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ThirdPartyTransactionRepositoryInterface.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Repository;

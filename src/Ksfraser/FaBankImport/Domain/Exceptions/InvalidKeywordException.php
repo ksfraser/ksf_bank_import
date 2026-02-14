@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :InvalidKeywordException [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for InvalidKeywordException.
+ */
 namespace Ksfraser\FaBankImport\Domain\Exceptions;
 
 use InvalidArgumentException;

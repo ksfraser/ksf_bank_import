@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :UploadResult [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for UploadResult.
+ */
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**

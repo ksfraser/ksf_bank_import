@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :LabelRowBase [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for LabelRowBase.
+ */
 namespace Ksfraser\HTML;
 
 use Ksfraser\HTML\HtmlElementInterface;

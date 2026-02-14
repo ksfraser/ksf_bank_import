@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionDCRules [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionDCRules.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\TransactionDC;

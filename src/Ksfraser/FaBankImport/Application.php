@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :Application [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for Application.
+ */
 namespace Ksfraser\FaBankImport;
 
 use Ksfraser\FaBankImport\Http\RequestHandler;

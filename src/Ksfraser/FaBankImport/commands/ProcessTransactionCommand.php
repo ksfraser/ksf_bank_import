@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ProcessTransactionCommand [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ProcessTransactionCommand.
+ */
 namespace Ksfraser\FaBankImport\Commands;
 
 class ProcessTransactionCommand

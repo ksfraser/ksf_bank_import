@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :MatchConfidence [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for MatchConfidence.
+ */
 namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 
 use InvalidArgumentException;

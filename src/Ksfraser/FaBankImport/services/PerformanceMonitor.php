@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :PerformanceMonitor [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for PerformanceMonitor.
+ */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;

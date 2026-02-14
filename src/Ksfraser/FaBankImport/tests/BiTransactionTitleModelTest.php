@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BiTransactionTitleModelTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BiTransactionTitleModelTest.
+ */
 use PHPUnit\Framework\TestCase;
 
 require_once 'path/to/your/class.bi_transactionTitle_model.php';

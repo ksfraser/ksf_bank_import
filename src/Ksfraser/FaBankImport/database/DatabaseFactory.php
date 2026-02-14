@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :DatabaseFactory [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for DatabaseFactory.
+ */
 namespace Ksfraser\FaBankImport\Database;
 
 use Ksfraser\FaBankImport\Config\Config;

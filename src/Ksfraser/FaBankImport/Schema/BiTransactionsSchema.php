@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BiTransactionsSchema [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BiTransactionsSchema.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Schema;

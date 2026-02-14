@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :AuthMiddleware [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for AuthMiddleware.
+ */
 namespace Ksfraser\FaBankImport\Middleware;
 
 use Ksfraser\FaBankImport\Http\RequestHandler;

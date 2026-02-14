@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionHandlerInterface [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionHandlerInterface.
+ */
+/**
  * Transaction Handler Interface
  *
  * Defines the contract for all transaction type handlers in the bank import system.

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :KeywordMatch [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for KeywordMatch.
+ */
 namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 
 use InvalidArgumentException;
@@ -19,42 +30,42 @@ class KeywordMatch
     /**
      * @var int Partner ID that was matched
      */
-    private int $partnerId;
+    private $partnerId;
 
     /**
      * @var int Partner type
      */
-    private int $partnerType;
+    private $partnerType;
 
     /**
      * @var int Partner detail ID
      */
-    private int $partnerDetailId;
+    private $partnerDetailId;
 
     /**
      * @var string Partner name (for display)
      */
-    private string $partnerName;
+    private $partnerName;
 
     /**
      * @var array<Keyword> Keywords that matched
      */
-    private array $matchedKeywords;
+    private $matchedKeywords;
 
     /**
      * @var int Raw match score (sum of occurrence counts)
      */
-    private int $rawScore;
+    private $rawScore;
 
     /**
      * @var float Final score with clustering bonus applied
      */
-    private float $finalScore;
+    private $finalScore;
 
     /**
      * @var MatchConfidence Confidence calculation
      */
-    private MatchConfidence $confidence;
+    private $confidence;
 
     /**
      * Create a new KeywordMatch value object
@@ -233,7 +244,9 @@ class KeywordMatch
             'partner_detail_id' => $this->partnerDetailId,
             'partner_name' => $this->partnerName,
             'matched_keywords' => array_map(
-                fn(Keyword $k) => $k->getText(),
+                function (Keyword $k): string {
+                    return $k->getText();
+                },
                 $this->matchedKeywords
             ),
             'matched_keyword_count' => $this->getMatchedKeywordCount(),

@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ViewBILineItems [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ViewBILineItems.
+ */
+/**
  * @author Kevin Fraser / ChatGPT
  * @since 20250409
  */

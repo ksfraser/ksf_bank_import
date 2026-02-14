@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :UploadedFileManager [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for UploadedFileManager.
+ */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
@@ -441,8 +452,8 @@ class UploadedFileManager
         // Delete from database (cascade will delete links)
         $sql = "DELETE FROM " . TB_PREF . "bi_uploaded_files 
                 WHERE id = " . db_escape($file_id);
-        
-        return db_query($sql, "Failed to delete file record");
+
+        return db_query($sql, "Failed to delete file record") !== false;
     }
     
     /**

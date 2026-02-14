@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :SimpleContainer [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for SimpleContainer.
+ */
 namespace Ksfraser\FaBankImport\Container;
 
 use ReflectionClass;

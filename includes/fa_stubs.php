@@ -21,6 +21,18 @@
 if (!class_exists('generic_fa_interface_model')) {
     class generic_fa_interface_model
     {
+        /** @var array<int, array<string, mixed>> */
+        public $fields_array = [];
+
+        /** @var string */
+        public $company_prefix = '';
+
+        /** @var string */
+        public $iam = '';
+
+        /** @var array<string, mixed> */
+        public $table_details = [];
+
         public function __construct(...$args) {}
 
         public function set($field, $value = null, $enforce = true)
@@ -32,6 +44,52 @@ if (!class_exists('generic_fa_interface_model')) {
         public function get($field)
         {
             return $this->$field ?? null;
+        }
+
+        /**
+         * @param array<string, mixed> $data
+         */
+        public function insert_data(array $data): bool
+        {
+            return true;
+        }
+
+        /**
+         * @param array<string, mixed> $row
+         */
+        public function arr2obj(array $row): bool
+        {
+            foreach ($row as $key => $value) {
+                $this->$key = $value;
+            }
+            return true;
+        }
+    }
+}
+
+if (!class_exists('hooks')) {
+    class hooks
+    {
+        public function update_databases($company, $updates, $check_only = false): bool
+        {
+            return true;
+        }
+    }
+}
+
+if (!class_exists('fa_bank_accounts')) {
+    class fa_bank_accounts
+    {
+        public function __construct($context = null)
+        {
+        }
+
+        public function getByBankAccountNumber($accountNumber): array
+        {
+            return [
+                'bank_account_name' => (string)$accountNumber,
+                'account_code' => '',
+            ];
         }
     }
 }
@@ -365,6 +423,17 @@ if (!function_exists('db_fetch')) {
     }
 }
 
+if (!function_exists('db_fetch_assoc')) {
+    /**
+     * Fetch a row from query result as associative array
+     * @param mixed $result Query result
+     * @return array|false Row data or false
+     */
+    function db_fetch_assoc($result): array|false {
+        return false;
+    }
+}
+
 // =============================================================================
 // Path Functions
 // =============================================================================
@@ -436,6 +505,10 @@ if (!defined('PT_CUSTOMER')) {
     define('PT_CUSTOMER', 'customer');
 }
 
+if (!defined('PT_QUICKENTRY')) {
+    define('PT_QUICKENTRY', 'quickentry');
+}
+
 if (!defined('ANY_NUMERIC')) {
     /**
      * Constant representing any numeric value
@@ -469,6 +542,237 @@ if (!function_exists('search_partner_by_bank_account')) {
     function search_partner_by_bank_account(string $partner_type, string $bank_account): ?array {
         // Stub - returns null for development
         return null;
+    }
+}
+
+if (!function_exists('get_vendor_list')) {
+    function get_vendor_list(): array {
+        return [];
+    }
+}
+
+if (!function_exists('get_js_open_window')) {
+    function get_js_open_window(int $width = 900, int $height = 500): string {
+        return '';
+    }
+}
+
+if (!function_exists('get_js_date_picker')) {
+    function get_js_date_picker(): string {
+        return '';
+    }
+}
+
+if (!function_exists('reset_transactions')) {
+    function reset_transactions(...$args): bool {
+        return true;
+    }
+}
+
+if (!function_exists('my_add_customer')) {
+    function my_add_customer(...$args): int {
+        return 0;
+    }
+}
+
+if (!function_exists('add_vendor')) {
+    function add_vendor(...$args): int {
+        return 0;
+    }
+}
+
+if (!function_exists('get_trans_counterparty')) {
+    function get_trans_counterparty(...$args): array {
+        return [];
+    }
+}
+
+if (!function_exists('update_transactions')) {
+    function update_transactions(...$args): bool {
+        return true;
+    }
+}
+
+if (!function_exists('new_doc_date')) {
+    function new_doc_date(): string {
+        return date('Y-m-d');
+    }
+}
+
+if (!function_exists('is_date_in_fiscalyear')) {
+    function is_date_in_fiscalyear($date): bool {
+        return true;
+    }
+}
+
+if (!function_exists('sql2date')) {
+    function sql2date(string $date): string {
+        return $date;
+    }
+}
+
+if (!function_exists('end_fiscalyear')) {
+    function end_fiscalyear(): string {
+        return date('Y-m-d');
+    }
+}
+
+if (!function_exists('write_supp_payment')) {
+    function write_supp_payment(...$args): int {
+        return 0;
+    }
+}
+
+if (!function_exists('user_numeric')) {
+    function user_numeric($value): float {
+        return (float)$value;
+    }
+}
+
+if (!function_exists('my_write_customer_payment')) {
+    function my_write_customer_payment(...$args): int {
+        return 0;
+    }
+}
+
+if (!function_exists('qe_to_cart')) {
+    function qe_to_cart(...$args): bool {
+        return true;
+    }
+}
+
+if (!function_exists('begin_transaction')) {
+    function begin_transaction(): void {
+    }
+}
+
+if (!function_exists('commit_transaction')) {
+    function commit_transaction(): void {
+    }
+}
+
+if (!function_exists('write_bank_transaction')) {
+    function write_bank_transaction(...$args): array {
+        return [0, 0];
+    }
+}
+
+if (!function_exists('hook_db_prewrite')) {
+    function hook_db_prewrite(...$args): bool {
+        return true;
+    }
+}
+
+if (!function_exists('hook_db_postwrite')) {
+    function hook_db_postwrite(...$args): bool {
+        return true;
+    }
+}
+
+if (!function_exists('number_format2')) {
+    function number_format2($number, int $decimals = 2): string {
+        return number_format((float)$number, $decimals, '.', '');
+    }
+}
+
+if (!function_exists('get_company_pref')) {
+    function get_company_pref(string $key): string {
+        return '';
+    }
+}
+
+if (!function_exists('get_supplier')) {
+    function get_supplier(...$args): array {
+        return [];
+    }
+}
+
+if (!class_exists('items_cart')) {
+    class items_cart
+    {
+        public $tran_date;
+        public $trans_type = 0;
+        public $order_id = 0;
+        public $reference = '';
+
+        /** @var array<int, array<string,mixed>> */
+        private $glItems = [];
+
+        public function __construct($transType = null)
+        {
+            $this->trans_type = (int)$transType;
+        }
+
+        public function add_gl_item(...$args): void
+        {
+            $this->glItems[] = ['args' => $args];
+        }
+
+        public function count_gl_items(): int
+        {
+            return count($this->glItems);
+        }
+
+        public function gl_items_total(): float
+        {
+            return 0.0;
+        }
+    }
+}
+
+if (!class_exists('fa_bank_transfer')) {
+    class fa_bank_transfer
+    {
+        /** @var array<string,mixed> */
+        private $data = [];
+
+        public function __construct($from = null, $to = null, $amount = 0)
+        {
+            $this->data['trans_no'] = 0;
+            $this->data['trans_type'] = ST_BANKTRANSFER;
+        }
+
+        public function get(string $field)
+        {
+            return $this->data[$field] ?? null;
+        }
+
+        public function set(string $field, $value): void
+        {
+            $this->data[$field] = $value;
+        }
+
+        public function getNextRef(): string
+        {
+            return '';
+        }
+
+        public function add_bank_transfer(): bool
+        {
+            return true;
+        }
+    }
+}
+
+if (!class_exists('fa_customer_payment')) {
+    class fa_customer_payment
+    {
+        /** @var array<string,mixed> */
+        private $data = [];
+
+        public function __construct($debtorNo = null)
+        {
+        }
+
+        public function set(string $field, $value): void
+        {
+            $this->data[$field] = $value;
+        }
+
+        public function write_allocation(): bool
+        {
+            return true;
+        }
     }
 }
 
@@ -563,6 +867,18 @@ if (!function_exists('check_csrf_token')) {
     }
 }
 
+if (!function_exists('has_access')) {
+    /**
+     * Check whether the user has access to a security area
+     * @param mixed $access User access payload
+     * @param string $securityArea Security area key
+     * @return bool
+     */
+    function has_access($access, string $securityArea): bool {
+        return true;
+    }
+}
+
 if (!function_exists('get_user')) {
     /**
      * Get current logged-in user ID
@@ -613,7 +929,7 @@ if (!function_exists('end_page')) {
      * @param bool $is_index Whether this is index page
      * @return void
      */
-    function end_page(bool $no_menu = false, bool $is_index = false): void {
+    function end_page(bool $no_menu = false, bool $is_index = false, ...$args): void {
         // Stub - actual implementation in FrontAccounting
     }
 }
@@ -705,6 +1021,22 @@ if (!defined('QE_PAYMENT')) {
 }
 if (!defined('QE_JOURNAL')) {
     define('QE_JOURNAL', 3); // Quick Entry Journal
+}
+
+if (!defined('MENU_INQUIRY')) {
+    define('MENU_INQUIRY', 1);
+}
+
+if (!defined('MENU_MAINTENANCE')) {
+    define('MENU_MAINTENANCE', 2);
+}
+
+if (!defined('DEFAULT_DAYS_SPREAD')) {
+    define('DEFAULT_DAYS_SPREAD', 10);
+}
+
+if (!defined('KSF_FIELD_NOT_SET')) {
+    define('KSF_FIELD_NOT_SET', 1001);
 }
 
 // =============================================================================

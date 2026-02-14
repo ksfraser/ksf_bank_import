@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :HTML_ROW [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for HTML_ROW.
+ */
 use Ksfraser\HTML\Elements\HtmlTableRow;
 
 

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :SquareTransaction [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for SquareTransaction.
+ */
 namespace Ksfraser\FaBankImport\Models;
 
 class SquareTransaction extends BankTransaction

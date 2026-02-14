@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BankImportControllerTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BankImportControllerTest.
+ */
 use PHPUnit\Framework\TestCase;
 
 class BankImportControllerTest extends TestCase

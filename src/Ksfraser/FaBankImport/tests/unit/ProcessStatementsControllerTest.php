@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ProcessStatementsControllerTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ProcessStatementsControllerTest.
+ */
 use PHPUnit\Framework\TestCase;
 use Controllers\ProcessStatementsController;
 use Ksfraser\FaBankImport\Service\ThirdPartyTransactionActionsInterface;

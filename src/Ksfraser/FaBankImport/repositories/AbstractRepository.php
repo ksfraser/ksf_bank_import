@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :AbstractRepository [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for AbstractRepository.
+ */
 namespace Ksfraser\FaBankImport\Repositories;
 
 use Ksfraser\FaBankImport\Database\QueryBuilder;

@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BiLineItemModel [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BiLineItemModel.
+ */
 namespace Ksfraser\FaBankImport\Models;
 
 use Ksfraser\common\GenericFaInterface;

@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :HandlerDiscoveryException [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for HandlerDiscoveryException.
+ */
+/**
  * Handler Discovery Exception
  *
  * Base exception for handler auto-discovery errors.

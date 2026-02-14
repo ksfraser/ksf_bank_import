@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :QueryBuilder [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for QueryBuilder.
+ */
 namespace Ksfraser\FaBankImport\Database;
 
 class QueryBuilder

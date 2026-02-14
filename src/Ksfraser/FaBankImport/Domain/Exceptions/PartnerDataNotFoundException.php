@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :PartnerDataNotFoundException [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for PartnerDataNotFoundException.
+ */
 namespace Ksfraser\FaBankImport\Domain\Exceptions;
 
 use Exception;
@@ -66,7 +77,9 @@ class PartnerDataNotFoundException extends Exception
      */
     public static function forKeywords(array $keywords, ?int $partnerType = null): self
     {
-        $keywordList = implode(', ', array_map(fn($k) => "\"{$k}\"", $keywords));
+        $keywordList = implode(', ', array_map(function ($k): string {
+            return '"' . $k . '"';
+        }, $keywords));
         $message = sprintf('No partner data found for keywords: %s', $keywordList);
         
         if ($partnerType !== null) {

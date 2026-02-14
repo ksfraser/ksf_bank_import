@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :QuickEntryTransactionHandler [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for QuickEntryTransactionHandler.
+ */
 /**
  * QuickEntryTransactionHandler.php
  * 

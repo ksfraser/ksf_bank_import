@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BankAccountByNumber [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BankAccountByNumber.
+ */
 namespace Ksfraser\FaBankImport\models;
 
 /**

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :FileInfo [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for FileInfo.
+ */
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**

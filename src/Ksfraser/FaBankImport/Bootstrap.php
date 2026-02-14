@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :Bootstrap [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for Bootstrap.
+ */
 namespace Ksfraser\FaBankImport;
 
 use Ksfraser\FaBankImport\Config\Config;

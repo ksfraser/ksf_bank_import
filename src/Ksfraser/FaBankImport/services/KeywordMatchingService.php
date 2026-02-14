@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :KeywordMatchingService [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for KeywordMatchingService.
+ */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
@@ -24,32 +35,32 @@ class KeywordMatchingService
     /**
      * @var PartnerDataRepositoryInterface Repository for partner data
      */
-    private PartnerDataRepositoryInterface $repository;
+    private $repository;
 
     /**
      * @var KeywordExtractorService Keyword extraction service
      */
-    private KeywordExtractorService $extractor;
+    private $extractor;
 
     /**
      * @var ConfigService|null Configuration service
      */
-    private ?ConfigService $configService;
+    private $configService;
 
     /**
      * @var float Clustering factor for bonus calculation
      */
-    private float $clusteringFactor;
+    private $clusteringFactor;
 
     /**
      * @var float Minimum confidence threshold (percentage)
      */
-    private float $minConfidenceThreshold;
+    private $minConfidenceThreshold;
 
     /**
      * @var int Maximum number of suggestions to return
      */
-    private int $maxSuggestions;
+    private $maxSuggestions;
 
     /**
      * Constructor
@@ -90,7 +101,9 @@ class KeywordMatchingService
         }
 
         // Convert keywords to strings for repository search
-        $keywordStrings = array_map(fn(Keyword $k) => $k->getText(), $searchKeywords);
+        $keywordStrings = array_map(function (Keyword $k) {
+            return $k->getText();
+        }, $searchKeywords);
 
         // Search repository
         $limit = $limit ?? $this->maxSuggestions;
@@ -106,7 +119,9 @@ class KeywordMatchingService
         // Filter by confidence threshold
         $matches = array_filter(
             $matches,
-            fn(KeywordMatch $m) => $m->meetsConfidenceThreshold($this->minConfidenceThreshold)
+            function (KeywordMatch $m): bool {
+                return $m->meetsConfidenceThreshold($this->minConfidenceThreshold);
+            }
         );
 
         // Sort by keyword count (desc), then score (desc)
@@ -190,7 +205,9 @@ class KeywordMatchingService
             // Convert matched keyword strings back to Keyword objects
             $keywordStrings = explode(',', $match['matched_keywords']);
             $matchedKeywords = array_map(
-                fn(string $k) => new Keyword(trim($k)),
+                function (string $k): Keyword {
+                    return new Keyword(trim($k));
+                },
                 $keywordStrings
             );
 

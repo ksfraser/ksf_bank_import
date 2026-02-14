@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :UnsetTransactionCommand [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for UnsetTransactionCommand.
+ */
 namespace Ksfraser\FaBankImport\Commands;
 
 use Ksfraser\FaBankImport\Contracts\CommandInterface;

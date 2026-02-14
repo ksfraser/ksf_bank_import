@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ksf_modules_table_filter_by_date [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ksf_modules_table_filter_by_date.
+ */
 require_once( '../ksf_modules_common/class.origin.php' );
 
 /**//******************************************************************************

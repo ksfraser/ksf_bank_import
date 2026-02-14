@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :DatabaseConfigRepository [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for DatabaseConfigRepository.
+ */
 namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\ModulesDAO\Db\DbAdapterInterface;

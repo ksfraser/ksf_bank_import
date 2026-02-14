@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :AddCustomerAction [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for AddCustomerAction.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Actions;

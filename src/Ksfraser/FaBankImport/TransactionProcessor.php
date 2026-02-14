@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionProcessor [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionProcessor.
+ */
+/**
  * Transaction Processor
  *
  * Coordinates transaction processing by delegating to appropriate handler classes.
@@ -42,7 +53,7 @@ class TransactionProcessor
      *
      * @var array<string, TransactionHandlerInterface>
      */
-    protected array $handlers = [];
+    protected $handlers = [];
 
     /**
      * Constructor - Auto-discovers and registers handlers

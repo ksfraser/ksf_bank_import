@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BiCounterpartyModelTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BiCounterpartyModelTest.
+ */
 use PHPUnit\Framework\TestCase;
 
 require_once '../ksf_modules_commone/class.generic_fa_interface.php';

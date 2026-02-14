@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :AddVendorAction [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for AddVendorAction.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Actions;

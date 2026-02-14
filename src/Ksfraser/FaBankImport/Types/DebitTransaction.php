@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :DebitTransaction [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for DebitTransaction.
+ */
 namespace Ksfraser\FaBankImport\Types;
 
 use Ksfraser\FaBankImport\Models\AbstractTransaction;

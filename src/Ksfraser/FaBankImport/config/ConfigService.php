@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ConfigService [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ConfigService.
+ */
 namespace Ksfraser\FaBankImport\Config;
 
 use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;

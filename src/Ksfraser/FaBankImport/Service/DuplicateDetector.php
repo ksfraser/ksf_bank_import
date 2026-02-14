@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :DuplicateDetector [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for DuplicateDetector.
+ */
 namespace Ksfraser\FaBankImport\Service;
 
 use Ksfraser\FaBankImport\ValueObject\FileInfo;

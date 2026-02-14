@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionRepositoryIntegrationTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionRepositoryIntegrationTest.
+ */
 namespace Tests\Integration;
 
 use Ksfraser\FaBankImport\Repositories\TransactionRepository;

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :KsfModulesTableFilterByDateTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for KsfModulesTableFilterByDateTest.
+ */
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../ksf_modules_common/class.origin.php';

@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ToggleTransactionAction [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ToggleTransactionAction.
+ */
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Actions;

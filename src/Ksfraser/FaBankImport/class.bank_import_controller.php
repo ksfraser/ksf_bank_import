@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :bank_import_controller [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for bank_import_controller.
+ */
 require_once( '../ksf_modules_common/class.origin.php' );
 require_once( 'class.bi_transaction.php' );
 //require_once( 'class.bi_transactions.php' );

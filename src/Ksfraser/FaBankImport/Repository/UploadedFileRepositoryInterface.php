@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :UploadedFileRepositoryInterface [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for UploadedFileRepositoryInterface.
+ */
 namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\FaBankImport\Entity\UploadedFile;

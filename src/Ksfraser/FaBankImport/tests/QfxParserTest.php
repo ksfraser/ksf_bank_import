@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :QfxParserTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for QfxParserTest.
+ */
 use PHPUnit\Framework\TestCase;
 
 class QfxParserTest extends TestCase

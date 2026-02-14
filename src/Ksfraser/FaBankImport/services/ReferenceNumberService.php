@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :ReferenceNumberService [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for ReferenceNumberService.
+ */
+/**
  * Reference Number Service
  * 
  * Single Responsibility: Generate guaranteed unique reference numbers for transactions.

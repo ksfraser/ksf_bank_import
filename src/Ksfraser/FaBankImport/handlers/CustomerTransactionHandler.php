@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :CustomerTransactionHandler [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for CustomerTransactionHandler.
+ */
+/**
  * Customer Transaction Handler
  *
  * Handles processing of customer (CU) transactions in the bank import system.

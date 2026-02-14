@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BiBankAccountsSchemaInstaller [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BiBankAccountsSchemaInstaller.
+ */
 namespace Ksfraser\FaBankImport\Service\Schema;
 
 use Ksfraser\FaBankImport\Schema\BiBankAccountsSchema;

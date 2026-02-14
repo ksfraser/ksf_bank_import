@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :DisplaySettledTransactions [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for DisplaySettledTransactions.
+ */
 namespace Ksfraser\FaBankImport;
 
 use Ksfraser\HTML\HtmlElementInterface;

@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BiLineitemTest [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BiLineitemTest.
+ */
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../class.bi_lineitem.php';

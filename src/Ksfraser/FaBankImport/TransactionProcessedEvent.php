@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :TransactionProcessedEvent [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for TransactionProcessedEvent.
+ */
 namespace Ksfraser\FaBankImport\Events;
 
 //TODO: Replace.  This looks like a DAO

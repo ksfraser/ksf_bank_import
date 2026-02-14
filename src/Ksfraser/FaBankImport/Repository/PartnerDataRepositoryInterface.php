@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :PartnerDataRepositoryInterface [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for PartnerDataRepositoryInterface.
+ */
 namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\PartnerData;

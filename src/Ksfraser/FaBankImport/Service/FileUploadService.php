@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :FileUploadService [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for FileUploadService.
+ */
 namespace Ksfraser\FaBankImport\Service;
 
 use Ksfraser\FaBankImport\ValueObject\FileInfo;

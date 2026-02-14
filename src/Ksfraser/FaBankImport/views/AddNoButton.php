@@ -1,9 +1,20 @@
 <?php
 
+/**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :AddNoButton [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for AddNoButton.
+ */
+namespace Ksfraser\FaBankImport;
+
 use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
 use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
-
-namespace Ksfraser\FaBankImport;
 
 
 //TODO: Refactor to replace the Submit button with our own class.
