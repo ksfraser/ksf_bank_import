@@ -118,7 +118,7 @@ trait DatabaseSchemaToolsTrait
                 $line .= " AUTO_INCREMENT";
             }
             if (array_key_exists('default', $meta)) {
-                $line .= " DEFAULT " . $meta['default'];
+                $line .= " DEFAULT " . $this->normalizeDefaultSql($meta['default']);
             }
             if (isset($meta['on_update'])) {
                 $line .= " ON UPDATE " . $meta['on_update'];
@@ -127,7 +127,17 @@ trait DatabaseSchemaToolsTrait
         }
 
         if ($primaryKey !== '') {
-            $lines[] = "PRIMARY KEY(`{$primaryKey}`)";
+            $pkParts = array_map('trim', explode(',', $primaryKey));
+            $pkCols = array();
+            foreach ($pkParts as $pkCol) {
+                if ($pkCol === '') {
+                    continue;
+                }
+                $pkCols[] = "`{$pkCol}`";
+            }
+            if (!empty($pkCols)) {
+                $lines[] = "PRIMARY KEY(" . implode(', ', $pkCols) . ")";
+            }
         }
 
         if (!$tableAlreadyExists) {
@@ -173,6 +183,47 @@ trait DatabaseSchemaToolsTrait
         return $table;
     }
 
+    /**
+     * Normalize descriptor default values into SQL-safe default clauses.
+     *
+     * Accepts already-quoted SQL, SQL constants/functions, numeric values,
+     * or plain strings that should be single-quoted.
+     *
+     * @param mixed $default
+     * @return string
+     */
+    protected function normalizeDefaultSql($default)
+    {
+        if ($default === null) {
+            return 'NULL';
+        }
+
+        $value = (string)$default;
+        $trimmed = trim($value);
+
+        if ($trimmed === '') {
+            return "''";
+        }
+
+        // Already quoted literal
+        if ((substr($trimmed, 0, 1) === "'" && substr($trimmed, -1) === "'") ||
+            (substr($trimmed, 0, 1) === '"' && substr($trimmed, -1) === '"')) {
+            return $trimmed;
+        }
+
+        // SQL keywords/functions commonly used as defaults
+        $upper = strtoupper($trimmed);
+        if (in_array($upper, array('CURRENT_TIMESTAMP', 'NULL', 'TRUE', 'FALSE'), true)) {
+            return $trimmed;
+        }
+
+        if (is_numeric($trimmed)) {
+            return $trimmed;
+        }
+
+        return "'" . str_replace("'", "''", $trimmed) . "'";
+    }
+
     protected function ensureIndexesFromDescriptor($table, array $descriptor)
     {
         $db = isset($descriptor['db']) && is_array($descriptor['db']) ? $descriptor['db'] : array();
@@ -184,5 +235,87 @@ trait DatabaseSchemaToolsTrait
             }
             $this->ensureIndex($table, (string)$index['name'], $index['columns']);
         }
+    }
+
+    /**
+     * Seed defaults into a table using INSERT IGNORE and associative row arrays.
+     *
+     * Example row format:
+     * [
+     *   'config_key' => 'upload.max_file_size',
+     *   'config_value' => '10485760'
+     * ]
+     *
+     * @param string $table Fully-qualified table name (including prefix)
+     * @param array<int,array<string,mixed>> $rows
+     * @param string $errorMsg
+     * @return void
+     */
+    protected function insertIgnoreRows($table, array $rows, $errorMsg = 'Failed seeding table defaults')
+    {
+        if (empty($rows)) {
+            return;
+        }
+
+        $firstRow = reset($rows);
+        if (!is_array($firstRow) || empty($firstRow)) {
+            return;
+        }
+
+        $columns = array_keys($firstRow);
+        $columnSql = array();
+        foreach ($columns as $col) {
+            $columnSql[] = "`{$col}`";
+        }
+
+        $valuesSql = array();
+        foreach ($rows as $row) {
+            $parts = array();
+            foreach ($columns as $col) {
+                $parts[] = $this->toSqlLiteral(array_key_exists($col, $row) ? $row[$col] : null);
+            }
+            $valuesSql[] = '(' . implode(', ', $parts) . ')';
+        }
+
+        $sql = "INSERT IGNORE INTO `{$table}` (" . implode(', ', $columnSql) . ") VALUES\n"
+             . implode(",\n", $valuesSql);
+
+        $this->runQuery($sql, $errorMsg);
+    }
+
+    /**
+     * Convert a PHP value to a SQL literal suitable for INSERT.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    protected function toSqlLiteral($value)
+    {
+        if ($value === null) {
+            return 'NULL';
+        }
+
+        if (is_bool($value)) {
+            return $value ? '1' : '0';
+        }
+
+        if (is_int($value) || is_float($value)) {
+            return (string)$value;
+        }
+
+        if (is_array($value) || is_object($value)) {
+            $value = json_encode($value);
+        }
+
+        $escaped = (string) call_user_func($this->escape, (string)$value);
+        $trimmed = trim($escaped);
+
+        // If escape callback already returned quoted SQL, trust it.
+        if ((substr($trimmed, 0, 1) === "'" && substr($trimmed, -1) === "'") ||
+            (substr($trimmed, 0, 1) === '"' && substr($trimmed, -1) === '"')) {
+            return $trimmed;
+        }
+
+        return "'" . str_replace("'", "''", (string)$value) . "'";
     }
 }

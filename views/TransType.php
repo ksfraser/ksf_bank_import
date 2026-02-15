@@ -22,18 +22,21 @@ class TransType extends LabelRowBase
 	 */
 	function __construct( $bi_lineitem )
 	{
-		switch( $bi_lineitem->transactionDC )
-		{
-			case 'C':
-				$typeLabel = "Credit";
-			break;
-			case 'B':
-				$typeLabel = "Bank Transfer";
-			break;
-			case 'D':
-			default:
-				$typeLabel = "Debit";
-			break;
+		$typeLabel = $bi_lineitem->transactionTypeLabel ?? '';
+		if ($typeLabel === '') {
+			switch( $bi_lineitem->transactionDC )
+			{
+				case 'C':
+					$typeLabel = "Credit";
+				break;
+				case 'B':
+					$typeLabel = "Bank Transfer";
+				break;
+				case 'D':
+				default:
+					$typeLabel = "Debit";
+				break;
+			}
 		}
 		
 		// Set properties BEFORE calling parent::__construct()

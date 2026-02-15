@@ -88,12 +88,27 @@ final class BiConfigSchema
                     'null' => 'NOT NULL',
                     'readwrite' => 'read',
                     'default' => 'CURRENT_TIMESTAMP',
+                    'on_update' => 'CURRENT_TIMESTAMP',
                 ),
                 'updated_by' => array(
                     'label' => 'Updated By',
                     'type' => 'varchar(60)',
                     'null' => 'NULL',
                     'readwrite' => 'readwrite',
+                ),
+            ),
+            'db' => array(
+                'engine' => 'InnoDB',
+                'charset' => 'utf8mb4',
+                'collation' => 'utf8mb4_unicode_ci',
+                'uniqueConstraints' => array(
+                    array(
+                        'name' => 'config_key',
+                        'columns' => array('config_key'),
+                    ),
+                ),
+                'indexes' => array(
+                    array('name' => 'category', 'columns' => array('category')),
                 ),
             ),
             'ui' => array(

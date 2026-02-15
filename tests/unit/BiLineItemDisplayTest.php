@@ -220,7 +220,7 @@ class BiLineItemDisplayTest extends TestCase
     }
 
     /**
-     * Test that getHtml() combines left and right HTML
+        * Test that getHtml() renders the current four-column row layout
      *
      * @test
      */
@@ -232,28 +232,31 @@ class BiLineItemDisplayTest extends TestCase
             $this->sampleOptypes
         );
 
-        $leftHtml = $lineItem->getLeftHtml();
-        $rightHtml = $lineItem->getRightHtml();
         $fullHtml = $lineItem->getHtml();
 
-        // Full HTML should contain both left and right
+        // Four-column layout widths (details/operation/partner/matching)
         $this->assertStringContainsString(
-            $leftHtml,
+            'width="25%"',
             $fullHtml,
-            'getHtml() must include left HTML'
+            'getHtml() should include details/matching columns'
         );
 
         $this->assertStringContainsString(
-            $rightHtml,
+            'width="15%"',
             $fullHtml,
-            'getHtml() must include right HTML'
+            'getHtml() should include operation column'
         );
 
-        // Full HTML should be concatenation of left + right
-        $this->assertSame(
-            $leftHtml . $rightHtml,
+        $this->assertStringContainsString(
+            'width="35%"',
             $fullHtml,
-            'getHtml() should be leftHtml + rightHtml'
+            'getHtml() should include partner/actions column'
+        );
+
+        $this->assertStringContainsString(
+            '<tr',
+            $fullHtml,
+            'getHtml() should return a table row'
         );
     }
 

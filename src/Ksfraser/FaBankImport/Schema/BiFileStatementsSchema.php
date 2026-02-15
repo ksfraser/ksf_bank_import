@@ -49,6 +49,13 @@ final class BiFileStatementsSchema
                     'readwrite' => 'readwrite',
                 ),
             ),
+            'db' => array(
+                'engine' => 'InnoDB',
+                'charset' => 'utf8',
+                'indexes' => array(
+                    array('name' => 'idx_statement_id', 'columns' => array('statement_id')),
+                ),
+            ),
             'ui' => array(
                 'title' => 'File Statements',
                 'pageSize' => 50,

@@ -48,7 +48,7 @@ class BiLineItemViewClassesTest extends TestCase
 		$this->assertStringContainsString($lineitem->valueTimestamp, $html,
 			'TransDate View class should render date value');
 		
-		$this->assertStringContainsString('Trans type:', $html,
+		$this->assertMatchesRegularExpression('/Trans\s+Type:/i', $html,
 			'TransType View class should render label');
 		$this->assertStringContainsString($lineitem->transactionTypeLabel, $html,
 			'TransType View class should render transaction type');
@@ -61,12 +61,12 @@ class BiLineItemViewClassesTest extends TestCase
 		$this->assertStringContainsString($lineitem->otherBankAccountName, $html,
 			'OtherBankAccount View class should render other account name');
 		
-		$this->assertStringContainsString('Amount/Charge(s):', $html,
+		$this->assertMatchesRegularExpression('/Amount\s*\/\s*Charge\(s\):/i', $html,
 			'AmountCharges View class should render label');
 		$this->assertStringContainsString((string)$lineitem->amount, $html,
 			'AmountCharges View class should render amount');
 		
-		$this->assertStringContainsString('Trans Title:', $html,
+		$this->assertMatchesRegularExpression('/(Trans\s+Title|Transaction\s+Title):/i', $html,
 			'TransTitle View class should render label');
 		$this->assertStringContainsString($lineitem->transactionTitle, $html,
 			'TransTitle View class should render title');

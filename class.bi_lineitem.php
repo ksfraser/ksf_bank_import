@@ -17,9 +17,9 @@
 
 $path_to_root = "../..";
 
-$commonDir = is_dir(__DIR__ . '/../ksf_modules_common')
-	? __DIR__ . '/../ksf_modules_common'
-	: __DIR__ . '/ksf_modules_common';
+$commonDir = is_dir(__DIR__ . '/ksf_modules_common')
+	? __DIR__ . '/ksf_modules_common'
+	: __DIR__ . '/../ksf_modules_common';
 
 if (is_file($commonDir . '/class.generic_fa_interface.php')) {
 	require_once($commonDir . '/class.generic_fa_interface.php');
@@ -59,7 +59,9 @@ require_once( $viewsDir . '/ViewFactory.php' );
 use KsfBankImport\Views\ViewFactory;
 
 // Feature flag to enable v2 Views (set to true to use ViewFactory)
-define('USE_V2_PARTNER_VIEWS', true);
+if (!defined('USE_V2_PARTNER_VIEWS')) {
+	define('USE_V2_PARTNER_VIEWS', true);
+}
 
 // SettledTransactionDisplay for displaying settled transactions
 require_once( __DIR__ . '/src/Ksfraser/SettledTransactionDisplay.php' );
@@ -138,8 +140,10 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $our_account; 	//| varchar()   | YES  |     | NULL    |		|
 	protected $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
 	protected $entryTimestamp;      //| date	 | YES  |     | NULL    |		|
-	protected $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-	protected $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
+	protected $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		| (legacy name)
+	protected $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		| (legacy name)
+	protected $otherBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
+	protected $otherBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
 	protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
 	protected $status;	      //| int(11)      | YES  |     | 0       |		|
 	protected $currency;
@@ -561,6 +565,8 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function setPartnerType()
 	{
+		$this->ensureFormData();
+
 		switch( $this->transactionDC )
 		{
 			case 'C':
@@ -678,7 +684,10 @@ class bi_lineitem extends generic_fa_interface_model
 		
 		if( count( $flatParams ) > 0 )
 		{
-			$link->setParams( $flatParams );
+			foreach( $flatParams as $key => $val )
+			{
+				$link->addParam((string)$key, (string)$val);
+			}
 		}
 		
 		$link->setTarget( $target );
@@ -814,6 +823,8 @@ class bi_lineitem extends generic_fa_interface_model
 	********************************************************************/
 	function getDisplayMatchingTrans()
 	{
+		$this->ensureFormData();
+
 		//our find_... sets matching_trans
 		//$this->matching_trans = $this->findMatchingExistingJE();
 		$this->findMatchingExistingJE();
@@ -833,22 +844,24 @@ class bi_lineitem extends generic_fa_interface_model
 				{
 					//var_dump( __LINE__ );
 					//It was an excellent match
+					$matchedPartnerType = 'ZZ';
 					if( $this->matching_trans[0]['is_invoice'] )
 					{
 						//This TRZ is a supplier payment
 						//that matches an invoice exactly.
-							$this->formData->setPartnerType('SP');
+						$matchedPartnerType = 'SP';
 					}
-					else
-					{
-							$this->formData->setPartnerType('ZZ');
-					}
+					$this->formData->setPartnerType($matchedPartnerType);
+					$_POST['partnerType'][$this->id] = $matchedPartnerType;
 					$this->oplabel = "MATCH";
 					
 				// Transaction type and number hidden fields
+				hidden("trans_type_$this->id", $this->matching_trans[0]['type']);
+				hidden("trans_no_$this->id", $this->matching_trans[0]['type_no']);
+
 				$transTypeHidden = new \Ksfraser\HTML\Elements\HtmlHidden("trans_type_$this->id", $this->matching_trans[0]['type']);
 				$transTypeHidden->toHtml();
-				
+
 				$transNoHidden = new \Ksfraser\HTML\Elements\HtmlHidden("trans_no_$this->id", $this->matching_trans[0]['type_no']);
 				$transNoHidden->toHtml();
 
@@ -1033,6 +1046,8 @@ class bi_lineitem extends generic_fa_interface_model
 	 */
 	function renderPartnerTypeFragment(): HtmlFragment
 	{
+		$this->ensureFormData();
+
 		// Use Strategy pattern instead of switch statement
 		require_once( (is_dir(__DIR__ . '/Views') ? __DIR__ . '/Views' : __DIR__ . '/views') . '/PartnerTypeDisplayStrategy.php' );
 		
@@ -1347,7 +1362,7 @@ class bi_lineitem extends generic_fa_interface_model
 	* @param string field to set
 	* @param mixed value to set
 	* @param bool should we allow the class to only set __construct time fields
-	* @return nothing. (parent) throws exceptions
+	* @return bool Result from parent set operation
 	**********************************************************************/
 	function set( $field, $value = null, $enforce = true )
 	{
@@ -1365,19 +1380,29 @@ class bi_lineitem extends generic_fa_interface_model
 	**************************************************************************/
 	function trz2obj( $trz )
 	{
-		return $this->obj2obj( $trz );
-/*
 		$cnt = 0;
-		foreach( get_object_vars($this) as $key )
+		if( is_array( $trz ) )
 		{
-			if( isset( $trz->$key ) )
+			$src = $trz;
+		}
+		else if( is_object( $trz ) )
+		{
+			$src = get_object_vars($trz);
+		}
+		else
+		{
+			return 0;
+		}
+
+		foreach( $src as $key => $value )
+		{
+			if( property_exists( $this, $key ) )
 			{
-				$this-set( "$key", $trz->$key );	
+				$this->$key = $value;
 				$cnt++;
 			}
 		}
 		return $cnt;
-*/
 	}
 	
 	/**//******************************************************************
@@ -1441,5 +1466,26 @@ class bi_lineitem extends generic_fa_interface_model
 	public function __get($name)
 	{
 		return property_exists($this, $name) ? $this->$name : null;
+	}
+
+	public function __set($name, $value): void
+	{
+		if (property_exists($this, $name)) {
+			$this->$name = $value;
+			return;
+		}
+
+		$this->$name = $value;
+	}
+
+	/**
+	 * Ensure form data handler exists for compatibility with legacy tests/fixtures
+	 * that may instantiate the object without running the constructor.
+	 */
+	private function ensureFormData(): void
+	{
+		if (!($this->formData instanceof PartnerFormData)) {
+			$this->formData = new PartnerFormData((int)($this->id ?? 0));
+		}
 	}
 }

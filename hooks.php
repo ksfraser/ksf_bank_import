@@ -1,5 +1,6 @@
 <?php
 
+
 define( 'MENU_IMPORT', 'menu_import' );
 
 //Using the following security:
@@ -88,10 +89,20 @@ class hooks_bank_import extends hooks {
 		bi_partners_data::ensure_schema();
 
 		// Configuration tables
-		$this->ensure_config_tables();
+		require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Service/Schema/BiConfigSchemaInstaller.php');
+		$configSchemaInstaller = new \Ksfraser\FaBankImport\Service\Schema\BiConfigSchemaInstaller(
+			'db_query',
+			TB_PREF
+		);
+		$configSchemaInstaller->ensureTables();
 
 		// Uploaded files tracking tables
-		$this->ensure_uploaded_files_tables();
+		require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Service/Schema/BiUploadedFilesSchemaInstaller.php');
+		$uploadedFilesSchemaInstaller = new \Ksfraser\FaBankImport\Service\Schema\BiUploadedFilesSchemaInstaller(
+			'db_query',
+			TB_PREF
+		);
+		$uploadedFilesSchemaInstaller->ensureTables();
 
 		// Bank account OFX/Intuit metadata xref (do not modify FA core bank_accounts)
 		require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Service/Schema/BiBankAccountsSchemaInstaller.php');
@@ -110,90 +121,6 @@ class hooks_bank_import extends hooks {
 			TB_PREF
 		);
 		$migrator->migrate();
-	}
-
-	private function ensure_config_tables()
-	{
-		// These are safe to run repeatedly.
-		$sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . "bi_config` (
-		  `id` int(11) NOT NULL AUTO_INCREMENT,
-		  `config_key` varchar(100) NOT NULL,
-		  `config_value` text,
-		  `config_type` varchar(20) NOT NULL DEFAULT 'string',
-		  `description` text,
-		  `category` varchar(50) NOT NULL DEFAULT 'general',
-		  `is_system` tinyint(1) NOT NULL DEFAULT 0,
-		  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		  `updated_by` varchar(60) DEFAULT NULL,
-		  PRIMARY KEY (`id`),
-		  UNIQUE KEY `config_key` (`config_key`),
-		  KEY `category` (`category`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-		db_query($sql, 'Failed to ensure bi_config table');
-
-		$sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . "bi_config_history` (
-		  `id` int(11) NOT NULL AUTO_INCREMENT,
-		  `config_key` varchar(100) NOT NULL,
-		  `old_value` text,
-		  `new_value` text,
-		  `changed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  `changed_by` varchar(60) NOT NULL,
-		  `change_reason` text,
-		  PRIMARY KEY (`id`),
-		  KEY `config_key` (`config_key`),
-		  KEY `changed_at` (`changed_at`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
-		db_query($sql, 'Failed to ensure bi_config_history table');
-
-		// Seed defaults idempotently
-		$table = TB_PREF . 'bi_config';
-		$sql = "INSERT IGNORE INTO `{$table}` (`config_key`, `config_value`, `config_type`, `description`, `category`, `is_system`) VALUES
-		('upload.check_duplicates', '0', 'boolean', 'Enable duplicate file detection', 'upload', 0),
-		('upload.duplicate_window_days', '90', 'integer', 'How many days back to check for duplicates', 'upload', 0),
-		('upload.duplicate_action', 'warn', 'string', 'Action on duplicate: allow, warn, block', 'upload', 0),
-		('upload.max_file_size', '10485760', 'integer', 'Maximum upload file size in bytes (10MB default)', 'upload', 0),
-		('upload.allowed_extensions', 'qfx,ofx,csv,mt940,sta', 'string', 'Comma-separated list of allowed file extensions', 'upload', 0),
-		('storage.retention_days', '730', 'integer', 'How many days to retain uploaded files (2 years default)', 'storage', 0),
-		('storage.compression_enabled', '0', 'boolean', 'Enable file compression for storage', 'storage', 0),
-		('logging.enabled', '1', 'boolean', 'Enable import logging', 'logging', 0),
-		('logging.level', 'info', 'string', 'Log level: debug, info, warning, error', 'logging', 0),
-		('logging.retention_days', '30', 'integer', 'How many days to retain logs', 'logging', 0),
-		('performance.batch_size', '100', 'integer', 'Number of transactions to process per batch', 'performance', 0),
-		('performance.memory_limit', '256M', 'string', 'PHP memory limit for imports', 'performance', 0),
-		('security.require_permission', 'SA_BANKFILEVIEW', 'string', 'Required permission for file management', 'security', 1),
-		('security.htaccess_enabled', '1', 'boolean', 'Protect upload directory with .htaccess', 'security', 1)";
-		db_query($sql, 'Failed seeding bi_config defaults');
-	}
-
-	private function ensure_uploaded_files_tables()
-	{
-		$sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . "bi_uploaded_files` (
-		    `id`                INTEGER NOT NULL AUTO_INCREMENT,
-		    `filename`          VARCHAR(255) NOT NULL,
-		    `original_filename` VARCHAR(255) NOT NULL,
-		    `file_path`         VARCHAR(512) NOT NULL,
-		    `file_size`         INTEGER NOT NULL,
-		    `file_type`         VARCHAR(100),
-		    `upload_date`       DATETIME NOT NULL,
-		    `upload_user`       VARCHAR(60) NOT NULL,
-		    `parser_type`       VARCHAR(50),
-		    `bank_account_id`   INTEGER,
-		    `statement_count`   INTEGER DEFAULT 0,
-		    `notes`             TEXT,
-		    PRIMARY KEY(`id`),
-		    INDEX `idx_upload_date` (`upload_date`),
-		    INDEX `idx_upload_user` (`upload_user`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-		db_query($sql, 'Failed to ensure bi_uploaded_files table');
-
-		// Keep this table FK-free for maximum compatibility with existing installs.
-		$sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . "bi_file_statements` (
-		    `file_id`       INTEGER NOT NULL,
-		    `statement_id`  INTEGER NOT NULL,
-		    PRIMARY KEY(`file_id`, `statement_id`),
-		    INDEX `idx_statement_id` (`statement_id`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8";
-		db_query($sql, 'Failed to ensure bi_file_statements table');
 	}
 
 	//this is required to cancel bank transactions when a voiding operation occurs

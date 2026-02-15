@@ -81,6 +81,15 @@ final class BiConfigHistorySchema
                     'readwrite' => 'readwrite',
                 ),
             ),
+            'db' => array(
+                'engine' => 'InnoDB',
+                'charset' => 'utf8mb4',
+                'collation' => 'utf8mb4_unicode_ci',
+                'indexes' => array(
+                    array('name' => 'config_key', 'columns' => array('config_key')),
+                    array('name' => 'changed_at', 'columns' => array('changed_at')),
+                ),
+            ),
             'ui' => array(
                 'title' => 'Config History',
                 'pageSize' => 50,

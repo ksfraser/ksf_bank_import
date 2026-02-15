@@ -21,7 +21,7 @@ class OtherBankAccount extends LabelRowBase
 	function __construct( $bi_lineitem )
 	{
 		// Set properties BEFORE calling parent::__construct()
-		$this->label = "Other Bank Account:";
+		$this->label = "Other account:";
 		$this->data = $bi_lineitem->otherBankAccount . ' / '. $bi_lineitem->otherBankAccountName;
 		
 		parent::__construct( "" );

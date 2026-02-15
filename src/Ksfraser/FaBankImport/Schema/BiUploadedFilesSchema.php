@@ -111,6 +111,14 @@ final class BiUploadedFilesSchema
                     'readwrite' => 'readwrite',
                 ),
             ),
+            'db' => array(
+                'engine' => 'InnoDB',
+                'charset' => 'utf8',
+                'indexes' => array(
+                    array('name' => 'idx_upload_date', 'columns' => array('upload_date')),
+                    array('name' => 'idx_upload_user', 'columns' => array('upload_user')),
+                ),
+            ),
             'ui' => array(
                 'title' => 'Uploaded Bank Files',
                 'pageSize' => 25,

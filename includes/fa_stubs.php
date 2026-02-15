@@ -308,7 +308,11 @@ if (!function_exists('hidden')) {
      * @return void
      */
     function hidden(string $name, $value): void {
-        // Stub - actual implementation in FrontAccounting
+        // Stub - record values for tests that assert hidden field side effects.
+        if (!isset($GLOBALS['hidden_fields']) || !is_array($GLOBALS['hidden_fields'])) {
+            $GLOBALS['hidden_fields'] = [];
+        }
+        $GLOBALS['hidden_fields'][$name] = $value;
     }
 }
 
@@ -772,6 +776,24 @@ if (!class_exists('fa_customer_payment')) {
         public function write_allocation(): bool
         {
             return true;
+        }
+
+        /**
+         * Return allocatable invoice HTML (stubbed for tests/dev)
+         */
+        public function show_allocatable(): string
+        {
+            return '';
+        }
+
+        /**
+         * Return allocation details (stubbed for tests/dev)
+         *
+         * @return array<int,array<string,mixed>>
+         */
+        public function get_alloc_details(): array
+        {
+            return [];
         }
     }
 }
