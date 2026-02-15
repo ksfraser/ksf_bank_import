@@ -158,7 +158,19 @@ abstract class Transaction
 	**********************************************************************/
 	function retrieveBankAccountDetails()
 	{
-		require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
+		$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+		$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+		$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+		$faBankAccountsFile = __DIR__ . '/../../../ksf_modules_common/class.fa_bank_accounts.php';
+
+		if (!$forceMocks && is_file($faBankAccountsFile)) {
+			require_once($faBankAccountsFile);
+		}
+
+		if (!class_exists('fa_bank_accounts')) {
+			require_once(__DIR__ . '/../../../includes/fa_stubs.php');
+		}
+
 		$fa_bank_accounts = new \fa_bank_accounts( $this );
 		$this->ourBankDetails =	$fa_bank_accounts->getByBankAccountNumber( $this->our_account );
 		/*
