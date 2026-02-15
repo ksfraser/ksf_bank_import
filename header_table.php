@@ -104,6 +104,7 @@ class ksf_modules_table_filter_by_date extends origin
 	}
 	function bank_import_header( $tablestype = TABLESTYLE_NOBORDER )
 	{
+		global $forceMocks;
  		// this is filter table
         	start_table( $tablestype );
         	start_row();
@@ -122,12 +123,20 @@ class ksf_modules_table_filter_by_date extends origin
         	date_cells(_("To:"), 'TransToDate', '', null, 1);
         	label_cells(_("Status:"), array_selector('statusFilter', $_POST['statusFilter'], array(0 => 'Unsettled', 1 => 'Settled', 255 => 'All')));
         	
-        	// Mantis Bug #3188: Filter by Bank account
-		require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
-		$ba_model = new fa_bank_accounts_MODEL();
-		$ba_view = new fa_bank_accounts_VIEW( $ba_model );
-		$ba_view->set( "b_showNoneAll", true );
-		$ba_view->bank_accounts_list_row( _("Bank Account:") , 'bankAccountFilter', null, false);
+	        // Mantis Bug #3188: Filter by Bank account
+		$faBankTransferClass = __DIR__ . '/../ksf_modules_common/class.fa_bank_transfer.php';
+		if( !$forceMocks && is_file($faBankTransferClass) )
+		{
+			require_once( $faBankTransferClass );
+			$ba_model = new fa_bank_accounts_MODEL();
+			$ba_view = new fa_bank_accounts_VIEW( $ba_model );
+			$ba_view->set( "b_showNoneAll", true );
+			$ba_view->bank_accounts_list_row( _("Bank Account:") , 'bankAccountFilter', null, false);
+		}
+		else
+		{
+			bank_accounts_list_row( _("Bank Account:"), 'bankAccountFilter', null, false );
+		}
 
 	        submit_cells('RefreshInquiry', _("Search"),'',_('Refresh Inquiry'), 'default');
 	        submit_cells('RunTransferMatcher', _("Run Transfer Matcher"));

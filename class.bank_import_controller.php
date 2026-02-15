@@ -877,9 +877,10 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 					break;
 			/*************************************************************************************************************/
 					case ($_POST['partnerType'][$this->tid] == 'BT'):
-						$inc = require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
-						if( $inc )
+						$faBankTransferClass = __DIR__ . '/../ksf_modules_common/class.fa_bank_transfer.php';
+						if( is_file($faBankTransferClass) )
 						{
+							require_once( $faBankTransferClass );
 							$bttrf = new fa_bank_transfer();
 							try
 							{
@@ -938,7 +939,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 						}
 						else
 						{
-								//display_notification( __LINE__  );
+							display_error(_("Bank transfer helper not available in this environment."));
 						}
 					break;
 			/*************************************************************************************************************/
