@@ -18,8 +18,18 @@ if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_f
 if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
     require_once(__DIR__ . '/includes/fa_stubs.php');
 }
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Schema/BiTransferMatchesSchema.php');
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Service/Schema/BiTransferMatchesSchemaInstaller.php');
+
+if (!$forceMocks) {
+    $schemaDescriptorFile = __DIR__ . '/src/Ksfraser/FaBankImport/Schema/BiTransferMatchesSchema.php';
+    $schemaInstallerFile = __DIR__ . '/src/Ksfraser/FaBankImport/Service/Schema/BiTransferMatchesSchemaInstaller.php';
+
+    if (is_file($schemaDescriptorFile)) {
+        require_once($schemaDescriptorFile);
+    }
+    if (is_file($schemaInstallerFile)) {
+        require_once($schemaInstallerFile);
+    }
+}
 
 /**
  * Transfer match workflow table (candidate/confirmed/rejected/audit).
@@ -36,6 +46,10 @@ class bi_transfer_matches_model extends generic_fa_interface_model
 
     public static function ensure_schema(): void
     {
+        if (!class_exists('\\Ksfraser\\FaBankImport\\Service\\Schema\\BiTransferMatchesSchemaInstaller')) {
+            return;
+        }
+
         $installer = new \Ksfraser\FaBankImport\Service\Schema\BiTransferMatchesSchemaInstaller(
             'db_query',
             'db_escape',

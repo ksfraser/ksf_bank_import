@@ -9,8 +9,6 @@ namespace Ksfraser\FaBankImport\Schema;
  */
 final class BiTransferMatchesSchema
 {
-    use \Ksfraser\ModulesDAO\Schema\SchemaDescriptorHelpersTrait;
-
     /** @var array|null */
     private static $descriptor;
 
