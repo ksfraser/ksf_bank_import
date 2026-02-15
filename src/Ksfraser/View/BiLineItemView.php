@@ -147,14 +147,12 @@ class BiLineItemView
 					* so if the bank account number matches and adjusted amount matches...
 					*****************************************************************************************/
 					$match_html .= "<b>$matchcount</b>: ";
-					if( ! @include_once( __DIR__  . "/../ksf_modules_common/defines.inc.php") )
-					{
-						$match_html .= " Transaction " . $trans_types_readable[$matchgl['type']] . ":" . $matchgl['type_no'];
-					}
-					else
-					{
-						$match_html .= " Transaction " . $matchgl['type'] . ":" . $matchgl['type_no'];
-					}
+					$type = $matchgl['type'];
+					$type_no = $matchgl['type_no'];
+					$typeLabel = (isset($trans_types_readable) && is_array($trans_types_readable) && isset($trans_types_readable[$type]))
+						? $trans_types_readable[$type]
+						: $type;
+					$match_html .= " Transaction " . $typeLabel . ":" . $type_no;
 					$match_html .= " Score " . $matchgl['score'] . " ";
 					if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $fa_bank_accounts->get( "bank_account_name" ), $matchgl['account'] ) )
 					{

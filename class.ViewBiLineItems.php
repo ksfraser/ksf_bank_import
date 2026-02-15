@@ -177,26 +177,17 @@ class ViewBILineItems
 					$match_html .= "<b>$matchcount</b>: ";
 					unset( $param );
 					$param = array();
-					if( ! @include_once( __DIR__  . "/../ksf_modules_common/defines.inc.php") )
-					{
-						$param[] = array( "type_id" => $trans_types_readable[$matchgl['type']] );
-						$param[] = array( "trans_no" => $matchgl['type_no'] );
-						$URL = "../../gl/view/gl_trans_view.php";
-						$text = " Transaction " . $trans_types_readable[$matchgl['type']] . ":" . $matchgl['type_no'];
-			
-						$match_html .= $this->makeURLLink( $URL, $param, $text );
-					}
-					else
-					{
-						$type = $matchgl['type'];
-						$type_no = $matchgl['type_no'];
-						$param[] = array( "type_id" => $type );
-						$param[] = array( "trans_no" => $type_no );
-						$URL = "../../gl/view/gl_trans_view.php";
-						$text = " Transaction " . $matchgl['type'] . ":" . $matchgl['type_no'];
-			
-						$match_html .= $this->makeURLLink( $URL, $param, $text );
-					}
+					$type = $matchgl['type'];
+					$type_no = $matchgl['type_no'];
+					$typeLabel = (isset($trans_types_readable) && is_array($trans_types_readable) && isset($trans_types_readable[$type]))
+						? $trans_types_readable[$type]
+						: $type;
+					$param[] = array( "type_id" => $type );
+					$param[] = array( "trans_no" => $type_no );
+					$URL = "../../gl/view/gl_trans_view.php";
+					$text = " Transaction " . $typeLabel . ":" . $type_no;
+
+					$match_html .= $this->makeURLLink( $URL, $param, $text );
 					$match_html .= " Score " . $matchgl['score'] . " ";
 					if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $this->ourBankDetails['bank_account_name'], $matchgl['account'] ) )
 					{
