@@ -86,6 +86,9 @@ require_once( __DIR__ . '/src/Ksfraser/Views/LeftTdBuilder.php' );
 use Ksfraser\Views\LeftTdBuilder;
 require_once( __DIR__ . '/src/Ksfraser/Views/RightTdBuilder.php' );
 use Ksfraser\Views\RightTdBuilder;
+require_once( __DIR__ . '/src/Ksfraser/Views/TransferMatchCandidatesView.php' );
+use Ksfraser\Views\TransferMatchCandidatesView;
+require_once( __DIR__ . '/class.bi_transfer_matches.php' );
 
 require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW.php' );
 require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php' );
@@ -176,6 +179,9 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $matched;	//!<bool
 	protected $created;	//!<bool
 	protected $formData;	//!< PartnerFormData - Encapsulates $_POST access
+	protected $pairedTransactions;	//!< ?array cached paired transaction candidates
+	protected $requires_review;	//!< int review flag
+	protected $transferMatchModel;	//!< bi_transfer_matches_model
 
 
 	function __construct( $trz = array(), $vendor_list = array(), $optypes = array() )
@@ -224,6 +230,8 @@ class bi_lineitem extends generic_fa_interface_model
 		$this->id = $trz['id'] ?? 0;
 		$this->fa_trans_type = $trz['fa_trans_type'] ?? 0;
 		$this->fa_trans_no = $trz['fa_trans_no'] ?? 0;
+		$this->requires_review = $trz['requires_review'] ?? 0;
+		$this->transferMatchModel = null;
 //Original code MT370 can have COM lines that add to the transaction
 		$this->amount = $trz['transactionAmount'] ?? 0;
 		if (($trz['transactionType'] ?? '') != 'COM') 
@@ -395,8 +403,7 @@ class bi_lineitem extends generic_fa_interface_model
 		$fragment->addChild($this->renderEditTransDataFragment());
 		if( $this->isPaired() )
 		{
-			//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
-			$this->displayPaired();
+			$fragment->addChild($this->renderPairedFragment());
 		}
 		return $fragment;
 	}
@@ -466,8 +473,7 @@ class bi_lineitem extends generic_fa_interface_model
 		$fragment->addChild($this->renderAddVendorOrCustomerFragment());
 		if( $this->isPaired() )
 		{
-			//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
-			$this->displayPaired();
+			$fragment->addChild($this->renderPairedFragment());
 		}
 
 		$tableContent = new HtmlRaw($fragment->getHtml());
@@ -542,7 +548,11 @@ class bi_lineitem extends generic_fa_interface_model
 		{
 			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
 		}
-//TODO confirm this does what it should!!
+		if (!isset($this->vendor_list[$matchedVendor]['supplier_id']))
+		{
+			throw new Exception("Matched vendor has no supplier_id", KSF_INVALID_DATA_VALUE);
+		}
+
 		$matchedSupplierId = $this->vendor_list[$matchedVendor]['supplier_id'];
 		return $matchedSupplierId;
 	}
@@ -552,11 +562,19 @@ class bi_lineitem extends generic_fa_interface_model
 		{
 			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
 		}
-		if( ! isset( $this->otherBankAccountt ) )
+		if (!isset($this->vendor_list['shortnames']) || !is_array($this->vendor_list['shortnames']))
 		{
-			throw new Exception( "Field not set ->otherBankAccountt", KSF_FIELD_NOT_SET );
+			throw new Exception("Field not set ->vendor_list['shortnames']", KSF_FIELD_NOT_SET);
+		}
+		if( ! isset( $this->otherBankAccount ) )
+		{
+			throw new Exception( "Field not set ->otherBankAccount", KSF_FIELD_NOT_SET );
 		}
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
+		if ($matchedVendor === false)
+		{
+			throw new Exception("No matched vendor found", KSF_FIELD_NOT_SET);
+		}
 		return $matchedVendor;
 	}
 	/**//*****************************************************************
@@ -603,6 +621,38 @@ class bi_lineitem extends generic_fa_interface_model
 	*******************************************************************/
 	function displayPaired()
 	{
+		$this->renderPairedFragment()->toHtml();
+	}
+
+	/**
+	 * Render paired-transaction summary row(s) as fragment.
+	 *
+	 * @return HtmlFragment
+	 */
+	function renderPairedFragment(): HtmlFragment
+	{
+		$fragment = new HtmlFragment();
+		$pairs = $this->findPaired();
+
+		if (empty($pairs)) {
+			return $fragment;
+		}
+
+		$items = [];
+		foreach ($pairs as $pair)
+		{
+			$pairDate = $pair['valueTimestamp'] ?? '';
+			$pairAccount = $pair['our_account'] ?? '';
+			$pairDc = $pair['transactionDC'] ?? '';
+			$pairAmount = $pair['transactionAmount'] ?? '';
+			$items[] = $pairDate . ' | ' . $pairAccount . ' | ' . $pairDc . ' | ' . $pairAmount;
+		}
+
+		$label = new \Ksfraser\HTML\Elements\HtmlString('Paired Transactions');
+		$content = new \Ksfraser\HTML\Elements\HtmlRaw(implode('<br />', $items));
+		$fragment->addChild(new \Ksfraser\HTML\Composites\HtmlLabelRow($label, $content));
+
+		return $fragment;
 	}
 	/**//***************************************************************
 	* Find paired transactions i.e. bank transfers from one account to another
@@ -614,23 +664,44 @@ class bi_lineitem extends generic_fa_interface_model
 	*********************************************************************/
 	function findPaired()
 	{
-		require_once( 'class.bi_transactions.php' );
-		$bi_t = new bi_transactions_model();
-		//Since we are only doing a +2 days and not -2, we should only find the first of a paired set of transactions
-		$trzs = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, 2 ), $this->amount, null );	//This will be matching dollar amounts within 2 days.  
-		$count = 0;
-		foreach( $trzs as $trans )
+		if( is_array( $this->pairedTransactions ) )
 		{
-			if( ! strcmp( trim( $trans['our_account'] ) , trim( $this->our_account ) ) )
-			{
-				continue;	//Can't match within same bank account
-			} 
-			if( ! strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) )
-			{
-				continue;	//Paired transactions will have opposing DC values.
-			} 
-			
+			return $this->pairedTransactions;
 		}
+		$matching = array();
+
+		try {
+			require_once( 'class.bi_transactions.php' );
+			$bi_t = new bi_transactions_model();
+			//Since we are only doing a +2 days and not -2, we should only find the first of a paired set of transactions
+			$trzs = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, 2 ), $this->amount, null );	//This will be matching dollar amounts within 2 days.
+			foreach( $trzs as $trans )
+			{
+				if( isset( $trans['id'] ) && (int)$trans['id'] === (int)$this->id )
+				{
+					continue;
+				}
+				if( ! strcmp( trim( $trans['our_account'] ) , trim( $this->our_account ) ) )
+				{
+					continue;	//Can't match within same bank account
+				}
+				if( ! strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) )
+				{
+					continue;	//Paired transactions will have opposing DC values.
+				}
+				if( isset( $trans['status'] ) && (int)$trans['status'] !== 0 )
+				{
+					continue;	//Only pair with still-unprocessed transactions.
+				}
+
+				$matching[] = $trans;
+			}
+		} catch( Throwable $e ) {
+			$matching = array();
+		}
+
+		$this->pairedTransactions = $matching;
+		return $this->pairedTransactions;
 	}
 	/**//***************************************************************
 	* Check if the transaction has a pair.
@@ -643,7 +714,7 @@ class bi_lineitem extends generic_fa_interface_model
 	*********************************************************************/
 	function isPaired()
 	{
-		return false;
+		return count( $this->findPaired() ) > 0;
 	}
 	/**//***************************************************************
 	* Find any transactions that alraedy exist that look like this one
@@ -1268,7 +1339,39 @@ class bi_lineitem extends generic_fa_interface_model
 		if ($this->status == 1) {
 			return new HtmlFragment();
 		}
-		return $this->renderMatchingTransFragment();
+
+		$fragment = new HtmlFragment();
+		$fragment->addChild($this->renderTransferCandidatesFragment());
+		$fragment->addChild($this->renderMatchingTransFragment());
+
+		return $fragment;
+	}
+
+	/**
+	 * Parse persisted transfer candidate JSON payload.
+	 *
+	 * @return array<int, array<string, mixed>>
+	 */
+	protected function getTransferMatchCandidates(): array
+	{
+		if( !($this->transferMatchModel instanceof bi_transfer_matches_model) )
+		{
+			$this->transferMatchModel = new bi_transfer_matches_model();
+		}
+		return $this->transferMatchModel->get_candidates_for_transaction((int)$this->id);
+	}
+
+	/**
+	 * Render transfer candidates (external matcher output) in 4th column.
+	 *
+	 * @return HtmlFragment
+	 */
+	protected function renderTransferCandidatesFragment(): HtmlFragment
+	{
+		$candidates = $this->getTransferMatchCandidates();
+		$status = !empty($candidates) ? 'candidate' : 'unmatched';
+		$view = new TransferMatchCandidatesView($candidates, $status, (int)$this->id);
+		return $view->render();
 	}
 	/**//*****************************************************************
 	* We want the ability to edit the raw trans data since some banks don't follow standards

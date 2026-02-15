@@ -255,9 +255,18 @@ class ViewFactoryTest extends TestCase
             ['otherBankAccount' => 'Test Account']
         );
         
-        $html = $view->getHtml();
-        
-        $this->assertIsString($html);
+        $output = $view->getHtml();
+
+        if (is_object($output) && method_exists($output, 'getHtml')) {
+            $html = (string)$output->getHtml();
+        } elseif (is_object($output) && method_exists($output, 'toHtml')) {
+            ob_start();
+            $output->toHtml();
+            $html = (string)ob_get_clean();
+        } else {
+            $html = (string)$output;
+        }
+
         $this->assertNotEmpty($html);
     }
 }

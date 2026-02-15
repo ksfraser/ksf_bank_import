@@ -14,7 +14,7 @@
 namespace Ksfraser\FaBankImport\Middleware;
 
 use Ksfraser\FaBankImport\Http\RequestHandler;
-use Ksfraser\Application\Services\TransactionValidator;
+use Ksfraser\FaBankImport\Services\TransactionValidator;
 use Ksfraser\FaBankImport\Exceptions\TransactionValidationException;
 
 class TransactionValidationMiddleware implements MiddlewareInterface

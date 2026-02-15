@@ -43,8 +43,23 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
-require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+$commonDir = __DIR__ . '/../ksf_modules_common';
+$commonInterface = $commonDir . '/class.generic_fa_interface.php';
+$commonDefines = $commonDir . '/defines.inc.php';
+$faTypesInc = $commonDir . '/../../includes/types.inc';
+$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+
+if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_file($faTypesInc)) {
+	require_once($commonInterface);
+	require_once($commonDefines);
+}
+
+if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
+	require_once(__DIR__ . '/includes/fa_stubs.php');
+}
+require_once( __DIR__ . '/class.bi_transfer_matches.php' );
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
@@ -550,6 +565,63 @@ class bi_transactions_model extends generic_fa_interface_model {
 			//display_notification( __FILE__ . "::" . __LINE__  . "::" . print_r( $this, true ) );
 		}
 	        return $res;
+	}
+
+	/**
+	 * Fetch transactions flagged for manual review.
+	 *
+	 * @param int|null $limit
+	 * @return array
+	 */
+	function get_transactions_requiring_review($limit = 250)
+	{
+		$sql = "SELECT DISTINCT t.*, s.account our_account FROM " . TB_PREF . "bi_transactions t
+			LEFT JOIN " . TB_PREF . "bi_statements as s ON t.smt_id = s.id
+			INNER JOIN " . TB_PREF . "bi_transfer_matches m
+				ON (m.debit_transaction_id = t.id OR m.credit_transaction_id = t.id)
+			WHERE m.requires_review = 1
+			ORDER BY t.valueTimestamp ASC";
+
+		if( null !== $limit && is_numeric($limit) )
+		{
+			$sql .= " LIMIT " . (int)$limit;
+		}
+
+		$res = db_query($sql, 'Could not fetch transactions requiring review');
+		$ret = array();
+		while($row = db_fetch($res))
+		{
+			$ret[] = $row;
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * Reset JE association and transfer matching state for reprocess workflow.
+	 *
+	 * @param int $tid
+	 * @return void
+	 */
+	function reset_transaction_association($tid)
+	{
+		if (class_exists('bi_transfer_matches_model')) {
+			$transferMatches = new bi_transfer_matches_model();
+			$transferMatches->clear_by_transaction((int)$tid);
+		}
+
+		$sql = "
+			UPDATE " . $this->table_details['tablename'] . "
+			SET status=0,
+				fa_trans_no=0,
+				fa_trans_type=0,
+				created=0,
+				matched=0,
+				g_partner=NULL,
+				g_option=''
+			WHERE id=" . db_escape((int)$tid);
+
+		db_query($sql, 'Could not reset transaction association');
 	}
 	/**//**********************************************************************
 	* Get a the normal actions for a counterparty

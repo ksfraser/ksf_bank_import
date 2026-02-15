@@ -77,6 +77,24 @@ if (!class_exists('hooks')) {
     }
 }
 
+if (!class_exists('origin')) {
+    class origin
+    {
+        public function __construct(...$args) {}
+
+        public function set($field, $value = null, ...$args)
+        {
+            $this->$field = $value;
+            return true;
+        }
+
+        public function get($field)
+        {
+            return $this->$field ?? null;
+        }
+    }
+}
+
 if (!class_exists('fa_bank_accounts')) {
     class fa_bank_accounts
     {
@@ -409,7 +427,7 @@ if (!function_exists('db_query')) {
      * @param string $err_msg Error message if query fails
      * @return mixed Query result
      */
-    function db_query(string $sql, string $err_msg = ''): mixed {
+    function db_query(string $sql, string $err_msg = '') {
         // Stub - actual implementation in FrontAccounting
         return null;
     }

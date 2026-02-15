@@ -22,6 +22,7 @@ use Ksfraser\PartnerTypes\SupplierPartnerType;
 use Ksfraser\PartnerTypes\CustomerPartnerType;
 use Ksfraser\PartnerTypes\BankTransferPartnerType;
 use Ksfraser\PartnerTypes\QuickEntryPartnerType;
+use Ksfraser\PartnerTypes\ManualSettlementPartnerType;
 use Ksfraser\PartnerTypes\MatchedPartnerType;
 use Ksfraser\PartnerTypes\UnknownPartnerType;
 
@@ -105,9 +106,25 @@ class ConcretePartnerTypesTest extends TestCase
     {
         $type = new MatchedPartnerType();
         
-        $this->assertSame('MA', $type->getShortCode());
-        $this->assertSame('Matched Transaction', $type->getLabel());
+        $this->assertSame('ZZ', $type->getShortCode());
+        $this->assertSame('Matched', $type->getLabel());
         $this->assertSame('MATCHED', $type->getConstantName());
+        $this->assertSame(60, $type->getPriority());
+        $this->assertNotNull($type->getDescription());
+    }
+
+    /**
+     * Test ManualSettlementPartnerType
+     *
+     * @test
+     */
+    public function testManualSettlementPartnerType(): void
+    {
+        $type = new ManualSettlementPartnerType();
+
+        $this->assertSame('MA', $type->getShortCode());
+        $this->assertSame('Manual settlement', $type->getLabel());
+        $this->assertSame('MANUAL_SETTLEMENT', $type->getConstantName());
         $this->assertSame(50, $type->getPriority());
         $this->assertNotNull($type->getDescription());
     }
@@ -152,6 +169,7 @@ class ConcretePartnerTypesTest extends TestCase
             new CustomerPartnerType(),
             new BankTransferPartnerType(),
             new QuickEntryPartnerType(),
+            new ManualSettlementPartnerType(),
             new MatchedPartnerType(),
             new UnknownPartnerType(),
         ];
@@ -174,6 +192,7 @@ class ConcretePartnerTypesTest extends TestCase
             new CustomerPartnerType(),
             new BankTransferPartnerType(),
             new QuickEntryPartnerType(),
+            new ManualSettlementPartnerType(),
             new MatchedPartnerType(),
             new UnknownPartnerType(),
         ];
@@ -196,6 +215,7 @@ class ConcretePartnerTypesTest extends TestCase
             new CustomerPartnerType(),
             new BankTransferPartnerType(),
             new QuickEntryPartnerType(),
+            new ManualSettlementPartnerType(),
             new MatchedPartnerType(),
             new UnknownPartnerType(),
         ];

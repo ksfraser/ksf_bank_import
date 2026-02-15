@@ -1,6 +1,19 @@
 <?php
 
-require_once( '../ksf_modules_common/class.origin.php' );
+$commonDir = __DIR__ . '/../ksf_modules_common';
+$commonOrigin = $commonDir . '/class.origin.php';
+$faTypesInc = $commonDir . '/../../includes/types.inc';
+$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+
+if (!$forceMocks && is_file($commonOrigin) && is_file($faTypesInc)) {
+	require_once($commonOrigin);
+}
+
+if (!class_exists('origin')) {
+	require_once(__DIR__ . '/includes/fa_stubs.php');
+}
 
 /**//******************************************************************************
 * File to generate the HEADER table on the process_statements
@@ -117,6 +130,8 @@ class ksf_modules_table_filter_by_date extends origin
 		$ba_view->bank_accounts_list_row( _("Bank Account:") , 'bankAccountFilter', null, false);
 
 	        submit_cells('RefreshInquiry', _("Search"),'',_('Refresh Inquiry'), 'default');
+	        submit_cells('RunTransferMatcher', _("Run Transfer Matcher"));
+	        submit_cells('RunTransferAudits', _("Run Transfer Audits"));
 	        end_row();
 	        end_table();
 	}

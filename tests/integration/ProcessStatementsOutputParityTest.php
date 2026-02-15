@@ -96,9 +96,14 @@ class ProcessStatementsOutputParityTest extends TestCase
 
     private function extractActionHandlersBlock(string $source): string
     {
-        $start = strpos($source, 'unset($k, $v);');
-        $endMarker = '/*-------------------Process Transaction';
-        $end = strpos($source, $endMarker);
+        $start = strpos($source, "if( isset( \$_POST['UnsetTrans'] ) )");
+        if ($start === false) {
+            $start = strpos($source, 'unset($k, $v);');
+        }
+        $end = false;
+        if (preg_match('/\/\*[-\s]*Process\s+Transaction/i', $source, $m, PREG_OFFSET_CAPTURE)) {
+            $end = $m[0][1];
+        }
 
         $this->assertNotFalse($start, 'Could not find action handlers start');
         $this->assertNotFalse($end, 'Could not find action handlers end marker');
@@ -215,6 +220,10 @@ class ProcessStatementsOutputParityTest extends TestCase
         self::$fx['renderConstructed'] = [];
         self::$fx['renderDisplayed'] = [];
 
+        // Newer snapshots define these above the extracted foreach block.
+        $renderStartedAt = microtime(true);
+        $renderedRows = 0;
+
         $vendor_list = [];
         $optypes = [
             'SP' => 'Supplier',
@@ -243,6 +252,8 @@ class ProcessStatementsOutputParityTest extends TestCase
         $_POST['statusFilter'] = $statusFilter;
         $trzs = [];
         $bit = new ProcessStatementsOutputParity_BiTransactionsModelStub();
+        // Newer snapshots define this above the extracted statusFilter block.
+        $fetchStartedAt = microtime(true);
 
         $prepared = str_replace('new bi_transactions_model()', 'new ProcessStatementsOutputParity_BiTransactionsModelStub()', $block);
         eval($prepared);

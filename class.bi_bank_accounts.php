@@ -1,6 +1,19 @@
 <?php
 
-require_once(__DIR__ . '/../ksf_modules_common/defines.inc.php');
+$commonDir = __DIR__ . '/../ksf_modules_common';
+$commonDefines = $commonDir . '/defines.inc.php';
+$faTypesInc = $commonDir . '/../../includes/types.inc';
+$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+
+if (!$forceMocks && is_file($commonDefines) && is_file($faTypesInc)) {
+	require_once($commonDefines);
+}
+
+if (!defined('TB_PREF')) {
+	require_once(__DIR__ . '/includes/fa_stubs.php');
+}
 
 /**
  * bi_bank_accounts_model

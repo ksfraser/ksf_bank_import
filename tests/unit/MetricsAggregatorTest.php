@@ -40,9 +40,9 @@ class MetricsAggregatorTest extends TestCase
 
         $this->assertArrayHasKey('test_metric', $metrics);
         $this->assertEquals(2, $metrics['test_metric']['count']);
-        $this->assertEquals(0.15, $metrics['test_metric']['avg_time']);
+        $this->assertEqualsWithDelta(0.15, $metrics['test_metric']['avg_time'], 0.00001);
         $this->assertEquals(1536, $metrics['test_metric']['avg_memory']);
-        $this->assertEquals(0.2, $metrics['test_metric']['max_time']);
+        $this->assertEqualsWithDelta(0.2, $metrics['test_metric']['max_time'], 0.00001);
         $this->assertEquals(2048, $metrics['test_metric']['max_memory']);
     }
 
@@ -74,6 +74,6 @@ class MetricsAggregatorTest extends TestCase
 
         $this->assertCount(1, $anomalies);
         $this->assertEquals('anomaly_metric', $anomalies[0]['metric']);
-        $this->assertEquals(2.0, $anomalies[0]['deviation']);
+        $this->assertEqualsWithDelta(2.0, $anomalies[0]['deviation'], 0.00001);
     }
 }

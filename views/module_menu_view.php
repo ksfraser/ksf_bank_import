@@ -14,6 +14,8 @@ class ModuleMenuView
         echo '<li><a href="manage_uploaded_files.php">Manage Uploaded Files</a></li>';
         echo '<li><a href="view_import_logs.php">View Import Logs</a></li>';
         echo '<li><a href="validate_gl_entries.php">Validate GL Entries</a></li>';
+        echo '<li><a href="schema_maintenance.php">Schema Maintenance</a></li>';
+        echo '<li><a href="transfer_match_review.php">Transfer Match Review</a></li>';
         echo '</ul>';
         echo '</nav>';
     }

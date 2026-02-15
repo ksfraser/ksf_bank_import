@@ -187,6 +187,46 @@ if (isset($_POST['ToggleTransaction']))
 	$bi_controller->toggleDebitCredit();
 	display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
 }
+
+if (isset($_POST['RunTransferMatcher'])) {
+	require_once(__DIR__ . '/Services/TransferMatchService.php');
+	$fromDate = $_POST['TransAfterDate'] ?? begin_month(Today());
+	$toDate = $_POST['TransToDate'] ?? end_month(Today());
+	$bankAccount = $_POST['bankAccountFilter'] ?? 'ALL';
+
+	try {
+		$matcher = new \KsfBankImport\Services\TransferMatchService();
+		$result = $matcher->runCandidateMatching($fromDate, $toDate, $bankAccount, null);
+		display_notification(
+			'Transfer matcher complete: checked=' . (int)$result['rows_checked']
+			. ', candidates=' . (int)$result['rows_with_candidates']
+			. ', review=' . (int)$result['rows_requires_review']
+		);
+	} catch (\Throwable $e) {
+		display_error('Transfer matcher failed: ' . $e->getMessage());
+	}
+
+	$Ajax->activate('doc_tbl');
+}
+
+if (isset($_POST['RunTransferAudits'])) {
+	require_once(__DIR__ . '/Services/TransferMatchAuditService.php');
+	try {
+		$audit = new \KsfBankImport\Services\TransferMatchAuditService();
+		$result = $audit->runAudits();
+		display_notification(
+			'Transfer audits complete: checked=' . (int)$result['rows_checked']
+			. ', pair_issues=' . (int)$result['pair_issues']
+			. ', je_issues=' . (int)$result['je_issues']
+			. ', flagged=' . (int)$result['rows_flagged']
+		);
+		echo '<a href="transfer_match_review.php">' . _('Open Check Needed Queue') . '</a>';
+	} catch (\Throwable $e) {
+		display_error('Transfer audit failed: ' . $e->getMessage());
+	}
+
+	$Ajax->activate('doc_tbl');
+}
 // require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/ToggleTransactionAction.php';
 // (new \Ksfraser\FaBankImport\Actions\ToggleTransactionAction())->execute($_POST, $bi_controller);
 // Paired-transfer dual-side POST action extracted to SRP class.

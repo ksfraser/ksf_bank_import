@@ -1006,4 +1006,70 @@ Each requirement includes:
 
 ---
 
+## Addendum: 2026 Transfer Candidate and Audit Workflow
+
+### FR-052: External Transfer Candidate Job
+**Priority:** MUST  
+**Category:** Core Processing  
+**Status:** IN PROGRESS
+
+The system SHALL run transfer matching outside line-item rendering (menu action and cron-compatible script) and persist candidate sets for each unsettled transaction.
+
+**Acceptance Criteria:**
+- AC-052.1: Matching is executable from process screen action.
+- AC-052.2: Matching is executable from CLI/cron script.
+- AC-052.3: Candidate pairs stored in `bi_transfer_matches` (`debit_transaction_id`,`credit_transaction_id`).
+- AC-052.4: Candidate status stored as `candidate`/`unmatched`.
+
+### FR-053: 4th-Column Candidate Display
+**Priority:** MUST  
+**Category:** Interface  
+**Status:** IN PROGRESS
+
+The system SHALL display persisted transfer candidates in the 4th column together with Matching GL entries.
+
+**Acceptance Criteria:**
+- AC-053.1: Candidate list is rendered from persisted DB data.
+- AC-053.2: Candidate row includes peer transaction identifier and score.
+- AC-053.3: UI remains compatible with existing matching GL list.
+
+### FR-054: Explicit Confirmation Before Normalization
+**Priority:** MUST  
+**Category:** Data Integrity  
+**Status:** IN PROGRESS
+
+The system SHALL keep candidate and confirmed transfer links separate, and only allow normalization after explicit confirmation.
+
+**Acceptance Criteria:**
+- AC-054.1: Confirmed pair saved in `bi_transfer_matches` with `match_status='confirmed'`.
+- AC-054.2: Status transitions include `unmatched`, `candidate`, `confirmed`, `rejected`.
+- AC-054.3: Candidate data is never treated as confirmed automatically.
+
+### FR-055: Audit and Check-Needed Queue
+**Priority:** MUST  
+**Category:** Validation  
+**Status:** IN PROGRESS
+
+The system SHALL audit confirmed transfer reciprocity and JE existence, and flag exceptions to a check-needed queue.
+
+**Acceptance Criteria:**
+- AC-055.1: Paired rows must cross-reference each other.
+- AC-055.2: Processed rows must reference an existing GL transaction.
+- AC-055.3: Exceptions set `requires_review=1`.
+- AC-055.4: Review screen lists flagged rows with resolution actions.
+
+### FR-056: Reset/Reprocess Workflow
+**Priority:** MUST  
+**Category:** Recovery  
+**Status:** IN PROGRESS
+
+The system SHALL support clearing JE/transfer associations so a transaction can be reprocessed safely.
+
+**Acceptance Criteria:**
+- AC-056.1: Reset action clears FA linkage fields.
+- AC-056.2: Reset action clears candidate/confirmed transfer state.
+- AC-056.3: Reset action clears review flags after explicit user action.
+
+---
+
 **END OF REQUIREMENTS SPECIFICATION**

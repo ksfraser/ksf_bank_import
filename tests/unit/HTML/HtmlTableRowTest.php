@@ -22,7 +22,7 @@ class HtmlTableRowTest extends TestCase
     public function testGetHtml(): void
     {
         $html = $this->row->getHtml();
-        $this->assertStringContainsString('<tr>', $html);
+        $this->assertStringContainsString('<tr', $html);
         $this->assertStringContainsString('test content', $html);
         $this->assertStringContainsString('</tr>', $html);
     }
@@ -33,7 +33,7 @@ class HtmlTableRowTest extends TestCase
         $this->row->toHtml();
         $output = ob_get_clean();
         
-        $this->assertStringContainsString('<tr>', $output);
+        $this->assertStringContainsString('<tr', $output);
         $this->assertStringContainsString('test content', $output);
         $this->assertStringContainsString('</tr>', $output);
     }

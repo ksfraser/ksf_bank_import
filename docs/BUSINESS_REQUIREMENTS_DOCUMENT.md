@@ -514,6 +514,35 @@ Any changes to the approved business requirements must follow the change control
 
 ---
 
+## BRD Addendum: Transfer Candidate Confirmation and Audit Operations (Q1 2026)
+
+### New Business Requirements
+
+**BR-011: External Matching Operations**
+- Matching execution must run as an operator action and as scheduled batch work.
+- Matching must not depend on line rendering or interactive row expansion.
+
+**BR-012: Candidate-First Normalization**
+- Transfer matches must be stored as suggestions first.
+- No automatic normalization may occur before explicit confirmation.
+
+**BR-013: Check-Needed Queue**
+- Transactions with reciprocal-pair mismatch or missing JE linkage must be flagged.
+- Operations staff must have a dedicated review queue with clear remediation actions.
+
+**BR-014: Reset and Reprocess**
+- Users must be able to clear JE and transfer-link associations for selected transactions.
+- Cleared transactions must return to unsettled state for safe reprocessing.
+
+### Success Criteria Additions
+
+- 100% of auto-identified transfer suggestions are persisted for audit.
+- 100% of confirmed transfer pairs pass reciprocity validation.
+- 100% of processed entries have verifiable GL references or are flagged for review.
+- Reprocess cycle for a flagged row can be completed without direct DB edits.
+
+---
+
 **END OF BUSINESS REQUIREMENTS DOCUMENT**
 
 *Document Classification: INTERNAL USE*  

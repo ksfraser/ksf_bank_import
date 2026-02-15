@@ -24,8 +24,22 @@ $path_to_root = "../..";
  *
  * */
 
-require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
-require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+$commonDir = __DIR__ . '/../ksf_modules_common';
+$commonInterface = $commonDir . '/class.generic_fa_interface.php';
+$commonDefines = $commonDir . '/defines.inc.php';
+$faTypesInc = $commonDir . '/../../includes/types.inc';
+$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+
+if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_file($faTypesInc)) {
+	require_once($commonInterface);
+	require_once($commonDefines);
+}
+
+if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
+	require_once(__DIR__ . '/includes/fa_stubs.php');
+}
 require_once( 'class.bi_transactions.php' );
 
 /**//**************************************************************************************************************

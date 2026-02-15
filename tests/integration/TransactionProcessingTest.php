@@ -54,12 +54,14 @@ class TransactionProcessingTest extends TestCase
     {
         $this->expectException('Ksfraser\\FaBankImport\\Exceptions\\TransactionValidationException');
 
-        $_POST['ProcessTransaction'] = [1 => 'Process'];
-        $_POST['partnerType'] = [1 => 'INVALID'];
+        $_POST['transaction'] = ['type' => 'INVALID'];
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
+        $middleware = new \Ksfraser\FaBankImport\Middleware\TransactionValidationMiddleware();
         $request = new RequestHandler();
-        $this->app->run();
+        $middleware->process($request, function () {
+            return null;
+        });
     }
 
     protected function tearDown(): void

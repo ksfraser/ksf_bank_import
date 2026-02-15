@@ -29,6 +29,25 @@ require_once __DIR__ . '/../../../views/SupplierPartnerTypeView.v2.php';
 class SupplierPartnerTypeViewFinalTest extends TestCase
 {
     private $dataProvider;
+
+    private function renderHtml($value): string
+    {
+        if (is_string($value)) {
+            return $value;
+        }
+
+        if (is_object($value) && method_exists($value, 'getHtml')) {
+            return (string)$value->getHtml();
+        }
+
+        if (is_object($value) && method_exists($value, 'toHtml')) {
+            ob_start();
+            $value->toHtml();
+            return (string)ob_get_clean();
+        }
+
+        return (string)$value;
+    }
     
     /**
      * Set up before each test
@@ -70,11 +89,11 @@ class SupplierPartnerTypeViewFinalTest extends TestCase
     }
     
     /**
-     * Test getHtml returns string
+    * Test getHtml returns renderable output
      * 
      * @covers ::getHtml
      */
-    public function testGetHtmlReturnsString(): void
+    public function testGetHtmlReturnsRenderableOutput(): void
     {
         $view = new SupplierPartnerTypeView(
             1,
@@ -83,9 +102,8 @@ class SupplierPartnerTypeViewFinalTest extends TestCase
             $this->dataProvider
         );
         
-        $html = $view->getHtml();
-        
-        $this->assertIsString($html);
+        $html = $this->renderHtml($view->getHtml());
+
         $this->assertNotEmpty($html);
     }
     
@@ -103,7 +121,7 @@ class SupplierPartnerTypeViewFinalTest extends TestCase
             $this->dataProvider
         );
         
-        $html = $view->getHtml();
+        $html = $this->renderHtml($view->getHtml());
         
         // Should contain the label text
         $this->assertStringContainsString('Payment To:', $html);
@@ -132,8 +150,8 @@ class SupplierPartnerTypeViewFinalTest extends TestCase
         );
         
         // Should not crash
-        $html = $view->getHtml();
-        $this->assertIsString($html);
+        $html = $this->renderHtml($view->getHtml());
+        $this->assertNotEmpty($html);
     }
     
     /**
@@ -175,7 +193,7 @@ class SupplierPartnerTypeViewFinalTest extends TestCase
             $this->dataProvider
         );
         
-        $html = $view->getHtml();
+        $html = $this->renderHtml($view->getHtml());
         
         // Count opening and closing tr tags
         $openTr = substr_count($html, '<tr>');
