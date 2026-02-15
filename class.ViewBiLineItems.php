@@ -304,8 +304,15 @@ class ViewBILineItems
  *      List FROM and TO invoices needing payment (allocations) 
 */
 		$_GET['customer_id'] = $this->partnerId;
-		//if( ! @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
-		if(  @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
+		$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+		$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+		$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+		$faCustomerPaymentFile = __DIR__ . '/../ksf_modules_common/class.fa_customer_payment.php';
+		if( !$forceMocks && is_file($faCustomerPaymentFile) )
+		{
+			require_once($faCustomerPaymentFile);
+		}
+		if( class_exists('fa_customer_payment') )
 		{
 			$tr = 0;
 			$fcp = new fa_customer_payment();
