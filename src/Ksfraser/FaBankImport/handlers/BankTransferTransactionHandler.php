@@ -93,11 +93,21 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             );
         }
 
-        // Load external fa_bank_transfer class
+        // Load external fa_bank_transfer class (mock-safe)
+        $faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+        $useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+        $forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
         $faClassPath = $this->getFaBankTransferClassPath();
-        $inc = require_once($faClassPath);
-        
-        if (!$inc || !class_exists('fa_bank_transfer')) {
+
+        if (!$forceMocks && is_file($faClassPath)) {
+            require_once($faClassPath);
+        }
+
+        if (!class_exists('fa_bank_transfer')) {
+            require_once(dirname(__DIR__, 4) . '/includes/fa_stubs.php');
+        }
+
+        if (!class_exists('fa_bank_transfer')) {
             return $this->createErrorResult(
                 'Failed to load fa_bank_transfer class'
             );

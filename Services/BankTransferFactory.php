@@ -102,13 +102,24 @@ class BankTransferFactory implements BankTransferFactoryInterface
     public function createTransfer(array $transferData)
     {
         $this->validateTransferData($transferData);
-        
-        // Load FrontAccounting bank transfer class
-        $fa_path = __DIR__ . '/../ksf_modules_common/class.fa_bank_transfer.php';
-        if (!file_exists($fa_path)) {
-            $fa_path = dirname(__DIR__) . '/../ksf_modules_common/class.fa_bank_transfer.php';
+
+        // Load FrontAccounting bank transfer class (mock-safe)
+        $faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+        $useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+        $forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+        $faPath = __DIR__ . '/../ksf_modules_common/class.fa_bank_transfer.php';
+
+        if (!$forceMocks && is_file($faPath)) {
+            require_once($faPath);
         }
-        require_once($fa_path);
+
+        if (!class_exists('fa_bank_transfer')) {
+            require_once(__DIR__ . '/../includes/fa_stubs.php');
+        }
+
+        if (!class_exists('fa_bank_transfer')) {
+            throw new \RuntimeException('Failed to load fa_bank_transfer class');
+        }
         
         $bttrf = new \fa_bank_transfer();
         
