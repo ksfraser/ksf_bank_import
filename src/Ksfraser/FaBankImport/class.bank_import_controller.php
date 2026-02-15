@@ -11,7 +11,20 @@
  *
  * Responsibility: Core flow and role for bank_import_controller.
  */
-require_once( '../ksf_modules_common/class.origin.php' );
+$commonDir = __DIR__ . '/../../../ksf_modules_common';
+$commonOrigin = $commonDir . '/class.origin.php';
+$faTypesInc = $commonDir . '/../../includes/types.inc';
+$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+
+if (!$forceMocks && is_file($commonOrigin) && is_file($faTypesInc)) {
+	require_once($commonOrigin);
+}
+
+if (!class_exists('origin')) {
+	require_once(__DIR__ . '/../../../includes/fa_stubs.php');
+}
 require_once( 'class.bi_transaction.php' );
 //require_once( 'class.bi_transactions.php' );
 
@@ -871,9 +884,10 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 					break;
 			/*************************************************************************************************************/
 					case ($_POST['partnerType'][$this->tid] == 'BT'):
-						$inc = require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
-						if( $inc )
+						$faBankTransferClass = __DIR__ . '/../../../ksf_modules_common/class.fa_bank_transfer.php';
+						if( is_file($faBankTransferClass) )
 						{
+							require_once( $faBankTransferClass );
 							$bttrf = new fa_bank_transfer();
 							try
 							{
@@ -932,7 +946,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 						}
 						else
 						{
-								//display_notification( __LINE__  );
+							display_error(_("Bank transfer helper not available in this environment."));
 						}
 					break;
 			/*************************************************************************************************************/

@@ -11,7 +11,20 @@
  *
  * Responsibility: Core flow and role for ksf_modules_table_filter_by_date.
  */
-require_once( '../ksf_modules_common/class.origin.php' );
+$commonDir = __DIR__ . '/../../../ksf_modules_common';
+$commonOrigin = $commonDir . '/class.origin.php';
+$faTypesInc = $commonDir . '/../../includes/types.inc';
+$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
+$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
+$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+
+if (!$forceMocks && is_file($commonOrigin) && is_file($faTypesInc)) {
+	require_once($commonOrigin);
+}
+
+if (!class_exists('origin')) {
+	require_once(__DIR__ . '/../../../includes/fa_stubs.php');
+}
 
 /**//******************************************************************************
 * File to generate the HEADER table on the process_statements
@@ -85,6 +98,7 @@ class ksf_modules_table_filter_by_date extends origin
 	}
 	function bank_import_header( $tablestype = TABLESTYLE_NOBORDER )
 	{
+		global $forceMocks;
  		// this is filter table
         	start_table( $tablestyle );
         	start_row();
@@ -101,10 +115,14 @@ class ksf_modules_table_filter_by_date extends origin
 /**Mantis 3188
 * Filter by Bank account
 * /
-		require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
-		$ba_model = new fa_bank_accounts_MODEL();
-		$ba_view = new fa_bank_accounts_VIEW( $ba_model );
-		$ba_view->set( "b_showNoneAll", true );
+		$faBankTransferClass = __DIR__ . '/../../../ksf_modules_common/class.fa_bank_transfer.php';
+		if( !$forceMocks && is_file($faBankTransferClass) )
+		{
+			require_once( $faBankTransferClass );
+			$ba_model = new fa_bank_accounts_MODEL();
+			$ba_view = new fa_bank_accounts_VIEW( $ba_model );
+			$ba_view->set( "b_showNoneAll", true );
+		}
 /*
 		$ba_view->bank_accounts_list_row( _("Filter by Bank Account") , 'bank_account_filter', null, false);
 */
