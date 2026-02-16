@@ -740,10 +740,6 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function makeURLLink( string $URL, array $params, string $text, $target = "_blank" )
 	{
-		// Use HtmlA - much simpler! Accepts string directly, no need for HtmlRawString wrapper
-		$link = new HtmlA( $URL, $text );
-		
-		// Flatten nested param array structure and use setParams()
 		$flatParams = [];
 		foreach( $params as $param )
 		{
@@ -752,6 +748,36 @@ class bi_lineitem extends generic_fa_interface_model
 				$flatParams[$key] = $val;
 			}
 		}
+
+		if(
+			strpos( $URL, 'gl_trans_view.php' ) !== false
+			&& isset( $flatParams['type_id'] )
+			&& isset( $flatParams['trans_no'] )
+		)
+		{
+			$glBuilderFile = __DIR__ . '/src/Ksfraser/FA/Notifications/GlTransViewLinkHtmlBuilder.php';
+			if( !class_exists( '\\Ksfraser\\FA\\Notifications\\GlTransViewLinkHtmlBuilder' ) && is_file( $glBuilderFile ) )
+			{
+				require_once( $glBuilderFile );
+			}
+
+			if( class_exists( '\\Ksfraser\\FA\\Notifications\\GlTransViewLinkHtmlBuilder' ) )
+			{
+				// Extract extra query params (beyond the required type_id and trans_no)
+				$extraQueryParams = array_diff_key($flatParams, ['type_id' => '', 'trans_no' => '']);
+				
+				return \Ksfraser\\FA\\Links\\GlTransViewLinkHtmlBuilder::build(
+					(int)$flatParams['type_id'],
+					(int)$flatParams['trans_no'],
+					$text,
+					array( 'target' => (string)$target ),
+					$extraQueryParams
+				);
+			}
+		}
+
+		// Generic fallback for non-GL links
+		$link = new HtmlA( $URL, $text );
 		
 		if( count( $flatParams ) > 0 )
 		{
