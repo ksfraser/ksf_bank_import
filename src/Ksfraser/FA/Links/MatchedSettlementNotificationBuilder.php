@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace Ksfraser\\FA\\Links;
+namespace Ksfraser\FA\Links;
 
 /**
  * SRP: build MATCH-settlement notification payload from transaction identifiers.

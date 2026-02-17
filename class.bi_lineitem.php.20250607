@@ -346,7 +346,6 @@ class TransTitle
 }
 */
 
-require_once( __DIR__ . '/class.ViewBiLineItems.php' );
 
 /**//**************************************************************************************************************
 * A class to handle displaying the line item of a statement. 

@@ -142,7 +142,7 @@ class FileUploadService
                 $fileInfo->getSize(),
                 $fileInfo->getMimeType(),
                 new \DateTime(),
-                $this->getCurrentUsername(),
+                \Ksfraser\FA\Auth\UserSession::getCurrentUsername(),
                 $parserType,
                 $bankAccountId,
                 0, // statement_count starts at 0
@@ -164,6 +164,18 @@ class FileUploadService
             $uniqueFilename,
             'File uploaded successfully.'
         );
+    }
+    
+    /**
+     * Update bank account ID for an existing file
+     * 
+     * @param int $fileId Uploaded file ID
+     * @param int $bankAccountId Bank account ID
+     * @return bool Success
+     */
+    public function updateBankAccountId(int $fileId, int $bankAccountId): bool
+    {
+        return $this->fileRepository->updateBankAccountId($fileId, $bankAccountId);
     }
     
     /**
@@ -261,29 +273,40 @@ class FileUploadService
     }
     
     /**
-     * Get storage statistics
+     * Get files that need bank account association auditing
      * 
-     * @return array Statistics
+     * @return array Array of ['file' => UploadedFile, 'suggestion' => ?int]
      */
-    public function getStatistics(): array
+    public function getAuditCandidates(): array
     {
-        return $this->fileRepository->getStatistics();
+        $files = $this->fileRepository->findFilesWithMissingAccount();
+        $candidates = [];
+        
+        foreach ($files as $file) {
+            $candidates[] = [
+                'file' => $file,
+                'suggestion' => $this->fileRepository->suggestAccountForFile($file->getId())
+            ];
+        }
+        
+        return $candidates;
     }
     
     /**
-     * Get current username from FrontAccounting session
+     * Resolve a missing bank account for a file
      * 
-     * @return string Username
+     * @param int $fileId File ID
+     * @param int $bankAccountId FA Bank Account ID
+     * @return bool Success
      */
-    private function getCurrentUsername(): string
+    public function resolveMissingAccount(int $fileId, int $bankAccountId): bool
     {
-        // FrontAccounting stores username in $_SESSION['wa_current_user']->username
-        if (isset($_SESSION['wa_current_user'])) {
-            return $_SESSION['wa_current_user']->username;
-        }
-        
-        return 'unknown';
+        return $this->fileRepository->updateBankAccountId($fileId, $bankAccountId);
     }
+    
+    /**
+     * Get storage statistics
+    
     
     /**
      * Create service instance with dependencies (DI Factory Method)

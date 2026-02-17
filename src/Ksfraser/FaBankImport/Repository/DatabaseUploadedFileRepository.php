@@ -129,7 +129,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                     " . db_escape($file->getUploadDate()->format('Y-m-d H:i:s')) . ",
                     " . db_escape($file->getUploadUser()) . ",
                     " . db_escape($file->getParserType()) . ",
-                    " . db_escape($file->getBankAccountId()) . ",
+                    " . ($file->getBankAccountId() !== null ? (int)$file->getBankAccountId() : 'NULL') . ",
                     " . db_escape($file->getNotes()) . "
                 )";
         
@@ -257,6 +257,24 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
+     * Update bank account ID for a file
+     * 
+     * @param int $fileId File ID
+     * @param int $bankAccountId Bank account ID
+     * @return bool Success
+     */
+    public function updateBankAccountId(int $fileId, int $bankAccountId): bool
+    {
+        $this->ensureTablesExist();
+        
+        $sql = "UPDATE " . TB_PREF . self::TABLE_FILES . " 
+                SET bank_account_id = " . (int)$bankAccountId . "
+                WHERE id = " . db_escape($fileId);
+        
+        return $this->db->query($sql, "Failed to update bank account ID") ? true : false;
+    }
+    
+    /**
      * Update statement count for a file
      * 
      * @param int $fileId File ID
@@ -343,6 +361,68 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         }
         
         return $files;
+    }
+    
+    /**
+     * Get all files that are not yet associated with an FA bank account
+     * 
+     * @return UploadedFile[]
+     */
+    public function findFilesWithMissingAccount(): array
+    {
+        $this->ensureTablesExist();
+        
+        $sql = "SELECT * FROM " . TB_PREF . self::TABLE_FILES . " 
+                WHERE (bank_account_id IS NULL OR bank_account_id = 0)
+                ORDER BY upload_date DESC";
+        
+        $result = $this->db->query($sql, "Failed to find files with missing account");
+        
+        $files = [];
+        while ($row = $this->db->fetch($result)) {
+            $files[] = $this->hydrateEntity($row);
+        }
+        
+        return $files;
+    }
+    
+    public function suggestAccountForFile(int $fileId): ?int
+    {
+        $this->ensureTablesExist();
+        
+        // 1. Get acctid values from statements linked to this file
+        $sql = "SELECT DISTINCT s.acctid 
+                FROM " . TB_PREF . "bi_statements s
+                JOIN " . TB_PREF . self::TABLE_LINKS . " fs ON s.id = fs.statement_id
+                WHERE fs.file_id = " . db_escape($fileId) . "
+                  AND s.acctid IS NOT NULL 
+                  AND s.acctid != ''";
+        
+        $result = $this->db->query($sql, "Failed to get acctids for suggestion");
+        
+        $acctids = [];
+        while ($row = $this->db->fetch($result)) {
+            $acctids[] = $row['acctid'];
+        }
+        
+        if (empty($acctids)) {
+            return null;
+        }
+        
+        // 2. Look up these acctids in the bi_bank_accounts mapping table
+        $in = array_map('db_escape', $acctids);
+        
+        $sql = "SELECT bank_account_id, COUNT(*) as cnt
+                FROM " . TB_PREF . "bi_bank_accounts
+                WHERE acctid IN (" . implode(',', $in) . ")
+                GROUP BY bank_account_id
+                ORDER BY cnt DESC
+                LIMIT 1";
+        
+        $result = $this->db->query($sql, "Failed to lookup bank account mapping");
+        $row = $this->db->fetch($result);
+        
+        return $row ? (int)$row['bank_account_id'] : null;
     }
     
     /**

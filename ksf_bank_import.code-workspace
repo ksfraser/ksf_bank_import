@@ -58,6 +58,19 @@
 			"/^& \\.\\\\vendor\\\\bin\\\\codecept build; & \\.\\\\vendor\\\\bin\\\\codecept run --no-interaction --no-ansi$/": {
 				"approve": true,
 				"matchCommandLine": true
+			},
+			"/^php -l tests/compat\\.php$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"Legacy": true,
+			"/^php -r \"\nrequire 'vendor/autoload\\.php';\nrequire 'tests/compat\\.php';\n\necho 'Testing GlTransViewLinkHtmlBuilder\\.\\.\\.';\n\\$result = Ksfraser\\\\FA\\\\Links\\\\GlTransViewLinkHtmlBuilder::build\\(1, 123, 'Test'\\);\necho '✓ Got result: ' \\. substr\\(\\$result, 0, 50\\) \\. '\\.\\.\\.' \\. PHP_EOL;\n\necho 'Testing old namespace alias\\.\\.\\.';\n\\$result2 = Ksfraser\\\\FA\\\\Notifications\\\\GlTransViewLinkHtmlBuilder::build\\(1, 123, 'Test'\\);\necho '✓ Old namespace works: ' \\. substr\\(\\$result2, 0, 50\\) \\. '\\.\\.\\.' \\. PHP_EOL;\n\necho 'All tests passed!' \\. PHP_EOL;\n\"$/": {
+				"approve": true,
+				"matchCommandLine": true
+			},
+			"/^php test_namespace\\.php$/": {
+				"approve": true,
+				"matchCommandLine": true
 			}
 		}
 	}

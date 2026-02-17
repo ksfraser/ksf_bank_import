@@ -1070,6 +1070,22 @@ The system SHALL support clearing JE/transfer associations so a transaction can 
 - AC-056.2: Reset action clears candidate/confirmed transfer state.
 - AC-056.3: Reset action clears review flags after explicit user action.
 
+### FR-057: Link Builders Namespace Refactoring (February 2026)
+**Priority:** SHOULD  
+**Category:** Architecture  
+**Status:** COMPLETED
+
+The system SHALL organize link builder classes in semantically appropriate namespaces and support extra query parameters for enhanced URL generation.
+
+**Acceptance Criteria:**
+- AC-057.1: Link builder classes moved from `FA\Notifications` to `FA\Links` namespace.
+- AC-057.2: Backward compatibility maintained through class aliases.
+- AC-057.3: `GlTransViewLinkHtmlBuilder` supports extra query parameters.
+- AC-057.4: `TransactionLinkUrlBuilder` accepts optional extra parameters.
+- AC-057.5: `class.bi_lineitem.php` uses enhanced link builders.
+- AC-057.6: Deprecated `ViewBiLineItems` classes removed.
+- AC-057.7: All tests pass with 100% coverage maintained.
+
 ---
 
 **END OF REQUIREMENTS SPECIFICATION**

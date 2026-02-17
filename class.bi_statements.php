@@ -1,3 +1,9 @@
+$dbSchemaTraitPath = __DIR__ . '/src/Ksfraser/ModulesDAO/Schema/DatabaseSchemaToolsTrait.php';
+if (is_file($dbSchemaTraitPath)) {
+	require_once($dbSchemaTraitPath);
+}
+
+use Ksfraser\ModulesDAO\Schema\DatabaseSchemaToolsTrait;
 <?php
 
 /****************************************************************************************
@@ -79,68 +85,26 @@ if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
 
 class bi_statements_model extends generic_fa_interface_model 
 {
+	use DatabaseSchemaToolsTrait;
+
+
 	/**
 	 * Ensure the staging table schema is present (idempotent, non-destructive).
-	 *
 	 * Table creation is handled by sql/update.sql during module activation; this only
 	 * repairs drift (missing columns/index) for older installs.
 	 */
-	public static function ensure_schema(): void
+	public function ensure_schema(): void
 	{
 		$table = TB_PREF . 'bi_statements';
-		if (!self::table_exists($table)) {
+		if (!$this->tableExists($table)) {
 			return;
 		}
-
-		self::ensure_column($table, 'updated_ts', "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
-		self::ensure_column($table, 'acctid', "VARCHAR(64) NULL");
-		self::ensure_column($table, 'fitid', "VARCHAR(64) NULL");
-		self::ensure_column($table, 'bankid', "VARCHAR(64) NULL");
-		self::ensure_column($table, 'intu_bid', "VARCHAR(64) NULL");
-		self::ensure_unique_index($table, 'unique_smt', array('bank', 'statementId'));
-	}
-
-	private static function table_exists(string $table): bool
-	{
-		$res = db_query('SHOW TABLES LIKE ' . db_escape($table), 'Failed checking table existence');
-		return db_num_rows($res) > 0;
-	}
-
-	private static function column_exists(string $table, string $column): bool
-	{
-		$res = db_query('SHOW COLUMNS FROM `' . $table . '` LIKE ' . db_escape($column), 'Failed checking column existence');
-		return db_num_rows($res) > 0;
-	}
-
-	private static function index_exists(string $table, string $indexName): bool
-	{
-		$res = db_query('SHOW INDEX FROM `' . $table . '` WHERE Key_name=' . db_escape($indexName), 'Failed checking index existence');
-		return db_num_rows($res) > 0;
-	}
-
-	private static function ensure_column(string $table, string $column, string $definition): void
-	{
-		if (!self::table_exists($table) || self::column_exists($table, $column)) {
-			return;
-		}
-		db_query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $column . '` ' . $definition, 'Failed adding column to bi_statements');
-	}
-
-	/**
-	 * Adds a UNIQUE constraint if missing.
-	 *
-	 * @param array<int,string> $columns
-	 */
-	private static function ensure_unique_index(string $table, string $indexName, array $columns): void
-	{
-		if (!self::table_exists($table) || self::index_exists($table, $indexName)) {
-			return;
-		}
-		$colsSql = array();
-		foreach ($columns as $col) {
-			$colsSql[] = '`' . $col . '`';
-		}
-		db_query('ALTER TABLE `' . $table . '` ADD CONSTRAINT `' . $indexName . '` UNIQUE(' . implode(', ', $colsSql) . ')', 'Failed adding unique index to bi_statements');
+		$this->ensureColumn($table, 'updated_ts', "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
+		$this->ensureColumn($table, 'acctid', "VARCHAR(64) NULL");
+		$this->ensureColumn($table, 'fitid', "VARCHAR(64) NULL");
+		$this->ensureColumn($table, 'bankid', "VARCHAR(64) NULL");
+		$this->ensureColumn($table, 'intu_bid', "VARCHAR(64) NULL");
+		$this->ensureUniqueIndex($table, 'unique_smt', array('bank', 'statementId'));
 	}
 
 	/**

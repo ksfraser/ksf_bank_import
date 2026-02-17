@@ -30,7 +30,7 @@
 
 declare(strict_types=1);
 
-namespace Ksfraser\\FA\\Links;
+namespace Ksfraser\FA\Links;
 
 /**
  * SRP: build transaction link descriptors from result payload + transaction type.

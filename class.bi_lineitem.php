@@ -756,17 +756,17 @@ class bi_lineitem extends generic_fa_interface_model
 		)
 		{
 			$glBuilderFile = __DIR__ . '/src/Ksfraser/FA/Notifications/GlTransViewLinkHtmlBuilder.php';
-			if( !class_exists( '\\Ksfraser\\FA\\Notifications\\GlTransViewLinkHtmlBuilder' ) && is_file( $glBuilderFile ) )
+			if( !class_exists( '\Ksfraser\FA\\Notifications\\GlTransViewLinkHtmlBuilder' ) && is_file( $glBuilderFile ) )
 			{
 				require_once( $glBuilderFile );
 			}
 
-			if( class_exists( '\\Ksfraser\\FA\\Notifications\\GlTransViewLinkHtmlBuilder' ) )
+			if( class_exists( '\Ksfraser\FA\\Notifications\\GlTransViewLinkHtmlBuilder' ) )
 			{
 				// Extract extra query params (beyond the required type_id and trans_no)
 				$extraQueryParams = array_diff_key($flatParams, ['type_id' => '', 'trans_no' => '']);
 				
-				return \Ksfraser\\FA\\Links\\GlTransViewLinkHtmlBuilder::build(
+				return \Ksfraser\FA\Links\GlTransViewLinkHtmlBuilder::build(
 					(int)$flatParams['type_id'],
 					(int)$flatParams['trans_no'],
 					$text,

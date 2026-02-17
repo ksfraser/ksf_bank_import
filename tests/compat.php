@@ -40,10 +40,32 @@ if (!class_exists('bi_lineitem')) {
     }
 }
 
-if (!class_exists('ViewBILineItems')) {
-    $viewFile = __DIR__ . '/../class.ViewBiLineItems.php';
-    if (is_file($viewFile)) {
-        require_once $viewFile;
-    }
+// Compatibility aliases for renamed Notifications -> Links namespace
+if (class_exists('Ksfraser\\FA\\Links\\GlTransViewLinkHtmlBuilder')) {
+    class_alias('Ksfraser\\FA\\Links\\GlTransViewLinkHtmlBuilder', 'Ksfraser\\FA\\Notifications\\GlTransViewLinkHtmlBuilder');
+}
+if (class_exists('Ksfraser\\FA\\Links\\TransactionLinkUrlBuilder')) {
+    class_alias('Ksfraser\\FA\\Links\\TransactionLinkUrlBuilder', 'Ksfraser\\FA\\Notifications\\TransactionLinkUrlBuilder');
+}
+if (class_exists('Ksfraser\\FA\\Links\\TransactionLinkBuilder')) {
+    class_alias('Ksfraser\\FA\\Links\\TransactionLinkBuilder', 'Ksfraser\\FA\\Notifications\\TransactionLinkBuilder');
+}
+if (class_exists('Ksfraser\\FA\\Links\\TransactionLinkRoutePolicy')) {
+    class_alias('Ksfraser\\FA\\Links\\TransactionLinkRoutePolicy', 'Ksfraser\\FA\\Notifications\\TransactionLinkRoutePolicy');
+}
+if (class_exists('Ksfraser\\FA\\Links\\TransactionResultLinkPresenter')) {
+    class_alias('Ksfraser\\FA\\Links\\TransactionResultLinkPresenter', 'Ksfraser\\FA\\Notifications\\TransactionResultLinkPresenter');
+}
+if (class_exists('Ksfraser\\FA\\Links\\TransactionLinkNotificationDisplayer')) {
+    class_alias('Ksfraser\\FA\\Links\\TransactionLinkNotificationDisplayer', 'Ksfraser\\FA\\Notifications\\TransactionLinkNotificationDisplayer');
+}
+if (class_exists('Ksfraser\\FA\\Links\\MatchedSettlementNotificationBuilder')) {
+    class_alias('Ksfraser\\FA\\Links\\MatchedSettlementNotificationBuilder', 'Ksfraser\\FA\\Notifications\\MatchedSettlementNotificationBuilder');
+}
+if (class_exists('Ksfraser\\FA\\Links\\SupplierAllocateLinkUrlBuilder')) {
+    class_alias('Ksfraser\\FA\\Links\\SupplierAllocateLinkUrlBuilder', 'Ksfraser\\FA\\Notifications\\SupplierAllocateLinkUrlBuilder');
+}
+if (class_exists('Ksfraser\\FA\\Links\\AttachmentLinkUrlBuilder')) {
+    class_alias('Ksfraser\\FA\\Links\\AttachmentLinkUrlBuilder', 'Ksfraser\\FA\\Notifications\\AttachmentLinkUrlBuilder');
 }
 

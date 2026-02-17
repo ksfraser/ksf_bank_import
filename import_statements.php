@@ -477,7 +477,7 @@ function parse_uploaded_files() {
     	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
 
     	// Mantis #2708: Save uploaded file (Phase 2 refactored)
-    	$bank_account_id = isset($_POST['bank_account']) ? $_POST['bank_account'] : null;
+    	$bank_account_id = !empty($_POST['bank_account']) ? (int)$_POST['bank_account'] : null;
     	$file_info_array = array(
     	    'name' => $_FILES['files']['name'][$id],
     	    'type' => $_FILES['files']['type'][$id],
@@ -1298,11 +1298,23 @@ function resolve_account_mappings() {
 			}
 
 			$key = DetectedAccountAssociationKey::forDetectedAccount($detected);
-			$username = isset($_SESSION['wa_current_user']) && isset($_SESSION['wa_current_user']->name)
-				? $_SESSION['wa_current_user']->name
-				: null;
 			$repo->set($key, (string)$selectedId, $username, 'Associate detected account to FA bank account');
 			$rememberedCount++;
+		}
+		
+		// Back-fill metadata in bi_uploaded_files if we have file IDs
+		if (!empty($uploaded_file_ids)) {
+			try {
+				$uploadService = FileUploadService::create();
+				foreach ($pending['unresolved'][$detected] ?? [] as $fileIndex) {
+					$fileId = $uploaded_file_ids[$fileIndex] ?? null;
+					if ($fileId !== null) {
+						$uploadService->updateBankAccountId((int)$fileId, (int)$selectedId);
+					}
+				}
+			} catch (\Throwable $e) {
+				// Non-blocking metadata update
+			}
 		}
 	}
 

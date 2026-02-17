@@ -29,7 +29,7 @@
 
 declare(strict_types=1);
 
-namespace Ksfraser\\FA\\Links;
+namespace Ksfraser\FA\Links;
 
 /**
  * SRP: extract and render transaction result links for process_statements flow.

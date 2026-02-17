@@ -49,6 +49,9 @@ The original version only used Band Deposits and Bank Payments.  I've enhanced t
 - **[docs/YOUR_REQUEST_COMPLETE.md](docs/YOUR_REQUEST_COMPLETE.md)** - Documentation package completion status
 - **[docs/ACTION_PLAN.md](docs/ACTION_PLAN.md)** - Remaining tasks and priorities
 
+#### Link Builders Refactoring (February 2026)
+- **[LINK_BUILDERS_REFACTORING.md](LINK_BUILDERS_REFACTORING.md)** - FA link builders namespace reorganization and extra query parameter support
+
 #### BABOK-Compliant Business Analysis Documentation
 - **[docs/BUSINESS_REQUIREMENTS_DOCUMENT.md](docs/BUSINESS_REQUIREMENTS_DOCUMENT.md)** - Business case, objectives, and stakeholder analysis
 - **[docs/REQUIREMENTS_SPECIFICATION.md](docs/REQUIREMENTS_SPECIFICATION.md)** - 47 numbered requirements (FR, NFR, IR, DR, BR) with acceptance criteria

@@ -99,6 +99,12 @@ Implement an automated paired transfer processing system that:
 - **Business Value:** Improved user productivity and satisfaction
 - **Priority:** MEDIUM
 
+**BO-004: Bank Metadata Audit and Resolution (NEW Feb 2026)**
+- **Description:** Implement mechanism to identify and fix missing bank account associations for uploaded files.
+- **Measurable Goal:** 100% of uploaded files correctly associated with an FA bank account.
+- **Business Value:** Accurate financial auditing and document traceability.
+- **Priority:** HIGH
+
 **BO-004: Support Business Scalability**
 - **Description:** Enable system to handle increased transaction volumes
 - **Measurable Goal:** Support 5x current transaction volume without performance degradation
@@ -540,6 +546,24 @@ Any changes to the approved business requirements must follow the change control
 - 100% of confirmed transfer pairs pass reciprocity validation.
 - 100% of processed entries have verifiable GL references or are flagged for review.
 - Reprocess cycle for a flagged row can be completed without direct DB edits.
+
+### Phase 4 (Q1 2026): File Metadata and Storage Tracking (Mantis #2708)
+
+**BR-015: Persistent File Metadata**
+- The system must track metadata for every uploaded file (filename, size, type, upload date, user).
+- Files must be stored securely on the server with unique names to prevent collisions.
+
+**BR-016: Delayed Bank Account Association**
+- The system must support file uploads even when the destination bank account is not yet known (e.g., QFX files containing their own metadata).
+- Missing associations must be updated (back-filled) once the bank account is resolved from the file content or user input.
+
+**BR-017: Duplicate File Prevention**
+- The system must use file metadata to detect potential duplicate uploads and provide user options (Reject, Reuse, or Force Upload).
+
+### Success Criteria Additions
+- 100% of uploaded files have a corresponding metadata record.
+- 100% of files uploaded without an initial bank account selection are updated once resolved.
+- Duplicate detection reduces storage waste from re-uploading the same files.
 
 ---
 

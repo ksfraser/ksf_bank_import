@@ -29,7 +29,7 @@
 
 declare(strict_types=1);
 
-namespace Ksfraser\\FA\\Links;
+namespace Ksfraser\FA\Links;
 
 use Ksfraser\HTML\Elements\HtmlA;
 

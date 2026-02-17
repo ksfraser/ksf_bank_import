@@ -649,7 +649,74 @@ Week 7: Regression & Final (SCHEDULED 📅)
 
 ---
 
-## 12. Approval
+## 12. Link Builders Refactoring (February 2026)
+
+### 12.1 Overview
+The FA link builder classes have been refactored from the `FA/Notifications` namespace to the more semantically accurate `FA/Links` namespace, with enhanced support for extra query parameters.
+
+### 12.2 Test Objectives
+- Verify namespace migration maintains backward compatibility
+- Confirm extra query parameter functionality works correctly
+- Ensure all existing link generation continues to function
+- Validate HTML output and URL generation
+
+### 12.3 Test Cases
+
+#### TC-LINK-001: Namespace Backward Compatibility
+**Priority:** High  
+**Type:** Unit Test  
+**Preconditions:** All link builder classes moved to `FA/Links` namespace  
+**Steps:**
+1. Import classes using old `FA\Notifications` namespace
+2. Instantiate and use link builders
+3. Verify no errors thrown
+**Expected Result:** All operations succeed without namespace errors
+
+#### TC-LINK-002: Extra Query Parameters
+**Priority:** High  
+**Type:** Unit Test  
+**Preconditions:** Enhanced `GlTransViewLinkHtmlBuilder` and `TransactionLinkUrlBuilder`  
+**Steps:**
+1. Create link builder instance
+2. Call `build()` or `glTransView()` with extra query parameters
+3. Verify generated URLs contain expected parameters
+**Expected Result:** URLs include all specified extra parameters
+
+#### TC-LINK-003: HTML Link Generation
+**Priority:** Medium  
+**Type:** Integration Test  
+**Preconditions:** `class.bi_lineitem.php` updated to use new builders  
+**Steps:**
+1. Create transaction line item
+2. Call `makeURLLink()` method
+3. Verify generated HTML contains correct link structure
+**Expected Result:** HTML links generated correctly with proper attributes
+
+#### TC-LINK-004: Deprecated File Removal
+**Priority:** Low  
+**Type:** Verification Test  
+**Preconditions:** Deprecated `ViewBiLineItems` classes removed  
+**Steps:**
+1. Attempt to load removed classes
+2. Verify appropriate errors thrown
+3. Confirm no remaining references in codebase
+**Expected Result:** Clean removal with no broken dependencies
+
+### 12.4 Test Environment
+- **PHP Version:** 7.4+
+- **Testing Framework:** PHPUnit 9.x
+- **Test Coverage:** 100% for link builder classes
+
+### 12.5 Success Criteria
+- ✅ All backward compatibility tests pass
+- ✅ Extra query parameter functionality verified
+- ✅ No namespace-related errors in CI/CD
+- ✅ HTML generation works correctly
+- ✅ Zero breaking changes for existing code
+
+---
+
+## 13. Approval
 
 **QA Test Plan Approved By:**
 

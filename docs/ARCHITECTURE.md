@@ -61,9 +61,14 @@ The KSF Bank Import module follows a **service-oriented architecture** based on 
         │ depends on
         ▼
     ┌─────────────────────────────────────────────────────┐
-    │          Service Layer (EXPANDED Oct 2025)          │
+    │          Service Layer (EXPANDED Feb 2026)          │
     │                                                     │
-    │  ReferenceNumberService (NEW)                       │
+    │  FileUploadService (NEW)                            │
+    │  + upload(fileInfo, parserType, accountId): result  │
+    │  + getAuditCandidates(): array                      │
+    │  + resolveMissingAccount(fileId, accountId): bool   │
+    │                                                     │
+    │  ReferenceNumberService                             │
     │  + getUniqueReference(transType): string            │
     │                                                     │
     │  PairedTransferProcessor                            │
@@ -109,6 +114,8 @@ The KSF Bank Import module follows a **service-oriented architecture** based on 
     │                                                     │
     │  Database (via FA)                                  │
     │  - bi_transactions                                  │
+    │  - bi_uploaded_files (NEW - 2026)                   │
+    │  - bi_file_statements (NEW - 2026)                  │
     │  - bank_transfers (FA managed)                      │
     └─────────────────────────────────────────────────────┘
 ```
@@ -156,7 +163,23 @@ The KSF Bank Import module follows a **service-oriented architecture** based on 
 
 ## Core Services
 
-### 1. PairedTransferProcessor
+### 1. FileUploadService (Feb 2026)
+**Responsibility:** Orchestrates bank file uploads and metadata management.
+
+**Key Methods:**
+- `upload($fileInfo, $parserType, $bankAccountId)` - Stores physical file and records metadata.
+- `getAuditCandidates()` - Identifies files missing bank account associations.
+- `resolveMissingAccount($fileId, $bankAccountId)` - Manually links an uploaded file to an FA bank account.
+
+**Dependencies:**
+- UploadedFileRepositoryInterface
+- FileStorageServiceInterface
+- DuplicateDetector
+- ConfigRepositoryInterface
+
+**Location:** `Service/FileUploadService.php`
+
+### 2. PairedTransferProcessor
 **Responsibility:** Orchestrates the entire paired transfer workflow
 
 **Key Methods:**
@@ -622,6 +645,25 @@ Result: MATCH - Transfer from Account A to Account B
 - valueTimestamp (DATE) - Transaction date
 - processed (BOOL) - Processing status
 - linked_transfer_id (INT) - FK to bank_transfers
+```
+
+**`bi_uploaded_files`** - Tracking of uploaded bank files (Mantis #2708)
+```sql
+- id (INT) - File ID
+- filename (VARCHAR) - Stored unique filename
+- original_filename (VARCHAR) - Original upload name
+- file_size (BIGINT) - Size in bytes
+- file_type (VARCHAR) - MIME type
+- upload_date (DATETIME) - Timestamp
+- parser_type (VARCHAR) - e.g. qfx, csv
+- bank_account_id (INT, NULLABLE) - Associated FA bank account
+- statement_count (INT) - Number of linked statements
+```
+
+**`bi_file_statements`** - Many-to-many link between files and statements
+```sql
+- file_id (INT) - FK to bi_uploaded_files
+- statement_id (INT) - FK to bi_statements
 ```
 
 **`bank_transfers`** (FrontAccounting)

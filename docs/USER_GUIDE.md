@@ -9,6 +9,7 @@
 5. [Operation Types](#operation-types)
 6. [Troubleshooting](#troubleshooting)
 7. [FAQ](#faq)
+8. [Bank Import File Audit](#bank-import-file-audit)
 
 ## Introduction
 
@@ -108,9 +109,9 @@ Transaction 2:
 - Date: 2025-01-16  (1 day later - within window ✓)
 - Amount: +$500.00 (Credit - money arriving)
 - Description: "From Manulife"
+```
 
 Result: MATCHED! This is a transfer from Manulife → CIBC
-```
 
 #### 3. Process the Pair
 
@@ -427,6 +428,26 @@ For issues or questions:
 
 ---
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-01-18  
+## Bank Import File Audit
+
+The **Bank Import File Audit** screen helps you identify and resolve uploaded files that are missing associations with a FrontAccounting bank account.
+
+### Why do files have missing associations?
+
+During the upload process, if a file contains transactions for an account that isn't yet mapped or if the upload process is interrupted before resolution, the `bank_account_id` in the `bi_uploaded_files` table might be left empty (`NULL` or `0`).
+
+### Using the Audit Tool
+
+1. Navigate to **Bank Import → Bank Import File Audit** (or visit `audit_files.php` directly).
+2. The screen shows all files with missing associations.
+3. For each file, the system attempts to **suggest a resolution** by:
+   - Examining the `acctid` fields in the linked statements.
+   - Looking up those `acctid`s in your existing bank account mappings.
+4. If a suggestion is found, click the **Resolve** button to link the file to the suggested account.
+5. If no suggestion is available, it means the linked statements themselves are missing the `acctid` field.
+
+---
+
+**Version:** 1.1.0  
+**Last Updated:** 2026-02-17  
 **License:** MIT
