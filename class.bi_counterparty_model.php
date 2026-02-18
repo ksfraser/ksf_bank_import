@@ -15,8 +15,6 @@
  * *************************************************************************************/
 
 
-$path_to_root = "../..";
-
 /*******************************************
  * If you change the list of properties below, ensure that you also modify
  * build_write_properties_array
@@ -30,27 +28,6 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-// require_once( '../ksf_modules_commone/class.generic_fa_interface.php' );
-// require_once( '../ksf_modules_commone/defines.inc.php' );
-// PROD baseline markers:
-// use Ksfraser\common\GenericFaInterface;
-// use Ksfraser\common\Defines;
-$commonDir = __DIR__ . '/../ksf_modules_common';
-$commonInterface = $commonDir . '/class.generic_fa_interface.php';
-$commonDefines = $commonDir . '/defines.inc.php';
-$faTypesInc = $commonDir . '/../../includes/types.inc';
-$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-
-if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_file($faTypesInc)) {
-	require_once($commonInterface);
-	require_once($commonDefines);
-}
-
-if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
-	require_once(__DIR__ . '/includes/fa_stubs.php');
-}
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.

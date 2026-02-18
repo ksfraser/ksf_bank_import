@@ -1,36 +1,5 @@
 <?php
 
-$path_to_root = "../..";
-
-$commonDir = __DIR__ . '/../ksf_modules_common';
-$commonInterface = $commonDir . '/class.generic_fa_interface.php';
-$commonDefines = $commonDir . '/defines.inc.php';
-$faTypesInc = $commonDir . '/../../includes/types.inc';
-$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-
-if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_file($faTypesInc)) {
-    require_once($commonInterface);
-    require_once($commonDefines);
-}
-
-if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
-    require_once(__DIR__ . '/includes/fa_stubs.php');
-}
-
-if (!$forceMocks) {
-    $schemaDescriptorFile = __DIR__ . '/src/Ksfraser/FaBankImport/Schema/BiTransferMatchesSchema.php';
-    $schemaInstallerFile = __DIR__ . '/src/Ksfraser/FaBankImport/Service/Schema/BiTransferMatchesSchemaInstaller.php';
-
-    if (is_file($schemaDescriptorFile)) {
-        require_once($schemaDescriptorFile);
-    }
-    if (is_file($schemaInstallerFile)) {
-        require_once($schemaInstallerFile);
-    }
-}
-
 /**
  * Transfer match workflow table (candidate/confirmed/rejected/audit).
  *

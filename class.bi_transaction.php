@@ -12,35 +12,12 @@
  * *************************************************************************************/
 
 
-$path_to_root = "../..";
-
-//TODO
-//	Update the queries in the functions to use $this->table_details['tablename'] instead of .TB_PREF."bi_transactions 
-
 /*
  *
  * Each import type needs to read in the source document, and process line by line placing a record into this class.
  * This class then needs to insert the record.
  *
  * */
-
-$commonDir = __DIR__ . '/../ksf_modules_common';
-$commonInterface = $commonDir . '/class.generic_fa_interface.php';
-$commonDefines = $commonDir . '/defines.inc.php';
-$faTypesInc = $commonDir . '/../../includes/types.inc';
-$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-
-if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_file($faTypesInc)) {
-	require_once($commonInterface);
-	require_once($commonDefines);
-}
-
-if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
-	require_once(__DIR__ . '/includes/fa_stubs.php');
-}
-require_once( 'class.bi_transactions.php' );
 
 /**//**************************************************************************************************************
 *
@@ -76,7 +53,7 @@ require_once( 'class.bi_transactions.php' );
 	| matched             | int(1)       | NO   |     | 0       |                |
 	| created             | int(1)       | NO   |     | 0       |                |
 *	+---------------------+--------------+------+-----+---------+----------------+
-*	
+*
 *
 ******************************************************************************************************************/
 //class bi_transactions_model extends generic_fa_interface_model {
@@ -260,10 +237,10 @@ class bi_transaction extends bi_transactions_model  {
 	* @param int status
 	* @returns array transaction rows sorted
 	***************************************************************************/
-	function get_transactions( $status = null) 
+	function get_transactions( $status = null, $transAfterDate = null, $transToDate = null, $transactionAmount = null, $transactionTitle = null, $limit = null, $bankAccount = null ) 
 	{
 		//overriding!
-		//parent::get_transactions( $status = null);
+		//parent::get_transactions( $status, $transAfterDate, $transToDate, $transactionAmount, $transactionTitle, $limit, $bankAccount );
 	}
 	/**//**********************************************************************
 	* Get a specific transaction's details

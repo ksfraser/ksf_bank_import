@@ -9,11 +9,6 @@
  *
  * *************************************************************************************/
 
-$dbSchemaTraitPath = __DIR__ . '/src/Ksfraser/ModulesDAO/Schema/DatabaseSchemaToolsTrait.php';
-if (is_file($dbSchemaTraitPath)) {
-    require_once($dbSchemaTraitPath);
-}
-
 use Ksfraser\ModulesDAO\Schema\DatabaseSchemaToolsTrait;
 
 

@@ -1,22 +1,5 @@
 <?php
 
-$commonDir = __DIR__ . '/../ksf_modules_common';
-$commonInterface = $commonDir . '/class.generic_fa_interface.php';
-$commonDefines = $commonDir . '/defines.inc.php';
-$faTypesInc = $commonDir . '/../../includes/types.inc';
-$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-
-if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_file($faTypesInc)) {
-    require_once($commonInterface);
-    require_once($commonDefines);
-}
-
-if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
-    require_once(__DIR__ . '/includes/fa_stubs.php');
-}
-
 class bi_partners_data  extends generic_fa_interface_model {
     /**
      * Ensure the partner keyword table schema is present (idempotent, non-destructive).
@@ -178,7 +161,7 @@ function get_partner_data($partner_id, $partner_type, $partner_detail_id) {
 * @param string the data sent from the bank
 * @returns
 ******************************************************************************************/
-function set_bank_partner_data($from_bank_id, $partner_type = ST_BANKTRANSFER, $to_bank_id, $data) 
+function set_bank_partner_data($from_bank_id, $partner_type, $to_bank_id, $data) 
 {
 
 	//display_notification( __FILE__ . "::" . __LINE__ . ":" . $from_bank_id . ":" . $partner_type  . ":" . $to_bank_id . ":" . $data  . "//");

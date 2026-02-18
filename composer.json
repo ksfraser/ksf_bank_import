@@ -17,7 +17,13 @@
             "KsfBankImport\\Services\\": "Services/",
             "KsfBankImport\\OperationTypes\\": "OperationTypes/",
             "Views\\": "src/Views/"
-        }
+        },
+        "classmap": [
+            "./"
+        ],
+        "exclude-from-classmap": [
+            "duplicates_backup_20251116_183246/"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

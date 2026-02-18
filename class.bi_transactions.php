@@ -43,53 +43,38 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-$commonDir = __DIR__ . '/../ksf_modules_common';
-$commonInterface = $commonDir . '/class.generic_fa_interface.php';
-$commonDefines = $commonDir . '/defines.inc.php';
-$faTypesInc = $commonDir . '/../../includes/types.inc';
-$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-
-if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_file($faTypesInc)) {
-	require_once($commonInterface);
-	require_once($commonDefines);
-}
-
-if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
-	require_once(__DIR__ . '/includes/fa_stubs.php');
-}
-require_once( __DIR__ . '/class.bi_transfer_matches.php' );
+require_once(__DIR__ . '/includes/fa_stubs.php');
+require_once(__DIR__ . '/class.bi_transfer_matches.php');
 
 /**//**************************************************************************************************************
-* A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
-*
-*
-*
-*	***** WARNING *** WARNING *** WARNING *****
-*	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
-*
-*	+---------------------+--------------+------+-----+---------+----------------+
-*	| Field               | Type         | Null | Key | Default | Extra          |
-*	+---------------------+--------------+------+-----+---------+----------------+
-*	| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
-*	| smt_id              | int(11)      | NO   |     | NULL    |                |
-*	| valueTimestamp      | date         | YES  |     | NULL    |                |
-*	| entryTimestamp      | date         | YES  |     | NULL    |                |
-*	| account             | varchar(24)  | YES  |     | NULL    |                |
-*	| accountName         | varchar(60)  | YES  |     | NULL    |                |
-*	| transactionType     | varchar(3)   | YES  |     | NULL    |                |
-*	| transactionCode     | varchar(32)  | YES  |     | NULL    |                |
-*	| transactionCodeDesc | varchar(32)  | YES  |     | NULL    |                |
-*	| transactionDC       | varchar(2)   | YES  |     | NULL    |                |
-*	| transactionAmount   | double       | YES  |     | NULL    |                |
-*	| transactionTitle    | varchar(256) | YES  |     | NULL    |                |
-*	| status              | int(11)      | YES  |     | 0       |                |
-*	| matchinfo           | varchar(256) | YES  |     | NULL    |                |
-*	| fa_trans_type       | int(11)      | YES  |     | 0       |                |
-*	| fa_trans_no         | int(11)      | YES  |     | 0       |                |
-*	| fitid               | varchar(32)  | NO   |     | NULL    |                |
-*	| acctid              | varchar(32)  | NO   |     | NULL    |                |
+ * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
+ *
+ *
+ *
+ *	***** WARNING *** WARNING *** WARNING *****
+ *	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
+ *
+ *	+---------------------+--------------+------+-----+---------+----------------+
+ *	| Field               | Type         | Null | Key | Default | Extra          |
+ *	+---------------------+--------------+------+-----+---------+----------------+
+ *	| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
+ *	| smt_id              | int(11)      | NO   |     | NULL    |                |
+ *	| valueTimestamp      | date         | YES  |     | NULL    |                |
+ *	| entryTimestamp      | date         | YES  |     | NULL    |                |
+ *	| account             | varchar(24)  | YES  |     | NULL    |                |
+ *	| accountName         | varchar(60)  | YES  |     | NULL    |                |
+ *	| transactionType     | varchar(3)   | YES  |     | NULL    |                |
+ *	| transactionCode     | varchar(32)  | YES  |     | NULL    |                |
+ *	| transactionCodeDesc | varchar(32)  | YES  |     | NULL    |                |
+ *	| transactionDC       | varchar(2)   | YES  |     | NULL    |                |
+ *	| transactionAmount   | double       | YES  |     | NULL    |                |
+ *	| transactionTitle    | varchar(256) | YES  |     | NULL    |                |
+ *	| status              | int(11)      | YES  |     | 0       |                |
+ *	| matchinfo           | varchar(256) | YES  |     | NULL    |                |
+ *	| fa_trans_type       | int(11)      | YES  |     | 0       |                |
+ *	| fa_trans_no         | int(11)      | YES  |     | 0       |                |
+ *	| fitid               | varchar(32)  | NO   |     | NULL    |                |
+ *	| acctid              | varchar(32)  | NO   |     | NULL    |                |
 	| merchant            | varchar(64)  | NO   |     | NULL    |                |
 	| category            | varchar(64)  | NO   |     | NULL    |                |
 	| sic                 | varchar(64)  | NO   |     | NULL    |                |
@@ -97,9 +82,9 @@ require_once( __DIR__ . '/class.bi_transfer_matches.php' );
 	| checknumber         | int(11)      | NO   |     | NULL    |                |
 	| matched             | int(1)       | NO   |     | 0       |                |
 	| created             | int(1)       | NO   |     | 0       |                |
-*	+---------------------+--------------+------+-----+---------+----------------+
-*	
-*
+ *	+---------------------+--------------+------+-----+---------+----------------+
+ *	
+ *
          * Inherits:
         *    ORIGIN
         *       function __construct( $loglevel = PEAR_LOG_DEBUG )
