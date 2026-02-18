@@ -142,6 +142,7 @@ class ReadOnlyDatabaseTest extends TestCase
         require_once(__DIR__ . '/../../OperationTypes/OperationTypesRegistry.php');
         
         $registry = \KsfBankImport\OperationTypes\OperationTypesRegistry::getInstance();
+        $registry->reload(); // Force reload to populate session cache
         $types = $registry->getTypes();
         
         // Verify it's an array

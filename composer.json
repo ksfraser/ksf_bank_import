@@ -22,6 +22,10 @@
             "./"
         ],
         "exclude-from-classmap": [
+            "vendor/",
+            "tests/",
+            "src/",
+            "temp/",
             "duplicates_backup_20251116_183246/"
         ]
     },

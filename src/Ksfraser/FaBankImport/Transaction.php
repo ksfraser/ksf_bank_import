@@ -167,7 +167,7 @@ abstract class Transaction
 			require_once($faBankAccountsFile);
 		}
 
-		if (!class_exists('fa_bank_accounts')) {
+		if (!defined('TB_PREF')) {
 			require_once(__DIR__ . '/../../../includes/fa_stubs.php');
 		}
 

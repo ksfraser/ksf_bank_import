@@ -45,7 +45,7 @@ if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_f
 	require_once($commonDefines);
 }
 
-if (!class_exists('generic_fa_interface_model') || !defined('TB_PREF')) {
+if (!defined('TB_PREF')) {
 	require_once(__DIR__ . '/includes/fa_stubs.php');
 }
 

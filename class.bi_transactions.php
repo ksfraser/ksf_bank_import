@@ -43,7 +43,9 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-require_once(__DIR__ . '/includes/fa_stubs.php');
+if (!defined('TB_PREF')) {
+	require_once(__DIR__ . '/includes/fa_stubs.php');
+}
 require_once(__DIR__ . '/class.bi_transfer_matches.php');
 
 /**//**************************************************************************************************************

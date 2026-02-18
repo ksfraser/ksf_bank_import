@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\\Unit\\Links;
+namespace Tests\Unit\Links;
 
-use Ksfraser\\FA\\Links\\MatchedSettlementNotificationBuilder;
+use Ksfraser\FA\Links\MatchedSettlementNotificationBuilder;
 use PHPUnit\Framework\TestCase;
 
 final class MatchedSettlementNotificationBuilderTest extends TestCase

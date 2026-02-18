@@ -439,7 +439,7 @@ if (!function_exists('db_fetch')) {
      * @param mixed $result Query result
      * @return array|false Row data or false
      */
-    function db_fetch($result): array|false {
+    function db_fetch($result) {
         // Stub - actual implementation in FrontAccounting
         return false;
     }
@@ -451,7 +451,7 @@ if (!function_exists('db_fetch_assoc')) {
      * @param mixed $result Query result
      * @return array|false Row data or false
      */
-    function db_fetch_assoc($result): array|false {
+    function db_fetch_assoc($result) {
         return false;
     }
 }

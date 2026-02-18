@@ -113,7 +113,7 @@ class BankTransferFactory implements BankTransferFactoryInterface
             require_once($faPath);
         }
 
-        if (!class_exists('fa_bank_transfer')) {
+        if (!defined('TB_PREF')) {
             require_once(__DIR__ . '/../includes/fa_stubs.php');
         }
 

@@ -346,7 +346,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 					}
 
 					if (class_exists('\\Ksfraser\\FA\\Notifications\\TransactionResultLinkPresenter')) {
-						$linkPresenter = new \Ksfraser\\FA\\Links\\TransactionResultLinkPresenter();
+						$linkPresenter = new \Ksfraser\FA\Links\TransactionResultLinkPresenter();
 						$linkPresenter->displayFromResult($result, is_array($config) ? $config : [], (string)$partnerType);
 					}
 

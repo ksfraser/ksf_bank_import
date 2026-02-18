@@ -103,7 +103,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             require_once($faClassPath);
         }
 
-        if (!class_exists('fa_bank_transfer')) {
+        if (!defined('TB_PREF')) {
             require_once(dirname(__DIR__, 4) . '/includes/fa_stubs.php');
         }
 

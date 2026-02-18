@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\\Unit\\Links;
+namespace Tests\Unit\Links;
 
-use Ksfraser\\FA\\Links\\AttachmentLinkUrlBuilder;
+use Ksfraser\FA\Links\AttachmentLinkUrlBuilder;
 use PHPUnit\Framework\TestCase;
 
 final class AttachmentLinkUrlBuilderTest extends TestCase

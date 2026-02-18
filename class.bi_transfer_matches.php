@@ -149,9 +149,12 @@ class bi_transfer_matches_model extends generic_fa_interface_model
         $res = db_query($sql, 'Could not fetch transfer candidates');
         $rows = array();
         while ($row = db_fetch($res)) {
-            $peerId = ((int)$row['debit_transaction_id'] === $transactionId)
-                ? (int)$row['credit_transaction_id']
-                : (int)$row['debit_transaction_id'];
+            $row_debit_transaction_id = isset($row['debit_transaction_id']) ? (int)$row['debit_transaction_id'] : 0;
+            $row_credit_transaction_id = isset($row['credit_transaction_id']) ? (int)$row['credit_transaction_id'] : 0;
+            
+            $peerId = ($row_debit_transaction_id === $transactionId)
+                ? $row_credit_transaction_id
+                : $row_debit_transaction_id;
 
             $rows[] = array(
                 'peer_id' => $peerId,

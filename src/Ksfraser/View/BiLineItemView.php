@@ -551,6 +551,8 @@ class BiLineItemView
 
 }
 
+}
+
 /**
  * HTML Atomic Element
  * 

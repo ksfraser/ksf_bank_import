@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\\Unit\\Links;
+namespace Tests\Unit\Links;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\\FA\\Links\\TransactionResultLinkPresenter;
+use Ksfraser\FA\Links\TransactionResultLinkPresenter;
 
 final class TransactionResultLinkPresenterTest extends TestCase
 {

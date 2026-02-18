@@ -11,7 +11,7 @@ if (!$forceMocks && is_file($commonOrigin) && is_file($faTypesInc)) {
 	require_once($commonOrigin);
 }
 
-if (!class_exists('origin')) {
+if (!class_exists('origin') && !defined('TB_PREF')) {
 	require_once(__DIR__ . '/includes/fa_stubs.php');
 }
 require_once( 'class.bi_transaction.php' );
@@ -93,7 +93,7 @@ class bank_import_controller extends origin
 		}
 
 		if (class_exists('\\Ksfraser\\FA\\Notifications\\TransactionLinkNotificationDisplayer')) {
-			$linkDisplayer = new \Ksfraser\\FA\\Links\\TransactionLinkNotificationDisplayer(null, false);
+			$linkDisplayer = new \Ksfraser\FA\Links\TransactionLinkNotificationDisplayer(null, false);
 			$baseContext = [
 				'context' => 'bank_import_controller',
 			];
@@ -101,7 +101,7 @@ class bank_import_controller extends origin
 			$linkDisplayer->displayFromResultData(
 				$linkData,
 				$transType,
-				\Ksfraser\\FA\\Links\\TransactionLinkNotificationDisplayer::MODE_NOTIFICATION,
+				\Ksfraser\FA\Links\TransactionLinkNotificationDisplayer::MODE_NOTIFICATION,
 				$fullContext
 			);
 			return;
@@ -125,7 +125,7 @@ class bank_import_controller extends origin
 		];
 
 		if (class_exists('\\Ksfraser\\FA\\Notifications\\MatchedSettlementNotificationBuilder')) {
-			$payload = \Ksfraser\\FA\\Links\\MatchedSettlementNotificationBuilder::build($transType, $transNo);
+			$payload = \Ksfraser\FA\Links\MatchedSettlementNotificationBuilder::build($transType, $transNo);
 			$message = (string)$payload['message'];
 			$context = is_array($payload['context'] ?? null) ? $payload['context'] : $context;
 		}
@@ -137,7 +137,7 @@ class bank_import_controller extends origin
 	private function displayGlTransViewLink(int $transType, int $transNo, string $label = 'View Entry', array $context = []): void
 	{
 		if (function_exists('display_notification') && class_exists('\\Ksfraser\\FA\\Notifications\\GlTransViewLinkHtmlBuilder')) {
-			display_notification(\Ksfraser\\FA\\Links\\GlTransViewLinkHtmlBuilder::build($transType, $transNo, $label));
+			display_notification(\Ksfraser\FA\Links\GlTransViewLinkHtmlBuilder::build($transType, $transNo, $label));
 			return;
 		}
 
@@ -148,7 +148,7 @@ class bank_import_controller extends origin
 
 	private function buildGlTransViewUrl(int $transType, int $transNo): string
 	{
-		return \Ksfraser\\FA\\Links\\TransactionLinkUrlBuilder::glTransView($transType, $transNo);
+		return \Ksfraser\FA\Links\TransactionLinkUrlBuilder::glTransView($transType, $transNo);
 	}
 
 	private function buildFaAbsoluteUrl(string $appRelativePath): string
@@ -180,7 +180,7 @@ class bank_import_controller extends origin
 	{
 		$attachmentPath = 'admin/attachments.php?filterType=' . $transType . '&trans_no=' . $transNo;
 		if (class_exists('\\Ksfraser\\FA\\Notifications\\AttachmentLinkUrlBuilder')) {
-			$attachmentPath = \Ksfraser\\FA\\Links\\AttachmentLinkUrlBuilder::appRelativePath($transType, $transNo);
+			$attachmentPath = \Ksfraser\FA\Links\AttachmentLinkUrlBuilder::appRelativePath($transType, $transNo);
 		}
 
 		return $this->buildFaAbsoluteUrl($attachmentPath);
@@ -188,7 +188,7 @@ class bank_import_controller extends origin
 
 	private function buildSupplierAllocateUrl(int $transType, int $transNo, int $supplierId): string
 	{
-		return '../../' . \Ksfraser\\FA\\Links\\SupplierAllocateLinkUrlBuilder::appRelativePath($transType, $transNo, $supplierId);
+		return '../../' . \Ksfraser\FA\Links\SupplierAllocateLinkUrlBuilder::appRelativePath($transType, $transNo, $supplierId);
 	}
 	/**//***********************************************
 	*

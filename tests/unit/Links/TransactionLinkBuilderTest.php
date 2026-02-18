@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\\Unit\\Links;
+namespace Tests\Unit\Links;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\\FA\\Links\\TransactionLinkBuilder;
-use Ksfraser\\FA\\Links\\TransactionLinkRoutePolicy;
+use Ksfraser\FA\Links\TransactionLinkBuilder;
+use Ksfraser\FA\Links\TransactionLinkRoutePolicy;
 
 final class TransactionLinkBuilderTest extends TestCase
 {

@@ -27,7 +27,7 @@ if (is_file($commonDir . '/class.generic_fa_interface.php')) {
 
 if (is_file($commonDir . '/defines.inc.php')) {
 	require_once($commonDir . '/defines.inc.php');
-} elseif (is_file(__DIR__ . '/includes/fa_stubs.php')) {
+} elseif (!defined('TB_PREF') && is_file(__DIR__ . '/includes/fa_stubs.php')) {
 	require_once(__DIR__ . '/includes/fa_stubs.php');
 }
 
