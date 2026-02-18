@@ -39,7 +39,8 @@
         "asgrim/ofxparser": "^1.2",
         "mimographix/qif-library": "^1.0",
         "nesbot/carbon": "^2.46",
-        "psr/container": "^1.0"
+        "psr/container": "^1.0",
+        "ksfraser/ksf-modules-dao": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3",
