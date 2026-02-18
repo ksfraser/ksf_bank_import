@@ -1,9 +1,3 @@
-$dbSchemaTraitPath = __DIR__ . '/src/Ksfraser/ModulesDAO/Schema/DatabaseSchemaToolsTrait.php';
-if (is_file($dbSchemaTraitPath)) {
-	require_once($dbSchemaTraitPath);
-}
-
-use Ksfraser\ModulesDAO\Schema\DatabaseSchemaToolsTrait;
 <?php
 
 /****************************************************************************************
@@ -14,6 +8,13 @@ use Ksfraser\ModulesDAO\Schema\DatabaseSchemaToolsTrait;
  * from the same source that overlaps dates so we would have duplicate data.
  *
  * *************************************************************************************/
+
+$dbSchemaTraitPath = __DIR__ . '/src/Ksfraser/ModulesDAO/Schema/DatabaseSchemaToolsTrait.php';
+if (is_file($dbSchemaTraitPath)) {
+    require_once($dbSchemaTraitPath);
+}
+
+use Ksfraser\ModulesDAO\Schema\DatabaseSchemaToolsTrait;
 
 
 $path_to_root = "../..";
@@ -133,13 +134,9 @@ class bi_statements_model extends generic_fa_interface_model
 
 	function __construct()
 	{
-//display_notification( __FILE__ . "::" . __LINE__ );
-//		parent::__construct();
-//display_notification( __FILE__ . "::" . __LINE__ );
+		$this->initSchemaTools('db_query', 'db_escape', 'db_num_rows');
 		$this->iam = "bi_statements";
-//display_notification( __FILE__ . "::" . __LINE__ );
 		$this->define_table();
-//display_notification( __FILE__ . "::" . __LINE__ );
 	}
 	function define_table()
 	{
