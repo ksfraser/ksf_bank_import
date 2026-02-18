@@ -169,3 +169,6 @@ CREATE TABLE IF NOT EXISTS `0_bi_bank_accounts` (
     INDEX `idx_bankid` (`bankid`),
     INDEX `idx_intu_bid` (`intu_bid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Add bankid column to 0_bi_transactions if not present
+ALTER TABLE `0_bi_transactions` ADD COLUMN IF NOT EXISTS `bankid` VARCHAR(64) NULL;

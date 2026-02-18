@@ -1119,45 +1119,15 @@ function maybe_render_account_resolution_screen($parserType, $bankAccountId, arr
 	$mappingService = new StatementAccountMappingService();
 	$logger = bank_import_get_logger();
 
-	// Auto-apply any previously-saved associations.
-	$saved = load_saved_account_associations($multistatements);
-	$resolvedMap = $saved;
-	if (!empty($resolvedMap)) {
-		$multistatements = $mappingService->applyAccountNumberMapping($multistatements, $resolvedMap);
-	}
 
-	// Collect unresolved detected accounts (unique), grouped by file index.
+	// Always require user to confirm/resolve detected accounts, even if mappings exist.
+	// Collect all detected accounts (unique), grouped by file index.
 	$detectedByFile = $mappingService->collectDetectedAccountsByFile($multistatements);
-	$detectedAll = [];
-	foreach ($detectedByFile as $detectedList) {
-		foreach ($detectedList as $detected) {
-			$detected = trim((string)$detected);
-			if ($detected !== '') {
-				$detectedAll[$detected] = true;
-			}
-		}
-	}
-
-	// Attempt automatic resolution using module-owned bi_bank_accounts (legacy PROD stored this on bank_accounts).
-	$auto = resolve_detected_accounts_via_bi_bank_accounts(array_keys($detectedAll));
-	foreach ($auto as $detected => $bankAccountNumber) {
-		if (!isset($resolvedMap[$detected]) && fa_bank_account_number_exists($bankAccountNumber)) {
-			$resolvedMap[$detected] = $bankAccountNumber;
-		}
-	}
-	if (!empty($resolvedMap)) {
-		$multistatements = $mappingService->applyAccountNumberMapping($multistatements, $resolvedMap);
-	}
-
 	$unresolved = [];
 	foreach ($detectedByFile as $fileIndex => $detectedList) {
 		foreach ($detectedList as $detected) {
-			// If statement->account was already mapped to a valid FA bank account number, we're good.
-			// Otherwise we require user resolution for this detected account.
-			if (isset($resolvedMap[$detected]) && fa_bank_account_number_exists($resolvedMap[$detected])) {
-				continue;
-			}
-			if (fa_bank_account_number_exists($detected)) {
+			$detected = trim((string)$detected);
+			if ($detected === '') {
 				continue;
 			}
 			if (!isset($unresolved[$detected])) {
@@ -1167,6 +1137,7 @@ function maybe_render_account_resolution_screen($parserType, $bankAccountId, arr
 		}
 	}
 
+	// Always show the account resolution screen if any detected accounts exist.
 	if (empty($unresolved)) {
 		return false;
 	}
