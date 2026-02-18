@@ -16,17 +16,17 @@ class BankImportModuleSchemaService
      */
     public function ensureAll(): array
     {
-        require_once(__DIR__ . '/../../../../../class.bi_statements.php');
-        \bi_statements_model::ensure_schema();
+		require_once(__DIR__ . '/../../../../../class.bi_statements.php');
+		(new \bi_statements_model())->ensure_schema();
 
-        require_once(__DIR__ . '/../../../../../class.bi_transactions.php');
-        \bi_transactions_model::ensure_schema();
+		require_once(__DIR__ . '/../../../../../class.bi_transactions.php');
+		(new \bi_transactions_model())->ensure_schema();
 
-        require_once(__DIR__ . '/../../../../../class.bi_partners_data.php');
-        \bi_partners_data::ensure_schema();
+		require_once(__DIR__ . '/../../../../../class.bi_partners_data.php');
+		(new \bi_partners_data())->ensure_schema();
 
-        require_once(__DIR__ . '/../../../../../class.bi_transfer_matches.php');
-        \bi_transfer_matches_model::ensure_schema();
+		require_once(__DIR__ . '/../../../../../class.bi_transfer_matches.php');
+		(new \bi_transfer_matches_model())->ensure_schema();
 
         require_once(__DIR__ . '/BiConfigSchemaInstaller.php');
         $configSchemaInstaller = new BiConfigSchemaInstaller(
