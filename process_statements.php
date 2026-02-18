@@ -1,6 +1,7 @@
+<?php
+
 // Ensure Composer autoloader is loaded for trait/class autoloading
 require_once __DIR__ . '/vendor/autoload.php';
-<?php
 
 // Prevent conditional-cache responses (304) that can break legacy jsHttpRequest flows.
 if (!headers_sent()) {

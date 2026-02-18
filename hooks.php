@@ -1,6 +1,6 @@
+<?php
 // Ensure Composer autoloader is loaded for trait/class autoloading
 require_once __DIR__ . '/vendor/autoload.php';
-<?php
 
 
 define( 'MENU_IMPORT', 'menu_import' );
