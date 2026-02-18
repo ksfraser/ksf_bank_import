@@ -1,6 +1,6 @@
 <?php
 
-require_once( __DIR__ . '/class.generic_fa_interface_model.php' );
+require_once(  '../ksf_modules_common/class.generic_fa_interface.php' );
 
 /**
  * Transfer match workflow table (candidate/confirmed/rejected/audit).
