@@ -1,3 +1,5 @@
+// Ensure Composer autoloader is loaded for trait/class autoloading
+require_once __DIR__ . '/vendor/autoload.php';
 <?php
 /**********************************************************************
     Copyright (C) FrontAccounting, LLC.
