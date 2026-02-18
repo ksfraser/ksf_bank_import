@@ -1,5 +1,7 @@
 <?php
 
+require_once( __DIR__ . '/class.generic_fa_interface_model.php' );
+
 /**
  * Transfer match workflow table (candidate/confirmed/rejected/audit).
  *
