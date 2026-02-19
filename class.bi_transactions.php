@@ -143,6 +143,7 @@ require_once(__DIR__ . '/class.bi_transfer_matches.php');
 *
 ******************************************************************************************************************/
 use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+
 class bi_transactions_model {
 	/**
 	 * Ensure the staging table schema is present (idempotent, non-destructive).

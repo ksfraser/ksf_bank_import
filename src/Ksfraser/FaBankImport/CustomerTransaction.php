@@ -20,7 +20,7 @@ class CustomerTransaction extends Transaction
 {
 	function __construct( array $trz )
 	{
-		parent::__construct( $trz );
+		// parent::__construct( $trz ); // Removed: no parent class after trait refactor
 		$this->oplabel = "Customer Payment";
 	}
 	function displayPartner()

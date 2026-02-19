@@ -1,6 +1,6 @@
 <?php
 
-require_once(  '../ksf_modules_common/class.generic_fa_interface.php' );
+// Removed require_once for class.generic_fa_interface.php (no longer needed after trait refactor)
 
 /**
  * Transfer match workflow table (candidate/confirmed/rejected/audit).
@@ -33,7 +33,7 @@ class bi_transfer_matches_model
 
     public function __construct()
     {
-        parent::__construct(null, null, null, null, null);
+        // parent::__construct(null, null, null, null, null); // Removed: no parent class after trait refactor
     }
 
     public function expire_open_candidates_for_transaction(int $transactionId): void

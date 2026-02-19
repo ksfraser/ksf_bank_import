@@ -24,6 +24,6 @@ class AmountCharges extends LabelRowBase
 		$this->label = "Amount / Charge(s):";
 		$this->data =  $bi_lineitem->amount .' / ' . $bi_lineitem->charge . " (" . $bi_lineitem->currency .")";
 		
-		parent::__construct( "" );
+		// parent::__construct( "" ); // Removed: no parent class after trait refactor
 	}
 }

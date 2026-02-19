@@ -61,7 +61,7 @@ class StatusSettled extends LabelRowBase
         {
                 $this->label = "Status:";
                 $this->data = new HtmlBold( "Transaction Settled" );
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }
 class UnsetTransaction extends LabelRowBase
@@ -70,7 +70,7 @@ class UnsetTransaction extends LabelRowBase
         {
                 $this->label = "Unset Transaction Association:";
                 $this->data = submit( "UnsetTrans[$transaction->id]", _( "Unset Transaction $transaction->fa_trans_no"), false, '', 'default' );
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }
 class SettledManual extends LabelRowBase
@@ -79,7 +79,7 @@ class SettledManual extends LabelRowBase
         {
                 $this->label = "Operation:";
                 $this->data = "Manually Settled";
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }
 class SettledDefault extends LabelRowBase
@@ -88,7 +88,7 @@ class SettledDefault extends LabelRowBase
         {
                 $this->label = "Status:";
                 $this->data = "other transaction type; no info yet " . print_r( $transaction, true );
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }
 abstract class SettledTable  implements HtmlElementInterface
@@ -116,7 +116,7 @@ class SettledPaymentTable extends SettledTable
         {
 //TODO data was passed in in an minfo array
 //	Ensure the data is available in transaction.
-		parent::__construct();
+                // parent::__construct(); // Removed: no parent class after trait refactor
                 $table->appendRow( new OperationPayment() );
                 $table->appendRow( new FromBankAccount( $transaction ) );
                 $table->appendRow( new SettledSupplier( $transaction ) );
@@ -128,7 +128,7 @@ class OperationPayment extends LabelRowBase
         {
                 $this->label = "Operation:";
                 $this->data = "Payment";
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }
 class FromBankAccount extends LabelRowBase
@@ -137,7 +137,7 @@ class FromBankAccount extends LabelRowBase
         {
                 $this->label = "From Bank Account:";
                 $this->data = $transaction->OurBankAccount;
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }
 class SettledSupplier extends LabelRowBase
@@ -146,7 +146,7 @@ class SettledSupplier extends LabelRowBase
         {
                 $this->label = "Supplier:";
                 $this->data = $transaction->SupplierName;
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }
 class SettledDepositTable extends SettledTable
@@ -154,7 +154,7 @@ class SettledDepositTable extends SettledTable
         protected $table;
         function __construct( $transaction )
         {
-		parent::__construct();
+                // parent::__construct(); // Removed: no parent class after trait refactor
                 $table->appendRow( new OperationDeposit() );
 //TODO: Refactor to use fa_customer
 		$custArray = get_customer_trans($transaction->fa_trans_no, $transaction->fa_trans_type);
@@ -167,7 +167,7 @@ class OperationDeposit extends LabelRowBase
         {
                 $this->label = "Operation:";
                 $this->data = "Deposit";
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }
 class CustomerBranch extends LabelRowBase
@@ -176,6 +176,6 @@ class CustomerBranch extends LabelRowBase
         {
                 $this->label = "Customer/Branch:";
                 $this->data = get_customer_name($custArray['debtor_no']) . " / " . get_branch_name($custArray['branch_code']);
-                parent::__construct( "" );
+                // parent::__construct( "" ); // Removed: no parent class after trait refactor
         }
 }

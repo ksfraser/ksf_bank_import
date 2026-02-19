@@ -113,7 +113,7 @@ class bi_counterparty_model {
 
 	function __construct()
 	{
-		parent::__construct();
+		// parent::__construct(); // Removed: no parent class after trait refactor
 	}
 	function define_table()
 	{

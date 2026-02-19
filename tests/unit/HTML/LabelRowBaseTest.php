@@ -38,7 +38,7 @@ class LabelRowBaseTest extends TestCase
             public function __construct($bi_lineitem) {
                 // Only set label, not data
                 $this->label = "Test Label:";
-                parent::__construct($bi_lineitem);
+                // parent::__construct($bi_lineitem); // Removed: no parent class after trait refactor
             }
         };
     }

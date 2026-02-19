@@ -23,6 +23,6 @@ class TransTitle extends LabelRowBase
 		$this->label = "Transaction Title:";
 		$this->data =  $bi_lineitem->transactionTitle;
 		
-		parent::__construct( "" );
+		// parent::__construct( "" ); // Removed: no parent class after trait refactor
 	}
 }

@@ -21,9 +21,7 @@ $commonDir = is_dir(__DIR__ . '/ksf_modules_common')
 	? __DIR__ . '/ksf_modules_common'
 	: __DIR__ . '/../ksf_modules_common';
 
-if (is_file($commonDir . '/class.generic_fa_interface.php')) {
-	require_once($commonDir . '/class.generic_fa_interface.php');
-}
+// Removed require_once for class.generic_fa_interface.php (no longer needed after trait refactor)
 
 if (is_file($commonDir . '/defines.inc.php')) {
 	require_once($commonDir . '/defines.inc.php');
@@ -189,7 +187,7 @@ class bi_lineitem
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
 		//display_notification( __FILE__ . "::" . __LINE__ );
-		parent::__construct( null, null, null, null, null);
+		// parent::__construct( null, null, null, null, null); // Removed: no parent class after trait refactor
 		//display_notification( __FILE__ . "::" . __LINE__ );
 	//	$this->iam = "bi_transactions";
 	//	$this->define_table();
@@ -1471,26 +1469,6 @@ class bi_lineitem
 		return $display->render();
 	}
 
-	/*****************************************************************//**
-	* Set the field if possible
-	*
-	*       Tries to set the field in this class as well as in table_interface
-	*       assumption being we are going to do something with the field in
-	*       the database (else why set the model...)
-	*
-	* @param string field to set
-	* @param mixed value to set
-	* @param bool should we allow the class to only set __construct time fields
-	* @return bool Result from parent set operation
-	**********************************************************************/
-	function set( $field, $value = null, $enforce = true )
-	{
-		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
-		//display_notification( __FILE__ . "::" . __LINE__ . ":" . "Setting $field to $value" );
-		$ret = parent::set( $field, $value, $enforce );
-		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
-		return $ret;
-	}
 	/**//**********************************************************************
 	* Convert Transaction array to this object
 	*

@@ -2,7 +2,6 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../ksf_modules_common/class.origin.php';
 require_once __DIR__ . '/../header_table.php';
 
 // ----------------------------------------------------------

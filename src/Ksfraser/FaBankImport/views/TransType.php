@@ -35,6 +35,6 @@ class TransType extends LabelRowBase
 		}
                 $this->label = "Trans Type:";
                 $this->data = $label;
-                parent::__construct( "" );
+				// parent::__construct( "" ); // Removed: no parent class after trait refactor
 	}
 }

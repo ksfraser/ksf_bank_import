@@ -1,8 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-require_once '../ksf_modules_commone/class.generic_fa_interface.php';
-require_once '../ksf_modules_commone/defines.inc.php';
 require_once 'class.bi_counterparty_model.php';
 
 class BiCounterpartyModelTest extends TestCase

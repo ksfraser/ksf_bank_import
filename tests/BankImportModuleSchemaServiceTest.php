@@ -1,9 +1,6 @@
-
 <?php
-
-namespace Ksfraser\FaBankImport\Tests;
-
 declare(strict_types=1);
+namespace Ksfraser\FaBankImport\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Service\Schema\BankImportModuleSchemaService;

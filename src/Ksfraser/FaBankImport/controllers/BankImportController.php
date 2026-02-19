@@ -84,7 +84,7 @@ class BankImportController extends AbstractController
 
     public function __construct()
     {
-        parent::__construct();
+        // parent::__construct(); // Removed: no parent class after trait refactor
         $this->container = Container::getInstance();
     }
 

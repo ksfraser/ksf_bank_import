@@ -1,3 +1,4 @@
+// Duplicate file removed to resolve class redeclaration error.
 <?php
 
 /**
