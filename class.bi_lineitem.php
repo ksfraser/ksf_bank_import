@@ -1475,32 +1475,7 @@ class bi_lineitem
 	* @param class
 	* @returns int how many fields did we copy
 	**************************************************************************/
-	function trz2obj( $trz )
-	{
-		$cnt = 0;
-		if( is_array( $trz ) )
-		{
-			$src = $trz;
-		}
-		else if( is_object( $trz ) )
-		{
-			$src = get_object_vars($trz);
-		}
-		else
-		{
-			return 0;
-		}
-
-		foreach( $src as $key => $value )
-		{
-			if( property_exists( $this, $key ) )
-			{
-				$this->$key = $value;
-				$cnt++;
-			}
-		}
-		return $cnt;
-	}
+	       // trz2obj now inherited from GenericObjectMappingTrait
 	
 	/**//******************************************************************
 	* Getter methods for Strategy pattern (added for PartnerTypeDisplayStrategy)

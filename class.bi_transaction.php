@@ -104,26 +104,6 @@ class bi_transaction extends bi_transactions_model  {
 		$this->created = 0;
 		//display_notification( __FILE__ . "::" . __LINE__ );
 	}
-        /*****************************************************************//**
-        * Set the field if possible
-        *
-        *       Tries to set the field in this class as well as in table_interface
-        *       assumption being we are going to do something with the field in
-        *       the database (else why set the model...)
-        *
-        * @param string field to set
-        * @param mixed value to set
-        * @param bool should we allow the class to only set __construct time fields
-        * @return nothing. (parent) throws exceptions
-        **********************************************************************/
-	function set( $field, $value = null, $enforce = true )
-	{
-		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
-		//display_notification( __FILE__ . "::" . __LINE__ . ":" . "Setting $field to $value" );
-		$ret = parent::set( $field, $value, $enforce );
-		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
-		return $ret;
-	}
 	/**//*************************************************************************
 	* Extract the variables out of _POST for this id
 	*
@@ -265,16 +245,7 @@ class bi_transaction extends bi_transactions_model  {
 		//overriding!
 		//parent::get_normal_pairing( $account = null);
 	}
-	/**//**********************************************************************
-	* Convert Transaction array to this object
-	*
-	* @param class
-	* @returns int how many fields did we copy
-	**************************************************************************/
-	function trz2obj( $trz )
-	{
-		return parent::obj2obj( $trz );
-	}
+	       // trz2obj now inherited from GenericObjectMappingTrait
 	/**//************************************************************
 	* Hand build the INSERT statement
 	*

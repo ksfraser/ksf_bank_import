@@ -95,12 +95,11 @@ class bi_partners_data {
 	protected $data;		//!<string
 	protected $updated_ts;		//!<date
 
-      function __construct()
+          function __construct()
         {
-                //display_notification( __FILE__ . "::" . __LINE__ );
-                parent::__construct( null, null, null, null, null);
-                $this->iam = "bi_partners_data";
-                $this->define_table();
+            //display_notification( __FILE__ . "::" . __LINE__ );
+            $this->iam = "bi_partners_data";
+            $this->define_table();
         }
         function define_table()
         {

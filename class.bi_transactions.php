@@ -622,22 +622,7 @@ class bi_transactions_model {
 	* @param class
 	* @returns int how many fields did we copy
 	**************************************************************************/
-	function trz2obj( $trz )
-	{
-		return $this->obj2obj( $trz );
-/*
-		$cnt = 0;
-		foreach( get_object_vars($this) as $key )
-		{
-			if( isset( $trz->$key ) )
-			{
-				$this-set( "$key", $trz->$key );	
-				$cnt++;
-			}
-		}
-		return $cnt;
-*/
-	}
+	       // trz2obj now inherited from GenericObjectMappingTrait
 	/**//************************************************************
 	* Hand build the INSERT statement
 	*
