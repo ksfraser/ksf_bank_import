@@ -24,7 +24,7 @@ class OurBankAccount extends LabelRowBase
 		$this->label = "Our Bank Account - (Account Name)(Number):";
 		$this->data = ($bi_lineitem->our_account ?? '') . ' - ' . (is_array($bi_lineitem->ourBankDetails ?? null) ? ($bi_lineitem->ourBankDetails['bank_name'] ?? ($bi_lineitem->ourBankDetails['bankAccountName'] ?? '')) : '') . " (" . ($bi_lineitem->ourBankAccountName ?? '') . ")(" . ($bi_lineitem->ourBankAccountCode ?? '') . ")";
 		
-		// parent::__construct( "" ); // Removed: no parent class after trait refactor
+		parent::__construct( "" );
 	}
 }
 

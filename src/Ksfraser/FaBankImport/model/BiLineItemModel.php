@@ -128,7 +128,7 @@ class BiLineItemModel extends GenericFaInterface
      */
     public function __construct(array $trz, array $vendor_list = [], array $optypes = [])
     {
-        // parent::__construct(null, null, null, null, null); // Removed: no parent class after trait refactor
+        parent::__construct(null, null, null, null, null);
         $this->initialize($trz, $vendor_list, $optypes);
     }
 

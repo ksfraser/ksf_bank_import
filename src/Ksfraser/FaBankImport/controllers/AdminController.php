@@ -24,7 +24,7 @@ class AdminController extends AbstractController
 
     public function __construct()
     {
-        // parent::__construct(); // Removed: no parent class after trait refactor
+        parent::__construct();
         $this->monitor = PerformanceMonitor::getInstance();
         $config = Config::getInstance();
         $this->aggregator = new MetricsAggregator($config->get('logging.path'));

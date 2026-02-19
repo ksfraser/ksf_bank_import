@@ -628,7 +628,7 @@ class HTML_Bold extends HTML_atomic
 	function __construct( $data )
 	{
 		$this->set( "tag", "b" );
-		// parent::__construct( $data ); // Removed: no parent class after trait refactor
+		parent::__construct( $data );
 	}
 }
 
@@ -637,6 +637,6 @@ class HTML_Italic extends HTML_atomic
 	function __construct( $data )
 	{
 		$this->set( "tag", "i" );
-		// parent::__construct( $data ); // Removed: no parent class after trait refactor
+		parent::__construct( $data );
 	}
 }

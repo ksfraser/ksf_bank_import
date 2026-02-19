@@ -24,6 +24,6 @@ class OtherBankAccount extends LabelRowBase
 	{
 		$this->label = "Other Bank Account:";
 		$this->data = $bi_lineitem->otherBankAccount . ' / '. $bi_lineitem->otherBankAccountName;
-		// parent::__construct( "" ); // Removed: no parent class after trait refactor
+		parent::__construct( "" );
 	}
 }
