@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2338b8c8cc4b1596f7d279c9bf17adcf",
+    "content-hash": "a63feac8f7d56b94996213ced5d6ccb6",
     "packages": [
         {
             "name": "asgrim/ofxparser",
@@ -135,6 +135,46 @@
                 }
             ],
             "time": "2023-10-01T12:35:29+00:00"
+        },
+        {
+            "name": "ksfraser/genericinterface",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/GenericInterface.git",
+                "reference": "59017e546c72e5b746be9059ec2917ccb5886ec9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/GenericInterface/zipball/59017e546c72e5b746be9059ec2917ccb5886ec9",
+                "reference": "59017e546c72e5b746be9059ec2917ccb5886ec9",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ksfraser\\GenericInterface\\": "src/Ksfraser/GenericInterface/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Your Name",
+                    "email": "your@email.com"
+                }
+            ],
+            "description": "Generic interface trait for database models, with validation hooks.",
+            "support": {
+                "issues": "https://github.com/ksfraser/GenericInterface/issues",
+                "source": "https://github.com/ksfraser/GenericInterface/tree/0.1.0"
+            },
+            "time": "2026-02-19T19:11:16+00:00"
         },
         {
             "name": "mimographix/qif-library",
