@@ -72,8 +72,8 @@
 *	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
 *
 ******************************************************************************************************************/
-use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 class bi_counterparty_model {
+	use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 	var $id_bi_counterparty_model;	//!< Index of table
 
 	protected $card_type;			//Dream Payments

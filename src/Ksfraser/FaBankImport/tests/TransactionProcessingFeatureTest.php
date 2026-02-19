@@ -17,7 +17,7 @@ namespace Tests\Feature;
 use Tests\Integration\DatabaseTestCase;
 use Ksfraser\FaBankImport\Application;
 
-class TransactionProcessingFeatureTest extends DatabaseTestCase
+class TransactionProcessingFeatureTest2 extends DatabaseTestCase
 {
     private $app;
 

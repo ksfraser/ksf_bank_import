@@ -45,3 +45,6 @@ phpunit_*_latest.txt
 
 # Local test shim for external dependency (do not commit)
 /ksf_modules_common/
+
+# Ignore local GenericInterface library (has its own repo)
+GenericInterface/

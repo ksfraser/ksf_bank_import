@@ -131,9 +131,9 @@ require_once( $viewsDir . '/LineitemDisplayLeft.php' );
 *
 *
 ******************************************************************************************************************/
-use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 class bi_lineitem 
 {
+	use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 	// TODO(SRP-HTML): Continue module-wide migration target
 	// Replace remaining display*/toHtml()/echo/string-return rendering paths with
 	// HtmlElement/HtmlFragment-returning builders and remove residual side effects.

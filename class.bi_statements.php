@@ -79,10 +79,11 @@ if (!defined('TB_PREF')) {
 *
 ******************************************************************************************************************/
 
-use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+
 class bi_statements_model 
 {
 	use DatabaseSchemaToolsTrait;
+	use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 
 
 	/**

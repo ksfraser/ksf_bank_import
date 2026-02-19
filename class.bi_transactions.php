@@ -142,9 +142,8 @@ require_once(__DIR__ . '/class.bi_transfer_matches.php');
 	*
 *
 ******************************************************************************************************************/
-use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
-
 class bi_transactions_model {
+	use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 	/**
 	 * Ensure the staging table schema is present (idempotent, non-destructive).
 	 *
@@ -163,8 +162,7 @@ class bi_transactions_model {
 		self::ensure_column($table, 'created', 'INTEGER DEFAULT 0');
 		self::ensure_column($table, 'g_partner', 'VARCHAR(32) NULL');
 		self::ensure_column($table, 'g_option', 'VARCHAR(32) NULL');
-				use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
-			class bi_transactions_model
+// Removed duplicate/stray use and class statements from previous merge/refactor
 		self::ensure_column($table, 'bankid', 'VARCHAR(64) NULL');
 		self::ensure_column($table, 'intu_bid', 'VARCHAR(64) NULL');
 	}
@@ -227,7 +225,7 @@ class bi_transactions_model {
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
 		//display_notification( __FILE__ . "::" . __LINE__ );
-		parent::__construct( null, null, null, null, null);
+		// No parent::__construct() call needed after trait refactor
 		//display_notification( __FILE__ . "::" . __LINE__ );
 		$this->iam = "bi_transactions";
 		$this->define_table();
@@ -290,18 +288,12 @@ class bi_transactions_model {
 		//$this->fieldsarray2tableinterface( $this->fields_array );
 	}
         /*****************************************************************//**
-        * Set the field if possible
-        *
-        *       Tries to set the field in this class as well as in table_interface
-        *       assumption being we are going to do something with the field in
-        *       the database (else why set the model...)
-        *
+        * Validate the field to be set
         * @param string field to set
         * @param mixed value to set
-        * @param bool should we allow the class to only set __construct time fields
-        * @return nothing. (parent) throws exceptions
+        * @return bool. (parent) throws exceptions
         **********************************************************************/
-	function set( $field, $value = null, $enforce = true )
+	function validate_field( $field, $value = null )
 	{
 
 		switch( $field )
@@ -313,11 +305,7 @@ class bi_transactions_model {
 				}
 				break;
 		}
-		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
-		//display_notification( __FILE__ . "::" . __LINE__ . ":" . "Setting $field to $value" );
-		$ret = parent::set( $field, $value, $enforce );
-		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
-		return $ret;
+		return true;
 	}
 	function insert_transaction()
 	{

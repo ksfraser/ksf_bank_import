@@ -1,7 +1,7 @@
 <?php
 
-use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 class bi_partners_data {
+    use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
     /**
      * Ensure the partner keyword table schema is present (idempotent, non-destructive).
      *

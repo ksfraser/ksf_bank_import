@@ -8,9 +8,9 @@
  * Keeps matching state out of bi_transactions so imported rows remain closer
  * to source-bank data.
  */
-use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 class bi_transfer_matches_model
 {
+    use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
     public static function table_name(): string
     {
         return TB_PREF . 'bi_transfer_matches';
