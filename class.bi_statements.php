@@ -79,7 +79,8 @@ if (!defined('TB_PREF')) {
 *
 ******************************************************************************************************************/
 
-class bi_statements_model extends generic_fa_interface_model 
+use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+class bi_statements_model 
 {
 	use DatabaseSchemaToolsTrait;
 

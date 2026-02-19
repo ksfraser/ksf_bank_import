@@ -1,6 +1,7 @@
 <?php
 
-class bi_partners_data  extends generic_fa_interface_model {
+use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+class bi_partners_data {
     /**
      * Ensure the partner keyword table schema is present (idempotent, non-destructive).
      *

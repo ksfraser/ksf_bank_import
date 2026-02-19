@@ -8,7 +8,8 @@ require_once(  '../ksf_modules_common/class.generic_fa_interface.php' );
  * Keeps matching state out of bi_transactions so imported rows remain closer
  * to source-bank data.
  */
-class bi_transfer_matches_model extends generic_fa_interface_model
+use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+class bi_transfer_matches_model
 {
     public static function table_name(): string
     {

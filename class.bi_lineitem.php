@@ -133,7 +133,8 @@ require_once( $viewsDir . '/LineitemDisplayLeft.php' );
 *
 *
 ******************************************************************************************************************/
-class bi_lineitem extends generic_fa_interface_model 
+use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+class bi_lineitem 
 {
 	// TODO(SRP-HTML): Continue module-wide migration target
 	// Replace remaining display*/toHtml()/echo/string-return rendering paths with

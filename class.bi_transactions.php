@@ -142,7 +142,8 @@ require_once(__DIR__ . '/class.bi_transfer_matches.php');
 	*
 *
 ******************************************************************************************************************/
-class bi_transactions_model extends generic_fa_interface_model {
+use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+class bi_transactions_model {
 	/**
 	 * Ensure the staging table schema is present (idempotent, non-destructive).
 	 *
@@ -161,7 +162,8 @@ class bi_transactions_model extends generic_fa_interface_model {
 		self::ensure_column($table, 'created', 'INTEGER DEFAULT 0');
 		self::ensure_column($table, 'g_partner', 'VARCHAR(32) NULL');
 		self::ensure_column($table, 'g_option', 'VARCHAR(32) NULL');
-		// Bank identity metadata for posting-time account association
+				use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+			class bi_transactions_model
 		self::ensure_column($table, 'bankid', 'VARCHAR(64) NULL');
 		self::ensure_column($table, 'intu_bid', 'VARCHAR(64) NULL');
 	}

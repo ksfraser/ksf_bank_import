@@ -30,7 +30,8 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-class bi_transactionTitle_model extends generic_fa_interface_model {
+use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+class bi_transactionTitle_model {
 	var $id_bi_transactionTitle_model;	//!< Index of table
 
 	protected $transaction_id;		//Dream Payments order_num //WooCommerce	//OFX TRNUID		//MT940		//Paypal
