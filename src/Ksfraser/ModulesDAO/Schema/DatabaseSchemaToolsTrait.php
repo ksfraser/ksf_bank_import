@@ -32,6 +32,14 @@ trait DatabaseSchemaToolsTrait
 
     protected function runQuery($sql, $errorMsg = '')
     {
+        // Log all schema-related SQL for debugging
+        if (function_exists('error_log')) {
+            error_log('[SCHEMA] SQL: ' . $sql . ' | ErrorMsg: ' . $errorMsg);
+        }
+        // Optionally, print to stdout for CLI debugging
+        if (php_sapi_name() === 'cli') {
+            echo "[SCHEMA] SQL: $sql | ErrorMsg: $errorMsg\n";
+        }
         return call_user_func($this->query, $sql, $errorMsg);
     }
 
