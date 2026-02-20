@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../ksf_modules_common/defines.inc.php');
 
 /**
  * bi_bank_accounts_model
