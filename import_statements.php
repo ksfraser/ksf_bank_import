@@ -18,7 +18,7 @@ chdir(__DIR__);
 $page_security = 'SA_BANKACCOUNT';
 
 // === FA includes: stubbed for dev/testing if missing ===
-if (!@include(__DIR__ . '/includes/session.inc')) {
+if (!@include(__DIR__ . '/../../includes/session.inc')) {
 	include_once(__DIR__ . '/includes/fa_stubs.php');
 }
 @include_once( __DIR__ . '/../../includes/date_functions.inc');
