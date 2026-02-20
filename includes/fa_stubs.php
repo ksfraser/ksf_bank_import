@@ -604,8 +604,9 @@ if (!function_exists('commit_transaction')) {
 if (!function_exists('write_bank_transaction')) {
     function write_bank_transaction(...$args): array {
         return [0, 0];
-    }
-}
+    }  
+} 
+
 
 if (!function_exists('hook_db_prewrite')) {
     function hook_db_prewrite(...$args): bool {
