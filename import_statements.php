@@ -16,6 +16,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 chdir(__DIR__);
 
 $page_security = 'SA_BANKACCOUNT';
+//IMPORTANT WARNING
+//Path to root NEEDS to be defined or all hell breaks loose!
 $path_to_root = "../..";
 
 // === FA includes: stubbed for dev/testing if missing ===
@@ -40,6 +42,7 @@ use Ksfraser\FaBankImport\Service\StatementAccountMappingService;
 use Ksfraser\FaBankImport\Service\DetectedAccountAssociationKey;
 use Ksfraser\FaBankImport\Service\ImportRunLogger;
 use Ksfraser\FaBankImport\Service\BankImportPathResolver;
+use Ksfraser\FA\Auth\UserSession;
 
 //TODO Migrate to use HTML classes
 
