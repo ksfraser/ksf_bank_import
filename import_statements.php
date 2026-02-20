@@ -57,11 +57,11 @@ use Ksfraser\FaBankImport\Service\BankImportPathResolver;
 
 //TODO Migrate to use HTML classes
 
-page(_($help_context = "Import Bank Statement"));
 
-		include_once __DIR__ . "/views/module_menu_view.php"; // Include the ModuleMenuView class
-        $menu = new \Views\ModuleMenuView();
-        $menu->renderMenu(); // Render the module menu
+page(_($help_context = "Import Bank Statement"));
+include_once __DIR__ . "/views/module_menu_view.php"; // Include the ModuleMenuView class
+$menu = new \Views\ModuleMenuView();
+$menu->renderMenu(); // Render the module menu
 
 function import_statements() {
     start_table(TABLESTYLE);
@@ -342,8 +342,11 @@ function do_upload_form() {
     $th = array(_("Select File(s) and type"), '');
     table_header($th);
 
-    label_row(_("Format:"), array_selector('parser', null, $parsers, array('select_submit' => true)));
-    foreach($_parsers[$_POST['parser']]['select'] as $param => $label) {
+
+	$selected_parser = isset($_POST['parser']) && isset($_parsers[$_POST['parser']]) ? $_POST['parser'] : (array_key_exists('QFX', $parsers) ? 'QFX' : array_key_first($parsers));
+	label_row(_("Format:"), array_selector('parser', $selected_parser, $parsers, array('select_submit' => true)));
+	if (isset($_parsers[$selected_parser]['select']) && is_array($_parsers[$selected_parser]['select'])) {
+		foreach($_parsers[$selected_parser]['select'] as $param => $label) {
 
 	switch($param) {
 	    case 'bank_account':
@@ -354,14 +357,15 @@ function do_upload_form() {
 
 	}
     }
-	label_row(_("Bank Account"), "<span class='smalltext'>" . _("Determined from file (per statement) using saved account mappings.") . "</span>");
-    label_row(_("Files"), "<input type='file' name='files[]' multiple />");
 
+	}
+	label_row(_("Bank Account"), "<span class='smalltext'>" . _( "Determined from file (per statement) using saved account mappings.") . "</span>");
+	label_row(_("Files"), "<input type='file' name='files[]' multiple />");
 	label_row(
-		_("If duplicates are detected"),
+		_( "If duplicates are detected"),
 		"<label><input type='checkbox' name='force_upload_all' value='1'> "
-			. _("Upload anyway (force re-upload)")
-			. "</label><br><span class='smalltext'>" . _("When checked, duplicate warnings will be bypassed for all selected files.") . "</span>"
+			. _( "Upload anyway (force re-upload)")
+			. "</label><br><span class='smalltext'>" . _( "When checked, duplicate warnings will be bypassed for all selected files.") . "</span>"
 	);
 
 
