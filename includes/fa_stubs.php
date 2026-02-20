@@ -98,7 +98,7 @@ if (!function_exists('textarea_row')) {
         // No-op in stub
     }
 }
-<?php
+
 /**
  * FrontAccounting Function Stubs for IDE Support
  * 
@@ -114,65 +114,6 @@ if (!function_exists('textarea_row')) {
  * @since 20250119
  */
 
-// =============================================================================
-// Generic FA model fallback (for standalone tests)
-// =============================================================================
-
-if (!class_exists('generic_fa_interface_model')) {
-    // generic_fa_interface_model removed: now replaced by GenericFaInterfaceTrait in all relevant classes
-}
-
-if (!class_exists('hooks')) {
-    class hooks
-    {
-        public function update_databases($company, $updates, $check_only = false): bool
-        {
-            return true;
-        }
-    }
-}
-
-if (!class_exists('origin')) {
-    class origin
-    {
-        public function __construct(...$args) {}
-
-        public function set($field, $value = null, ...$args)
-        {
-            $this->$field = $value;
-            return true;
-        }
-
-        public function get($field)
-        {
-            return $this->$field ?? null;
-        }
-    }
-}
-
-if (!class_exists('fa_bank_accounts')) {
-    class fa_bank_accounts
-    {
-        public function __construct($context = null)
-        {
-        }
-
-        public function getByBankAccountNumber($accountNumber): array
-        {
-            return [
-                'bank_account_name' => (string)$accountNumber,
-                'account_code' => '',
-            ];
-        }
-    }
-}
-
-if (!function_exists('shorten_bankAccount_Names')) {
-    function shorten_bankAccount_Names($name)
-    {
-        return (string)$name;
-    }
-}
 
 // =============================================================================
 // Display Functions
@@ -593,40 +534,6 @@ if (!defined('ANY_NUMERIC')) {
     define('ANY_NUMERIC', -1);
 }
 
-// =============================================================================
-// Custom Module Functions
-// =============================================================================
-
-if (!function_exists('getParsers')) {
-    /**
-     * Get available file format parsers
-     * @return array Array of parser configurations
-     */
-    function getParsers(): array {
-        // Stub - returns empty array for development
-        // Real implementation in parsers.inc
-        return [];
-    }
-}
-
-if (!function_exists('search_partner_by_bank_account')) {
-    /**
-     * Search for a partner (customer/supplier) by bank account number
-     * @param string $partner_type Partner type (PT_SUPPLIER or PT_CUSTOMER)
-     * @param string $bank_account Bank account number to search
-     * @return array|null Partner data or null if not found
-     */
-    function search_partner_by_bank_account(string $partner_type, string $bank_account): ?array {
-        // Stub - returns null for development
-        return null;
-    }
-}
-
-if (!function_exists('get_vendor_list')) {
-    function get_vendor_list(): array {
-        return [];
-    }
-}
 
 if (!function_exists('get_js_open_window')) {
     function get_js_open_window(int $width = 900, int $height = 500): string {
@@ -640,35 +547,6 @@ if (!function_exists('get_js_date_picker')) {
     }
 }
 
-if (!function_exists('reset_transactions')) {
-    function reset_transactions(...$args): bool {
-        return true;
-    }
-}
-
-if (!function_exists('my_add_customer')) {
-    function my_add_customer(...$args): int {
-        return 0;
-    }
-}
-
-if (!function_exists('add_vendor')) {
-    function add_vendor(...$args): int {
-        return 0;
-    }
-}
-
-if (!function_exists('get_trans_counterparty')) {
-    function get_trans_counterparty(...$args): array {
-        return [];
-    }
-}
-
-if (!function_exists('update_transactions')) {
-    function update_transactions(...$args): bool {
-        return true;
-    }
-}
 
 if (!function_exists('new_doc_date')) {
     function new_doc_date(): string {
@@ -706,11 +584,6 @@ if (!function_exists('user_numeric')) {
     }
 }
 
-if (!function_exists('my_write_customer_payment')) {
-    function my_write_customer_payment(...$args): int {
-        return 0;
-    }
-}
 
 if (!function_exists('qe_to_cart')) {
     function qe_to_cart(...$args): bool {
@@ -797,79 +670,6 @@ if (!class_exists('items_cart')) {
     }
 }
 
-if (!class_exists('fa_bank_transfer')) {
-    class fa_bank_transfer
-    {
-        /** @var array<string,mixed> */
-        private $data = [];
-
-        public function __construct($from = null, $to = null, $amount = 0)
-        {
-            $this->data['trans_no'] = 0;
-            $this->data['trans_type'] = ST_BANKTRANSFER;
-        }
-
-        public function get(string $field)
-        {
-            return $this->data[$field] ?? null;
-        }
-
-        public function set(string $field, $value): void
-        {
-            $this->data[$field] = $value;
-        }
-
-        public function getNextRef(): string
-        {
-            return '';
-        }
-
-        public function add_bank_transfer(): bool
-        {
-            return true;
-        }
-    }
-}
-
-if (!class_exists('fa_customer_payment')) {
-    class fa_customer_payment
-    {
-        /** @var array<string,mixed> */
-        private $data = [];
-
-        public function __construct($debtorNo = null)
-        {
-        }
-
-        public function set(string $field, $value): void
-        {
-            $this->data[$field] = $value;
-        }
-
-        public function write_allocation(): bool
-        {
-            return true;
-        }
-
-        /**
-         * Return allocatable invoice HTML (stubbed for tests/dev)
-         */
-        public function show_allocatable(): string
-        {
-            return '';
-        }
-
-        /**
-         * Return allocation details (stubbed for tests/dev)
-         *
-         * @return array<int,array<string,mixed>>
-         */
-        public function get_alloc_details(): array
-        {
-            return [];
-        }
-    }
-}
 
 // =============================================================================
 // Customer/Supplier Functions
