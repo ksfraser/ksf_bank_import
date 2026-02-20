@@ -21,8 +21,8 @@ $page_security = 'SA_BANKACCOUNT';
 if (!@include(__DIR__ . '/includes/session.inc')) {
 	include_once(__DIR__ . '/includes/fa_stubs.php');
 }
-@include_once(__DIR__ . '/includes/date_functions.inc');
-@include_once(__DIR__ . '/includes/ui.inc');
+@include_once( __DIR__ . '/../../includes/date_functions.inc');
+@include_once(__DIR__ . '/../../includes/ui.inc');
 
 
 // Use local includes for banking and parsers
