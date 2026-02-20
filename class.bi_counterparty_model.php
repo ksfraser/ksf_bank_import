@@ -79,37 +79,34 @@ class bi_counterparty_model {
 	protected $card_type;			//Dream Payments
 	protected $card_number;			//Dream Payments
 	protected $receipt_sent;		//Dream Payments
-	protected $receipt_email;		//Dream Payments
-	protected $receipt_mobile_number;	//Dream Payments
-	protected $bank_id;									//OFX BANKID		//MT940 BI
-	protected $bank_name;
-	protected $account_id;									//OFX ACCTID		//MT940
-	protected $FID;										//OFX FITID or FID
-	protected $org;										//OFX ORG
-	protected $memo;									//OFX MEMO				//PAYPAL NOTE
-	protected $name;									//OFX NAME - TRANSFER, CHEQUE, DEPOSIT	//Paypal
-	protected $currency;									//OFX CURRDEF		//MT940 	//Paypal
-	protected $inserted_fa;	//!<bool has this record been added to customers/suppliers?
-	protected $vendor_SIC;									//OFX SIC
-	//protected $account;	//!<char(24)	**account_id								//MT940
-	protected $accountName;	//!<char(60)										//MT940
-	// ** These next 2 are overridden by paypal.  Can be an email address, a CC card number (or maybe tx num).
-	protected $from_email;														//Paypal
-	protected $to_email;														//Paypal
-	protected $shipping_address;													//Paypal
-	protected $ship_addr_status;													//Paypal CONFIRMED
-	protected $address1;														//Paypal
-	protected $address2;														//Paypal
-	protected $city;														//Paypal
-	protected $state;														//Paypal
-	protected $zip;															//Paypal
-	protected $country;														//Paypal
-	protected $phone;														//Paypal
-	protected $subject;														//Paypal
-	protected $country_code;													//Paypal
-	protected $counterpartyType;	//Supplier, Customer.  Eventually Employee?
-	protected $counterpartyId;	//The ID of the customer/supplier.
-
+	public $receipt_email;		//Dream Payments
+	public $receipt_mobile_number;	//Dream Payments
+	public $bank_id;									//OFX BANKID		//MT940 BI
+	public $bank_name;
+	public $account_id;									//OFX ACCTID		//MT940
+	public $FID;										//OFX FITID or FID
+	public $org;										//OFX ORG
+	public $memo;									//OFX MEMO				//PAYPAL NOTE
+	public $name;									//OFX NAME - TRANSFER, CHEQUE, DEPOSIT	//Paypal
+	public $currency;									//OFX CURRDEF		//MT940 	//Paypal
+	public $inserted_fa;	//!<bool has this record been added to customers/suppliers?
+	public $vendor_SIC;									//OFX SIC
+	public $accountName;	//!<char(60)										//MT940
+	public $from_email;														//Paypal
+	public $to_email;														//Paypal
+	public $shipping_address;													//Paypal
+	public $ship_addr_status;													//Paypal CONFIRMED
+	public $address1;														//Paypal
+	public $address2;														//Paypal
+	public $city;														//Paypal
+	public $state;														//Paypal
+	public $zip;															//Paypal
+	public $country;														//Paypal
+	public $phone;														//Paypal
+	public $subject;														//Paypal
+	public $country_code;													//Paypal
+	public $counterpartyType;	//Supplier, Customer.  Eventually Employee?
+	public $counterpartyId;	//The ID of the customer/supplier.
 
 	function __construct()
 	{

@@ -188,36 +188,36 @@ class bi_transactions_model {
 	}
 
 	var $id_bi_transactions_model;	//!< Index of table
-	protected $id;                  //| int(11)      | NO   | PRI | NULL    | auto_increment |
-	protected $smt_id;              //| int(11)      | NO   |     | NULL    |                |
-	protected $valueTimestamp;      //| date         | YES  |     | NULL    |                |
-	protected $entryTimestamp;      //| date         | YES  |     | NULL    |                |
-	protected $account;             //| varchar(24)  | YES  |     | NULL    |                |
-	protected $accountName;         //| varchar(60)  | YES  |     | NULL    |                |
-	protected $transactionType;     //| varchar(3)   | YES  |     | NULL    |                |
-	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |                |
-	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |                |
-	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |                |
-	protected $transactionAmount;   //| double       | YES  |     | NULL    |                |
-	protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |                |
-	protected $status;              //| int(11)      | YES  |     | 0       |                |
-	protected $matchinfo;           //| varchar(256) | YES  |     | NULL    |                |
-	protected $fa_trans_type;       //| int(11)      | YES  |     | 0       |                |
-	protected $fa_trans_no;         //| int(11)      | YES  |     | 0       |                |
-	protected $fitid;
-	protected $acctid;
-	protected $bankid;
-	protected $intu_bid;
-	protected $merchant;            //| varchar(64)  | NO   |     | NULL    |                |
-	protected $category;            //| varchar(64)  | NO   |     | NULL    |                |
-	protected $sic;                 //| varchar(64)  | NO   |     | NULL    |                |
-	protected $memo;                //| varchar(64)  | NO   |     | NULL    |                |
-	protected $checknumber;	//!<int
-	protected $matched;	//!<bool
-	protected $created;	//!<bool
-	protected $g_partner;	//!<varchar	Which action (bank/Quick Entry/...
-	protected $g_option;	//!<varchar	Which choice - ATB/Groceries/...
-	protected $limit;	//!<int 	SQL Limit
+	public $id;                  //| int(11)      | NO   | PRI | NULL    | auto_increment |
+	public $smt_id;              //| int(11)      | NO   |     | NULL    |                |
+	public $valueTimestamp;      //| date         | YES  |     | NULL    |                |
+	public $entryTimestamp;      //| date         | YES  |     | NULL    |                |
+	public $account;             //| varchar(24)  | YES  |     | NULL    |                |
+	public $accountName;         //| varchar(60)  | YES  |     | NULL    |                |
+	public $transactionType;     //| varchar(3)   | YES  |     | NULL    |                |
+	public $transactionCode;     //| varchar(32)  | YES  |     | NULL    |                |
+	public $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |                |
+	public $transactionDC;       //| varchar(2)   | YES  |     | NULL    |                |
+	public $transactionAmount;   //| double       | YES  |     | NULL    |                |
+	public $transactionTitle;    //| varchar(256) | YES  |     | NULL    |                |
+	public $status;              //| int(11)      | YES  |     | 0       |                |
+	public $matchinfo;           //| varchar(256) | YES  |     | NULL    |                |
+	public $fa_trans_type;       //| int(11)      | YES  |     | 0       |                |
+	public $fa_trans_no;         //| int(11)      | YES  |     | 0       |                |
+	public $fitid;
+	public $acctid;
+	public $bankid;
+	public $intu_bid;
+	public $merchant;            //| varchar(64)  | NO   |     | NULL    |                |
+	public $category;            //| varchar(64)  | NO   |     | NULL    |                |
+	public $sic;                 //| varchar(64)  | NO   |     | NULL    |                |
+	public $memo;                //| varchar(64)  | NO   |     | NULL    |                |
+	public $checknumber; //!<int
+	public $matched; //!<bool
+	public $created; //!<bool
+	public $g_partner; //!<varchar Which action (bank/Quick Entry/... 
+	public $g_option; //!<varchar Which choice - ATB/Groceries/... 
+	public $limit; //!<int  SQL Limit
 
 
 

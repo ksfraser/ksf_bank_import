@@ -89,11 +89,11 @@ class bi_partners_data {
         db_query('UPDATE `' . $table . '` SET `occurrence_count`=1 WHERE `occurrence_count` IS NULL', 'Failed initializing occurrence_count');
     }
 
-	protected $partner_id;		//!<int
-	protected $partner_detail_id;	//!<int
-	protected $partner_type;	//!<int
-	protected $data;		//!<string
-	protected $updated_ts;		//!<date
+    public $partner_id;		//!<int
+    public $partner_detail_id;	//!<int
+    public $partner_type;	//!<int
+    public $data;		//!<string
+    public $updated_ts;		//!<date
 
           function __construct()
         {

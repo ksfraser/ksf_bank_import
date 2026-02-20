@@ -112,20 +112,20 @@ class bi_statements_model
 	 */
 	private static $tableColumnsCache = [];
 
-	protected $id;                  	//| int(11)      | NO   | PRI | NULL    | auto_increment |
-	protected $bank;		// varchar(22) | YES  | MUL | NULL    |                |
-	protected $account;		// varchar(24) | YES  |     | NULL    |                |
-	protected $currency;		// varchar(3)  | YES  |     | NULL    |                |
-	protected $startBalance;	// double      | YES  |     | NULL    |                |
-	protected $endBalance;		// double      | YES  |     | NULL    |                |
-	protected $smtDate;		// date        | YES  |     | NULL    |                |
-	protected $number;		// int(11)     | YES  |     | NULL    |                |
-	protected $seq;			// int(11)     | YES  |     | NULL    |                |
-	protected $statementId;		// varchar(64) | YES  |     | NULL    |                |
-	protected $acctid;		// varchar(64) | YES  |     | NULL    |                |
-	protected $fitid;		// varchar(64) | YES  |     | NULL    |                |
-	protected $bankid;		// varchar(64) | YES  |     | NULL    |                |
-	protected $intu_bid;		// varchar(64) | YES  |     | NULL    |                |
+	public $id;
+	public $bank;        // varchar(22) | YES  | MUL | NULL    |                |
+	public $account;		// varchar(24) | YES  |     | NULL    |                |
+	public $currency;		// varchar(3)  | YES  |     | NULL    |                |
+	public $startBalance;	// double      | YES  |     | NULL    |                |
+	public $endBalance;		// double      | YES  |     | NULL    |                |
+	public $smtDate;		// date        | YES  |     | NULL    |                |
+	public $number;		// int(11)     | YES  |     | NULL    |                |
+	public $seq;			// int(11)     | YES  |     | NULL    |                |
+	public $statementId;		// varchar(64) | YES  |     | NULL    |                |
+	public $acctid;		// varchar(64) | YES  |     | NULL    |                |
+	public $fitid;		// varchar(64) | YES  |     | NULL    |                |
+	public $bankid;		// varchar(64) | YES  |     | NULL    |                |
+	public $intu_bid;		// varchar(64) | YES  |     | NULL    |                |
 
 
 
