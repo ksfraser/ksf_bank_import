@@ -1,3 +1,102 @@
+// =============================================================================
+// Additional Stubs for UI/FA Functions (for dev/testing)
+// =============================================================================
+
+if (!function_exists('list_updated')) {
+    /**
+     * Stub for list_updated (FA event handler)
+     * @param string $name Field name
+     * @return bool Always returns false in stub
+     */
+    function list_updated(string $name): bool {
+        return false;
+    }
+}
+
+if (!function_exists('get_branch')) {
+    /**
+     * Stub for get_branch (fetch branch info)
+     * @param int|string $branch_code Branch code
+     * @return array Empty array in stub
+     */
+    function get_branch($branch_code): array {
+        return [];
+    }
+}
+
+if (!function_exists('set_focus')) {
+    /**
+     * Stub for set_focus (set UI focus)
+     * @param string $name Field name
+     * @return void
+     */
+    function set_focus(string $name): void {
+        // No-op in stub
+    }
+}
+
+if (!function_exists('supplier_list_row')) {
+    /**
+     * Stub for supplier_list_row (supplier dropdown row)
+     * @param string $label Label
+     * @param string $name Field name
+     * @param mixed $selected_id Selected supplier
+     * @param bool $spec_option Special option
+     * @param bool $submit_on_change Submit on change
+     * @return void
+     */
+    function supplier_list_row(string $label, string $name, $selected_id = null, bool $spec_option = false, bool $submit_on_change = false): void {
+        // No-op in stub
+    }
+}
+
+if (!function_exists('customer_list_row')) {
+    /**
+     * Stub for customer_list_row (customer dropdown row)
+     * @param string $label Label
+     * @param string $name Field name
+     * @param mixed $selected_id Selected customer
+     * @param bool $spec_option Special option
+     * @param bool $submit_on_change Submit on change
+     * @return void
+     */
+    function customer_list_row(string $label, string $name, $selected_id = null, bool $spec_option = false, bool $submit_on_change = false): void {
+        // No-op in stub
+    }
+}
+
+if (!function_exists('customer_branches_list_row')) {
+    /**
+     * Stub for customer_branches_list_row (customer branch dropdown row)
+     * @param string $label Label
+     * @param int|string $customer_id Customer ID
+     * @param string $name Field name
+     * @param mixed $selected_id Selected branch
+     * @param bool $spec_option Special option
+     * @param bool $enabled Enabled
+     * @param bool $submit_on_change Submit on change
+     * @return void
+     */
+    function customer_branches_list_row(string $label, $customer_id, string $name, $selected_id = null, bool $spec_option = false, bool $enabled = true, bool $submit_on_change = false): void {
+        // No-op in stub
+    }
+}
+
+if (!function_exists('textarea_row')) {
+    /**
+     * Stub for textarea_row (textarea input row)
+     * @param string $label Label
+     * @param string $name Field name
+     * @param string $value Value
+     * @param int $rows Number of rows
+     * @param int $cols Number of columns
+     * @param string $title Title/placeholder
+     * @return void
+     */
+    function textarea_row(string $label, string $name, string $value = '', int $rows = 5, int $cols = 40, string $title = ''): void {
+        // No-op in stub
+    }
+}
 <?php
 /**
  * FrontAccounting Function Stubs for IDE Support

@@ -16,7 +16,7 @@ include($path_to_root . "/includes/session.inc");
 include($path_to_root . "/includes/ui.inc");
 
 // Load configuration service
-require_once __DIR__ . '/src/Ksfraser/FaBankImport/Config/ConfigService.php';
+require_once __DIR__ . '/src/Ksfraser/FaBankImport/config/ConfigService.php';
 require_once __DIR__ . '/src/Ksfraser/FaBankImport/Repository/ConfigRepositoryInterface.php';
 require_once __DIR__ . '/src/Ksfraser/FaBankImport/Repository/DatabaseConfigRepository.php';
 

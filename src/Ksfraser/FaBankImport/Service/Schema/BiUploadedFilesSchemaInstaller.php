@@ -23,11 +23,18 @@ class BiUploadedFilesSchemaInstaller
     {
         $this->query = $query;
         $this->tablePrefix = (string)$tablePrefix;
-        $this->initSchemaTools($query, static function ($v) {
-            return db_escape($v);
-        }, static function ($res) {
-            return db_num_rows($res);
-        });
+        $this->initSchemaTools(
+            $query,
+            static function ($v) {
+                return db_escape($v);
+            },
+            static function ($res) {
+                if (!is_object($res)) {
+                    throw new \RuntimeException("db_num_rows() called with invalid result: " . var_export($res, true));
+                }
+                return db_num_rows($res);
+            }
+        );
     }
 
     public function ensureTables(): void

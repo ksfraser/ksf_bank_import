@@ -138,49 +138,46 @@ class bi_lineitem
 	// Replace remaining display*/toHtml()/echo/string-return rendering paths with
 	// HtmlElement/HtmlFragment-returning builders and remove residual side effects.
 
-	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |		|
-	protected $our_account; 	//| varchar()   | YES  |     | NULL    |		|
-	protected $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
-	protected $entryTimestamp;      //| date	 | YES  |     | NULL    |		|
-	protected $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		| (legacy name)
-	protected $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		| (legacy name)
-	protected $otherBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-	protected $otherBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-	protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
-	protected $status;	      //| int(11)      | YES  |     | 0       |		|
-	protected $currency;
-	protected $fa_trans_type;       //| int(11)      | YES  |     | 0       |		|
-	protected $fa_trans_no;	 //| int(11)      | YES  |     | 0       |		|
-	public $id;		  //| int(11)      | NO   | PRI | NULL    | auto_increment |
-	protected $has_trans;	//!< bool
-	protected $amount;	//!<float
-	protected $charge;	//!<float
-	protected $transactionTypeLabel;     //!< string
-	protected $vendor_list;			//!<array
-	protected $partnerType;	//!<string
-	protected $partnerId;	//!<int
-	protected $partnerDetailId;	//!<int		//Used for Customer Branch
+	public $transactionDC;
+	public $our_account;
+	public $valueTimestamp;
+	public $entryTimestamp;
+	public $otherBankaccount;
+	public $otherBankaccountName;
+	public $otherBankAccount;
+	public $otherBankAccountName;
+	public $transactionTitle;
+	public $status;
+	public $currency;
+	public $fa_trans_type;
+	public $fa_trans_no;
+	public $id;
+	public $has_trans;
+	public $amount;
+	public $charge;
+	public $transactionTypeLabel;
+	public $vendor_list;
+	public $partnerType;
+	public $partnerId;
+	public $partnerDetailId;
 	public $oplabel;
-	public $matching_trans;	//!<array was arr_arr
-	protected $days_spread;
-	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |		|
-	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
-	protected $optypes;	//!< array
-	protected $memo;		//| varchar(64)  | NO   |     | NULL    |		|
-//REFACTOR:
-//		refactor to use class.fa_bank_accounts.php instead of an array!
-	protected $ourBankDetails;	//!< array
-	protected $ourBankAccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-	protected $ourBankAccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-	protected $ourBankAccountCode;	 //| varchar(60)  | YES  |     | NULL    |		|
-	protected $fa_bank_accounts;	//!<object 
-//
-	protected $matched;	//!<bool
-	protected $created;	//!<bool
-	protected $formData;	//!< PartnerFormData - Encapsulates $_POST access
-	protected $pairedTransactions;	//!< ?array cached paired transaction candidates
-	protected $requires_review;	//!< int review flag
-	protected $transferMatchModel;	//!< bi_transfer_matches_model
+	public $matching_trans;
+	public $days_spread;
+	public $transactionCode;
+	public $transactionCodeDesc;
+	public $optypes;
+	public $memo;
+	public $ourBankDetails;
+	public $ourBankAccount;
+	public $ourBankAccountName;
+	public $ourBankAccountCode;
+	public $fa_bank_accounts;
+	public $matched;
+	public $created;
+	public $formData;
+	public $pairedTransactions;
+	public $requires_review;
+	public $transferMatchModel;
 
 
 	function __construct( $trz = array(), $vendor_list = array(), $optypes = array() )
