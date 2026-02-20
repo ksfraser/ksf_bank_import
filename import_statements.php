@@ -1223,6 +1223,7 @@ function resolve_account_mappings() {
         \Ksfraser\FaBankImport\Views\AccountResolutionErrorView::render();
         return;
     }
+	$username = UserSession::getCurrentUsername();
 	start_table(TABLESTYLE);
 	start_row();
 	echo "<td width=100%><pre>\n";
