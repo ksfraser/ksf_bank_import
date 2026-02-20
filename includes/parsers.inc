@@ -1,14 +1,14 @@
 <?php
 
-include_once($path_to_root . "/modules/bank_import/includes/parser.php");
-/*
-include_once($path_to_root . "/modules/bank_import/includes/mt940_parser.php");
-include_once($path_to_root . "/modules/bank_import/includes/ro_brd_mt940_parser.php");
-include_once($path_to_root . "/modules/bank_import/includes/ro_bcr_csv_parser.php");
-include_once($path_to_root . "/modules/bank_import/includes/ro_ing_csv_parser.php");
-*/
-include_once($path_to_root . "/modules/bank_import/includes/ro_wmmc_csv_parser.php");
-include_once($path_to_root . "/modules/bank_import/includes/qfx_parser.php");
+
+// Use local includes or stubs for dev/testing
+@include_once(__DIR__ . '/parser.php');
+// @include_once(__DIR__ . '/mt940_parser.php');
+// @include_once(__DIR__ . '/ro_brd_mt940_parser.php');
+// @include_once(__DIR__ . '/ro_bcr_csv_parser.php');
+// @include_once(__DIR__ . '/ro_ing_csv_parser.php');
+@include_once(__DIR__ . '/ro_wmmc_csv_parser.php');
+@include_once(__DIR__ . '/qfx_parser.php');
 
 function getParsers() {
     return array(

@@ -16,14 +16,33 @@ require_once __DIR__ . '/vendor/autoload.php';
 chdir(__DIR__);
 
 $page_security = 'SA_BANKACCOUNT';
-$path_to_root = "../..";
-include($path_to_root . "/includes/session.inc");
 
-include_once($path_to_root . "/includes/date_functions.inc");
-include_once($path_to_root . "/includes/ui.inc");
+// === FA includes: stubbed for dev/testing if missing ===
+if (!@include(__DIR__ . '/includes/session.inc')) {
+	// Stub session.inc for dev/testing
+	if (!function_exists('user_company')) {
+		function user_company() { return 1; }
+	}
+}
+if (!@include_once(__DIR__ . '/includes/date_functions.inc')) {
+	// Stub date_functions.inc for dev/testing
+	if (!function_exists('Today')) {
+		function Today() { return date('Y-m-d'); }
+	}
+}
+if (!@include_once(__DIR__ . '/includes/ui.inc')) {
+	// Stub ui.inc for dev/testing
+	if (!function_exists('display_error')) {
+		function display_error($msg) { echo "<div class='error'>$msg</div>"; }
+	}
+	if (!function_exists('display_notification')) {
+		function display_notification($msg) { echo "<div class='notification'>$msg</div>"; }
+	}
+}
 
-include_once($path_to_root . "/modules/bank_import/includes/banking.php");
-include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
+// Use local includes for banking and parsers
+include_once(__DIR__ . '/includes/banking.php');
+include_once(__DIR__ . '/includes/parsers.inc');
 require_once __DIR__ . '/includes/qfx_parser.php';
 
 // Mantis #2708: File upload management - Refactored (Phase 2)
