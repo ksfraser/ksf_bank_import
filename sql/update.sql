@@ -172,3 +172,5 @@ CREATE TABLE IF NOT EXISTS `0_bi_bank_accounts` (
 
 -- Add bankid column to 0_bi_transactions if not present
 ALTER TABLE `0_bi_transactions` ADD COLUMN IF NOT EXISTS `bankid` VARCHAR(64) NULL;
+-- Add intu_bid column to 0_bi_transactions if not present
+ALTER TABLE `0_bi_transactions` ADD COLUMN IF NOT EXISTS `intu_bid` VARCHAR(64) NULL;

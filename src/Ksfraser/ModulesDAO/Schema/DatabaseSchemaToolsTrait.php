@@ -43,25 +43,43 @@ trait DatabaseSchemaToolsTrait
         return call_user_func($this->query, $sql, $errorMsg);
     }
 
+    /**
+     * Safely get the number of rows from a DB result, or throw if invalid.
+     * @param mixed $result
+     * @param string $context Optional context for error message
+     * @return int
+     * @throws \Exception if result is not a valid DB result
+     */
+    protected function safeNumRows($result, $context = '') {
+        if ($result === null || (is_bool($result) && $result === false)) {
+            $msg = 'db_num_rows() called with invalid result: ' . var_export($result, true);
+            if ($context) {
+                $msg .= ' | Context: ' . $context;
+            }
+            throw new \Exception($msg);
+        }
+        return call_user_func($this->numRows, $result);
+    }
+
     protected function tableExists($table)
     {
         $sql = "SHOW TABLES LIKE " . call_user_func($this->escape, $table);
         $res = $this->runQuery($sql, 'Failed checking table existence');
-        return call_user_func($this->numRows, $res) > 0;
+        return $this->safeNumRows($res, 'tableExists("' . $table . '")') > 0;
     }
 
     protected function columnExists($table, $column)
     {
         $sql = "SHOW COLUMNS FROM `{$table}` LIKE " . call_user_func($this->escape, $column);
         $res = $this->runQuery($sql, 'Failed checking column existence');
-        return call_user_func($this->numRows, $res) > 0;
+        return $this->safeNumRows($res, 'columnExists("' . $table . '", "' . $column . '")') > 0;
     }
 
     protected function indexExists($table, $indexName)
     {
         $sql = "SHOW INDEX FROM `{$table}` WHERE Key_name = " . call_user_func($this->escape, $indexName);
         $res = $this->runQuery($sql, 'Failed checking index existence');
-        return call_user_func($this->numRows, $res) > 0;
+        return $this->safeNumRows($res, 'indexExists("' . $table . '", "' . $indexName . '")') > 0;
     }
 
     protected function ensureColumn($table, $column, $definition)
