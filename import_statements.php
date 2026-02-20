@@ -1219,17 +1219,13 @@ function maybe_render_account_resolution_screen($parserType, $bankAccountId, arr
 }
 
 function resolve_account_mappings() {
+	if (empty($_SESSION['bank_import_account_resolution'])) {
+        \Ksfraser\FaBankImport\Views\AccountResolutionErrorView::render();
+        return;
+    }
 	start_table(TABLESTYLE);
 	start_row();
 	echo "<td width=100%><pre>\n";
-
-	if (empty($_SESSION['bank_import_account_resolution'])) {
-		display_error(_("No pending account resolution session found. Please upload the file(s) again."));
-		echo "</pre></td>";
-		end_row();
-		end_table(1);
-		return;
-	}
 
 	$pending = $_SESSION['bank_import_account_resolution'];
 	if (!empty($pending['log_path']) && empty($_SESSION['bank_import_run_log_path'])) {
