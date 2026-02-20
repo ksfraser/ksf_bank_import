@@ -19,25 +19,7 @@ $page_security = 'SA_BANKACCOUNT';
 
 // === FA includes: stubbed for dev/testing if missing ===
 if (!@include(__DIR__ . '/includes/session.inc')) {
-	// Stub session.inc for dev/testing
-	if (!function_exists('user_company')) {
-		function user_company() { return 1; }
-	}
-}
-if (!@include_once(__DIR__ . '/includes/date_functions.inc')) {
-	// Stub date_functions.inc for dev/testing
-	if (!function_exists('Today')) {
-		function Today() { return date('Y-m-d'); }
-	}
-}
-if (!@include_once(__DIR__ . '/includes/ui.inc')) {
-	// Stub ui.inc for dev/testing
-	if (!function_exists('display_error')) {
-		function display_error($msg) { echo "<div class='error'>$msg</div>"; }
-	}
-	if (!function_exists('display_notification')) {
-		function display_notification($msg) { echo "<div class='notification'>$msg</div>"; }
-	}
+	include_once(__DIR__ . '/includes/fa_stubs.php');
 }
 
 // Use local includes for banking and parsers
