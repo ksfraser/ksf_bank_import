@@ -16,13 +16,14 @@ require_once __DIR__ . '/vendor/autoload.php';
 chdir(__DIR__);
 
 $page_security = 'SA_BANKACCOUNT';
+$path_to_root = "../..";
 
 // === FA includes: stubbed for dev/testing if missing ===
-if (!@include(__DIR__ . '/../../includes/session.inc')) {
+if (!@include($path_to_root . '/includes/session.inc')) {
 	include_once(__DIR__ . '/includes/fa_stubs.php');
 }
-@include_once( __DIR__ . '/../../includes/date_functions.inc');
-@include_once(__DIR__ . '/../../includes/ui.inc');
+@include_once( $path_to_root . '/includes/date_functions.inc');
+@include_once($path_to_root . '/includes/ui.inc');
 
 
 // Use local includes for banking and parsers
