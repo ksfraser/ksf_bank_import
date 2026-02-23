@@ -60,9 +60,9 @@ class hooks_bank_import extends hooks {
 	function install_access()
 	{
 		$security_sections[SS_BANKIMPORT] = _("Bank Files Import");
-		$security_areas['SA_BANKIMPORT'] = array(SS_BANKIMPORT | 1, _("Bank Files Import"));
-		$security_areas['SA_BANKFILEVIEW'] = array(SS_BANKIMPORT | 2, _("Bank Files View"));
-		$security_areas['SA_BANKIMPORTLOGVIEW'] = array(SS_BANKIMPORT | 3, _("Bank Import Logs View"));
+		$security_areas['SA_BANKIMPORT'] = array(SS_BANKIMPORT | 1, _("Import Bank Files"));
+		$security_areas['SA_BANKFILEVIEW'] = array(SS_BANKIMPORT | 2, _("View Bank Files"));
+		$security_areas['SA_BANKIMPORTLOGVIEW'] = array(SS_BANKIMPORT | 3, _("View Bank Import Logs"));
 		return array($security_areas, $security_sections);
 	}
 
