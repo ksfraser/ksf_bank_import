@@ -21,10 +21,14 @@ include_once($path_to_root . "/includes/ui/ui_globals.inc");
 //include_once($path_to_root . "/modules/bank_import/includes/includes.php");
 include_once($path_to_root . "/includes/data_checks.inc");
 
+global $use_popup_windows;
+global $use_date_picker;
+global $js;
+
 
 if (!isset($use_popup_windows)) $use_popup_windows = false;
 if (!isset($use_date_picker)) $use_date_picker = false;
-$js = "";
+//$js = "";
 if ($use_popup_windows)
     $js .= get_js_open_window(900, 500);
 if ($use_date_picker)

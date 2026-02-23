@@ -75,7 +75,8 @@ $table = new HTML_TABLE(2, 90);
 //$table->addRow();
 //$table->addCell("<label>" . _( "Choose: " ) . "</label>", ['class' => 'label']);
 //$table->addCell(array_selector('partner_type', $_POST['partner_type'], $types, ['select_submit' => true]));
-$row1 = new HTML_ROW("<label>" . _( "Choose: " ) . "</label>" . array_selector('partner_type', $_POST['partner_type'], $types, ['select_submit' => true]));
+$row1 = new HTML_ROW("<label>" . _( "Choose: " ) . "</label>" . array_selector('partner_type', 
+                        $_POST['partner_type'], $types, ['select_submit' => true]));
 $table->appendRow($row1);
 
 
