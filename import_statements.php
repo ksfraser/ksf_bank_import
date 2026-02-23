@@ -130,7 +130,10 @@ function importStatement($smt, $file_id = null)
 	$message = '';
 	$logger = func_num_args() >= 3 ? func_get_arg(2) : null;
 
-	// Currency normalization logic (unchanged)
+	// Currency should come from the OFX/QFX statement (bank-provided).
+	// We only use FrontAccounting's bank account currency as a *fallback* when the
+	// statement currency is missing/blank. If there is a mismatch, we log it but do not
+	// override the bank-provided value.
 	try {
 		$faAccountNumber = isset($smt->account) ? trim((string)$smt->account) : '';
 		$faBankAccountId = $faAccountNumber !== '' ? fa_get_bank_account_id_by_number($faAccountNumber) : null;
@@ -201,20 +204,25 @@ function importStatement($smt, $file_id = null)
 
 	if( ! $exists )
 	{
-		//display_notification( __FILE__ . "::" . __LINE__ . ":: Statement Doesn't Exist.  Inserting" );
+		// Insert new statement
 		$sql = $bis->hand_insert_sql();
 		$res = db_query($sql, "could not insert transaction");
-    		$smt_id = db_insert_id();
+		$smt_id = db_insert_id();
 		$bis->set( "id", $smt_id );
-//20250716 Remove logging of insertion
-		//display_notification( __FILE__ . "::" . __LINE__ . "Inserted Statement $smt_id" );
-    		$message .= "new, imported";
-	} else 
-	{
-		//display_notification( __FILE__ . "::" . __LINE__ . "Statement Exists.  Updating" );
+		$message .= "new, imported";
+	} else {
+		// If stored date is 0000-00-00 and we now have a valid date, update it
+		$storedDate = $bis->get('smtDate');
+		$newDate = $smt->smtDate ?? null;
+		if ($storedDate === '0000-00-00' && $newDate && $newDate !== '0000-00-00') {
+			$updateSql = "UPDATE " . $bis->table_details['tablename'] . " SET smtDate=" . db_escape($newDate) . " WHERE id=" . db_escape($bis->get('id'));
+			db_query($updateSql, 'Could not update statement date');
+			display_notification("Statement date updated to valid date for statementId: " . $smt->statementId);
+		}
+		// Standard update
 		$bis->update_statement();
 		display_notification( "Updated Statement $smt->statementId " );
-    		$message .= "existing, updated";
+		$message .= "existing, updated";
 	}
 	$smt_id = $bis->get( "id" );
 	bank_import_log_event($logger, 'statement.upserted', [
