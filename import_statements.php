@@ -130,10 +130,7 @@ function importStatement($smt, $file_id = null)
 	$message = '';
 	$logger = func_num_args() >= 3 ? func_get_arg(2) : null;
 
-	// Currency should come from the OFX/QFX statement (bank-provided).
-	// We only use FrontAccounting's bank account currency as a *fallback* when the
-	// statement currency is missing/blank. If there is a mismatch, we log it but do not
-	// override the bank-provided value.
+	// Currency normalization logic (unchanged)
 	try {
 		$faAccountNumber = isset($smt->account) ? trim((string)$smt->account) : '';
 		$faBankAccountId = $faAccountNumber !== '' ? fa_get_bank_account_id_by_number($faAccountNumber) : null;
@@ -170,6 +167,26 @@ function importStatement($smt, $file_id = null)
 		}
 	} catch (\Throwable $e) {
 		// Never block import flow on currency normalization.
+	}
+
+	// Patch: Set smtDate to last transaction date if not set or invalid
+	if (!isset($smt->smtDate) || $smt->smtDate === '' || $smt->smtDate === '0000-00-00' || $smt->smtDate === null) {
+		$lastDate = null;
+		if (isset($smt->transactions) && is_array($smt->transactions)) {
+			foreach ($smt->transactions as $t) {
+				if (is_object($t) && isset($t->date)) {
+					$date = trim((string)$t->date);
+					if ($date !== '' && $date !== '0000-00-00') {
+						if ($lastDate === null || $date > $lastDate) {
+							$lastDate = $date;
+						}
+					}
+				}
+			}
+		}
+		if ($lastDate !== null) {
+			$smt->smtDate = $lastDate;
+		}
 	}
 /** Moving to namespaces **/
 	require_once(__DIR__ . '/class.bi_statements.php');
