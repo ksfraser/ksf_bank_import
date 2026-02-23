@@ -27,9 +27,15 @@ use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
  */
 class ConfigService
 {
-    private static ?self $instance = null;
-    
-    private ConfigRepositoryInterface $repository;
+    /**
+     * @var self|null
+     */
+    private static $instance = null;
+
+    /**
+     * @var ConfigRepositoryInterface
+     */
+    private $repository;
     
     /**
      * Constructor - Dependency Injection

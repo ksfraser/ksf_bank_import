@@ -14,7 +14,9 @@
 
 $path_to_root = "../..";
 
+
 require_once($path_to_root . "/includes/session.inc");
+if (function_exists('add_access_extensions')) add_access_extensions();
 require_once($path_to_root . "/includes/ui.inc");
 require_once(__DIR__ . "/../../src/Configuration/BankImportConfig.php");
 
