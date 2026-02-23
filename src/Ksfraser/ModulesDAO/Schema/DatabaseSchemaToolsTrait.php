@@ -40,7 +40,17 @@ trait DatabaseSchemaToolsTrait
         if (php_sapi_name() === 'cli') {
             echo "[SCHEMA] SQL: $sql | ErrorMsg: $errorMsg\n";
         }
-        return call_user_func($this->query, $sql, $errorMsg);
+        $result = call_user_func($this->query, $sql, $errorMsg);
+        if (($result === null || $result === false) && function_exists('db_error')) {
+            $dbErr = db_error();
+            if ($dbErr) {
+                error_log('[SCHEMA][DB_ERROR] ' . $dbErr . ' | SQL: ' . $sql);
+                if (php_sapi_name() === 'cli') {
+                    echo "[SCHEMA][DB_ERROR] $dbErr | SQL: $sql\n";
+                }
+            }
+        }
+        return $result;
     }
 
     /**
