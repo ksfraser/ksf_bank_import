@@ -1,4 +1,5 @@
 <?php
+use Ksfraser\FaBankImport\Service\BankImportLogger;
 
 namespace Ksfraser\ModulesDAO\Schema;
 
@@ -32,22 +33,16 @@ trait DatabaseSchemaToolsTrait
 
     protected function runQuery($sql, $errorMsg = '')
     {
-        // Log all schema-related SQL for debugging
-        if (function_exists('error_log')) {
-            error_log('[SCHEMA] SQL: ' . $sql . ' | ErrorMsg: ' . $errorMsg);
-        }
-        // Optionally, print to stdout for CLI debugging
-        if (php_sapi_name() === 'cli') {
-            echo "[SCHEMA] SQL: $sql | ErrorMsg: $errorMsg\n";
-        }
+        // Compose log file path in company/#/bank_imports/logs/error_log_YYMMDD.log
+        $logMsg = '[SCHEMA] SQL: ' . $sql . ' | ErrorMsg: ' . $errorMsg;
+        BankImportLogger::log($logMsg);
+
         $result = call_user_func($this->query, $sql, $errorMsg);
         if (($result === null || $result === false) && function_exists('db_error')) {
             $dbErr = db_error();
             if ($dbErr) {
-                error_log('[SCHEMA][DB_ERROR] ' . $dbErr . ' | SQL: ' . $sql);
-                if (php_sapi_name() === 'cli') {
-                    echo "[SCHEMA][DB_ERROR] $dbErr | SQL: $sql\n";
-                }
+                $dbErrMsg = '[SCHEMA][DB_ERROR] ' . $dbErr . ' | SQL: ' . $sql;
+                BankImportLogger::log($dbErrMsg);
             }
         }
         return $result;

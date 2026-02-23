@@ -11,11 +11,11 @@
  *
  * Responsibility: Core flow and role for PerformanceMonitor.
  */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use Ksfraser\FaBankImport\Service\BaseLogger;
 
 class PerformanceMonitor
 {
@@ -26,13 +26,8 @@ class PerformanceMonitor
     private function __construct()
     {
         $config = Config::getInstance();
-        $this->logger = new Logger('performance');
-        $this->logger->pushHandler(
-            new StreamHandler(
-                $config->get('logging.path') . '/performance.log',
-                Logger::INFO
-            )
-        );
+        $logFile = $config->get('logging.path') . '/performance.log';
+        $this->logger = new BaseLogger('performance', $logFile, \Monolog\Logger::INFO);
     }
 
     public static function getInstance(): self
