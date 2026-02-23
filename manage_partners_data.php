@@ -17,7 +17,11 @@ include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
 use Ksfraser\HTML\Composites\HTML_TABLE;
 use Ksfraser\HTML\Composites\HTML_ROW;
 
-$js = '';
+global $use_popup_windows;
+global $use_date_picker;
+global $js;
+
+//$js = '';
 if ($use_popup_windows)
 	$js .= get_js_open_window(800, 500);
 if ($use_date_picker)
@@ -76,7 +80,7 @@ $table = new HTML_TABLE(2, 90);
 //$table->addCell("<label>" . _( "Choose: " ) . "</label>", ['class' => 'label']);
 //$table->addCell(array_selector('partner_type', $_POST['partner_type'], $types, ['select_submit' => true]));
 $row1 = new HTML_ROW("<label>" . _( "Choose: " ) . "</label>" . array_selector('partner_type', 
-                        $_POST['partner_type'], $types, ['select_submit' => true]));
+                        $_POST['partner_type'] ? $_POST['partner_type'] : 0, $types, ['select_submit' => true]));
 $table->appendRow($row1);
 
 

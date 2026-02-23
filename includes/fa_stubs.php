@@ -99,6 +99,22 @@ if (!function_exists('textarea_row')) {
     }
 }
 
+if (!function_exists('db_num_rows')) {
+    /**
+     * Return the number of rows in a result set
+     * @param mixed $result Query result
+     * @return int Number of rows (0 for stub)
+     */
+    function db_num_rows($result) {
+        // Stub: return 0 for dev/testing, but trigger error if result is null to match FA error handling
+        if ($result === null) {
+            trigger_error('db_num_rows() called with invalid result: NULL', E_USER_WARNING);
+            return 0;
+        }
+        return 0;
+    }
+}
+
 /**
  * FrontAccounting Function Stubs for IDE Support
  * 
@@ -452,6 +468,22 @@ if (!function_exists('db_fetch_assoc')) {
     }
 }
 
+if (!function_exists('db_num_rows')) {
+    /**
+     * Return the number of rows in a result set
+     * @param mixed $result Query result
+     * @return int Number of rows (0 for stub)
+     */
+    function db_num_rows($result) {
+        // Stub: return 0 for dev/testing, but trigger error if result is null to match FA error handling
+        if ($result === null) {
+            trigger_error('db_num_rows() called with invalid result: NULL', E_USER_WARNING);
+            return 0;
+        }
+        return 0;
+    }
+}
+
 // =============================================================================
 // Path Functions
 // =============================================================================
@@ -463,8 +495,9 @@ if (!function_exists('company_path')) {
      * @return string Company path
      */
     function company_path(int $id = 0): string {
-        // Stub - returns a temp directory for development
-        return sys_get_temp_dir() . '/fa_company';
+        // Stub - returns the real company directory for dev/testing
+        // Adjust as needed for your environment
+        return __DIR__ . '/../company/0';
     }
 }
 
