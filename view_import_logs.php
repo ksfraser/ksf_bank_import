@@ -65,7 +65,7 @@ if ($view !== null) {
         echo '<p class="smalltext">' . _("Read-only view. Logs are written by the import process.") . '</p>';
 
         $size = filesize($path);
-        if ($size !== false && $size > 2_000_000) {
+        if ($size !== false && $size > 2000000) {
             display_warning(_("Log is large; displaying first ~2MB."));
         }
 
@@ -73,7 +73,7 @@ if ($view !== null) {
         if ($fh === false) {
             display_error(_("Unable to open log file."));
         } else {
-            $content = @fread($fh, 2_000_000);
+            $content = @fread($fh, 2000000);
             @fclose($fh);
 
             echo '<pre style="white-space:pre-wrap; background:#f8f9fa; padding:12px; border:1px solid #ddd;">';
