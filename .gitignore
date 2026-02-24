@@ -1,6 +1,7 @@
 # Composer Dependencies
 /vendor/
 composer.phar
+/vendor/*
 
 # PHPUnit
 .phpunit.result.cache
@@ -48,3 +49,6 @@ phpunit_*_latest.txt
 
 # Ignore local GenericInterface library (has its own repo)
 GenericInterface/
+
+# Ignore HTML code changes for not
+/src/Ksfraser/HTML
