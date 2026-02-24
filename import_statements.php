@@ -79,7 +79,7 @@ function do_upload_form($error = '') {
     end_table(1);
     hidden('parser', $_POST['parser']);
 	unset($_SESSION['bank_import_run_log_path']);
-}
+
 
 /**//*******************************************************
 * Import the statements
