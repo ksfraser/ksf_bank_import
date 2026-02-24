@@ -1,0 +1,10 @@
+{
+  "name": "BCR CSV Parser",
+  "description": "Parses BCR CSV bank statements.",
+  "namespace": "Parsers\\ro_bcr_csv",
+  "class": "ro_bcr_csv_parser",
+  "filetype": ["csv"],
+  "author": "TBD",
+  "version": "1.0.0",
+  "enabled": false
+}

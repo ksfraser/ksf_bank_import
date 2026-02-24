@@ -22,7 +22,7 @@ class HtmlEmptyElement extends HtmlElement
 	 * 
 	 * Empty elements don't have children, so we pass an empty HtmlString
 	 * 
-	 * @param HtmlElementInterface|null $data Optional data (ignored for empty elements)
+	 * @param mixed|null $data Optional data (ignored for empty elements)
 	 */
 	function __construct( $data = null )
 	{

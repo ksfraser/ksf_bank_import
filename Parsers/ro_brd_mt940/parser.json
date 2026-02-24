@@ -1,0 +1,10 @@
+{
+  "name": "BRD MT940 Parser",
+  "description": "Parses BRD MT940 bank statements.",
+  "namespace": "Parsers\\ro_brd_mt940",
+  "class": "ro_brd_mt940_parser",
+  "filetype": ["mt940"],
+  "author": "TBD",
+  "version": "1.0.0",
+  "enabled": false
+}

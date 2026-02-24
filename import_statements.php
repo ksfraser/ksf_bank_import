@@ -52,53 +52,16 @@ include_once __DIR__ . "/views/module_menu_view.php"; // Include the ModuleMenuV
 $menu = new \Views\ModuleMenuView();
 $menu->renderMenu(); // Render the module menu
 
-function import_statements() {
-    start_table(TABLESTYLE);
-    start_row();
-    echo "<td width=100%><pre>\n";
-
-    echo '<pre>';
-/** 20250716 add in capability to import multiple files at once **/
-    $multistatements = unserialize($_SESSION['multistatements']);
-    // Mantis #2708: Get uploaded file IDs from session
-    $uploaded_file_ids = isset($_SESSION['uploaded_file_ids']) ? $_SESSION['uploaded_file_ids'] : array();
-
-	$logPath = isset($_SESSION['bank_import_run_log_path']) ? (string)$_SESSION['bank_import_run_log_path'] : '';
-	$logFileName = $logPath !== '' ? basename($logPath) : '';
-	if ($logFileName !== '' && preg_match('/^import_run_[0-9]{8}_[0-9]{6}_[a-zA-Z0-9_-]{6,64}\.jsonl$/', $logFileName) !== 1) {
-		$logFileName = '';
+function do_upload_form($error = '') {
+	require_once __DIR__ . '/src/Ksfraser/FaBankImport/Views/UploadFormView.php';
+	$_parsers = getParsers();
+	$parsers = array();
+	foreach($_parsers as $pid => $pdata) {
+		$parsers[$pid] = $pdata['name'];
 	}
-
-	$logger = bank_import_get_logger();
-	$fileCount = is_array($multistatements) ? count($multistatements) : 0;
-	$statementCount = 0;
-	if (is_array($multistatements)) {
-		foreach ($multistatements as $list) {
-			$statementCount += is_array($list) ? count($list) : 0;
-		}
-	}
-	bank_import_log_event($logger, 'import.started', [
-		'file_count' => (int)$fileCount,
-		'statement_count' => (int)$statementCount,
-	]);
-	$importedStatements = 0;
-    
-	foreach( $multistatements as $file_index => $statements )
-	{
-	    // Get file ID for this set of statements
-	    $file_id = isset($uploaded_file_ids[$file_index]) ? $uploaded_file_ids[$file_index] : null;
-	    
-	    foreach($statements as $id => $smt) {
-		echo "importing statement {$smt->statementId} ...";
-		echo importStatement($smt, $file_id, $logger);  // Pass file_id
-		$importedStatements++;
-		echo "\n";
-	    }
-	}
-	bank_import_log_event($logger, 'import.completed', [
-		'statements_processed' => (int)$importedStatements,
-	]);
-    echo '</pre>';
+	$selected_parser = isset($_POST['parser']) && isset($_parsers[$_POST['parser']]) ? $_POST['parser'] : (array_key_exists('QFX', $parsers) ? 'QFX' : array_key_first($parsers));
+	\Ksfraser\FaBankImport\Views\UploadFormView::render($parsers, $selected_parser, $error);
+}
     echo "</pre></td>";
     end_row();
     start_row();
@@ -1598,56 +1561,54 @@ if (get_post('_parser_update')) {
 
 start_form(true);
 
-if (empty($_POST['upload']) && empty($_POST['import'])) {
-    do_upload_form();
-}
 
 
-//if upload is hit, parse the files and store result in session
-if (!empty($_POST['upload'])) {
-	if (isset($_FILES['files']) && isset($_FILES['files']['error']) && is_array($_FILES['files']['error']) && $_FILES['files']['error'][0] == 0) {
-		parse_uploaded_files();
-	} else {
-		display_error(_("No files were uploaded. Please choose at least one file."));
+// --- State Machine Implementation ---
+$state = isset($_POST['state']) ? $_POST['state'] : (isset($_SESSION['bank_import_state']) ? $_SESSION['bank_import_state'] : 'upload');
+
+switch ($state) {
+	case 'upload':
 		do_upload_form();
-	}
+		break;
+	case 'parse_upload':
+		if (isset($_FILES['files']) && isset($_FILES['files']['error']) && is_array($_FILES['files']['error']) && $_FILES['files']['error'][0] == 0) {
+			parse_uploaded_files();
+		} else {
+			display_error(_("No files were uploaded. Please choose at least one file."));
+			do_upload_form();
+		}
+		break;
+	case 'duplicate_review':
+		resolve_duplicate_uploads();
+		break;
+	case 'duplicate_cancel':
+		cancel_duplicate_uploads();
+		do_upload_form();
+		break;
+	case 'account_resolution':
+		resolve_account_mappings();
+		break;
+	case 'confirm_bi_bank_accounts':
+		confirm_bi_bank_accounts_mappings();
+		break;
+	case 'skip_bi_bank_accounts_confirm':
+		skip_bi_bank_accounts_confirmation();
+		break;
+	case 'cancel_account_resolution':
+		cancel_account_resolution();
+		do_upload_form();
+		break;
+	case 'import':
+		import_statements();
+		break;
+	default:
+		do_upload_form();
+		break;
 }
 
-//if user is resolving duplicates, force upload selected duplicates and parse them
-if (!empty($_POST['resolve_duplicates'])) {
-	resolve_duplicate_uploads();
-}
-
-//if user cancels duplicate resolution
-if (!empty($_POST['cancel_duplicates'])) {
-	cancel_duplicate_uploads();
-	do_upload_form();
-}
-
-// if user is resolving bank account mappings
-if (!empty($_POST['resolve_accounts'])) {
-	resolve_account_mappings();
-}
-
-// if user is confirming bi_bank_accounts updates
-if (!empty($_POST['confirm_bi_bank_accounts'])) {
-	confirm_bi_bank_accounts_mappings();
-}
-
-// if user skips bi_bank_accounts updates
-if (!empty($_POST['skip_bi_bank_accounts_confirm'])) {
-	skip_bi_bank_accounts_confirmation();
-}
-
-// if user cancels bank account resolution
-if (!empty($_POST['cancel_account_resolution'])) {
-	cancel_account_resolution();
-	do_upload_form();
-}
-
-//if import is hit, perform the import
-if (@$_POST['import']) {
-    import_statements();
+// Store state in session for next request
+if (isset($_POST['state'])) {
+	$_SESSION['bank_import_state'] = $_POST['state'];
 }
 
 

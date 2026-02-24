@@ -48,10 +48,13 @@ class hooks_bank_import extends hooks {
 				$path_to_root."/modules/".$this->module_name."/view_import_logs.php", 'SA_BANKIMPORTLOGVIEW', MENU_INQUIRY);
 			$app->add_lapp_function(3, _("Module Configuration"),
 				$path_to_root."/modules/".$this->module_name."/module_config.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
+			$app->add_lapp_function(3, _("Manage Parsers"),
+				$path_to_root."/modules/".$this->module_name."/admin_parsers.php", 'SA_ADMINPARSERS', MENU_MAINTENANCE);
 			$app->add_lapp_function(3, _("Schema Maintenance"),
 				$path_to_root."/modules/".$this->module_name."/schema_maintenance.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
 			$app->add_lapp_function(2, _("Bank Import Settings"),
 				$path_to_root."/modules/".$this->module_name."/bank_import_settings.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
+				
 	
 			break;
 		}
@@ -63,6 +66,8 @@ class hooks_bank_import extends hooks {
 		$security_areas['SA_BANKIMPORT'] = array(SS_BANKIMPORT | 1, _("Import Bank Files"));
 		$security_areas['SA_BANKFILEVIEW'] = array(SS_BANKIMPORT | 2, _("View Bank Files"));
 		$security_areas['SA_BANKIMPORTLOGVIEW'] = array(SS_BANKIMPORT | 3, _("View Bank Import Logs"));
+		$security_areas['SA_ADMINPARSERS'] = array(SS_BANKIMPORT | 4, _("Manage Parsers"));
+		
 		return array($security_areas, $security_sections);
 	}
 

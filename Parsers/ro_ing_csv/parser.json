@@ -1,0 +1,10 @@
+{
+  "name": "ING CSV Parser",
+  "description": "Parses ING CSV bank statements.",
+  "namespace": "Parsers\\ro_ing_csv",
+  "class": "ro_ing_csv_parser",
+  "filetype": ["csv"],
+  "author": "Kevin Fraser",
+  "version": "1.0.0",
+  "enabled": false
+}

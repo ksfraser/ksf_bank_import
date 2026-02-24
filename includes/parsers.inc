@@ -11,15 +11,33 @@
 @include_once(__DIR__ . '/qfx_parser.php');
 
 function getParsers() {
-    return array(
-	/*
-	'ro_brd_mt940' => array('name' => 'BRD-RO, MT940 format'),
-	'ro_bcr_csv' => array('name' => 'BCR-RO, CSV format'),
-	'ro_ing_csv' => array('name' => 'ING-RO, CSV format', 'select' => array('bank_account' => 'Select bank account')),
-	*/
-	'QFX' => array('name' => 'QFX/OFX/Quickbooks (QBO) format', 'select' => array('bank_account' => 'Select bank account')),
-	'ro_wmmc_csv' => array('name' => 'WMMC, CSV format', 'select' => array('bank_account' => 'Select bank account')),
-	);
+	require_once __DIR__ . '/../src/Ksfraser/FaBankImport/config/ParserConfig.php';
+	$parsers = array();
+	$parsersDir = dirname(__DIR__) . '/Parsers';
+	if (!is_dir($parsersDir)) return $parsers;
+	$dirs = scandir($parsersDir);
+	$enabledStates = \Ksfraser\FaBankImport\Config\ParserConfig::getAll();
+	foreach ($dirs as $dir) {
+		if ($dir === '.' || $dir === '..') continue;
+		$parserJson = $parsersDir . '/' . $dir . '/parser.json';
+		if (is_file($parserJson)) {
+			$config = json_decode(file_get_contents($parserJson), true);
+			if (!empty($enabledStates[$dir])) {
+				$pid = $dir;
+				$parsers[$pid] = array(
+					'name' => $config['name'],
+					'description' => $config['description'],
+					'namespace' => $config['namespace'],
+					'class' => $config['class'],
+					'filetype' => $config['filetype'],
+					'select' => array('bank_account' => 'Select bank account'),
+				);
+			}
+		}
+	}
+	// Always include QFX parser (legacy, not modularized yet)
+	$parsers['QFX'] = array('name' => 'QFX/OFX/Quickbooks (QBO) format', 'select' => array('bank_account' => 'Select bank account'));
+	return $parsers;
 }
 
 ?>
