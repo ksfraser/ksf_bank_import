@@ -66,7 +66,8 @@ class hooks_bank_import extends hooks {
 		$security_areas['SA_BANKIMPORT'] = array(SS_BANKIMPORT | 1, _("Import Bank Files"));
 		$security_areas['SA_BANKFILEVIEW'] = array(SS_BANKIMPORT | 2, _("View Bank Files"));
 		$security_areas['SA_BANKIMPORTLOGVIEW'] = array(SS_BANKIMPORT | 3, _("View Bank Import Logs"));
-		$security_areas['SA_ADMINPARSERS'] = array(SS_BANKIMPORT | 4, _("Manage Parsers"));
+		$security_areas['SA_ADMINPARSERS'] = array(SS_BANKIMPORT | 4, _("Manage Parsers"));	
+		$security_areas['SA_BANKTRANSVIEW'] = array(SS_BANKIMPORT | 5, _("View Bank Transactions"));
 		
 		return array($security_areas, $security_sections);
 	}
