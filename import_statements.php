@@ -59,8 +59,7 @@ function import_statements() {
 *************************************************************/
 function importStatement($smt)
 {
-				//display_notification( __FILE__ . "::" . __LINE__ . ":" . print
-_r( $smt, true ) );
+				//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $smt, true ) );
 		$message = '';
 		require_once(  './class.bi_statements.php' );
 		$bis = new bi_statements_model();
