@@ -70,24 +70,19 @@ function importStatement($smt)
 
 		if( ! $exists )
 		{
-						display_notification( __FILE__ . "::" . __LINE__ . ":: S
-tatement Doesn't Exist.  Inserting" );
+						display_notification( __FILE__ . "::" . __LINE__ . ":: Statement Doesn't Exist.  Inserting" );
 				$sql = $bis->hand_insert_sql();
 				$res = db_query($sql, "could not insert transaction");
 				$smt_id = db_insert_id();
 				$bis->set( "id", $smt_id );
-						display_notification( __FILE__ . "::" . __LINE__ . "Inse
-rted Statement $smt_id" );
+						display_notification( __FILE__ . "::" . __LINE__ . "Inserted Statement $smt_id" );
 				$message .= "new, imported";
 		} else
 		{
-						//display_notification( __FILE__ . "::" . __LINE__ . "St
-atement Exists.  Updating" );
+						//display_notification( __FILE__ . "::" . __LINE__ . "Statement Exists.  Updating" );
 				$bis->update_statement();
-						display_notification( "Updated Statement $smt->statement
-Id " );
-						//display_notification( __FILE__ . "::" . __LINE__ . "Up
-dated Statement $smt->statementId " );
+						display_notification( "Updated Statement $smt->statementId " );
+						//display_notification( __FILE__ . "::" . __LINE__ . "Updated Statement $smt->statementId " );
 				$message .= "existing, updated";
 		}
 		//$smt_id = $bis->get( "statementId" );
@@ -100,10 +95,8 @@ dated Statement $smt->statementId " );
 		foreach($smt->transactions as $id => $t)
 		{
 				display_notification(  "Processing transaction" );
-				//display_notification( __FILE__ . "::" . __LINE__ . "Processing
- transaction" );
-				set_time_limit( 0 );    //Don't time out in php.  Apache might s
-till kill us...
+				//display_notification( __FILE__ . "::" . __LINE__ . "Processing transaction" );
+				set_time_limit( 0 );    //Don't time out in php.  Apache might still kill us...
 				//var_dump( __FILE__ . "::" . __LINE__ );
 				try {
 				//var_dump( __FILE__ . "::" . __LINE__ );
@@ -114,15 +107,13 @@ till kill us...
 								$bit = new bi_transactions_model();
 						} catch( Exception $e )
 						{
-								display_error( __FILE__ . "::" . __LINE__ . prin
-t_r( $e, tru ) );
+								display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );
 						}
 				//var_dump( __FILE__ . "::" . __LINE__  );
 				//var_dump( $bit );
 				} catch( Exception $e )
 				{
-						display_notification( __FILE__ . "::" . __LINE__ . " " .
- print_r( $e, true ) );
+						display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $e, true ) );
 				}
 				//var_dump( __FILE__ . "::" . __LINE__ );
 				$bit->trz2obj( $t );
@@ -131,10 +122,8 @@ t_r( $e, tru ) );
 				//var_dump( __FILE__ . "::" . __LINE__ );
 				if( $dupe )
 				{
-						display_notification( __FILE__ . "::" . __LINE__ . " Tra
-nsaction Exists for statement: $smt_id:" . $bit->get( "accountName" ) );        
-						//display_notification( __FILE__ . "::" . __LINE__ . " T
-ransaction Exists for statement: $smt_id::" . print_r( $bit, true ) );
+						display_notification( __FILE__ . "::" . __LINE__ . " Transaction Exists for statement: $smt_id:" . $bit->get( "accountName" ) );        
+						//display_notification( __FILE__ . "::" . __LINE__ . " Transaction Exists for statement: $smt_id::" . print_r( $bit, true ) );
 						$dupecount++;
 /**
  * Mantis 2948
@@ -158,19 +147,15 @@ ransaction Exists for statement: $smt_id::" . print_r( $bit, true ) );
 						$sql = $bit->hand_insert_sql();
 						$res = db_query($sql, "could not insert transaction");  
 						$t_id = db_insert_id();
-						display_notification( __FILE__ . "::" . __LINE__ . " Ins
-erted transaction: $t_id " );
+						display_notification( __FILE__ . "::" . __LINE__ . " Inserted transaction: $t_id " );
 						$newinserted++;
 				}
 				//var_dump( __FILE__ . "::" . __LINE__ );
 		}       //foreach statement
 		$message .= ' ' . count($smt->transactions) . ' transactions';
-						display_notification( __FILE__ . "::" . __LINE__ . " Ins
-erted transactions: $newinserted " );
-						display_notification( __FILE__ . "::" . __LINE__ . " Dup
-licates Total: $dupecount " );
-						display_notification( __FILE__ . "::" . __LINE__ . " Upd
-ated Duplicates: $dupeupdated " );
+						display_notification( __FILE__ . "::" . __LINE__ . " Inserted transactions: $newinserted " );
+						display_notification( __FILE__ . "::" . __LINE__ . " Duplicates Total: $dupecount " );
+						display_notification( __FILE__ . "::" . __LINE__ . " Updated Duplicates: $dupeupdated " );
 		return $message;
 /* */
 }       //import_statement fc
@@ -189,14 +174,12 @@ function do_upload_form() {
 	$th = array(_("Select File(s) and type"), '');
 	table_header($th);
 
-	label_row(_("Format:"), array_selector('parser', null, $parsers, array('sele
-ct_submit' => true)));
+	label_row(_("Format:"), array_selector('parser', null, $parsers, array('select_submit' => true)));
 	foreach($_parsers[$_POST['parser']]['select'] as $param => $label) {        
 
 		switch($param) {
 			case 'bank_account':
-				bank_accounts_list_row($label, 'bank_account', $selected_id=null
-, $submit_on_change=false);
+				bank_accounts_list_row($label, 'bank_account', $selected_id=null, $submit_on_change=false);
 			break;
 
 		}
@@ -234,19 +217,14 @@ function parse_uploaded_files() {
 			case 'bank_account':
 				//get bank account data
 				$bank_account = get_bank_account($_POST['bank_account']);       
-	//display_notification( __FILE__ . "::" . __LINE__ . "::" . "Bank Account De
-tails from get_bank_account for Bank passed in from form::" .  print_r( $bank_ac
-count, true ) );
+	//display_notification( __FILE__ . "::" . __LINE__ . "::" . "Bank Account Details from get_bank_account for Bank passed in from form::" .  print_r( $bank_account, true ) );
 				$static_data['account'] = $bank_account['bank_account_number']; 
-				$static_data['account_number'] = $bank_account['bank_account_num
-ber'];
+				$static_data['account_number'] = $bank_account['bank_account_number'];
 				$static_data['currency'] = $bank_account['bank_curr_code'];     
 				$static_data['account_code'] = $bank_account['account_code'];   
 				$static_data['account_type'] = $bank_account['account_type'];   
-				$static_data['account_name'] = $bank_account['bank_account_name'
-];
-				$static_data['bank_charge_act'] = $bank_account['bank_charge_act
-'];
+				$static_data['account_name'] = $bank_account['bank_account_name'];
+				$static_data['bank_charge_act'] = $bank_account['bank_charge_act'];
 				//$static_data['raw'] = $bank_account;
 
 			break;
@@ -260,8 +238,7 @@ ber'];
 
 	foreach($_FILES['files']['name'] as $id=>$fname) {
 		display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
-		//echo  __FILE__ . "::" . __LINE__ . "Processing file `$fname` with form
-at `{$_parsers[$_POST['parser']]['name']}`...\n";
+		//echo  __FILE__ . "::" . __LINE__ . "Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`...\n";
 
 		$content = file_get_contents($_FILES['files']['tmp_name'][$id]);        
 
@@ -270,12 +247,10 @@ at `{$_parsers[$_POST['parser']]['name']}`...\n";
 			$content = substr($content, 3);
 		}
 
-		$statements = $parser->parse($content, $static_data, $debug=false); // f
-alse for no debug, true for debug
+		$statements = $parser->parse($content, $static_data, $debug=false); // false for no debug, true for debug
 		if( $debug )
 		{
-				var_dump( __FILE__ . "::" . __LINE__ . ":: Statements post parsi
-ng"  );
+				var_dump( __FILE__ . "::" . __LINE__ . ":: Statements post parsing"  );
 				var_dump( $statements );
 		}
 
