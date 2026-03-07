@@ -18,8 +18,7 @@
             "KsfBankImport\\Services\\": "Services/",
             "KsfBankImport\\OperationTypes\\": "OperationTypes/",
             "Views\\": "src/Views/"
-        },
-        "classmap": [
+        },        "classmap": [
             "./"
         ],
         "exclude-from-classmap": [
@@ -39,20 +38,36 @@
             "Ksfraser\\FaBankImport\\Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../ksf_modules_common/repos/kflog"
+        },
+        {
+            "type": "path",
+            "url": "../ksfraser-superglobals"
+        }
+    ],
     "require": {
         "php": ">=7.3",
         "asgrim/ofxparser": "^1.2",
         "mimographix/qif-library": "^1.0",
         "nesbot/carbon": "^2.46",
         "psr/container": "^1.0",
-        "ksfraser/genericinterface": "^0.1.0"
+        "ksfraser/genericinterface": "^0.1.0",
+        "ksfraser/superglobals": "^1.0"
+    },
+    "config": {
+        "platform": {
+            "php": "7.3.0"
+        }
     },
     "require-dev": {
         "codeception/codeception": "^4.1",
         "mikey179/vfsstream": "^1.6.12",
         "symfony/http-foundation": "^5.4",
         "monolog/monolog": "^2.0",
-        "phpunit/phpunit": "9.5"
+        "phpunit/phpunit": "^9.3"
     },
     "scripts": {
         "test": "phpunit",
@@ -66,7 +81,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.3"
+            "php": "8.4"
         }
     }
 }
