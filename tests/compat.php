@@ -40,6 +40,17 @@ if (!class_exists('bi_lineitem')) {
     }
 }
 
+// Load legacy Models namespace classes
+if (!class_exists('Models\\SquareTransaction')) {
+    class_alias(\Ksfraser\FaBankImport\SquareTransaction::class, 'Models\\SquareTransaction');
+}
+if (!class_exists('Models\\ThirdPartyTransaction')) {
+    class_alias(\Ksfraser\FaBankImport\ThirdPartyTransaction::class, 'Models\\ThirdPartyTransaction');
+}
+if (!class_exists('Models\\ThirdPartyTransactionInterface')) {
+    class_alias(\Ksfraser\FaBankImport\ThirdPartyTransactionInterface::class, 'Models\\ThirdPartyTransactionInterface');
+}
+
 // Compatibility aliases for renamed Notifications -> Links namespace
 if (class_exists('Ksfraser\\FA\\Links\\GlTransViewLinkHtmlBuilder')) {
     class_alias('Ksfraser\\FA\\Links\\GlTransViewLinkHtmlBuilder', 'Ksfraser\\FA\\Notifications\\GlTransViewLinkHtmlBuilder');

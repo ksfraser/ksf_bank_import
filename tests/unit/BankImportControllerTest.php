@@ -1,8 +1,22 @@
 <?php
 
+require_once __DIR__ . '/../../src/Ksfraser/FaBankImport/ThirdPartyTransactionInterface.php';
+require_once __DIR__ . '/../../src/Ksfraser/FaBankImport/ThirdPartyTransaction.php';
+require_once __DIR__ . '/../../src/Ksfraser/FaBankImport/SquareTransaction.php';
+
+// Add alias for legacy namespace
+if (!class_exists('Models\SquareTransaction')) {
+    class_alias(\Ksfraser\FaBankImport\SquareTransaction::class, 'Models\SquareTransaction');
+}
+
 use PHPUnit\Framework\TestCase;
 use Controllers\BankImportController;
 use Ksfraser\FaBankImport\Service\ThirdPartyTransactionActionsInterface;
+
+// Add alias for legacy class
+if (!class_exists('Models\SquareTransaction')) {
+    class_alias(\Ksfraser\FaBankImport\SquareTransaction::class, 'Models\SquareTransaction');
+}
 
 class BankImportControllerTest extends TestCase
 {
