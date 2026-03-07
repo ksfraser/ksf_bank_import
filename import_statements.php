@@ -38,6 +38,31 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Ksfraser\FaBankImport\Service\FileUploadService;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
+use Ksfraser\FaBankImport\Services\ParserRegistry;
+use Ksfraser\Superglobals\FormSubmission;
+use Ksfraser\FaBankImport\Request\ParserSelector;
+use Ksfraser\Superglobals\PostParameterProvider;
+
+// Initialize contexts
+$configRepo = new DatabaseConfigRepository();
+$parserRegistry = new ParserRegistry($configRepo);
+$formSubmission = new FormSubmission();
+$parameterProvider = new PostParameterProvider();
+$parserSelector = new ParserSelector($parameterProvider, $parserRegistry);
+
+// Check for new parsers and display warning if user has access
+if (function_exists('has_access') && isset($_SESSION['wa_current_user']) && isset($_SESSION['wa_current_user']->access)) {
+    $canManageParsers = has_access($_SESSION['wa_current_user']->access, 'SA_BANKIMPORTPARSERMANAGE'); // Assuming this access level
+    if ($canManageParsers) {
+        $warning = $parserRegistry->getNewParsersWarning();
+        if ($warning) {
+            display_warning($warning);
+        }
+    }
+}
+
+// Handle parser management actions
+handle_parser_management();
 use Ksfraser\FaBankImport\Service\StatementAccountMappingService;
 use Ksfraser\FaBankImport\Service\DetectedAccountAssociationKey;
 use Ksfraser\FaBankImport\Service\ImportRunLogger;
@@ -54,14 +79,30 @@ $menu->renderMenu(); // Render the module menu
 
 function do_upload_form($error = '') {
 	require_once __DIR__ . '/src/Ksfraser/FaBankImport/Views/UploadFormView.php';
-	$_parsers = getParsers();
+	global $parserRegistry, $parserSelector;
+	$_parsers = $parserRegistry->getParsersArray();
 	$parsers = array();
 	foreach($_parsers as $pid => $pdata) {
 		$parsers[$pid] = $pdata['name'];
 	}
-	$selected_parser = isset($_POST['parser']) && isset($_parsers[$_POST['parser']]) ? $_POST['parser'] : (array_key_exists('QFX', $parsers) ? 'QFX' : array_key_first($parsers));
+	$selected_parser = $parserSelector->getSelectedParser();
 	\Ksfraser\FaBankImport\Views\UploadFormView::render($parsers, $selected_parser, $error);
 }
+
+function import_statements() {
+    start_table(TABLESTYLE);
+    start_row();
+    echo "<td width=100%><pre>\n";
+
+    echo '<pre>';
+    $statements = unserialize($_SESSION['statements']);
+    foreach($statements as $id => $smt) {
+        echo "importing statement {$smt->statementId} ...";
+        echo importStatement($smt);
+        echo "\n";
+    }
+    echo '</pre>';
+
     echo "</pre></td>";
     end_row();
     start_row();
@@ -77,7 +118,7 @@ function do_upload_form($error = '') {
     echo '</td>';
     end_row();
     end_table(1);
-    hidden('parser', $_POST['parser']);
+    hidden('parser', $parserSelector->getSelectedParser());
 	unset($_SESSION['bank_import_run_log_path']);
 }
 
@@ -303,59 +344,106 @@ function importStatement($smt, $file_id = null)
 /* */
 }	//import_statement fc
 
-//Initial draft of a CLASS to replace the body of this function
-//is in Ksfraser\FaBankImport\Views\ImportUploadForm
-//TODO migrate to use the class.
-function do_upload_form() {
-    $parsers = array();
-    $_parsers = getParsers();
-    foreach($_parsers as $pid => $pdata) {
-	$parsers[$pid] = $pdata['name'];
-    }
 
 
-    div_start('doc_tbl');
-    start_table(TABLESTYLE);
-    $th = array(_("Select File(s) and type"), '');
-    table_header($th);
+function render_parser_management() {
+	global $parserRegistry, $configRepo;
 
+	$active = $parserRegistry->getActiveParsers();
+	$inactive = $parserRegistry->getInactiveParsers();
+	$new = $parserRegistry->getNewParsers();
+	$discovered = $parserRegistry->getDiscoveredParsers();
 
-	$selected_parser = isset($_POST['parser']) && isset($_parsers[$_POST['parser']]) ? $_POST['parser'] : (array_key_exists('QFX', $parsers) ? 'QFX' : array_key_first($parsers));
-	label_row(_("Format:"), array_selector('parser', $selected_parser, $parsers, array('select_submit' => true)));
-	if (isset($_parsers[$selected_parser]['select']) && is_array($_parsers[$selected_parser]['select'])) {
-		foreach($_parsers[$selected_parser]['select'] as $param => $label) {
+	echo '<div id="parser_management" style="display:none; margin-top:20px;">';
+	echo '<h3>' . _("Parser Management") . '</h3>';
+	echo '<form method="post">';
 
-	switch($param) {
-	    case 'bank_account':
-		// Bank account selection is resolved post-parse (per-statement) using detected account mapping.
-		// Keeping this commented out during UAT in case we reverse course.
-		// bank_accounts_list_row($label, 'bank_account', $selected_id=null, $submit_on_change=false);
-	    break;
-
+	// Active parsers
+	echo '<h4>' . _("Active Parsers") . '</h4>';
+	echo '<ul>';
+	foreach ($active as $parserId) {
+		if (isset($discovered[$parserId])) {
+			$name = $discovered[$parserId]['manifest']['name'];
+			echo '<li>' . htmlspecialchars($name) . ' <button type="submit" name="deactivate_parser" value="' . htmlspecialchars($parserId) . '">' . _("Deactivate") . '</button></li>';
+		}
 	}
-    }
+	echo '</ul>';
 
+	// Inactive parsers
+	echo '<h4>' . _("Inactive Parsers") . '</h4>';
+	echo '<ul>';
+	foreach ($inactive as $parserId) {
+		if (isset($discovered[$parserId])) {
+			$name = $discovered[$parserId]['manifest']['name'];
+			echo '<li>' . htmlspecialchars($name) . ' <button type="submit" name="activate_parser" value="' . htmlspecialchars($parserId) . '">' . _("Activate") . '</button></li>';
+		}
 	}
-	label_row(_("Bank Account"), "<span class='smalltext'>" . _( "Determined from file (per statement) using saved account mappings.") . "</span>");
-	label_row(_("Files"), "<input type='file' name='files[]' multiple />");
-	label_row(
-		_( "If duplicates are detected"),
-		"<label><input type='checkbox' name='force_upload_all' value='1'> "
-			. _( "Upload anyway (force re-upload)")
-			. "</label><br><span class='smalltext'>" . _( "When checked, duplicate warnings will be bypassed for all selected files.") . "</span>"
-	);
+	echo '</ul>';
 
+	// New parsers
+	if (!empty($new)) {
+		echo '<h4>' . _("New Parsers") . '</h4>';
+		echo '<ul>';
+		foreach ($new as $parserId) {
+			if (isset($discovered[$parserId])) {
+				$name = $discovered[$parserId]['manifest']['name'];
+				echo '<li>' . htmlspecialchars($name) . ' 
+					<button type="submit" name="activate_parser" value="' . htmlspecialchars($parserId) . '">' . _("Activate") . '</button>
+					<button type="submit" name="deactivate_parser" value="' . htmlspecialchars($parserId) . '">' . _("Deactivate") . '</button>
+				</li>';
+			}
+		}
+		echo '</ul>';
+	}
 
-    start_row();
-    label_cell('Upload', "class='label'");
-    submit_cells('upload', _("Upload"));
-    end_row();
+	echo '<button type="button" onclick="hideParserManagement();">' . _("Close") . '</button>';
+	echo '</form>';
+	echo '</div>';
 
-    end_table(1);
-    div_end();
+	// JavaScript
+	echo '<script>
+	function showParserManagement() {
+		document.getElementById("parser_management").style.display = "block";
+	}
+	function hideParserManagement() {
+		document.getElementById("parser_management").style.display = "none";
+	}
+	</script>';
 }
 
-function bank_import_log_dir(): string
+function handle_parser_management() {
+	global $parserRegistry, $configRepo, $formSubmission;
+
+	$username = isset($_SESSION['wa_current_user']->loginname) ? $_SESSION['wa_current_user']->loginname : 'unknown';
+
+	if ($formSubmission->get('activate_parser')) {
+		$parserId = $formSubmission->get('activate_parser');
+		$active = $parserRegistry->getActiveParsers();
+		if (!in_array($parserId, $active)) {
+			$active[] = $parserId;
+			$parserRegistry->setActiveParsers($active, $username);
+		}
+		// Remove from inactive if present
+		$inactive = $parserRegistry->getInactiveParsers();
+		$inactive = array_diff($inactive, [$parserId]);
+		$parserRegistry->setInactiveParsers($inactive, $username);
+		display_notification(_("Parser activated: ") . $parserId);
+	}
+
+	if ($formSubmission->get('deactivate_parser')) {
+		$parserId = $formSubmission->get('deactivate_parser');
+		$inactive = $parserRegistry->getInactiveParsers();
+		if (!in_array($parserId, $inactive)) {
+			$inactive[] = $parserId;
+			$parserRegistry->setInactiveParsers($inactive, $username);
+		}
+		// Remove from active if present
+		$active = $parserRegistry->getActiveParsers();
+		$active = array_diff($active, [$parserId]);
+		$parserRegistry->setActiveParsers($active, $username);
+		display_notification(_("Parser deactivated: ") . $parserId);
+	}
+}
 {
 	return BankImportPathResolver::forCurrentCompany()->logsDir();
 }
@@ -390,6 +478,7 @@ function bank_import_log_event(?ImportRunLogger $logger, string $eventName, arra
 
 
 function parse_uploaded_files() {
+    global $formSubmission, $parserSelector, $parserRegistry, $uploadService;
     start_table(TABLESTYLE);
     start_row();
     
@@ -402,7 +491,7 @@ function parse_uploaded_files() {
 	$uploaded_filenames = [];
 	$has_blocked_duplicates = false;  // Track if any files were blocked
 	$pending_duplicates = [];         // Track duplicates requiring user decision
-	$force_upload_all = !empty($_POST['force_upload_all']);
+	$force_upload_all = $formSubmission->get('force_upload_all') !== null;
 
 	// Import Run Audit Log (start a new run)
 	$logger = null;
@@ -410,8 +499,8 @@ function parse_uploaded_files() {
 		$logger = ImportRunLogger::start(bank_import_log_dir());
 		$_SESSION['bank_import_run_log_path'] = $logger->getLogPath();
 		bank_import_log_event($logger, 'run.started', [
-			'parser' => (string)($_POST['parser'] ?? ''),
-			'bank_account_id' => isset($_POST['bank_account']) ? (int)$_POST['bank_account'] : null,
+			'parser' => (string)($parserSelector->getSelectedParser() ?? ''),
+			'bank_account_id' => $formSubmission->getBankAccount() ? (int)$formSubmission->getBankAccount() : null,
 			'force_upload_all' => (bool)$force_upload_all,
 			'file_count' => isset($_FILES['files']['name']) && is_array($_FILES['files']['name']) ? count($_FILES['files']['name']) : 0,
 		]);
@@ -421,20 +510,21 @@ function parse_uploaded_files() {
 	}
 
     // initialize parser class
-    $parserClass = $_POST['parser'] . '_parser';
+    $selectedParser = $parserSelector->getSelectedParser();
+    $parserClass = $selectedParser . '_parser';
     $parser = new $parserClass;
 
     //prepare static data for parser
     $static_data = array();
-    $_parsers = getParsers();
-    foreach($_parsers[$_POST['parser']]['select'] as $param => $label) {
+    $_parsers = $parserRegistry->getAvailableParsers();
+    foreach($_parsers[$selectedParser]['select'] as $param => $label) {
 	switch($param) {
 	    case 'bank_account':
-		if (empty($_POST['bank_account'])) {
+		if (empty($formSubmission->getBankAccount())) {
 			break;
 		}
 		//get bank account data
-		$bank_account = get_bank_account($_POST['bank_account']);
+		$bank_account = get_bank_account($formSubmission->getBankAccount());
     //display_notification( __FILE__ . "::" . __LINE__ . "::" . "Bank Account Details from get_bank_account for Bank passed in from form::" .  print_r( $bank_account, true ) );
 		$static_data['account'] = $bank_account['bank_account_number'];
 		$static_data['account_number'] = $bank_account['bank_account_number'];
@@ -474,12 +564,12 @@ function parse_uploaded_files() {
 			'filename' => (string)$fname,
 			'size' => (int)($_FILES['files']['size'][$id] ?? 0),
 			'type' => (string)($_FILES['files']['type'][$id] ?? ''),
-			'force_upload' => (bool)($force_upload_all || (isset($_POST['force_upload_' . $id]) && $_POST['force_upload_' . $id] == '1')),
+			'force_upload' => (bool)($force_upload_all || ($formSubmission->get('force_upload_' . $id) == '1')),
 		]);
-    	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
+    	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$selectedParser]['name']}`" );
 
     	// Mantis #2708: Save uploaded file (Phase 2 refactored)
-    	$bank_account_id = !empty($_POST['bank_account']) ? (int)$_POST['bank_account'] : null;
+    	$bank_account_id = $formSubmission->getBankAccount() ? (int)$formSubmission->getBankAccount() : null;
     	$file_info_array = array(
     	    'name' => $_FILES['files']['name'][$id],
     	    'type' => $_FILES['files']['type'][$id],
@@ -489,7 +579,7 @@ function parse_uploaded_files() {
     	);
     	
 	    // Force upload can be applied globally or per-file (set by duplicate resolution screen)
-	    $force_upload = $force_upload_all || (isset($_POST['force_upload_' . $id]) && $_POST['force_upload_' . $id] == '1');
+	    $force_upload = $force_upload_all || ($formSubmission->get('force_upload_' . $id) == '1');
 
 	    // Read content BEFORE uploading (upload service may move tmp file)
 	    $content = @file_get_contents($file_info_array['tmp_name']);
@@ -510,7 +600,7 @@ function parse_uploaded_files() {
     	    // Upload using new service
     	    $result = $uploadService->upload(
     	        $fileInfo,
-    	        $_POST['parser'],
+    	        $selectedParser,
     	        $bank_account_id,
     	        $force_upload,
     	        "Uploaded from import_statements.php"
@@ -668,8 +758,8 @@ function parse_uploaded_files() {
 	// If there are duplicates requiring user decision, store partial results and render a review screen
 	if (!empty($pending_duplicates) && !$force_upload_all) {
 		$_SESSION['bank_import_pending'] = [
-			'parser' => $_POST['parser'],
-			'bank_account' => isset($_POST['bank_account']) ? $_POST['bank_account'] : null,
+			'parser' => $selectedParser,
+			'bank_account' => $formSubmission->getBankAccount(),
 			'multistatements' => serialize($multistatements),
 			'uploaded_file_ids' => $uploaded_file_ids,
 			'uploaded_filenames' => $uploaded_filenames,
@@ -721,7 +811,7 @@ function parse_uploaded_files() {
 	}
 
 	// Bank Account Resolution step (detected account numbers \u2192 FA bank accounts)
-	if (maybe_render_account_resolution_screen($_POST['parser'], isset($_POST['bank_account']) ? $_POST['bank_account'] : null, $multistatements, $uploaded_file_ids, $uploaded_filenames)) {
+	if (maybe_render_account_resolution_screen($selectedParser, $formSubmission->getBankAccount(), $multistatements, $uploaded_file_ids, $uploaded_filenames)) {
 		end_table(1);
 		return;
 	}
@@ -737,7 +827,7 @@ function parse_uploaded_files() {
     end_row();
     
     end_table(1);
-    hidden('parser', $_POST['parser']);
+    hidden('parser', $parserSelector->getSelectedParser());
     if ($smt_err == 0) {
 	$_SESSION['statements'] = serialize($statements);
 	$_SESSION['multistatements'] = serialize($multistatements);
@@ -1365,7 +1455,7 @@ function resolve_duplicate_uploads() {
 
 	// static parser data
 	$static_data = array();
-	$_parsers = getParsers();
+	$_parsers = $parserRegistry->getAvailableParsers();
 	if ($bank_account_id !== null && isset($_parsers[$parserType]['select']['bank_account'])) {
 		$bank_account = get_bank_account($bank_account_id);
 		$static_data['account'] = $bank_account['bank_account_number'];
@@ -1564,7 +1654,7 @@ start_form(true);
 
 
 // --- State Machine Implementation ---
-$state = isset($_POST['state']) ? $_POST['state'] : (isset($_SESSION['bank_import_state']) ? $_SESSION['bank_import_state'] : 'upload');
+$state = $formSubmission->getState() ?? (isset($_SESSION['bank_import_state']) ? $_SESSION['bank_import_state'] : 'upload');
 
 switch ($state) {
 	case 'upload':
@@ -1607,8 +1697,8 @@ switch ($state) {
 }
 
 // Store state in session for next request
-if (isset($_POST['state'])) {
-	$_SESSION['bank_import_state'] = $_POST['state'];
+if ($formSubmission->getState()) {
+	$_SESSION['bank_import_state'] = $formSubmission->getState();
 }
 
 

@@ -56,4 +56,38 @@ class ParserConfig
             self::setEnabled($parserId, $enabled, $username, $reason);
         }
     }
+
+    /**
+     * Get active parsers list.
+     */
+    public static function getActiveParsers(): array
+    {
+        $active = ConfigService::getInstance()->get('parser.active_list', []);
+        return is_array($active) ? $active : [];
+    }
+
+    /**
+     * Get inactive parsers list.
+     */
+    public static function getInactiveParsers(): array
+    {
+        $inactive = ConfigService::getInstance()->get('parser.inactive_list', []);
+        return is_array($inactive) ? $inactive : [];
+    }
+
+    /**
+     * Set active parsers list.
+     */
+    public static function setActiveParsers(array $parsers, ?string $username = null, ?string $reason = null): void
+    {
+        ConfigService::getInstance()->set('parser.active_list', $parsers, $username, $reason ?: 'Update active parsers list');
+    }
+
+    /**
+     * Set inactive parsers list.
+     */
+    public static function setInactiveParsers(array $parsers, ?string $username = null, ?string $reason = null): void
+    {
+        ConfigService::getInstance()->set('parser.inactive_list', $parsers, $username, $reason ?: 'Update inactive parsers list');
+    }
 }
