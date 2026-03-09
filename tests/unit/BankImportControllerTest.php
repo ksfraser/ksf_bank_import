@@ -68,4 +68,29 @@ class BankImportControllerTest extends TestCase
 
         $this->controller->processTransaction();
     }
+
+    /**
+     * Test that the controller works correctly with refactored transaction classes
+     */
+    public function testControllerIntegrationWithRefactoredClasses()
+    {
+        // Test that controller can be instantiated
+        $this->assertInstanceOf(BankImportController::class, $this->controller);
+
+        // Test that controller has required properties
+        $this->assertObjectHasAttribute('transactionModel', $this->controller);
+
+        // Test index method with mock data
+        $this->transactionModelMock->method('getAllTransactions')->willReturn([
+            ['id' => 1, 'title' => 'Test Transaction 1', 'amount' => 100.00],
+            ['id' => 2, 'title' => 'Test Transaction 2', 'amount' => 200.00]
+        ]);
+
+        ob_start();
+        $this->controller->index();
+        $output = ob_get_clean();
+
+        $this->assertStringContains('Test Transaction 1', $output);
+        $this->assertStringContains('Test Transaction 2', $output);
+    }
 }

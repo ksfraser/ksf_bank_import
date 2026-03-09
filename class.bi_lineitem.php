@@ -29,7 +29,8 @@ if (is_file($commonDir . '/defines.inc.php')) {
 	require_once(__DIR__ . '/includes/fa_stubs.php');
 }
 
-$viewsDir = is_dir(__DIR__ . '/Views') ? __DIR__ . '/Views' : __DIR__ . '/views';
+$viewsDir = __DIR__ . '/src/Ksfraser/FaBankImport/views';
+$legacyViewsDir = __DIR__ . '/views';
 
 require_once( $viewsDir . '/HTML_ROW_LABELDecorator.php' );
 
@@ -46,14 +47,14 @@ require_once( $viewsDir . '/AmountCharges.php' );
 require_once( $viewsDir . '/TransTitle.php' );
 
 // SRP View classes for partner type displays
-require_once( $viewsDir . '/PartnerMatcher.php' );
-require_once( $viewsDir . '/SupplierPartnerTypeView.php' );
-require_once( $viewsDir . '/CustomerPartnerTypeView.php' );
-require_once( $viewsDir . '/BankTransferPartnerTypeView.php' );
-require_once( $viewsDir . '/QuickEntryPartnerTypeView.php' );
+require_once( $legacyViewsDir . '/PartnerMatcher.php' );
+require_once( $legacyViewsDir . '/SupplierPartnerTypeView.php' );
+require_once( $legacyViewsDir . '/CustomerPartnerTypeView.php' );
+require_once( $legacyViewsDir . '/BankTransferPartnerTypeView.php' );
+require_once( $legacyViewsDir . '/QuickEntryPartnerTypeView.php' );
 
 // V2 Views with ViewFactory (feature flag controlled)
-require_once( $viewsDir . '/ViewFactory.php' );
+require_once( $legacyViewsDir . '/ViewFactory.php' );
 use KsfBankImport\Views\ViewFactory;
 
 // Feature flag to enable v2 Views (set to true to use ViewFactory)

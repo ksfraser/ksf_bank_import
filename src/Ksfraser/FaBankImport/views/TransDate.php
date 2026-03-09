@@ -25,11 +25,11 @@ class TransDate implements HtmlElementInterface
 		$label = "Trans Date (Event Date):";
 		$this->row = new HTML_ROW_LABEL( $data, $label,  null, null );
 	}
-	function getHtml()
+	function getHtml(): string
 	{
-		$this->row->getHtml();
+		return $this->row->getHtml();
 	}
-	function toHtml()
+	function toHtml(): void
 	{
 		$this->row->toHtml();
 	}

@@ -2,6 +2,8 @@
     "name": "ksfraser/fa-bank-import",
     "description": "A FrontAccounting module for bank import functionality with paired transfer processing.",
     "type": "library",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Controllers\\": "src/Controllers/",
@@ -30,7 +32,8 @@
             "lib/",
             "lib/ksf_ofxparser/",
             "lib/jacques-ofxparser/",
-            "lib/ofx4/"
+            "lib/ofx4/",
+            "views/"
         ]
     },
     "autoload-dev": {
@@ -50,16 +53,15 @@
     ],
     "require": {
         "php": ">=7.3",
-        "asgrim/ofxparser": "^1.2",
         "mimographix/qif-library": "^1.0",
         "nesbot/carbon": "^2.46",
         "psr/container": "^1.0",
         "ksfraser/genericinterface": "^0.1.0",
-        "ksfraser/superglobals": "^1.0"
+        "ksfraser/superglobals": "*"
     },
     "config": {
         "platform": {
-            "php": "7.3.0"
+            "php": "8.4"
         }
     },
     "require-dev": {
@@ -67,21 +69,6 @@
         "mikey179/vfsstream": "^1.6.12",
         "symfony/http-foundation": "^5.4",
         "monolog/monolog": "^2.0",
-        "phpunit/phpunit": "^9.3"
-    },
-    "scripts": {
-        "test": "phpunit",
-        "test-file": "phpunit",
-        "post-install-cmd": [
-            "@php -r \"echo '\\n✅ Dependencies installed successfully!\\n\\n';\""
-        ],
-        "post-update-cmd": [
-            "@php -r \"echo '\\n✅ Dependencies updated successfully!\\n\\n';\""
-        ]
-    },
-    "config": {
-        "platform": {
-            "php": "8.4"
-        }
+        "phpunit/phpunit": "9.3"
     }
 }

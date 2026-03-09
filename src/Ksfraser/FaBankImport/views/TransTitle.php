@@ -15,8 +15,9 @@ namespace Ksfraser\FaBankImport;
 
 
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\Composites\LabelRowBase;
 
-require_once( 'LabelRowBase.php' );
+require_once( __DIR__ . '/../../HTML/Composites/LabelRowBase.php' );
 
 class TransTitle extends LabelRowBase
 {
