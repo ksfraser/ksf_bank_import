@@ -11,10 +11,10 @@
  *
  * Responsibility: Core flow and role for TransType.
  */
-namespace Ksfraser\FaBankImport;
+namespace Ksfraser\FaBankImport\Views;
 
 use Ksfraser\HTML\Composites\LabelRowBase;
-require_once( __DIR__ . '/../../HTML/Composites/LabelRowBase.php' );
+require_once( __DIR__ . '/../../../Ksfraser/HTML/Composites/LabelRowBase.php' );
 
 class TransType extends LabelRowBase
 {

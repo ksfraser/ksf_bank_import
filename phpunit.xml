@@ -30,6 +30,7 @@
     <coverage processUncoveredFiles="false">
         <include>
             <directory suffix=".php">./src</directory>
+            <directory suffix=".php">./</directory>
         </include>
         <exclude>
             <directory suffix=".php">./src/Ksfraser/Application/tests</directory>
@@ -38,6 +39,11 @@
             <file>./src/Ksfraser/FaBankImport/class.bi_transactions.copilot.php</file>
             <!-- Legacy file contains invalid PHP syntax; exclude from coverage parsing. -->
             <file>./src/Ksfraser/FaBankImport/class.transactions_table.php</file>
+            <!-- Exclude vendor and test files -->
+            <directory>./vendor/</directory>
+            <directory>./tests/</directory>
+            <!-- Exclude FA core files -->
+            <directory>./includes/fa_stubs.php</directory>
         </exclude>
         <report>
             <html outputDirectory="coverage"/>

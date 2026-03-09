@@ -10,6 +10,7 @@
             "Ksfraser\\": "src/Ksfraser/",
             "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
             "Ksfraser\\FaBankImport\\Events\\": "src/Ksfraser/FaBankImport/events/",
+            "Ksfraser\\FaBankImport\\Views\\": "src/Ksfraser/FaBankImport/views/",
             "Ksfraser\\ModulesDAO\\": "src/Ksfraser/ModulesDAO/",
             "Ksfraser\\Application\\": "src/Ksfraser/Application/",
             "Ksfraser\\Application\\Models\\": "src/Ksfraser/Application/models/",
