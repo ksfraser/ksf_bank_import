@@ -1,7 +1,8 @@
 <?php
-use Ksfraser\FaBankImport\Service\BankImportLogger;
 
 namespace Ksfraser\ModulesDAO\Schema;
+
+use Ksfraser\FaBankImport\Service\BankImportLogger;
 
 /**
  * Shared schema maintenance helpers for installer/migrator services.

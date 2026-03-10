@@ -5,9 +5,6 @@
          colors="true"
          testdox="true">
     <testsuites>
-        <testsuite name="Root">
-            <directory>./tests</directory>
-        </testsuite>
         <testsuite name="Value Objects">
             <directory>./tests/ValueObject</directory>
         </testsuite>

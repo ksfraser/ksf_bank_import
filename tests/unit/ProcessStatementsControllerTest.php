@@ -40,44 +40,64 @@ class ProcessStatementsControllerTest extends TestCase
     {
         $_POST['UnsetTrans'] = [1, 2];
 
+        $called = [];
         $this->transactionModelMock->expects($this->exactly(2))
             ->method('unsetTransaction')
-            ->withConsecutive([1], [2]);
+            ->willReturnCallback(function($id) use (&$called) {
+                $called[] = $id;
+            });
 
         $this->controller->unsetTransaction();
+
+        $this->assertEquals([1, 2], $called);
     }
 
     public function testAddCustomerCallsModelMethod()
     {
         $_POST['AddCustomer'] = [1, 2];
 
+        $called = [];
         $this->transactionModelMock->expects($this->exactly(2))
             ->method('addCustomerFromTransaction')
-            ->withConsecutive([1], [2]);
+            ->willReturnCallback(function($id) use (&$called) {
+                $called[] = $id;
+            });
 
         $this->controller->addCustomer();
+
+        $this->assertEquals([1, 2], $called);
     }
 
     public function testAddVendorCallsModelMethod()
     {
         $_POST['AddVendor'] = [1, 2];
 
+        $called = [];
         $this->transactionModelMock->expects($this->exactly(2))
             ->method('addVendorFromTransaction')
-            ->withConsecutive([1], [2]);
+            ->willReturnCallback(function($id) use (&$called) {
+                $called[] = $id;
+            });
 
         $this->controller->addVendor();
+
+        $this->assertEquals([1, 2], $called);
     }
 
     public function testToggleTransactionCallsModelMethod()
     {
         $_POST['ToggleTransaction'] = [1, 2];
 
+        $called = [];
         $this->transactionModelMock->expects($this->exactly(2))
             ->method('toggleDebitCredit')
-            ->withConsecutive([1], [2]);
+            ->willReturnCallback(function($id) use (&$called) {
+                $called[] = $id;
+            });
 
         $this->controller->toggleTransaction();
+
+        $this->assertEquals([1, 2], $called);
     }
 
     public function testProcessTransactionWithValidPartnerType()

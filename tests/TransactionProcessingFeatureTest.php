@@ -75,7 +75,7 @@ class TransactionProcessingFeatureTest extends DatabaseTestCase
         ob_clean();
     }
 
-    protected function createTestTransaction(array $data): void
+    protected function createTestTransaction(array $data): int
     {
         // This should insert a test transaction into the database for testing
         // Implementation depends on your repository/database setup
@@ -87,6 +87,8 @@ class TransactionProcessingFeatureTest extends DatabaseTestCase
             'transactionDC' => $data['transactionDC'],
             'status' => $data['status'],
         ]);
+
+        return 1; // Assuming ID 1 for test
     }
 }
 // Duplicate removed by Copilot. Canonical version is in src/Ksfraser/FaBankImport/tests/TransactionProcessingFeatureTest.php

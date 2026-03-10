@@ -22,10 +22,10 @@
             "KsfBankImport\\OperationTypes\\": "OperationTypes/",
             "Views\\": "src/Views/"
         },        "classmap": [
-            "./"
+            "./",
+            "vendor/phpunit/phpunit/src/"
         ],
         "exclude-from-classmap": [
-            "vendor/",
             "tests/",
             "src/",
             "temp/",
@@ -34,7 +34,11 @@
             "lib/ksf_ofxparser/",
             "lib/jacques-ofxparser/",
             "lib/ofx4/",
-            "views/"
+            "views/",
+            "includes/Parser23.php",
+            "includes/parser_replaced_abstract_with_concrete.php",
+            "test_superglobals_integration.php",
+            "vendor/codeception/"
         ]
     },
     "autoload-dev": {
@@ -66,7 +70,7 @@
         }
     },
     "require-dev": {
-        "codeception/codeception": "^4.1",
+        "codeception/codeception": "^5.0",
         "mikey179/vfsstream": "^1.6.12",
         "symfony/http-foundation": "^5.4",
         "monolog/monolog": "^2.0",

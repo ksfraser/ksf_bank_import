@@ -78,7 +78,7 @@ class BankImportControllerTest extends TestCase
         $this->assertInstanceOf(BankImportController::class, $this->controller);
 
         // Test that controller has required properties
-        $this->assertObjectHasAttribute('transactionModel', $this->controller);
+        $this->assertObjectHasProperty('transactionModel', $this->controller);
 
         // Test index method with mock data
         $this->transactionModelMock->method('getAllTransactions')->willReturn([
@@ -90,7 +90,7 @@ class BankImportControllerTest extends TestCase
         $this->controller->index();
         $output = ob_get_clean();
 
-        $this->assertStringContains('Test Transaction 1', $output);
-        $this->assertStringContains('Test Transaction 2', $output);
+        $this->assertStringContainsString('Test Transaction 1', $output);
+        $this->assertStringContainsString('Test Transaction 2', $output);
     }
 }

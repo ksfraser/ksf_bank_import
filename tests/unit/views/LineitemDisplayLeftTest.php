@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../../views/LineitemDisplayLeft.php';
 
 // Load all the dependencies (TransDate, TransType, etc.)
 require_once __DIR__ . '/../../../views/TransDate.php';
-require_once __DIR__ . '/../../../views/TransType.php';
+require_once __DIR__ . '/../../../../src/Ksfraser/FaBankImport/views/TransType.php';
 require_once __DIR__ . '/../../../views/OurBankAccount.php';
 require_once __DIR__ . '/../../../views/OtherBankAccount.php';
 require_once __DIR__ . '/../../../views/AmountCharges.php';

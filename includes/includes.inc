@@ -11,11 +11,13 @@ require_once (__DIR__ . '/vendor/autoload.php' );
 
 require_once( __DIR__ . '/../class.bi_transactions.php' );
 
+if (!function_exists('get_transaction')) {
 function get_transaction($tid)
 {
         require_once( 'GetTransaction.php' );
         $t = new GetTransaction();
         return $t->get_transaction( $tid );
+}
 }
 
 /**//**************************************************************
