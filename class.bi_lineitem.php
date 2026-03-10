@@ -40,7 +40,7 @@ require_once( $viewsDir . '/TransactionTypeLabel.php' );
 
 // SRP View classes for label rows
 require_once( $viewsDir . '/TransDate.php' );
-require_once( $viewsDir . '/TransType.php' );
+require_once( $legacyViewsDir . '/TransType.php' );
 require_once( $viewsDir . '/OurBankAccount.php' );
 require_once( $viewsDir . '/OtherBankAccount.php' );
 require_once( $viewsDir . '/AmountCharges.php' );

@@ -223,10 +223,56 @@ class BankTransferTransactionHandlerTest extends TestCase
     /**
      * @test
      */
-    public function it_builds_comprehensive_memo_for_transfer(): void
+    public function it_processes_bank_transfer_successfully_with_mock_fa_class(): void
     {
-        // This would be tested in integration tests where we can
-        // verify the actual memo content passed to fa_bank_transfer
-        $this->assertTrue(true); // Placeholder
+        // Create a mock fa_bank_transfer class for testing
+        if (!class_exists('fa_bank_transfer')) {
+            eval('
+                class fa_bank_transfer {
+                    private $data = [];
+                    public function set($key, $value) { $this->data[$key] = $value; }
+                    public function get($key) { return $this->data[$key] ?? null; }
+                    public function write() { return 123; } // Mock transaction ID
+                }
+            ');
+        }
+
+        // Mock required functions
+        if (!function_exists('get_gl_trans_from_to')) {
+            eval('function get_gl_trans_from_to($begin, $end, $account) { return 1000.0; }');
+        }
+        if (!function_exists('get_bank_gl_account')) {
+            eval('function get_bank_gl_account($account) { return 1001; }');
+        }
+        if (!function_exists('add_bank_trans')) {
+            eval('function add_bank_trans(...$args) { return true; }');
+        }
+        if (!function_exists('add_comments')) {
+            eval('function add_comments(...$args) { return true; }');
+        }
+
+        $transaction = [
+            'transactionAmount' => 500.00,
+            'transactionDC' => 'D',
+            'valueTimestamp' => '2025-10-20 10:00:00',
+        ];
+
+        $transactionPostData = [
+            'partnerId' => 2,
+            'comment' => 'Test bank transfer'
+        ];
+
+        $ourAccount = ['id' => 1, 'bank_account_name' => 'Test Bank'];
+
+        $result = $this->handler->process(
+            $transaction,
+            $transactionPostData,
+            123,
+            '1,2,3',
+            $ourAccount
+        );
+
+        $this->assertFalse($result->isError());
+        $this->assertStringContainsString('processed successfully', $result->getMessage());
     }
 }

@@ -142,9 +142,11 @@ function get_bank_account_by_acctid($acctid)
 * @param string
 * @returns array
 ******************************************************************************/
+if (!function_exists('get_bank_account_by_number')) {
 function get_bank_account_by_number($account_number) 
 {
 	throw new Exception ("This function has been replaced by class.fa_bank_accounts.php" );
+}
 }
 
 /**//***************************************************************************
@@ -156,6 +158,7 @@ function get_bank_account_by_number($account_number)
 * @param string $account_number
 * @returns array
 ******************************************************************************/
+if (!function_exists('fa_get_bank_account_by_number')) {
 function fa_get_bank_account_by_number($account_number)
 {
 	$account_number = is_string($account_number) ? trim($account_number) : $account_number;
@@ -205,6 +208,7 @@ function fa_get_bank_account_by_number($account_number)
 	$result = db_query($sql,"could not get bank account");
 	$row = db_fetch($result);
 	return is_array($row) ? $row : [];
+}
 }
 
 /**//***************************************************
@@ -363,6 +367,7 @@ function my_write_customer_payment($trans_no, $customer_id, $branch_id, $bank_ac
 * @params string description
 * @returns float bank_amount
 ***********************************************************/
+if (!function_exists('qe_to_cart')) {
 function qe_to_cart(&$cart, $id, $base, $type, $descr='') 
 {
 	$bank_amount = 0;
@@ -582,6 +587,7 @@ function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 		}
     	}
     	return $bank_amount;
+}
 }
 
 /**//**********************************************
