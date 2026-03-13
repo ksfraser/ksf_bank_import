@@ -6,10 +6,13 @@ if (!ob_get_level()) {
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Load FAMock for comprehensive FA function mocking (suppress HTML output)
-ob_start();
-require_once __DIR__ . '/../vendor/ksfraser/famock/php/FAMock.php';
-ob_end_clean();
+// Load FAMock for comprehensive FA function mocking (suppress HTML output) - optional
+$famock_path = __DIR__ . '/../vendor/ksfraser/famock/php/FAMock.php';
+if (file_exists($famock_path)) {
+	ob_start();
+	require_once $famock_path;
+	ob_end_clean();
+}
 
 // FrontAccounting function stubs for tests (not guarded)
 require_once __DIR__ . '/helpers/fa_functions.php';
