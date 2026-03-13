@@ -89,11 +89,14 @@ function do_upload_form($error = '') {
 	global $parserRegistry, $parserSelector;
 	error_log('DEBUG: About to get parsers array');
 	$_parsers = $parserRegistry->getAvailableParsers();
+	error_log('DEBUG: Available parsers: ' . json_encode($_parsers));
 	$parsers = array();
 	foreach($_parsers as $pid => $pdata) {
 		$parsers[$pid] = $pdata['name'];
 	}
+	error_log('DEBUG: Formatted parsers for dropdown: ' . json_encode($parsers));
 	$selected_parser = $parserSelector->getSelectedParser();
+	error_log('DEBUG: Selected parser: ' . ($selected_parser ?? 'null'));
 	$form = new \Ksfraser\FaBankImport\Views\UploadFormView($parsers, $selected_parser);
 	$form->render();
 }
