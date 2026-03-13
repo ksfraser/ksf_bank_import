@@ -41,6 +41,11 @@ use Ksfraser\FaBankImport\Services\ParserRegistry;
 use Ksfraser\Superglobals\FormSubmission;
 use Ksfraser\FaBankImport\Request\ParserSelector;
 use Ksfraser\Superglobals\PostParameterProvider;
+use Ksfraser\FaBankImport\Service\StatementAccountMappingService;
+use Ksfraser\FaBankImport\Service\DetectedAccountAssociationKey;
+use Ksfraser\FaBankImport\Service\ImportRunLogger;
+use Ksfraser\FaBankImport\Service\BankImportPathResolver;
+use Ksfraser\FA\Auth\UserSession;
 
 // Initialize contexts
 $configRepo = new DatabaseConfigRepository();
@@ -62,11 +67,6 @@ if (function_exists('has_access') && isset($_SESSION['wa_current_user']) && isse
 
 // Handle parser management actions
 handle_parser_management();
-use Ksfraser\FaBankImport\Service\StatementAccountMappingService;
-use Ksfraser\FaBankImport\Service\DetectedAccountAssociationKey;
-use Ksfraser\FaBankImport\Service\ImportRunLogger;
-use Ksfraser\FaBankImport\Service\BankImportPathResolver;
-use Ksfraser\FA\Auth\UserSession;
 
 //TODO Migrate to use HTML classes
 
