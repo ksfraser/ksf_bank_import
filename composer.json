@@ -51,8 +51,7 @@
             "KsfBankImport\\OperationTypes\\": "OperationTypes/",
             "Views\\": "src/Views/"
         },        "classmap": [
-            "./",
-            "vendor/phpunit/phpunit/src/"
+            "./"
         ],
         "exclude-from-classmap": [
             "tests/",
