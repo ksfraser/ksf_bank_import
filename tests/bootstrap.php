@@ -6,6 +6,13 @@ if (!ob_get_level()) {
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Load FAMock for comprehensive FA function mocking (suppress HTML output)
+// NOTE: Temporarily commented out - FAMock has PHP syntax issues.
+// The fa_stubs.php and fa_functions.php provide equivalent mocking.
+// ob_start();
+// require_once __DIR__ . '/../vendor/ksfraser/famock/php/FAMock.php';
+// ob_end_clean();
+
 // FrontAccounting function stubs for tests (not guarded)
 require_once __DIR__ . '/helpers/fa_functions.php';
 

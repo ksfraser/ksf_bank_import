@@ -80,6 +80,10 @@
         }
     },
     "repositories": [
+        {
+            "type": "path",
+            "url": "../FAMock-repo"
+        }
     ],
     "require": {
         "php": ">=7.3",
@@ -97,6 +101,7 @@
         "mikey179/vfsstream": "^1.6.12",
         "symfony/http-foundation": "^5.4",
         "monolog/monolog": "^2.0",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5",
+        "ksfraser/famock": "^0.4.2"
     }
 }
