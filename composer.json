@@ -42,8 +42,7 @@
             "vendor/nesbot/carbon/lazy/Carbon/MessageFormatter/MessageFormatterMapperWeakType.php",
             "vendor/nesbot/carbon/lazy/Carbon/PHPStan/AbstractMacroStatic.php",
             "vendor/nesbot/carbon/lazy/Carbon/PHPStan/MacroWeakType.php",
-            "vendor/nesbot/carbon/lazy/Carbon/TranslatorWeakType.php",
-            "vendor/ksfraser/famock/"
+            "vendor/nesbot/carbon/lazy/Carbon/TranslatorWeakType.php"
         ]
     },
     "autoload-dev": {
@@ -69,7 +68,6 @@
         "mikey179/vfsstream": "^1.6.12",
         "symfony/http-foundation": "^5.4",
         "monolog/monolog": "^2.0",
-        "phpunit/phpunit": "^8.5",
-        "ksfraser/famock": "^0.4.2"
+        "phpunit/phpunit": "^8.5"
     }
 }

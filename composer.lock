@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7c71b574a23e93bf953c9f9b4e98268",
+    "content-hash": "46a963b6ce8ebb8f3b2e99993ce51ceb",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -918,57 +918,6 @@
                 }
             ],
             "time": "2022-12-30T00:15:36+00:00"
-        },
-        {
-            "name": "ksfraser/famock",
-            "version": "0.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ksfraser/FAMock.git",
-                "reference": "92d7a80a51dd430cb0d4ba78810f5ff4ca96398f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ksfraser/FAMock/zipball/92d7a80a51dd430cb0d4ba78810f5ff4ca96398f",
-                "reference": "92d7a80a51dd430cb0d4ba78810f5ff4ca96398f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.6"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "0.2.x-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "php/FAMock.php"
-                ],
-                "psr-4": {
-                    "Ksfraser\\FAMock\\": "php/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kevin Fraser",
-                    "email": "kevin@ksfraser.com"
-                }
-            ],
-            "description": "FrontAccounting function mocks for unit testing",
-            "support": {
-                "issues": "https://github.com/ksfraser/FAMock/issues",
-                "source": "https://github.com/ksfraser/FAMock/tree/0.4.3"
-            },
-            "time": "2026-03-12T20:52:59+00:00"
         },
         {
             "name": "mikey179/vfsstream",
