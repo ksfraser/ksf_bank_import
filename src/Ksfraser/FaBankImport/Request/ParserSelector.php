@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Request;
 
 use Ksfraser\FaBankImport\Services\ParserRegistry;
+use Ksfraser\Superglobals\ParameterProvider;
 
 /**
  * SRP class for selecting a parser based on request parameters.
