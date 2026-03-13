@@ -45,8 +45,8 @@ use Ksfraser\Superglobals\PostParameterProvider;
 // Initialize contexts
 $configRepo = new DatabaseConfigRepository();
 $parserRegistry = new ParserRegistry($configRepo);
-$formSubmission = new FormSubmission();
 $parameterProvider = new PostParameterProvider();
+$formSubmission = new FormSubmission($parameterProvider);
 $parserSelector = new ParserSelector($parameterProvider, $parserRegistry);
 
 // Check for new parsers and display warning if user has access
