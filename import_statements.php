@@ -779,6 +779,7 @@ function parse_uploaded_files() {
 		echo '<h3 style="color: #856404; margin-top: 0;">Duplicate Files Detected</h3>';
 		echo '<p>' . _("Select what to do for each duplicate, then proceed.") . '</p>';
 		echo '<form method="post">';
+		echo '<input type="hidden" name="state" value="duplicate_review" />';
 
 		foreach ($pending_duplicates as $dup) {
 			$idx = (int)$dup['file_index'];
@@ -1674,10 +1675,16 @@ switch ($state) {
 		}
 		break;
 	case 'duplicate_review':
-		resolve_duplicate_uploads();
+		if (!empty($_POST['cancel_duplicates'])) {
+			cancel_duplicate_uploads();
+			do_upload_form();
+		} else {
+			resolve_duplicate_uploads();
+		}
 		break;
 	case 'duplicate_cancel':
 		cancel_duplicate_uploads();
+		$_SESSION['bank_import_state'] = 'upload';
 		do_upload_form();
 		break;
 	case 'account_resolution':
