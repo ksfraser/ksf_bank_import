@@ -103,8 +103,8 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
             // Record change in history
             $this->recordHistory($key, $oldValue, $value, $username, $reason);
             
-            // Update cache
-            $this->cache[$key] = $this->castValue($value, $this->getConfigType($key));
+            // Update cache (convert value to string first, then cast to appropriate type)
+            $this->cache[$key] = $this->castValue($stringValue, $this->getConfigType($key));
             
             return true;
         }
@@ -388,6 +388,14 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      */
     private function castValue(string $value, string $type)
     {
+        // Try to deserialize JSON arrays
+        if ((string)$value !== '' && in_array($value[0], ['{', '['])) {
+            $decoded = json_decode($value, true);
+            if (json_last_error() === JSON_ERROR_NONE && $decoded !== null) {
+                return $decoded;
+            }
+        }
+        
         switch ($type) {
             case 'boolean':
                 return (bool)(int)$value;
@@ -411,6 +419,10 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     {
         if (is_bool($value)) {
             return $value ? '1' : '0';
+        }
+        
+        if (is_array($value)) {
+            return json_encode($value);
         }
         
         return (string)$value;
