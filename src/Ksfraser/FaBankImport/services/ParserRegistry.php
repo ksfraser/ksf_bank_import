@@ -150,6 +150,7 @@ class ParserRegistry
             $discoveredIds = array_keys($discovered);
             $this->setActiveParsers($discoveredIds, 'system:initialization');
             $active = $discoveredIds;
+        }
 
         foreach ($active as $parserId) {
             if (isset($discovered[$parserId])) {
