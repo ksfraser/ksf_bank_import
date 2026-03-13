@@ -1654,15 +1654,23 @@ function cancel_duplicate_uploads() {
 
 
 // select changed
-if (get_post('_parser_update')) {
+error_log('DEBUG: About to check get_post');
+if (function_exists('get_post') && get_post('_parser_update')) {
+	error_log('DEBUG: _parser_update detected');
 	if (isset($Ajax)) {
 		$Ajax->activate('doc_tbl');
 	}
 }
 
-start_form(true);
+error_log('DEBUG: About to call start_form');
+if (function_exists('start_form')) {
+	start_form(true);
+	error_log('DEBUG: start_form completed successfully');
+} else {
+	error_log('ERROR: start_form function not found!');
+}
 
-
+error_log('DEBUG: About to enter state machine');
 
 // --- State Machine Implementation ---
 $state = $formSubmission->getState() ?? (isset($_SESSION['bank_import_state']) ? $_SESSION['bank_import_state'] : 'upload');
