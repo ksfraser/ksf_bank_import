@@ -453,6 +453,8 @@ function handle_parser_management() {
 		display_notification(_("Parser deactivated: ") . $parserId);
 	}
 }
+
+function bank_import_log_dir()
 {
 	return BankImportPathResolver::forCurrentCompany()->logsDir();
 }
