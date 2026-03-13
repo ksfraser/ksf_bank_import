@@ -190,7 +190,7 @@ class BiStatementsProductionBaselineTest extends TestCase
         $fileContents = file_get_contents($modelFile);
         
         // Verify requires
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             "/require_once\(\s*(['\"].*generic_fa_interface\.php['\"]|\\\$commonInterface)\s*\)/",
             $fileContents,
             'Should require generic_fa_interface base class (either literally or via variable)'

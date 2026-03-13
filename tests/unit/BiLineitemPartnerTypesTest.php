@@ -291,7 +291,7 @@ class BiLineitemPartnerTypesTest extends TestCase
         foreach ($optypes as $code => $label) {
             $this->assertIsString($code, "Code must be string");
             $this->assertIsString($label, "Label must be string");
-            $this->assertMatchesRegularExpression(
+            $this->assertRegExp(
                 '/^[A-Z]{2}$/',
                 $code,
                 "Code must be 2 uppercase letters"

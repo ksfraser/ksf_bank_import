@@ -1000,6 +1000,114 @@ if (!function_exists('quick_entries_list')) {
     }
 }
 
+// =============================================================================
+// Company Preference Functions
+// =============================================================================
+
+if (!function_exists('set_company_pref')) {
+    /**
+     * Set a company preference value
+     * @param string $pref_name Preference name
+     * @param mixed $pref_value Preference value
+     * @param int $company_id Company ID (optional)
+     * @return void
+     */
+    function set_company_pref(string $pref_name, $pref_value, int $company_id = 0): void {
+        // Store in global test array for unit tests
+        global $_test_company_prefs;
+        if (!isset($_test_company_prefs)) {
+            $_test_company_prefs = [];
+        }
+        $_test_company_prefs[$pref_name] = $pref_value;
+    }
+}
+
+if (!function_exists('get_company_pref')) {
+    /**
+     * Get a company preference value
+     * @param string $pref_name Preference name
+     * @param int $company_id Company ID (optional)
+     * @return mixed Preference value or null
+     */
+    function get_company_pref(string $pref_name, int $company_id = 0) {
+        // Retrieve from global test array for unit tests
+        global $_test_company_prefs;
+        if (!isset($_test_company_prefs)) {
+            $_test_company_prefs = [];
+        }
+        return $_test_company_prefs[$pref_name] ?? null;
+    }
+}
+
+// =============================================================================
+// Bank Account Functions
+// =============================================================================
+
+if (!function_exists('get_bank_account')) {
+    /**
+     * Get bank account information
+     * @param int|string $account_id Account ID
+     * @return array|false Bank account data or false
+     */
+    function get_bank_account($account_id) {
+        // Stub - returns test bank account data
+        return [
+            'account_code' => '0000',
+            'bank_name' => 'Test Bank',
+            'bank_account_number' => '0000000000',
+            'currency_code' => 'USD',
+        ];
+    }
+}
+
+if (!function_exists('db_get_bank_account')) {
+    /**
+     * Get bank account from database
+     * @param int|string $account_id Account ID
+     * @return array|false Bank account data or false
+     */
+    function db_get_bank_account($account_id) {
+        return get_bank_account($account_id);
+    }
+}
+
+// =============================================================================
+// Identity Functions
+// =============================================================================
+
+if (!function_exists('collect_detected_identity_meta')) {
+    /**
+     * Collect detected identity metadata from bank transactions
+     * @param array $transactions Array of transactions
+     * @param array $options Additional options
+     * @return array Collected identity metadata
+     */
+    function collect_detected_identity_meta(array $transactions, array $options = []): array {
+        // Stub - returns empty metadata
+        return [
+            'identities_found' => 0,
+            'confidence_score' => 0,
+            'data' => [],
+        ];
+    }
+}
+
+// =============================================================================
+// Parser Functions
+// =============================================================================
+
+if (!function_exists('getParsers')) {
+    /**
+     * Get available bank statement parsers
+     * @return array Array of available parsers
+     */
+    function getParsers(): array {
+        // Stub - returns empty parser list
+        // Tests should mock this or use ParserRegistry instead
+        return [];
+    }
+}
+
 if (!function_exists('get_quick_entry')) {
     /**
      * Get quick entry details

@@ -78,7 +78,7 @@ class BankImportControllerTest extends TestCase
         $this->assertInstanceOf(BankImportController::class, $this->controller);
 
         // Test that controller has required properties
-        $this->assertObjectHasProperty('transactionModel', $this->controller);
+        $this->assertObjectHasAttribute('transactionModel', $this->controller);
 
         // Test index method with mock data
         $this->transactionModelMock->method('getAllTransactions')->willReturn([

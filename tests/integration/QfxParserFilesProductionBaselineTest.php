@@ -132,7 +132,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         $filePath = $this->rootDir . '/class.CibcQfxParser.php';
         $content = file_get_contents($filePath);
         
-        $this->assertMatchesRegularExpression('/class\s+CibcQfxParser\s+extends\s+AbstractQfxParser/',
+        $this->assertRegExp('/class\s+CibcQfxParser\s+extends\s+AbstractQfxParser/',
             $content, 'PROD CibcQfxParser extends AbstractQfxParser');
     }
 
@@ -144,7 +144,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         $filePath = $this->rootDir . '/class.ManuQfxParser.php';
         $content = file_get_contents($filePath);
         
-        $this->assertMatchesRegularExpression('/class\s+ManuQfxParser\s+extends\s+AbstractQfxParser/',
+        $this->assertRegExp('/class\s+ManuQfxParser\s+extends\s+AbstractQfxParser/',
             $content, 'PROD ManuQfxParser extends AbstractQfxParser');
     }
 
@@ -157,7 +157,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         $content = file_get_contents($filePath);
         
         // Note: class name is PmcQfxParser, not PcmcQfxParser
-        $this->assertMatchesRegularExpression('/class\s+PmcQfxParser\s+extends\s+AbstractQfxParser/',
+        $this->assertRegExp('/class\s+PmcQfxParser\s+extends\s+AbstractQfxParser/',
             $content, 'PROD PcmcQfxParser file contains PmcQfxParser class');
     }
 
@@ -171,7 +171,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         
         $this->assertStringContainsString('class QfxParserFactory', $content,
             'PROD has QfxParserFactory class');
-        $this->assertMatchesRegularExpression('/public\s+(static\s+)?function\s+create/',
+        $this->assertRegExp('/public\s+(static\s+)?function\s+create/',
             $content, 'PROD has create factory method');
     }
 
@@ -225,7 +225,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         $filePath = $this->rootDir . '/class.AbstractQfxParser.php';
         $content = file_get_contents($filePath);
         
-        $this->assertMatchesRegularExpression('/abstract\s+public\s+function\s+parse/',
+        $this->assertRegExp('/abstract\s+public\s+function\s+parse/',
             $content, 'PROD AbstractQfxParser has abstract parse() method');
     }
 
@@ -268,7 +268,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         foreach ($files as $file) {
             $filePath = $this->rootDir . '/' . $file;
             $content = file_get_contents($filePath);
-            $this->assertMatchesRegularExpression('/require_once|include_once/',
+            $this->assertRegExp('/require_once|include_once/',
                 $content, "PROD {$file} uses require_once/include_once (not PSR-4)");
         }
     }
