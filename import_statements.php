@@ -40,13 +40,15 @@ use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
 use Ksfraser\FaBankImport\Services\ParserRegistry;
 use Ksfraser\Superglobals\FormSubmission;
 use Ksfraser\FaBankImport\Request\ParserSelector;
+use Ksfraser\FaBankImport\Request\PostParameterProviderAdapter;
 use Ksfraser\Superglobals\PostParameterProvider;
 
 // Initialize contexts
 $configRepo = new DatabaseConfigRepository();
 $parserRegistry = new ParserRegistry($configRepo);
-$parameterProvider = new PostParameterProvider();
-$formSubmission = new FormSubmission($parameterProvider);
+$superglobalsProvider = new PostParameterProvider();
+$formSubmission = new FormSubmission($superglobalsProvider);
+$parameterProvider = new PostParameterProviderAdapter($superglobalsProvider);
 $parserSelector = new ParserSelector($parameterProvider, $parserRegistry);
 
 // Check for new parsers and display warning if user has access
