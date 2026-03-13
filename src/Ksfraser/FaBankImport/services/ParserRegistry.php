@@ -31,23 +31,33 @@ class ParserRegistry
 
         // Scan Parsers/ directory for local parser packages
         if (is_dir($this->parsersDir)) {
+            error_log('DEBUG ParserRegistry: Scanning ' . $this->parsersDir);
             $this->scanDirectory($this->parsersDir);
+        } else {
+            error_log('DEBUG ParserRegistry: parsersDir not found: ' . $this->parsersDir);
         }
 
         // Scan vendor/ for Composer-installed parser packages
         $vendorDir = dirname(__DIR__, 4) . '/vendor';
         if (is_dir($vendorDir)) {
+            error_log('DEBUG ParserRegistry: Scanning vendor at ' . $vendorDir);
             $this->scanVendorDirectory($vendorDir);
+        } else {
+            error_log('DEBUG ParserRegistry: vendor dir not found: ' . $vendorDir);
         }
+        
+        error_log('DEBUG ParserRegistry: discoverParsers found ' . count($this->discoveredParsers) . ' parsers: ' . json_encode(array_keys($this->discoveredParsers)));
 
         return $this->discoveredParsers;
     }
 
     private function scanDirectory(string $dir): void
     {
+        error_log('DEBUG ParserRegistry: scanDirectory ' . $dir);
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir));
         foreach ($iterator as $file) {
             if ($file->getFilename() === 'parser.json') {
+                error_log('DEBUG ParserRegistry: Found parser.json at ' . $file->getPathname());
                 $this->loadParserManifest($file->getPathname());
             }
         }
@@ -65,13 +75,17 @@ class ParserRegistry
 
     private function loadParserManifest(string $manifestPath): void
     {
+        error_log('DEBUG ParserRegistry: loadParserManifest ' . $manifestPath);
         $manifest = json_decode(file_get_contents($manifestPath), true);
         if ($manifest && isset($manifest['class'])) {
             $parserId = basename(dirname($manifestPath)); // Use directory name as ID
+            error_log('DEBUG ParserRegistry: Loaded parser: ' . $parserId);
             $this->discoveredParsers[$parserId] = [
                 'manifest' => $manifest,
                 'path' => dirname($manifestPath),
             ];
+        } else {
+            error_log('DEBUG ParserRegistry: WARNING - manifest invalid or missing class: ' . $manifestPath);
         }
     }
 
@@ -145,9 +159,12 @@ class ParserRegistry
         $active = $this->getActiveParsers();
         $discovered = $this->getDiscoveredParsers();
         
+        error_log('DEBUG ParserRegistry: active=' . json_encode($active) . ', discovered=' . json_encode(array_keys($discovered)));
+        
         // On first use, if no parsers are configured as active, auto-activate all discovered ones
         if (empty($active) && !empty($discovered)) {
             $discoveredIds = array_keys($discovered);
+            error_log('DEBUG ParserRegistry: Auto-activating ' . count($discoveredIds) . ' discovered parsers: ' . json_encode($discoveredIds));
             $this->setActiveParsers($discoveredIds, 'system:initialization');
             $active = $discoveredIds;
         }
