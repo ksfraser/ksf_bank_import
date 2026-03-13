@@ -1661,6 +1661,10 @@ if (function_exists('start_form')) {
 
 // --- State Machine Implementation ---
 $state = $formSubmission->getState() ?? (isset($_SESSION['bank_import_state']) ? $_SESSION['bank_import_state'] : 'upload');
+error_log("DEBUG: State Machine - Received state: '$state', POST keys: " . implode(', ', array_keys($_POST)));
+if (!empty($_POST['state'])) {
+	error_log("DEBUG: State Machine - POST['state'] = '" . $_POST['state'] . "'");
+}
 
 switch ($state) {
 	case 'upload':
