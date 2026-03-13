@@ -77,7 +77,7 @@ $menu = new \Views\ModuleMenuView();
 $menu->renderMenu(); // Render the module menu
 
 function do_upload_form($error = '') {
-	require_once __DIR__ . '/src/Ksfraser/FaBankImport/Views/UploadFormView.php';
+	require_once __DIR__ . '/src/Ksfraser/FaBankImport/views/UploadFormView.php';
 	global $parserRegistry, $parserSelector;
 	$_parsers = $parserRegistry->getParsersArray();
 	$parsers = array();
