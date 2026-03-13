@@ -135,6 +135,7 @@ class ParserRegistry
     /**
      * Returns an associative array of active parsers.
      * Each parser is keyed by its ID and contains config info.
+     * On first use (no active parsers configured), auto-activates all discovered parsers.
      *
      * @return array
      */
@@ -143,6 +144,12 @@ class ParserRegistry
         $parsers = [];
         $active = $this->getActiveParsers();
         $discovered = $this->getDiscoveredParsers();
+        
+        // On first use, if no parsers are configured as active, auto-activate all discovered ones
+        if (empty($active) && !empty($discovered)) {
+            $discoveredIds = array_keys($discovered);
+            $this->setActiveParsers($discoveredIds, 'system:initialization');
+            $active = $discoveredIds;
 
         foreach ($active as $parserId) {
             if (isset($discovered[$parserId])) {
