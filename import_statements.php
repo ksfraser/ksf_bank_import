@@ -9,6 +9,10 @@
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
     See the License here <http://www.gnu.org/licenses/gpl-3.0.html>.
 ***********************************************************************/
+
+// Enable debugging - check if file is being executed
+error_log('DEBUG: import_statements.php loaded at ' . date('Y-m-d H:i:s'));
+
 // Ensure Composer autoloader is loaded for trait/class autoloading
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -76,9 +80,14 @@ include_once __DIR__ . "/views/module_menu_view.php"; // Include the ModuleMenuV
 $menu = new \Views\ModuleMenuView();
 $menu->renderMenu(); // Render the module menu
 
+// DEBUG: Check if we're reaching the state machine
+error_log('DEBUG: Menu rendered, about to enter state machine');
+
 function do_upload_form($error = '') {
+	error_log('DEBUG: do_upload_form() called');
 	require_once __DIR__ . '/src/Ksfraser/FaBankImport/views/UploadFormView.php';
 	global $parserRegistry, $parserSelector;
+	error_log('DEBUG: About to get parsers array');
 	$_parsers = $parserRegistry->getParsersArray();
 	$parsers = array();
 	foreach($_parsers as $pid => $pdata) {
@@ -1646,7 +1655,9 @@ function cancel_duplicate_uploads() {
 
 // select changed
 if (get_post('_parser_update')) {
-	$Ajax->activate('doc_tbl');
+	if (isset($Ajax)) {
+		$Ajax->activate('doc_tbl');
+	}
 }
 
 start_form(true);
@@ -1656,8 +1667,11 @@ start_form(true);
 // --- State Machine Implementation ---
 $state = $formSubmission->getState() ?? (isset($_SESSION['bank_import_state']) ? $_SESSION['bank_import_state'] : 'upload');
 
+error_log('DEBUG: State machine - current state: ' . ($state ?? 'null'));
+
 switch ($state) {
 	case 'upload':
+		error_log('DEBUG: Calling do_upload_form()');
 		do_upload_form();
 		break;
 	case 'parse_upload':
