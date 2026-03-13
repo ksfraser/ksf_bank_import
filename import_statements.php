@@ -88,7 +88,7 @@ function do_upload_form($error = '') {
 	require_once __DIR__ . '/src/Ksfraser/FaBankImport/views/UploadFormView.php';
 	global $parserRegistry, $parserSelector;
 	error_log('DEBUG: About to get parsers array');
-	$_parsers = $parserRegistry->getParsersArray();
+	$_parsers = $parserRegistry->getAvailableParsers();
 	$parsers = array();
 	foreach($_parsers as $pid => $pdata) {
 		$parsers[$pid] = $pdata['name'];
