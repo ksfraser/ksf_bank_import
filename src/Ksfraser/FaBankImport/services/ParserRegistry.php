@@ -33,12 +33,16 @@ class ParserRegistry
         // Scan Parsers/ directory for local parser packages
         if (is_dir($this->parsersDir)) {
             $this->scanDirectory($this->parsersDir);
+        } else {
+            error_log('DEBUG ParserRegistry: parsersDir not found: ' . $this->parsersDir);
         }
 
         // Scan vendor/ for Composer-installed parser packages
         $vendorDir = dirname(__DIR__, 4) . '/vendor';
         if (is_dir($vendorDir)) {
             $this->scanVendorDirectory($vendorDir);
+        } else {
+            error_log('DEBUG ParserRegistry: vendor dir not found: ' . $vendorDir);
         }
 
         return $this->discoveredParsers;
@@ -73,6 +77,8 @@ class ParserRegistry
                 'manifest' => $manifest,
                 'path' => dirname($manifestPath),
             ];
+        } else {
+            error_log('DEBUG ParserRegistry: WARNING - manifest invalid or missing class: ' . $manifestPath);
         }
     }
 
