@@ -85,7 +85,8 @@ function do_upload_form($error = '') {
 		$parsers[$pid] = $pdata['name'];
 	}
 	$selected_parser = $parserSelector->getSelectedParser();
-	\Ksfraser\FaBankImport\Views\UploadFormView::render($parsers, $selected_parser, $error);
+	$form = new \Ksfraser\FaBankImport\Views\UploadFormView($parsers, $selected_parser);
+	$form->render();
 }
 
 function import_statements() {
