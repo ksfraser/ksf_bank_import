@@ -35,10 +35,15 @@
             "lib/jacques-ofxparser/",
             "lib/ofx4/",
             "views/",
-            "includes/Parser23.php",
+            "includes/Parser*.php",
             "includes/parser_replaced_abstract_with_concrete.php",
             "test_superglobals_integration.php",
-            "vendor/codeception/"
+            "vendor/codeception/",
+            "vendor/nesbot/carbon/lazy/Carbon/MessageFormatter/MessageFormatterMapperWeakType.php",
+            "vendor/nesbot/carbon/lazy/Carbon/PHPStan/AbstractMacroStatic.php",
+            "vendor/nesbot/carbon/lazy/Carbon/PHPStan/MacroWeakType.php",
+            "vendor/nesbot/carbon/lazy/Carbon/TranslatorWeakType.php",
+            "vendor/ksfraser/famock/vendor/"
         ]
     },
     "autoload-dev": {
@@ -51,22 +56,20 @@
     "require": {
         "php": ">=7.3",
         "mimographix/qif-library": "^1.0",
-        "nesbot/carbon": "^2.46",
-        "psr/container": "^1.0",
-        "ksfraser/genericinterface": "^0.1.0",
-        "ksfraser/superglobals": "*"
+        "ksfraser/genericinterface": "^0.6.0",
+        "ksfraser/superglobals": "*",
+        "ksfraser/ksf_ofxparser": "*"
     },
     "config": {
         "platform": {
-            "php": "8.4"
+            "php": "7.3"
         }
     },
     "require-dev": {
-        "codeception/codeception": "^5.0",
         "mikey179/vfsstream": "^1.6.12",
         "symfony/http-foundation": "^5.4",
         "monolog/monolog": "^2.0",
-        "phpunit/phpunit": "^9.5.20",
-        "ksfraser/famock": "dev-main"
+        "phpunit/phpunit": "^8.5",
+        "ksfraser/famock": "^0.4.2"
     }
 }

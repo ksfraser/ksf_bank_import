@@ -52,3 +52,6 @@ GenericInterface/
 
 # Ignore HTML code changes for not
 /src/Ksfraser/HTML
+# Test results files
+unit_test_results.txt
+phpunit.log
