@@ -25,6 +25,8 @@ class UploadFormView
         $html .= '</td></tr>';
         // File input
         $html .= '<tr><td>' . _("Files") . '</td><td><input type="file" name="files[]" multiple /></td></tr>';
+        // Hidden state field - tells state machine to transition to parse_upload
+        $html .= '<input type="hidden" name="state" value="parse_upload" />';
         // Upload button
         $html .= '<tr><td class="label">Upload</td><td><button type="submit" name="upload">' . _("Upload") . '</button></td></tr>';
         $html .= '</table>';
