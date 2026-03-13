@@ -34,7 +34,6 @@ include_once(__DIR__ . '/includes/parsers.inc');
 require_once __DIR__ . '/includes/qfx_parser.php';
 
 // Mantis #2708: File upload management - Refactored (Phase 2)
-require_once __DIR__ . '/vendor/autoload.php';
 use Ksfraser\FaBankImport\Service\FileUploadService;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;

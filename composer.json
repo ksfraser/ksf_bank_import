@@ -43,7 +43,7 @@
             "vendor/nesbot/carbon/lazy/Carbon/PHPStan/AbstractMacroStatic.php",
             "vendor/nesbot/carbon/lazy/Carbon/PHPStan/MacroWeakType.php",
             "vendor/nesbot/carbon/lazy/Carbon/TranslatorWeakType.php",
-            "vendor/ksfraser/famock/vendor/"
+            "vendor/ksfraser/famock/"
         ]
     },
     "autoload-dev": {
