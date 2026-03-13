@@ -19,7 +19,8 @@ class ParserRegistry
     {
         $this->configRepo = $configRepo;
         // Default to <project-root>/Parsers
-        $this->parsersDir = $parsersDir ?: dirname(__DIR__, 3) . '/Parsers';
+        // __DIR__ = src/Ksfraser/FaBankImport/services, so dirname(..., 4) = project-root
+        $this->parsersDir = $parsersDir ?: dirname(__DIR__, 4) . '/Parsers';
     }
 
     /**
