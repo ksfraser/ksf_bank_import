@@ -55,11 +55,11 @@ class ProcessStatementsLogicCharacterizationTest extends TestCase
         $preclean = $this->loadFile('src/Ksfraser/FaBankImport/process_statements_preclean.php');
 
         foreach ([$current, $preclean] as $content) {
-            $this->assertMatchesRegularExpression('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/', $content);
-            $this->assertMatchesRegularExpression('/switch\s*\(\s*true\s*\)/', $content);
-            $this->assertMatchesRegularExpression('/if\s*\(\s*\$_POST\[\'statusFilter\'\]\s*==\s*0\s*OR\s*\$_POST\[\'statusFilter\'\]\s*==\s*1\s*\)/', $content);
-            $this->assertMatchesRegularExpression('/foreach\s*\(\s*\$trzs\s+as\s+\$trz_code\s*=>\s*\$trz_data\s*\)/', $content);
-            $this->assertMatchesRegularExpression('/foreach\s*\(\s*\$trz_data\s+as\s+\$idx\s*=>\s*\$trz\s*\)/', $content);
+            $this->assertRegExp('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/', $content);
+            $this->assertRegExp('/switch\s*\(\s*true\s*\)/', $content);
+            $this->assertRegExp('/if\s*\(\s*\$_POST\[\'statusFilter\'\]\s*==\s*0\s*OR\s*\$_POST\[\'statusFilter\'\]\s*==\s*1\s*\)/', $content);
+            $this->assertRegExp('/foreach\s*\(\s*\$trzs\s+as\s+\$trz_code\s*=>\s*\$trz_data\s*\)/', $content);
+            $this->assertRegExp('/foreach\s*\(\s*\$trz_data\s+as\s+\$idx\s*=>\s*\$trz\s*\)/', $content);
         }
 
         $expectedCases = ['BT', 'CU', 'MA', 'QE', 'SP', 'ZZ'];
@@ -106,8 +106,8 @@ class ProcessStatementsLogicCharacterizationTest extends TestCase
         $content = file_get_contents($refactoredPath);
         $this->assertNotFalse($content);
 
-        $this->assertMatchesRegularExpression('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/', $content);
-        $this->assertMatchesRegularExpression('/switch\s*\(\s*true\s*\)/', $content);
+        $this->assertRegExp('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/', $content);
+        $this->assertRegExp('/switch\s*\(\s*true\s*\)/', $content);
         $this->assertStringContainsString("case (\$_POST['partnerType'][\$k] == 'SP'):", $content);
         $this->assertStringContainsString("case (\$_POST['partnerType'][\$k] == 'CU'", $content);
     }
@@ -121,7 +121,7 @@ class ProcessStatementsLogicCharacterizationTest extends TestCase
         $novemberContent = $this->loadFileFromCommit('524664f', 'process_statements.php');
 
         foreach ([$aprilContent, $novemberContent] as $content) {
-            $this->assertMatchesRegularExpression('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/', $content);
+            $this->assertRegExp('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/', $content);
 
             if (preg_match('/switch\s*\(\s*true\s*\)/', $content) === 1) {
                 $cases = $this->extractPartnerTypeCases($content);
@@ -132,7 +132,7 @@ class ProcessStatementsLogicCharacterizationTest extends TestCase
             } else {
                 // Some historical snapshots used controller-style refactor.
                 $this->assertStringContainsString('class ProcessStatementsController', $content);
-                $this->assertMatchesRegularExpression('/switch\s*\(\s*\$partnerType\s*\)/', $content);
+                $this->assertRegExp('/switch\s*\(\s*\$partnerType\s*\)/', $content);
                 $this->assertStringContainsString('processSupplierTransaction', $content);
                 $this->assertStringContainsString('processCustomerTransaction', $content);
                 $this->assertStringContainsString('processBankTransfer', $content);

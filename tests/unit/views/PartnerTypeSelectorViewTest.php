@@ -109,7 +109,7 @@ class PartnerTypeSelectorViewTest extends TestCase
         $html = $view->render()->getHtml();
         
         // Customer option should be selected
-        $this->assertMatchesRegularExpression('/<option[^>]*value="customer"[^>]*selected/', $html);
+        $this->assertRegExp('/<option[^>]*value="customer"[^>]*selected/', $html);
     }
     
     /**

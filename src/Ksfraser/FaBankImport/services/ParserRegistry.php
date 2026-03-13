@@ -3,7 +3,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\ParserConfig;
-use Ksfraser\FaBankImport\Repositories\DatabaseConfigRepository;
+use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
 
 /**
  * ParserRegistry discovers and returns available parsers.

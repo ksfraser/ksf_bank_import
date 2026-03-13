@@ -226,7 +226,7 @@ class ProcessStatementsPartnerTypesTest extends TestCase
         foreach ($newOptypes as $key => $value) {
             $this->assertIsString($key, 'Keys must be strings for array_selector');
             $this->assertIsString($value, 'Values must be strings for array_selector');
-            $this->assertMatchesRegularExpression(
+            $this->assertRegExp(
                 '/^[A-Z]{2}$/',
                 $key,
                 'Keys should be 2-letter uppercase codes'

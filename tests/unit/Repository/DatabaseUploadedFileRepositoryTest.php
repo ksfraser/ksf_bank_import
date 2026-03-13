@@ -110,7 +110,7 @@ class DatabaseUploadedFileRepositoryTest extends TestCase
         $this->assertNotNull($insertQuery, 'Should have found an INSERT query');
         // Verify that it contains literal NULL and not empty string ''
         // Use regex to be flexible with whitespace around comma
-        $this->assertMatchesRegularExpression('/,\s*NULL\s*,/', $insertQuery);
+        $this->assertRegExp('/,\s*NULL\s*,/', $insertQuery);
         $this->assertStringNotContainsString(", '',", $insertQuery);
     }
 }

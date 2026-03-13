@@ -232,7 +232,7 @@ class MatchingTransactionsListTest extends TestCase
         $html = $list->render();
         
         // Matching amount should be in bold
-        $this->assertMatchesRegularExpression('/<b>.*-?432\.41.*<\/b>/i', $html);
+        $this->assertRegExp('/<b>.*-?432\.41.*<\/b>/i', $html);
     }
 
     /**

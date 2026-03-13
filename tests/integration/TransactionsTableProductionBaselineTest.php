@@ -69,10 +69,10 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testHasThreeClasses(): void
     {
-        $this->assertMatchesRegularExpression('/class\s+transaction_table\b/', $this->fileContent);
-        $this->assertMatchesRegularExpression('/class\s+transaction_table_row\b/', $this->fileContent);
-        $this->assertMatchesRegularExpression('/class\s+ttr_table\b/', $this->fileContent);
-        $this->assertMatchesRegularExpression('/class\s+ttr_label_row\b/', $this->fileContent);
+        $this->assertRegExp('/class\s+transaction_table\b/', $this->fileContent);
+        $this->assertRegExp('/class\s+transaction_table_row\b/', $this->fileContent);
+        $this->assertRegExp('/class\s+ttr_table\b/', $this->fileContent);
+        $this->assertRegExp('/class\s+ttr_label_row\b/', $this->fileContent);
     }
 
     /**
