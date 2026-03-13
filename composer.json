@@ -78,12 +78,18 @@
             "Ksfraser\\FaBankImport\\Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ksfraser/ksf_ofxparser.git"
+        }
+    ],
     "require": {
         "php": ">=7.3",
         "mimographix/qif-library": "^1.0",
         "ksfraser/genericinterface": "^0.6.0",
         "ksfraser/superglobals": "*",
-        "ksfraser/ksf_ofxparser": "*"
+        "ksfraser/ksf_ofxparser": "^0.1.1"
     },
     "config": {
         "platform": {
