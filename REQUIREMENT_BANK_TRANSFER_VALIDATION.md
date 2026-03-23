@@ -15,53 +15,107 @@ When a user triggers a Bank Transfer (Funds Transfer) in Process Statements, the
 
 ---
 
-## Implementation
+## Implementation (Exception-Based Pattern)
 
-### 1. Modern Handler (Recommended Path)
+### Custom Exception Class
+
+**File:** `src/Ksfraser/FaBankImport/Domain/Exceptions/InvalidBankAccountException.php`
+
+```php
+class InvalidBankAccountException extends \InvalidArgumentException
+{
+    public static function fromAndToAccountsAreSame(int $accountId): self {
+        return new self(
+            "To and From accounts must not be the same account (account {$accountId})"
+        );
+    }
+    
+    // Additional factory methods for future use:
+    public static function notFound(int $accountId): self { ... }
+    public static function insufficientFunds(float $required, float $available): self { ... }
+    public static function inactive(int $accountId, string $reason): self { ... }
+}
+```
+
+**Benefits:**
+- Specific exception type for account validation errors
+- Extensible for other account validation scenarios
+- Follows Domain-Driven Design patterns
+- Documented via static factory methods
+
+---
+
+### 1. Modern Handler (OOP - Recommended Path)
 
 **File:** `src/Ksfraser/FaBankImport/handlers/BankTransferTransactionHandler.php`  
-**Lines:** 189-196  
-**Method:** `processBankTransfer()`
+**Throw Location:** Lines 189-193  
+**Catch Location:** Lines 227-230  
 
+**Throw:**
 ```php
 // Validate that FROM and TO accounts are not the same
 $fromAccount = $bttrf->get("FromBankAccount");
 $toAccount = $bttrf->get("ToBankAccount");
 if ($fromAccount == $toAccount) {
+    throw InvalidBankAccountException::fromAndToAccountsAreSame($fromAccount);
+}
+```
+
+**Catch & Handle:**
+```php
+} catch (InvalidBankAccountException $e) {
+    // Display user-friendly error message for invalid bank account
+    display_error(_($e->getMessage()));
+    return $this->createErrorResult($e->getMessage());
+} catch (\Exception $e) {
     return $this->createErrorResult(
-        "To and From accounts must not be the same account"
+        'Failed to configure bank transfer: ' . $e->getMessage()
     );
 }
 ```
 
 **Behavior:**
-- Returns a `TransactionResult` object with error status
-- Error message displayed to user via JSON response
-- Transfer is NOT created in FrontAccounting
-- Transaction remains in pending state for user review
+- Throws specific exception during validation
+- Caught and handled with display_error()
+- Returns `TransactionResult` with error status
+- Transfer NOT created in FrontAccounting
+- Transaction remains in pending state
 
 ---
 
-### 2. Legacy Controller (Backward Compatibility)
+### 2. Legacy Controller (Procedural - Backward Compatibility)
 
 **File:** `class.bank_import_controller.php`  
-**Lines:** 928-941  
-**Location:** BT (Bank Transfer) case statement
+**Throw Location:** Lines 945-952  
+**Catch Location:** Lines 953-959  
 
+**Throw:**
 ```php
 // Validate that FROM and TO accounts are not the same
 if( $bttrf->get( "FromBankAccount" ) == $bttrf->get( "ToBankAccount" ) )
 {
-    display_error(_('To and From accounts must not be the same account'));
+    throw new \Ksfraser\FaBankImport\Domain\Exceptions\InvalidBankAccountException(
+        "To and From accounts must not be the same account (account {$bttrf->get( \"FromBankAccount\" )})"
+    );
+}
+```
+
+**Catch & Handle:**
+```php
+catch( \Ksfraser\FaBankImport\Domain\Exceptions\InvalidBankAccountException $e )
+{
+    // Display user-friendly error for invalid bank account
+    display_error(_($e->getMessage()));
     break;
 }
 ```
 
 **Behavior:**
-- Calls `display_error()` for user-facing error display
-- Breaks out of the case statement without processing
-- Prevents `$bttrf->getNextRef()` and `add_bank_transfer()` from executing
-- Transaction is NOT committed to the database
+- Throws specific exception during validation
+- Caught and handled with display_error()
+- Breaks out of case statement without processing
+- Prevents `getNextRef()` and `add_bank_transfer()` execution
+- Transaction NOT committed to database
 
 ---
 
@@ -79,17 +133,38 @@ System sets FROM/TO based on transaction direction
 
     ↓
     
-NEW VALIDATION CHECK
+VALIDATION CHECK (throws InvalidBankAccountException if equal)
     ├─ Compare FromBankAccount ID vs ToBankAccount ID
-    ├─ If EQUAL → Display error & exit (REQUIREMENT MET)
-    └─ If DIFFERENT → Continue processing
+    ├─ If EQUAL → Throw exception
 
     ↓
     
-Set amount, date, memo
-Get next reference number
-Execute bank transfer
+EXCEPTION CAUGHT (modern handler or legacy controller)
+    ├─ Call display_error() with message
+    ├─ If modern: return createErrorResult()
+    ├─ If legacy: break out of case
+    └─ Transfer NOT created
+    
+    ↓
+
+User sees: "To and From accounts must not be the same account (account 1001)"
+Transaction remains pending for correction
 ```
+
+### Exception Handling Pattern
+
+**Why Exceptions?**
+- Separates validation logic from error handling/display
+- Enables specific exception catching (InvalidBankAccountException vs generic Exception)
+- Allows for future extension (other account validation errors)
+- Follows Domain-Driven Design principles
+- Single responsibility: throw for invalid state, catch for user feedback
+
+**Flow:**
+1. **Validation Layer:** Throws specific exception if condition violated
+2. **Error Handling Layer:** Catches specific exception type
+3. **Display Layer:** Calls display_error() with user-friendly message
+4. **Return Layer:** Returns appropriate error result
 
 ---
 
@@ -150,12 +225,35 @@ Result: FROM = 1001, TO = 1001 (same)
 
 ---
 
-## Files Modified
+## Files Modified / Created
 
-| File | Lines | Change | Impact |
-|------|-------|--------|--------|
-| `src/Ksfraser/.../BankTransferTransactionHandler.php` | 189-196 | Added validation check | Modern path |
-| `class.bank_import_controller.php` | 928-941 | Added validation check | Legacy path |
+| File | Lines | Change | Type |
+|------|-------|--------|------|
+| `src/.../Domain/Exceptions/InvalidBankAccountException.php` | 1-80 | New custom exception class | **Created** |
+| `src/.../handlers/BankTransferTransactionHandler.php` | 40 (use), 189-193 (throw), 227-230 (catch) | Import exception, throw when invalid, catch and display | Modified |
+| `class.bank_import_controller.php` | 945-952 (throw), 953-959 (catch) | Throw exception when invalid, catch and display | Modified |
+
+---
+
+## Exception Extension Points
+
+The `InvalidBankAccountException` class includes factory methods for future validation scenarios:
+
+```php
+// Current (implemented):
+InvalidBankAccountException::fromAndToAccountsAreSame(int $accountId)
+
+// Future extensions (ready to use):
+InvalidBankAccountException::notFound(int $accountId)
+InvalidBankAccountException::insufficientFunds(float $required, float $available)
+InvalidBankAccountException::inactive(int $accountId, string $reason)
+```
+
+**How to add new validations:**
+1. Add appropriate factory method to `InvalidBankAccountException`
+2. Throw the exception in handler/controller
+3. Add specific catch block if different handling needed
+4. Existing catch blocks will handle them as `InvalidBankAccountException`
 
 ---
 
