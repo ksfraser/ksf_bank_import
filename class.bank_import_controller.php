@@ -934,6 +934,14 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 									//display_notification( __LINE__ . " :: " . print_r( $_POST[$pid], true )  );
 									$bttrf->set( "ToBankAccount", $_POST[$pid] );
 								}
+								
+								// Validate that FROM and TO accounts are not the same
+								if( $bttrf->get( "FromBankAccount" ) == $bttrf->get( "ToBankAccount" ) )
+								{
+									display_error(_('To and From accounts must not be the same account'));
+									break;
+								}
+								
 								$bttrf->set( "amount", $this->trz['transactionAmount'] );
 								$bttrf->set( "trans_date", $this->trz['valueTimestamp'] );
 								$bttrf->set( "memo_", $this->trz['transactionTitle'] . "::" . $this->trz['transactionCode'] . "::" . $this->trz['memo'] );

@@ -182,6 +182,15 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
                 );
             }
             
+            // Validate that FROM and TO accounts are not the same
+            $fromAccount = $bttrf->get("FromBankAccount");
+            $toAccount = $bttrf->get("ToBankAccount");
+            if ($fromAccount == $toAccount) {
+                return $this->createErrorResult(
+                    "To and From accounts must not be the same account"
+                );
+            }
+            
             // Set amount and date
             $bttrf->set("amount", $transaction['transactionAmount']);
             $bttrf->set("trans_date", $transaction['valueTimestamp']);
