@@ -548,6 +548,17 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$this->update_transactions($this->tid, $_cids, $status=1, $payment_id, $this->transType, false, true,  "SP", $this->partnerId );
 				$this->update_partner_data( null );	//Suppliers don't have branches
 				display_notification('Supplier Payment Processed:' . $payment_id );
+				
+				// Extract and link contact from supplier transaction
+				$contactData = $this->buildSupplierContactData($this->trz);
+				if ($contactData) {
+					$contactId = $this->createOrLinkContact($contactData);
+					if ($contactId) {
+						$this->linkTransactionToContact($this->tid, $contactId);
+						display_notification('Contact linked to supplier transaction: ID ' . $contactId);
+					}
+				}
+				
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
 				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
 				$this->displayTransactionLinks([
@@ -634,6 +645,17 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$this->update_transactions($this->tid, $_cids, $status=1, $payment_id[1], $this->transType, false, true,  "SP", $this->partnerId );
 				$this->update_partner_data( null );
 				display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
+				
+				// Extract and link contact from supplier refund transaction
+				$contactData = $this->buildSupplierContactData($this->trz);
+				if ($contactData) {
+					$contactId = $this->createOrLinkContact($contactData);
+					if ($contactId) {
+						$this->linkTransactionToContact($this->tid, $contactId);
+						display_notification('Contact linked to supplier refund transaction: ID ' . $contactId);
+					}
+				}
+				
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
 				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
 				$this->displayTransactionLinks([
@@ -714,6 +736,17 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$fcp->write_allocation();
 			}
 			update_transactions($this->tid, $_cids, $status=1, $deposit_id, $this->transType, false, true,  "CU", $this->partnerId);
+			
+			// Extract and link contact from customer transaction
+			$contactData = $this->buildCustomerContactData($this->trz);
+			if ($contactData) {
+				$contactId = $this->createOrLinkContact($contactData);
+				if ($contactId) {
+					$this->linkTransactionToContact($this->tid, $contactId);
+					display_notification('Contact linked to customer transaction: ID ' . $contactId);
+				}
+			}
+			
 			//We want to update fa_trans_type, fa_trans_no, account/accountName, status, matchinfo, matched/created, g_partner
 			update_partner_data($this->partnerId, $this->transType, $this->custBranch, $this->trz['memo']);
 			if( $this->transType !== PT_CUSTOMER )
@@ -1005,5 +1038,97 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				} //end of if !error
 		
 			} // end of is set....
+	}
+
+	/**
+	 * Create or link a contact to the transaction
+	 * 
+	 * @param ContactData $contactData The contact data to create/link
+	 * @return int|null Contact ID if successfully created/linked, null otherwise
+	 */
+	protected function createOrLinkContact($contactData)
+	{
+		if (!$contactData || !class_exists('Ksfraser\FaBankImport\Services\ContactDeduplicationService')) {
+			return null;
+		}
+		
+		try {
+			$deduplicationService = new \Ksfraser\FaBankImport\Services\ContactDeduplicationService();
+			$contact = $deduplicationService->getOrCreateWithDeduplicate($contactData);
+			
+			if ($contact && !empty($contact->id)) {
+				return (int)$contact->id;
+			}
+		} catch (\Throwable $e) {
+			error_log('Contact creation failed in controller: ' . $e->getMessage());
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Update transaction with contact linkage
+	 * 
+	 * @param int $tid Transaction ID
+	 * @param int $contactId Contact ID
+	 * @return bool Success status
+	 */
+	protected function linkTransactionToContact(int $tid, int $contactId): bool
+	{
+		if (!$tid || !$contactId || !isset($GLOBALS['db'])) {
+			return false;
+		}
+		
+		try {
+			$sql = "UPDATE " . TB_PREF . "bi_transactions 
+					SET contact_id = " . (int)$contactId . "
+					WHERE id = " . (int)$tid;
+			
+			db_query($sql, 'Failed to link contact to transaction');
+			return true;
+		} catch (\Throwable $e) {
+			error_log('Contact linking failed: ' . $e->getMessage());
+			return false;
+		}
+	}
+	
+	/**
+	 * Build ContactData from supplier transaction details
+	 * 
+	 * @param array $transaction Transaction record
+	 * @return ContactData|null
+	 */
+	protected function buildSupplierContactData(array $transaction)
+	{
+		if (!class_exists('Ksfraser\FaBankImport\Services\ContactDataFactory')) {
+			return null;
+		}
+		
+		try {
+			return \Ksfraser\FaBankImport\Services\ContactDataFactory::buildFromSupplier($transaction);
+		} catch (\Throwable $e) {
+			error_log('Failed to build supplier contact data: ' . $e->getMessage());
+			return null;
+		}
+	}
+	
+	/**
+	 * Build ContactData from customer transaction details
+	 * 
+	 * @param array $transaction Transaction record
+	 * @return ContactData|null
+	 */
+	protected function buildCustomerContactData(array $transaction)
+	{
+		if (!class_exists('Ksfraser\FaBankImport\Services\ContactDataFactory')) {
+			return null;
+		}
+		
+		try {
+			return \Ksfraser\FaBankImport\Services\ContactDataFactory::buildFromCustomer($transaction);
+		} catch (\Throwable $e) {
+			error_log('Failed to build customer contact data: ' . $e->getMessage());
+			return null;
+		}
 	}
 }
