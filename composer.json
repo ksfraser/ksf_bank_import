@@ -67,19 +67,7 @@
             "Ksfraser\\FaBankImport\\Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../FAMock-repo",
-            "options": {
-                "symlink": false
-            }
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/ksfraser/ksf_ofxparser.git"
-        }
-    ],
+    "repositories": [],
     "require": {
         "php": ">=7.3",
         "mimographix/qif-library": "^1.0",

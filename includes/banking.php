@@ -2,7 +2,7 @@
 class banking_base {
 	//getter
 	public function __get($property) {
-	    if(array_key_exists($property,get_class_vars(__CLASS__))) {
+	    if(array_key_exists($property,get_class_vars(get_class($this)))) {
 		return $this->$property;
 	    } elseif (method_exists($this, 'get'.$property)) {
 		return call_user_func(array($this, 'get'.$property));
@@ -13,7 +13,7 @@ class banking_base {
 
 	//setter
 	public function __set($property, $value) {
-	    if (array_key_exists($property, get_class_vars(__CLASS__))) {
+	    if (array_key_exists($property, get_class_vars(get_class($this)))) {
 		$this->$property = $value;
 	    }
 	}

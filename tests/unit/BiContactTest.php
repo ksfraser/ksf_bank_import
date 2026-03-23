@@ -65,7 +65,8 @@ class BiContactTest extends TestCase
             'fa_supplier_id' => 'SUPP00456',
         ];
 
-        $dto = new ContactData($dtoData);
+        $dto = new ContactData();
+        $dto->fromArray($dtoData);
         $contact = bi_contact::fromContactData($dto, null);
 
         $this->assertEquals('John Doe', $contact->name);
@@ -194,7 +195,8 @@ class BiContactTest extends TestCase
         ];
 
         // Step 1: Create DTO from data
-        $dto = new ContactData($originalData);
+        $dto = new ContactData();
+        $dto->fromArray($originalData);
 
         // Step 2: Create contact from DTO
         $contact = bi_contact::fromContactData($dto, null);
@@ -314,7 +316,8 @@ class BiContactTest extends TestCase
             'email' => 'minimal@example.com',
         ];
 
-        $dto = new ContactData($dtoData);
+        $dto = new ContactData();
+        $dto->fromArray($dtoData);
         $contact = bi_contact::fromContactData($dto, null);
 
         $this->assertEquals('Minimal Contact', $contact->name);

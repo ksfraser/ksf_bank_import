@@ -26,7 +26,6 @@ $commonDir = is_dir(__DIR__ . '/ksf_modules_common')
 if (is_file($commonDir . '/defines.inc.php')) {
 	require_once($commonDir . '/defines.inc.php');
 }
-}
 
 $viewsDir = __DIR__ . '/src/Ksfraser/FaBankImport/views';
 $legacyViewsDir = __DIR__ . '/views';

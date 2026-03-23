@@ -358,8 +358,7 @@ function _test_db_rows_for_sql(string $sql): array
 }
 
 /**
- * Define FrontAccounting table prefix constant if not defined
+ * NOTE: FA core constants (TB_PREF, ST_*, PT_*) are provided by ksfraser/famock library
+ * and loaded via tests/bootstrap.php. This file contains only project-specific test 
+ * helpers and data structures.
  */
-if (!defined('TB_PREF')) {
-    define('TB_PREF', '0_');
-}

@@ -27,7 +27,7 @@ use Ksfraser\Contact\DTO\ContactData;
 class bi_contact extends banking_base {
 	
 	// Primary key and timestamps
-	var $id = '';
+	var $id = 0;
 	var $created_ts = '';
 	var $updated_ts = '';
 	
@@ -677,21 +677,22 @@ class bi_contact extends banking_base {
 	 * Debug dump of contact data
 	 */
 	public function dump() {
-		echo "========== bi_contact Dump ==========\n";
-		echo "ID: {$this->id}\n";
-		echo "Name: {$this->name}\n";
-		echo "Display: {$this->display_name}\n";
-		echo "Type: {$this->contact_type}\n";
-		echo "Email: {$this->email}\n";
-		echo "Phone: {$this->phone}\n";
-		echo "Address: {$this->address_line_1}, {$this->city}, {$this->state_province} {$this->postal_code}\n";
-		echo "Company: {$this->company_name}\n";
-		echo "FA Customer: {$this->fa_customer_id}\n";
-		echo "FA Supplier: {$this->fa_supplier_id}\n";
-		echo "Transactions: {$this->transaction_count} (Total: {$this->total_amount})\n";
-		echo "Created: {$this->created_ts}\n";
-		echo "Updated: {$this->updated_ts}\n";
-		echo "=====================================\n";
+		$output = "========== bi_contact Dump ==========\n";
+		$output .= "ID: {$this->id}\n";
+		$output .= "Name: {$this->name}\n";
+		$output .= "Display: {$this->display_name}\n";
+		$output .= "Type: {$this->contact_type}\n";
+		$output .= "Email: {$this->email}\n";
+		$output .= "Phone: {$this->phone}\n";
+		$output .= "Address: {$this->address_line_1}, {$this->city}, {$this->state_province} {$this->postal_code}\n";
+		$output .= "Company: {$this->company_name}\n";
+		$output .= "FA Customer: {$this->fa_customer_id}\n";
+		$output .= "FA Supplier: {$this->fa_supplier_id}\n";
+		$output .= "Transactions: {$this->transaction_count} (Total: {$this->total_amount})\n";
+		$output .= "Created: {$this->created_ts}\n";
+		$output .= "Updated: {$this->updated_ts}\n";
+		$output .= "=====================================\n";
+		return $output;
 	}
 }
 
