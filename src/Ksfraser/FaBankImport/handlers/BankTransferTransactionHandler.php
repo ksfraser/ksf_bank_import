@@ -38,6 +38,7 @@
 namespace Ksfraser\FaBankImport\Handlers;
 
 use Ksfraser\FaBankImport\Results\TransactionResult;
+use Ksfraser\FaBankImport\Domain\Exceptions\InvalidBankAccountException;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\BankTransferPartnerType;
 
@@ -186,9 +187,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             $fromAccount = $bttrf->get("FromBankAccount");
             $toAccount = $bttrf->get("ToBankAccount");
             if ($fromAccount == $toAccount) {
-                return $this->createErrorResult(
-                    "To and From accounts must not be the same account"
-                );
+                throw InvalidBankAccountException::fromAndToAccountsAreSame($fromAccount);
             }
             
             // Set amount and date
@@ -222,6 +221,10 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             
             $bttrf->set("memo_", $fullMemo);
             
+        } catch (InvalidBankAccountException $e) {
+            // Display user-friendly error message for invalid bank account
+            display_error(_($e->getMessage()));
+            return $this->createErrorResult($e->getMessage());
         } catch (\Exception $e) {
             return $this->createErrorResult(
                 'Failed to configure bank transfer: ' . $e->getMessage()

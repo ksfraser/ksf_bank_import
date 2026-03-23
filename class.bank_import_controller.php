@@ -938,14 +938,21 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 								// Validate that FROM and TO accounts are not the same
 								if( $bttrf->get( "FromBankAccount" ) == $bttrf->get( "ToBankAccount" ) )
 								{
-									display_error(_('To and From accounts must not be the same account'));
-									break;
+									throw new \Ksfraser\FaBankImport\Domain\Exceptions\InvalidBankAccountException(
+										"To and From accounts must not be the same account (account {$bttrf->get( \"FromBankAccount\" )})"
+									);
 								}
 								
 								$bttrf->set( "amount", $this->trz['transactionAmount'] );
 								$bttrf->set( "trans_date", $this->trz['valueTimestamp'] );
 								$bttrf->set( "memo_", $this->trz['transactionTitle'] . "::" . $this->trz['transactionCode'] . "::" . $this->trz['memo'] );
 								$bttrf->set( "target_amount", $this->trz['transactionAmount'] );
+							}
+							catch( \Ksfraser\FaBankImport\Domain\Exceptions\InvalidBankAccountException $e )
+							{
+								// Display user-friendly error for invalid bank account
+								display_error(_($e->getMessage()));
+								break;
 							}
 							catch( Exception $e )
 							{
