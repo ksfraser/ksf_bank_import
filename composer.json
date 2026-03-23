@@ -75,7 +75,8 @@
         "ksfraser/superglobals": "*",
         "ksfraser/ksf_ofxparser": "^0.1.1",
         "ksfraser/qifparser": "*",
-        "ksfraser/contact-dto": "0.1.0"
+        "ksfraser/contact-dto": "0.1.0",
+        "ksfraser/exceptions": "*"
     },
     "config": {
         "platform": {

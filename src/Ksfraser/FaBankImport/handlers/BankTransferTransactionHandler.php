@@ -38,7 +38,7 @@
 namespace Ksfraser\FaBankImport\Handlers;
 
 use Ksfraser\FaBankImport\Results\TransactionResult;
-use Ksfraser\FaBankImport\Domain\Exceptions\InvalidBankAccountException;
+use Ksfraser\Exceptions\Domain\InvalidBankAccountException;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\BankTransferPartnerType;
 
