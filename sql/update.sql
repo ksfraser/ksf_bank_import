@@ -55,6 +55,9 @@ CREATE TABLE IF NOT EXISTS `0_bi_transactions` (
     `sic`                 VARCHAR(64),
     `memo`                VARCHAR(64),
     `checknumber`         INTEGER,
+    
+    -- CRM Contact linking (populated by parser enhancements)
+    `contact_id`          INTEGER,
 
     -- module state
     `matched`             INTEGER DEFAULT 0,
@@ -62,7 +65,10 @@ CREATE TABLE IF NOT EXISTS `0_bi_transactions` (
     `g_partner`           VARCHAR(32),
     `g_option`            VARCHAR(32),
 
-    PRIMARY KEY(`id`)
+    PRIMARY KEY(`id`),
+    CONSTRAINT `fk_transaction_contact` FOREIGN KEY (`contact_id`) 
+        REFERENCES `0_bi_contact` (`id`) ON DELETE SET NULL,
+    INDEX `idx_contact_id` (`contact_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Partner keyword storage (used for matching / scoring)
@@ -76,6 +82,72 @@ CREATE TABLE IF NOT EXISTS `0_bi_partners_data` (
     CONSTRAINT `idx_partner_keyword` UNIQUE(`partner_id`, `partner_detail_id`, `partner_type`, `data`),
     INDEX `idx_partner_type_data` (`partner_type`, `data`),
     INDEX `idx_occurrence_count` (`occurrence_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- CRM Contact Information (parsed from OFX/QIF/CSV payee data)
+-- Stores contact details broken out into normalized fields for CRM integration
+-- Supports deduplication and future linking to customers/vendors
+CREATE TABLE IF NOT EXISTS `0_bi_contact` (
+    `id`                  INTEGER NOT NULL AUTO_INCREMENT,
+    `created_ts`          TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_ts`          TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    -- Primary contact identifier
+    `name`                VARCHAR(255) NOT NULL,
+    `display_name`        VARCHAR(255),
+    
+    -- Contact classification
+    `contact_type`        ENUM('vendor', 'customer', 'unknown') DEFAULT 'unknown',
+    `is_active`           TINYINT(1) DEFAULT 1,
+    
+    -- Core contact information
+    `email`               VARCHAR(255),
+    `phone`               VARCHAR(20),
+    `phone_extension`    VARCHAR(10),
+    `fax`                 VARCHAR(20),
+    `mobile`              VARCHAR(20),
+    `website`             VARCHAR(255),
+    
+    -- Address fields (normalized for CRM)
+    `address_line_1`      VARCHAR(255),
+    `address_line_2`      VARCHAR(255),
+    `city`                VARCHAR(100),
+    `state_province`      VARCHAR(100),
+    `postal_code`         VARCHAR(20),
+    `country`             VARCHAR(100),
+    `country_code`        VARCHAR(2),
+    
+    -- Additional contact details
+    `company_name`        VARCHAR(255),
+    `department`          VARCHAR(100),
+    `contact_person`      VARCHAR(255),
+    `tax_id`              VARCHAR(50),
+    `registration_number` VARCHAR(50),
+    
+    -- Notes and metadata
+    `notes`               TEXT,
+    `tags`                VARCHAR(255),
+    
+    -- CRM linkage
+    `fa_customer_id`      VARCHAR(60),
+    `fa_supplier_id`      VARCHAR(60),
+    
+    -- Transaction statistics
+    `transaction_count`   INTEGER DEFAULT 0,
+    `last_transaction_ts` DATETIME,
+    `total_amount`        DECIMAL(15,2) DEFAULT 0,
+    
+    PRIMARY KEY(`id`),
+    UNIQUE KEY `name` (`name`),
+    INDEX `idx_email` (`email`),
+    INDEX `idx_phone` (`phone`),
+    INDEX `idx_contact_type` (`contact_type`),
+    INDEX `idx_active` (`is_active`),
+    INDEX `idx_city` (`city`),
+    INDEX `idx_country` (`country_code`),
+    INDEX `idx_fa_customer` (`fa_customer_id`),
+    INDEX `idx_fa_supplier` (`fa_supplier_id`),
+    INDEX `idx_updated_ts` (`updated_ts`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Mantis #2708: Store Uploaded Bank Files

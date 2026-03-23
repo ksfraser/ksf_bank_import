@@ -58,10 +58,6 @@
             "src/",
             "temp/",
             "duplicates_backup_20251116_183246/",
-            "lib/",
-            "lib/ksf_ofxparser/",
-            "lib/jacques-ofxparser/",
-            "lib/ofx4/",
             "views/",
             "includes/Parser*.php",
             "includes/parser_replaced_abstract_with_concrete.php",
@@ -75,10 +71,18 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Tests\\": "tests/",
             "Ksfraser\\FaBankImport\\Tests\\": "tests/"
         }
     },
     "repositories": [
+        {
+            "type": "path",
+            "url": "../FAMock-repo",
+            "options": {
+                "symlink": false
+            }
+        },
         {
             "type": "vcs",
             "url": "https://github.com/ksfraser/ksf_ofxparser.git"
@@ -89,7 +93,9 @@
         "mimographix/qif-library": "^1.0",
         "ksfraser/genericinterface": "^0.6.0",
         "ksfraser/superglobals": "*",
-        "ksfraser/ksf_ofxparser": "^0.1.1"
+        "ksfraser/ksf_ofxparser": "^0.1.1",
+        "ksfraser/qifparser": "*",
+        "ksfraser/contact-dto": "0.1.0"
     },
     "config": {
         "platform": {
@@ -100,6 +106,7 @@
         "mikey179/vfsstream": "^1.6.12",
         "symfony/http-foundation": "^5.4",
         "monolog/monolog": "^2.0",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^9.6",
+        "ksfraser/famock": "^0.5.0"
     }
 }

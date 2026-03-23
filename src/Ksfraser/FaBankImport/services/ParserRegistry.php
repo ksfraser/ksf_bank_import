@@ -181,6 +181,14 @@ class ParserRegistry
             ];
         }
 
+        // Always include legacy QIF parser if not discovered
+        if (!isset($parsers['QIF'])) {
+            $parsers['QIF'] = [
+                'name' => 'QIF (Quicken Interchange Format)',
+                'select' => ['bank_account' => 'Select bank account'],
+            ];
+        }
+
         return $parsers;
     }
 

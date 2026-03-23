@@ -52,6 +52,7 @@ class transaction extends banking_base {
 	var $fitid;
 	var $intu_bid;
 	var $bankid;
+	var $contact_id;                 // FK to 0_bi_contact table
 
 	//custom function to get transaction title
 	function getTransactionTitle() {

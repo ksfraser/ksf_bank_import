@@ -21,10 +21,7 @@ $page_security = 'SA_BANKACCOUNT';
 //Path to root NEEDS to be defined or all hell breaks loose!
 $path_to_root = "../..";
 
-// === FA includes: stubbed for dev/testing if missing ===
-if (!@include($path_to_root . '/includes/session.inc')) {
-	include_once(__DIR__ . '/includes/fa_stubs.php');
-}
+@include($path_to_root . '/includes/session.inc');
 @include_once( $path_to_root . '/includes/date_functions.inc');
 @include_once($path_to_root . '/includes/ui.inc');
 
@@ -33,6 +30,7 @@ if (!@include($path_to_root . '/includes/session.inc')) {
 include_once(__DIR__ . '/includes/banking.php');
 include_once(__DIR__ . '/includes/parsers.inc');
 require_once __DIR__ . '/includes/qfx_parser.php';
+require_once __DIR__ . '/vendor/ksfraser/qifparser/qif_parser.php';
 
 // Mantis #2708: File upload management - Refactored (Phase 2)
 use Ksfraser\FaBankImport\Service\FileUploadService;
@@ -1649,12 +1647,14 @@ function cancel_duplicate_uploads() {
 
 
 
-// select changed
+/* Moved to FaBankImport/HandleParserUpdated 
 if (function_exists('get_post') && get_post('_parser_update')) {
 	if (isset($Ajax)) {
 		$Ajax->activate('doc_tbl');
 	}
 }
+	*/
+	HandleParserUpdated::parserUpdated();
 
 if (function_exists('start_form')) {
 	start_form(true);

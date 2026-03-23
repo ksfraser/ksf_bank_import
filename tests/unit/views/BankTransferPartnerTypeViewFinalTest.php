@@ -17,7 +17,6 @@ use Ksfraser\BankAccountDataProvider;
 use Ksfraser\HTML\HtmlFragment;
 
 // Load FA stubs
-require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 // Load the view
 require_once __DIR__ . '/../../../views/BankTransferPartnerTypeView.v2.php';

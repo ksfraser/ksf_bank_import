@@ -9,6 +9,7 @@
 // @include_once(__DIR__ . '/ro_ing_csv_parser.php');
 @include_once(__DIR__ . '/ro_wmmc_csv_parser.php');
 @include_once(__DIR__ . '/qfx_parser.php');
+@include_once(__DIR__ . '/../vendor/ksfraser/qifparser/qif_parser.php');
 
 function getParsers() {
 	require_once __DIR__ . '/../src/Ksfraser/FaBankImport/config/ParserConfig.php';
@@ -37,6 +38,8 @@ function getParsers() {
 	}
 	// Always include QFX parser (legacy, not modularized yet)
 	$parsers['QFX'] = array('name' => 'QFX/OFX/Quickbooks (QBO) format', 'select' => array('bank_account' => 'Select bank account'));
+	// Always include QIF parser (legacy, not modularized yet)
+	$parsers['QIF'] = array('name' => 'QIF (Quicken Interchange Format)', 'select' => array('bank_account' => 'Select bank account'));
 	return $parsers;
 }
 

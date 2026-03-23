@@ -27,11 +27,7 @@
             "tests/",
             "src/",
             "temp/",
-            "duplicates_backup_20251116_183246/",
-            "lib/",
-            "lib/ksf_ofxparser/",
-            "lib/jacques-ofxparser/",
-            "lib/ofx4/"
+            "duplicates_backup_20251116_183246/"
         ]
     },
     "autoload-dev": {
@@ -41,11 +37,11 @@
     },
     "require": {
         "php": ">=7.3",
-        "asgrim/ofxparser": "^1.2",
         "mimographix/qif-library": "^1.0",
         "nesbot/carbon": "^2.46",
         "psr/container": "^1.0",
-        "ksfraser/genericinterface": "^0.1.0"
+        "ksfraser/genericinterface": "^0.1.0",
+        "ksfraser/contact-dto": "^0.1.0"
     },
     "require-dev": {
         "codeception/codeception": "^4.1",

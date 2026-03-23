@@ -12,6 +12,7 @@ phpunit_no_coverage*.txt
 phpunit_plain_*.txt
 phpunit_summary_*.txt
 phpunit_*_latest.txt
+test*.txt
 
 # IDE Files
 .vscode/

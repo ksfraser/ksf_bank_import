@@ -13,7 +13,6 @@
     },
     "require": {
         "codeception/codeception": "^4.2",
-        "asgrim/ofxparser": "^1.2",
         "mouf/html.tags": "^1.0"
     }
 }

@@ -45,9 +45,7 @@ if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_f
 	require_once($commonDefines);
 }
 
-if (!defined('TB_PREF')) {
-	require_once(__DIR__ . '/includes/fa_stubs.php');
-}
+
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.

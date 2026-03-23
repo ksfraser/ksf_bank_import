@@ -18,9 +18,7 @@ if (!$forceMocks && is_file($commonDefines) && is_file($faTypesInc)) {
 	require_once($commonDefines);
 }
 
-if (!defined('TB_PREF')) {
-	require_once(__DIR__ . '/includes/fa_stubs.php');
-}
+
 require_once( 'class.bi_transactions.php' );
 
 class GetTransaction extends bi_transactions_model  {

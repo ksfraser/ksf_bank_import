@@ -90,7 +90,7 @@ class qfx_parser extends parser {
 			//var_dump( __FILE__ . "::" . __LINE__ );
 	//var_dump( $institute );
 	$institute = $ofx->signOn->institute;
-	if( null !== $institute->name )
+	if( null !== $institute && null !== $institute->name )
 	{
 		$bank = (string) $institute->name;
 		$this->bank_from_file = true;
@@ -109,7 +109,7 @@ class qfx_parser extends parser {
 		}
 	}
 			//var_dump( __FILE__ . "::" . __LINE__ );
-	if( null !== $institute->id )
+	if( null !== $institute && null !== $institute->id )
 	{
 		$bankid = (string) $institute->id;
 		$this->bankid_from_file = true;
@@ -475,8 +475,10 @@ class qfx_parser extends parser {
 					}
 				}
 			}
-			$trz->merchant = (string) $transaction->name;	//Merchant
-			//var_dump( $trz );
+			$trz->merchant = (string) $transaction->name;	//Merchant		
+		// CONTACT EXTRACTION - Link parsed merchant data to bi_contact
+		$this->extractContactForTransaction($trz, $transaction);
+					//var_dump( $trz );
 			if ($trz)
 			    $smts[$sid]->addTransaction($trz);
 			//display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $trz, true ) );
@@ -489,6 +491,69 @@ class qfx_parser extends parser {
 	//time to return
 	return $smts;
     }
+
+	/**
+	 * Extract/create contact for parsed QFX transaction.
+	 * 
+	 * Integrates with ContactService and ContactDeduplicationService to maintain
+	 * a persistent contact database linked to bank transactions.
+	 * 
+	 * Design: Non-blocking. Errors caught and logged but don't interrupt parsing.
+	 * 
+	 * @param transaction $trz The bank_import transaction object being populated
+	 * @param object $ofxTransaction The raw OFX transaction with merchant data
+	 * @return void
+	 */
+	private function extractContactForTransaction($trz, $ofxTransaction): void
+	{
+		// Only attempt extraction if we have merchant name
+		if (empty($ofxTransaction->name)) {
+			return;
+		}
+
+		try {
+			// Graceful degradation: if db not available, skip contact extraction
+			if (!isset($GLOBALS['db'])) {
+				return;
+			}
+
+			$db = $GLOBALS['db'];
+
+			// Load services (lazy load to avoid mandatory dependency)
+			if (!class_exists('\Ksfraser\FaBankImport\Services\ContactService')) {
+				return;
+			}
+
+			$contactService = new \Ksfraser\FaBankImport\Services\ContactService($db);
+			$deduplicateService = new \Ksfraser\FaBankImport\Services\ContactDeduplicationService($contactService);
+
+			// Determine contact type based on transaction direction
+			// DEBIT (outgoing) = supplier; CREDIT (incoming) = customer
+			$contactType = ($trz->transactionDC === 'D') ? 'supplier' : 'customer';
+
+			// Prepare contact data from QFX merchant info
+			$contactData = new \Ksfraser\Contact\DTO\ContactData([
+				'name' => (string) $ofxTransaction->name,
+				'contact_type' => $contactType,
+				'sic' => !empty($ofxTransaction->sic) ? (string) $ofxTransaction->sic : null,
+			]);
+
+			// Get or create contact with deduplication
+			$contact = $deduplicateService->getOrCreateWithDeduplicate($contactData);
+
+			// Link transaction to contact if creation succeeded
+			if ($contact && !empty($contact->id)) {
+				$trz->contact_id = (int) $contact->id;
+			}
+
+		} catch (\Throwable $e) {
+			// Non-blocking error handling: Log but don't fail the import
+			// This ensures QFX parsing continues even if contact extraction fails
+			@error_log('QFX parser: Contact extraction failed for "' 
+				. substr((string) $ofxTransaction->name, 0, 50) 
+				. '": ' . $e->getMessage());
+		}
+	}
 
 }
 

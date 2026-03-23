@@ -11,9 +11,7 @@ if (!$forceMocks && is_file($commonOrigin) && is_file($faTypesInc)) {
 	require_once($commonOrigin);
 }
 
-if (!class_exists('origin') && !defined('TB_PREF')) {
-	require_once(__DIR__ . '/includes/fa_stubs.php');
-}
+
 
 /**//******************************************************************************
 * File to generate the HEADER table on the process_statements
