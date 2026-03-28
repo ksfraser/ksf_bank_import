@@ -1,39 +1,46 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :AddCustomerAction [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for AddCustomerAction.
- */
-declare(strict_types=1);
-
 namespace Ksfraser\FaBankImport\Actions;
 
-final class AddCustomerAction
+use Ksfraser\FaBankImport\Dispatcher\ActionInterface;
+
+/**
+ * AddCustomerAction - Add new customer to transaction
+ *
+ * Implements ActionInterface to work with the ActionDispatcher pattern.
+ */
+final class AddCustomerAction implements ActionInterface
 {
-    /** @param array<string,mixed> $post */
+    /**
+     * Check if this action should handle the given POST data.
+     *
+     * @param array<string,mixed> $post POST data
+     * @return bool True if AddCustomer key is set
+     */
     public function supports(array $post): bool
     {
         return isset($post['AddCustomer']);
     }
 
     /**
-     * @param array<string,mixed> $post
-     * @param object $controller
+     * Execute the add customer action.
+     *
+     * Delegates to the controller's addCustomer() method.
+     * Gets the controller from the GLOBALS if not injected.
+     *
+     * @param array<string,mixed> $post POST data
+     * @return void
      */
-    public function execute(array $post, $controller): bool
+    public function handle(array $post): void
     {
-        if (!$this->supports($post) || !is_object($controller) || !method_exists($controller, 'addCustomer')) {
-            return false;
+        $controller = $GLOBALS['bi_controller'] ?? null;
+        if (!is_object($controller) || !method_exists($controller, 'addCustomer')) {
+            if (function_exists('display_error')) {
+                display_error('AddCustomerAction: controller not available');
+            }
+            return;
         }
 
         $controller->addCustomer();
-        return true;
     }
 }

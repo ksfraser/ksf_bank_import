@@ -152,258 +152,38 @@ require_once( 'class.bank_import_controller.php' );
 	}
 
 
-//---------------------------------------------------------------------------------
-//--------------Unset (Reset) a Transaction----------------------------------------
-//---------------------------------------------------------------------------------
-// actions
-//---------------------------------------------------------------------------------
+//=========================================================================
+// POST ACTION DISPATCHER - Phase 4 Refactoring Integration
+// Replaces 300+ lines of if/elseif statements with pluggable dispatcher
+//=========================================================================
+// Handles all POST actions through registered action handlers:
+// - UnsetTrans, AddCustomer, AddVendor, ToggleTransaction
+// - RunTransferMatcher, RunTransferAudits, ProcessBothSides
+// - ProcessTransaction (main transaction processing)
+//
+// Benefits:
+// - Cognitive complexity reduced from O(n) branches to O(1) dispatch
+// - New actions add easily: create class + register (no controller changes)
+// - Each action encapsulated in single responsibility class
+// - Strategy pattern (TransactionProcessor) integrated seamlessly
+//=========================================================================
 
-if( isset( $_POST['UnsetTrans'] ) )
-{
-	$bi_controller->unsetTrans();
-}
-// require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/UnsetTransactionAction.php';
-// (new \Ksfraser\FaBankImport\Actions\UnsetTransactionAction())->execute($_POST, $bi_controller);
-
-/*----------------------------------------------------------------------------------------------*/
-/*------------------------Add Customer----------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------*/
-
-	 //display_notification( __LINE__ );
-if (isset($_POST['AddCustomer'])) 
-{
-	$bi_controller->addCustomer();
-}
-// require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/AddCustomerAction.php';
-// (new \Ksfraser\FaBankImport\Actions\AddCustomerAction())->execute($_POST, $bi_controller);
-/*----------------------------------------------------------------------------------------------*/
-/*-------------------Add Vendor-----------------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------*/
-	 //display_notification( __LINE__ );
-if (isset($_POST['AddVendor'])) 
-{
-	$bi_controller->addVendor();
-}
-// require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/AddVendorAction.php';
-// (new \Ksfraser\FaBankImport\Actions\AddVendorAction())->execute($_POST, $bi_controller);
-	 //display_notification( __FILE__ . "::" . __LINE__ );
-if (isset($_POST['ToggleTransaction'])) 
-{
-	$bi_controller->toggleDebitCredit();
-	display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
-}
-
-if (isset($_POST['RunTransferMatcher'])) {
-	require_once(__DIR__ . '/Services/TransferMatchService.php');
-	$fromDate = $_POST['TransAfterDate'] ?? begin_month(Today());
-	$toDate = $_POST['TransToDate'] ?? end_month(Today());
-	$bankAccount = $_POST['bankAccountFilter'] ?? 'ALL';
-
-	try {
-		$matcher = new \KsfBankImport\Services\TransferMatchService();
-		$result = $matcher->runCandidateMatching($fromDate, $toDate, $bankAccount, null);
-		display_notification(
-			'Transfer matcher complete: checked=' . (int)$result['rows_checked']
-			. ', candidates=' . (int)$result['rows_with_candidates']
-			. ', review=' . (int)$result['rows_requires_review']
-		);
-	} catch (\Throwable $e) {
-		display_error('Transfer matcher failed: ' . $e->getMessage());
-	}
-
-	$Ajax->activate('doc_tbl');
-}
-
-if (isset($_POST['RunTransferAudits'])) {
-	require_once(__DIR__ . '/Services/TransferMatchAuditService.php');
-	try {
-		$audit = new \KsfBankImport\Services\TransferMatchAuditService();
-		$result = $audit->runAudits();
-		display_notification(
-			'Transfer audits complete: checked=' . (int)$result['rows_checked']
-			. ', pair_issues=' . (int)$result['pair_issues']
-			. ', je_issues=' . (int)$result['je_issues']
-			. ', flagged=' . (int)$result['rows_flagged']
-		);
-		echo '<a href="transfer_match_review.php">' . _('Open Check Needed Queue') . '</a>';
-	} catch (\Throwable $e) {
-		display_error('Transfer audit failed: ' . $e->getMessage());
-	}
-
-	$Ajax->activate('doc_tbl');
-}
-// require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/ToggleTransactionAction.php';
-// (new \Ksfraser\FaBankImport\Actions\ToggleTransactionAction())->execute($_POST, $bi_controller);
-// Paired-transfer dual-side POST action extracted to SRP class.
-if (isset($_POST['ProcessBothSides'])) {
-	require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/PairedTransferDualSideAction.php';
-	$pairedTransferAction = new \Ksfraser\FaBankImport\Actions\PairedTransferDualSideAction();
-	if ($pairedTransferAction->supports($_POST)) {
-		$pairedTransferAction->dispatchToUi($_POST);
+try {
+	require_once __DIR__ . '/src/Ksfraser/FaBankImport/Actions/Registry/ActionRegistrar.php';
+	
+	// Create fully initialized dispatcher with all actions registered
+	$actionDispatcher = \Ksfraser\FaBankImport\Actions\Registry\ActionRegistrar::createDispatcher();
+	
+	// Dispatch POST request to first matching action
+	$actionDispatcher->dispatch($_POST);
+	
+} catch (\Throwable $e) {
+	// Log dispatcher errors but don't break page rendering
+	error_log('POST Action Dispatcher error: ' . $e->getMessage());
+	if (function_exists('display_error')) {
+		display_error('An unexpected error occurred processing your request. Please try again.');
 	}
 }
-
-
-/*----------------------------------------------------------------------------------------------*/
-/*-------------------Process Transaction--------------------------------------------------------*/
-/*----------------------------------------------------------------------------------------------*/
-
-
-
-if ( isset( $_POST['ProcessTransaction'] ) ) {
-//20240208 EACH is depreciated.  Should rewrite with foreach
-	$k = null;
-	$v = null;
-	if (is_array($_POST['ProcessTransaction']) && !empty($_POST['ProcessTransaction'])) {
-		reset($_POST['ProcessTransaction']);
-		$k = key($_POST['ProcessTransaction']);
-		$v = current($_POST['ProcessTransaction']);
-	}
-	//K is index.  V is "process/..."
-	if (isset($k) && isset($v) && isset($_POST['partnerType'][$k])) 
-	{
-		//check params
-		$error = 0;
-		if ( ! isset( $_POST["partnerId_$k"] ) ) 
-		{
-			$Ajax->activate('doc_tbl');
-			display_error('missing partnerId');
-			$error = true;
-		}
-	
-		if (!$error) {
-			$tid = $k;
-			//time to gather data about transaction
-			//load $tid
-		        $bit = new bi_transactions_model();
-        		$trz = $bit->get_transaction( $tid );
-				//Setting internal so we can refactor further later to use Object rather than Array
-        			//$trz = $bit->get_transaction( $tid, true );
-
-			//check bank account
-			$our_account = fa_get_bank_account_by_number($trz['our_account']);
-			if (empty($our_account)) 
-			{
-				$Ajax->activate('doc_tbl');
-				display_error(  __FILE__ . "::" . __LINE__ . "::" . ' the bank account <b>'.$trz['our_account'].'</b> is not defined in Bank Accounts');
-				$error = 1;
-			}
-		}
-		if (!$error) {
-/*Charges*/
-			//get charges
-			$chgs = array();
-//How are CIDS set in the first place?
-			$_cids = array_filter(explode(',', $_POST['cids'][$tid]));
-			foreach($_cids as $cid) {
-				$chgs[] = get_transaction($cid);
-			}
-			//display_notification("tid=$tid, cids=`".$_POST['cids'][$tid]."`");
-			//display_notification("cids_array=".print_r($_cids,true));
-	
-		//now sum up
-		//now group data from tranzaction
-			$amount = $trz['transactionAmount'];
-/**
-*			$charge = 0;
-*			foreach($chgs as $t) 
-*			{
-*				$charge += $t['transactionAmount'];
-*			}
-*/
-			$charge = $bi_controller->charge = $bi_controller->sumCharges( $tid );
-			$bi_controller->set( "charge", $charge );
-/*! Charges*/
-	
-			//display_notification("amount=$amount, charge=$charge");
-			//display_notification("partnerType=".$_POST['partnerType'][$k]);
-			$pid = "partnerId_" . $k;
-			//display_notification( "partner=".$_POST[ $pid ] );
-			$partnerId = $_POST[ $pid ];
-			$bi_controller->set( "partnerId", $partnerId );
-	
-				//display_notification( __FILE__ . "::" . __LINE__ );
-//These are needed for SP.  The others too???
-			$bi_controller->set( "trz", $trz );
-			$bi_controller->set( "tid", $tid );
-			$bi_controller->set( "our_account", $our_account );
-
-			// Stage 3-9 enhancement recovered:
-			// Prefer TransactionProcessor (strategy handlers) when available,
-			// but preserve legacy switch dispatch as compatibility fallback.
-			$processedByStrategy = false;
-			if (class_exists('\\Ksfraser\\FaBankImport\\TransactionProcessor')) {
-				try {
-					$transactionProcessor = new \Ksfraser\FaBankImport\TransactionProcessor();
-					$partnerType = $_POST['partnerType'][$k];
-					$collectionIds = implode(',', array_filter(explode(',', $_POST['cids'][$tid] ?? '')));
-					$result = $transactionProcessor->process(
-						$partnerType,
-						$trz,
-						$_POST,
-						(int)$tid,
-						$collectionIds,
-						$our_account
-					);
-
-					if (is_object($result) && method_exists($result, 'display')) {
-						$result->display();
-					}
-
-					if (class_exists('\\Ksfraser\\FA\\Notifications\\TransactionResultLinkPresenter')) {
-						$linkPresenter = new \Ksfraser\FA\Links\TransactionResultLinkPresenter();
-						$linkPresenter->displayFromResult($result, is_array($config) ? $config : [], (string)$partnerType);
-					}
-
-					$processedByStrategy = true;
-				} catch (\Throwable $e) {
-					if (function_exists('display_warning')) {
-						display_warning('TransactionProcessor strategy fallback: ' . $e->getMessage());
-					} elseif (function_exists('display_notification')) {
-						display_notification('TransactionProcessor strategy fallback: ' . $e->getMessage());
-					}
-					$processedByStrategy = false;
-				}
-			}
-
-			if (!$processedByStrategy) {
-				switch(true)
-				{
-					case ($_POST['partnerType'][$k] == 'SP'):
-						$bi_controller->processSupplierTransaction();
-						break;
-					case ($_POST['partnerType'][$k] == 'CU'):
-						// Legacy CU inline markers retained for production-baseline compatibility:
-						// $trans_type = ST_CUSTPAYMENT;
-						// ST_BANKDEPOSIT
-						// ST_CUSTPAYMENT
-						$bi_controller->processCustomerPayment();
-						break;
-					case ($_POST['partnerType'][$k] == 'QE'):
-						// Delegate to legacy controller workflow which contains full QE handling.
-						$bi_controller->processTransactions();
-						break;
-					case ($_POST['partnerType'][$k] == 'BT'):
-						// Delegate to legacy controller workflow which contains full BT handling.
-						$bi_controller->processTransactions();
-						break;
-					case ($_POST['partnerType'][$k] == 'MA'):
-						// Delegate to legacy controller workflow which contains full MA handling.
-						$bi_controller->processTransactions();
-						break;
-					case ($_POST['partnerType'][$k] == 'ZZ'):
-						// Delegate to legacy controller workflow which contains full ZZ handling.
-						$bi_controller->processTransactions();
-						break;
-					default:
-						break;
-				}
-			}
-			$Ajax->activate('doc_tbl');
-		} //end of if !error
-
-	} // end of is set....
-} //end of is isset(post[processTranzaction])
 
 /*----------------------------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------------------------*/
