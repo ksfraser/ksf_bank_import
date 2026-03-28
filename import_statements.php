@@ -263,21 +263,17 @@ function importStatement($smt, $file_id = null)
 /** Moving to Namespaces **/
 	require_once(__DIR__ . '/class.bi_transactions.php');
 	
-	// Phase 2: Import duplicate review service
-	use Ksfraser\FaBankImport\Import\Services\DuplicateDetection\DuplicateReviewHandler;
-	
 	$reviewHandler = null;
 	
 	// Initialize Phase 2 service if database connection available
 	try {
 		if (isset($GLOBALS['db']) && function_exists('db_query')) {
-			$reviewHandler = new DuplicateReviewHandler();
+			$reviewHandler = new \Ksfraser\FaBankImport\Import\Services\DuplicateDetection\DuplicateReviewHandler();
 		}
 	} catch (\Throwable $e) {
 		@error_log('ImportStatements: Failed to initialize Phase 2 review handler: ' . $e->getMessage());
 	}
 	
-/**//
 	foreach($smt->transactions as $id => $t) 
 	{
 		display_notification(  "Processing transaction" );
