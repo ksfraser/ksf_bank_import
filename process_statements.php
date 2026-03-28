@@ -498,7 +498,7 @@ if (1) {
 	require_once(__DIR__ . '/class.bi_transactions.php');
 	$bit = new bi_transactions_model();
 	$fetchStartedAt = microtime(true);
-	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
+	if( isset($_POST['statusFilter']) && ($_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1) )
 	{
 		$trzs = $bit->get_transactions( $_POST['statusFilter'] );
 	}
@@ -542,17 +542,15 @@ if (1) {
 		require_once(__DIR__ . '/class.bi_lineitem.php');
 		foreach($trz_data as $idx => $trz) 
 		{
-			//LOGIC ERROR?
-				//We are handling line items, but then ->display out of the loop?
-				//I assume this is for lines with charges, etc which could be in the MT940 format but not QFX and therefore I'm not seeing  an issue?
 			$bi_lineitem = new bi_lineitem( $trz, $vendor_list, $optypes );
+			// Display each line item in the loop
+			$bi_lineitem->display();
+			$renderedRows++;
 		}	//foreach trz_data
 	/*
 	*	//cids is an empty array at this point.
 	*	$cids = implode(',', $cids);
 	*/
-		$bi_lineitem->display();
-		$renderedRows++;
 	} //Foreach
 	$renderDurationMs = (int)round((microtime(true) - $renderStartedAt) * 1000);
 	error_log('[bank_import] process_statements render_rows_ms=' . $renderDurationMs . ' rows=' . $renderedRows);
