@@ -1,4 +1,17 @@
 <?php
+/**
+ * DEPRECATED: legacy banking DTOs
+ *
+ * The legacy `transaction` and `statement` classes remain here for backward
+ * compatibility. New PSR-4 DTO replacements are available under:
+ *   Ksfraser\FaBankImport\DTO\BankingTransaction
+ *   Ksfraser\FaBankImport\DTO\BankingStatement
+ *
+ * Migration plan:
+ * - Consumers should switch to the namespaced DTOs (PSR-4 autoloaded).
+ * - Once tests pass and consumers are updated, this file can be removed.
+ */
+
 class banking_base {
 	//getter
 	public function __get($property) {
@@ -53,6 +66,7 @@ class transaction extends banking_base {
 	var $intu_bid;
 	var $bankid;
 	var $contact_id;                 // FK to 0_bi_contact table
+    var $contact;                    // parser-provided contact object (conservative public property)
 
 	//custom function to get transaction title
 	function getTransactionTitle() {

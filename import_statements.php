@@ -295,6 +295,15 @@ function importStatement($smt, $file_id = null)
 		if (isset($smt->intu_bid)) {
 			$bit->set('intu_bid', $smt->intu_bid);
 		}
+
+		// Non-blocking: use helper to attach parser-provided contact info
+		try {
+			if (isset($GLOBALS['db'])) {
+				\Ksfraser\FaBankImport\Import\ContactImportHelper::attachContactIdFromParserTransaction($GLOBALS['db'], $smt, $t);
+			}
+		} catch (\Throwable $e) {
+			@error_log('ImportStatements: contact helper failed: ' . $e->getMessage());
+		}
 		$dupe = $bit->trans_exists();
 		if( $dupe )
 		{
