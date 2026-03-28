@@ -424,6 +424,7 @@ function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 			   return 0;
 		}
 		$totrate = 0;
+		$qe_lines = [];  // FIX: Initialize array to prevent duplication on multiple calls
 		while( $row = db_fetch($result) ) 
 		{
 			//display_notification( __LINE__ . print_r( $row, true ) );
@@ -455,11 +456,13 @@ function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 				break;
 			} //switch
 		   	//display_notification( __LINE__ . ": Quick Entry ROWS: " . print_r( $qe_lines, true ) );
-	
-			$first = true;
-			$taxbase = 0;
-			foreach($qe_lines as $qe_line) 
-			{
+		}
+
+		// Process each template line exactly once (after all database rows are fetched)
+		$first = true;
+		$taxbase = 0;
+		foreach($qe_lines as $qe_line) 
+		{
 				if( isset( $qe_line['memo'] ) )
 				{
 					if( isset( $qe_line['description'] ) )
@@ -584,10 +587,8 @@ function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 			   	//display_notification( "CART after add: " . print_r( $cart, true ) );
 //20250503 Moved foreach } from above to match whats in ui_view
 			}	//Foreach
-		}
     	}
     	return $bank_amount;
-}
 }
 
 /**//**********************************************
