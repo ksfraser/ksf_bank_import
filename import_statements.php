@@ -258,9 +258,26 @@ function importStatement($smt, $file_id = null)
 	$newinserted=0;
 	$dupecount=0;
 	$dupeupdated=0;
+	$dupes_for_review=0;  // Phase 2: duplicate review staging count
+	
 /** Moving to Namespaces **/
 	require_once(__DIR__ . '/class.bi_transactions.php');
-/**/
+	
+	// Phase 2: Import duplicate review service
+	use Ksfraser\FaBankImport\Import\Services\DuplicateDetection\DuplicateReviewHandler;
+	
+	$reviewHandler = null;
+	
+	// Initialize Phase 2 service if database connection available
+	try {
+		if (isset($GLOBALS['db']) && function_exists('db_query')) {
+			$reviewHandler = new DuplicateReviewHandler();
+		}
+	} catch (\Throwable $e) {
+		@error_log('ImportStatements: Failed to initialize Phase 2 review handler: ' . $e->getMessage());
+	}
+	
+/**//
 	foreach($smt->transactions as $id => $t) 
 	{
 		display_notification(  "Processing transaction" );
@@ -304,29 +321,45 @@ function importStatement($smt, $file_id = null)
 		} catch (\Throwable $e) {
 			@error_log('ImportStatements: contact helper failed: ' . $e->getMessage());
 		}
-		$dupe = $bit->trans_exists();
-		if( $dupe )
-		{
-//20250716 Remove logging of existing (dupe)
-			//display_notification( __FILE__ . "::" . __LINE__ . " Transaction Exists for statement: $smt_id:" . $bit->get( "accountName" ) );
-			//display_notification( __FILE__ . "::" . __LINE__ . " Transaction Exists for statement: $smt_id::" . print_r( $bit, true ) );
+		
+		// Phase 2: Check for duplicates and stage for review if necessary
+		$exact_dupe = $bit->trans_exists();
+		$dupe = $exact_dupe;
+		
+		if ($exact_dupe && $reviewHandler) {
+			try {
+				// Level 1: Direct code match found
+				// Store for Phase 2 review instead of silently skipping
+				$matchType = 'EXACT_CODE_MISMATCH';
+				$fieldsThatDiffer = '';  // Will be calculated by views on display
+				
+				// Phase 2: Store for review
+				$reviewHandler->storeForReview(
+					(array)$bit,  // Incoming transaction data
+					(array)$exact_dupe,  // Existing transaction
+					$matchType,
+					$fieldsThatDiffer,
+					(int)$smt_id
+				);
+				$dupes_for_review++;
+				$dupecount++;
+				
+				// Skip insert - wait for user to review and confirm/reject
+				continue;
+			} catch (\Throwable $e) {
+				@error_log('ImportStatements: Phase 2 duplicate review failed: ' . $e->getMessage());
+				// Fall back to legacy behavior on error - just skip
+				$dupecount++;
+				continue;
+			}
+		} elseif ($exact_dupe) {
+			// Phase 2 services not available - use legacy logic
 			$dupecount++;
-/**
- * Mantis 2948
- * Don't re-insert duplicate.
- * Update in certain cases.  Handled within bi_transactions_model
- */
-			//trans_exists sets the variables out of the DB
-			/*
-			  if( $bit->update( $t ) )
-			  {
-				$dupeupdated++;
-			  }
-			*/
-			
-/* ! 2948 */
+			continue;
 		}
-		else
+		
+		// Phase 1 only: Process normally if no exact code match
+		if( !$dupe )
 		{
 			$sql = $bit->hand_insert_sql();
 			$res = db_query($sql, "could not insert transaction");
@@ -339,6 +372,9 @@ function importStatement($smt, $file_id = null)
 	$message .= ' ' . count($smt->transactions) . ' transactions';
 			display_notification( __FILE__ . "::" . __LINE__ . " Inserted transactions: $newinserted " );
 			display_notification( __FILE__ . "::" . __LINE__ . " Duplicates Total: $dupecount " );
+			if ($dupes_for_review > 0) {
+				display_notification( __FILE__ . "::" . __LINE__ . " Duplicates Staged for Review (Phase 2): $dupes_for_review " );
+			}
 			display_notification( __FILE__ . "::" . __LINE__ . " Updated Duplicates: $dupeupdated " );
 			bank_import_log_event($logger, 'statement.transactions_summary', [
 				'statement_id' => (int)$smt_id,
@@ -347,6 +383,7 @@ function importStatement($smt, $file_id = null)
 				'inserted' => (int)$newinserted,
 				'duplicates' => (int)$dupecount,
 				'duplicates_updated' => (int)$dupeupdated,
+				'duplicates_for_review' => (int)$dupes_for_review,
 			]);
 	return $message;
 /* */
