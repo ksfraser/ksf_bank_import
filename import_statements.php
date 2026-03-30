@@ -261,7 +261,10 @@ function importStatement($smt, $file_id = null)
 	$dupes_for_review=0;  // Phase 2: duplicate review staging count
 	
 /** Moving to Namespaces **/
-	require_once(__DIR__ . '/class.bi_transactions.php');
+	// TODO [Phase-0-review]: Moved to Shared kernel namespace
+	// Old: require_once(__DIR__ . '/class.bi_transactions.php');
+	// New: use Ksfraser\FaBankImport\Shared\Entities\Transaction;
+	require_once(__DIR__ . '/class.bi_transactions.php'); // Temp: keep for compatibility
 	
 	$reviewHandler = null;
 	

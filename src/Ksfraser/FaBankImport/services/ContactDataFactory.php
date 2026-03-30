@@ -15,7 +15,8 @@
 
 namespace Ksfraser\FaBankImport\Services;
 
-use Ksfraser\ContactDTO\ContactData;
+use Ksfraser\Contact\DTO\ContactData;
+// TODO [Phase-0-review]: Was using Ksfraser\ContactDTO\ContactData (incorrect namespace)
 
 /**
  * Factory for creating ContactData DTOs from bank import transaction data

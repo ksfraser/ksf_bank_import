@@ -7,7 +7,8 @@ use Ksfraser\FaBankImport\Services\ContactService;
 use Ksfraser\FaBankImport\Services\ContactDeduplicationService;
 use Ksfraser\FaBankImport\Services\ContactMatchingService;
 use Ksfraser\FaBankImport\Services\ContactDataFactory;
-use Ksfraser\ContactDTO\ContactData;
+use Ksfraser\Contact\DTO\ContactData;
+// TODO [Phase-0-review]: Was using Ksfraser\ContactDTO\ContactData (incorrect namespace)
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -74,6 +74,13 @@ require_once __DIR__ . '/ValueObjects/PartnerData.php';
  * src/Ksfraser/FaBankImport/Domain/ValueObjects  → Shared/ValueObjects/PartnerData.php
  */
 
+// External Package DTOs (NOT duplicated here)
+// ============================================
+// Contact DTO: Use external ksfraser/contact-dto package
+//   Namespace: Ksfraser\Contact\DTO\ContactData
+//   Package: ksfraser/contact-dto (v0.1.0)
+//   Import: use Ksfraser\Contact\DTO\ContactData;
+
 // IMPORTANT: FA Classes
 // =====================
 // Classes prefixed with fa_* should NOT be consolidated here.
