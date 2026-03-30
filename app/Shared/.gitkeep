@@ -1,0 +1,3 @@
+# Shared Kernel - Foundation module for Phase 0
+# Contains: DTOs, Entities, Contracts, Exceptions, Configuration, Services
+# All other modules depend only on this namespace
