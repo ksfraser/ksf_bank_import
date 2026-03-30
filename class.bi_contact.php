@@ -2,6 +2,9 @@
 
 use Ksfraser\Contact\DTO\ContactData;
 
+// Required for banking_base parent class
+require_once __DIR__ . '/includes/banking.php';
+
 /**
  * @author Kevin Fraser
  * @since 20260320
