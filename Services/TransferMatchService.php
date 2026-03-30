@@ -5,11 +5,16 @@ namespace KsfBankImport\Services;
 require_once(__DIR__ . '/../class.bi_transactions.php');
 require_once(__DIR__ . '/../class.bi_transfer_matches.php');
 
+use Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository;
+
 /**
  * External transfer matching service.
  *
  * Runs outside line-item rendering (menu action or cron) and stores
  * transfer candidates for explicit confirmation.
+ * 
+ * Phase 4 Refactoring: Uses BankAccountMappingRepository for OFX identifier lookups
+ * instead of direct database queries, following SRP and repository pattern.
  */
 class TransferMatchService
 {
@@ -19,10 +24,56 @@ class TransferMatchService
     /** @var \bi_transfer_matches_model */
     private $transferMatches;
 
-    public function __construct(?\bi_transactions_model $transactions = null, ?\bi_transfer_matches_model $transferMatches = null)
-    {
+    /** @var BankAccountMappingRepository */
+    private $bankAccountMappingRepository;
+
+    public function __construct(
+        ?\bi_transactions_model $transactions = null,
+        ?\bi_transfer_matches_model $transferMatches = null,
+        ?BankAccountMappingRepository $bankAccountMappingRepository = null
+    ) {
         $this->transactions = $transactions ?: new \bi_transactions_model();
         $this->transferMatches = $transferMatches ?: new \bi_transfer_matches_model();
+        $this->bankAccountMappingRepository = $bankAccountMappingRepository ?: new BankAccountMappingRepository();
+    }
+
+    /**
+     * Get FA bank account ID for OFX identifiers using Repository
+     * 
+     * Phase 4 Refactoring: Delegates to BankAccountMappingRepository
+     * for all OFX identifier lookups, following SRP.
+     * 
+     * @param string|null $bankid OFX BANKID
+     * @param string|null $acctid OFX ACCTID
+     * @param string|null $intu_bid Intuit BID
+     * @return int|null The FA bank account ID or null if not found
+     */
+    public function getFABankAccountFromOFXIdentifiers(?string $bankid, ?string $acctid, ?string $intu_bid): ?int
+    {
+        try {
+            $mapping = $this->bankAccountMappingRepository->findByOFXIdentifiers($bankid, $acctid, $intu_bid);
+            return $mapping ? $mapping->bank_account_id : null;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get all mappings for a FA bank account using Repository
+     * 
+     * Phase 4 Refactoring: Delegates to BankAccountMappingRepository
+     * for account-scoped lookups.
+     * 
+     * @param int $faAccountId The FA bank account ID
+     * @return array Array of BankAccountMapping entities
+     */
+    public function getMappingsForFABankAccount(int $faAccountId): array
+    {
+        try {
+            return $this->bankAccountMappingRepository->findByFABankAccountId($faAccountId);
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     /**

@@ -67,6 +67,39 @@ class BankAccountMappingRepository
     }
 
     /**
+     * Find a mapping by statement data array
+     * 
+     * Convenience method that accepts a statement array and extracts OFX identifiers.
+     * Handles all validation - returns null if identifiers are empty.
+     * 
+     * @param array $statement The statement data array with bankid, acctid, intu_bid keys
+     * @return BankAccountMapping|null
+     */
+    public static function findByStatementData(array $statement): ?BankAccountMapping
+    {
+        return self::findByOFXIdentifiers(
+            $statement['bankid'] ?? null,
+            $statement['acctid'] ?? null,
+            $statement['intu_bid'] ?? null
+        );
+    }
+
+    /**
+     * Get FA bank account ID from statement data
+     * 
+     * Convenience method that returns the FA bank account ID directly.
+     * Returns null if no mapping found.
+     * 
+     * @param array $statement The statement data array
+     * @return int|null The FA bank account ID or null
+     */
+    public static function getFABankAccountIdFromStatement(array $statement): ?int
+    {
+        $mapping = self::findByStatementData($statement);
+        return $mapping ? $mapping->bank_account_id : null;
+    }
+
+    /**
      * Find a mapping by OFX identifiers (bankid + acctid + intu_bid)
      * 
      * @param string|null $bankid OFX BANKID

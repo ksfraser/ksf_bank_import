@@ -379,6 +379,7 @@ class bi_statements_model
 	 * 
 	 * Returns the FrontAccounting bank account that this statement's OFX
 	 * identifiers are linked to, or null if no mapping exists.
+	 * Delegates all validation to the Repository.
 	 * 
 	 * @return int|null
 	 */
@@ -389,13 +390,14 @@ class bi_statements_model
 				return null;
 			}
 			
-			$mapping = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByOFXIdentifiers(
-				$this->bankid, 
-				$this->acctid, 
-				$this->intu_bid
-			);
+			// Repository handles all validation and null/empty checks
+			$statementData = [
+				'bankid' => $this->bankid,
+				'acctid' => $this->acctid,
+				'intu_bid' => $this->intu_bid
+			];
 			
-			return $mapping ? $mapping->bank_account_id : null;
+			return \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::getFABankAccountIdFromStatement($statementData);
 		} catch (\Exception $e) {
 			return null;
 		}
@@ -406,26 +408,26 @@ class bi_statements_model
 	 * 
 	 * Creates a BankAccountMapping entity from the OFX identifiers
 	 * stored in this statement (bankid, acctid, intu_bid).
+	 * Delegates validation to the Repository.
 	 * 
 	 * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
 	 */
 	public function extractBankAccountMapping(): ?\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
 	{
 		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Factories\BankAccountMappingFactory')) {
+			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
 				return null;
 			}
 			
-			// Create mapping from this statement's data
+			// Repository handles all validation and null/empty checks
 			$statementData = [
 				'bankid' => $this->bankid,
 				'acctid' => $this->acctid,
 				'intu_bid' => $this->intu_bid,
-				'accttype' => null,
 				'curdef' => $this->currency
 			];
 			
-			return \Ksfraser\FaBankImport\Shared\Factories\BankAccountMappingFactory::createFromArray($statementData);
+			return \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByStatementData($statementData);
 		} catch (\Exception $e) {
 			return null;
 		}

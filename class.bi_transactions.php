@@ -954,30 +954,24 @@ class bi_transactions_model {
 	 * 
 	 * Returns the FrontAccounting bank account ID that this transaction
 	 * is associated with through its parent statement's mapping.
+	 * Delegates all validation to the Repository.
 	 * 
 	 * @return int|null
 	 */
 	public function getFABankAccountFromMapping(): ?int
 	{
 		try {
-			// Get parent statement first
-			$smtData = $this->get_statement_by_id($this->smt_id);
-			if (!is_array($smtData) || empty($smtData['bankid']) && empty($smtData['acctid'])) {
-				return null;
-			}
-			
 			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
 				return null;
 			}
 			
-			// Get mapping from statement's OFX identifiers
-			$mapping = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByOFXIdentifiers(
-				$smtData['bankid'] ?? null,
-				$smtData['acctid'] ?? null,
-				$smtData['intu_bid'] ?? null
-			);
+			$smtData = $this->get_statement_by_id($this->smt_id);
+			if (!is_array($smtData)) {
+				return null;
+			}
 			
-			return $mapping ? $mapping->bank_account_id : null;
+			// Repository handles all validation and null/empty checks
+			return \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::getFABankAccountIdFromStatement($smtData);
 		} catch (\Exception $e) {
 			return null;
 		}
@@ -988,6 +982,7 @@ class bi_transactions_model {
 	 * 
 	 * Safely extracts the BankAccountMapping from this transaction's
 	 * parent statement. Returns null gracefully if statement is missing.
+	 * Delegates validation to the Repository.
 	 * 
 	 * @param array|null $statement Optional pre-fetched statement data
 	 * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
@@ -995,7 +990,7 @@ class bi_transactions_model {
 	public function extractMappingFromStatement(?array $statement = null): ?\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
 	{
 		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Factories\BankAccountMappingFactory')) {
+			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
 				return null;
 			}
 			
@@ -1008,15 +1003,9 @@ class bi_transactions_model {
 				return null;
 			}
 			
-			// Create mapping from statement's OFX identifiers
-			$mappingData = [
-				'bankid' => $statement['bankid'] ?? null,
-				'acctid' => $statement['acctid'] ?? null,
-				'intu_bid' => $statement['intu_bid'] ?? null,
-				'curdef' => $statement['currency'] ?? null
-			];
-			
-			return \Ksfraser\FaBankImport\Shared\Factories\BankAccountMappingFactory::createFromArray($mappingData);
+			// Repository handles all validation and returns the mapping
+			// (or null if identifiers are empty)
+			return \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByStatementData($statement);
 		} catch (\Exception $e) {
 			return null;
 		}

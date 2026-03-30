@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\Contact\DTO\ContactData;
+use Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository;
 
 require_once __DIR__ . '/../../../class.bi_contact.php';
 
@@ -11,6 +12,9 @@ require_once __DIR__ . '/../../../class.bi_contact.php';
  * 
  * Wrapper service for the bi_contact model providing high-level contact management operations.
  * Centralizes contact CRUD logic, deduplication, and business rule enforcement.
+ *
+ * Phase 4 Refactoring: Uses BankAccountMappingRepository for bank account linkages,
+ * following SRP and repository pattern for all OFX identifier lookups.
  *
  * @author Kevin Fraser
  * @since 20260322
@@ -28,14 +32,61 @@ class ContactService
     private $contactModel;
 
     /**
+     * @var BankAccountMappingRepository Bank account mapping repository
+     */
+    private $bankAccountMappingRepository;
+
+    /**
      * Constructor
      *
      * @param object $db Database connection (mysqli)
+     * @param BankAccountMappingRepository|null $bankAccountMappingRepository Optional repository instance
      */
-    public function __construct($db = null)
+    public function __construct($db = null, ?BankAccountMappingRepository $bankAccountMappingRepository = null)
     {
         $this->db = $db;
         $this->contactModel = new \bi_contact($db);
+        $this->bankAccountMappingRepository = $bankAccountMappingRepository ?: new BankAccountMappingRepository();
+    }
+
+    /**
+     * Get FA bank account mapping by OFX identifiers
+     * 
+     * Phase 4 Refactoring: Delegates to BankAccountMappingRepository
+     * for all OFX identifier lookups.
+     * 
+     * @param string|null $bankid OFX BANKID
+     * @param string|null $acctid OFX ACCTID
+     * @param string|null $intu_bid Intuit BID
+     * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
+     */
+    public function getBankAccountMappingByOFXIdentifiers(?string $bankid, ?string $acctid, ?string $intu_bid)
+    {
+        try {
+            return $this->bankAccountMappingRepository->findByOFXIdentifiers($bankid, $acctid, $intu_bid);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get FA bank account ID for contact by OFX identifiers
+     * 
+     * Convenience method combining contact operations with bank account lookups.
+     * 
+     * @param string|null $bankid OFX BANKID
+     * @param string|null $acctid OFX ACCTID
+     * @param string|null $intu_bid Intuit BID
+     * @return int|null The FA bank account ID or null if not found
+     */
+    public function getFABankAccountIdByOFXIdentifiers(?string $bankid, ?string $acctid, ?string $intu_bid): ?int
+    {
+        try {
+            $mapping = $this->bankAccountMappingRepository->findByOFXIdentifiers($bankid, $acctid, $intu_bid);
+            return $mapping ? $mapping->bank_account_id : null;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

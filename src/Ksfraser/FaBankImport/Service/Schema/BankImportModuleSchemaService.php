@@ -2,13 +2,33 @@
 
 namespace Ksfraser\FaBankImport\Service\Schema;
 
+use Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository;
+
 /**
  * Centralized module-level schema maintenance.
  *
  * Runs idempotent, non-destructive ensure calls for all module-owned tables.
+ * 
+ * Phase 4 Refactoring: Uses BankAccountMappingRepository for OFX identifier
+ * lookups instead of direct database queries, following SRP.
  */
 class BankImportModuleSchemaService
 {
+    /**
+     * @var BankAccountMappingRepository
+     */
+    private $bankAccountMappingRepository;
+
+    /**
+     * Constructor
+     * 
+     * @param BankAccountMappingRepository|null $bankAccountMappingRepository Optional repository instance
+     */
+    public function __construct(?BankAccountMappingRepository $bankAccountMappingRepository = null)
+    {
+        $this->bankAccountMappingRepository = $bankAccountMappingRepository ?: new BankAccountMappingRepository();
+    }
+
     /**
      * Ensure schema drift repairs for all module tables.
      *
@@ -70,5 +90,54 @@ class BankImportModuleSchemaService
             'bi_bank_accounts' => true,
             'legacy_bank_accounts_migrated' => true,
         ];
+    }
+
+    /**
+     * Get mapping by OFX identifiers using Repository
+     * 
+     * Phase 4 Refactoring: Delegates to BankAccountMappingRepository
+     * for all OFX identifier lookups.
+     * 
+     * @param string|null $bankid OFX BANKID
+     * @param string|null $acctid OFX ACCTID
+     * @param string|null $intu_bid Intuit BID
+     * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
+     */
+    public function getBankAccountMappingByOFXIdentifiers(?string $bankid, ?string $acctid, ?string $intu_bid)
+    {
+        try {
+            return $this->bankAccountMappingRepository->findByOFXIdentifiers($bankid, $acctid, $intu_bid);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get all mappings for a FA bank account using Repository
+     * 
+     * @param int $faAccountId The FA bank account ID
+     * @return array Array of BankAccountMapping entities
+     */
+    public function getMappingsForFABankAccount(int $faAccountId): array
+    {
+        try {
+            return $this->bankAccountMappingRepository->findByFABankAccountId($faAccountId);
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
+
+    /**
+     * Count total bank account mappings
+     * 
+     * @return int Total count of mappings
+     */
+    public function countBankAccountMappings(): int
+    {
+        try {
+            return $this->bankAccountMappingRepository->countAll();
+        } catch (\Exception $e) {
+            return 0;
+        }
     }
 }
