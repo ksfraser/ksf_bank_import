@@ -13,6 +13,8 @@ if (!$forceMocks && is_file($commonOrigin) && is_file($faTypesInc)) {
 
 
 require_once( 'class.bi_transaction.php' );
+// TODO [Phase-0-review]: Old: require bi_transaction (moved to Shared\Entities\Transaction)
+// TODO [Phase-0-review]: Transition repository property to use Ksfraser\FaBankImport\Shared\Entities\Transaction
 //require_once( 'class.bi_transactions.php' );
 
 use Ksfraser\FaBankImport\Handlers\AddVendor;

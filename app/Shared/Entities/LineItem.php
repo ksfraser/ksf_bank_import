@@ -12,10 +12,8 @@ class LineItem
     public $our_account; // our bank account
     public $valueTimestamp;
     public $entryTimestamp;
-    public $otherBankaccount; // alternative spelling variant
-    public $otherBankaccountName;
-    public $otherBankAccount; // preferred spelling
-    public $otherBankAccountName;
+    public $otherBankAccount; // counterparty account number
+    public $otherBankAccountName; // counterparty account name
     public $transactionTitle;
     public $status;
     public $currency;
@@ -30,18 +28,18 @@ class LineItem
     }
 
     /**
-     * Get the counterparty account (resolves both spelling variants)
+     * Get the counterparty account number
      */
     public function getCounterpartyAccount(): ?string
     {
-        return $this->otherBankAccount ?? $this->otherBankaccount;
+        return $this->otherBankAccount;
     }
 
     /**
-     * Get the counterparty account name (resolves both spelling variants)
+     * Get the counterparty account name
      */
     public function getCounterpartyAccountName(): ?string
     {
-        return $this->otherBankAccountName ?? $this->otherBankaccountName;
+        return $this->otherBankAccountName;
     }
 }

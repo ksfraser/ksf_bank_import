@@ -141,10 +141,8 @@ class bi_lineitem
 	public $our_account;
 	public $valueTimestamp;
 	public $entryTimestamp;
-	public $otherBankaccount;
-	public $otherBankaccountName;
-	public $otherBankAccount;
-	public $otherBankAccountName;
+	public $otherBankAccount; // counterparty account number
+	public $otherBankAccountName; // counterparty account name
 	public $transactionTitle;
 	public $status;
 	public $currency;

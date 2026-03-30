@@ -228,6 +228,41 @@ function importStatement($smt, $file_id = null)
 		$message .= "existing, updated";
 	}
 	$smt_id = $bis->get( "id" );
+	
+	// =====================================================================
+	// Phase 3: Extract and store BankAccountMapping (NEW)
+	// =====================================================================
+	try {
+		// Extract mapping from statement's OFX identifiers
+		$mapping = $bis->extractBankAccountMapping();
+		
+		if ($mapping && !empty($mapping->bankid) && !empty($mapping->acctid)) {
+			// Determine the FA bank account ID (would normally come from user config/API)
+			// For now, we store the mapping with the necessary OFX identifiers
+			// The FA account linkage happens through user configuration
+			$faAccountId = 1; // TODO: Get from configuration or parameter
+			
+			// Store mapping in repository (idempotent - safe to call multiple times)
+			$bis->storeBankAccountMapping($mapping, $faAccountId);
+			
+			// Log mapping creation for audit trail
+			bank_import_log_event($logger, 'import.mapping.created', [
+				'mapping_id' => $mapping->bank_account_id ?? null,
+				'statement_id' => (int)$smt_id,
+				'bankid' => (string)($mapping->bankid ?? ''),
+				'acctid' => (string)($mapping->acctid ?? ''),
+				'intu_bid' => (string)($mapping->intu_bid ?? '')
+			]);
+		}
+	} catch (\Throwable $e) {
+		// Non-blocking: Mapping extraction/storage failure should not stop import
+		@error_log('ImportStatements: BankAccountMapping extraction failed: ' . $e->getMessage());
+		bank_import_log_event($logger, 'import.mapping.failed', [
+			'statement_id' => (int)$smt_id,
+			'error' => $e->getMessage()
+		]);
+	}
+	
 	bank_import_log_event($logger, 'statement.upserted', [
 		'statement_id' => (int)$smt_id,
 		'statement_identifier' => (string)($smt->statementId ?? ''),
@@ -366,6 +401,26 @@ function importStatement($smt, $file_id = null)
 //20250716 Remove logging of insertion
 			//display_notification( __FILE__ . "::" . __LINE__ . " Inserted transaction: $t_id " );
 			$newinserted++;
+			
+			// =====================================================================
+			// Phase 3: Cascade BankAccountMapping to transaction (NEW)
+			// =====================================================================
+			try {
+				// Transaction now has all OFX identifiers from its parent statement
+				// The mapping will be automatically available through the statement
+				// association (cascade is automatic through parent relationship)
+				
+				// Optional: Log transaction mapping association for audit trail
+				bank_import_log_event($logger, 'import.transaction.mapped', [
+					'transaction_id' => (int)$t_id,
+					'statement_id' => (int)$smt_id,
+					'bankid' => (string)($bit->bankid ?? ''),
+					'acctid' => (string)($bit->acctid ?? '')
+				]);
+			} catch (\Throwable $e) {
+				// Non-blocking: Mapping cascade should not stop transaction processing
+				@error_log('ImportStatements: Transaction mapping cascade failed: ' . $e->getMessage());
+			}
 		}
 	}	//foreach statement
 	$message .= ' ' . count($smt->transactions) . ' transactions';
@@ -895,6 +950,7 @@ function parse_uploaded_files() {
  *
  * @param string $bankAccountNumber
  * @return bool
+ * TODO [Phase-0-review]: Migrate to use Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
  */
 function fa_bank_account_number_exists(string $bankAccountNumber): bool
 {
@@ -902,34 +958,40 @@ function fa_bank_account_number_exists(string $bankAccountNumber): bool
 	if ($bankAccountNumber === '') {
 		return false;
 	}
-	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	// TODO [Phase-0-review]: Old: require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	require_once(__DIR__ . '/class.bi_bank_accounts.php'); // Temp: keep for compatibility
 	return bi_bank_accounts_model::fa_get_bank_account_id_by_number($bankAccountNumber) !== null;
 }
 
 /**
  * Resolve FA bank account id by bank_account_number.
+ * TODO [Phase-0-review]: Migrate to use Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
  */
 function fa_get_bank_account_id_by_number(string $bankAccountNumber): ?int
 {
-	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	// TODO [Phase-0-review]: Old: require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	require_once(__DIR__ . '/class.bi_bank_accounts.php'); // Temp: keep for compatibility
 	return bi_bank_accounts_model::fa_get_bank_account_id_by_number($bankAccountNumber);
 }
 
 function bi_bank_accounts_table_exists(): bool
 {
-	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	// TODO [Phase-0-review]: Old: require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	require_once(__DIR__ . '/class.bi_bank_accounts.php'); // Temp: keep for compatibility
 	return bi_bank_accounts_model::table_exists();
 }
 
 function bi_bank_accounts_get_row(int $bankAccountId): ?array
 {
-	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	// TODO [Phase-0-review]: Old: require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	require_once(__DIR__ . '/class.bi_bank_accounts.php'); // Temp: keep for compatibility
 	return bi_bank_accounts_model::get_row((int)$bankAccountId);
 }
 
 function bi_bank_accounts_upsert(int $bankAccountId, array $meta): void
 {
-	require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	// TODO [Phase-0-review]: Old: require_once(__DIR__ . '/class.bi_bank_accounts.php');
+	require_once(__DIR__ . '/class.bi_bank_accounts.php'); // Temp: keep for compatibility
 	bi_bank_accounts_model::upsert((int)$bankAccountId, $meta);
 }
 

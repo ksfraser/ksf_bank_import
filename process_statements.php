@@ -275,7 +275,11 @@ if (1) {
 
 	error_reporting(E_ALL);
 
-	require_once(__DIR__ . '/class.bi_transactions.php');
+	// TODO [Phase-0-review]: Moved to Shared kernel - use Ksfraser\FaBankImport\Shared\Entities\Transaction
+	// Old: require_once(__DIR__ . '/class.bi_transactions.php');
+	require_once(__DIR__ . '/class.bi_transactions.php'); // Temp: keep for compatibility
+	
+	// For Phase 0 migration, keeping bi_transactions_model but marked for transition
 	$bit = new bi_transactions_model();
 	$fetchStartedAt = microtime(true);
 	if( isset($_POST['statusFilter']) && ($_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1) )
@@ -319,9 +323,13 @@ if (1) {
 	*	$charge = 0;
 	*/
 	
-		require_once(__DIR__ . '/class.bi_lineitem.php');
+		// TODO [Phase-0-review]: Moved to Shared kernel - use Ksfraser\FaBankImport\Shared\Entities\LineItem
+		// Old: require_once(__DIR__ . '/class.bi_lineitem.php');
+		require_once(__DIR__ . '/class.bi_lineitem.php'); // Temp: keep for compatibility
+		
 		foreach($trz_data as $idx => $trz) 
 		{
+			// TODO: Transition to use Shared\Entities\LineItem
 			$bi_lineitem = new bi_lineitem( $trz, $vendor_list, $optypes );
 			// Display each line item in the loop
 			$bi_lineitem->display();

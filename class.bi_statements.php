@@ -357,6 +357,194 @@ class bi_statements_model
 		return true;
 	}
 
+	// =====================================================================
+	// BankAccountMapping Cross-Reference Methods (Phase 2)
+	// =====================================================================
+
+	/**
+	 * Get the BankAccountMapping entity for this statement
+	 * 
+	 * Retrieves or creates the cross-reference mapping of OFX identifiers
+	 * to FA bank account for this statement.
+	 * 
+	 * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
+	 */
+	public function getBankAccountMapping(): ?\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
+	{
+		return $this->extractBankAccountMapping();
+	}
+
+	/**
+	 * Get the FA bank account ID mapped to this statement
+	 * 
+	 * Returns the FrontAccounting bank account that this statement's OFX
+	 * identifiers are linked to, or null if no mapping exists.
+	 * 
+	 * @return int|null
+	 */
+	public function getFABankAccountId(): ?int
+	{
+		try {
+			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
+				return null;
+			}
+			
+			$mapping = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByOFXIdentifiers(
+				$this->bankid, 
+				$this->acctid, 
+				$this->intu_bid
+			);
+			
+			return $mapping ? $mapping->bank_account_id : null;
+		} catch (\Exception $e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Extract BankAccountMapping from this statement's OFX identifiers
+	 * 
+	 * Creates a BankAccountMapping entity from the OFX identifiers
+	 * stored in this statement (bankid, acctid, intu_bid).
+	 * 
+	 * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
+	 */
+	public function extractBankAccountMapping(): ?\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
+	{
+		try {
+			if (!class_exists('\Ksfraser\FaBankImport\Shared\Factories\BankAccountMappingFactory')) {
+				return null;
+			}
+			
+			// Create mapping from this statement's data
+			$statementData = [
+				'bankid' => $this->bankid,
+				'acctid' => $this->acctid,
+				'intu_bid' => $this->intu_bid,
+				'accttype' => null,
+				'curdef' => $this->currency
+			];
+			
+			return \Ksfraser\FaBankImport\Shared\Factories\BankAccountMappingFactory::createFromArray($statementData);
+		} catch (\Exception $e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Store BankAccountMapping in repository and link to FA account
+	 * 
+	 * Creates or updates the mapping of this statement's OFX identifiers
+	 * to a FrontAccounting bank account. Operation is idempotent.
+	 * 
+	 * @param \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping $mapping The mapping to store
+	 * @param int $faAccountId The FA bank account ID to link to
+	 * @return bool True on success, false on failure
+	 */
+	public function storeBankAccountMapping(
+		\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping $mapping,
+		int $faAccountId
+	): bool
+	{
+		try {
+			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
+				return false;
+			}
+			
+			// Upsert in repository (idempotent)
+			\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::upsert($mapping, $faAccountId);
+			
+			return true;
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Relink this statement's mapping to a different FA account
+	 * 
+	 * Updates the association of this statement's mapping to point to
+	 * a different FrontAccounting bank account. Useful when user changes
+	 * which FA account a bank account is linked to.
+	 * 
+	 * @param int $newFAAccountId The new FA bank account ID
+	 * @return bool True on success, false on failure
+	 */
+	public function relinkBankAccountMapping(int $newFAAccountId): bool
+	{
+		try {
+			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
+				return false;
+			}
+			
+			// Find existing mapping
+			$mapping = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByOFXIdentifiers(
+				$this->bankid, 
+				$this->acctid, 
+				$this->intu_bid
+			);
+			
+			if (!$mapping) {
+				return false;
+			}
+			
+			// Update mapping with new account ID
+			$mapping->bank_account_id = $newFAAccountId;
+			\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::upsert($mapping, $newFAAccountId);
+			
+			return true;
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Find statements by BankAccountMapping ID
+	 * 
+	 * Static method to retrieve all statements that share the same
+	 * BankAccountMapping ID. Useful for cross-referencing and auditing.
+	 * 
+	 * @param int $mappingId The BankAccountMapping ID
+	 * @return array Array of statement rows or empty array
+	 */
+	public static function findByBankAccountMappingId(int $mappingId): array
+	{
+		try {
+			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
+				return [];
+			}
+			
+			// Get the mapping first
+			$mapping = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findById($mappingId);
+			if (!$mapping) {
+				return [];
+			}
+			
+			// Find all statements with matching OFX identifiers
+			$table = TB_PREF . 'bi_statements';
+			$sql = "SELECT * FROM `{$table}`
+					WHERE (bankid=" . db_escape($mapping->bankid) . " OR bankid IS NULL) 
+					  AND (acctid=" . db_escape($mapping->acctid) . " OR acctid IS NULL)
+					  AND (intu_bid=" . db_escape($mapping->intu_bid) . " OR intu_bid IS NULL)
+					ORDER BY id DESC";
+			
+			$result = @db_query($sql, 'Could not find statements by mapping');
+			
+			$statements = [];
+			if (is_object($result)) {
+				while ($row = db_fetch($result)) {
+					if (is_array($row)) {
+						$statements[] = $row;
+					}
+				}
+			}
+			
+			return $statements;
+		} catch (\Exception $e) {
+			return [];
+		}
+	}
+
 }
 ////I've copied this into ORIGIN.
 //	/**//**********************************************************************
