@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for OtherBankAccount.
  */
-namespace Ksfraser\FaBankImport;
+namespace Ksfraser\FaBankImport\Views;
 
 
 use Ksfraser\HTML\HtmlElementInterface;

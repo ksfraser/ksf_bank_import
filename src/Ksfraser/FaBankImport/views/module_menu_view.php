@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for ModuleMenuView.
  */
-namespace Views;
+namespace Ksfraser\FaBankImport\Views;
 
 class ModuleMenuView
 {

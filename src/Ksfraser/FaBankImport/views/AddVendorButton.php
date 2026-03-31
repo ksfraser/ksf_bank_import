@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for AddVendorButton.
  */
-namespace Ksfraser\FaBankImport;
+namespace Ksfraser\FaBankImport\Views;
 
 
 use Ksfraser\HTML\Composites\HTML_LABEL_ROW;

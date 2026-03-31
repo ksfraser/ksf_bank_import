@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for AddCustomerButton.
  */
-namespace Ksfraser\FaBankImport;
+namespace Ksfraser\FaBankImport\Views;
 
 use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
 use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;

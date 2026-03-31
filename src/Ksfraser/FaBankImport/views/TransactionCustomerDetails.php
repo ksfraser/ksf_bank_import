@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for TransactionCustomerDetails.
  */
-namespace Ksfraser\FaBankImport;
+namespace Ksfraser\FaBankImport\Views;
 
 
 class TransactionCustomerDetails 

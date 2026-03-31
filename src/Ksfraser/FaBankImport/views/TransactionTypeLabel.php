@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for TransactionTypeLabel.
  */
-namespace Ksfraser\FaBankImport;
+namespace Ksfraser\FaBankImport\Views;
 
 
 /**//*****************************************************************
