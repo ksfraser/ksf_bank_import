@@ -53,14 +53,6 @@ class TransactionRepositoryTest extends DatabaseTestCase
             . 'See: tests/integration/TransactionRepositoryTest.php'
         );
     }
-        
-        $this->queryBuilder = new TransactionQueryBuilder(
-            $this->tablePrefix . 'bi_transactions',
-            $this->tablePrefix . 'bi_statements'
-        );
-        
-        $this->repository = new TransactionRepository($this->queryBuilder);
-    }
     
     /**
      * Test repository can be instantiated with QueryBuilder
