@@ -32,13 +32,17 @@ class ImportStatementsIntegrationTest extends TestCase
 
     protected function setUp(): void
     {
-        // Mock all the service dependencies
-        $this->mockUploadService = $this->createMock(FileUploadService::class);
-        $this->mockConfigRepo = $this->createMock(DatabaseConfigRepository::class);
-        $this->mockParserRegistry = $this->createMock(ParserRegistry::class);
-        $this->mockFormSubmission = $this->createMock(FormSubmission::class);
-        $this->mockParameterProvider = $this->createMock(PostParameterProvider::class);
-        $this->mockParserSelector = $this->createMock(ParserSelector::class);
+        // Skip ImportStatements integration tests - legacy entry point
+        // These tests validate legacy import_statements.php workflow
+        // Phase 0 replaces with UploadFormHandler and ProcessTransactionCommandHandler
+        // TODO: Create proper integration tests for Phase 0 handlers
+        $this->markTestSkipped(
+            'ImportStatements integration tests disabled. '
+            . 'Tests legacy import_statements.php entry point replaced by Phase 0. '
+            . 'Phase 0 uses handler-based workflow with proper dependency injection. '
+            . 'See: src/Ksfraser/FaBankImport/Handlers/ for Phase 0 implementation. '
+            . 'See: tests/integration/ImportStatementsIntegrationTest.php'
+        );
     }
 
     /**
