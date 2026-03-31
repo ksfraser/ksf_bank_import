@@ -43,14 +43,7 @@ class SessionCachingIntegrationTest extends TestCase
             . 'Requires test harness refactoring to isolate HTTP layer from unit tests. '
             . 'See: tests/integration/SessionCachingIntegrationTest.php'
         );
-        
-        // Keep legacy setUp for reference when fixing
-        /*
-        // Start session if not started
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-        */
+    }
     
     /**
      * Tear down - clear session

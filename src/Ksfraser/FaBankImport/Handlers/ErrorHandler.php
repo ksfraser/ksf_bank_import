@@ -57,8 +57,8 @@ class ErrorHandler extends ApplicationErrorHandler
      */
     private function logModuleException(BaseKsfException $e): void
     {
-        // Additional module-specific logging could happen here
-        // For now, delegate to parent's logging which uses Monolog
-        // This preserves extensibility for future enhancements
+        // Delegate to parent's error logging (uses Monolog)
+        // This preserves extensibility for module-specific logging enhancements
+        $this->log($e);
     }
 }
