@@ -69,10 +69,10 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testHasThreeClasses(): void
     {
-        $this->assertRegExp('/class\s+transaction_table\b/', $this->fileContent);
-        $this->assertRegExp('/class\s+transaction_table_row\b/', $this->fileContent);
-        $this->assertRegExp('/class\s+ttr_table\b/', $this->fileContent);
-        $this->assertRegExp('/class\s+ttr_label_row\b/', $this->fileContent);
+        $this->assertMatchesRegularExpression('/class\s+transaction_table\b/', $this->fileContent);
+        $this->assertMatchesRegularExpression('/class\s+transaction_table_row\b/', $this->fileContent);
+        $this->assertMatchesRegularExpression('/class\s+ttr_table\b/', $this->fileContent);
+        $this->assertMatchesRegularExpression('/class\s+ttr_label_row\b/', $this->fileContent);
     }
 
     /**
@@ -215,12 +215,12 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testTransactionTableDisplayMethod(): void
     {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/function\s+display\s*\(\s*\)\s*\{[^}]*HtmlTable\(\)/s',
             $this->fileContent,
             'Current transaction_table::display() uses HtmlTable'
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/function\s+display\s*\(\s*\)\s*\{[^}]*table_header/s',
             $this->fileContent,
             'Current transaction_table::display() keeps table_header()'
@@ -232,7 +232,7 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testTtrTableDisplayReturnsStartTable(): void
     {
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/class\s+ttr_table[^{]*\{.*?function\s+display.*?return\s+\'<table class="\'\s*\.\s*strtolower\(\$this->style\)/s',
             $this->fileContent,
             'Current ttr_table::display() returns standalone table HTML'
@@ -295,7 +295,7 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testUsesTextInputFunction(): void
     {
-        $this->assertRegExp('/text_input\s*\(\s*"Existing_Entry"/', $this->fileContent,
+        $this->assertMatchesRegularExpression('/text_input\s*\(\s*"Existing_Entry"/', $this->fileContent,
             'PROD uses text_input() function for manual entry');
     }
 
@@ -305,17 +305,17 @@ class TransactionsTableProductionBaselineTest extends TestCase
     public function testTransactionDCSwitchUsesLabelRow(): void
     {
         // Current switch uses HtmlString + HtmlLabelRow composition
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/switch\s*\(\s*\$transactionDC\s*\)[^}]+case\s+\'C\':[^}]*HtmlString\("Credit"\)/s',
             $this->fileContent,
             'Current switch sets Credit label content via HtmlString'
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/switch\s*\(\s*\$transactionDC\s*\)[^}]+case\s+\'D\':[^}]*HtmlString\("Debit"\)/s',
             $this->fileContent,
             'Current switch sets Debit label content via HtmlString'
         );
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/switch\s*\(\s*\$transactionDC\s*\)[^}]+case\s+\'B\':[^}]*HtmlString\("Bank Transfer"\)/s',
             $this->fileContent,
             'Current switch sets Bank Transfer label content via HtmlString'
