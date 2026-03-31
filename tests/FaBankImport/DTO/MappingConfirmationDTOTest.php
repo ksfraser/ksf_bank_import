@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\DTO\MappingConfirmationDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\MappingConfirmationDTO;
 
 class MappingConfirmationDTOTest extends TestCase
 {

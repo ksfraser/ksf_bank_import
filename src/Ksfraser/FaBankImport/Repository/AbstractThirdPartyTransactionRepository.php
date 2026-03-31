@@ -17,7 +17,7 @@ namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\ModulesDAO\Db\DbAdapterInterface;
 use Ksfraser\ModulesDAO\Db\FaDbAdapter;
-use Ksfraser\FaBankImport\DTO\BiTransactionDto;
+use Ksfraser\FaBankImport\Shared\DTOs\BiTransactionDto;
 use Ksfraser\FaBankImport\Schema\BiTransactionsSchema;
 
 abstract class AbstractThirdPartyTransactionRepository implements ThirdPartyTransactionRepositoryInterface

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb4122b121427429368be54a06267538",
+    "content-hash": "b19cc2996f51e9523ba669a78222a60f",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -123,6 +123,42 @@
                 "source": "https://github.com/ksfraser/Contact-DTO/tree/0.1.0"
             },
             "time": "2026-03-20T15:12:49+00:00"
+        },
+        {
+            "name": "ksfraser/exceptions",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../Exceptions",
+                "reference": "f564326fa5a538e7c9180d115fbe042cba485de7"
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ksfraser\\Exceptions\\": "src/Ksfraser/Exceptions/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Ksfraser\\Exceptions\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Fraser",
+                    "email": "ksfraser@example.com"
+                }
+            ],
+            "description": "A comprehensive exception library for ksfraser projects with factory methods for domain-specific errors.",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "ksfraser/genericinterface",

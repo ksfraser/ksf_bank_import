@@ -1,7 +1,7 @@
 <?php
 namespace Ksfraser\FaBankImport\Handlers;
 
-use Ksfraser\FaBankImport\DTO\ImportSummaryDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\ImportSummaryDTO;
 
 class ImportHandler {
     public function handle($request): ImportSummaryDTO {

@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\DTO\BankingStatement;
+use Ksfraser\FaBankImport\Shared\DTOs\BankingStatement;
 
 class BankingStatementTest extends TestCase
 {

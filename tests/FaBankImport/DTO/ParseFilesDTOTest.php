@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\DTO\ParseFilesDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\ParseFilesDTO;
 
 class ParseFilesDTOTest extends TestCase
 {

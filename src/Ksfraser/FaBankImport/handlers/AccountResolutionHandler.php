@@ -1,7 +1,7 @@
 <?php
 namespace Ksfraser\FaBankImport\Handlers;
 
-use Ksfraser\FaBankImport\DTO\AccountResolutionDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\AccountResolutionDTO;
 
 class AccountResolutionHandler {
     public function handle($request): AccountResolutionDTO {

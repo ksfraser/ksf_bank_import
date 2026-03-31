@@ -1,7 +1,7 @@
 <?php
 namespace Ksfraser\FaBankImport\Handlers;
 
-use Ksfraser\FaBankImport\DTO\MappingConfirmationDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\MappingConfirmationDTO;
 
 class MappingConfirmationHandler {
     public function handle($request): MappingConfirmationDTO {

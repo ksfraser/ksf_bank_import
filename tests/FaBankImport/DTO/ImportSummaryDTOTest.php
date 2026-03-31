@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\DTO\ImportSummaryDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\ImportSummaryDTO;
 
 class ImportSummaryDTOTest extends TestCase
 {

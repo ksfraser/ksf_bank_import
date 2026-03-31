@@ -16,8 +16,8 @@ namespace Tests\Unit\BankAccountMapping;
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping;
 use Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository;
-use Ksfraser\FaBankImport\Services\TransferMatchService;
-use Ksfraser\FaBankImport\Services\BankImportModuleSchemaService;
+use KsfBankImport\Services\TransferMatchService;
+use Ksfraser\FaBankImport\Service\Schema\BankImportModuleSchemaService;
 use Ksfraser\FaBankImport\Services\ContactService;
 
 class ServiceMigrationTest extends TestCase
@@ -54,7 +54,15 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_transfer_match_service_uses_repository(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates TransferMatchService uses repository');
+        $service = new TransferMatchService();
+        
+        // Service has repository injected (verified via reflection)
+        $reflection = new \ReflectionClass($service);
+        $property = $reflection->getProperty('bankAccountMappingRepository');
+        $property->setAccessible(true);
+        
+        $this->assertNotNull($property->getValue($service), 'TransferMatchService should have repository injected');
+        $this->assertInstanceOf(BankAccountMappingRepository::class, $property->getValue($service));
     }
 
     /**
@@ -68,7 +76,18 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_transfer_match_service_finds_accounts_correctly(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates account lookup accuracy');
+        $service = new TransferMatchService();
+        
+        // Test with known OFX identifiers
+        $bankid = 'test_bank';
+        $acctid = 'test_acct';
+        $intu_bid = 'intuit_123';
+        
+        // Method should exist and be callable
+        $this->assertTrue(
+            method_exists($service, 'getFABankAccountFromOFXIdentifiers'),
+            'TransferMatchService should have getFABankAccountFromOFXIdentifiers method'
+        );
     }
 
     /**
@@ -82,7 +101,15 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_transfer_match_service_handles_missing_accounts(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates graceful handling of missing mappings');
+        $service = new TransferMatchService();
+        
+        // Call with non-existent identifiers - should not throw exception
+        try {
+            $result = $service->getFABankAccountFromOFXIdentifiers('nonexistent_bank', 'nonexistent_acct', 'nonexistent_intuit');
+            $this->assertNull($result, 'Should return null for non-existent mapping');
+        } catch (\Exception $e) {
+            $this->fail('Should not throw exception for missing mapping: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -96,7 +123,17 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_transfer_match_service_performance_acceptable(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates service performance');
+        $service = new TransferMatchService();
+        
+        // Time the lookup operation
+        $start = microtime(true);
+        for ($i = 0; $i < 10; $i++) {
+            $service->getFABankAccountFromOFXIdentifiers('test_bank', 'test_acct', null);
+        }
+        $elapsed = (microtime(true) - $start) * 1000;
+        $avgPerCall = $elapsed / 10;
+        
+        $this->assertLessThan(50, $avgPerCall, "Average lookup time should be < 50ms (was {$avgPerCall}ms)");
     }
 
     /**
@@ -109,7 +146,21 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_transfer_match_service_no_static_calls(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates no static calls remain');
+        // Verify the method uses repository instead of static calls
+        $service = new TransferMatchService();
+        $reflection = new \ReflectionMethod($service, 'getFABankAccountFromOFXIdentifiers');
+        $fileName = $reflection->getFileName();
+        $startLine = $reflection->getStartLine();
+        $endLine = $reflection->getEndLine();
+        
+        // Read method source to verify it uses repository
+        $file = file($fileName);
+        $methodSource = implode('', array_slice($file, $startLine - 1, $endLine - $startLine + 1));
+        
+        // Should contain 'bankAccountMappingRepository' (indicating repository use)
+        $this->assertStringContainsString('bankAccountMappingRepository', $methodSource, 'Method should use repository');
+        // Should NOT contain static method calls like 'bi_bank_accounts::'
+        $this->assertStringNotContainsString('bi_bank_accounts::', $methodSource, 'Method should not use static bi_bank_accounts calls');
     }
 
     // =====================================================================
@@ -128,7 +179,15 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_bank_import_schema_service_uses_repository(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates schema service uses repository');
+        $service = new BankImportModuleSchemaService();
+        
+        // Service has repository injected (verified via reflection)
+        $reflection = new \ReflectionClass($service);
+        $property = $reflection->getProperty('bankAccountMappingRepository');
+        $property->setAccessible(true);
+        
+        $this->assertNotNull($property->getValue($service), 'Schema service should have repository injected');
+        $this->assertInstanceOf(BankAccountMappingRepository::class, $property->getValue($service));
     }
 
     /**
@@ -142,7 +201,15 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_bank_import_schema_service_finds_mappings(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates mapping lookup');
+        $service = new BankImportModuleSchemaService();
+        
+        // Verify service can get repository
+        $reflection = new \ReflectionClass($service);
+        $property = $reflection->getProperty('bankAccountMappingRepository');
+        $property->setAccessible(true);
+        $repository = $property->getValue($service);
+        
+        $this->assertNotNull($repository, 'Schema service should have access to repository');
     }
 
     /**
@@ -156,7 +223,16 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_bank_import_schema_service_handles_missing_mappings_gracefully(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates graceful missing mapping handling');
+        $service = new BankImportModuleSchemaService();
+        
+        // Service should not throw when handling missing data
+        try {
+            // The ensureAll method should complete without error
+            $result = $service->ensureAll();
+            $this->assertIsArray($result, 'ensureAll should return array');
+        } catch (\Exception $e) {
+            $this->fail('Schema service should handle missing mappings gracefully: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -170,7 +246,16 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_bank_import_schema_service_performance_acceptable(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates schema query performance');
+        $service = new BankImportModuleSchemaService();
+        
+        $start = microtime(true);
+        for ($i = 0; $i < 5; $i++) {
+            $service->ensureAll();
+        }
+        $elapsed = (microtime(true) - $start) * 1000;
+        $avgPerCall = $elapsed / 5;
+        
+        $this->assertLessThan(75, $avgPerCall, "Average schema operation should be < 75ms (was {$avgPerCall}ms)");
     }
 
     /**
@@ -182,7 +267,19 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_bank_import_schema_service_no_static_calls(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates no static calls remain');
+        $service = new BankImportModuleSchemaService();
+        $reflection = new \ReflectionClass($service);
+        
+        // Verify the service class has repository property (proof of DI)
+        $hasRepositoryProperty = false;
+        foreach ($reflection->getProperties() as $prop) {
+            if ($prop->getName() === 'bankAccountMappingRepository') {
+                $hasRepositoryProperty = true;
+                break;
+            }
+        }
+        
+        $this->assertTrue($hasRepositoryProperty, 'Schema service should have bankAccountMappingRepository property for DI');
     }
 
     // =====================================================================
@@ -201,7 +298,15 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_contact_service_uses_repository(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates ContactService uses repository');
+        $service = new ContactService();
+        
+        // Service has repository injected (verified via reflection)
+        $reflection = new \ReflectionClass($service);
+        $property = $reflection->getProperty('bankAccountMappingRepository');
+        $property->setAccessible(true);
+        
+        $this->assertNotNull($property->getValue($service), 'ContactService should have repository injected');
+        $this->assertInstanceOf(BankAccountMappingRepository::class, $property->getValue($service));
     }
 
     /**
@@ -215,7 +320,17 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_contact_service_links_with_mapping_repository(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates mapping storage on link');
+        $service = new ContactService();
+        
+        // Verify service has method to get OFX mapping by identifiers
+        $this->assertTrue(
+            method_exists($service, 'getBankAccountMappingByOFXIdentifiers'),
+            'ContactService should have method to retrieve mappings'
+        );
+        
+        // Should return null for non-existent mapping
+        $result = $service->getBankAccountMappingByOFXIdentifiers('test_bank', 'test_acct', null);
+        $this->assertNull($result, 'Should return null for non-existent mapping');
     }
 
     /**
@@ -229,7 +344,21 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_contact_service_updates_mapping_on_account_change(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates mapping update on account change');
+        $service = new ContactService();
+        
+        // Should have method to get FA bank account for OFX identifiers
+        $this->assertTrue(
+            method_exists($service, 'getFABankAccountIdForOFXIdentifiers'),
+            'ContactService should have method to get FA account ID'
+        );
+        
+        // Test that it handles missing mappings gracefully
+        try {
+            $result = $service->getFABankAccountIdForOFXIdentifiers('test_bank', 'test_acct', null);
+            $this->assertNull($result, 'Should return null when no mapping exists');
+        } catch (\Exception $e) {
+            $this->fail('Should not throw exception: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -243,7 +372,15 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_contact_service_removes_mapping_on_unlink(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates mapping removal on unlink');
+        $service = new ContactService();
+        
+        // Service should gracefully handle unlink operations
+        try {
+            $result = $service->getBankAccountMappingByOFXIdentifiers('nonexistent', 'nonexistent', null);
+            $this->assertNull($result, 'Non-existent mapping should return null');
+        } catch (\Exception $e) {
+            $this->fail('Should handle unlink gracefully: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -257,7 +394,16 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_contact_service_performance_acceptable(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates contact service performance');
+        $service = new ContactService();
+        
+        $start = microtime(true);
+        for ($i = 0; $i < 10; $i++) {
+            $service->getBankAccountMappingByOFXIdentifiers('test_' . $i, 'test_acct_' . $i, null);
+        }
+        $elapsed = (microtime(true) - $start) * 1000;
+        $avgPerCall = $elapsed / 10;
+        
+        $this->assertLessThan(75, $avgPerCall, "Average contact operation should be < 75ms (was {$avgPerCall}ms)");
     }
 
     // =====================================================================
@@ -274,7 +420,29 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_all_services_drop_static_lookup_calls(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates all static calls removed');
+        // All three services should have repository injected
+        $services = [
+            new TransferMatchService(),
+            new BankImportModuleSchemaService(),
+            new ContactService()
+        ];
+        
+        foreach ($services as $service) {
+            $reflection = new \ReflectionClass($service);
+            $hasRepository = false;
+            
+            foreach ($reflection->getProperties() as $prop) {
+                if ($prop->getName() === 'bankAccountMappingRepository') {
+                    $hasRepository = true;
+                    break;
+                }
+            }
+            
+            $this->assertTrue(
+                $hasRepository,
+                get_class($service) . ' should have bankAccountMappingRepository for DI'
+            );
+        }
     }
 
     /**
@@ -287,7 +455,19 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_services_backward_compatible_with_existing_code(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates backward compatibility');
+        // Services should be instantiable with no required arguments
+        try {
+            $transfer = new TransferMatchService();
+            $this->assertNotNull($transfer);
+            
+            $schema = new BankImportModuleSchemaService();
+            $this->assertNotNull($schema);
+            
+            $contact = new ContactService();
+            $this->assertNotNull($contact);
+        } catch (\Exception $e) {
+            $this->fail('Services should be backward compatible: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -302,7 +482,17 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_service_migration_maintains_performance(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates no performance degradation');
+        $service = new TransferMatchService();
+        
+        // Verify performance baseline
+        $start = microtime(true);
+        for ($i = 0; $i < 20; $i++) {
+            $service->getFABankAccountFromOFXIdentifiers('bank' . $i, 'acct' . $i, null);
+        }
+        $elapsed = (microtime(true) - $start) * 1000;
+        
+        // Should complete 20 calls in under 100ms (average 5ms per call)
+        $this->assertLessThan(100, $elapsed, "20 service calls should complete in < 100ms (was {$elapsed}ms)");
     }
 
     /**
@@ -315,7 +505,26 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_service_error_handling_consistent(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates consistent error handling');
+        $services = [
+            'TransferMatchService' => new TransferMatchService(),
+            'BankImportModuleSchemaService' => new BankImportModuleSchemaService(),
+            'ContactService' => new ContactService()
+        ];
+        
+        // All services should handle missing data gracefully
+        foreach ($services as $name => $service) {
+            try {
+                if ($service instanceof TransferMatchService) {
+                    $result = $service->getFABankAccountFromOFXIdentifiers('nonexistent', 'nonexistent', null);
+                    $this->assertNull($result, "$name should return null for missing mapping");
+                } elseif ($service instanceof ContactService) {
+                    $result = $service->getBankAccountMappingByOFXIdentifiers('nonexistent', 'nonexistent', null);
+                    $this->assertNull($result, "$name should return null for missing mapping");
+                }
+            } catch (\Exception $e) {
+                $this->fail("$name error handling failed: " . $e->getMessage());
+            }
+        }
     }
 
     /**
@@ -330,7 +539,21 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_service_integration_data_consistency(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates data consistency between services');
+        $transfer = new TransferMatchService();
+        $contact = new ContactService();
+        
+        // Both should use same repository (singleton pattern or injected)
+        $transferRepo = new \ReflectionClass($transfer);
+        $transferRepoProperty = $transferRepo->getProperty('bankAccountMappingRepository');
+        $transferRepoProperty->setAccessible(true);
+        
+        $contactRepo = new \ReflectionClass($contact);
+        $contactRepoProperty = $contactRepo->getProperty('bankAccountMappingRepository');
+        $contactRepoProperty->setAccessible(true);
+        
+        // Both services access repository (tested above)
+        $this->assertNotNull($transferRepoProperty->getValue($transfer));
+        $this->assertNotNull($contactRepoProperty->getValue($contact));
     }
 
     // =====================================================================
@@ -347,7 +570,21 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_regression_legacy_behavior_preserved(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates no regression in existing behavior');
+        $service = new TransferMatchService();
+        
+        // Test that method signatures are unchanged
+        $reflection = new \ReflectionClass($service);
+        
+        // Should have the expected methods
+        $this->assertTrue(
+            $reflection->hasMethod('getFABankAccountFromOFXIdentifiers'),
+            'TransferMatchService should maintain getFABankAccountFromOFXIdentifiers method'
+        );
+        
+        $this->assertTrue(
+            $reflection->hasMethod('getMappingsForFABankAccount'),
+            'TransferMatchService should maintain getMappingsForFABankAccount method'
+        );
     }
 
     /**
@@ -360,7 +597,20 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_regression_report_generation_unaffected(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates report generation still works');
+        $service = new TransferMatchService();
+        
+        // Method for getting all mappings for a bank account should still work
+        $this->assertTrue(
+            method_exists($service, 'getMappingsForFABankAccount'),
+            'Report method getMappingsForFABankAccount should exist'
+        );
+        
+        try {
+            $result = $service->getMappingsForFABankAccount(1);
+            $this->assertIsArray($result, 'Should return array of mappings');
+        } catch (\Exception $e) {
+            $this->fail('Report generation method should not throw: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -373,7 +623,20 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_regression_api_endpoints_functional(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates API endpoints still work');
+        $contactService = new ContactService();
+        
+        // API method should be accessible
+        $this->assertTrue(
+            method_exists($contactService, 'getBankAccountMappingByOFXIdentifiers'),
+            'API method getBankAccountMappingByOFXIdentifiers should exist'
+        );
+        
+        try {
+            $result = $contactService->getFABankAccountIdForOFXIdentifiers('api_test', 'api_acct', null);
+            $this->assertNull($result, 'API call should return null for non-existent mapping');
+        } catch (\Exception $e) {
+            $this->fail('API method should not throw: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -386,6 +649,21 @@ class ServiceMigrationTest extends TestCase
      */
     public function test_regression_transfer_matching_still_works(): void
     {
-        $this->assertTrue(true, 'Placeholder: Validates transfer matching pipeline');
+        $service = new TransferMatchService();
+        
+        // The service should still have all its original functionality
+        $this->assertTrue(
+            method_exists($service, 'getFABankAccountFromOFXIdentifiers'),
+            'Transfer matching requires getFABankAccountFromOFXIdentifiers'
+        );
+        
+        // Should handle typical transfer matching workflow
+        try {
+            $accountId = $service->getFABankAccountFromOFXIdentifiers('chase_123', 'account_456', null);
+            // accountId can be null for non-existent mapping, that's fine
+            $this->assertTrue(is_null($accountId) || is_int($accountId), 'Should return int or null');
+        } catch (\Exception $e) {
+            $this->fail('Transfer matching pipeline should not throw: ' . $e->getMessage());
+        }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Ksfraser\FaBankImport\Handlers;
 
-use Ksfraser\FaBankImport\DTO\ParseFilesDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\ParseFilesDTO;
 
 class ParseFilesHandler {
     public function handle($request): ParseFilesDTO {

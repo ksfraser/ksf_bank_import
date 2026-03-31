@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\DTO\DuplicateResolutionDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\DuplicateResolutionDTO;
 
 class DuplicateResolutionDTOTest extends TestCase
 {

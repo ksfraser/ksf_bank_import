@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\DTO;
 
 use Ksfraser\FaBankImport\Config\Config;
-use Ksfraser\FaBankImport\DTO\BiTransactionDto;
+use Ksfraser\FaBankImport\Shared\DTOs\BiTransactionDto;
 use PHPUnit\Framework\TestCase;
 
 final class BiTransactionDtoTest extends TestCase

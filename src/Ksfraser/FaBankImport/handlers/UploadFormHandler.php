@@ -1,7 +1,7 @@
 <?php
 namespace Ksfraser\FaBankImport\Handlers;
 
-use Ksfraser\FaBankImport\DTO\UploadFormDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\UploadFormDTO;
 
 class UploadFormHandler {
     public function handle($request): UploadFormDTO {

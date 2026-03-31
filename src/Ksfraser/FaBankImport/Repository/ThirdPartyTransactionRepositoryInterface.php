@@ -15,7 +15,7 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Repository;
 
-use Ksfraser\FaBankImport\DTO\BiTransactionDto;
+use Ksfraser\FaBankImport\Shared\DTOs\BiTransactionDto;
 
 interface ThirdPartyTransactionRepositoryInterface
 {

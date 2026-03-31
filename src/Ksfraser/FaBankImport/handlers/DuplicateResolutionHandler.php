@@ -1,7 +1,7 @@
 <?php
 namespace Ksfraser\FaBankImport\Handlers;
 
-use Ksfraser\FaBankImport\DTO\DuplicateResolutionDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\DuplicateResolutionDTO;
 
 class DuplicateResolutionHandler {
     public function handle($request): DuplicateResolutionDTO {

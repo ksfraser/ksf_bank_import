@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Service;
 
 use Ksfraser\FaBankImport\Repository\ThirdPartyTransactionRepositoryInterface;
-use Ksfraser\FaBankImport\DTO\BiTransactionDto;
+use Ksfraser\FaBankImport\Shared\DTOs\BiTransactionDto;
 
 class SquareTransactionActions implements ThirdPartyTransactionActionsInterface
 {

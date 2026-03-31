@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\DTO\UploadFormDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\UploadFormDTO;
 
 class UploadFormDTOTest extends TestCase
 {

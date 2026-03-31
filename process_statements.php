@@ -331,6 +331,34 @@ if (1) {
 		{
 			// TODO: Transition to use Shared\Entities\LineItem
 			$bi_lineitem = new bi_lineitem( $trz, $vendor_list, $optypes );
+			
+			// =====================================================================
+			// Phase 3: Cascade BankAccountMapping to transaction (NEW)
+			// =====================================================================
+			try {
+				// Extract mapping from parent statement
+				$stmtMapping = null;
+				if (isset($trz['smt_id']) && !empty($trz['smt_id'])) {
+					$bis = new BiStatements();
+					$stmtData = $bis->get_statement_by_id($trz['smt_id']);
+					if (is_array($stmtData)) {
+						$stmtMapping = $bis->extractBankAccountMapping();
+					}
+				}
+				
+				// Cascade mapping to transaction
+				if ($stmtMapping && !empty($stmtMapping->bankid) && !empty($stmtMapping->acctid)) {
+					// Determine FA account ID (from statement or configuration)
+					$faAccountId = $stmtData['fa_bank_account_id'] ?? 1;
+					
+					// Update transaction's mapping reference (idempotent operation)
+					$bit->storeBankAccountMapping($stmtMapping, $faAccountId);
+				}
+			} catch (\Throwable $e) {
+				// Non-blocking: Mapping cascade failure should not block transaction display
+				@error_log('ProcessStatements: BankAccountMapping cascade failed: ' . $e->getMessage());
+			}
+			
 			// Display each line item in the loop
 			$bi_lineitem->display();
 			$renderedRows++;

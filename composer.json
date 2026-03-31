@@ -67,7 +67,12 @@
             "Ksfraser\\FaBankImport\\Tests\\": "tests/"
         }
     },
-    "repositories": [],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../Exceptions"
+        }
+    ],
     "require": {
         "php": ">=7.3",
         "mimographix/qif-library": "^1.0",

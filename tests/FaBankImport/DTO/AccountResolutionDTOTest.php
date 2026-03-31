@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\DTO\AccountResolutionDTO;
+use Ksfraser\FaBankImport\Shared\DTOs\AccountResolutionDTO;
 
 class AccountResolutionDTOTest extends TestCase
 {
