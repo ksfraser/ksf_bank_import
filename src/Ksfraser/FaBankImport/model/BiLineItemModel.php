@@ -13,7 +13,7 @@
  */
 namespace Ksfraser\FaBankImport\Model;
 
-use Ksfraser\common\GenericFaInterface;
+use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
 use Ksfraser\frontaccounting\FaBankAccounts;
 use Ksfraser\frontaccounting\FaCustomerPayment;
 use Ksfraser\frontaccounting\FaGl;
@@ -21,7 +21,9 @@ use Ksfraser\frontaccounting\FaGl;
 /**
  * Model class for handling line item data.
  */
-class BiLineItemModel extends GenericFaInterface
+class BiLineItemModel
+{
+    use GenericFaInterfaceTrait;
 {
     /** @var string */
     protected $transactionDC;
