@@ -137,6 +137,11 @@ class BankImportConfig
         $result = db_query($sql, "Failed to check GL account");
         $row = db_fetch($result);
         
+        // Handle case where db_fetch returns false
+        if ($row === false) {
+            return false;
+        }
+        
         return (int)$row['count'] > 0;
     }
 
