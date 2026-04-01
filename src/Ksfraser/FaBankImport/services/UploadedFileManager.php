@@ -14,7 +14,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
-use Ksfraser\FaBankImport\Service\BankImportPathResolver;
+use Ksfraser\FaBankImport\Services\BankImportPathResolver;
 
 /**
  * UploadedFileManager - Manage uploaded bank statement files
@@ -509,3 +509,4 @@ class UploadedFileManager
         return db_fetch($result);
     }
 }
+

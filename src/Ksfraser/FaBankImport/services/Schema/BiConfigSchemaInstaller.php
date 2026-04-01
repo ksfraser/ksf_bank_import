@@ -1,6 +1,6 @@
 <?php
 
-namespace Ksfraser\FaBankImport\Service\Schema;
+namespace Ksfraser\FaBankImport\Services\Schema;
 
 require_once __DIR__ . '/../../Seed/BiConfigDefaultSeed.php';
 

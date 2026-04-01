@@ -13,7 +13,7 @@
  */
 declare(strict_types=1);
 
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 /**
  * BankImportPathResolver

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;

@@ -1,5 +1,5 @@
 
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 /**
  * BankImportLogger: Centralized error and diagnostic logging for the bank import module.

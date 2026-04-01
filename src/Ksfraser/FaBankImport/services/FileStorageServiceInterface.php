@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for FileStorageServiceInterface.
  */
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 

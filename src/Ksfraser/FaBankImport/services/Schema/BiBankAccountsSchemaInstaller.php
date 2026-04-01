@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for BiBankAccountsSchemaInstaller.
  */
-namespace Ksfraser\FaBankImport\Service\Schema;
+namespace Ksfraser\FaBankImport\Services\Schema;
 
 use Ksfraser\FaBankImport\Schema\BiBankAccountsSchema;
 use Ksfraser\ModulesDAO\Schema\DatabaseSchemaToolsTrait as SharedDatabaseSchemaToolsTrait;

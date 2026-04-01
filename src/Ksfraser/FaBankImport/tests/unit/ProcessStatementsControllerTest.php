@@ -13,7 +13,7 @@
  */
 use PHPUnit\Framework\TestCase;
 use Controllers\ProcessStatementsController;
-use Ksfraser\FaBankImport\Service\ThirdPartyTransactionActionsInterface;
+use Ksfraser\FaBankImport\Services\ThirdPartyTransactionActionsInterface;
 use Views\TransactionView;
 
 class ProcessStatementsControllerTest extends TestCase
@@ -114,3 +114,4 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->processTransaction();
     }
 }
+

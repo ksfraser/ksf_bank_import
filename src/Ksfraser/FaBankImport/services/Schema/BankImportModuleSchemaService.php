@@ -1,6 +1,6 @@
 <?php
 
-namespace Ksfraser\FaBankImport\Service\Schema;
+namespace Ksfraser\FaBankImport\Services\Schema;
 
 use Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository;
 

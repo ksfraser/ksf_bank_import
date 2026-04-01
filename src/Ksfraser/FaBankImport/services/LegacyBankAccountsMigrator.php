@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for LegacyBankAccountsMigrator.
  */
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 /**
  * Migrates legacy OFX/Intuit identifiers from FA bank_accounts table

@@ -13,7 +13,7 @@
  */
 namespace Ksfraser\FaBankImport\Views;
 
-use Ksfraser\FaBankImport\Model\BiLineItemModel;
+use Ksfraser\FaBankImport\Models\BiLineItemModel;
 
 /**
  * View class for rendering line item data.

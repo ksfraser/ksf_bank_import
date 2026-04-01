@@ -13,7 +13,7 @@
  */
 declare(strict_types=1);
 
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Repository\ThirdPartyTransactionRepositoryInterface;
 use Ksfraser\FaBankImport\Shared\DTOs\BiTransactionDto;

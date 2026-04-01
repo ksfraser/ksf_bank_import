@@ -1,5 +1,5 @@
 <?php
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
 use Ksfraser\FA\Auth\UserSession;

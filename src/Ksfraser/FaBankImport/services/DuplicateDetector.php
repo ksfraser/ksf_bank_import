@@ -11,7 +11,7 @@
  *
  * Responsibility: Core flow and role for DuplicateDetector.
  */
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 use Ksfraser\FaBankImport\ValueObject\DuplicateResult;

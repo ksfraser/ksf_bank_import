@@ -15,7 +15,7 @@
 namespace Ksfraser\FaBankImport\Handlers;
 
 use Ksfraser\FaBankImport\Config\Config;
-use Ksfraser\FaBankImport\Service\BaseLogger;
+use Ksfraser\FaBankImport\Services\BaseLogger;
 
 class ErrorLogger extends BaseLogger
 {
@@ -51,3 +51,4 @@ class ErrorLogger extends BaseLogger
         }
     }
 }
+

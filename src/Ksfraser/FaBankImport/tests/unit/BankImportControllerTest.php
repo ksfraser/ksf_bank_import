@@ -13,7 +13,7 @@
  */
 use PHPUnit\Framework\TestCase;
 use Controllers\BankImportController;
-use Ksfraser\FaBankImport\Service\ThirdPartyTransactionActionsInterface;
+use Ksfraser\FaBankImport\Services\ThirdPartyTransactionActionsInterface;
 
 class BankImportControllerTest extends TestCase
 {
@@ -66,3 +66,4 @@ class BankImportControllerTest extends TestCase
         $this->controller->processTransaction();
     }
 }
+

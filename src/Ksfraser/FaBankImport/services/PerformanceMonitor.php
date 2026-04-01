@@ -15,7 +15,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
-use Ksfraser\FaBankImport\Service\BaseLogger;
+use Ksfraser\FaBankImport\Services\BaseLogger;
 
 class PerformanceMonitor
 {
@@ -80,3 +80,4 @@ class PerformanceMonitor
         ];
     }
 }
+

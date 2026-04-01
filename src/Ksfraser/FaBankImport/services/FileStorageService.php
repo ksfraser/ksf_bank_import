@@ -11,10 +11,10 @@
  *
  * Responsibility: Core flow and role for FileStorageService.
  */
-namespace Ksfraser\FaBankImport\Service;
+namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
-use Ksfraser\FaBankImport\Service\BankImportPathResolver;
+use Ksfraser\FaBankImport\Services\BankImportPathResolver;
 
 /**
  * File Storage Service
@@ -335,3 +335,4 @@ HTACCESS;
         return true;
     }
 }
+
