@@ -43,7 +43,7 @@
             "Ksfraser\\FaBankImport\\Types\\": "src/Ksfraser/FaBankImport/Types/",
             "Ksfraser\\FaBankImport\\ValueObject\\": "src/Ksfraser/FaBankImport/ValueObject/",
             "Ksfraser\\FaBankImport\\Views\\": "src/Ksfraser/FaBankImport/views/",
-            "Ksfraser\\ModulesDAO\\": "src/Ksfraser/ModulesDAO/",
+            "Ksfraser\\ModulesDAO\\": "src/Ksfraser/ModulesDAO/"
         },
         "exclude-from-classmap": [
             "tests/",
