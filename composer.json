@@ -44,13 +44,6 @@
             "Ksfraser\\FaBankImport\\ValueObject\\": "src/Ksfraser/FaBankImport/ValueObject/",
             "Ksfraser\\FaBankImport\\Views\\": "src/Ksfraser/FaBankImport/views/",
             "Ksfraser\\ModulesDAO\\": "src/Ksfraser/ModulesDAO/",
-            "Ksfraser\\Application\\": "src/Ksfraser/Application/",
-            "Ksfraser\\Application\\Models\\": "src/Ksfraser/Application/models/",
-            "Ksfraser\\Application\\Interfaces\\": "src/Ksfraser/Application/interfaces/",
-            "Ksfraser\\HTML\\": "src/Ksfraser/HTML/",
-            "KsfBankImport\\Services\\": "Services/",
-            "KsfBankImport\\OperationTypes\\": "OperationTypes/",
-            "Views\\": "src/Views/"
         },
         "exclude-from-classmap": [
             "tests/",

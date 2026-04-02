@@ -6,7 +6,7 @@ namespace Controllers;
 
 use Exception;
 use Ksfraser\FaBankImport\Service\ThirdPartyTransactionActionsInterface;
-use Views\TransactionView;
+use Ksfraser\FaBankImport\Views\TransactionView;
 
 class ProcessStatementsController
 {

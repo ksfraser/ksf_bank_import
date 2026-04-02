@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Views;
+namespace Ksfraser\FaBankImport\Views;
 
 class TransactionView
 {
