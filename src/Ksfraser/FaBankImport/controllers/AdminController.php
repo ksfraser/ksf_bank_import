@@ -13,6 +13,7 @@
  */
 namespace Ksfraser\FaBankImport\Controllers;
 
+use Ksfraser\FaBankImport\Controllers\AbstractController;
 use Ksfraser\FaBankImport\Services\PerformanceMonitor;
 use Ksfraser\FaBankImport\Services\MetricsAggregator;
 use Ksfraser\FaBankImport\Config\Config;
