@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" tests="40" assertions="44" errors="10" warnings="0" failures="9" skipped="3" time="0.429412">
+    <testcase name="testRepositoryImplementsInterface" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="94" assertions="1" time="0.117612"/>
+    <testcase name="testRepositoryAcceptsPdoConnection" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="103" assertions="1" time="0.009081"/>
+    <testcase name="testSaveNewTransactionReturnsEntityWithId" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="118" assertions="2" time="0.012218"/>
+    <testcase name="testSaveTransactionPersistsToDatabase" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="138" assertions="2" time="0.008437"/>
+    <testcase name="testSaveReturnsIdNotEntity" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="159" assertions="2" time="0.007381"/>
+    <testcase name="testSaveThrowsExceptionForMissingFitId" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="181" assertions="1" time="0.009253"/>
+    <testcase name="testSaveThrowsExceptionForMissingAcctId" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="199" assertions="1" time="0.009606"/>
+    <testcase name="testFindByIdReturnsTransactionEntity" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="220" assertions="2" time="0.007998"/>
+    <testcase name="testFindByIdThrowsEntityNotFoundExceptionForMissingId" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="232" assertions="1" time="0.009901">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindByIdThrowsEntityNotFoundExceptionForMissingId
+Failed asserting that exception of type "Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException" is thrown.</failure>
+    </testcase>
+    <testcase name="testFindByIdReturnsCorrectTransactionData" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="242" assertions="2" time="0.008681"/>
+    <testcase name="testFindByCodeReturnsArrayOfTransactions" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="258" assertions="1" time="0.010349"/>
+    <testcase name="testFindByCodeReturnsEmptyArrayForNoMatches" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="269" assertions="2" time="0.008327">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindByCodeReturnsEmptyArrayForNoMatches
+Failed asserting that an array is empty.
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:274</failure>
+    </testcase>
+    <testcase name="testFindByCodeReturnsOnlyMatchingTransactions" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="281" assertions="2" time="0.011467"/>
+    <testcase name="testFindByStatementReturnsTransactionsForStatement" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="299" assertions="0" time="0.007060">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindByStatementReturnsTransactionsForStatement
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::findByStatement()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:301</error>
+    </testcase>
+    <testcase name="testFindByStatementReturnsOnlyTransactionsFromStatement" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="310" assertions="0" time="0.005980">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindByStatementReturnsOnlyTransactionsFromStatement
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::findByStatement()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:312</error>
+    </testcase>
+    <testcase name="testFindByStatementReturnsEmptyForNoTransactions" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="324" assertions="0" time="0.006240">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindByStatementReturnsEmptyForNoTransactions
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::findByStatement()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:326</error>
+    </testcase>
+    <testcase name="testFindByStatusReturnsTransactionsWithStatus" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="340" assertions="1" time="0.007240"/>
+    <testcase name="testFindByStatusReturnsOnlyMatchingStatus" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="351" assertions="2" time="0.008146">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindByStatusReturnsOnlyMatchingStatus
+Failed asserting that 0 matches expected 1.
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:357</failure>
+    </testcase>
+    <testcase name="testUpdateTransactionReturnsUpdatedEntity" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="369" assertions="1" time="0.007909"/>
+    <testcase name="testUpdatePreservesImmutability" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="383" assertions="1" time="0.008230"/>
+    <testcase name="testUpdateThrowsExceptionIfTransactionNotFound" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="395" assertions="1" time="0.009208">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testUpdateThrowsExceptionIfTransactionNotFound
+Failed asserting that exception of type "Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException" matches expected exception "Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException". Message was: "Cannot update transaction without ID" at
+C:\Users\prote\Documents\software-devel\ksf_bank_import\app\Shared\Repositories\TransactionRepository.php:278
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:407
+.</failure>
+    </testcase>
+    <testcase name="testBulkInsertReturnsArrayOfSavedEntities" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="418" assertions="3" time="0.010084">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testBulkInsertReturnsArrayOfSavedEntities
+Failed asserting that 1 is an instance of class "Ksfraser\FaBankImport\Shared\Entities\BiTransaction".
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:432</failure>
+    </testcase>
+    <testcase name="testBulkInsertEmptyArrayReturnsEmptyArray" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="441" assertions="2" time="0.007445"/>
+    <testcase name="testBulkInsertRollsBackOnSingleFailure" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="453" assertions="0" time="0.007005">
+      <skipped/>
+    </testcase>
+    <testcase name="testBulkUpdateReturnsCountOfUpdated" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="467" assertions="1" time="0.008714"/>
+    <testcase name="testDeleteRemovesTransactionFromRepository" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="486" assertions="1" time="0.008860">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testDeleteRemovesTransactionFromRepository
+Failed asserting that exception of type "Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException" is thrown.</failure>
+    </testcase>
+    <testcase name="testDeleteByIdThrowsExceptionForNonexistentId" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="500" assertions="1" time="0.007050">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testDeleteByIdThrowsExceptionForNonexistentId
+Failed asserting that exception of type "Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException" is thrown.</failure>
+    </testcase>
+    <testcase name="testBulkDeleteRemovesMultipleTransactions" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="514" assertions="2" time="0.007539">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testBulkDeleteRemovesMultipleTransactions
+Failed asserting that 0 matches expected 3.
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:521</failure>
+    </testcase>
+    <testcase name="testRepositoryThrowsEntityNotFoundExceptionForMissingEntity" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="532" assertions="1" time="0.007524">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testRepositoryThrowsEntityNotFoundExceptionForMissingEntity
+Failed asserting that exception of type "Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException" is thrown.</failure>
+    </testcase>
+    <testcase name="testRepositoryThrowsDuplicateEntityExceptionForDuplicateInsert" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="542" assertions="0" time="0.006073">
+      <skipped/>
+    </testcase>
+    <testcase name="testRepositoryThrowsRepositoryExceptionForDatabaseErrors" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="552" assertions="0" time="0.006235">
+      <skipped/>
+    </testcase>
+    <testcase name="testFindWithLimitReturnsLimitedResults" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="565" assertions="0" time="0.006087">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindWithLimitReturnsLimitedResults
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::findByStatement()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:567</error>
+    </testcase>
+    <testcase name="testFindWithOffsetSkipsRecords" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="577" assertions="0" time="0.005713">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindWithOffsetSkipsRecords
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::findByStatement()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:579</error>
+    </testcase>
+    <testcase name="testFindWithOrderByReturnsOrderedResults" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="590" assertions="0" time="0.005983">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindWithOrderByReturnsOrderedResults
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::findByStatement()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:592</error>
+    </testcase>
+    <testcase name="testCountByStatusReturnsInteger" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="611" assertions="0" time="0.005848">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testCountByStatusReturnsInteger
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::countByStatus()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:613</error>
+    </testcase>
+    <testcase name="testExistsReturnsBoolean" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="623" assertions="0" time="0.006062">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testExistsReturnsBoolean
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::exists()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:625</error>
+    </testcase>
+    <testcase name="testFindByDateRangeReturnsTransactionsInRange" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="638" assertions="0" time="0.006796">
+      <error type="TypeError">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testFindByDateRangeReturnsTransactionsInRange
+TypeError: Ksfraser\FaBankImport\Shared\Repositories\TransactionRepository::findByDateRange(): Argument #1 ($startDate) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php on line 643
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\app\Shared\Repositories\TransactionRepository.php:534
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:643</error>
+    </testcase>
+    <testcase name="testFindUnmatchedTransactionsReturnsUnmatchedOnly" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="656" assertions="2" time="0.009912"/>
+    <testcase name="testFindByAmountRangeReturnsCorrectTransactions" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="671" assertions="5" time="0.009610"/>
+    <testcase name="testSaveAndRetrieveRoundTrip" class="Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.TransactionRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php" line="692" assertions="0" time="0.006549">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\TransactionRepositoryTest::testSaveAndRetrieveRoundTrip
+Error: Call to a member function getId() on int
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\TransactionRepositoryTest.php:703</error>
+    </testcase>
+  </testsuite>
+</testsuites>

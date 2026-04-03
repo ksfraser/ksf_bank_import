@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" tests="45" assertions="56" errors="8" warnings="0" failures="9" skipped="0" time="0.471188">
+    <testcase name="testRepositoryImplementsInterface" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="128" assertions="1" time="0.126002"/>
+    <testcase name="testRepositoryAcceptsPdoConnection" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="137" assertions="1" time="0.007764"/>
+    <testcase name="testSaveNewStatementReturnsId" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="152" assertions="2" time="0.020535"/>
+    <testcase name="testSaveStatementPersistsToDatabase" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="174" assertions="2" time="0.005590"/>
+    <testcase name="testSaveReturnsIdNotEntity" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="196" assertions="2" time="0.005408"/>
+    <testcase name="testSaveThrowsExceptionForMissingBankId" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="218" assertions="1" time="0.006596"/>
+    <testcase name="testSaveThrowsExceptionForMissingAcctId" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="237" assertions="1" time="0.004982"/>
+    <testcase name="testFindByIdReturnsStatementEntity" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="260" assertions="2" time="0.006170"/>
+    <testcase name="testFindByIdThrowsEntityNotFoundExceptionForMissingId" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="272" assertions="1" time="0.006370">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testFindByIdThrowsEntityNotFoundExceptionForMissingId
+Failed asserting that exception of type "Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException" is thrown.</failure>
+    </testcase>
+    <testcase name="testFindByIdReturnsCorrectStatementData" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="282" assertions="2" time="0.005368"/>
+    <testcase name="testFindByBankIdReturnsArrayOfStatements" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="298" assertions="1" time="0.005920"/>
+    <testcase name="testFindByBankIdReturnsEmptyArrayForNoMatches" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="309" assertions="2" time="0.005440">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testFindByBankIdReturnsEmptyArrayForNoMatches
+Failed asserting that an array is empty.
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:314</failure>
+    </testcase>
+    <testcase name="testFindByBankIdReturnsOnlyMatchingStatements" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="321" assertions="2" time="0.005579"/>
+    <testcase name="testFindByAcctIdReturnsStatements" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="339" assertions="1" time="0.005828"/>
+    <testcase name="testFindByAcctIdReturnsEmptyArrayForNoMatches" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="350" assertions="2" time="0.005346">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testFindByAcctIdReturnsEmptyArrayForNoMatches
+Failed asserting that an array is empty.
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:355</failure>
+    </testcase>
+    <testcase name="testFindByAcctIdSupportsLimit" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="362" assertions="1" time="0.005811"/>
+    <testcase name="testFindByDateRangeReturnsStatements" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="377" assertions="1" time="0.005358"/>
+    <testcase name="testFindByDateRangeReturnsEmptyArrayForOutOfRange" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="391" assertions="2" time="0.005749">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testFindByDateRangeReturnsEmptyArrayForOutOfRange
+Failed asserting that an array is empty.
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:399</failure>
+    </testcase>
+    <testcase name="testFindByDateRangeSupportsLimit" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="406" assertions="1" time="0.006308"/>
+    <testcase name="testUpdateStatementUpdatesDatabaseRecord" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="425" assertions="0" time="0.004799">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testUpdateStatementUpdatesDatabaseRecord
+Error: Unknown named parameter $statementDate
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:435</error>
+    </testcase>
+    <testcase name="testUpdateReturnsId" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="450" assertions="0" time="0.004751">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testUpdateReturnsId
+Error: Unknown named parameter $statementDate
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:459</error>
+    </testcase>
+    <testcase name="testUpdateThrowsExceptionIfTransactionNotFound" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="474" assertions="1" time="0.007513">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testUpdateThrowsExceptionIfTransactionNotFound
+Failed asserting that exception of type "Error" matches expected exception "Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException". Message was: "Unknown named parameter $statementDate" at
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:481
+.</failure>
+    </testcase>
+    <testcase name="testDeleteRemovesStatementFromRepository" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="496" assertions="0" time="0.004733">
+      <error type="Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testDeleteRemovesStatementFromRepository
+Ksfraser\FaBankImport\Shared\Exceptions\EntityNotFoundException: Statement with ID 1 not found
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\app\Shared\Repositories\StatementRepository.php:295
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:498</error>
+    </testcase>
+    <testcase name="testDeleteThrowsExceptionIfNotFound" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="508" assertions="1" time="0.005135"/>
+    <testcase name="testBulkInsertReturnsArrayOfIds" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="522" assertions="0" time="0.004622">
+      <error type="TypeError">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testBulkInsertReturnsArrayOfIds
+TypeError: Ksfraser\FaBankImport\Shared\Entities\BiStatement::create(): Argument #3 ($statementId) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php on line 525
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiStatement.php:83
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:525</error>
+    </testcase>
+    <testcase name="testBulkInsertEmptyArrayReturnsEmpty" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="539" assertions="2" time="0.004984"/>
+    <testcase name="testBulkInsertRollsBackOnError" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="551" assertions="1" time="0.006048">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testBulkInsertRollsBackOnError
+Failed asserting that exception of type "TypeError" matches expected exception "Ksfraser\FaBankImport\Shared\Exceptions\RepositoryException". Message was: "Ksfraser\FaBankImport\Shared\Entities\BiStatement::create(): Argument #3 ($statementId) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php on line 558" at
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiStatement.php:83
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:558
+.</failure>
+    </testcase>
+    <testcase name="testFindByStatusReturnsFilteredStatements" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="572" assertions="1" time="0.005555"/>
+    <testcase name="testFindByStatusOnlyReturnsMatchingStatus" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="583" assertions="1" time="0.005232">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testFindByStatusOnlyReturnsMatchingStatus
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::getStatus()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:589</error>
+    </testcase>
+    <testcase name="testFindUnprocessedReturnsStatements" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="597" assertions="1" time="0.005435"/>
+    <testcase name="testFindProcessedReturnsStatements" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="608" assertions="1" time="0.006485"/>
+    <testcase name="testCountReturnsIntegerCount" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="623" assertions="3" time="0.006638"/>
+    <testcase name="testCountByStatusReturnsCount" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="635" assertions="3" time="0.006210"/>
+    <testcase name="testFindByIdThrowsRepositoryExceptionOnDatabaseError" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="651" assertions="1" time="0.005488">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testFindByIdThrowsRepositoryExceptionOnDatabaseError
+Failed asserting that exception of type "Ksfraser\FaBankImport\Shared\Exceptions\RepositoryException" is thrown.</failure>
+    </testcase>
+    <testcase name="testSaveThrowsRepositoryExceptionOnDatabaseError" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="662" assertions="1" time="0.006863">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testSaveThrowsRepositoryExceptionOnDatabaseError
+Failed asserting that exception of type "TypeError" matches expected exception "Ksfraser\FaBankImport\Shared\Exceptions\RepositoryException". Message was: "Ksfraser\FaBankImport\Shared\Entities\BiStatement::create(): Argument #3 ($statementId) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php on line 666" at
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiStatement.php:83
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:666
+.</failure>
+    </testcase>
+    <testcase name="testUpdateThrowsRepositoryExceptionOnDatabaseError" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="674" assertions="1" time="0.006020">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testUpdateThrowsRepositoryExceptionOnDatabaseError
+Failed asserting that exception of type "TypeError" matches expected exception "Ksfraser\FaBankImport\Shared\Exceptions\RepositoryException". Message was: "Ksfraser\FaBankImport\Shared\Entities\BiStatement::create(): Argument #3 ($statementId) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php on line 678" at
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiStatement.php:83
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:678
+.</failure>
+    </testcase>
+    <testcase name="testFindByDateRangeCompletesBelowThreshold" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="695" assertions="1" time="0.082816"/>
+    <testcase name="testBulkInsertCompletesBelowThreshold" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="710" assertions="0" time="0.004346">
+      <error type="TypeError">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testBulkInsertCompletesBelowThreshold
+TypeError: Ksfraser\FaBankImport\Shared\Entities\BiStatement::create(): Argument #3 ($statementId) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php on line 713
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiStatement.php:83
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:713
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:712</error>
+    </testcase>
+    <testcase name="testFindByFilterCombinesMultipleCriteria" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="734" assertions="1" time="0.005594"/>
+    <testcase name="testFindWithPaginationOffsetsCorrectly" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="745" assertions="2" time="0.007541"/>
+    <testcase name="testFindByDateRangeSortsResultsCorrectly" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="758" assertions="1" time="0.005313"/>
+    <testcase name="testRoundTripCreateReadVerify" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="774" assertions="0" time="0.005502">
+      <error type="Error">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testRoundTripCreateReadVerify
+Error: Unknown named parameter $statementDate
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:779</error>
+    </testcase>
+    <testcase name="testUpdatePreservesImmutabilityViaNewEntity" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="797" assertions="0" time="0.004605">
+      <error type="TypeError">Ksfraser\Tests\Unit\Repository\StatementRepositoryTest::testUpdatePreservesImmutabilityViaNewEntity
+TypeError: Ksfraser\FaBankImport\Shared\Entities\BiStatement::create(): Argument #3 ($statementId) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php on line 803
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiStatement.php:83
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php:803</error>
+    </testcase>
+    <testcase name="testStatementFieldsCorrectlyMapped" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="819" assertions="3" time="0.006250"/>
+    <testcase name="testBankAccountMappingPreservesIntegrity" class="Ksfraser\Tests\Unit\Repository\StatementRepositoryTest" classname="Ksfraser.Tests.Unit.Repository.StatementRepositoryTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Repository\StatementRepositoryTest.php" line="832" assertions="2" time="0.006589"/>
+  </testsuite>
+</testsuites>

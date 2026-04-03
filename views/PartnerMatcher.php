@@ -26,7 +26,7 @@ class PartnerMatcher
         }
         
         $result = search_partner_by_bank_account($partnerType, $bankAccount);
-        return $result ?? [];
+        return ($result === false || $result === null) ? [] : (is_array($result) ? $result : []);
     }
     
     /**
