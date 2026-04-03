@@ -18,9 +18,12 @@ use Ksfraser\FaBankImport\Shared\Exceptions\RepositoryException;
  * Implements the StatementRepositoryInterface contract with full CRUD operations,
  * query filtering, and bulk operations.
  *
+ * Supports configurable table prefix via PrefixedRepositoryInterface for
+ * portability across different database schemas and FA instances.
+ *
  * @package Ksfraser\FaBankImport\Shared\Repositories
  */
-final class StatementRepository implements StatementRepositoryInterface
+final class StatementRepository implements StatementRepositoryInterface, PrefixedRepositoryInterface
 {
     /**
      * @var PDO Database connection
@@ -28,19 +31,80 @@ final class StatementRepository implements StatementRepositoryInterface
     private PDO $pdo;
 
     /**
-     * @var string Table name for statements
+     * @var string Table prefix (e.g., '0_' for FrontAccounting)
      */
-    private string $table = TB_PREF . 'bi_statements';
+    private string $prefix = '0_';
+
+    /**
+     * @var string Base table name without prefix
+     */
+    private string $tableName = 'bi_statements';
 
     /**
      * Constructor
      *
      * @param PDO $pdo Database connection
+     * @param string|null $prefix Optional table prefix (defaults to '0_')
      */
-    public function __construct(PDO $pdo)
+    public function __construct(PDO $pdo, ?string $prefix = null)
     {
         $this->pdo = $pdo;
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        if ($prefix !== null) {
+            $this->prefix = $prefix;
+        }
+    }
+
+    /**
+     * Set the table prefix used for all queries in this repository.
+     *
+     * @param string $prefix The table prefix
+     * @return void
+     */
+    public function setTablePrefix(string $prefix): void
+    {
+        $this->prefix = $prefix;
+    }
+
+    /**
+     * Get the currently configured table prefix.
+     *
+     * @return string
+     */
+    public function getTablePrefix(): string
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Get the base table name (without prefix).
+     *
+     * @return string
+     */
+    public function getTableName(): string
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * Get the fully qualified table name (prefix + base name).
+     *
+     * @return string
+     */
+    public function getFullTableName(): string
+    {
+        return $this->prefix . $this->tableName;
+    }
+
+    /**
+     * Helper to get table name for queries.
+     *
+     * @return string
+     */
+    private function table(): string
+    {
+        return $this->getFullTableName();
     }
 
     /**
@@ -55,7 +119,7 @@ final class StatementRepository implements StatementRepositoryInterface
     {
         try {
             $stmt = $this->pdo->prepare(
-                "SELECT * FROM {$this->table} WHERE id = :id LIMIT 1"
+                "SELECT * FROM {$this->table()} WHERE id = :id LIMIT 1"
             );
             $stmt->execute(['id' => $id]);
 
@@ -90,7 +154,7 @@ final class StatementRepository implements StatementRepositoryInterface
     public function findByBankId(string $bankId, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE bankid = :bankId";
+            $sql = "SELECT * FROM {$this->table()} WHERE bankid = :bankId";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -124,7 +188,7 @@ final class StatementRepository implements StatementRepositoryInterface
     public function findByAcctId(string $acctId, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE acctid = :acctId";
+            $sql = "SELECT * FROM {$this->table()} WHERE acctid = :acctId";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -159,7 +223,7 @@ final class StatementRepository implements StatementRepositoryInterface
     public function findByDateRange(string $startDate, string $endDate, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE statement_date BETWEEN :startDate AND :endDate";
+            $sql = "SELECT * FROM {$this->table()} WHERE statement_date BETWEEN :startDate AND :endDate";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -212,7 +276,7 @@ final class StatementRepository implements StatementRepositoryInterface
 
             $sql = sprintf(
                 "INSERT INTO %s (%s) VALUES (%s)",
-                $this->table,
+                $this->table(),
                 implode(', ', $columns),
                 implode(', ', $placeholders)
             );
@@ -257,7 +321,7 @@ final class StatementRepository implements StatementRepositoryInterface
 
             $sql = sprintf(
                 "UPDATE %s SET %s WHERE id = :id",
-                $this->table,
+                $this->table(),
                 implode(', ', $updates)
             );
 
@@ -288,7 +352,7 @@ final class StatementRepository implements StatementRepositoryInterface
     public function delete(int $id): bool
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id LIMIT 1");
+            $stmt = $this->pdo->prepare("DELETE FROM {$this->table()} WHERE id = :id LIMIT 1");
             $stmt->execute(['id' => $id]);
 
             if ($stmt->rowCount() === 0) {
@@ -316,7 +380,7 @@ final class StatementRepository implements StatementRepositoryInterface
     public function count(): int
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT COUNT(*) as count FROM {$this->table}");
+            $stmt = $this->pdo->prepare("SELECT COUNT(*) as count FROM {$this->table()}");
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             return (int)($row['count'] ?? 0);
@@ -408,7 +472,7 @@ final class StatementRepository implements StatementRepositoryInterface
 
         try {
             $placeholders = implode(',', array_fill(0, count($ids), '?'));
-            $sql = "DELETE FROM {$this->table} WHERE id IN ({$placeholders})";
+            $sql = "DELETE FROM {$this->table()} WHERE id IN ({$placeholders})";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($ids);
@@ -435,7 +499,7 @@ final class StatementRepository implements StatementRepositoryInterface
     public function findByStatus(string $status, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE status = :status";
+            $sql = "SELECT * FROM {$this->table()} WHERE status = :status";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -468,7 +532,7 @@ final class StatementRepository implements StatementRepositoryInterface
     public function findUnprocessed(?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE status = 0";
+            $sql = "SELECT * FROM {$this->table()} WHERE status = 0";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -501,7 +565,7 @@ final class StatementRepository implements StatementRepositoryInterface
     public function findProcessed(?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE status != 0";
+            $sql = "SELECT * FROM {$this->table()} WHERE status != 0";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -534,7 +598,7 @@ final class StatementRepository implements StatementRepositoryInterface
     {
         try {
             $stmt = $this->pdo->prepare(
-                "SELECT COUNT(*) as count FROM {$this->table} WHERE status = :status"
+                "SELECT COUNT(*) as count FROM {$this->table()} WHERE status = :status"
             );
             $stmt->execute(['status' => $status]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);

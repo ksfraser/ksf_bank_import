@@ -18,9 +18,12 @@ use Ksfraser\FaBankImport\Shared\Exceptions\RepositoryException;
  * Implements the TransactionRepositoryInterface contract with full CRUD operations,
  * query filtering, and bulk operations.
  *
+ * Supports configurable table prefix via PrefixedRepositoryInterface for
+ * portability across different database schemas and FA instances.
+ *
  * @package Ksfraser\FaBankImport\Shared\Repositories
  */
-final class TransactionRepository implements TransactionRepositoryInterface
+final class TransactionRepository implements TransactionRepositoryInterface, PrefixedRepositoryInterface
 {
     /**
      * @var PDO Database connection
@@ -28,19 +31,80 @@ final class TransactionRepository implements TransactionRepositoryInterface
     private PDO $pdo;
 
     /**
-     * @var string Table name for transactions
+     * @var string Table prefix (e.g., '0_' for FrontAccounting)
      */
-    private string $table = TB_PREF . 'bi_transactions';
+    private string $prefix = '0_';
+
+    /**
+     * @var string Base table name without prefix
+     */
+    private string $tableName = 'bi_transactions';
 
     /**
      * Constructor
      *
      * @param PDO $pdo Database connection
+     * @param string|null $prefix Optional table prefix (defaults to '0_')
      */
-    public function __construct(PDO $pdo)
+    public function __construct(PDO $pdo, ?string $prefix = null)
     {
         $this->pdo = $pdo;
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        if ($prefix !== null) {
+            $this->prefix = $prefix;
+        }
+    }
+
+    /**
+     * Set the table prefix used for all queries in this repository.
+     *
+     * @param string $prefix The table prefix
+     * @return void
+     */
+    public function setTablePrefix(string $prefix): void
+    {
+        $this->prefix = $prefix;
+    }
+
+    /**
+     * Get the currently configured table prefix.
+     *
+     * @return string
+     */
+    public function getTablePrefix(): string
+    {
+        return $this->prefix;
+    }
+
+    /**
+     * Get the base table name (without prefix).
+     *
+     * @return string
+     */
+    public function getTableName(): string
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * Get the fully qualified table name (prefix + base name).
+     *
+     * @return string
+     */
+    public function getFullTableName(): string
+    {
+        return $this->prefix . $this->tableName;
+    }
+
+    /**
+     * Helper to get table name for queries.
+     *
+     * @return string
+     */
+    private function table(): string
+    {
+        return $this->getFullTableName();
     }
 
     /**
@@ -55,7 +119,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     {
         try {
             $stmt = $this->pdo->prepare(
-                "SELECT * FROM {$this->table} WHERE id = :id LIMIT 1"
+                "SELECT * FROM {$this->table()} WHERE id = :id LIMIT 1"
             );
             $stmt->execute(['id' => $id]);
 
@@ -90,7 +154,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function findByFitId(string $fitId, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE fitId = :fitId";
+            $sql = "SELECT * FROM {$this->table()} WHERE fitId = :fitId";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -124,7 +188,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function findByStatementId(int $statementId, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE smtId = :statementId";
+            $sql = "SELECT * FROM {$this->table()} WHERE smtId = :statementId";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -158,7 +222,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function findByCode(string $code, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE code = :code";
+            $sql = "SELECT * FROM {$this->table()} WHERE code = :code";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -192,7 +256,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function findByStatus(string $status, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE status = :status";
+            $sql = "SELECT * FROM {$this->table()} WHERE status = :status";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -240,7 +304,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
 
             $sql = sprintf(
                 "INSERT INTO %s (%s) VALUES (%s)",
-                $this->table,
+                $this->table(),
                 implode(', ', $columns),
                 implode(', ', $placeholders)
             );
@@ -285,7 +349,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
 
             $sql = sprintf(
                 "UPDATE %s SET %s WHERE id = :id",
-                $this->table,
+                $this->table(),
                 implode(', ', $sets)
             );
 
@@ -322,7 +386,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function delete(int $id): bool
     {
         try {
-            $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
+            $stmt = $this->pdo->prepare("DELETE FROM {$this->table()} WHERE id = :id");
             $stmt->execute(['id' => $id]);
 
             return $stmt->rowCount() > 0;
@@ -344,7 +408,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function count(): int
     {
         try {
-            $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM {$this->table}");
+            $stmt = $this->pdo->query("SELECT COUNT(*) as total FROM {$this->table()}");
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             return (int)($result['total'] ?? 0);
@@ -433,7 +497,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
             }
 
             $placeholders = implode(',', array_fill(0, count($ids), '?'));
-            $sql = "DELETE FROM {$this->table} WHERE id IN ({$placeholders})";
+            $sql = "DELETE FROM {$this->table()} WHERE id IN ({$placeholders})";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($ids);
@@ -459,7 +523,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function findUnmatched(?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE matched = 0";
+            $sql = "SELECT * FROM {$this->table()} WHERE matched = 0";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -494,7 +558,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function findByAmountRange(float $minAmount, float $maxAmount, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE amount >= :minAmount AND amount <= :maxAmount";
+            $sql = "SELECT * FROM {$this->table()} WHERE amount >= :minAmount AND amount <= :maxAmount";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
@@ -534,7 +598,7 @@ final class TransactionRepository implements TransactionRepositoryInterface
     public function findByDateRange(string $startDate, string $endDate, ?int $limit = null, ?int $offset = null): array
     {
         try {
-            $sql = "SELECT * FROM {$this->table} WHERE created >= :startDate AND created <= :endDate";
+            $sql = "SELECT * FROM {$this->table()} WHERE created >= :startDate AND created <= :endDate";
             
             if ($limit !== null) {
                 $sql .= " LIMIT :limit";
