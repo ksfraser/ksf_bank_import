@@ -3,7 +3,7 @@
 namespace Ksfraser\FaBankImport\Import\Services;
 
 use Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO;
-use Ksfraser\FaBankImport\Import\Exceptions\TransformException;
+use Ksfraser\Exceptions\Utility\TransformException;
 
 /**
  * Contract for transforming DTOs to domain entities

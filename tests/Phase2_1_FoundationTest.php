@@ -11,11 +11,13 @@ use Ksfraser\FaBankImport\Import\DTOs\{
 };
 use Ksfraser\FaBankImport\Import\Exceptions\{
     ImportException,
+    DuplicateDetectedException,
+    ImportCancelledException
+};
+use Ksfraser\Exceptions\Utility\{
     ParserException,
     ValidationException,
-    DuplicateDetectedException,
-    TransformException,
-    ImportCancelledException
+    TransformException
 };
 use Ksfraser\FaBankImport\Import\Handlers\BaseImportHandler;
 use Ksfraser\FaBankImport\Import\Services\{
@@ -292,17 +294,23 @@ class Phase2_1_FoundationTest extends TestCase
         $transform = TransformException::entityCreationFailed('BiStatement', 'Missing field');
         $cancelled = ImportCancelledException::byUser('User cancelled import');
 
-        // All extend ImportException
-        $this->assertInstanceOf(ImportException::class, $base);
-        $this->assertInstanceOf(ImportException::class, $parser);
-        $this->assertInstanceOf(ImportException::class, $validation);
-        $this->assertInstanceOf(ImportException::class, $duplicate);
-        $this->assertInstanceOf(ImportException::class, $transform);
-        $this->assertInstanceOf(ImportException::class, $cancelled);
-
         // All extend Exception
         $this->assertInstanceOf(\Exception::class, $base);
         $this->assertInstanceOf(\Exception::class, $parser);
+        $this->assertInstanceOf(\Exception::class, $validation);
+        $this->assertInstanceOf(\Exception::class, $duplicate);
+        $this->assertInstanceOf(\Exception::class, $transform);
+        $this->assertInstanceOf(\Exception::class, $cancelled);
+
+        // Import-specific ones extend ImportException
+        $this->assertInstanceOf(ImportException::class, $base);
+        $this->assertInstanceOf(ImportException::class, $duplicate);
+        $this->assertInstanceOf(ImportException::class, $cancelled);
+
+        // Generic utility exceptions extend RuntimeException (not ImportException)
+        $this->assertInstanceOf(\RuntimeException::class, $parser);
+        $this->assertInstanceOf(\RuntimeException::class, $validation);
+        $this->assertInstanceOf(\RuntimeException::class, $transform);
     }
 
     /**

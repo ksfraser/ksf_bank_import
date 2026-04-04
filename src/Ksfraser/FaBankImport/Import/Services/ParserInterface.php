@@ -2,7 +2,7 @@
 
 namespace Ksfraser\FaBankImport\Import\Services;
 
-use Ksfraser\FaBankImport\Import\Exceptions\ParserException;
+use Ksfraser\Exceptions\Utility\ParserException;
 
 /**
  * Contract for parsing import files

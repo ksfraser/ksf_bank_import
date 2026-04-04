@@ -4,7 +4,7 @@ namespace Ksfraser\FaBankImport\Import\Services;
 
 use Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO;
 use Ksfraser\FaBankImport\Import\DTOs\ValidationResultDTO;
-use Ksfraser\FaBankImport\Import\Exceptions\ValidationException;
+use Ksfraser\Exceptions\Utility\ValidationException;
 
 /**
  * Contract for import data validation
