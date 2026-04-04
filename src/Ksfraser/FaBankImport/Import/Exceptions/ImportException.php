@@ -25,14 +25,14 @@ class ImportException extends \Exception
      *
      * @param string $message Error message
      * @param int $code Exception code
-     * @param \Throwable|null $previous Previous exception for chaining
+     * @param ?\Throwable $previous Previous exception for chaining
      * @param array $context Additional debugging context
      * @param bool $recoverable Whether this error is recoverable
      */
     public function __construct(
         string $message = '',
         int $code = 0,
-        \Throwable $previous = null,
+        ?\Throwable $previous = null,
         array $context = [],
         bool $recoverable = false
     ) {
