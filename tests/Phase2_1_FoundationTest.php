@@ -15,7 +15,10 @@ use Ksfraser\FaBankImport\Import\Exceptions\{
     ImportCancelledException
 };
 use Ksfraser\Exceptions\Utility\{
-    ParserException,
+    FileNotFoundException,
+    UnsupportedFileTypeException,
+    ParsingFailedException,
+    EncodingMismatchException,
     ValidationException,
     TransformException
 };
@@ -288,7 +291,10 @@ class Phase2_1_FoundationTest extends TestCase
     public function exception_hierarchy_is_correct(): void
     {
         $base = new ImportException('Base error');
-        $parser = ParserException::fileNotFound('/tmp/file.csv');
+        $fileNotFound = FileNotFoundException::create('/tmp/file.csv');
+        $unsupported = UnsupportedFileTypeException::create('pdf', ['csv', 'xls']);
+        $parsingFailed = ParsingFailedException::create('Invalid format', 42);
+        $encodingMismatch = EncodingMismatchException::create('UTF-16', 'UTF-8');
         $validation = ValidationException::error('Invalid data');
         $duplicate = DuplicateDetectedException::exactDuplicate(1, [], []);
         $transform = TransformException::entityCreationFailed('BiStatement', 'Missing field');
@@ -296,7 +302,10 @@ class Phase2_1_FoundationTest extends TestCase
 
         // All extend Exception
         $this->assertInstanceOf(\Exception::class, $base);
-        $this->assertInstanceOf(\Exception::class, $parser);
+        $this->assertInstanceOf(\Exception::class, $fileNotFound);
+        $this->assertInstanceOf(\Exception::class, $unsupported);
+        $this->assertInstanceOf(\Exception::class, $parsingFailed);
+        $this->assertInstanceOf(\Exception::class, $encodingMismatch);
         $this->assertInstanceOf(\Exception::class, $validation);
         $this->assertInstanceOf(\Exception::class, $duplicate);
         $this->assertInstanceOf(\Exception::class, $transform);
@@ -308,9 +317,18 @@ class Phase2_1_FoundationTest extends TestCase
         $this->assertInstanceOf(ImportException::class, $cancelled);
 
         // Generic utility exceptions extend RuntimeException (not ImportException)
-        $this->assertInstanceOf(\RuntimeException::class, $parser);
+        $this->assertInstanceOf(\RuntimeException::class, $fileNotFound);
+        $this->assertInstanceOf(\RuntimeException::class, $unsupported);
+        $this->assertInstanceOf(\RuntimeException::class, $parsingFailed);
+        $this->assertInstanceOf(\RuntimeException::class, $encodingMismatch);
         $this->assertInstanceOf(\RuntimeException::class, $validation);
         $this->assertInstanceOf(\RuntimeException::class, $transform);
+        
+        // Parser-specific exceptions should be distinct types
+        $this->assertInstanceOf(FileNotFoundException::class, $fileNotFound);
+        $this->assertInstanceOf(UnsupportedFileTypeException::class, $unsupported);
+        $this->assertInstanceOf(ParsingFailedException::class, $parsingFailed);
+        $this->assertInstanceOf(EncodingMismatchException::class, $encodingMismatch);
     }
 
     /**
@@ -318,15 +336,28 @@ class Phase2_1_FoundationTest extends TestCase
      */
     public function parser_exception_factory_methods_work(): void
     {
-        $e1 = ParserException::unsupportedFileType('pdf', ['csv', 'xls']);
-        $e2 = ParserException::parsingFailed('Invalid format', 42);
-        $e3 = ParserException::fileNotFound('/tmp/missing.csv');
-        $e4 = ParserException::encodingMismatch('UTF-16', 'UTF-8');
+        // Test unsupported file type
+        $e1 = UnsupportedFileTypeException::create('pdf', ['csv', 'xls']);
+        $this->assertInstanceOf(UnsupportedFileTypeException::class, $e1);
+        $this->assertEquals('pdf', $e1->getFileType());
+        $this->assertEquals(['csv', 'xls'], $e1->getSupportedTypes());
 
-        $this->assertInstanceOf(ParserException::class, $e1);
-        $this->assertInstanceOf(ParserException::class, $e2);
-        $this->assertInstanceOf(ParserException::class, $e3);
-        $this->assertInstanceOf(ParserException::class, $e4);
+        // Test parsing failed
+        $e2 = ParsingFailedException::create('Invalid format', 42);
+        $this->assertInstanceOf(ParsingFailedException::class, $e2);
+        $this->assertEquals('Invalid format', $e2->getReason());
+        $this->assertEquals(42, $e2->getLineNumber());
+
+        // Test file not found
+        $e3 = FileNotFoundException::create('/tmp/missing.csv');
+        $this->assertInstanceOf(FileNotFoundException::class, $e3);
+        $this->assertEquals('/tmp/missing.csv', $e3->getFilePath());
+
+        // Test encoding mismatch
+        $e4 = EncodingMismatchException::create('UTF-16', 'UTF-8');
+        $this->assertInstanceOf(EncodingMismatchException::class, $e4);
+        $this->assertEquals('UTF-16', $e4->getDetectedEncoding());
+        $this->assertEquals('UTF-8', $e4->getExpectedEncoding());
     }
 
     /**
