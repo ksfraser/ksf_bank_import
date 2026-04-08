@@ -19,7 +19,7 @@ namespace Tests\Unit\Views\DataProviders;
 use PHPUnit\Framework\TestCase;
 
 // Use absolute path to avoid case sensitivity issues
-require_once('c:/Users/prote/Documents/ksf_bank_import/Views/DataProviders/QuickEntryDataProvider.php');
+require_once('c:/Users/prote/Documents/software-devel/ksf_bank_import/views/DataProviders/QuickEntryDataProvider.php');
 
 use KsfBankImport\Views\DataProviders\QuickEntryDataProvider;
 

@@ -19,7 +19,7 @@ use Ksfraser\BankAccountDataProvider;
 require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 // Load the view
-require_once __DIR__ . '/../../../Views/BankTransferPartnerTypeView.v2.php';
+require_once __DIR__ . '/../../../views/BankTransferPartnerTypeView.v2.php';
 
 /**
  * Test Bank Transfer Partner Type View

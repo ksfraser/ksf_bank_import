@@ -17,7 +17,7 @@
 use PHPUnit\Framework\TestCase;
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 
-require_once __DIR__ . '/../../../../Views/DataProviders/CustomerDataProvider.php';
+require_once __DIR__ . '/../../../../views/DataProviders/CustomerDataProvider.php';
 
 /**
  * Test CustomerDataProvider

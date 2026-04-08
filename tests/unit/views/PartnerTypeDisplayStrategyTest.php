@@ -14,8 +14,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../../Views/PartnerTypeDisplayStrategy.php';
-require_once __DIR__ . '/../../../Views/ViewFactory.php';
+require_once __DIR__ . '/../../../views/PartnerTypeDisplayStrategy.php';
+require_once __DIR__ . '/../../../views/ViewFactory.php';
 require_once __DIR__ . '/../../../src/Ksfraser/HTML/HtmlFragment.php';
 require_once __DIR__ . '/../../../src/Ksfraser/HTML/HtmlAttribute.php';
 require_once __DIR__ . '/../../../src/Ksfraser/HTML/Elements/HtmlInput.php';

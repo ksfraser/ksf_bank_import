@@ -22,7 +22,7 @@ use KsfBankImport\Views\QuickEntryPartnerTypeView;
 require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 // Load the factory
-require_once __DIR__ . '/../../../Views/ViewFactory.php';
+require_once __DIR__ . '/../../../views/ViewFactory.php';
 
 /**
  * Test ViewFactory
