@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ProcessTransactionCommand [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ProcessTransactionCommand.
- */
 namespace Ksfraser\FaBankImport\Commands;
 
 class ProcessTransactionCommand
@@ -19,7 +8,7 @@ class ProcessTransactionCommand
     private $type;
     private $userId;
 
-    public function __construct(int $transactionId, string $type, ?int $userId = null)
+    public function __construct($transactionId, $type, $userId = null)
     {
         $this->transactionId = $transactionId;
         $this->type = $type;

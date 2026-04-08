@@ -1,23 +1,11 @@
-// Duplicate file removed to resolve class redeclaration error.
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionProcessingFeatureTest [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionProcessingFeatureTest.
- */
 namespace Tests\Feature;
 
 use Tests\Integration\DatabaseTestCase;
 use Ksfraser\FaBankImport\Application;
 
-class TransactionProcessingFeatureTest2 extends DatabaseTestCase
+class TransactionProcessingFeatureTest extends DatabaseTestCase
 {
     private $app;
 

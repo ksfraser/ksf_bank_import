@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionQueryBuilder [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionQueryBuilder.
- */
 namespace Ksfraser\FaBankImport\Database;
 
 /**
@@ -44,12 +33,12 @@ class TransactionQueryBuilder
     /**
      * @var string Database table name with prefix
      */
-    private $tableName;
+    private string $tableName;
     
     /**
      * @var string Statements table name with prefix
      */
-    private $statementsTable;
+    private string $statementsTable;
     
     /**
      * Constructor

@@ -1,10 +1,10 @@
 <?php
 namespace Ksfraser\FaBankImport\Model;
 
-use Ksfraser\frontaccounting\FaGl;
+use Ksfraser\common\GenericFaInterface;
 use Ksfraser\frontaccounting\FaBankAccounts;
 use Ksfraser\frontaccounting\FaCustomerPayment;
-use Exception;
+use Ksfraser\frontaccounting\FaGl;
 
 /**
  * Model class for handling line item data.
@@ -207,7 +207,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	*	Did this get put in Origin?
 	*	@TODO confirm if in Origin
 	*
-	* @param array trz
+	* @param class
 	* @returns int how many fields did we copy
 	**************************************************************************/
 	function trz2obj( $trz ) : int
@@ -253,7 +253,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	*
 	* This could probably be merged with determineTransactionTypeLabel
 	 */
-	public function setPartnerType(): string
+	public function setPartnerType(): void
 	{
 		switch ($this->transactionDC) {
 			case 'C':
@@ -356,6 +356,23 @@ class BiLineItemModel extends GenericFaInterfaceModel
 		}
 	}
 
+	/**//******************************************************************
+	* Get OUR Bank Account Details
+	*
+	*	DONE: REFACTOR to use class fa_bank_accounts instead of an array
+	* @todo clean up the refactored code for fa_bank_accounts removing commented out old code once tested
+	*
+	**********************************************************************/
+	function getBankAccountDetails()
+	{
+		// require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
+		use Ksfraser\frontaccounting\FaBankAccounts;
+		$this->fa_bank_accounts = new FaBankAccounts( $this );
+		$this->ourBankDetails =	$this->fa_bank_accounts->getByBankAccountNumber( $this->our_account );
+		//$this->ourBankDetails = get_bank_account_by_number( $this->our_account );
+		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
+		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
+	}
 	/**//***************************************************************
 	* Find paired transactions i.e. bank transfers from one account to another
 	* such as Savings <- -> HISA or CC payments
@@ -405,9 +422,64 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	{
 		return false;
 	}
+	/**//***************************************************************
+	* Find any transactions that alraedy exist that look like this one
+	*
+	* @param NONE
+	* @returns array GL record(s) that match
+	********************************************************************/
+	function findMatchingExistingJE()
+	{
+	  	//display_notification( __FILE__ . "::" . __LINE__ );
+		//The transaction is imported into a bank account, with the counterparty being trz['accountName']
+		//	  Existing transactions will have 2+ line items.  1 should match the bank, one should match the counterparty.
+		//	  Currently we are matching and scoring each of the line items, rather than matching/scoring the GL itself.
 
+		//Check for matching into the accounts
+		// JE# / Date / Account / (Credit/Debit) / Memo in the GL Account (gl/inquiry/gl_account_inquiry.php)
+	
+		$new_arr = array();
+		// $inc = include_once( __DIR__ . '/../ksf_modules_common/class.fa_gl.php' );
+		use Ksfraser\frontaccounting\FaGl;
+/* NAMESPACE
+		if( $inc )
+		{
+*/
+ 	 		//display_notification( __FILE__ . "::" . __LINE__ );
+			$fa_gl = new FaGl();
+ 			$fa_gl->set( "amount_min", $this->amount );
+			$fa_gl->set( "amount_max", $this->amount );
+			$fa_gl->set( "amount", $this->amount );
+			$fa_gl->set( "transactionDC", $this->transactionDC );
+			$fa_gl->set( "days_spread", $this->days_spread );
+			$fa_gl->set( "startdate", $this->valueTimestamp );	 //Set converts using sql2date
+			$fa_gl->set( "enddate", $this->entryTimestamp );	   //Set converts using sql2date
+			$fa_gl->set( "accountName", $this->otherBankAccountName );
+			$fa_gl->set( "transactionCode", $this->transactionCode );
+
+			//Customer E-transfers usually get recorded the day after the "payment date" when recurring invoice, or recorded paid on Quick Invoice
+			//			  E-TRANSFER 010667466304;CUSTOMER NAME;...
+			//	  function add_days($date, $days) // accepts negative values as well
+			try {
+					$new_arr = $fa_gl->find_matching_transactions();
+							//display_notification( __FILE__ . "::" . __LINE__ );
+			} catch( Exception $e )
+			{
+					display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
+			}
+/* NAMESPACE
+									//display_notification( __FILE__ . "::" . __LINE__ );
+		}
+		else
+		{
+				display_notification( __FILE__ . "::" . __LINE__ . ": Require_Once failed." );
+		}
+*/
+		$this->matching_trans = $new_arr;
+		return $new_arr;
+	}
 	/**//*******************************************************************
-	* seek Partner partner type
+	* seek SUPPLIER partner type
 	*
 	* Returns match row from table
 	* Sets partnerId
@@ -418,14 +490,22 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	function seekPartnerByBankAccount( int $parterType = PT_SUPPLIER )
 	{
 		$matched_supplier = array();
-		require_once( 'class.bi_partners_data.php' );
-		$pd = new bi_partners_data();
-		$matched_supplier = $pd->search_partner_by_bank_account( $parterType, $this->otherBankAccount);
-		if (!empty($matched_supplier))
+/*
+		if ( empty( $this->partnerId ) )
 		{
-			$this->partnerId = $_POST["partnerId_$this->id"] = $matched_supplier['partner_id'];
-			// $this->partnerDetailId = $_POST["partnerDetailId_$this->id"] = $match['partner_detail_id'];
+*/
+			require_once( class.bi_partners_data.php );
+			$pd = new bi_partners_data();
+			$matched_supplier = $pd->search_partner_by_bank_account( $parterType, $this->otherBankAccount);
+				//$matched_supplier = search_partner_by_bank_account(PT_SUPPLIER, $this->otherBankAccount);
+			if (!empty($matched_supplier))
+			{
+				$this->partnerId = $_POST["partnerId_$this->id"] = $matched_supplier['partner_id'];
+				$this->partnerDetailId = $_POST["partnerDetailId_$this->id"] = $match['partner_detail_id'];
+			}
+/*
 		}
+*/
 		return $matched_supplier;
 	}
 

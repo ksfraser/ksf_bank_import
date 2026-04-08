@@ -1,16 +1,4 @@
 <?php
-
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionRepository [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionRepository.
- */
 /**
  * Transaction Repository
  * 
@@ -34,7 +22,6 @@
 namespace Ksfraser\FaBankImport\Repositories;
 
 use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
-use Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface;
 
 /**
  * Repository for bi_transactions table
@@ -45,34 +32,23 @@ use Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface;
  * @since 20251104
  * @version 20251104.1
  */
-class TransactionRepository implements TransactionRepositoryInterface
+class TransactionRepository
 {
     /**
      * @var TransactionQueryBuilder Query builder for SQL generation
      */
     private $queryBuilder;
-
-    /**
-     * @var string
-     */
-    private $tableName;
     
     /**
-     * Constructor with optional dependency injection.
-     *
-     * If no QueryBuilder is provided (legacy usage), a default instance is created.
-     *
-     * @param TransactionQueryBuilder|null $queryBuilder The query builder to use
-     *
+     * Constructor with dependency injection
+     * 
+     * @param TransactionQueryBuilder $queryBuilder The query builder to use
+     * 
      * @since 20251104
      */
-    public function __construct(?TransactionQueryBuilder $queryBuilder = null)
+    public function __construct(TransactionQueryBuilder $queryBuilder)
     {
-        $prefix = defined('TB_PREF') ? TB_PREF : '0_';
-        $this->tableName = $prefix . 'bi_transactions';
-
-        // Keep for legacy/batch operations; core CRUD methods below do not rely on it.
-        $this->queryBuilder = $queryBuilder ?: new TransactionQueryBuilder();
+        $this->queryBuilder = $queryBuilder;
     }
     
     /**
@@ -84,8 +60,8 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function findAll(): array
     {
-        $sql = "SELECT * FROM {$this->tableName}";
-        $result = db_query($sql, 'unable to get transactions');
+        $query = $this->queryBuilder->buildGetTransactionsQuery([]);
+        $result = db_query($query['sql']);
         
         $transactions = [];
         while ($row = db_fetch($result)) {
@@ -106,87 +82,11 @@ class TransactionRepository implements TransactionRepositoryInterface
      */
     public function findById(int $id): ?array
     {
-        $sql = "SELECT * FROM {$this->tableName} WHERE id = " . (int)$id;
-        $result = db_query($sql, 'unable to get transaction');
+        $query = $this->queryBuilder->buildGetTransactionQuery($id);
+        $result = db_query($query['sql'], 'unable to get transaction');
+        
         $row = db_fetch($result);
         return $row ? $row : null;
-    }
-
-    public function findByStatus(string $status): array
-    {
-        $sql = "SELECT * FROM {$this->tableName} WHERE status = " . db_escape($status);
-        $result = db_query($sql, 'unable to get transactions by status');
-
-        $transactions = [];
-        while ($row = db_fetch($result)) {
-            $transactions[] = $row;
-        }
-
-        return $transactions;
-    }
-
-    public function save(array $transaction): bool
-    {
-        if (empty($transaction)) {
-            return false;
-        }
-
-        $columns = [];
-        $values = [];
-
-        foreach ($transaction as $column => $value) {
-            $columns[] = $column;
-
-            if ($value === null) {
-                $values[] = 'NULL';
-            } elseif (is_bool($value)) {
-                $values[] = $value ? '1' : '0';
-            } elseif (is_numeric($value)) {
-                $values[] = (string)$value;
-            } else {
-                $values[] = db_escape((string)$value);
-            }
-        }
-
-        $sql = "INSERT INTO {$this->tableName} (" . implode(', ', $columns) . ") VALUES (" . implode(', ', $values) . ")";
-        db_query($sql, 'unable to save transaction');
-        return true;
-    }
-
-    public function update(int $id, array $data): bool
-    {
-        if (empty($data)) {
-            return false;
-        }
-
-        $sets = [];
-        foreach ($data as $column => $value) {
-            if ($value === null) {
-                $sets[] = $column . " = NULL";
-            } elseif (is_bool($value)) {
-                $sets[] = $column . " = " . ($value ? '1' : '0');
-            } elseif (is_numeric($value)) {
-                $sets[] = $column . " = " . (string)$value;
-            } else {
-                $sets[] = $column . " = " . db_escape((string)$value);
-            }
-        }
-
-        $sql = "UPDATE {$this->tableName} SET " . implode(', ', $sets) . " WHERE id = " . (int)$id;
-        db_query($sql, 'unable to update transaction');
-        return true;
-    }
-
-    /**
-     * Reset a single transaction back to an unprocessed state.
-     *
-     * Used by UnsetTransactionCommand.
-     */
-    public function reset(int $id): bool
-    {
-        $sql = "UPDATE {$this->tableName} SET status = " . db_escape('pending') . " WHERE id = " . (int)$id;
-        db_query($sql, 'unable to reset transaction');
-        return true;
     }
     
     /**
@@ -249,7 +149,7 @@ class TransactionRepository implements TransactionRepositoryInterface
      * 
      * @since 20251104
      */
-    public function updateTransactionsWithFaInfo(
+    public function update(
         array $transactionIds,
         int $status,
         int $faTransNo,
@@ -289,7 +189,7 @@ class TransactionRepository implements TransactionRepositoryInterface
         
         db_query($sql, 'unable to update transactions');
         
-        return function_exists('db_affected_rows') ? db_affected_rows() : 0;
+        return db_affected_rows();
     }
     
     /**
@@ -303,7 +203,7 @@ class TransactionRepository implements TransactionRepositoryInterface
      * 
      * @since 20251104
      */
-    public function resetTransactionsWithFaInfo(
+    public function reset(
         array $transactionIds,
         int $faTransNo,
         int $faTransType
@@ -325,7 +225,7 @@ class TransactionRepository implements TransactionRepositoryInterface
         
         db_query($sql, 'unable to reset transactions');
         
-        return function_exists('db_affected_rows') ? db_affected_rows() : 0;
+        return db_affected_rows();
     }
     
     /**
@@ -353,7 +253,7 @@ class TransactionRepository implements TransactionRepositoryInterface
         
         db_query($sql, 'unable to prevoid transaction');
         
-        return function_exists('db_affected_rows') ? db_affected_rows() : 0;
+        return db_affected_rows();
     }
     
     /**

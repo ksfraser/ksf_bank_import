@@ -226,7 +226,7 @@ class BiLineItemDisplayMethodsTest extends TestCase
     }
     
     /**
-        * Verify file size is reasonable (post-refactor baseline)
+     * Verify file size is reasonable (production has ~1050 lines)
      *
      * @test
      */
@@ -241,9 +241,9 @@ class BiLineItemDisplayMethodsTest extends TestCase
         );
         
         $this->assertLessThan(
-            1700,
+            1200,
             $lineCount,
-            'File should have less than 1700 lines (no major duplication)'
+            'File should have less than 1200 lines (no major duplication)'
         );
     }
 }

@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :Config [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for Config.
- */
 namespace Ksfraser\FaBankImport\Config;
 
 class Config
@@ -33,8 +22,12 @@ class Config
             ],
             'transaction' => [
                 'allowed_types' => ['C', 'D', 'B'],
-                'default_dc' => getenv('BANK_IMPORT_DEFAULT_TRANSACTION_DC') ?: 'D',
                 'max_amount' => 1000000.00
+            ],
+            'upload' => [
+                'check_duplicates' => false,  // Check for duplicate file uploads
+                'duplicate_window_days' => 90,  // How many days back to check for duplicates
+                'duplicate_action' => 'warn'  // Action on duplicate: 'allow', 'warn' (soft deny), 'block' (hard deny)
             ]
         ];
     }
@@ -45,16 +38,6 @@ class Config
             self::$instance = new self();
         }
         return self::$instance;
-    }
-
-    public static function setInstance(?self $instance): void
-    {
-        self::$instance = $instance;
-    }
-
-    public static function resetInstance(): void
-    {
-        self::$instance = null;
     }
 
     public function get(string $key, $default = null)

@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :BiPartnersDataTest [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for BiPartnersDataTest.
- */
 use PHPUnit\Framework\TestCase;
 
 class BiPartnersDataTest extends TestCase

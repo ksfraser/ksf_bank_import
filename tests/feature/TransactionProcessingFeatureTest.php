@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\Integration\DatabaseTestCase;
 use Ksfraser\FaBankImport\Application;
 
-class TransactionProcessingFeatureTest3 extends DatabaseTestCase
+class TransactionProcessingFeatureTest extends DatabaseTestCase
 {
     private $app;
 
@@ -77,4 +77,3 @@ class TransactionProcessingFeatureTest3 extends DatabaseTestCase
         ob_clean();
     }
 }
-// Duplicate removed by Copilot. Canonical version is in src/Ksfraser/FaBankImport/tests/TransactionProcessingFeatureTest.php

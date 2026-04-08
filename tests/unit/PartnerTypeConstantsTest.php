@@ -91,23 +91,23 @@ class PartnerTypeConstantsTest extends TestCase
     public function testMatchedConstantIsDefined(): void
     {
         $this->assertSame(
-            'ZZ',
+            'MA',
             PartnerTypeConstants::MATCHED,
-            'MATCHED constant should be "ZZ"'
+            'MATCHED constant should be "MA"'
         );
     }
 
     /**
-     * Test that MANUAL_SETTLEMENT constant is defined
+     * Test that UNKNOWN constant is defined
      *
      * @test
      */
-    public function testManualSettlementConstantIsDefined(): void
+    public function testUnknownConstantIsDefined(): void
     {
         $this->assertSame(
-            'MA',
-            PartnerTypeConstants::MANUAL_SETTLEMENT,
-            'MANUAL_SETTLEMENT constant should be "MA"'
+            'ZZ',
+            PartnerTypeConstants::UNKNOWN,
+            'UNKNOWN constant should be "ZZ"'
         );
     }
 
@@ -124,7 +124,7 @@ class PartnerTypeConstantsTest extends TestCase
             PartnerTypeConstants::BANK_TRANSFER,
             PartnerTypeConstants::QUICK_ENTRY,
             PartnerTypeConstants::MATCHED,
-            PartnerTypeConstants::MANUAL_SETTLEMENT,
+            PartnerTypeConstants::UNKNOWN,
         ];
 
         $unique = array_unique($constants);
@@ -149,7 +149,7 @@ class PartnerTypeConstantsTest extends TestCase
             'BANK_TRANSFER' => PartnerTypeConstants::BANK_TRANSFER,
             'QUICK_ENTRY' => PartnerTypeConstants::QUICK_ENTRY,
             'MATCHED' => PartnerTypeConstants::MATCHED,
-            'MANUAL_SETTLEMENT' => PartnerTypeConstants::MANUAL_SETTLEMENT,
+            'UNKNOWN' => PartnerTypeConstants::UNKNOWN,
         ];
 
         foreach ($constants as $name => $value) {
@@ -174,7 +174,7 @@ class PartnerTypeConstantsTest extends TestCase
             'BANK_TRANSFER' => PartnerTypeConstants::BANK_TRANSFER,
             'QUICK_ENTRY' => PartnerTypeConstants::QUICK_ENTRY,
             'MATCHED' => PartnerTypeConstants::MATCHED,
-            'MANUAL_SETTLEMENT' => PartnerTypeConstants::MANUAL_SETTLEMENT,
+            'UNKNOWN' => PartnerTypeConstants::UNKNOWN,
         ];
 
         foreach ($constants as $name => $value) {
@@ -193,19 +193,20 @@ class PartnerTypeConstantsTest extends TestCase
      */
     public function testGetAllReturnsAllConstants(): void
     {
-        $all = PartnerTypeConstants::getAll();
+        $expected = [
+            'SUPPLIER' => 'SP',
+            'CUSTOMER' => 'CU',
+            'BANK_TRANSFER' => 'BT',
+            'QUICK_ENTRY' => 'QE',
+            'MATCHED' => 'MA',
+            'UNKNOWN' => 'ZZ',
+        ];
 
-        $this->assertArrayHasKey('SP', $all);
-        $this->assertArrayHasKey('CU', $all);
-        $this->assertArrayHasKey('BT', $all);
-        $this->assertArrayHasKey('QE', $all);
-        $this->assertArrayHasKey('MA', $all);
-        $this->assertArrayHasKey('ZZ', $all);
-
-        $this->assertSame('Supplier', $all['SP']);
-        $this->assertSame('Customer', $all['CU']);
-        $this->assertSame('Manual settlement', $all['MA']);
-        $this->assertSame('Matched', $all['ZZ']);
+        $this->assertSame(
+            $expected,
+            PartnerTypeConstants::getAll(),
+            'getAll() should return array of all constants'
+        );
     }
 
     /**
@@ -270,13 +271,13 @@ class PartnerTypeConstantsTest extends TestCase
         );
 
         $this->assertSame(
-            'Manual settlement',
-            PartnerTypeConstants::getLabel(PartnerTypeConstants::MANUAL_SETTLEMENT)
+            'Matched Transaction',
+            PartnerTypeConstants::getLabel(PartnerTypeConstants::MATCHED)
         );
 
         $this->assertSame(
-            'Matched',
-            PartnerTypeConstants::getLabel(PartnerTypeConstants::MATCHED)
+            'Unknown',
+            PartnerTypeConstants::getLabel(PartnerTypeConstants::UNKNOWN)
         );
     }
 

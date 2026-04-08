@@ -2,7 +2,6 @@
 
 namespace Ksfraser\Application\Controllers;
 
-use Ksfraser\Application\Controllers\AbstractController;
 use Ksfraser\Application\Services\PerformanceMonitor;
 use Ksfraser\Application\Services\MetricsAggregator;
 use Ksfraser\Application\Config\Config;

@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :UnsetTransactionCommand [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for UnsetTransactionCommand.
- */
 namespace Ksfraser\FaBankImport\Commands;
 
 use Ksfraser\FaBankImport\Contracts\CommandInterface;
@@ -38,12 +27,12 @@ class UnsetTransactionCommand implements CommandInterface
     /**
      * @var array POST data containing transaction IDs to unset
      */
-    private array $postData;
+    private $postData;
 
     /**
      * @var object Transaction repository
      */
-    private object $repository;
+    private $repository;
 
     /**
      * Constructor
@@ -51,7 +40,7 @@ class UnsetTransactionCommand implements CommandInterface
      * @param array $postData POST data with UnsetTrans key
      * @param object $repository Transaction repository with reset() method
      */
-    public function __construct(array $postData, object $repository)
+    public function __construct($postData, $repository)
     {
         $this->postData = $postData;
         $this->repository = $repository;

@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :UploadResult [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for UploadResult.
- */
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**
@@ -25,28 +14,22 @@ namespace Ksfraser\FaBankImport\ValueObject;
 class UploadResult
 {
     /** @var bool Upload successful */
-    private  $success;
-    //private bool $success;
+    private bool $success;
     
     /** @var string Result message */
-    private  $message;
-    //private string $message;
+    private string $message;
     
     /** @var int|null File ID if successful */
-    private  $fileId;
-    //private ?int $fileId;
+    private ?int $fileId;
     
     /** @var string|null Unique filename if successful */
-    private  $filename;
-    //private ?string $filename;
+    private ?string $filename;
     
     /** @var string Result type: success, error, duplicate, reused */
-    private  $type;
-    //private string $type;
+    private string $type;
     
     /** @var bool Allow force override for duplicates */
-    private  $allowForce;
-    //private bool $allowForce;
+    private bool $allowForce;
     
     /**
      * Private constructor - use static factory methods

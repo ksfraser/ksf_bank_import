@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :HTML_ROW_LABELDecorator [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for HTML_ROW_LABELDecorator.
- */
 use Ksfraser\HTML\HtmlElementInterface;
 
 class HTML_ROW_LABELDecorator implements HtmlElementInterface
@@ -20,11 +9,11 @@ class HTML_ROW_LABELDecorator implements HtmlElementInterface
 	{
 		$this->HTML_LABEL_ROW = new HTML_ROW_LABEL( $data, $label, $width, $class );
 	}
-	function toHtml(): void
+	function toHTML()
 	{
-		echo $this->HTML_LABEL_ROW->toHTML();
+		return $this->HTML_LABEL_ROW->toHTML();
 	}
-	function getHtml(): string
+	function getHTML()
 	{
 		return $this->HTML_LABEL_ROW->getHTML();
 	}

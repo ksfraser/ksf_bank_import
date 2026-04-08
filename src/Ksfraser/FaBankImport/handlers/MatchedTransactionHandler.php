@@ -1,16 +1,4 @@
 <?php
-
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :MatchedTransactionHandler [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for MatchedTransactionHandler.
- */
 /**
  * MatchedTransactionHandler.php
  * 

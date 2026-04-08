@@ -1,1 +1,0 @@
-Directory to store FrontAccounting specific HTML classes that use the Ksfraser/HTML library.

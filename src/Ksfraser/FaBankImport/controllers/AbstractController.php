@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :AbstractController [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for AbstractController.
- */
 namespace Ksfraser\FaBankImport\Controllers;
 
 use Ksfraser\FaBankImport\Http\RequestHandler;

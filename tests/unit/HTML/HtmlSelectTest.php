@@ -101,7 +101,7 @@ class HtmlSelectTest extends TestCase
         $html = $select->getHtml();
         $this->assertStringContainsString('selected', $html);
         // Check that selected appears in the right place (with value2)
-        $this->assertRegExp('/value="value2"[^>]*selected/', $html);
+        $this->assertMatchesRegularExpression('/value="value2"[^>]*selected/', $html);
     }
 
     public function testGetName(): void

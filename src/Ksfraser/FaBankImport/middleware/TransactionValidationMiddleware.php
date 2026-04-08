@@ -1,20 +1,9 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionValidationMiddleware [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionValidationMiddleware.
- */
 namespace Ksfraser\FaBankImport\Middleware;
 
-use Ksfraser\FaBankImport\Http\RequestHandler;
-use Ksfraser\FaBankImport\Services\TransactionValidator;
+use Ksfraser\Application\Http\RequestHandler;
+use Ksfraser\Application\Services\TransactionValidator;
 use Ksfraser\FaBankImport\Exceptions\TransactionValidationException;
 
 class TransactionValidationMiddleware implements MiddlewareInterface

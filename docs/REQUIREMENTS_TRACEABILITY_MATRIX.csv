@@ -48,7 +48,6 @@ FR-048,Reference Number Service,MUST,Maintainability,IMPLEMENTED,BO-004,Service 
 FR-049,Handler Auto-Discovery,SHOULD,Extensibility,IMPLEMENTED,BO-004,Filesystem discovery,Processors/TransactionProcessor.php,TC-049-A to TC-049-N,IT-049,UAT-049,PASS
 FR-050,Fine-Grained Exceptions,MUST,Error Handling,IMPLEMENTED,BO-002,Custom exceptions,Exceptions/HandlerDiscoveryException.php,TC-050-A to TC-050-G,IT-050,UAT-050,PASS
 FR-051,Configurable Trans Ref,SHOULD,Configuration,IMPLEMENTED,BO-007,Configuration class,Config/BankImportConfig.php,TC-051-A to TC-051-AE,IT-051,UAT-051,PENDING UI
-FR-057,Link Builders Refactoring,SHOULD,Architecture,COMPLETED,N/A,FA/Links namespace,src/Ksfraser/FA/Links/,TC-LINK-001 to TC-LINK-004,IT-LINK-001,N/A,PASS
 NFR-048-A,Code Deduplication,MUST,Maintainability,VERIFIED,BO-004,18 lines eliminated,Services/ReferenceNumberService.php,SLOC Analysis,N/A,N/A,PASS
 NFR-048-B,Service Test Coverage,MUST,Quality,VERIFIED,BO-004,Unit tests,tests/unit/Services/,8 tests,N/A,N/A,PASS
 NFR-049-A,Discovery Performance,SHOULD,Performance,VERIFIED,BO-003,Lazy loading,Processors/TransactionProcessor.php,Benchmark <100ms,N/A,N/A,PASS

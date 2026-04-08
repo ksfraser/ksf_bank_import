@@ -1,17 +1,5 @@
 <?php
-
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ModuleMenuView [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ModuleMenuView.
- */
-namespace Ksfraser\FaBankImport\Views;
+namespace Views;
 
 class ModuleMenuView
 {

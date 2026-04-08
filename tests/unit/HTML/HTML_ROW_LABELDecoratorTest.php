@@ -19,8 +19,8 @@ class HTML_ROW_LABELDecoratorTest extends TestCase
         $html = $this->decorator->getHtml();
         $this->assertStringContainsString('Test Label', $html);
         $this->assertStringContainsString('test data', $html);
-        $this->assertStringContainsString('width="25%"', $html); // Default width
-        $this->assertStringContainsString('class="label"', $html); // Default class
+        $this->assertStringContainsString('width=\'25\'', $html); // Default width
+        $this->assertStringContainsString('class=\'label\'', $html); // Default class
     }
 
     public function testToHtmlDelegatesCorrectly(): void
@@ -38,7 +38,7 @@ class HTML_ROW_LABELDecoratorTest extends TestCase
         $decorator = new HTML_ROW_LABELDecorator('test data', 'Test Label', 40, 'custom-class');
         $html = $decorator->getHtml();
         
-        $this->assertStringContainsString('width="40%"', $html);
-        $this->assertStringContainsString('class="custom-class"', $html);
+        $this->assertStringContainsString('width=\'40\'', $html);
+        $this->assertStringContainsString('class=\'custom-class\'', $html);
     }
 }

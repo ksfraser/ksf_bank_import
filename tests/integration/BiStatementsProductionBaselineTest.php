@@ -190,10 +190,10 @@ class BiStatementsProductionBaselineTest extends TestCase
         $fileContents = file_get_contents($modelFile);
         
         // Verify requires
-        $this->assertRegExp(
-            "/require_once\(\s*(['\"].*generic_fa_interface\.php['\"]|\\\$commonInterface)\s*\)/",
+        $this->assertStringContainsString(
+            "require_once( '../ksf_modules_common/class.generic_fa_interface.php' )",
             $fileContents,
-            'Should require generic_fa_interface base class (either literally or via variable)'
+            'PROD: Should require generic_fa_interface base class'
         );
         $this->assertStringContainsString(
             "require_once( '../ksf_modules_common/defines.inc.php' )",

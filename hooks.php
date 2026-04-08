@@ -1,114 +1,74 @@
 <?php
-// Ensure Composer autoloader is loaded for trait/class autoloading
-require_once __DIR__ . '/vendor/autoload.php';
-
 
 define( 'MENU_IMPORT', 'menu_import' );
 
-//Using the following security:
-//	SA_CUSTOMER
-//	SA_BANKACCOUNT
-//	SA_BANKFILEVIEW
-//	SA_BANKTRANSVIEW
-//	SA_SETUPCOMPANY
-
-define('SS_BANKIMPORT', 113 << 8);
-
-/**//************************************************************
-* Hooks class, called by FA on every page load
-*
-*/
 class hooks_bank_import extends hooks {
-	var $module_name = 'bank_import'; 
+    var $module_name = 'bank_import'; 
 
-	/*
-	* Install additonal menu options provided by module
-	*/
+    /*
+    * Install additonal menu options provided by module
+    */
 
-	function install_options($app) 
-	{
-		global $path_to_root;
-	
-	
-		switch($app->id) {
-			case 'GL':
-			$app->add_lapp_function(3, _("Manage Partners Bank Accounts"),
-				$path_to_root."/modules/".$this->module_name."/manage_partners_data.php", 'SA_CUSTOMER', MENU_IMPORT);
-			$app->add_lapp_function(3, _("Import Bank Statements"),
-				$path_to_root."/modules/".$this->module_name."/import_statements.php", 'SA_BANKACCOUNT', MENU_MAINTENANCE);
-			$app->add_lapp_function(3, _("Process Bank Statements"),
-				$path_to_root."/modules/".$this->module_name."/process_statements.php", 'SA_BANKACCOUNT', MENU_IMPORT);
-			$app->add_lapp_function(3, _("Bank Statements Inquiry"),
-				$path_to_root."/modules/".$this->module_name."/view_statements.php", 'SA_BANKACCOUNT', MENU_INQUIRY);
-			$app->add_lapp_function(3, _("Manage Uploaded Files"),
-				$path_to_root."/modules/".$this->module_name."/manage_uploaded_files.php", 'SA_BANKFILEVIEW', MENU_INQUIRY);
-			$app->add_lapp_function(3, _("Validate GL Entries"),
-				$path_to_root."/modules/".$this->module_name."/validate_gl_entries.php", 'SA_BANKTRANSVIEW', MENU_INQUIRY);
-			$app->add_lapp_function(3, _("View Import Logs"),
-				$path_to_root."/modules/".$this->module_name."/view_import_logs.php", 'SA_BANKIMPORTLOGVIEW', MENU_INQUIRY);
-			$app->add_lapp_function(3, _("Module Configuration"),
-				$path_to_root."/modules/".$this->module_name."/module_config.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
-			$app->add_lapp_function(3, _("Manage Parsers"),
-				$path_to_root."/modules/".$this->module_name."/admin_parsers.php", 'SA_ADMINPARSERS', MENU_MAINTENANCE);
-			$app->add_lapp_function(3, _("Schema Maintenance"),
-				$path_to_root."/modules/".$this->module_name."/schema_maintenance.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
-			$app->add_lapp_function(2, _("Bank Import Settings"),
-				$path_to_root."/modules/".$this->module_name."/bank_import_settings.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
-				
-	
-			break;
-		}
+    function install_options($app) {
+	global $path_to_root;
+
+
+	switch($app->id) {
+	    case 'GL':
+/*
+		$app->add_lapp_function(0, _("Process Bank Statements"),
+			$path_to_root."/modules/".$this->module_name."/process_statements.php", 'SA_BANKACCOUNT', MENU_TRANSACTION);
+		$app->add_lapp_function(2, _("Manage Partners Bank Accounts"),
+			$path_to_root."/modules/".$this->module_name."/manage_partners_data.php", 'SA_CUSTOMER', MENU_MAINTENANCE);
+		$app->add_lapp_function(2, _("Import Bank Statements"),
+			$path_to_root."/modules/".$this->module_name."/import_statements.php", 'SA_BANKACCOUNT', MENU_MAINTENANCE);
+		$app->add_lapp_function(1, _("Bank Statements Inquiry"),
+			$path_to_root."/modules/".$this->module_name."/view_statements.php", 'SA_BANKACCOUNT', MENU_INQUIRY);
+*/
+		$app->add_lapp_function(3, _("Manage Partners Bank Accounts"),
+			$path_to_root."/modules/".$this->module_name."/manage_partners_data.php", 'SA_CUSTOMER', MENU_IMPORT);
+		$app->add_lapp_function(3, _("Import Bank Statements"),
+			$path_to_root."/modules/".$this->module_name."/import_statements.php", 'SA_BANKACCOUNT', MENU_MAINTENANCE);
+		$app->add_lapp_function(3, _("Process Bank Statements"),
+			$path_to_root."/modules/".$this->module_name."/process_statements.php", 'SA_BANKACCOUNT', MENU_IMPORT);
+		$app->add_lapp_function(3, _("Bank Statements Inquiry"),
+			$path_to_root."/modules/".$this->module_name."/view_statements.php", 'SA_BANKACCOUNT', MENU_INQUIRY);
+		$app->add_lapp_function(3, _("Manage Uploaded Files"),
+			$path_to_root."/modules/".$this->module_name."/manage_uploaded_files.php", 'SA_BANKFILEVIEW', MENU_INQUIRY);
+		$app->add_lapp_function(3, _("Validate GL Entries"),
+			$path_to_root."/modules/".$this->module_name."/validate_gl_entries.php", 'SA_BANKTRANSVIEW', MENU_INQUIRY);
+		$app->add_lapp_function(3, _("Module Configuration"),
+			$path_to_root."/modules/".$this->module_name."/module_config.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
+		$app->add_lapp_function(2, _("Bank Import Settings"),
+			$path_to_root."/modules/".$this->module_name."/bank_import_settings.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
+
+		break;
 	}
-
-	function install_access()
-	{
-		$security_sections[SS_BANKIMPORT] = _("Bank Files Import");
-		$security_areas['SA_BANKIMPORT'] = array(SS_BANKIMPORT | 1, _("Import Bank Files"));
-		$security_areas['SA_BANKFILEVIEW'] = array(SS_BANKIMPORT | 2, _("View Bank Files"));
-		$security_areas['SA_BANKIMPORTLOGVIEW'] = array(SS_BANKIMPORT | 3, _("View Bank Import Logs"));
-		$security_areas['SA_ADMINPARSERS'] = array(SS_BANKIMPORT | 4, _("Manage Parsers"));	
-		$security_areas['SA_BANKTRANSVIEW'] = array(SS_BANKIMPORT | 5, _("View Bank Transactions"));
-		
-		return array($security_areas, $security_sections);
-	}
+    }
 
 
-	function activate_extension($company, $check_only=true) 
-	{
-		//Assumes the sql file will be under sql/
-		$updates = array( 'update.sql' => array($this->module_name) );
-		$ok = $this->update_databases($company, $updates, $check_only);
-		if ($check_only || !$ok) {
-			return $ok;
-		}
+    function activate_extension($company, $check_only=true) {
+	$updates = array( 'update.sql' => array($this->module_name) );
+	return $this->update_databases($company, $updates, $check_only);
+	return true;
+    }
 
-		// Ensure schema drift does not break fresh installs or older databases.
-		// This must be idempotent and non-destructive.
-		$this->ensure_bank_import_schema();
-		return $ok;
-		//return true;
-	}
+    //this is required to cancel bank transactions when a voiding operation occurs
+	//@todo refactor to use my eventloop functions
+    function db_prevoid($trans_type, $trans_no) {
+	    //SET status=0
+	$sql = "
+	    UPDATE ".TB_PREF."bi_transactions
+	    SET status=0, fa_trans_no=0, fa_trans_type=0, created=0, matched=0, g_partner='', g_option=''
+	    WHERE
+		fa_trans_no=".db_escape($trans_no)." AND
+		fa_trans_type=".db_escape($trans_type)." AND
+		status = 1";
+	display_notification($sql);
+	db_query($sql, 'Could not void transaction');
 
-	private function ensure_bank_import_schema()
-	{
-		require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Service/Schema/BankImportModuleSchemaService.php');
-		$schemaService = new \Ksfraser\FaBankImport\Service\Schema\BankImportModuleSchemaService();
-		$schemaService->ensureAll();
-	}
+    }
 
-	//this is required to cancel bank transactions when a voiding operation occurs
-	function db_prevoid($trans_type, $trans_no) 
-	{
-		//SET status=0
-		$sql = "
-			UPDATE ".TB_PREF."bi_transactions
-			SET status=0, fa_trans_no=0, fa_trans_type=0, created=0, matched=0, g_partner='', g_option=''
-			WHERE
-				fa_trans_no=".db_escape($trans_no)." AND
-				fa_trans_type=".db_escape($trans_type)." AND
-				status = 1";
-		display_notification($sql);
-		db_query($sql, 'Could not void transaction');
-	}
+
 }
 ?>

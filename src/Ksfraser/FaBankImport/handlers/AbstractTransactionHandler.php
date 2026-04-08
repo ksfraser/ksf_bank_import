@@ -1,17 +1,6 @@
 <?php
 
 /**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :AbstractTransactionHandler [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for AbstractTransactionHandler.
- */
-/**
  * Abstract Transaction Handler Base Class
  *
  * Provides common implementation for transaction handlers to eliminate duplication

@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :BankTransaction [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for BankTransaction.
- */
 namespace Ksfraser\FaBankImport\Models;
 
 use Ksfraser\FaBankImport\Database\DatabaseFactory;

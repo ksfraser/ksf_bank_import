@@ -1,17 +1,6 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionTypeLabel [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionTypeLabel.
- */
-namespace Ksfraser\FaBankImport\Views;
+namespace Ksfraser\FaBankImport;
 
 
 /**//*****************************************************************

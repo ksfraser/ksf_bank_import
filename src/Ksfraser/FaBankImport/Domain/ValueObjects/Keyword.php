@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :Keyword [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for Keyword.
- */
 namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 
 use InvalidArgumentException;

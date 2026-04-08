@@ -1,22 +1,11 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :AddVendorButton [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for AddVendorButton.
- */
-namespace Ksfraser\FaBankImport\Views;
+namespace Ksfraser\FaBankImport;
 
 
 use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
 use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
-require_once( __DIR__ . "/HTML_ROW_LABELDecorator.php" );
+require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
 
 
 

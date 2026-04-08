@@ -1,22 +1,9 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :DatabaseUploadedFileRepository [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for DatabaseUploadedFileRepository.
- */
 namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\FaBankImport\Entity\UploadedFile;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
-use Ksfraser\ModulesDAO\Db\DbAdapterInterface;
-use Ksfraser\ModulesDAO\Db\FaDbAdapter;
 
 /**
  * Database Implementation of Uploaded File Repository
@@ -32,14 +19,6 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
 {
     private const TABLE_FILES = 'bi_uploaded_files';
     private const TABLE_LINKS = 'bi_file_statements';
-
-    /** @var DbAdapterInterface */
-    private $db;
-
-    public function __construct(?DbAdapterInterface $db = null)
-    {
-        $this->db = $db ?? new FaDbAdapter();
-    }
     
     /**
      * Ensure database tables exist (auto-migration on first use)
@@ -50,7 +29,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     {
         // Check if tables exist
         $check = "SHOW TABLES LIKE '" . TB_PREF . self::TABLE_FILES . "'";
-        $result = $this->db->query($check);
+        $result = db_query($check);
         
         if (db_num_rows($result) === 0) {
             // Tables don't exist, create them
@@ -88,7 +67,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
         COMMENT='File metadata only - actual files stored in company directory'";
         
-        $this->db->query($sql, "Failed to create bi_uploaded_files table");
+        db_query($sql, "Failed to create bi_uploaded_files table");
         
         // Create bi_file_statements link table
         $sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . self::TABLE_LINKS . "` (
@@ -99,7 +78,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         COMMENT='Links uploaded files to imported statements (many-to-many)'";
         
-        $this->db->query($sql, "Failed to create bi_file_statements table");
+        db_query($sql, "Failed to create bi_file_statements table");
     }
     
     /**
@@ -129,11 +108,11 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                     " . db_escape($file->getUploadDate()->format('Y-m-d H:i:s')) . ",
                     " . db_escape($file->getUploadUser()) . ",
                     " . db_escape($file->getParserType()) . ",
-                    " . ($file->getBankAccountId() !== null ? (int)$file->getBankAccountId() : 'NULL') . ",
+                    " . db_escape($file->getBankAccountId()) . ",
                     " . db_escape($file->getNotes()) . "
                 )";
         
-        if (!$this->db->query($sql, "Failed to save file metadata")) {
+        if (!db_query($sql, "Failed to save file metadata")) {
             throw new \RuntimeException("Failed to save file metadata to database");
         }
         
@@ -156,9 +135,9 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         $sql = "SELECT * FROM " . TB_PREF . self::TABLE_FILES . "
                 WHERE id = " . db_escape($id);
         
-        $result = $this->db->query($sql, "Failed to find file by ID");
+        $result = db_query($sql, "Failed to find file by ID");
         
-        if ($row = $this->db->fetch($result)) {
+        if ($row = db_fetch($result)) {
             return $this->hydrateEntity($row);
         }
         
@@ -186,9 +165,9 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                 ORDER BY upload_date DESC
                 LIMIT 1";
         
-        $result = $this->db->query($sql, "Failed to check for duplicates");
+        $result = db_query($sql, "Failed to check for duplicates");
         
-        if ($row = $this->db->fetch($result)) {
+        if ($row = db_fetch($result)) {
             return $this->hydrateEntity($row);
         }
         
@@ -217,7 +196,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                     (file_id, statement_id)
                     VALUES (" . db_escape($fileId) . ", " . db_escape($statementId) . ")";
             
-            if (!$this->db->query($sql, "Failed to link file to statement")) {
+            if (!db_query($sql, "Failed to link file to statement")) {
                 $success = false;
             }
         }
@@ -246,32 +225,14 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                 WHERE fs.file_id = " . db_escape($fileId) . "
                 ORDER BY s.smtDate DESC";
         
-        $result = $this->db->query($sql, "Failed to get linked statements");
+        $result = db_query($sql, "Failed to get linked statements");
         
         $statements = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $statements[] = $row;
         }
         
         return $statements;
-    }
-    
-    /**
-     * Update bank account ID for a file
-     * 
-     * @param int $fileId File ID
-     * @param int $bankAccountId Bank account ID
-     * @return bool Success
-     */
-    public function updateBankAccountId(int $fileId, int $bankAccountId): bool
-    {
-        $this->ensureTablesExist();
-        
-        $sql = "UPDATE " . TB_PREF . self::TABLE_FILES . " 
-                SET bank_account_id = " . (int)$bankAccountId . "
-                WHERE id = " . db_escape($fileId);
-        
-        return $this->db->query($sql, "Failed to update bank account ID") ? true : false;
     }
     
     /**
@@ -292,7 +253,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                 )
                 WHERE id = " . db_escape($fileId);
         
-        return $this->db->query($sql, "Failed to update statement count") ? true : false;
+        return db_query($sql, "Failed to update statement count");
     }
     
     /**
@@ -310,13 +271,13 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         // Delete links first
         $sql = "DELETE FROM " . TB_PREF . self::TABLE_LINKS . "
                 WHERE file_id = " . db_escape($fileId);
-        $this->db->query($sql, "Failed to delete file links");
+        db_query($sql, "Failed to delete file links");
         
         // Delete file metadata
         $sql = "DELETE FROM " . TB_PREF . self::TABLE_FILES . "
                 WHERE id = " . db_escape($fileId);
         
-        return $this->db->query($sql, "Failed to delete file metadata") ? true : false;
+        return db_query($sql, "Failed to delete file metadata");
     }
     
     /**
@@ -353,76 +314,14 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
         $sql .= " ORDER BY upload_date DESC
                   LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
         
-        $result = $this->db->query($sql, "Failed to retrieve uploaded files");
+        $result = db_query($sql, "Failed to retrieve uploaded files");
         
         $files = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $files[] = $this->hydrateEntity($row);
         }
         
         return $files;
-    }
-    
-    /**
-     * Get all files that are not yet associated with an FA bank account
-     * 
-     * @return UploadedFile[]
-     */
-    public function findFilesWithMissingAccount(): array
-    {
-        $this->ensureTablesExist();
-        
-        $sql = "SELECT * FROM " . TB_PREF . self::TABLE_FILES . " 
-                WHERE (bank_account_id IS NULL OR bank_account_id = 0)
-                ORDER BY upload_date DESC";
-        
-        $result = $this->db->query($sql, "Failed to find files with missing account");
-        
-        $files = [];
-        while ($row = $this->db->fetch($result)) {
-            $files[] = $this->hydrateEntity($row);
-        }
-        
-        return $files;
-    }
-    
-    public function suggestAccountForFile(int $fileId): ?int
-    {
-        $this->ensureTablesExist();
-        
-        // 1. Get acctid values from statements linked to this file
-        $sql = "SELECT DISTINCT s.acctid 
-                FROM " . TB_PREF . "bi_statements s
-                JOIN " . TB_PREF . self::TABLE_LINKS . " fs ON s.id = fs.statement_id
-                WHERE fs.file_id = " . db_escape($fileId) . "
-                  AND s.acctid IS NOT NULL 
-                  AND s.acctid != ''";
-        
-        $result = $this->db->query($sql, "Failed to get acctids for suggestion");
-        
-        $acctids = [];
-        while ($row = $this->db->fetch($result)) {
-            $acctids[] = $row['acctid'];
-        }
-        
-        if (empty($acctids)) {
-            return null;
-        }
-        
-        // 2. Look up these acctids in the bi_bank_accounts mapping table
-        $in = array_map('db_escape', $acctids);
-        
-        $sql = "SELECT bank_account_id, COUNT(*) as cnt
-                FROM " . TB_PREF . "bi_bank_accounts
-                WHERE acctid IN (" . implode(',', $in) . ")
-                GROUP BY bank_account_id
-                ORDER BY cnt DESC
-                LIMIT 1";
-        
-        $result = $this->db->query($sql, "Failed to lookup bank account mapping");
-        $row = $this->db->fetch($result);
-        
-        return $row ? (int)$row['bank_account_id'] : null;
     }
     
     /**
@@ -454,12 +353,8 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
             $sql .= " AND parser_type = " . db_escape($filters['parser_type']);
         }
         
-        $result = $this->db->query($sql, "Failed to count files");
-        $row = $this->db->fetch($result);
-
-        if (!$row) {
-            return 0;
-        }
+        $result = db_query($sql, "Failed to count files");
+        $row = db_fetch($result);
         
         return (int)$row['cnt'];
     }
@@ -480,17 +375,8 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
                     MIN(upload_date) as first_upload
                 FROM " . TB_PREF . self::TABLE_FILES;
         
-        $result = $this->db->query($sql, "Failed to get storage statistics");
-        $stats = $this->db->fetch($result);
-
-        if (!$stats) {
-            return [
-                'total_files' => 0,
-                'total_size' => 0,
-                'latest_upload' => null,
-                'first_upload' => null,
-            ];
-        }
+        $result = db_query($sql, "Failed to get storage statistics");
+        $stats = db_fetch($result);
         
         return [
             'total_files' => (int)$stats['total_files'],

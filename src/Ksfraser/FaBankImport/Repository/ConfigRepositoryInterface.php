@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ConfigRepositoryInterface [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ConfigRepositoryInterface.
- */
 namespace Ksfraser\FaBankImport\Repository;
 
 /**

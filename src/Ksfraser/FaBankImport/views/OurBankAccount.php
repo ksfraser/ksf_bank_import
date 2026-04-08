@@ -1,23 +1,11 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :OurBankAccount [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for OurBankAccount.
- */
-namespace Ksfraser\FaBankImport\Views;
+namespace Ksfraser\FaBankImport;
 
 
 use Ksfraser\HTML\HtmlElementInterface;
-use Ksfraser\HTML\Composites\LabelRowBase;
 
-require_once( __DIR__ . '/../../HTML/Composites/LabelRowBase.php' );
+require_once( 'LabelRowBase.php' );
 
 class OurBankAccount extends LabelRowBase
 {

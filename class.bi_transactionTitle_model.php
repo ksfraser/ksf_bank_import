@@ -30,8 +30,22 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-class bi_transactionTitle_model {
-	use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+// require_once( '../ksf_modules_commone/class.generic_fa_interface.php' );
+use Ksfraser\common\GenericFaInterface;
+
+// require_once( '../ksf_modules_commone/defines.inc.php' );
+use Ksfraser\common\Defines;
+
+/**//**************************************************************************************************************
+* A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
+*
+*
+*
+*	***** WARNING *** WARNING *** WARNING *****
+*	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
+*
+******************************************************************************************************************/
+class bi_transationTitle_model extends GenericFaInterface {
 	var $id_bi_transactionTitle_model;	//!< Index of table
 
 	protected $transaction_id;		//Dream Payments order_num //WooCommerce	//OFX TRNUID		//MT940		//Paypal

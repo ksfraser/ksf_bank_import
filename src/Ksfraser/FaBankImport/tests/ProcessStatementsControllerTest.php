@@ -1,20 +1,9 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ProcessStatementsControllerTest [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ProcessStatementsControllerTest.
- */
 use PHPUnit\Framework\TestCase;
 use Controllers\ProcessStatementsController;
-use Ksfraser\FaBankImport\Services\ThirdPartyTransactionActionsInterface;
-use Ksfraser\FaBankImport\Views\TransactionView;
+use Models\SquareTransaction;
+use Views\TransactionView;
 
 class ProcessStatementsControllerTest extends TestCase
 {
@@ -24,7 +13,7 @@ class ProcessStatementsControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->transactionModelMock = $this->createMock(ThirdPartyTransactionActionsInterface::class);
+        $this->transactionModelMock = $this->createMock(SquareTransaction::class);
         $this->viewMock = $this->createMock(TransactionView::class);
 
         $this->controller = new ProcessStatementsController();
@@ -135,4 +124,3 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->processTransaction();
     }
 }
-

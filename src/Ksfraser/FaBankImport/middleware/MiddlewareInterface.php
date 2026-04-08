@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :MiddlewareInterface [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for MiddlewareInterface.
- */
 namespace Ksfraser\FaBankImport\Middleware;
 
 use Ksfraser\FaBankImport\Http\RequestHandler;

@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :bi_statements_modelTest [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for bi_statements_modelTest.
- */
 use PHPUnit\Framework\TestCase;
 
 class bi_statements_modelTest extends TestCase

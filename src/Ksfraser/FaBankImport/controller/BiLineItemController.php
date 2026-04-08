@@ -1,20 +1,8 @@
 <?php
+<namespace Ksfraser\FaBankImport\Controller;
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :BiLineItemController [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for BiLineItemController.
- */
-namespace Ksfraser\FaBankImport\Controller;
-
-use Ksfraser\FaBankImport\Models\BiLineItemModel;
-use Ksfraser\FaBankImport\Views\BiLineItemView;
+use Ksfraser\FaBankImport\Model\BiLineItemModel;
+use Ksfraser\FaBankImport\View\BiLineItemView;
 
 /**
  * Controller class for managing line item interactions.
@@ -36,4 +24,3 @@ class BiLineItemController
         $this->view->displayRight($this->model);
     }
 }
-

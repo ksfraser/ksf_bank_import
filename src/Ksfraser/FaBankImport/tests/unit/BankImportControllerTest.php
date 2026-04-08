@@ -1,19 +1,8 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :BankImportControllerTest [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for BankImportControllerTest.
- */
 use PHPUnit\Framework\TestCase;
 use Controllers\BankImportController;
-use Ksfraser\FaBankImport\Services\ThirdPartyTransactionActionsInterface;
+use Models\SquareTransaction;
 
 class BankImportControllerTest extends TestCase
 {
@@ -22,7 +11,7 @@ class BankImportControllerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->transactionModelMock = $this->createMock(ThirdPartyTransactionActionsInterface::class);
+        $this->transactionModelMock = $this->createMock(SquareTransaction::class);
         $this->controller = new BankImportController();
         $this->controller->transactionModel = $this->transactionModelMock;
     }
@@ -66,4 +55,3 @@ class BankImportControllerTest extends TestCase
         $this->controller->processTransaction();
     }
 }
-

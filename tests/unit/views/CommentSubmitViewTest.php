@@ -167,7 +167,7 @@ class CommentSubmitViewTest extends TestCase
         $this->assertStringContainsString('name="comment_333"', $html);
         
         // Input should have size attribute based on comment length
-        $this->assertRegExp('/size="\d+"/', $html);
+        $this->assertMatchesRegularExpression('/size="\d+"/', $html);
     }
     
     /**

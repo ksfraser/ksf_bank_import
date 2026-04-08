@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :SimpleContainer [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for SimpleContainer.
- */
 namespace Ksfraser\FaBankImport\Container;
 
 use ReflectionClass;
@@ -54,14 +43,14 @@ use RuntimeException;
 class SimpleContainer
 {
     /**
-     * @var array<string, mixed> Registered bindings
+     * @var array Registered bindings
      */
-    private array $bindings = [];
+    private $bindings = [];
 
     /**
-     * @var array<string, object> Singleton instances
+     * @var array Singleton instances
      */
-    private array $instances = [];
+    private $instances = [];
 
     /**
      * Bind a class/interface to an implementation

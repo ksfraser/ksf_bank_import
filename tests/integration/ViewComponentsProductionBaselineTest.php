@@ -53,9 +53,9 @@ class ViewComponentsProductionBaselineTest extends TestCase
         $content = file_get_contents($file);
         
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\Composites\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\HTML_LABEL_ROW;',
             $content,
-            'CURRENT BASELINE: AddCustomerButton uses Ksfraser\HTML\Composites namespace'
+            'PROD BASELINE: AddCustomerButton uses Ksfraser\HTML namespace (not Composites)'
         );
         
         $this->assertStringContainsString(
@@ -83,9 +83,9 @@ class ViewComponentsProductionBaselineTest extends TestCase
         $content = file_get_contents($file);
         
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\Composites\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\HTML_LABEL_ROW;',
             $content,
-            'CURRENT BASELINE: AddNoButton uses Ksfraser\HTML\Composites namespace'
+            'PROD BASELINE: AddNoButton uses Ksfraser\HTML namespace (not Composites)'
         );
         
         $this->assertStringContainsString(
@@ -113,9 +113,9 @@ class ViewComponentsProductionBaselineTest extends TestCase
         $content = file_get_contents($file);
         
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\Composites\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\HTML_LABEL_ROW;',
             $content,
-            'CURRENT BASELINE: AddVendorButton uses Ksfraser\HTML\Composites namespace'
+            'PROD BASELINE: AddVendorButton uses Ksfraser\HTML namespace (not Composites)'
         );
         
         $this->assertStringContainsString(
@@ -133,12 +133,9 @@ class ViewComponentsProductionBaselineTest extends TestCase
     
     /**
      * @test
-     * CURRENT BASELINE: All view components use Ksfraser\FaBankImport namespace (with subnamespaces)
-     * 
-     * NOTE: Post-refactoring, components use subnamespaces (Views/, Buttons/, etc.)
-     * for better organization and PSR-4 compliance.
+     * PROD BASELINE: All view components use Ksfraser\FaBankImport namespace
      */
-    public function testCurrentBaseline_AllComponentsUseKsfraserFaBankImportNamespace()
+    public function testProdBaseline_AllComponentsUseFaBankImportNamespace()
     {
         $files = [
             'AddCustomerButton.php',
@@ -153,11 +150,10 @@ class ViewComponentsProductionBaselineTest extends TestCase
             $file = $this->viewsDir . $filename;
             if (file_exists($file)) {
                 $content = file_get_contents($file);
-                // Components now use namespace Ksfraser\FaBankImport\Views or similar
                 $this->assertStringContainsString(
-                    'namespace Ksfraser\FaBankImport\\',
+                    'namespace Ksfraser\FaBankImport;',
                     $content,
-                    "CURRENT BASELINE: {$filename} must use Ksfraser\FaBankImport namespace hierarchy"
+                    "PROD BASELINE: {$filename} must use Ksfraser\FaBankImport namespace"
                 );
             }
         }
@@ -165,11 +161,9 @@ class ViewComponentsProductionBaselineTest extends TestCase
     
     /**
      * @test
-     * CURRENT BASELINE: Components use Composites for HTML structure
-     * 
-     * NOTE: This is the current best practice for component composition.
+     * PROD BASELINE: Components do NOT use Composites subnamespace (added in main)
      */
-    public function testCurrentBaseline_ComponentsUseComposites()
+    public function testProdBaseline_NoCompositesSubnamespace()
     {
         $files = [
             'AddCustomerButton.php',
@@ -181,10 +175,10 @@ class ViewComponentsProductionBaselineTest extends TestCase
             $file = $this->viewsDir . $filename;
             if (file_exists($file)) {
                 $content = file_get_contents($file);
-                $this->assertStringContainsString(
+                $this->assertStringNotContainsString(
                     'Ksfraser\HTML\Composites',
                     $content,
-                    "CURRENT BASELINE: {$filename} should use Composites for structure"
+                    "PROD BASELINE: {$filename} should NOT use Composites subnamespace (added in main)"
                 );
             }
         }

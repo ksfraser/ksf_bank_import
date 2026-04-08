@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ConfigService [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ConfigService.
- */
 namespace Ksfraser\FaBankImport\Config;
 
 use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
@@ -27,15 +16,9 @@ use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
  */
 class ConfigService
 {
-    /**
-     * @var self|null
-     */
-    private static $instance = null;
-
-    /**
-     * @var ConfigRepositoryInterface
-     */
-    private $repository;
+    private static ?self $instance = null;
+    
+    private ConfigRepositoryInterface $repository;
     
     /**
      * Constructor - Dependency Injection

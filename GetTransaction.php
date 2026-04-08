@@ -7,18 +7,7 @@
 
 $path_to_root = "../..";
 
-$commonDir = __DIR__ . '/../ksf_modules_common';
-$commonDefines = $commonDir . '/defines.inc.php';
-$faTypesInc = $commonDir . '/../../includes/types.inc';
-$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-
-if (!$forceMocks && is_file($commonDefines) && is_file($faTypesInc)) {
-	require_once($commonDefines);
-}
-
-
+require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
 require_once( 'class.bi_transactions.php' );
 
 class GetTransaction extends bi_transactions_model  {

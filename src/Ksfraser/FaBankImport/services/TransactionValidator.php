@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionValidator [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionValidator.
- */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\Application\Config\Config;

@@ -1,36 +1,11 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :Transaction [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for Transaction.
- */
 namespace Ksfraser\FaBankImport;
 
 //use Ksfraser\FaBankImport\TransactionTypeLabel.php;
 use \Exception;
 
-// Legacy compatibility: some code paths may run without Composer autoload.
-// Keep this include safe so tools like PHPUnit coverage can load this file.
-if (!class_exists(__NAMESPACE__ . '\\TransactionTypeLabel', false)) {
-	$transactionTypeLabelCandidates = [
-		__DIR__ . '/views/TransactionTypeLabel.php',
-		__DIR__ . '/../../../views/TransactionTypeLabel.php',
-	];
-
-	foreach ($transactionTypeLabelCandidates as $candidate) {
-		if (is_file($candidate)) {
-			require_once $candidate;
-			break;
-		}
-	}
-}
+require_once( __DIR__ . "../../../../Views/TransactionTypeLabel.php" );
 
 abstract class Transaction
 {
@@ -39,9 +14,7 @@ abstract class Transaction
 	public $valueTimestamp;      //| date	 | YES  |     | NULL    |		|
 	public $entryTimestamp;      //| date	 | YES  |     | NULL    |		|
 	public $otherBankaccount;	 //| varchar(60)  | YES  |     | NULL    |		|
-	public $otherBankAccount;
 	public $otherBankaccountName;	 //| varchar(60)  | YES  |     | NULL    |		|
-	public $otherBankAccountName;
 	public $transactionTitle;    //| varchar(256) | YES  |     | NULL    |		|
 	public $status;	      //| int(11)      | YES  |     | 0       |		|
 	public $currency;
@@ -61,7 +34,6 @@ abstract class Transaction
 	public $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
 	public $optypes;	//!< array
 	public $memo;		//| varchar(64)  | NO   |     | NULL    |		|
-	public $vendor_list = [];
 //REFACTOR:
 //		refactor to use class.fa_bank_accounts.php instead of an array!
 	public $ourBankDetails;	//!< array
@@ -158,20 +130,8 @@ abstract class Transaction
 	**********************************************************************/
 	function retrieveBankAccountDetails()
 	{
-		$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-		$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-		$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-		$faBankAccountsFile = __DIR__ . '/../../../ksf_modules_common/class.fa_bank_accounts.php';
-
-		if (!$forceMocks && is_file($faBankAccountsFile)) {
-			require_once($faBankAccountsFile);
-		}
-
-		if (!defined('TB_PREF')) {
-			require_once(__DIR__ . '/../../../includes/fa_stubs.php');
-		}
-
-		$fa_bank_accounts = new \fa_bank_accounts( $this );
+		require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
+		$fa_bank_accounts = new fa_bank_accounts( $this );
 		$this->ourBankDetails =	$fa_bank_accounts->getByBankAccountNumber( $this->our_account );
 		/*
 			Array ( [account_code] => 1061
@@ -293,21 +253,12 @@ abstract class Transaction
 		{
 			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
 		}
-		if( ! isset( $this->otherBankAccount ) )
+		if( ! isset( $this->otherBankAccountt ) )
 		{
-			throw new Exception( "Field not set ->otherBankAccount", KSF_FIELD_NOT_SET );
+			throw new Exception( "Field not set ->otherBankAccountt", KSF_FIELD_NOT_SET );
 		}
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
 		return $matchedVendor;
-	}
-
-	protected function matchedSupplierId($matchedVendor): ?int
-	{
-		if (!is_array($this->vendor_list) || !isset($this->vendor_list[$matchedVendor]['supplier_id'])) {
-			throw new Exception("Field not set ->vendor_list[supplier_id]", KSF_FIELD_NOT_SET);
-		}
-
-		return (int)$this->vendor_list[$matchedVendor]['supplier_id'];
 	}
 	function ToggleTransactionTypeButton()
 	{

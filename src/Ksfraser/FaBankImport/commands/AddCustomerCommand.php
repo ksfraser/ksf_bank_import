@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :AddCustomerCommand [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for AddCustomerCommand.
- */
 namespace Ksfraser\FaBankImport\Commands;
 
 use Ksfraser\FaBankImport\Contracts\CommandInterface;
@@ -35,9 +24,9 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  */
 class AddCustomerCommand implements CommandInterface
 {
-    private array $postData;
-    private object $customerService;
-    private object $transactionRepository;
+    private $postData;
+    private $customerService;
+    private $transactionRepository;
 
     /**
      * Constructor
@@ -47,9 +36,9 @@ class AddCustomerCommand implements CommandInterface
      * @param object $transactionRepository Repository to fetch transaction data
      */
     public function __construct(
-        array $postData,
-        object $customerService,
-        object $transactionRepository
+        $postData,
+        $customerService,
+        $transactionRepository
     ) {
         $this->postData = $postData;
         $this->customerService = $customerService;

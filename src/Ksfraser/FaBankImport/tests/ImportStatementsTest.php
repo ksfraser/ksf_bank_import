@@ -1,16 +1,4 @@
 <?php
-
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ImportStatementsTest [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ImportStatementsTest.
- */
 use PHPUnit\Framework\TestCase;
 
 class ImportStatementsTest extends TestCase

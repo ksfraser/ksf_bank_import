@@ -1,20 +1,9 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransType [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransType.
- */
-namespace Ksfraser\FaBankImport\Views;
+namespace Ksfraser\FaBankImport;
 
 use Ksfraser\HTML\Composites\LabelRowBase;
-require_once( __DIR__ . '/../../../Ksfraser/HTML/Composites/LabelRowBase.php' );
+require_once( __DIR__ . '/../../HTML/LabelRowBase.php' );
 
 class TransType extends LabelRowBase
 {

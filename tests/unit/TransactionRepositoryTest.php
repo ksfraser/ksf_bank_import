@@ -24,6 +24,7 @@ class TransactionRepositoryTest extends TestCase
     {
         $result = $this->repository->findByStatus('nonexistent');
         $this->assertIsArray($result);
+        $this->assertEmpty($result);
     }
 
     public function testUpdateReturnsTrueOnSuccess()

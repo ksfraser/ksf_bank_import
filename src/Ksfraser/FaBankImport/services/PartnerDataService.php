@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :PartnerDataService [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for PartnerDataService.
- */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\PartnerData;

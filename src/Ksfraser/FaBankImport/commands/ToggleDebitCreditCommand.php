@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ToggleDebitCreditCommand [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ToggleDebitCreditCommand.
- */
 namespace Ksfraser\FaBankImport\Commands;
 
 use Ksfraser\FaBankImport\Contracts\CommandInterface;
@@ -35,8 +24,8 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  */
 class ToggleDebitCreditCommand implements CommandInterface
 {
-    private array $postData;
-    private object $transactionService;
+    private $postData;
+    private $transactionService;
 
     /**
      * Constructor
@@ -45,8 +34,8 @@ class ToggleDebitCreditCommand implements CommandInterface
      * @param object $transactionService Service for transaction operations
      */
     public function __construct(
-        array $postData,
-        object $transactionService
+        $postData,
+        $transactionService
     ) {
         $this->postData = $postData;
         $this->transactionService = $transactionService;

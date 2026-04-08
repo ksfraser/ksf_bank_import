@@ -16,9 +16,7 @@
 $page_security = 'SA_BANKFILEVIEW';
 $path_to_root = "../..";
 
-
 include_once($path_to_root . "/includes/session.inc");
-if (function_exists('add_access_extensions')) add_access_extensions();
 include_once($path_to_root . "/includes/ui.inc");
 include_once($path_to_root . "/includes/date_functions.inc");
 

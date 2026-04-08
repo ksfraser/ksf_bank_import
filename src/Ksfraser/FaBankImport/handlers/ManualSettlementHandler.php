@@ -1,16 +1,4 @@
 <?php
-
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ManualSettlementHandler [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ManualSettlementHandler.
- */
 /**
  * ManualSettlementHandler.php
  * 

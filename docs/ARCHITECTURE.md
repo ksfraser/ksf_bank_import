@@ -61,14 +61,9 @@ The KSF Bank Import module follows a **service-oriented architecture** based on 
         │ depends on
         ▼
     ┌─────────────────────────────────────────────────────┐
-    │          Service Layer (EXPANDED Feb 2026)          │
+    │          Service Layer (EXPANDED Oct 2025)          │
     │                                                     │
-    │  FileUploadService (NEW)                            │
-    │  + upload(fileInfo, parserType, accountId): result  │
-    │  + getAuditCandidates(): array                      │
-    │  + resolveMissingAccount(fileId, accountId): bool   │
-    │                                                     │
-    │  ReferenceNumberService                             │
+    │  ReferenceNumberService (NEW)                       │
     │  + getUniqueReference(transType): string            │
     │                                                     │
     │  PairedTransferProcessor                            │
@@ -114,8 +109,6 @@ The KSF Bank Import module follows a **service-oriented architecture** based on 
     │                                                     │
     │  Database (via FA)                                  │
     │  - bi_transactions                                  │
-    │  - bi_uploaded_files (NEW - 2026)                   │
-    │  - bi_file_statements (NEW - 2026)                  │
     │  - bank_transfers (FA managed)                      │
     └─────────────────────────────────────────────────────┘
 ```
@@ -163,23 +156,7 @@ The KSF Bank Import module follows a **service-oriented architecture** based on 
 
 ## Core Services
 
-### 1. FileUploadService (Feb 2026)
-**Responsibility:** Orchestrates bank file uploads and metadata management.
-
-**Key Methods:**
-- `upload($fileInfo, $parserType, $bankAccountId)` - Stores physical file and records metadata.
-- `getAuditCandidates()` - Identifies files missing bank account associations.
-- `resolveMissingAccount($fileId, $bankAccountId)` - Manually links an uploaded file to an FA bank account.
-
-**Dependencies:**
-- UploadedFileRepositoryInterface
-- FileStorageServiceInterface
-- DuplicateDetector
-- ConfigRepositoryInterface
-
-**Location:** `Service/FileUploadService.php`
-
-### 2. PairedTransferProcessor
+### 1. PairedTransferProcessor
 **Responsibility:** Orchestrates the entire paired transfer workflow
 
 **Key Methods:**
@@ -647,25 +624,6 @@ Result: MATCH - Transfer from Account A to Account B
 - linked_transfer_id (INT) - FK to bank_transfers
 ```
 
-**`bi_uploaded_files`** - Tracking of uploaded bank files (Mantis #2708)
-```sql
-- id (INT) - File ID
-- filename (VARCHAR) - Stored unique filename
-- original_filename (VARCHAR) - Original upload name
-- file_size (BIGINT) - Size in bytes
-- file_type (VARCHAR) - MIME type
-- upload_date (DATETIME) - Timestamp
-- parser_type (VARCHAR) - e.g. qfx, csv
-- bank_account_id (INT, NULLABLE) - Associated FA bank account
-- statement_count (INT) - Number of linked statements
-```
-
-**`bi_file_statements`** - Many-to-many link between files and statements
-```sql
-- file_id (INT) - FK to bi_uploaded_files
-- statement_id (INT) - FK to bi_statements
-```
-
 **`bank_transfers`** (FrontAccounting)
 ```sql
 - id (INT) - Transfer ID
@@ -946,7 +904,60 @@ $processor->processTransfer($trz1, $trz2, $account1, $account2);
 - [SOLID Principles](https://en.wikipedia.org/wiki/SOLID)
 - [FrontAccounting API](https://frontaccounting.com/)
 
+## Performance Optimizations
+
+### Pagination Layer (April 2025) - HOTFIX
+
+**Hotfix Branch:** `hotfix/pagination-limit`
+
+**Problem Solved:** Database timeout on Process Statement page (5+ seconds) due to excessive query results
+
+**Solution:** Added LIMIT/OFFSET pagination at the query layer with minimal code changes
+
+**Implementation Details:**
+
+#### Database Query Layer (`class.bi_transactions.php`)
+- Method: `get_transactions()` now accepts `$offset` and `$limit_page` parameters
+- Default: 5 rows per page (targets <1 second query execution)
+- Returns pagination metadata: total_count, current_page, total_pages, limit, offset
+- Backward compatible: existing calls work unchanged with default pagination
+
+#### Controller Updates (`process_statements.php`)
+- Initializes pagination from `$_POST['current_page']` and `$_POST['page_size']`
+- Extracts transactions from result wrapper before passing to view
+- Passes pagination metadata to ProcessStatementsView
+
+#### UI Layer (`ProcessStatementsView.php`)
+- Added `setPaginationData()` method to receive pagination info
+- Added `renderPaginationControls()` method with Previous/Next buttons
+- Go-to-page direct input for quick navigation
+- Displays: "Page X of Y (Total: Z rows)"
+
+**Performance Impact:**
+- Query time: 5+ seconds → <1 second (with default LIMIT 5)
+- Memory usage: ~500 rows → ~5 rows per page
+- Backward compatibility: 100% - all existing calls work unchanged
+
+**Documentation:** See [PAGINATION_HOTFIX.md](../PAGINATION_HOTFIX.md) for complete details
+
+**Testing:** 12 comprehensive unit tests in `tests/unit/BiTransactionsPaginationTest.php`
+
+**Architecture Notes:**
+- Hotfix uses procedural code (no new service dependencies) for rapid deployment
+- Designed to coexist with service-oriented architecture
+- Future migration path: extract into service layer (PaginationService) if needed
+- Minimal line changes (<15 per file) reduces regression risk
+
+---
+
 ## Version History
+
+- **1.2.1** - April 2025 - Production Hotfix: Pagination (HOTFIX BRANCH)
+  - Added LIMIT/OFFSET pagination to bi_transactions.get_transactions()
+  - Reduced query time from 5+ seconds to <1 second
+  - Added ProcessStatementsView pagination UI controls
+  - Full backward compatibility maintained
+  - See: [PAGINATION_HOTFIX.md](../PAGINATION_HOTFIX.md) for deployment guide
 
 - **1.2.0** - October 21, 2025 - POST Action Handler Refactoring (Command Pattern)
   - Added CommandDispatcher (Front Controller for POST actions)

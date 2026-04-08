@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionService [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionService.
- */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface;

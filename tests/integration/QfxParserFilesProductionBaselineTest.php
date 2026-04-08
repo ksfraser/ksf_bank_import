@@ -1,22 +1,37 @@
 <?php
 /**
- * DEPRECATED: QFX Parser Files Production Baseline Test
+ * Production Baseline Test for QFX Parser Files Location
  * 
- * This test documents the KNOWN-GOOD state of QFX parser files from the 
- * legacy production-bank-import-2025 branch (pre-namespace reorganization).
+ * This test documents the KNOWN-GOOD state of QFX parser files
+ * from the prod-bank-import-2025 branch (pre-namespace reorganization).
  * 
- * DISABLED: Modern codebase uses ksfraser/ksf_ofxparser Packagist package
- * (v0.1.1+) instead of root-level parser files. The individual QFX parser
- * classes have been consolidated into the OFX Parser library.
+ * PROD BASELINE CHARACTERISTICS:
+ * - Five QFX parser files exist in ROOT directory:
+ *   - class.AbstractQfxParser.php (91 lines)
+ *   - class.CibcQfxParser.php (91 lines)
+ *   - class.ManuQfxParser.php (91 lines)
+ *   - class.PcmcQfxParser.php (91 lines)
+ *   - class.QfxParserFactory.php (91 lines)
+ * - Each file has @author Kevin Fraser / ChatGPT annotation
+ * - Each file has @since 20250409 annotation
+ * - Files contain abstract class AbstractQfxParser and concrete implementations
+ * - Files use require_once (__DIR__ . '/vendor/autoload.php')
+ * - Files have detectBank() and detectBankId() protected methods
+ * - NO namespace declarations (plain PHP classes)
  * 
- * During refactoring to use the shared OFX Parser library, the root-level
- * class files were removed as the library provides the same functionality
- * with better maintainability.
- *
+ * CHANGES IN MAIN (detected as test failures):
+ * - All 5 files DELETED from root directory (91 deletions each)
+ * - All 5 files MOVED to src/Ksfraser/FaBankImport/ directory
+ * - Files likely gained namespace declarations
+ * - Files likely gained PSR-4 autoloading compliance
+ * 
+ * TEST STRATEGY:
+ * Test for PRESENCE of files in root directory on PROD.
+ * Test for ABSENCE of files in src/Ksfraser/FaBankImport/ on PROD.
+ * 
  * @package Ksfraser\FaBankImport\Tests\Integration
  * @group ProductionBaseline
  * @group RegressionTest
- * @group deprecated
  */
 
 use PHPUnit\Framework\TestCase;
@@ -28,13 +43,8 @@ class QfxParserFilesProductionBaselineTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $this->markTestSkipped(
-            'QFX Parser baseline tests disabled. '
-            . 'Modern implementation uses ksfraser/ksf_ofxparser Packagist package (v0.1.1+) '
-            . 'instead of root-level class files. '
-            . 'Individual parser classes consolidated into shared OFX Parser library.'
-        );
+        $this->rootDir = __DIR__ . '/../..';
+        $this->srcDir = __DIR__ . '/../../src/Ksfraser/FaBankImport';
     }
 
     /**
@@ -122,7 +132,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         $filePath = $this->rootDir . '/class.CibcQfxParser.php';
         $content = file_get_contents($filePath);
         
-        $this->assertRegExp('/class\s+CibcQfxParser\s+extends\s+AbstractQfxParser/',
+        $this->assertMatchesRegularExpression('/class\s+CibcQfxParser\s+extends\s+AbstractQfxParser/',
             $content, 'PROD CibcQfxParser extends AbstractQfxParser');
     }
 
@@ -134,7 +144,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         $filePath = $this->rootDir . '/class.ManuQfxParser.php';
         $content = file_get_contents($filePath);
         
-        $this->assertRegExp('/class\s+ManuQfxParser\s+extends\s+AbstractQfxParser/',
+        $this->assertMatchesRegularExpression('/class\s+ManuQfxParser\s+extends\s+AbstractQfxParser/',
             $content, 'PROD ManuQfxParser extends AbstractQfxParser');
     }
 
@@ -147,7 +157,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         $content = file_get_contents($filePath);
         
         // Note: class name is PmcQfxParser, not PcmcQfxParser
-        $this->assertRegExp('/class\s+PmcQfxParser\s+extends\s+AbstractQfxParser/',
+        $this->assertMatchesRegularExpression('/class\s+PmcQfxParser\s+extends\s+AbstractQfxParser/',
             $content, 'PROD PcmcQfxParser file contains PmcQfxParser class');
     }
 
@@ -161,7 +171,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         
         $this->assertStringContainsString('class QfxParserFactory', $content,
             'PROD has QfxParserFactory class');
-        $this->assertRegExp('/public\s+(static\s+)?function\s+create/',
+        $this->assertMatchesRegularExpression('/public\s+(static\s+)?function\s+create/',
             $content, 'PROD has create factory method');
     }
 
@@ -215,7 +225,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         $filePath = $this->rootDir . '/class.AbstractQfxParser.php';
         $content = file_get_contents($filePath);
         
-        $this->assertRegExp('/abstract\s+public\s+function\s+parse/',
+        $this->assertMatchesRegularExpression('/abstract\s+public\s+function\s+parse/',
             $content, 'PROD AbstractQfxParser has abstract parse() method');
     }
 
@@ -258,7 +268,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         foreach ($files as $file) {
             $filePath = $this->rootDir . '/' . $file;
             $content = file_get_contents($filePath);
-            $this->assertRegExp('/require_once|include_once/',
+            $this->assertMatchesRegularExpression('/require_once|include_once/',
                 $content, "PROD {$file} uses require_once/include_once (not PSR-4)");
         }
     }

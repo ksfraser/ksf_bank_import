@@ -1,17 +1,6 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ToggleTransactionTypeButton [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ToggleTransactionTypeButton.
- */
-namespace Ksfraser\FaBankImport\Views;
+namespace Ksfraser\FaBankImport;
 
 
 use Ksfraser\HTML\Composites\HTML_LABEL_ROW;

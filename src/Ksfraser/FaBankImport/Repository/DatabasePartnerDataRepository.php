@@ -1,22 +1,9 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :DatabasePartnerDataRepository [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for DatabasePartnerDataRepository.
- */
 namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\PartnerData;
 use Ksfraser\FaBankImport\Domain\Exceptions\PartnerDataNotFoundException;
-use Ksfraser\ModulesDAO\Db\DbAdapterInterface;
-use Ksfraser\ModulesDAO\Db\FaDbAdapter;
 use RuntimeException;
 
 /**
@@ -34,21 +21,17 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     /**
      * @var string Table name (with TB_PREF)
      */
-    private $tableName;
-
-    /** @var DbAdapterInterface */
-    private $db;
+    private string $tableName;
 
     /**
      * Constructor
      */
-    public function __construct(?DbAdapterInterface $db = null)
+    public function __construct()
     {
         if (!defined('TB_PREF')) {
             throw new RuntimeException('TB_PREF constant not defined');
         }
         $this->tableName = TB_PREF . 'bi_partners_data';
-        $this->db = $db ?? new FaDbAdapter();
     }
 
     /**
@@ -61,15 +44,15 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
         string $data
     ): ?PartnerData {
         $sql = "SELECT * FROM `{$this->tableName}` 
-                WHERE partner_id = " . db_escape($partnerId) . "
-                AND partner_type = " . db_escape($partnerType) . "
-                AND partner_detail_id = " . db_escape($partnerDetailId) . "
-                AND data = " . db_escape($data) . "
+                WHERE partner_id = ? 
+                AND partner_type = ? 
+                AND partner_detail_id = ? 
+                AND data = ?
                 LIMIT 1";
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, [$partnerId, $partnerType, $partnerDetailId, $data]);
 
-        if ($row = $this->db->fetch($result)) {
+        if ($row = db_fetch($result)) {
             return PartnerData::fromArray($row);
         }
 
@@ -82,18 +65,20 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     public function findByPartner(int $partnerId, ?int $partnerType = null): array
     {
         $sql = "SELECT * FROM `{$this->tableName}` 
-                WHERE partner_id = " . db_escape($partnerId);
+                WHERE partner_id = ?";
+        $params = [$partnerId];
 
         if ($partnerType !== null) {
-            $sql .= " AND partner_type = " . db_escape($partnerType);
+            $sql .= " AND partner_type = ?";
+            $params[] = $partnerType;
         }
 
         $sql .= " ORDER BY occurrence_count DESC, data ASC";
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, $params);
 
         $partnerDataList = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $partnerDataList[] = PartnerData::fromArray($row);
         }
 
@@ -106,18 +91,20 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     public function findByKeyword(string $keyword, ?int $partnerType = null): array
     {
         $sql = "SELECT * FROM `{$this->tableName}` 
-                WHERE data LIKE " . db_escape('%' . $this->escapeLike($keyword) . '%');
+                WHERE data LIKE ?";
+        $params = ['%' . $this->escapeLike($keyword) . '%'];
 
         if ($partnerType !== null) {
-            $sql .= " AND partner_type = " . db_escape($partnerType);
+            $sql .= " AND partner_type = ?";
+            $params[] = $partnerType;
         }
 
         $sql .= " ORDER BY occurrence_count DESC, data ASC";
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, $params);
 
         $partnerDataList = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $partnerDataList[] = PartnerData::fromArray($row);
         }
 
@@ -138,8 +125,10 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
         // Build LIKE conditions for each keyword
         $likeClauses = [];
+        $params = [];
         foreach ($keywords as $keyword) {
-            $likeClauses[] = "data LIKE " . db_escape('%' . $this->escapeLike((string) $keyword) . '%');
+            $likeClauses[] = "data LIKE ?";
+            $params[] = '%' . $this->escapeLike($keyword) . '%';
         }
 
         $sql = "SELECT 
@@ -152,14 +141,15 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
                 WHERE (" . implode(' OR ', $likeClauses) . ")";
 
         if ($partnerType !== null) {
-            $sql .= " AND partner_type = " . db_escape($partnerType);
+            $sql .= " AND partner_type = ?";
+            $params[] = $partnerType;
         }
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, $params);
 
         // Group results by partner and calculate scores
         $partnerMatches = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $partnerKey = sprintf(
                 '%d_%d_%d',
                 $row['partner_id'],
@@ -209,10 +199,17 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
         // Use INSERT ... ON DUPLICATE KEY UPDATE for upsert
         $sql = "INSERT INTO `{$this->tableName}` 
                 (partner_id, partner_type, partner_detail_id, data, occurrence_count)
-                VALUES (" . db_escape($partnerData->getPartnerId()) . ", " . db_escape($partnerData->getPartnerType()) . ", " . db_escape($partnerData->getPartnerDetailId()) . ", " . db_escape($partnerData->getData()) . ", " . db_escape($partnerData->getOccurrenceCount()) . ")
-                ON DUPLICATE KEY UPDATE occurrence_count = " . db_escape($partnerData->getOccurrenceCount());
+                VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE occurrence_count = ?";
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, [
+            $partnerData->getPartnerId(),
+            $partnerData->getPartnerType(),
+            $partnerData->getPartnerDetailId(),
+            $partnerData->getData(),
+            $partnerData->getOccurrenceCount(),
+            $partnerData->getOccurrenceCount()
+        ]);
 
         return $result !== false;
     }
@@ -227,13 +224,13 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
         string $data
     ): bool {
         $sql = "DELETE FROM `{$this->tableName}` 
-                WHERE partner_id = " . db_escape($partnerId) . "
-                AND partner_type = " . db_escape($partnerType) . "
-                AND partner_detail_id = " . db_escape($partnerDetailId) . "
-                AND data = " . db_escape($data) . "
+                WHERE partner_id = ? 
+                AND partner_type = ? 
+                AND partner_detail_id = ? 
+                AND data = ?
                 LIMIT 1";
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, [$partnerId, $partnerType, $partnerDetailId, $data]);
 
         return $result !== false;
     }
@@ -244,13 +241,15 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     public function deleteByPartner(int $partnerId, ?int $partnerType = null): int
     {
         $sql = "DELETE FROM `{$this->tableName}` 
-                WHERE partner_id = " . db_escape($partnerId);
+                WHERE partner_id = ?";
+        $params = [$partnerId];
 
         if ($partnerType !== null) {
-            $sql .= " AND partner_type = " . db_escape($partnerType);
+            $sql .= " AND partner_type = ?";
+            $params[] = $partnerType;
         }
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, $params);
 
         // Since we don't have db_num_affected_rows, return 1 for success, 0 for failure
         return $result !== false ? 1 : 0;
@@ -269,10 +268,17 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
         // Use INSERT ... ON DUPLICATE KEY UPDATE
         $sql = "INSERT INTO `{$this->tableName}` 
                 (partner_id, partner_type, partner_detail_id, data, occurrence_count)
-                VALUES (" . db_escape($partnerId) . ", " . db_escape($partnerType) . ", " . db_escape($partnerDetailId) . ", " . db_escape($keyword) . ", " . db_escape($increment) . ")
-                ON DUPLICATE KEY UPDATE occurrence_count = occurrence_count + " . (int) $increment;
+                VALUES (?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE occurrence_count = occurrence_count + ?";
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, [
+            $partnerId,
+            $partnerType,
+            $partnerDetailId,
+            $keyword,
+            $increment,
+            $increment
+        ]);
 
         return $result !== false;
     }
@@ -283,17 +289,15 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     public function count(?int $partnerType = null): int
     {
         $sql = "SELECT COUNT(*) as total FROM `{$this->tableName}`";
+        $params = [];
 
         if ($partnerType !== null) {
-            $sql .= " WHERE partner_type = " . db_escape($partnerType);
+            $sql .= " WHERE partner_type = ?";
+            $params[] = $partnerType;
         }
 
-        $result = $this->db->query($sql);
-        $row = $this->db->fetch($result);
-
-        if (!$row) {
-            return 0;
-        }
+        $result = db_query($sql, $params);
+        $row = db_fetch($result);
 
         return (int)$row['total'];
     }
@@ -317,19 +321,22 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     {
         $sql = "SELECT data, SUM(occurrence_count) as total_occurrences
                 FROM `{$this->tableName}`";
+        $params = [];
 
         if ($partnerType !== null) {
-            $sql .= " WHERE partner_type = " . db_escape($partnerType);
+            $sql .= " WHERE partner_type = ?";
+            $params[] = $partnerType;
         }
 
         $sql .= " GROUP BY data
                   ORDER BY total_occurrences DESC
-                  LIMIT " . (int) $limit;
+                  LIMIT ?";
+        $params[] = $limit;
 
-        $result = $this->db->query($sql);
+        $result = db_query($sql, $params);
 
         $keywords = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $keywords[] = [
                 'data' => $row['data'],
                 'total_occurrences' => (int)$row['total_occurrences'],

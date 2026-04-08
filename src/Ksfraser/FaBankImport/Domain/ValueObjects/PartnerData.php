@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :PartnerData [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for PartnerData.
- */
 namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 
 use InvalidArgumentException;

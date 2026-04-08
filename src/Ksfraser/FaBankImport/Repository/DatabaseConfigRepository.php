@@ -1,20 +1,6 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :DatabaseConfigRepository [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for DatabaseConfigRepository.
- */
 namespace Ksfraser\FaBankImport\Repository;
-
-use Ksfraser\ModulesDAO\Db\DbAdapterInterface;
-use Ksfraser\ModulesDAO\Db\FaDbAdapter;
 
 /**
  * Database-backed Configuration Repository
@@ -29,22 +15,12 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
 {
     private const TABLE = 'bi_config';
     private const HISTORY_TABLE = 'bi_config_history';
-
-    /** @var DbAdapterInterface */
-    private $db;
     
     /** @var array In-memory cache of config values */
-    private $cache = [];
-    //private array $cache = [];
+    private array $cache = [];
     
     /** @var bool Whether cache is loaded */
-    private  $cacheLoaded = false;
-        public function __construct(?DbAdapterInterface $db = null)
-        {
-            $this->db = $db ?? new FaDbAdapter();
-        }
-
-    //private bool $cacheLoaded = false;
+    private bool $cacheLoaded = false;
     
     /**
      * Get configuration value by key
@@ -97,14 +73,14 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
                     updated_at = NOW(),
                     updated_by = " . db_escape($username);
         
-        $result = $this->db->query($sql, "Failed to update configuration");
+        $result = db_query($sql, "Failed to update configuration");
         
         if ($result) {
             // Record change in history
             $this->recordHistory($key, $oldValue, $value, $username, $reason);
             
-            // Update cache (convert value to string first, then cast to appropriate type)
-            $this->cache[$key] = $this->castValue($stringValue, $this->getConfigType($key));
+            // Update cache
+            $this->cache[$key] = $this->castValue($value, $this->getConfigType($key));
             
             return true;
         }
@@ -125,10 +101,10 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
                 WHERE category = " . db_escape($category) . "
                 ORDER BY config_key";
         
-        $result = $this->db->query($sql, "Failed to get configuration by category");
+        $result = db_query($sql, "Failed to get configuration by category");
         
         $configs = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $configs[$row['config_key']] = [
                 'value' => $this->castValue($row['config_value'], $row['config_type']),
                 'type' => $row['config_type'],
@@ -151,10 +127,10 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
                 FROM " . TB_PREF . self::TABLE . "
                 ORDER BY category, config_key";
         
-        $result = $this->db->query($sql, "Failed to get all configuration");
+        $result = db_query($sql, "Failed to get all configuration");
         
         $configs = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $category = $row['category'];
             if (!isset($configs[$category])) {
                 $configs[$category] = [];
@@ -200,7 +176,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
         $sql = "DELETE FROM " . TB_PREF . self::TABLE . "
                 WHERE config_key = " . db_escape($key);
         
-        $result = $this->db->query($sql, "Failed to delete configuration");
+        $result = db_query($sql, "Failed to delete configuration");
         
         if ($result) {
             unset($this->cache[$key]);
@@ -229,10 +205,10 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
         $sql .= " ORDER BY changed_at DESC
                   LIMIT " . (int)$limit;
         
-        $result = $this->db->query($sql, "Failed to get configuration history");
+        $result = db_query($sql, "Failed to get configuration history");
         
         $history = [];
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $history[] = $row;
         }
         
@@ -255,9 +231,9 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
         $sql = "SELECT config_key, config_value, config_type
                 FROM " . TB_PREF . self::TABLE;
         
-        $result = $this->db->query($sql, "Failed to load configuration");
+        $result = db_query($sql, "Failed to load configuration");
         
-        while ($row = $this->db->fetch($result)) {
+        while ($row = db_fetch($result)) {
             $this->cache[$row['config_key']] = $this->castValue(
                 $row['config_value'],
                 $row['config_type']
@@ -276,7 +252,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     {
         // Check if config table exists
         $check = "SHOW TABLES LIKE '" . TB_PREF . self::TABLE . "'";
-        $result = $this->db->query($check);
+        $result = db_query($check);
         
         if (db_num_rows($result) === 0) {
             // Tables don't exist, create them
@@ -310,7 +286,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         COMMENT='Bank Import Module Configuration'";
         
-        $this->db->query($sql, "Failed to create bi_config table");
+        db_query($sql, "Failed to create bi_config table");
         
         // Create bi_config_history table
         $sql = "CREATE TABLE IF NOT EXISTS `" . TB_PREF . self::HISTORY_TABLE . "` (
@@ -327,7 +303,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         COMMENT='Audit trail for configuration changes'";
         
-        $this->db->query($sql, "Failed to create bi_config_history table");
+        db_query($sql, "Failed to create bi_config_history table");
     }
     
     /**
@@ -375,7 +351,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
                         'system'
                     )";
             
-            $this->db->query($sql, "Failed to insert default config: $key");
+            db_query($sql, "Failed to insert default config: $key");
         }
     }
     
@@ -388,14 +364,6 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      */
     private function castValue(string $value, string $type)
     {
-        // Try to deserialize JSON arrays
-        if ((string)$value !== '' && in_array($value[0], ['{', '['])) {
-            $decoded = json_decode($value, true);
-            if (json_last_error() === JSON_ERROR_NONE && $decoded !== null) {
-                return $decoded;
-            }
-        }
-        
         switch ($type) {
             case 'boolean':
                 return (bool)(int)$value;
@@ -421,10 +389,6 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
             return $value ? '1' : '0';
         }
         
-        if (is_array($value)) {
-            return json_encode($value);
-        }
-        
         return (string)$value;
     }
     
@@ -439,9 +403,9 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
         $sql = "SELECT config_type FROM " . TB_PREF . self::TABLE . "
                 WHERE config_key = " . db_escape($key);
         
-        $result = $this->db->query($sql, "Failed to get config type");
+        $result = db_query($sql, "Failed to get config type");
         
-        if ($row = $this->db->fetch($result)) {
+        if ($row = db_fetch($result)) {
             return $row['config_type'];
         }
         
@@ -459,9 +423,9 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
         $sql = "SELECT is_system FROM " . TB_PREF . self::TABLE . "
                 WHERE config_key = " . db_escape($key);
         
-        $result = $this->db->query($sql, "Failed to check system config");
+        $result = db_query($sql, "Failed to check system config");
         
-        if ($row = $this->db->fetch($result)) {
+        if ($row = db_fetch($result)) {
             return (bool)$row['is_system'];
         }
         
@@ -489,6 +453,6 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
                     " . db_escape($reason) . "
                 )";
         
-        $this->db->query($sql, "Failed to record configuration history");
+        db_query($sql, "Failed to record configuration history");
     }
 }
