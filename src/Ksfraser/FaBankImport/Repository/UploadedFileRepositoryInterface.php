@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :UploadedFileRepositoryInterface [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for UploadedFileRepositoryInterface.
- */
 namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\FaBankImport\Entity\UploadedFile;
@@ -72,15 +61,6 @@ interface UploadedFileRepositoryInterface
     public function getLinkedStatements(int $fileId): array;
     
     /**
-     * Update bank account ID for a file
-     * 
-     * @param int $fileId File ID
-     * @param int $bankAccountId Bank account ID
-     * @return bool Success
-     */
-    public function updateBankAccountId(int $fileId, int $bankAccountId): bool;
-
-    /**
      * Update statement count for a file
      * 
      * @param int $fileId File ID
@@ -105,21 +85,6 @@ interface UploadedFileRepositoryInterface
      * @return array Array of UploadedFile entities
      */
     public function findAll(array $filters = [], int $limit = 100, int $offset = 0): array;
-    
-    /**
-     * Get all files that are not yet associated with an FA bank account
-     * 
-     * @return UploadedFile[]
-     */
-    public function findFilesWithMissingAccount(): array;
-    
-    /**
-     * Suggest an FA bank account ID based on the statements linked to this file
-     * 
-     * @param int $fileId File ID
-     * @return int|null Suggested bank account ID or null if cannot suggest
-     */
-    public function suggestAccountForFile(int $fileId): ?int;
     
     /**
      * Get total file count

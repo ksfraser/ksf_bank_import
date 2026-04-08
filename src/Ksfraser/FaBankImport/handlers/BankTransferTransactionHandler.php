@@ -1,16 +1,4 @@
 <?php
-
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :BankTransferTransactionHandler [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for BankTransferTransactionHandler.
- */
 /**
  * BankTransferTransactionHandler.php
  * 
@@ -38,7 +26,6 @@
 namespace Ksfraser\FaBankImport\Handlers;
 
 use Ksfraser\FaBankImport\Results\TransactionResult;
-use Ksfraser\Exceptions\Domain\InvalidBankAccountException;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\BankTransferPartnerType;
 
@@ -94,21 +81,11 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             );
         }
 
-        // Load external fa_bank_transfer class (mock-safe)
-        $faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-        $useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-        $forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
+        // Load external fa_bank_transfer class
         $faClassPath = $this->getFaBankTransferClassPath();
-
-        if (!$forceMocks && is_file($faClassPath)) {
-            require_once($faClassPath);
-        }
-
-        if (!defined('TB_PREF')) {
-            require_once(dirname(__DIR__, 4) . '/includes/fa_stubs.php');
-        }
-
-        if (!class_exists('fa_bank_transfer')) {
+        $inc = require_once($faClassPath);
+        
+        if (!$inc || !class_exists('fa_bank_transfer')) {
             return $this->createErrorResult(
                 'Failed to load fa_bank_transfer class'
             );
@@ -183,13 +160,6 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
                 );
             }
             
-            // Validate that FROM and TO accounts are not the same
-            $fromAccount = $bttrf->get("FromBankAccount");
-            $toAccount = $bttrf->get("ToBankAccount");
-            if ($fromAccount == $toAccount) {
-                throw InvalidBankAccountException::fromAndToAccountsAreSame($fromAccount);
-            }
-            
             // Set amount and date
             $bttrf->set("amount", $transaction['transactionAmount']);
             $bttrf->set("trans_date", $transaction['valueTimestamp']);
@@ -221,10 +191,6 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             
             $bttrf->set("memo_", $fullMemo);
             
-        } catch (InvalidBankAccountException $e) {
-            // Display user-friendly error message for invalid bank account
-            display_error(_($e->getMessage()));
-            return $this->createErrorResult($e->getMessage());
         } catch (\Exception $e) {
             return $this->createErrorResult(
                 'Failed to configure bank transfer: ' . $e->getMessage()

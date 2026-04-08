@@ -7,19 +7,9 @@ if (!defined('FA_ROOT')) {
 }
 
 // Load FA UI functions in global namespace
-$uiInput = FA_ROOT . "/includes/ui/ui_input.inc";
-$uiLists = FA_ROOT . "/includes/ui/ui_lists.inc";
-$uiControls = FA_ROOT . "/includes/ui/ui_controls.inc";
-
-if (is_file($uiInput)) {
-    require_once($uiInput);
-}
-if (is_file($uiLists)) {
-    require_once($uiLists);
-}
-if (is_file($uiControls)) {
-    require_once($uiControls);
-}
+require_once(FA_ROOT . "/includes/ui/ui_input.inc");
+require_once(FA_ROOT . "/includes/ui/ui_lists.inc");
+require_once(FA_ROOT . "/includes/ui/ui_controls.inc");
 
 /**
  * Facade for Front Accounting UI functions
@@ -30,7 +20,12 @@ class FaUiFunctions {
 
     public static function label_row($label, $content, $params="")
     {
-        echo "<tr><td class='label'>$label</td><td $params>$content</td></tr>";
+        // Check for function in global namespace
+        if (function_exists('\\label_row')) {
+            call_user_func('\\label_row', $label, $content, $params);
+        } else {
+            echo "<tr><td class='label'>$label</td><td $params>$content</td></tr>";
+        }
     }
 
     public static function start_table($type = self::TABLESTYLE2, $params="")

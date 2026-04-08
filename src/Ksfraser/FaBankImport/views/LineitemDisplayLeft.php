@@ -1,17 +1,6 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :LineitemDisplayLeft [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for LineitemDisplayLeft.
- */
-namespace Ksfraser\FaBankImport\Views;
+namespace Ksfraser\FaBankImport;
 
 
 use Ksfraser\HTML\HtmlElementInterface;
@@ -29,13 +18,13 @@ class LineitemDisplayLeft implements HtmlElementInterface
                 $table->appendRow( new AmountCharges( $bi_lineitem ) );
                 $table->appendRow( new TransTitle( $bi_lineitem ) );
         }
-	function toHtml(): void
+	function toHtml()
 	{
 		$this->table->toHtml();
 	}
-	function getHtml(): string
+	function getHtml()
 	{
-		return $this->table->getHtml();
+		$this->table->getHtml();
 	}
 }
 

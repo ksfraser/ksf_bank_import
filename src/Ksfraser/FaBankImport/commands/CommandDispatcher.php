@@ -1,16 +1,5 @@
-<?php
+﻿<?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :CommandDispatcher [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for CommandDispatcher.
- */
 namespace Ksfraser\FaBankImport\Commands;
 
 use Ksfraser\FaBankImport\Contracts\CommandInterface;
@@ -37,21 +26,21 @@ use RuntimeException;
 class CommandDispatcher implements CommandDispatcherInterface
 {
     /**
-     * @var array<string, string> Map of action names to command classes
+     * @var array Map of action names to command classes
      */
-    private array $commands = [];
+    private $commands = [];
 
     /**
      * @var object DI container for instantiating commands
      */
-    private object $container;
+    private $container;
 
     /**
      * Constructor
      *
      * @param object $container DI container that implements make() method
      */
-    public function __construct(object $container)
+    public function __construct($container)
     {
         $this->container = $container;
         $this->registerDefaultCommands();
@@ -66,10 +55,10 @@ class CommandDispatcher implements CommandDispatcherInterface
      */
     private function registerDefaultCommands(): void
     {
-        $this->register('UnsetTrans', UnsetTransactionCommand::class);
-        $this->register('AddCustomer', AddCustomerCommand::class);
-        $this->register('AddVendor', AddVendorCommand::class);
-        $this->register('ToggleTransaction', ToggleDebitCreditCommand::class);
+        $this->register("UnsetTrans", UnsetTransactionCommand::class);
+        $this->register("AddCustomer", AddCustomerCommand::class);
+        $this->register("AddVendor", AddVendorCommand::class);
+        $this->register("ToggleTransaction", ToggleDebitCreditCommand::class);
     }
 
     /**
@@ -81,7 +70,7 @@ class CommandDispatcher implements CommandDispatcherInterface
         if (!is_subclass_of($commandClass, CommandInterface::class)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Command class "%s" must implement %s',
+                    "Command class \"%s\" must implement %s",
                     $commandClass,
                     CommandInterface::class
                 )
@@ -99,17 +88,21 @@ class CommandDispatcher implements CommandDispatcherInterface
         // Check if command is registered
         if (!$this->hasCommand($actionName)) {
             return TransactionResult::error(
-                sprintf('Unknown action: %s', $actionName)
+                sprintf("Unknown action: %s", $actionName)
             );
         }
 
         $commandClass = $this->commands[$actionName];
 
         try {
+            // Get repository dependency
+            $repository = $this->container->make('TransactionRepository');
+            
             // Instantiate command with dependencies
             /** @var CommandInterface $command */
             $command = $this->container->make($commandClass, [
-                'postData' => $postData
+                "postData" => $postData,
+                "repository" => $repository
             ]);
 
             // Execute command
@@ -118,13 +111,13 @@ class CommandDispatcher implements CommandDispatcherInterface
             // Gracefully handle execution errors
             return TransactionResult::error(
                 sprintf(
-                    'Command execution failed: %s',
+                    "Command execution failed: %s",
                     $e->getMessage()
                 ),
                 [
-                    'command' => $commandClass,
-                    'action' => $actionName,
-                    'exception' => get_class($e)
+                    "command" => $commandClass,
+                    "action" => $actionName,
+                    "exception" => get_class($e)
                 ]
             );
         }

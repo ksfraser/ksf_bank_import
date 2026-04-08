@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
-
 //we need to interpret the file and generate a new statement for each day of transactions
 
 /**//******************************************************************************************
@@ -182,7 +177,6 @@ $replace_arr[] = "nameoncard";
 			echo "debug: trz_line=$trz_line\n";
 			$trz->dump();
 		}
-		$this->extractContactForTransaction($trz);
 		$smts[$trz->valueTimestamp]->addTransaction($trz);
 
 		if ($trz->transactionType != 'COM')
@@ -306,83 +300,11 @@ $replace_arr[] = "nameoncard";
 		}
 	}
 	//parsing ended, cleanup
-	if ($trz) {
-		$this->extractContactForTransaction($trz);
+	if ($trz)
 		$smts[$sid]->addTransaction($trz);
-	}
 
 	//time to return
 	return $smts;
-	}
-
-	/**
-	 * Extract/create contact for WMMC CSV transaction.
-	 *
-	 * Integrates with ContactService and ContactDeduplicationService to maintain
-	 * a persistent contact database linked to bank transactions.
-	 *
-	 * Design: Non-blocking. Errors caught and logged but don't interrupt parsing.
-	 *
-	 * @param transaction $trz The bank_import transaction object being populated
-	 * @return void
-	 */
-	private function extractContactForTransaction($trz): void
-	{
-		// WMMC is credit card only, so typically all transactions are payments (merchants)
-		// Determine merchant name
-		$merchant = null;
-		if (!empty($trz->merchant)) {
-			$merchant = $trz->merchant;
-		} elseif (!empty($trz->account)) {
-			$merchant = $trz->account;
-		} elseif (!empty($trz->accountName1)) {
-			$merchant = $trz->accountName1;
-		}
-
-		// Only attempt extraction if we have merchant name
-		if (empty($merchant)) {
-			return;
-		}
-
-		try {
-			// Graceful degradation: if db not available, skip contact extraction
-			if (!isset($GLOBALS['db'])) {
-				return;
-			}
-
-			$db = $GLOBALS['db'];
-
-			// Load services (lazy load to avoid mandatory dependency)
-			if (!class_exists('\Ksfraser\FaBankImport\Services\ContactService')) {
-				return;
-			}
-
-			$contactService = new \Ksfraser\FaBankImport\Services\ContactService($db);
-			$deduplicateService = new \Ksfraser\FaBankImport\Services\ContactDeduplicationService($contactService);
-
-			// For credit card: WMMC is primarily merchant payments (suppliers)
-			// Only create customer contacts for refunds (credits)
-			$contactType = ($trz->transactionDC === 'D') ? 'supplier' : 'customer';
-
-			// Prepare contact data
-			$contactData = new \Ksfraser\Contact\DTO\ContactData();
-			$contactData->fromArray([
-				'name' => (string) $merchant,
-				'contact_type' => $contactType,
-			]);
-
-			// Get or create contact with deduplication
-			$contact = $deduplicateService->getOrCreateWithDeduplicate($contactData);
-
-			// Link transaction to contact if creation succeeded
-			if ($contact && !empty($contact->id)) {
-				$trz->contact_id = (int) $contact->id;
-			}
-
-		} catch (\Throwable $e) {
-			// Non-blocking error handling: Log but don't fail the import
-			error_log('WMMC CSV contact extraction failed: ' . $e->getMessage());
-		}
 	}
 
 }

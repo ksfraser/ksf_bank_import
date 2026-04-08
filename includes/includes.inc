@@ -11,13 +11,26 @@ require_once (__DIR__ . '/vendor/autoload.php' );
 
 require_once( __DIR__ . '/../class.bi_transactions.php' );
 
-if (!function_exists('get_transaction')) {
-function get_transaction($tid)
+
+/**//**************************************************
+* This has been cloned into bi_controller
+****************************************************/
+function get_transaction($tid) 
 {
-        require_once( 'GetTransaction.php' );
-        $t = new GetTransaction();
-        return $t->get_transaction( $tid );
-}
+	//display_notification( __FILE__ . "::" . __LINE__ );
+	//error_reporting(E_ALL);
+	$bit = new bi_transactions_model();
+	//display_notification( __FILE__ . "::" . __LINE__ );
+	return $bit->get_transaction( $tid );
+
+/*
+*	$sql = "
+*	    SELECT t.*, s.account our_account FROM ".TB_PREF."bi_transactions t
+*    	    LEFT JOIN ".TB_PREF."bi_statements as s ON t.smt_id = s.id
+*	    WHERE t.id=".db_escape($tid);
+*	$result = db_query($sql, "could not get transaction with id $tid");	
+*	return db_fetch($result);
+*/
 }
 
 /**//**************************************************************
@@ -30,10 +43,20 @@ function get_transaction($tid)
 ******************************************************************************/
 function get_trans_counterparty( $trans_no, $trans_type )
 {
-	require_once( 'GetTransCounterparty.php' );
-	$t = new  GetTransCounterparty();
-	return $t->get_trans_counterparty( $trans_no, $trans_type );
+	$arr = array();
+	$result = get_gl_trans( $trans_type, $trans_no );
+	//	display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $result, true ) );
+	while ($myrow = db_fetch($result))
+	{
+		//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $myrow, true ) );
+		//$counterpartyname = get_subaccount_name($myrow["account"], $myrow["person_id"]);
+		//$counterparty_id = $counterpartyname ? sprintf(' %05d', $myrow["person_id"]) : '';
+		$arr[] = $myrow;
+	}
+		//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $arr, true ) );
+	return $arr;
 }
+
 
 /**//*************************************************************************
 * Update bi_trans clearing status
@@ -51,7 +74,6 @@ function reset_transactions($tid, $cids, $trans_no, $trans_type)
 	$bit = new bi_transactions_model();
 	return $bit->reset_transactions($tid, $cids, $trans_no, $trans_type);
 }
-
 /**//*************************************************************************
 * Update bi_trans with the related info to FA gl transactions
 *
@@ -98,42 +120,13 @@ function get_bank_account_by_acctid($acctid)
 {
 	//display_notification( __FILE__ . "::" . __LINE__ );
 	//var_dump( __FILE__ . "::" . __LINE__ );
-	$acctid = is_string($acctid) ? trim($acctid) : $acctid;
-	$acctid_normalized = is_string($acctid) ? ltrim($acctid, '0') : $acctid;
-	if ($acctid_normalized === '') {
-		$acctid_normalized = '0';
-	}
-	if (!is_string($acctid) || $acctid === '') {
-		return [];
-	}
-
-	// Preferred: resolve OFX/QFX ACCTID using module-owned mapping table.
-	// This avoids relying on any non-core columns that may have existed in PROD.
-	$biTable = TB_PREF . 'bi_bank_accounts';
-	$existsRes = db_query('SHOW TABLES LIKE ' . db_escape($biTable), 'Failed checking bi_bank_accounts existence');
-	if (db_num_rows($existsRes) > 0) {
-		$sql = "SELECT a.*
-			FROM " . TB_PREF . "bank_accounts a
-			INNER JOIN `{$biTable}` bb ON bb.bank_account_id = a.id
-			WHERE bb.acctid IN (" . db_escape($acctid) . ", " . db_escape($acctid_normalized) . ")
-			LIMIT 1";
-		$result = db_query($sql, 'could not get bank account');
-		$row = db_fetch($result);
-		if (is_array($row) && !empty($row)) {
-			return $row;
-		}
-	}
-
-	// Fallback: FrontAccounting core schema lookup by bank_account_number.
 	$sql = "SELECT a.*
 		FROM ".TB_PREF."bank_accounts a 
-		WHERE a.bank_account_number IN (" . db_escape($acctid) . ", " . db_escape($acctid_normalized) . ")
-		LIMIT 1";
+		WHERE a.ACCTID = ".db_escape($acctid);
 	//display_notification( __FILE__ . "::" . __LINE__ . "::" . $sql );
 	//var_dump( __FILE__ . "::" . __LINE__ );
 	$result = db_query($sql,"could not get bank account");
-	$row = db_fetch($result);
-	return is_array($row) ? $row : [];
+	return db_fetch($result);
 }
 
 /**//***************************************************************************
@@ -142,73 +135,16 @@ function get_bank_account_by_acctid($acctid)
 * @param string
 * @returns array
 ******************************************************************************/
-if (!function_exists('get_bank_account_by_number')) {
 function get_bank_account_by_number($account_number) 
 {
-	throw new Exception ("This function has been replaced by class.fa_bank_accounts.php" );
-}
-}
-
-/**//***************************************************************************
-*	Replacement for get_bank_account_by_number() using class.fa_bank_accounts.php
-*
-*	Select bank info from 0_bank_accounts filtered by input bank_account_number.
-*	This intentionally does NOT call get_bank_account_by_number(), which now throws.
-*
-* @param string $account_number
-* @returns array
-******************************************************************************/
-if (!function_exists('fa_get_bank_account_by_number')) {
-function fa_get_bank_account_by_number($account_number)
-{
-	$account_number = is_string($account_number) ? trim($account_number) : $account_number;
-	if (!is_string($account_number) || $account_number === '') {
-		return [];
-	}
-
-	$account_number_normalized = ltrim($account_number, '0');
-	if ($account_number_normalized === '') {
-		$account_number_normalized = '0';
-	}
-
-	// Preferred: use shared ksf_modules_common fa_bank_accounts class when available.
-	$faBankAccountsFile = __DIR__ . '/../../ksf_modules_common/class.fa_bank_accounts.php';
-	if (is_file($faBankAccountsFile)) {
-		require_once $faBankAccountsFile;
-		if (class_exists('fa_bank_accounts')) {
-			$shim = new class($account_number) {
-				public $our_account;
-				public function __construct(string $accountNumber)
-				{
-					$this->our_account = $accountNumber;
-				}
-			};
-			try {
-				$fa = new \fa_bank_accounts($shim);
-				$row = $fa->getByBankAccountNumber($account_number);
-				if (is_array($row) && !empty($row)) {
-					return $row;
-				}
-				if ($account_number_normalized !== $account_number) {
-					$row = $fa->getByBankAccountNumber($account_number_normalized);
-					return is_array($row) ? $row : [];
-				}
-				return [];
-			} catch (Throwable $e) {
-				// Fall back to SQL below.
-			}
-		}
-	}
-
-	// Fallback: direct query by bank_account_number.
+	//display_notification( __FILE__ . "::" . __LINE__ );
 	$sql = "SELECT a.*
 		FROM ".TB_PREF."bank_accounts a 
-		WHERE a.bank_account_number IN (" . db_escape($account_number) . ", " . db_escape($account_number_normalized) . ")
-		LIMIT 1";
+		WHERE a.bank_account_number = '". trim($account_number) . "'";
+		//WHERE a.bank_account_number = ".db_escape($account_number);
+	//display_notification( __FILE__ . "::" . __LINE__ . "::" . $sql );
 	$result = db_query($sql,"could not get bank account");
-	$row = db_fetch($result);
-	return is_array($row) ? $row : [];
-}
+	return db_fetch($result);
 }
 
 /**//***************************************************
@@ -360,14 +296,13 @@ function my_write_customer_payment($trans_no, $customer_id, $branch_id, $bank_ac
 *	gl_bank uses display_quick_entry from includes/ui/ui_view.php
 *
 *
-* @params items_object cart
-* @params int ID - Quick Entry index
-* @params float BASE
-* @params int TYPE
-* @params string description
+*@params items_object cart
+*@params int ID - Quick Entry index
+*@params float BASE
+*@params int TYPE
+*@params string description
 * @returns float bank_amount
 ***********************************************************/
-if (!function_exists('qe_to_cart')) {
 function qe_to_cart(&$cart, $id, $base, $type, $descr='') 
 {
 	$bank_amount = 0;
@@ -424,7 +359,6 @@ function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 			   return 0;
 		}
 		$totrate = 0;
-		$qe_lines = [];  // FIX: Initialize array to prevent duplication on multiple calls
 		while( $row = db_fetch($result) ) 
 		{
 			//display_notification( __LINE__ . print_r( $row, true ) );
@@ -456,13 +390,11 @@ function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 				break;
 			} //switch
 		   	//display_notification( __LINE__ . ": Quick Entry ROWS: " . print_r( $qe_lines, true ) );
-		}
-
-		// Process each template line exactly once (after all database rows are fetched)
-		$first = true;
-		$taxbase = 0;
-		foreach($qe_lines as $qe_line) 
-		{
+	
+			$first = true;
+			$taxbase = 0;
+			foreach($qe_lines as $qe_line) 
+			{
 				if( isset( $qe_line['memo'] ) )
 				{
 					if( isset( $qe_line['description'] ) )
@@ -587,6 +519,7 @@ function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 			   	//display_notification( "CART after add: " . print_r( $cart, true ) );
 //20250503 Moved foreach } from above to match whats in ui_view
 			}	//Foreach
+		}
     	}
     	return $bank_amount;
 }

@@ -16,6 +16,7 @@ use KsfBankImport\Views\QuickEntryPartnerTypeView;
 use KsfBankImport\Views\DataProviders\QuickEntryDataProvider;
 
 // Load FA stubs
+require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 // Load the view
 require_once __DIR__ . '/../../../views/QuickEntryPartnerTypeView.v2.php';

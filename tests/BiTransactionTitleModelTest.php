@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-
+require_once 'path/to/your/class.bi_transactionTitle_model.php';
 
 class BiTransactionTitleModelTest extends TestCase
 {
@@ -10,7 +10,7 @@ class BiTransactionTitleModelTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->biTransactionTitleModel = new bi_transactionTitle_model();
+        $this->biTransactionTitleModel = new bi_transationTitle_model();
     }
 
     public function testDefineTable()
@@ -30,7 +30,7 @@ class BiTransactionTitleModelTest extends TestCase
     public function testInsertTransaction()
     {
         // Mock insert_data method to test insert_transaction
-        $biTransactionTitleModelMock = $this->getMockBuilder(bi_transactionTitle_model::class)
+        $biTransactionTitleModelMock = $this->getMockBuilder(bi_transationTitle_model::class)
             ->onlyMethods(['insert_data'])
             ->getMock();
 

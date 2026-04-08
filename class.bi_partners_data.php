@@ -1,105 +1,18 @@
 <?php
 
-class bi_partners_data {
-    use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
-    /**
-     * Ensure the partner keyword table schema is present (idempotent, non-destructive).
-     *
-     * Table creation is handled by sql/update.sql during module activation; this only
-     * repairs drift (missing columns/indexes) for older installs.
-     */
-    public static function ensure_schema(): void
-    {
-        $table = TB_PREF . 'bi_partners_data';
-        if (!self::table_exists($table)) {
-            return;
-        }
-        self::ensure_column($table, 'updated_ts', 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP');
-        self::ensure_column($table, 'occurrence_count', 'INTEGER DEFAULT 1');
-        self::ensure_index($table, 'idx_partner_type_data', array('partner_type', 'data'));
-        self::ensure_index($table, 'idx_occurrence_count', array('occurrence_count'));
-        self::ensure_partner_keyword_unique_index($table);
-        self::set_default_occurrence_count($table);
-    }
+class bi_partners_data  extends generic_fa_interface_model {
+	protected $partner_id;		//!<int
+	protected $partner_detail_id;	//!<int
+	protected $partner_type;	//!<int
+	protected $data;		//!<string
+	protected $updated_ts;		//!<date
 
-    private static function table_exists(string $table): bool
-    {
-        $res = db_query('SHOW TABLES LIKE ' . db_escape($table), 'Failed checking table existence');
-        return db_num_rows($res) > 0;
-    }
-
-    private static function column_exists(string $table, string $column): bool
-    {
-        $res = db_query('SHOW COLUMNS FROM `' . $table . '` LIKE ' . db_escape($column), 'Failed checking column existence');
-        return db_num_rows($res) > 0;
-    }
-
-    private static function index_exists(string $table, string $indexName): bool
-    {
-        $res = db_query('SHOW INDEX FROM `' . $table . '` WHERE Key_name=' . db_escape($indexName), 'Failed checking index existence');
-        return db_num_rows($res) > 0;
-    }
-
-    private static function ensure_column(string $table, string $column, string $definition): void
-    {
-        if (!self::table_exists($table) || self::column_exists($table, $column)) {
-            return;
-        }
-        db_query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $column . '` ' . $definition, 'Failed adding column to bi_partners_data');
-    }
-
-    /**
-     * @param array<int,string> $columns
-     */
-    private static function ensure_index(string $table, string $indexName, array $columns): void
-    {
-        if (!self::table_exists($table) || self::index_exists($table, $indexName)) {
-            return;
-        }
-        $colsSql = array();
-        foreach ($columns as $col) {
-            $colsSql[] = '`' . $col . '`';
-        }
-        db_query('ALTER TABLE `' . $table . '` ADD INDEX `' . $indexName . '` (' . implode(', ', $colsSql) . ')', 'Failed adding index to bi_partners_data');
-    }
-
-    private static function ensure_partner_keyword_unique_index(string $table): void
-    {
-        if (!self::table_exists($table)) {
-            return;
-        }
-        // Prefer the newer unique key used for keyword scoring.
-        if (self::index_exists($table, 'idx_partner_keyword')) {
-            return;
-        }
-
-        // Drop the legacy unique key if present (partner_id, partner_detail_id, partner_type)
-        if (self::index_exists($table, 'idx')) {
-            db_query('ALTER TABLE `' . $table . '` DROP INDEX `idx`', 'Failed dropping legacy partner data unique index');
-        }
-
-        db_query('ALTER TABLE `' . $table . '` ADD CONSTRAINT `idx_partner_keyword` UNIQUE(`partner_id`, `partner_detail_id`, `partner_type`, `data`)', 'Failed adding partner keyword unique index');
-    }
-
-    private static function set_default_occurrence_count(string $table): void
-    {
-        if (!self::table_exists($table) || !self::column_exists($table, 'occurrence_count')) {
-            return;
-        }
-        db_query('UPDATE `' . $table . '` SET `occurrence_count`=1 WHERE `occurrence_count` IS NULL', 'Failed initializing occurrence_count');
-    }
-
-    public $partner_id;		//!<int
-    public $partner_detail_id;	//!<int
-    public $partner_type;	//!<int
-    public $data;		//!<string
-    public $updated_ts;		//!<date
-
-          function __construct()
+      function __construct()
         {
-            //display_notification( __FILE__ . "::" . __LINE__ );
-            $this->iam = "bi_partners_data";
-            $this->define_table();
+                //display_notification( __FILE__ . "::" . __LINE__ );
+                parent::__construct( null, null, null, null, null);
+                $this->iam = "bi_partners_data";
+                $this->define_table();
         }
         function define_table()
         {
@@ -161,7 +74,7 @@ function get_partner_data($partner_id, $partner_type, $partner_detail_id) {
 * @param string the data sent from the bank
 * @returns
 ******************************************************************************************/
-function set_bank_partner_data($from_bank_id, $partner_type, $to_bank_id, $data) 
+function set_bank_partner_data($from_bank_id, $partner_type = ST_BANKTRANSFER, $to_bank_id, $data) 
 {
 
 	//display_notification( __FILE__ . "::" . __LINE__ . ":" . $from_bank_id . ":" . $partner_type  . ":" . $to_bank_id . ":" . $data  . "//");
@@ -223,7 +136,6 @@ function set_partner_data($partner_id, $partner_type, $partner_detail_id, $data)
 * @param string needle
 * @returns array
 *************************************************************/
-if (!function_exists('search_partner_data_by_needle')) {
 function search_partner_data_by_needle( $needle ) {
     if (empty($needle))
 	return array();
@@ -239,8 +151,7 @@ function search_partner_data_by_needle( $needle ) {
 	{
 		$arr[] = $row;
 	}
-    return $arr;
-}
+	return $arr;
 }
 
 /**//******************************************
@@ -250,7 +161,6 @@ function search_partner_data_by_needle( $needle ) {
 * @param string Needle
 * @return array Assoc array of results
 *********************************************/
-if (!function_exists('searchPartnerByData')) {
 function searchPartnerByData( $needle )
 {
     if (empty($needle))
@@ -260,9 +170,7 @@ function searchPartnerByData( $needle )
     $result = db_query($sql, "could not get search partner");	
     return db_fetch_assoc($result);
 }
-}
 
-if (!function_exists('search_partner_by_bank_account')) {
 function search_partner_by_bank_account($partner_type, $needle) {
     if (empty($needle))
 	return array();
@@ -277,7 +185,6 @@ function search_partner_by_bank_account($partner_type, $needle) {
     $result = db_query($sql, "could not get search partner");	
     return db_fetch($result);
 }
-}
 
 //in development
 /**//*********************************************************************************
@@ -289,7 +196,6 @@ function search_partner_by_bank_account($partner_type, $needle) {
 * @param string
 * @returns none
 ******************************************************************************************/
-if (!function_exists('update_partner_data')) {
 function update_partner_data($partner_id, $partner_type, $partner_detail_id, $data) {
     //$account_n = "\n" . $account;
     $account_n = "\n";
@@ -301,5 +207,4 @@ function update_partner_data($partner_id, $partner_type, $partner_detail_id, $da
 //    display_notification($sql);
     db_query($sql, 'Could not update partner');
 
-}
 }

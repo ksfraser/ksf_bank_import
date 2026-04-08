@@ -142,7 +142,7 @@ class BankAccountDataProviderTest extends TestCase
         $html = $provider->generateSelectHtml('bankAccount', '2');
 
         $this->assertStringContainsString('selected', $html);
-        $this->assertRegExp('/value="2"[^>]*selected/', $html);
+        $this->assertMatchesRegularExpression('/value="2"[^>]*selected/', $html);
     }
 
     public function testGetBankAccountNameById(): void

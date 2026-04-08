@@ -8,20 +8,10 @@ include_once($path_to_root . "/includes/session.inc");
 $page_security = 'SA_BANKACCOUNT';
 
 include_once($path_to_root . "/gl/includes/gl_ui.inc");
-include_once($path_to_root . "/includes/ui/ui_lists.inc");
-include_once($path_to_root . "/includes/ui/ui_input.inc");
-include_once($path_to_root . "/includes/ui/ui_controls.inc");
-include_once($path_to_root . "/sales/includes/db/branches_db.inc");
 include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
-//require_once 'HTML/Table.php';
-use Ksfraser\HTML\Composites\HTML_TABLE;
-use Ksfraser\HTML\Composites\HTML_ROW;
+require_once 'HTML/Table.php';
 
-global $use_popup_windows;
-global $use_date_picker;
-global $js;
-
-//$js = '';
+$js = '';
 if ($use_popup_windows)
 	$js .= get_js_open_window(800, 500);
 if ($use_date_picker)
@@ -70,45 +60,37 @@ start_form();
 
 div_start('partner');
 
-
-$table = new HTML_TABLE(2, 90);
-
-
+$table = new HTML_Table(['class' => 'tablestyle2', 'width' => '90%']);
 
 // First section of the table
-//$table->addRow();
-//$table->addCell("<label>" . _( "Choose: " ) . "</label>", ['class' => 'label']);
-//$table->addCell(array_selector('partner_type', $_POST['partner_type'], $types, ['select_submit' => true]));
-$row1 = new HTML_ROW("<label>" . _( "Choose: " ) . "</label>" . array_selector('partner_type', 
-                        $_POST['partner_type'] ? $_POST['partner_type'] : 0, $types, ['select_submit' => true]));
-$table->appendRow($row1);
-
+$table->addRow();
+$table->addCell("<label>" . _( "Choose: " ) . "</label>", ['class' => 'label']);
+$table->addCell(array_selector('partner_type', $_POST['partner_type'], $types, ['select_submit' => true]));
 
 switch ($_POST['partner_type']) {
     case PT_SUPPLIER:
-        $row2 = new HTML_ROW(supplier_list_row(_("Supplier:"), 'partner_id', null, false, true, false, true));
-        $table->appendRow($row2);
+        $table->addRow();
+        $table->addCell(supplier_list_row(_("Supplier:"), 'partner_id', null, false, true, false, true));
         $_POST['partner_detail_id'] = ANY_NUMERIC;
-        hidden('partner_detail_id', ANY_NUMERIC);
+        hidden('partner_detail_id');
         break;
     case PT_CUSTOMER:
-        $row3 = new HTML_ROW(customer_list_row(_("Customer:"), 'partner_id', null, false, true, false, true));
-        $table->appendRow($row3);
+        $table->addRow();
+        $table->addCell(customer_list_row(_("Customer:"), 'partner_id', null, false, true, false, true));
 
         if (db_customer_has_branches($_POST['partner_id'])) {
-            $row4 = new HTML_ROW(customer_branches_list_row(_("Branch:"), $_POST['partner_id'], 'partner_detail_id', null, false, true, true, true));
-            $table->appendRow($row4);
+            $table->addRow();
+            $table->addCell(customer_branches_list_row(_("Branch:"), $_POST['partner_id'], 'partner_detail_id', null, false, true, true, true));
         } else {
             $_POST['partner_detail_id'] = ANY_NUMERIC;
-            hidden('partner_detail_id', ANY_NUMERIC);
+            hidden('partner_detail_id');
         }
         break;
     default:
-        $row5 = new HTML_ROW("something else");
-        $table->appendRow($row5);
+        $table->addRow();
+        $table->addCell("something else");
         break;
 }
-
 
 // Second section of the table
 $data = get_partner_data($_POST['partner_id'], $_POST['partner_type'], $_POST['partner_detail_id']);
@@ -116,14 +98,14 @@ if (!empty($data)) {
     $_POST['data'] = $data['data'];
 }
 
-$row6 = new HTML_ROW(textarea_row(_("IBAN(S):"), 'data', @$_POST['data'], 50, 3));
-$table->appendRow($row6);
+$table->addRow();
+$table->addCell(textarea_row(_("IBAN(S):"), 'data', @$_POST['data'], 50, 3), ['colspan' => 2]);
 
 echo $table->toHtml();
 
 div_end();
 
-submit_center_first('process', _( "Update" ), 'default');
+submit_center_first('process', _( "Update" ), '', 'default');
 
 end_form();
 

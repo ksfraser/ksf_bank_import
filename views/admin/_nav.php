@@ -1,5 +1,5 @@
 <?php
-$currentPath = $_SERVER['REQUEST_URI'];
+$currentPath = $_SERVER['REQUEST_URI'] ?? '/';
 ?>
 <nav class="admin-nav">
     <style>

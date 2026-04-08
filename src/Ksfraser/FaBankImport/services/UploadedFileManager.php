@@ -1,20 +1,8 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :UploadedFileManager [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for UploadedFileManager.
- */
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
-use Ksfraser\FaBankImport\Services\BankImportPathResolver;
 
 /**
  * UploadedFileManager - Manage uploaded bank statement files
@@ -46,8 +34,8 @@ class UploadedFileManager
         
         // Use company-specific directory like FA attachments
         if ($upload_dir === null) {
-            // Store in company/#/bank_imports/uploads
-            $this->upload_dir = BankImportPathResolver::forCurrentCompany()->uploadsDir();
+            // Store in company_path/bank_imports/
+            $this->upload_dir = $comp_path . '/' . user_company() . '/bank_imports';
         } else {
             $this->upload_dir = $upload_dir;
         }
@@ -452,8 +440,8 @@ class UploadedFileManager
         // Delete from database (cascade will delete links)
         $sql = "DELETE FROM " . TB_PREF . "bi_uploaded_files 
                 WHERE id = " . db_escape($file_id);
-
-        return db_query($sql, "Failed to delete file record") !== false;
+        
+        return db_query($sql, "Failed to delete file record");
     }
     
     /**
@@ -509,4 +497,3 @@ class UploadedFileManager
         return db_fetch($result);
     }
 }
-

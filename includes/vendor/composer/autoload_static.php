@@ -4,8 +4,18 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7f1c89faa865127bcb0b74fb4eedb722
+class ComposerStaticInited17e532aa9e766e4256c6bd2ff6b4b2
 {
+    public static $prefixesPsr0 = array (
+        'O' => 
+        array (
+            'OfxParser' => 
+            array (
+                0 => __DIR__ . '/..' . '/asgrim/ofxparser/lib',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
@@ -13,7 +23,8 @@ class ComposerStaticInit7f1c89faa865127bcb0b74fb4eedb722
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->classMap = ComposerStaticInit7f1c89faa865127bcb0b74fb4eedb722::$classMap;
+            $loader->prefixesPsr0 = ComposerStaticInited17e532aa9e766e4256c6bd2ff6b4b2::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInited17e532aa9e766e4256c6bd2ff6b4b2::$classMap;
 
         }, null, ClassLoader::class);
     }

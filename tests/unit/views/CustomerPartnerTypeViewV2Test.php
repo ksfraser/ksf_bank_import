@@ -23,6 +23,7 @@ use KsfBankImport\Views\CustomerPartnerTypeView;
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 
 // Load FrontAccounting stubs for testing
+require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 require_once __DIR__ . '/../../../views/CustomerPartnerTypeView.v2.php';
 require_once __DIR__ . '/../../../views/DataProviders/CustomerDataProvider.php';
@@ -35,25 +36,6 @@ require_once __DIR__ . '/../../../views/DataProviders/CustomerDataProvider.php';
 class CustomerPartnerTypeViewV2Test extends TestCase
 {
     private $dataProvider;
-
-    private function renderHtml($value): string
-    {
-        if (is_string($value)) {
-            return $value;
-        }
-
-        if (is_object($value) && method_exists($value, 'getHtml')) {
-            return (string)$value->getHtml();
-        }
-
-        if (is_object($value) && method_exists($value, 'toHtml')) {
-            ob_start();
-            $value->toHtml();
-            return (string)ob_get_clean();
-        }
-
-        return (string)$value;
-    }
     
     /**
      * Set up test fixtures
@@ -96,11 +78,11 @@ class CustomerPartnerTypeViewV2Test extends TestCase
     }
     
     /**
-    * Test getHtml returns renderable output
+     * Test getHtml returns string
      * 
      * @covers ::getHtml
      */
-    public function testGetHtmlReturnsRenderableOutput(): void
+    public function testGetHtmlReturnsString(): void
     {
         $view = new CustomerPartnerTypeView(
             1,
@@ -111,9 +93,9 @@ class CustomerPartnerTypeViewV2Test extends TestCase
             $this->dataProvider
         );
         
-        $output = $view->getHtml();
-        $html = $this->renderHtml($output);
-
+        $html = $view->getHtml();
+        
+        $this->assertIsString($html);
         $this->assertNotEmpty($html);
     }
     
@@ -135,7 +117,7 @@ class CustomerPartnerTypeViewV2Test extends TestCase
             $this->dataProvider
         );
         
-        $html = $this->renderHtml($view->getHtml());
+        $html = $view->getHtml();
         
         // Should contain the label text
         $this->assertStringContainsString('From Customer/Branch:', $html);
@@ -163,7 +145,7 @@ class CustomerPartnerTypeViewV2Test extends TestCase
             $this->dataProvider
         );
         
-        $html = $this->renderHtml($view->getHtml());
+        $html = $view->getHtml();
         
         // Should contain hidden customer field (HtmlInput format)
         $this->assertStringContainsString('type="hidden"', $html);
@@ -196,10 +178,10 @@ class CustomerPartnerTypeViewV2Test extends TestCase
             $this->dataProvider
         );
         
-        $html = $this->renderHtml($view->getHtml());
-
+        $html = $view->getHtml();
+        
         // Should complete without error
-        $this->assertNotEmpty($html);
+        $this->assertIsString($html);
     }
     
     /**
@@ -247,9 +229,9 @@ class CustomerPartnerTypeViewV2Test extends TestCase
         );
         
         // Should not throw error even if fa_customer_payment is unavailable
-        $html = $this->renderHtml($view->getHtml());
-
-        $this->assertNotEmpty($html);
+        $html = $view->getHtml();
+        
+        $this->assertIsString($html);
     }
     
     /**
@@ -271,7 +253,7 @@ class CustomerPartnerTypeViewV2Test extends TestCase
             $this->dataProvider
         );
         
-        $html = $this->renderHtml($view->getHtml());
+        $html = $view->getHtml();
         
         // Count opening and closing tr tags
         $openTr = substr_count($html, '<tr>');

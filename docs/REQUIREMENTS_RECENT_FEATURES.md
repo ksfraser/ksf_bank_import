@@ -777,42 +777,6 @@ TOTAL: 79 tests, 146 assertions, 0 failures, 0 errors
 
 ---
 
-## 9. Transfer Matching Safety Workflow (Q1 2026)
-
-### FR-052 to FR-056 Summary
-
-| Req ID | Requirement | Status |
-|--------|-------------|--------|
-| FR-052 | External transfer candidate matcher (menu + cron) | 🚧 IN PROGRESS |
-| FR-053 | Candidate display in 4th column with matching JEs | 🚧 IN PROGRESS |
-| FR-054 | Candidate vs confirmed separation before normalization | 🚧 IN PROGRESS |
-| FR-055 | Reciprocity + JE existence audits with review queue | 🚧 IN PROGRESS |
-| FR-056 | Reset/clear association for safe reprocess | 🚧 IN PROGRESS |
-
-### Current Implementation Notes
-
-- Added dedicated `bi_transfer_matches` table for candidate/confirmed lifecycle and review flags.
-- Added external matching service and audit service classes.
-- Added check-needed screen for review actions.
-- Added process screen actions to run matcher and audits.
-
-### Remaining Work
-
-- Add explicit candidate-confirm action in primary processing workflow.
-- Add integration coverage for DB-backed candidate lifecycle transitions (service-level unit coverage added).
-- Finalize status transitions for rejected/expired candidates.
-
-### Test Coverage Added (Q1 2026)
-
-- `tests/unit/Services/TransferMatchServiceTest.php`
-    - Candidate scoring/order behavior and review-flag signaling
-    - Confirm path debit/credit normalization and not-found guard
-- `tests/unit/Services/TransferMatchAuditServiceTest.php`
-    - Reciprocal D/C validation behavior
-    - JE-link missing-reference audit flag behavior
-
----
-
 **Document Version:** 1.0  
 **Last Updated:** October 21, 2025  
 **Status:** ✅ COMPLETE (except FR-051 UI)  

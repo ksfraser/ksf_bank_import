@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :FileInfo [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for FileInfo.
- */
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**
@@ -24,14 +13,10 @@ namespace Ksfraser\FaBankImport\ValueObject;
  */
 class FileInfo
 {
-    private  $originalFilename;
-    //private string $originalFilename;
-    private  $tmpPath;
-    //private string $tmpPath;
-    private $size;
-    //private int $size;
-    private  $mimeType;
-    //private string $mimeType;
+    private string $originalFilename;
+    private string $tmpPath;
+    private int $size;
+    private string $mimeType;
     
     /**
      * Constructor

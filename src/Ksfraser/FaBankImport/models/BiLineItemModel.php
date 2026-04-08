@@ -1,19 +1,7 @@
 <?php
-
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :BiLineItemModel [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for BiLineItemModel.
- */
 namespace Ksfraser\FaBankImport\Models;
 
-use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
+use Ksfraser\common\GenericFaInterface;
 use Ksfraser\frontaccounting\FaBankAccounts;
 use Ksfraser\frontaccounting\FaCustomerPayment;
 use Ksfraser\frontaccounting\FaGl;
@@ -21,9 +9,7 @@ use Ksfraser\frontaccounting\FaGl;
 /**
  * Model class for handling line item data.
  */
-class BiLineItemModel
-{
-    use GenericFaInterfaceTrait;
+class BiLineItemModel extends GenericFaInterface
 {
     /** @var string */
     protected $transactionDC;

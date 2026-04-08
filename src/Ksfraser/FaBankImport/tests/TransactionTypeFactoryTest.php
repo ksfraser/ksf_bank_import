@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionTypeFactoryTest [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionTypeFactoryTest.
- */
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;

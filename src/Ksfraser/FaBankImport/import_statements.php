@@ -78,6 +78,7 @@ function importStatement($smt)
 	$bis->set( "statementId", $smt->statementId );
 	$exists = $bis->statement_exists();
 	$bis->obj2obj( $smt );
+
 	if( ! $exists )
 	{
 			display_notification( __FILE__ . "::" . __LINE__ . ":: Statement Doesn't Exist.  Inserting" );

@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :WarnDuplicateStrategy [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for WarnDuplicateStrategy.
- */
 namespace Ksfraser\FaBankImport\Strategy;
 
 use Ksfraser\FaBankImport\ValueObject\DuplicateResult;

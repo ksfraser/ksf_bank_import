@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :TransactionViewInterface [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for TransactionViewInterface.
- */
 namespace Ksfraser\FaBankImport\Interfaces;
 
 interface TransactionViewInterface

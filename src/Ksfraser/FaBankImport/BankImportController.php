@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :BankImportController [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for BankImportController.
- */
 namespace Ksfraser\FaBankImport\Controllers;
 
 use Ksfraser\Application\Container;

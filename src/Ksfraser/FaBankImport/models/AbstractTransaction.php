@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :AbstractTransaction [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for AbstractTransaction.
- */
 namespace Ksfraser\FaBankImport\Models;
 
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;

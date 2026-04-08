@@ -81,9 +81,9 @@ class transaction_table_row
 			try {
 				$this->bankAccount = shorten_bankAccount_Names( $res_arr['accountName'] );
 			}
-			catch( Exception $e )
+			catch( Exception $this->e )
 			{
-				display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
+				display_notification( __FILE__ . "::" . __LINE__ . ":" . $this->e->getMessage() );
 				$this->bankAccount = $res_arr['accountName'];
 			}
 			$this->bankAccountName = $res_arr['accountName'];
@@ -222,7 +222,7 @@ class ttr_label_row
 				label_row("Trans Type:", "Bank Transfer");
 			break;
 		}
-		$bank = fa_get_bank_account_by_number( $our_account );
+		$bank = get_bank_account_by_number( $our_account );
 			//Info from 0_bank_accounts
 			//	Account Name
 			//	Type

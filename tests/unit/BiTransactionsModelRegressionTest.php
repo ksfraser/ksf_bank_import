@@ -30,7 +30,7 @@ class BiTransactionsModelRegressionTest extends TestCase
         $expectedSqlPattern = '/UPDATE.*matched=1/';
         
         // Verify SQL contains matched=1 when matched parameter is 1
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             $expectedSqlPattern,
             "UPDATE table SET status=1, fa_trans_no=123, fa_trans_type=0, matched=1 WHERE id in (1,2)"
         );
@@ -45,7 +45,7 @@ class BiTransactionsModelRegressionTest extends TestCase
         $expectedSqlPattern = '/UPDATE.*created=1/';
         
         // Verify SQL contains created=1 when created parameter is 1
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             $expectedSqlPattern,
             "UPDATE table SET status=1, fa_trans_no=123, fa_trans_type=0, created=1 WHERE id in (1,2)"
         );
@@ -60,7 +60,7 @@ class BiTransactionsModelRegressionTest extends TestCase
         $expectedSqlPattern = '/g_partner=.*g_option=/';
         
         // Verify SQL contains g_partner and g_option when g_partner is not null
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             $expectedSqlPattern,
             "UPDATE table SET status=1, g_partner='QE', g_option='Groceries' WHERE id in (1)"
         );

@@ -1,17 +1,6 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :LineitemDisplayRight [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for LineitemDisplayRight.
- */
-namespace Ksfraser\FaBankImport\Views;
+namespace Ksfraser\FaBankImport;
 
 
 use Ksfraser\HTML\HtmlElementInterface;

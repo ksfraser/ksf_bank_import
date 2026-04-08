@@ -1,30 +1,6 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :bank_import_controller [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for bank_import_controller.
- */
-$commonDir = __DIR__ . '/../../../ksf_modules_common';
-$commonOrigin = $commonDir . '/class.origin.php';
-$faTypesInc = $commonDir . '/../../includes/types.inc';
-$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-
-if (!$forceMocks && is_file($commonOrigin) && is_file($faTypesInc)) {
-	require_once($commonOrigin);
-}
-
-if (!class_exists('origin') && !defined('TB_PREF')) {
-	require_once(__DIR__ . '/../../../includes/fa_stubs.php');
-}
+require_once( '../ksf_modules_common/class.origin.php' );
 require_once( 'class.bi_transaction.php' );
 //require_once( 'class.bi_transactions.php' );
 
@@ -87,117 +63,6 @@ class bank_import_controller extends origin
 		//$this->addCustomer();
 		//$this->addVendor();
 		//$this->processTransactions();
-	}
-
-	/**
-	 * Display transaction links through shared SRP displayer.
-	 * Auto-derived links are intentionally disabled here; callers must pass explicit URLs.
-	 *
-	 * @param array<string,mixed> $linkData
-	 */
-	private function displayTransactionLinks(array $linkData, ?int $transType = null, array $context = []): void
-	{
-		if (empty($linkData)) {
-			return;
-		}
-
-		if (class_exists('\Ksfraser\FA\Notifications\TransactionLinkNotificationDisplayer')) {
-			$linkDisplayer = new \Ksfraser\FA\Links\TransactionLinkNotificationDisplayer(null, false);
-			$baseContext = [
-				'context' => 'bank_import_controller',
-			];
-			$fullContext = array_merge($baseContext, $context);
-			$linkDisplayer->displayFromResultData(
-				$linkData,
-				$transType,
-				\Ksfraser\FA\Links\TransactionLinkNotificationDisplayer::MODE_NOTIFICATION,
-				$fullContext
-			);
-			return;
-		}
-
-		if (function_exists('display_notification')) {
-			foreach ($linkData as $label => $url) {
-				if (!is_string($url) || trim($url) === '') {
-					continue;
-				}
-				display_notification("<a target=_blank href='" . $url . "'>" . ucfirst(str_replace('_', ' ', (string)$label)) . "</a>");
-			}
-		}
-	}
-
-	private function displayMatchedSettlementWithLink(int $transType, int $transNo): void
-	{
-		$message = 'Transaction was MATCH settled ' . $transType . '::' . $transNo;
-		$context = [
-			'context' => 'matched_settlement',
-		];
-
-		if (class_exists('\Ksfraser\FA\Notifications\MatchedSettlementNotificationBuilder')) {
-			$payload = \Ksfraser\FA\Links\MatchedSettlementNotificationBuilder::build($transType, $transNo);
-			$message = (string)$payload['message'];
-			$context = is_array($payload['context'] ?? null) ? $payload['context'] : $context;
-		}
-
-		display_notification($message);
-		$this->displayGlTransViewLink($transType, $transNo, 'View Entry', $context);
-	}
-
-	private function displayGlTransViewLink(int $transType, int $transNo, string $label = 'View Entry', array $context = []): void
-	{
-		if (function_exists('display_notification') && class_exists('\Ksfraser\FA\Notifications\GlTransViewLinkHtmlBuilder')) {
-			display_notification(\Ksfraser\FA\Links\GlTransViewLinkHtmlBuilder::build($transType, $transNo, $label));
-			return;
-		}
-
-		$this->displayTransactionLinks([
-			'view_gl_link' => $this->buildGlTransViewUrl($transType, $transNo),
-		], $transType, $context);
-	}
-
-	private function buildGlTransViewUrl(int $transType, int $transNo): string
-	{
-		return \Ksfraser\FA\Links\TransactionLinkUrlBuilder::glTransView($transType, $transNo);
-	}
-
-	private function buildFaAbsoluteUrl(string $appRelativePath): string
-	{
-		$normalizedPath = ltrim($appRelativePath, '/');
-
-		$host = $_SERVER['HTTP_HOST'] ?? ($_SERVER['SERVER_NAME'] ?? '');
-		if (!is_string($host) || $host === '') {
-			return '../../' . $normalizedPath;
-		}
-
-		$isHttps = !empty($_SERVER['HTTPS']) && strtolower((string)$_SERVER['HTTPS']) !== 'off';
-		$scheme = $isHttps ? 'https' : 'http';
-
-		$scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
-		$scriptDir = is_string($scriptName) ? str_replace('\\', '/', dirname($scriptName)) : '';
-		$scriptDir = rtrim($scriptDir, '/');
-
-		$appBase = preg_replace('#/modules(?:/.*)?$#', '', $scriptDir);
-		if (!is_string($appBase)) {
-			$appBase = '';
-		}
-		$appBase = rtrim($appBase, '/');
-
-		return $scheme . '://' . $host . $appBase . '/' . $normalizedPath;
-	}
-
-	private function buildAttachmentDocumentUrl(int $transType, int $transNo): string
-	{
-		$attachmentPath = 'admin/attachments.php?filterType=' . $transType . '&trans_no=' . $transNo;
-		if (class_exists('\Ksfraser\FA\Notifications\AttachmentLinkUrlBuilder')) {
-			$attachmentPath = \Ksfraser\FA\Links\AttachmentLinkUrlBuilder::appRelativePath($transType, $transNo);
-		}
-
-		return $this->buildFaAbsoluteUrl($attachmentPath);
-	}
-
-	private function buildSupplierAllocateUrl(int $transType, int $transNo, int $supplierId): string
-	{
-		return '../../' . \Ksfraser\FA\Links\SupplierAllocateLinkUrlBuilder::appRelativePath($transType, $transNo, $supplierId);
 	}
 	/**//***********************************************
 	*
@@ -559,10 +424,8 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				display_notification('Supplier Payment Processed:' . $payment_id );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
 				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
-				$this->displayTransactionLinks([
-					'view_payment_link' => $this->buildGlTransViewUrl((int)$this->transType, (int)$payment_id),
-					'allocate_link' => $this->buildSupplierAllocateUrl((int)$this->transType, (int)$payment_id, (int)$this->partnerId),
-				], (int)$this->transType);
+				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $payment_id . "'>View Payment</a>" );
+				display_notification("<a target=_blank href='../../purchasing/allocations/supplier_allocate.php?trans_type=" . $this->transType . "&trans_no=" . $payment_id . "&supplier_id=" . $this->partnerId . "'>Allocate Payment</a>" );
 			}
 		}
 		else if( $this->trz['transactionDC'] == 'C' )
@@ -645,9 +508,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
 				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
-				$this->displayTransactionLinks([
-					'view_gl_link' => $this->buildGlTransViewUrl((int)$this->transType, (int)$payment_id[1]),
-				], (int)$this->transType);
+				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $payment_id[1] . "'>View Entry</a>" );
 			}
 		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		    }
@@ -728,7 +589,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			if( $this->transType !== PT_CUSTOMER )
 				update_partner_data($this->partnerId, PT_CUSTOMER, $this->custBranch, $this->trz['memo']);
 			display_notification('Customer Payment/Deposit processed');
-			$this->displayGlTransViewLink((int)$this->transType, (int)$deposit_id);
+			display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
 		}
 	}
 	/**//**
@@ -739,7 +600,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 	function retrieveOurAccount()
 	{
 		//check bank account
-		$this->our_account = fa_get_bank_account_by_number($this->trz['our_account']);
+		$this->our_account = get_bank_account_by_number($this->trz['our_account']);
 		if (empty($this->our_account))
 		{
 			$Ajax->activate('doc_tbl');
@@ -869,9 +730,10 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							//ST_BANKPAYMENT or ST_BANKDEPOSIT
 		
 							//Let User attach a document
-							$this->displayTransactionLinks(['attach_document_link' => $this->buildAttachmentDocumentUrl((int)$this->transType, (int)$trans[1])], (int)$this->transType);
+							display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
 							//Let the user view the created transaction
-							$this->displayGlTransViewLink((int)$this->transType, (int)$trans[1]);
+							//http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
+							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
 		
 		
 							}
@@ -884,10 +746,9 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 					break;
 			/*************************************************************************************************************/
 					case ($_POST['partnerType'][$this->tid] == 'BT'):
-						$faBankTransferClass = __DIR__ . '/../../../ksf_modules_common/class.fa_bank_transfer.php';
-						if( is_file($faBankTransferClass) )
+						$inc = require_once( '../ksf_modules_common/class.fa_bank_transfer.php' );
+						if( $inc )
 						{
-							require_once( $faBankTransferClass );
 							$bttrf = new fa_bank_transfer();
 							try
 							{
@@ -942,11 +803,11 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $this->trz['memo'] );   //Short Form
 										//memo/transactionTitle holds the reference number, which would be unique :(
 							commit_transaction();
-							$this->displayGlTransViewLink((int)$this->transType, (int)$trans_no);
+							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans_no . "'>View Entry</a>" );
 						}
 						else
 						{
-							display_error(_("Bank transfer helper not available in this environment."));
+								//display_notification( __LINE__  );
 						}
 					break;
 			/*************************************************************************************************************/
@@ -954,7 +815,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 						$counterparty_arr = get_trans_counterparty( $_POST['Existing_Entry'], $_POST['Existing_Type'] );
 							display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 						update_transactions($this->tid, $_cids, $status=1, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
-						$this->displayGlTransViewLink((int)$_POST['Existing_Type'], (int)$_POST['Existing_Entry']);
+						display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
 						set_partner_data( $counterparty_arr['person_type'], $_POST['Existing_Type'], $counterparty_arr['person_type_id'], $this->trz['memo'] );       //Short Form
 						display_notification("Transaction was manually settled " . print_r( $_POST['Existing_Type'], true ) . ":" . print_r( $_POST['Existing_Entry'], true ) );
 					break;
@@ -1002,10 +863,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							//display_notification(__FILE__ . "::" . __LINE__  );
 							update_transactions( $this->tid, $_cids, $status=1, $_POST["trans_no_$this->tid"], $_POST["trans_type_$this->tid"], true, false,  "ZZ", $this->partnerId );
 							//display_notification(__FILE__ . "::" . __LINE__  );
-							$this->displayMatchedSettlementWithLink(
-								(int)$_POST["trans_type_$this->tid"],
-								(int)$_POST["trans_no_$this->tid"]
-							);
+							display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$this->tid"] . "::" . $_POST["trans_no_$this->tid"] . "::" . "<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$this->tid"] . "&trans_no=" . $_POST["trans_no_$this->tid"] . "'>View Entry</a>");
 						set_partner_data( $person_type, $_POST["trans_type_$this->tid"], $person_type_id, $memo );
 							//display_notification(__FILE__ . "::" . __LINE__  );
 					break;

@@ -20,7 +20,9 @@ namespace Tests\Unit\Handlers;
 
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Handlers\AbstractTransactionHandler;
+use Ksfraser\FaBankImport\Handlers\TransactionHandlerInterface;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
+use Ksfraser\PartnerTypes\CustomerPartnerType;
 
 /**
  * Abstract Transaction Handler Test
@@ -93,7 +95,7 @@ class AbstractTransactionHandlerTest extends TestCase
     public function it_throws_exception_for_invalid_constant(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid partner type short code');
+        $this->expectExceptionMessage('Invalid partner type constant');
         
         new InvalidConstantHandler();
     }
@@ -146,9 +148,13 @@ class AbstractTransactionHandlerTest extends TestCase
     {
         $handler = new TestTransactionHandler();
         
-        $postData = ['partnerId' => 42];
+        $postData = [
+            'partnerId_100' => 42,
+            'partnerId_101' => 99
+        ];
         
-        $this->assertSame(42, $handler->testExtractPartnerId($postData));
+        $this->assertSame(42, $handler->testExtractPartnerId($postData, 100));
+        $this->assertSame(99, $handler->testExtractPartnerId($postData, 101));
     }
 
     /**
@@ -160,12 +166,12 @@ class AbstractTransactionHandlerTest extends TestCase
     {
         $handler = new TestTransactionHandler();
         
-        $postData = [];
+        $postData = ['partnerId_100' => 42];
         
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Partner ID not found in transaction data');
+        $this->expectExceptionMessage('Partner ID not found for transaction 999');
         
-        $handler->testExtractPartnerId($postData);
+        $handler->testExtractPartnerId($postData, 999);
     }
 
     /**
@@ -179,10 +185,10 @@ class AbstractTransactionHandlerTest extends TestCase
         
         $result = $handler->testCreateErrorResult('Test error');
         
-        $this->assertFalse($result->isSuccess());
-        $this->assertSame(0, $result->getTransNo());
-        $this->assertSame(0, $result->getTransType());
-        $this->assertSame('Test error', $result->getMessage());
+        $this->assertFalse($result['success']);
+        $this->assertSame(0, $result['trans_no']);
+        $this->assertSame(0, $result['trans_type']);
+        $this->assertSame('Test error', $result['message']);
     }
 
     /**
@@ -196,10 +202,10 @@ class AbstractTransactionHandlerTest extends TestCase
         
         $result = $handler->testCreateSuccessResult(123, 12, 'Success');
         
-        $this->assertTrue($result->isSuccess());
-        $this->assertSame(123, $result->getTransNo());
-        $this->assertSame(12, $result->getTransType());
-        $this->assertSame('Success', $result->getMessage());
+        $this->assertTrue($result['success']);
+        $this->assertSame(123, $result['trans_no']);
+        $this->assertSame(12, $result['trans_type']);
+        $this->assertSame('Success', $result['message']);
     }
 
     /**
@@ -218,9 +224,9 @@ class AbstractTransactionHandlerTest extends TestCase
             ['view_link' => '/view', 'extra' => 'data']
         );
         
-        $this->assertTrue($result->isSuccess());
-        $this->assertSame('/view', $result->getData('view_link'));
-        $this->assertSame('data', $result->getData('extra'));
+        $this->assertTrue($result['success']);
+        $this->assertSame('/view', $result['view_link']);
+        $this->assertSame('data', $result['extra']);
     }
 
     /**
@@ -242,13 +248,23 @@ class AbstractTransactionHandlerTest extends TestCase
      */
     public function it_caches_partner_type_object(): void
     {
+        // Reset counter before test
+        TestTransactionHandler::resetInstanceCount();
+        
         $handler = new TestTransactionHandler();
-
-        $obj1 = $handler->getPartnerTypeObject();
-        $obj2 = $handler->getPartnerTypeObject();
-
-        $this->assertSame($obj1, $obj2);
-        $this->assertSame('CU', $obj1->getShortCode());
+        
+        // Call multiple times
+        $type1 = $handler->getPartnerType();
+        $type2 = $handler->getPartnerType();
+        $type3 = $handler->getPartnerType();
+        
+        // All should return same value (from cache)
+        $this->assertSame('CU', $type1);
+        $this->assertSame('CU', $type2);
+        $this->assertSame('CU', $type3);
+        
+        // The handler only creates one instance (verified by counter)
+        $this->assertSame(1, TestTransactionHandler::getInstanceCount());
     }
 }
 
@@ -271,6 +287,14 @@ class TestTransactionHandler extends AbstractTransactionHandler
     /**
      * @inheritDoc
      */
+    protected function getPartnerTypeConstant(): string
+    {
+        return 'CUSTOMER';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function process(
         array $transaction,
         array $transactionPostData,
@@ -288,11 +312,6 @@ class TestTransactionHandler extends AbstractTransactionHandler
         $this->validateTransaction($transaction);
     }
 
-    public function testGetPartnerTypeLabel(): string
-    {
-        return $this->getPartnerTypeObject()->getLabel();
-    }
-
     public function testExtractPartnerId(array $transactionPostData): int
     {
         return $this->extractPartnerId($transactionPostData);
@@ -306,31 +325,5 @@ class TestTransactionHandler extends AbstractTransactionHandler
     public function testCreateSuccessResult(int $transNo, int $transType, string $message, array $additionalData = []): \Ksfraser\FaBankImport\Results\TransactionResult
     {
         return $this->createSuccessResult($transNo, $transType, $message, $additionalData);
-    }
-}
-
-class InvalidConstantHandler extends AbstractTransactionHandler
-{
-    protected function getPartnerTypeInstance(): PartnerTypeInterface
-    {
-        return new class implements PartnerTypeInterface {
-            public function getShortCode(): string { return 'BAD'; }
-            public function getLabel(): string { return 'Broken'; }
-            public function getConstantName(): string { return 'BROKEN'; }
-            public function getPriority(): int { return 999; }
-            public function getDescription(): ?string { return null; }
-            public function getViewClassName(): string { return 'BrokenView'; }
-            public function getStrategyMethodName(): string { return 'displayBroken'; }
-        };
-    }
-
-    public function process(
-        array $transaction,
-        array $transactionPostData,
-        int $transactionId,
-        string $collectionIds,
-        array $ourAccount
-    ): \Ksfraser\FaBankImport\Results\TransactionResult {
-        return \Ksfraser\FaBankImport\Results\TransactionResult::error('invalid');
     }
 }

@@ -2,96 +2,58 @@
     "name": "ksfraser/fa-bank-import",
     "description": "A FrontAccounting module for bank import functionality with paired transfer processing.",
     "type": "library",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Controllers\\": "src/Controllers/",
             "Ksfraser\\": "src/Ksfraser/",
             "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
-            "Ksfraser\\FaBankImport\\Actions\\": "src/Ksfraser/FaBankImport/Actions/",
-            "Ksfraser\\FaBankImport\\Config\\": "src/Ksfraser/FaBankImport/config/",
-            "Ksfraser\\FaBankImport\\Controllers\\": "src/Ksfraser/FaBankImport/controllers/",
-            "Ksfraser\\FaBankImport\\Database\\": "src/Ksfraser/FaBankImport/database/",
-            "Ksfraser\\FaBankImport\\Domain\\": "src/Ksfraser/FaBankImport/Domain/",
-            "Ksfraser\\FaBankImport\\DTO\\": "src/Ksfraser/FaBankImport/DTO/",
-            "Ksfraser\\FaBankImport\\Entity\\": "src/Ksfraser/FaBankImport/Entity/",
             "Ksfraser\\FaBankImport\\Events\\": "src/Ksfraser/FaBankImport/events/",
-            "Ksfraser\\FaBankImport\\Exceptions\\": "src/Ksfraser/FaBankImport/exceptions/",
-            "Ksfraser\\FaBankImport\\Factories\\": "src/Ksfraser/FaBankImport/factories/",
-            "Ksfraser\\FaBankImport\\Handlers\\": "src/Ksfraser/FaBankImport/handlers/",
-            "Ksfraser\\FaBankImport\\Http\\": "src/Ksfraser/FaBankImport/http/",
-            "Ksfraser\\FaBankImport\\Interfaces\\": "src/Ksfraser/FaBankImport/interfaces/",
-            "Ksfraser\\FaBankImport\\Middleware\\": "src/Ksfraser/FaBankImport/middleware/",
-            "Ksfraser\\FaBankImport\\Models\\": "src/Ksfraser/FaBankImport/models/",
-            "Ksfraser\\FaBankImport\\Repository\\": "src/Ksfraser/FaBankImport/Repository/",
-            "Ksfraser\\FaBankImport\\Repositories\\": "src/Ksfraser/FaBankImport/repositories/",
-            "Ksfraser\\FaBankImport\\Request\\": "src/Ksfraser/FaBankImport/Request/",
-            "Ksfraser\\FaBankImport\\Shared\\": "app/Shared/",
-            "Ksfraser\\FaBankImport\\Shared\\DTOs\\": "app/Shared/DTOs/",
-            "Ksfraser\\FaBankImport\\Shared\\Entities\\": "app/Shared/Entities/",
-            "Ksfraser\\FaBankImport\\Shared\\Factories\\": "app/Shared/Factories/",
-            "Ksfraser\\FaBankImport\\Shared\\Repositories\\": "app/Shared/Repositories/",
-            "Ksfraser\\FaBankImport\\Shared\\ValueObjects\\": "app/Shared/ValueObjects/",
-            "Ksfraser\\FaBankImport\\Results\\": "src/Ksfraser/FaBankImport/Results/",
-            "Ksfraser\\FaBankImport\\Schema\\": "src/Ksfraser/FaBankImport/Schema/",
-            "Ksfraser\\FaBankImport\\Seed\\": "src/Ksfraser/FaBankImport/Seed/",
-            "Ksfraser\\FaBankImport\\Services\\": "src/Ksfraser/FaBankImport/services/",
-            "Ksfraser\\FaBankImport\\Strategy\\": "src/Ksfraser/FaBankImport/Strategy/",
-            "Ksfraser\\FaBankImport\\Tests\\": "tests/",
-            "Ksfraser\\FaBankImport\\TransactionDC\\": "src/Ksfraser/FaBankImport/TransactionDC/",
-            "Ksfraser\\FaBankImport\\Types\\": "src/Ksfraser/FaBankImport/Types/",
-            "Ksfraser\\FaBankImport\\ValueObject\\": "src/Ksfraser/FaBankImport/ValueObject/",
-            "Ksfraser\\FaBankImport\\Views\\": "src/Ksfraser/FaBankImport/views/",
-            "Ksfraser\\ModulesDAO\\": "src/Ksfraser/ModulesDAO/"
+            "Ksfraser\\Application\\": "src/Ksfraser/Application/",
+            "Ksfraser\\Application\\Models\\": "src/Ksfraser/Application/models/",
+            "Ksfraser\\Application\\Interfaces\\": "src/Ksfraser/Application/interfaces/",
+            "Ksfraser\\HTML\\": "src/Ksfraser/HTML/",
+            "Ksfraser\\Model\\": "src/Ksfraser/Model/",
+            "Ksfraser\\View\\": "src/Ksfraser/View/",
+            "KsfBankImport\\Services\\": "Services/",
+            "KsfBankImport\\OperationTypes\\": "OperationTypes/"
         },
-        "exclude-from-classmap": [
-            "tests/",
-            "src/",
-            "temp/",
-            "duplicates_backup_20251116_183246/",
-            "views/",
-            "includes/",
-            "test_superglobals_integration.php",
-            "vendor/codeception/",
-            "vendor/nesbot/carbon/lazy/Carbon/MessageFormatter/MessageFormatterMapperWeakType.php",
-            "vendor/nesbot/carbon/lazy/Carbon/PHPStan/AbstractMacroStatic.php",
-            "vendor/nesbot/carbon/lazy/Carbon/PHPStan/MacroWeakType.php",
-            "vendor/nesbot/carbon/lazy/Carbon/TranslatorWeakType.php"
+        "classmap": [
+            "src/Ksfraser/FaBankImport/FactoryTransactions.php",
+            "src/Ksfraser/FaBankImport/controllers/BankImportController.php",
+            "src/Ksfraser/FaBankImport/models/",
+            "src/Ksfraser/FaBankImport/Container/SimpleContainer.php",
+            "src/Ksfraser/FaBankImport/commands/CommandDispatcher.php",
+            "src/Ksfraser/FaBankImport/Contracts/CommandInterface.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
             "Ksfraser\\FaBankImport\\Tests\\": "tests/"
         }
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../Exceptions"
-        }
-    ],
     "require": {
         "php": ">=7.3",
+        "asgrim/ofxparser": "^1.2",
         "mimographix/qif-library": "^1.0",
-        "ksfraser/genericinterface": "^0.6.0",
-        "ksfraser/superglobals": "*",
-        "ksfraser/ksf_ofxparser": "^0.1.1",
-        "ksfraser/qifparser": "*",
-        "ksfraser/contact-dto": "0.1.0",
-        "ksfraser/exceptions": "*"
+        "nesbot/carbon": "^2.46",
+        "psr/container": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3",
+        "codeception/codeception": "^4.1"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-file": "phpunit",
+        "post-install-cmd": [
+            "@php -r \"echo '\\n✅ Dependencies installed successfully!\\n\\n';\""
+        ],
+        "post-update-cmd": [
+            "@php -r \"echo '\\n✅ Dependencies updated successfully!\\n\\n';\""
+        ]
     },
     "config": {
         "platform": {
             "php": "7.3"
         }
-    },
-    "require-dev": {
-        "mikey179/vfsstream": "^1.6.12",
-        "symfony/http-foundation": "^5.4",
-        "monolog/monolog": "^2.0",
-        "phpunit/phpunit": "^9.6",
-        "ksfraser/famock": "^0.5.0"
     }
 }

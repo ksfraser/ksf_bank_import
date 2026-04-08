@@ -193,7 +193,7 @@ class ReferenceNumberServiceIntegrationTest extends TestCase
         $ref = $this->refService->getUniqueReference(ST_CUSTPAYMENT);
         
         // Assert: Valid format (typically numeric or alphanumeric)
-        $this->assertRegExp(
+        $this->assertMatchesRegularExpression(
             '/^[A-Z0-9\-\/]+$/i',
             $ref,
             "Reference should contain only alphanumeric and separator characters"

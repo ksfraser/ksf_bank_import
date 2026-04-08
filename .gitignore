@@ -1,18 +1,16 @@
 # Composer Dependencies
 /vendor/
 composer.phar
-/vendor/*
 
 # PHPUnit
 .phpunit.result.cache
 /coverage/
-coverage.txt
-phpunit_full_output*.txt
-phpunit_no_coverage*.txt
-phpunit_plain_*.txt
-phpunit_summary_*.txt
-phpunit_*_latest.txt
+phpunit*.txt
+phpunit*.xml
+test-output.txt
 test*.txt
+*_results*.txt
+phpunit_full_results.txt
 
 # IDE Files
 .vscode/
@@ -44,15 +42,4 @@ test*.txt
 *.copilot.php
 *-old.php
 *.bak
-
-# Local test shim for external dependency (do not commit)
-/ksf_modules_common/
-
-# Ignore local GenericInterface library (has its own repo)
-GenericInterface/
-
-# Ignore HTML code changes for not
-/src/Ksfraser/HTML
-# Test results files
-unit_test_results.txt
-phpunit.log
+test-output.txt

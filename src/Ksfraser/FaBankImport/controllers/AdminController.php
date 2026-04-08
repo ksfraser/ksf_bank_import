@@ -1,19 +1,7 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :AdminController [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for AdminController.
- */
 namespace Ksfraser\FaBankImport\Controllers;
 
-use Ksfraser\FaBankImport\Controllers\AbstractController;
 use Ksfraser\FaBankImport\Services\PerformanceMonitor;
 use Ksfraser\FaBankImport\Services\MetricsAggregator;
 use Ksfraser\FaBankImport\Config\Config;

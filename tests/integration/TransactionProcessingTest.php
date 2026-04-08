@@ -15,15 +15,9 @@ class TransactionProcessingTest extends TestCase
 
     protected function setUp(): void
     {
-        // Skip TransactionProcessing tests - fixture and HTTP simulation required
-        // These tests validate Phase 0 command processing
-        // TODO: Implement proper HTTP request mocking or use HTTP test client
-        $this->markTestSkipped(
-            'TransactionProcessing integration tests disabled. '
-            . 'Requires Symfony HTTP request simulation and fixture setup. '
-            . 'Phase 0 command handling is covered by unit tests. '
-            . 'See: tests/integration/TransactionProcessingTest.php'
-        );
+        $_SESSION['user_id'] = 1; // Mock authenticated user
+        $this->app = new Application();
+        $this->container = Container::getInstance();
     }
 
     public function testCompleteTransactionProcessingFlow()
@@ -60,14 +54,12 @@ class TransactionProcessingTest extends TestCase
     {
         $this->expectException('Ksfraser\\FaBankImport\\Exceptions\\TransactionValidationException');
 
-        $_POST['transaction'] = ['type' => 'INVALID'];
+        $_POST['ProcessTransaction'] = [1 => 'Process'];
+        $_POST['partnerType'] = [1 => 'INVALID'];
         $_SERVER['REQUEST_METHOD'] = 'POST';
 
-        $middleware = new \Ksfraser\FaBankImport\Middleware\TransactionValidationMiddleware();
         $request = new RequestHandler();
-        $middleware->process($request, function () {
-            return null;
-        });
+        $this->app->run();
     }
 
     protected function tearDown(): void

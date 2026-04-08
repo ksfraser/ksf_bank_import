@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :EventDispatcher [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for EventDispatcher.
- */
 namespace Ksfraser\FaBankImport\Services;
 
 class EventDispatcher

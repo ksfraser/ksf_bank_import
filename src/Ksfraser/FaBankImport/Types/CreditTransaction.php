@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :CreditTransaction [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for CreditTransaction.
- */
 namespace Ksfraser\FaBankImport\Types;
 
 use Ksfraser\FaBankImport\Models\AbstractTransaction;

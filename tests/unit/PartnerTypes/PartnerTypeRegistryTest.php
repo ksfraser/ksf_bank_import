@@ -153,8 +153,8 @@ class PartnerTypeRegistryTest extends TestCase
         $this->assertSame('Customer', $registry->getLabel('CU'));
         $this->assertSame('Bank Transfer', $registry->getLabel('BT'));
         $this->assertSame('Quick Entry', $registry->getLabel('QE'));
-        $this->assertSame('Manual settlement', $registry->getLabel('MA'));
-        $this->assertSame('Matched', $registry->getLabel('ZZ'));
+        $this->assertSame('Matched Transaction', $registry->getLabel('MA'));
+        $this->assertSame('Unknown', $registry->getLabel('ZZ'));
     }
 
     /**

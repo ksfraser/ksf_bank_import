@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :UploadedFile [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for UploadedFile.
- */
 namespace Ksfraser\FaBankImport\Entity;
 
 /**
@@ -24,30 +13,18 @@ namespace Ksfraser\FaBankImport\Entity;
  */
 class UploadedFile
 {
-    private  $id;
-    //private ?int $id;
-    private  $filename;
-    //private string $filename;
-    private  $originalFilename;
-    //private string $originalFilename;
-    private  $filePath;
-    //private string $filePath;
-    private  $fileSize;
-    //private int $fileSize;
-    private  $fileType;
-    //private string $fileType;
-    private  $uploadDate;
-    //private \DateTime $uploadDate;
-    private  $uploadUser;
-    //private string $uploadUser;
-    private  $parserType;
-    //private string $parserType;
-    private  $bankAccountId;
-    //private ?int $bankAccountId;
-    private  $statementCount;
-    //private int $statementCount;
-    private  $notes;
-    //private ?string $notes;
+    private ?int $id;
+    private string $filename;
+    private string $originalFilename;
+    private string $filePath;
+    private int $fileSize;
+    private string $fileType;
+    private \DateTime $uploadDate;
+    private string $uploadUser;
+    private string $parserType;
+    private ?int $bankAccountId;
+    private int $statementCount;
+    private ?string $notes;
     
     /**
      * Constructor

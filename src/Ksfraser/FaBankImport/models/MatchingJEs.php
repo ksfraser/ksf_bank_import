@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :MatchingJEs [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for MatchingJEs.
- */
 namespace Ksfraser\FaBankImport\models;
 
 /**
@@ -57,9 +46,8 @@ class MatchingJEs
         *    use Ksfraser\frontaccounting\FaGl;
         *        Will need to adjust he if( $inc )
         **/
-        $faGlFile = __DIR__ . '/../../../../ksf_modules_common/class.fa_gl.php';
-        $inc = is_file($faGlFile) ? include_once($faGlFile) : false;
-        if( $inc && class_exists('fa_gl') )
+        $inc = include_once( __DIR__ . '/../../../../ksf_modules_common/class.fa_gl.php' );
+        if( $inc )
         {
             /** Namespace *
              *       $fa_gl = new FaGl();
@@ -92,7 +80,7 @@ class MatchingJEs
         }
         else
         {
-            $new_arr = array();
+            display_notification( __FILE__ . "::" . __LINE__ . ": Require_Once failed." );
         }
         $this->matching_trans = $new_arr;
     }

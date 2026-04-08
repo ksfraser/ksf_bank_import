@@ -43,38 +43,40 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-
-require_once(__DIR__ . '/class.bi_transfer_matches.php');
+require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
+require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Service/TransactionCounter.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Results/PaginatedTransactionResult.php' );
 
 /**//**************************************************************************************************************
- * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
- *
- *
- *
- *	***** WARNING *** WARNING *** WARNING *****
- *	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
- *
- *	+---------------------+--------------+------+-----+---------+----------------+
- *	| Field               | Type         | Null | Key | Default | Extra          |
- *	+---------------------+--------------+------+-----+---------+----------------+
- *	| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
- *	| smt_id              | int(11)      | NO   |     | NULL    |                |
- *	| valueTimestamp      | date         | YES  |     | NULL    |                |
- *	| entryTimestamp      | date         | YES  |     | NULL    |                |
- *	| account             | varchar(24)  | YES  |     | NULL    |                |
- *	| accountName         | varchar(60)  | YES  |     | NULL    |                |
- *	| transactionType     | varchar(3)   | YES  |     | NULL    |                |
- *	| transactionCode     | varchar(32)  | YES  |     | NULL    |                |
- *	| transactionCodeDesc | varchar(32)  | YES  |     | NULL    |                |
- *	| transactionDC       | varchar(2)   | YES  |     | NULL    |                |
- *	| transactionAmount   | double       | YES  |     | NULL    |                |
- *	| transactionTitle    | varchar(256) | YES  |     | NULL    |                |
- *	| status              | int(11)      | YES  |     | 0       |                |
- *	| matchinfo           | varchar(256) | YES  |     | NULL    |                |
- *	| fa_trans_type       | int(11)      | YES  |     | 0       |                |
- *	| fa_trans_no         | int(11)      | YES  |     | 0       |                |
- *	| fitid               | varchar(32)  | NO   |     | NULL    |                |
- *	| acctid              | varchar(32)  | NO   |     | NULL    |                |
+* A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
+*
+*
+*
+*	***** WARNING *** WARNING *** WARNING *****
+*	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
+*
+*	+---------------------+--------------+------+-----+---------+----------------+
+*	| Field               | Type         | Null | Key | Default | Extra          |
+*	+---------------------+--------------+------+-----+---------+----------------+
+*	| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
+*	| smt_id              | int(11)      | NO   |     | NULL    |                |
+*	| valueTimestamp      | date         | YES  |     | NULL    |                |
+*	| entryTimestamp      | date         | YES  |     | NULL    |                |
+*	| account             | varchar(24)  | YES  |     | NULL    |                |
+*	| accountName         | varchar(60)  | YES  |     | NULL    |                |
+*	| transactionType     | varchar(3)   | YES  |     | NULL    |                |
+*	| transactionCode     | varchar(32)  | YES  |     | NULL    |                |
+*	| transactionCodeDesc | varchar(32)  | YES  |     | NULL    |                |
+*	| transactionDC       | varchar(2)   | YES  |     | NULL    |                |
+*	| transactionAmount   | double       | YES  |     | NULL    |                |
+*	| transactionTitle    | varchar(256) | YES  |     | NULL    |                |
+*	| status              | int(11)      | YES  |     | 0       |                |
+*	| matchinfo           | varchar(256) | YES  |     | NULL    |                |
+*	| fa_trans_type       | int(11)      | YES  |     | 0       |                |
+*	| fa_trans_no         | int(11)      | YES  |     | 0       |                |
+*	| fitid               | varchar(32)  | NO   |     | NULL    |                |
+*	| acctid              | varchar(32)  | NO   |     | NULL    |                |
 	| merchant            | varchar(64)  | NO   |     | NULL    |                |
 	| category            | varchar(64)  | NO   |     | NULL    |                |
 	| sic                 | varchar(64)  | NO   |     | NULL    |                |
@@ -82,9 +84,9 @@ require_once(__DIR__ . '/class.bi_transfer_matches.php');
 	| checknumber         | int(11)      | NO   |     | NULL    |                |
 	| matched             | int(1)       | NO   |     | 0       |                |
 	| created             | int(1)       | NO   |     | 0       |                |
- *	+---------------------+--------------+------+-----+---------+----------------+
- *	
- *
+*	+---------------------+--------------+------+-----+---------+----------------+
+*	
+*
          * Inherits:
         *    ORIGIN
         *       function __construct( $loglevel = PEAR_LOG_DEBUG )
@@ -140,82 +142,36 @@ require_once(__DIR__ . '/class.bi_transfer_matches.php');
 	*
 *
 ******************************************************************************************************************/
-class bi_transactions_model {
-	use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
-	/**
-	 * Ensure the staging table schema is present (idempotent, non-destructive).
-	 *
-	 * Table creation is handled by sql/update.sql during module activation; this only
-	 * repairs drift (missing columns) for older installs.
-	 */
-	public static function ensure_schema(): void
-	{
-		$table = TB_PREF . 'bi_transactions';
-		if (!self::table_exists($table)) {
-			return;
-		}
-
-		self::ensure_column($table, 'updated_ts', "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
-		self::ensure_column($table, 'matched', 'INTEGER DEFAULT 0');
-		self::ensure_column($table, 'created', 'INTEGER DEFAULT 0');
-		self::ensure_column($table, 'g_partner', 'VARCHAR(32) NULL');
-		self::ensure_column($table, 'g_option', 'VARCHAR(32) NULL');
-// Removed duplicate/stray use and class statements from previous merge/refactor
-		self::ensure_column($table, 'bankid', 'VARCHAR(64) NULL');
-		self::ensure_column($table, 'intu_bid', 'VARCHAR(64) NULL');
-	}
-
-	private static function table_exists(string $table): bool
-	{
-		$res = db_query('SHOW TABLES LIKE ' . db_escape($table), 'Failed checking table existence');
-		return db_num_rows($res) > 0;
-	}
-
-	private static function column_exists(string $table, string $column): bool
-	{
-		$res = db_query('SHOW COLUMNS FROM `' . $table . '` LIKE ' . db_escape($column), 'Failed checking column existence');
-		return db_num_rows($res) > 0;
-	}
-
-	private static function ensure_column(string $table, string $column, string $definition): void
-	{
-		if (!self::table_exists($table) || self::column_exists($table, $column)) {
-			return;
-		}
-		db_query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $column . '` ' . $definition, 'Failed adding column to bi_transactions');
-	}
-
+class bi_transactions_model extends generic_fa_interface_model {
 	var $id_bi_transactions_model;	//!< Index of table
-	public $id;                  //| int(11)      | NO   | PRI | NULL    | auto_increment |
-	public $smt_id;              //| int(11)      | NO   |     | NULL    |                |
-	public $valueTimestamp;      //| date         | YES  |     | NULL    |                |
-	public $entryTimestamp;      //| date         | YES  |     | NULL    |                |
-	public $account;             //| varchar(24)  | YES  |     | NULL    |                |
-	public $accountName;         //| varchar(60)  | YES  |     | NULL    |                |
-	public $transactionType;     //| varchar(3)   | YES  |     | NULL    |                |
-	public $transactionCode;     //| varchar(32)  | YES  |     | NULL    |                |
-	public $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |                |
-	public $transactionDC;       //| varchar(2)   | YES  |     | NULL    |                |
-	public $transactionAmount;   //| double       | YES  |     | NULL    |                |
-	public $transactionTitle;    //| varchar(256) | YES  |     | NULL    |                |
-	public $status;              //| int(11)      | YES  |     | 0       |                |
-	public $matchinfo;           //| varchar(256) | YES  |     | NULL    |                |
-	public $fa_trans_type;       //| int(11)      | YES  |     | 0       |                |
-	public $fa_trans_no;         //| int(11)      | YES  |     | 0       |                |
-	public $fitid;
-	public $acctid;
-	public $bankid;
-	public $intu_bid;
-	public $merchant;            //| varchar(64)  | NO   |     | NULL    |                |
-	public $category;            //| varchar(64)  | NO   |     | NULL    |                |
-	public $sic;                 //| varchar(64)  | NO   |     | NULL    |                |
-	public $memo;                //| varchar(64)  | NO   |     | NULL    |                |
-	public $checknumber; //!<int
-	public $matched; //!<bool
-	public $created; //!<bool
-	public $g_partner; //!<varchar Which action (bank/Quick Entry/... 
-	public $g_option; //!<varchar Which choice - ATB/Groceries/... 
-	public $limit; //!<int  SQL Limit
+	protected $id;                  //| int(11)      | NO   | PRI | NULL    | auto_increment |
+	protected $smt_id;              //| int(11)      | NO   |     | NULL    |                |
+	protected $valueTimestamp;      //| date         | YES  |     | NULL    |                |
+	protected $entryTimestamp;      //| date         | YES  |     | NULL    |                |
+	protected $account;             //| varchar(24)  | YES  |     | NULL    |                |
+	protected $accountName;         //| varchar(60)  | YES  |     | NULL    |                |
+	protected $transactionType;     //| varchar(3)   | YES  |     | NULL    |                |
+	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |                |
+	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |                |
+	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |                |
+	protected $transactionAmount;   //| double       | YES  |     | NULL    |                |
+	protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |                |
+	protected $status;              //| int(11)      | YES  |     | 0       |                |
+	protected $matchinfo;           //| varchar(256) | YES  |     | NULL    |                |
+	protected $fa_trans_type;       //| int(11)      | YES  |     | 0       |                |
+	protected $fa_trans_no;         //| int(11)      | YES  |     | 0       |                |
+	protected $fitid;
+	protected $acctid;
+	protected $merchant;            //| varchar(64)  | NO   |     | NULL    |                |
+	protected $category;            //| varchar(64)  | NO   |     | NULL    |                |
+	protected $sic;                 //| varchar(64)  | NO   |     | NULL    |                |
+	protected $memo;                //| varchar(64)  | NO   |     | NULL    |                |
+	protected $checknumber;	//!<int
+	protected $matched;	//!<bool
+	protected $created;	//!<bool
+	protected $g_partner;	//!<varchar	Which action (bank/Quick Entry/...
+	protected $g_option;	//!<varchar	Which choice - ATB/Groceries/...
+	protected $limit;	//!<int 	SQL Limit
 
 
 
@@ -223,7 +179,7 @@ class bi_transactions_model {
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
 		//display_notification( __FILE__ . "::" . __LINE__ );
-		// No parent::__construct() call needed after trait refactor
+		parent::__construct( null, null, null, null, null);
 		//display_notification( __FILE__ . "::" . __LINE__ );
 		$this->iam = "bi_transactions";
 		$this->define_table();
@@ -271,8 +227,6 @@ class bi_transactions_model {
 		$this->fields_array[] = array('name'=> 'fa_trans_no', 'label' => 'FA Transaction Number', 'type' => 'int(11)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => '0' );
 		$this->fields_array[] = array('name'=> 'fitid', 'label' => 'Financial Institute Transaction ID', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'acctid', 'label' => 'Account ID', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
-		$this->fields_array[] = array('name'=> 'bankid', 'label' => 'Bank ID', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
-		$this->fields_array[] = array('name'=> 'intu_bid', 'label' => 'Intuit Bank ID', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'merchant', 'label' => 'Merchant', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'category', 'label' => 'Category', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'sic', 'label' => 'S I Code', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
@@ -286,12 +240,18 @@ class bi_transactions_model {
 		//$this->fieldsarray2tableinterface( $this->fields_array );
 	}
         /*****************************************************************//**
-        * Validate the field to be set
+        * Set the field if possible
+        *
+        *       Tries to set the field in this class as well as in table_interface
+        *       assumption being we are going to do something with the field in
+        *       the database (else why set the model...)
+        *
         * @param string field to set
         * @param mixed value to set
-        * @return bool. (parent) throws exceptions
+        * @param bool should we allow the class to only set __construct time fields
+        * @return nothing. (parent) throws exceptions
         **********************************************************************/
-	function validate_field( $field, $value = null )
+	function set( $field, $value = null, $enforce = true )
 	{
 
 		switch( $field )
@@ -303,7 +263,11 @@ class bi_transactions_model {
 				}
 				break;
 		}
-		return true;
+		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
+		//display_notification( __FILE__ . "::" . __LINE__ . ":" . "Setting $field to $value" );
+		$ret = parent::set( $field, $value, $enforce );
+		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
+		return $ret;
 	}
 	function insert_transaction()
 	{
@@ -454,12 +418,27 @@ class bi_transactions_model {
 		db_query($sql, 'Could not void transaction');
 	}
 	/**//**********************************************************************
-	* Get transactions details for display
+	* Get transactions details for display with pagination support
 	*
-	* @param int status
-	* @returns array transaction rows sorted
+	* @param int|null $status Filter by transaction status (0, 1, or null for all)
+	* @param string|null $transAfterDate Start date for transaction range (uses $_POST if null)
+	* @param string|null $transToDate End date for transaction range (uses $_POST if null)
+	* @param string|null $transactionAmount Filter by transaction amount (currently unused)
+	* @param string|null $transactionTitle Filter by transaction title (currently unused)
+	* @param int|null $limit Legacy limit parameter for backward compatibility
+	* @param string|null $bankAccount Bank account filter ('ALL' or specific account, uses $_POST if null)
+	* @param int $offset Pagination offset (default 0)
+	* @param int $limit_page Number of rows per page (default 5)
+	* @returns \Ksfraser\FaBankImport\Results\PaginatedTransactionResult Value object containing:
+	*                  - transactions: array of transaction rows keyed by transactionCode
+	*                  - total_count: total count of matching transactions
+	*                  - current_page: current page number
+	*                  - total_pages: total number of pages
+	*                  - offset: current offset
+	*                  - limit: current limit per page
+	* @throws \InvalidArgumentException if pagination values fail validation
 	***************************************************************************/
-	function get_transactions( $status = null, $transAfterDate = null, $transToDate = null, $transactionAmount = null, $transactionTitle = null, $limit = null, $bankAccount = null ) 
+	function get_transactions( $status = null, $transAfterDate = null, $transToDate = null, $transactionAmount = null, $transactionTitle = null, $limit = null, $bankAccount = null, $offset = 0, $limit_page = 5 ) 
 	{
 		if( null == $transAfterDate )
 		{
@@ -469,20 +448,63 @@ class bi_transactions_model {
 		{
 			$transToDate = $_POST['TransToDate'];
 		}
+/*****
+*	New code to filter on bank account
+****/
 		if( null == $bankAccount )
 		{
 			$bankAccount = isset($_POST['bankAccountFilter']) ? $_POST['bankAccountFilter'] : 'ALL';
 		}
-		
+/****/
 		$trzs = array();
    		$sql = " SELECT t.*, s.account our_account, s.currency from " . TB_PREF . "bi_transactions t LEFT JOIN " . TB_PREF . "bi_statements as s ON t.smt_id = s.id";
-		
-		// Use TransactionFilterService to build WHERE clause
+	       	$sql .= " WHERE t.valueTimestamp >= '" . date2sql( $transAfterDate ) . "' AND t.valueTimestamp < '" . date2sql( $transToDate ) . "'";
+/****
+* From Copilot - untested
+* /
+	// Use TransactionFilterService to build WHERE clause
 		require_once(__DIR__ . '/Services/TransactionFilterService.php');
 		$filterService = new \KsfBankImport\Services\TransactionFilterService();
 		$sql .= $filterService->buildWhereClause($transAfterDate, $transToDate, $status, $bankAccount);
+/****/
+		if( null !== $status )
+        	{
+              		$where_statement .= "  AND t.status = '" . $status . "'";
+        	}
+		if( null !== $bankAccount )
+        	{
+			//Need further investigation in account since it isn't always the full number
+              		//$where_statement .= "  AND t.account = '" . $bankAccount . "'";
+              		//$where_statement .= "  AND t.acctid = '" . $bankAccount . "'";
+        	}
+/*
+		if( null !== $transactionAmount )
+        	{
+              		$where_statement .= "  AND t.transactionAmount = '" . $transactionAmount . "'";
+        	}
+*/
+/*
+		if( null !== $transactionTitle )
+        	{
+              		$where_statement .= "  AND t.transactionTitle = '" . $transactionTitle . "'";
+        	}
+*/
+		$sql .= $where_statement;
 
-		if( null !== $limit )
+		// Get total count using dedicated counter service (SRP)
+		$counter = new \Ksfraser\FaBankImport\Service\TransactionCounter();
+		$total_count = $counter->count($where_statement);
+
+		// Apply sorting BEFORE pagination
+		$sql .= " ORDER BY t.valueTimestamp ASC";
+
+		// Apply pagination if using new offset/limit_page parameters (when called with explicit values)
+		// Otherwise use legacy limit behavior
+		if( $offset > 0 || $limit_page !== 5 || ($limit === null && !isset($this->limit)) )
+		{
+			$sql .= " LIMIT " . (int)$limit_page . " OFFSET " . (int)$offset;
+		}
+		else if( null !== $limit )
 		{
 			if( is_numeric( $limit ) )
 			{
@@ -493,7 +515,6 @@ class bi_transactions_model {
 		{
 			$sql .= " LIMIT $this->limit ";
 		}
-        	$sql .= " ORDER BY t.valueTimestamp ASC";
 
 	        $result = db_query($sql, "could not get transaction data");
         	while($myrow = db_fetch($result))
@@ -506,7 +527,20 @@ class bi_transactions_model {
         	        }
         	        $trzs[$trz_code][] = $myrow;
         	}
-	        return $trzs;
+
+		// Calculate pagination metadata
+		$current_page = (int)(($offset / $limit_page) + 1);
+		$total_pages = (int)ceil($total_count / $limit_page);
+
+		// Return wrapped structure with pagination metadata
+	        return new \Ksfraser\FaBankImport\Results\PaginatedTransactionResult(
+	        	$trzs,
+	        	$total_count,
+	        	$current_page,
+	        	$total_pages,
+	        	$offset,
+	        	$limit_page
+	        );
 	}
 	/**//**********************************************************************
 	* Get a specific transaction's details
@@ -542,63 +576,6 @@ class bi_transactions_model {
 		}
 	        return $res;
 	}
-
-	/**
-	 * Fetch transactions flagged for manual review.
-	 *
-	 * @param int|null $limit
-	 * @return array
-	 */
-	function get_transactions_requiring_review($limit = 250)
-	{
-		$sql = "SELECT DISTINCT t.*, s.account our_account FROM " . TB_PREF . "bi_transactions t
-			LEFT JOIN " . TB_PREF . "bi_statements as s ON t.smt_id = s.id
-			INNER JOIN " . TB_PREF . "bi_transfer_matches m
-				ON (m.debit_transaction_id = t.id OR m.credit_transaction_id = t.id)
-			WHERE m.requires_review = 1
-			ORDER BY t.valueTimestamp ASC";
-
-		if( null !== $limit && is_numeric($limit) )
-		{
-			$sql .= " LIMIT " . (int)$limit;
-		}
-
-		$res = db_query($sql, 'Could not fetch transactions requiring review');
-		$ret = array();
-		while($row = db_fetch($res))
-		{
-			$ret[] = $row;
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * Reset JE association and transfer matching state for reprocess workflow.
-	 *
-	 * @param int $tid
-	 * @return void
-	 */
-	function reset_transaction_association($tid)
-	{
-		if (class_exists('bi_transfer_matches_model')) {
-			$transferMatches = new bi_transfer_matches_model();
-			$transferMatches->clear_by_transaction((int)$tid);
-		}
-
-		$sql = "
-			UPDATE " . $this->table_details['tablename'] . "
-			SET status=0,
-				fa_trans_no=0,
-				fa_trans_type=0,
-				created=0,
-				matched=0,
-				g_partner=NULL,
-				g_option=''
-			WHERE id=" . db_escape((int)$tid);
-
-		db_query($sql, 'Could not reset transaction association');
-	}
 	/**//**********************************************************************
 	* Get a the normal actions for a counterparty
 	*
@@ -611,7 +588,7 @@ class bi_transactions_model {
 		$sql = "SELECT count(*) as count, `account`, `g_option`, `g_partner` FROM `0_bi_transactions` group by account, g_option, g_partner";
 		if( null != $account )
 			$sql .= " WHERE account = '" . $account . "'";
-	        $result = db_query($sql, "could not get transaction with account $account");
+	        $result = db_query($sql, "could not get transaction with id $tid / account $account");
 	        return db_fetch($result);
 	}
 	/**//**********************************************************************
@@ -620,7 +597,22 @@ class bi_transactions_model {
 	* @param class
 	* @returns int how many fields did we copy
 	**************************************************************************/
-	       // trz2obj now inherited from GenericObjectMappingTrait
+	function trz2obj( $trz )
+	{
+		return $this->obj2obj( $trz );
+/*
+		$cnt = 0;
+		foreach( get_object_vars($this) as $key )
+		{
+			if( isset( $trz->$key ) )
+			{
+				$this-set( "$key", $trz->$key );	
+				$cnt++;
+			}
+		}
+		return $cnt;
+*/
+	}
 	/**//************************************************************
 	* Hand build the INSERT statement
 	*
@@ -900,7 +892,7 @@ class bi_transactions_model {
 				$this->set( "transactionDC", "D" );
 				$this->set( "transactionCodeDesc", "Debit" );
 				break;
-				default:
+			default:
 				display_notification( __FILE__ . "::" . __LINE__  . " Unexpected value" );
 				throw new Exception( "field transactionDC has unexpected value!", KSF_INVALID_DATA_VALUE );
 		}
@@ -912,337 +904,5 @@ class bi_transactions_model {
     		$res = db_query($sql, 'unable to get transactions data');
 		//var_dump( $res );
 		//return $res;
-	}
-
-	// =====================================================================
-	// BankAccountMapping Cross-Reference Methods (Phase 2)
-	// =====================================================================
-
-	/**
-	 * Get BankAccountMapping from counterparty data
-	 * 
-	 * Extracts BankAccountMapping from counterparty account information
-	 * if available in the transaction context.
-	 * 
-	 * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
-	 */
-	public function getBankAccountMappingFromCounterparty(): ?\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Factories\BankAccountMappingFactory')) {
-				return null;
-			}
-			
-			// Try to extract from counterparty if available
-			$counterpartyData = [];
-			if (isset($this->counterpartyAccount)) {
-				$counterpartyData['acctid'] = $this->counterpartyAccount;
-			}
-			
-			if (empty($counterpartyData)) {
-				return null;
-			}
-			
-			return \Ksfraser\FaBankImport\Shared\Factories\BankAccountMappingFactory::createFromArray($counterpartyData);
-		} catch (\Exception $e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Get the FA bank account ID this transaction maps to
-	 * 
-	 * Returns the FrontAccounting bank account ID that this transaction
-	 * is associated with through its parent statement's mapping.
-	 * Delegates all validation to the Repository.
-	 * 
-	 * @return int|null
-	 */
-	public function getFABankAccountFromMapping(): ?int
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return null;
-			}
-			
-			$smtData = $this->get_statement_by_id($this->smt_id);
-			if (!is_array($smtData)) {
-				return null;
-			}
-			
-			// Repository handles all validation and null/empty checks
-			return \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::getFABankAccountIdFromStatement($smtData);
-		} catch (\Exception $e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Extract BankAccountMapping from parent statement
-	 * 
-	 * Safely extracts the BankAccountMapping from this transaction's
-	 * parent statement. Returns null gracefully if statement is missing.
-	 * Delegates validation to the Repository.
-	 * 
-	 * @param array|null $statement Optional pre-fetched statement data
-	 * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
-	 */
-	public function extractMappingFromStatement(?array $statement = null): ?\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return null;
-			}
-			
-			// Get statement if not provided
-			if ($statement === null) {
-				$statement = $this->get_statement_by_id($this->smt_id);
-			}
-			
-			if (!is_array($statement)) {
-				return null;
-			}
-			
-			// Repository handles all validation and returns the mapping
-			// (or null if identifiers are empty)
-			return \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByStatementData($statement);
-		} catch (\Exception $e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Update transaction's mapping reference after import
-	 * 
-	 * Finalizes the mapping reference for this transaction after import
-	 * completes. Operation is idempotent and safe to call multiple times.
-	 * 
-	 * @param \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping $mapping The mapping to associate
-	 * @return bool True on success
-	 */
-	public function updateMappingAfterImport(
-		\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping $mapping
-	): bool
-	{
-		try {
-			// Just log that mapping was processed - actual storage happens at statement level
-			// This method exists for API consistency with statements model
-			return true;
-		} catch (\Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Get all possible mappings for reconciliation
-	 * 
-	 * Retrieves all candidate BankAccountMappings that could be used
-	 * for transfer matching and reconciliation of this transaction.
-	 * 
-	 * @return array Array of BankAccountMapping entities
-	 */
-	public function getMatchingMappingsForReconciliation(): array
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return [];
-			}
-			
-			$mappings = [];
-			
-			// Get all mappings to find candidates
-			$allMappings = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::getAllMappings();
-			
-			// Filter for this transaction's currency and direction
-			foreach ($allMappings as $mapping) {
-				// Include mappings for matching currency
-				if ($mapping->curdef === $this->account || empty($mapping->curdef)) {
-					$mappings[] = $mapping;
-				}
-			}
-			
-			return $mappings;
-		} catch (\Exception $e) {
-			return [];
-		}
-	}
-
-	/**
-	 * Store BankAccountMapping for this transaction
-	 * 
-	 * Stores the mapping reference for this transaction in the repository.
-	 * The actual FA bank account association is stored at the statement level.
-	 * 
-	 * @param \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping $mapping The mapping
-	 * @param int $faAccountId The FA bank account ID
-	 * @return bool True on success
-	 */
-	public function storeBankAccountMapping(
-		\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping $mapping,
-		int $faAccountId
-	): bool
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return false;
-			}
-			
-			// For transactions, we store at the statement level
-			// This method exists for API consistency
-			\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::upsert($mapping, $faAccountId);
-			
-			return true;
-		} catch (\Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Validate mapping consistency for this transaction
-	 * 
-	 * Verifies that this transaction's mapping is consistent with its
-	 * parent statement's mapping.
-	 * 
-	 * @return bool True if mappings are consistent
-	 */
-	public function validateMappingConsistency(): bool
-	{
-		try {
-			$stmtMapping = $this->extractMappingFromStatement();
-			if (!$stmtMapping) {
-				return false;
-			}
-			
-			// For now, just validate that we can extract a mapping
-			return true;
-		} catch (\Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Sync mapping updates to this transaction
-	 * 
-	 * Synchronizes any changes made to the parent statement's mapping
-	 * down to this transaction for consistency.
-	 * 
-	 * @return void
-	 */
-	public function syncMappingToTransaction(): void
-	{
-		try {
-			// Sync is automatic through parent statement
-			// This method provided for explicit synchronization if needed
-		} catch (\Exception $e) {
-			// Silently fail - this is informational
-		}
-	}
-
-	/**
-	 * Get mapping change audit trail
-	 * 
-	 * Retrieves the audit trail of all mapping changes made to this
-	 * transaction for compliance and debugging purposes.
-	 * 
-	 * @return array Array of audit trail entries
-	 */
-	public function getMappingAuditTrail(): array
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return [];
-			}
-			
-			// Query audit log for this transaction's mapping changes
-			$table = TB_PREF . 'bi_transactions_audit';
-			if (!db_query('SHOW TABLES LIKE ' . db_escape($table))) {
-				return [];
-			}
-			
-			$sql = "SELECT * FROM `{$table}`
-					WHERE transaction_id=" . (int)$this->id . "
-					  AND event LIKE 'mapping.%'
-					ORDER BY created DESC";
-			
-			$result = @db_query($sql, 'Could not get audit trail');
-			
-			$trail = [];
-			if (is_object($result)) {
-				while ($row = db_fetch($result)) {
-					if (is_array($row)) {
-						$trail[] = $row;
-					}
-				}
-			}
-			
-			return $trail;
-		} catch (\Exception $e) {
-			return [];
-		}
-	}
-
-	/**
-	 * Find transactions by BankAccountMapping ID
-	 * 
-	 * Static method to retrieve all transactions that share the same
-	 * BankAccountMapping ID through their parent statements.
-	 * 
-	 * @param int $mappingId The BankAccountMapping ID
-	 * @return array Array of transaction rows or empty array
-	 */
-	public static function findByBankAccountMappingId(int $mappingId): array
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return [];
-			}
-			
-			// Get the mapping first
-			$mapping = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findById($mappingId);
-			if (!$mapping) {
-				return [];
-			}
-			
-			// Find parent statements with this mapping
-			$stmtTable = TB_PREF . 'bi_statements';
-			$txnTable = TB_PREF . 'bi_transactions';
-			
-			$sql = "SELECT t.* FROM `{$txnTable}` t
-					INNER JOIN `{$stmtTable}` s ON t.smt_id = s.id
-					WHERE (s.bankid=" . db_escape($mapping->bankid) . " OR s.bankid IS NULL)
-					  AND (s.acctid=" . db_escape($mapping->acctid) . " OR s.acctid IS NULL)
-					  AND (s.intu_bid=" . db_escape($mapping->intu_bid) . " OR s.intu_bid IS NULL)
-					ORDER BY t.id DESC";
-			
-			$result = @db_query($sql, 'Could not find transactions by mapping');
-			
-			$transactions = [];
-			if (is_object($result)) {
-				while ($row = db_fetch($result)) {
-					if (is_array($row)) {
-						$transactions[] = $row;
-					}
-				}
-			}
-			
-			return $transactions;
-		} catch (\Exception $e) {
-			return [];
-		}
-	}
-
-	/**
-	 * Count transactions by BankAccountMapping ID
-	 * 
-	 * Returns the total count of transactions associated with a specific
-	 * mapping ID through their parent statements.
-	 * 
-	 * @param int $mappingId The BankAccountMapping ID
-	 * @return int Count of associated transactions
-	 */
-	public static function countByBankAccountMappingId(int $mappingId): int
-	{
-		$transactions = self::findByBankAccountMappingId($mappingId);
-		return count($transactions);
 	}
 }

@@ -85,7 +85,7 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
     
     /**
      * @test
-     * CURRENT BASELINE: Has findById method with tableName-backed query
+     * PROD BASELINE: Has findById method with simple query
      */
     public function testProdBaseline_HasFindByIdMethod()
     {
@@ -98,15 +98,15 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
         );
         
         $this->assertStringContainsString(
-            'SELECT * FROM {$this->tableName} WHERE id = ',
+            'SELECT * FROM bi_transactions WHERE id = ?',
             $content,
-            'CURRENT BASELINE: findById uses dynamic table name with numeric id cast'
+            'PROD BASELINE: findById uses direct SQL query'
         );
     }
     
     /**
      * @test
-     * CURRENT BASELINE: Has findAll method with tableName-backed query
+     * PROD BASELINE: Has findAll method with simple query
      */
     public function testProdBaseline_HasFindAllMethod()
     {
@@ -119,15 +119,15 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
         );
         
         $this->assertStringContainsString(
-            'SELECT * FROM {$this->tableName}',
+            'SELECT * FROM bi_transactions',
             $content,
-            'CURRENT BASELINE: findAll uses dynamic table name'
+            'PROD BASELINE: findAll uses direct SQL query'
         );
     }
     
     /**
      * @test
-     * CURRENT BASELINE: Has findByStatus method with escaped status query
+     * PROD BASELINE: Has findByStatus method with simple query
      */
     public function testProdBaseline_HasFindByStatusMethod()
     {
@@ -140,15 +140,15 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
         );
         
         $this->assertStringContainsString(
-            'SELECT * FROM {$this->tableName} WHERE status = ',
+            'SELECT * FROM bi_transactions WHERE status = ?',
             $content,
-            'CURRENT BASELINE: findByStatus uses dynamic table name and escaping'
+            'PROD BASELINE: findByStatus uses direct SQL query'
         );
     }
     
     /**
      * @test
-     * CURRENT BASELINE: Has generic save() builder logic
+     * PROD BASELINE: Has save method for inserting transactions
      */
     public function testProdBaseline_HasSaveMethod()
     {
@@ -161,21 +161,21 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
         );
         
         $this->assertStringContainsString(
-            'INSERT INTO {$this->tableName}',
+            'INSERT INTO bi_transactions',
             $content,
-            'CURRENT BASELINE: save uses tableName-backed INSERT query'
+            'PROD BASELINE: save uses INSERT query'
         );
         
         $this->assertStringContainsString(
-            'implode(\', \', $columns)',
+            'amount, valueTimestamp, memo, status',
             $content,
-            'CURRENT BASELINE: save builds INSERT columns dynamically'
+            'PROD BASELINE: save inserts specific fields'
         );
     }
     
     /**
      * @test
-     * CURRENT BASELINE: Has update method for modifying transactions
+     * PROD BASELINE: Has update method for modifying transactions
      */
     public function testProdBaseline_HasUpdateMethod()
     {
@@ -188,9 +188,9 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
         );
         
         $this->assertStringContainsString(
-            'UPDATE {$this->tableName} SET',
+            'UPDATE bi_transactions SET',
             $content,
-            'CURRENT BASELINE: update uses tableName-backed UPDATE query'
+            'PROD BASELINE: update uses UPDATE query'
         );
     }
     
@@ -214,98 +214,106 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
     
     /**
      * @test
-     * CURRENT BASELINE: Uses QueryBuilder with optional DI constructor
+     * PROD BASELINE: Does NOT use QueryBuilder (added in main)
      */
     public function testProdBaseline_NoQueryBuilderDependency()
     {
         $content = file_get_contents($this->repoFile);
         
-        $this->assertStringContainsString(
+        $this->assertStringNotContainsString(
             'TransactionQueryBuilder',
             $content,
-            'CURRENT BASELINE: Uses TransactionQueryBuilder dependency'
+            'PROD BASELINE: Should NOT use TransactionQueryBuilder (added in main)'
         );
         
-        $this->assertStringContainsString(
-            'public function __construct(?TransactionQueryBuilder $queryBuilder = null)',
+        $this->assertStringNotContainsString(
+            '__construct(',
             $content,
-            'CURRENT BASELINE: Has optional dependency injection constructor'
+            'PROD BASELINE: Should NOT have constructor (no dependency injection on prod)'
         );
     }
     
     /**
      * @test
-     * CURRENT BASELINE: Includes advanced repository methods
+     * PROD BASELINE: Does NOT have advanced methods (added in main)
      */
     public function testProdBaseline_NoAdvancedMethods()
     {
         $content = file_get_contents($this->repoFile);
         
-        $this->assertStringContainsString(
+        $this->assertStringNotContainsString(
             'findByFilters',
             $content,
-            'CURRENT BASELINE: Includes findByFilters() method'
+            'PROD BASELINE: Should NOT have findByFilters() method (added in main)'
         );
         
-        $this->assertStringContainsString(
+        $this->assertStringNotContainsString(
             'function reset(',
             $content,
-            'CURRENT BASELINE: Includes reset() method'
+            'PROD BASELINE: Should NOT have reset() method (added in main)'
         );
         
-        $this->assertStringContainsString(
+        $this->assertStringNotContainsString(
             'function prevoid(',
             $content,
-            'CURRENT BASELINE: Includes prevoid() method'
+            'PROD BASELINE: Should NOT have prevoid() method (added in main)'
         );
         
-        $this->assertStringContainsString(
+        $this->assertStringNotContainsString(
             'findNormalPairing',
             $content,
-            'CURRENT BASELINE: Includes findNormalPairing() method'
+            'PROD BASELINE: Should NOT have findNormalPairing() method (added in main)'
         );
     }
     
     /**
      * @test
-     * CURRENT BASELINE: Includes richer documentation and metadata
+     * PROD BASELINE: Simple implementation without extensive PHPDoc
      */
     public function testProdBaseline_MinimalDocumentation()
     {
         $content = file_get_contents($this->repoFile);
         
+        // PROD has minimal comment: "/* Original DB queries replaced by repository pattern */"
         $this->assertStringContainsString(
-            '@package',
+            '/* Original DB queries replaced by repository pattern */',
             $content,
-            'CURRENT BASELINE: Includes @package annotation'
+            'PROD BASELINE: Should have simple comment about repository pattern'
         );
         
-        $this->assertStringContainsString(
+        // Main adds extensive @package, @author, @since, @version documentation
+        $this->assertStringNotContainsString(
+            '@package',
+            $content,
+            'PROD BASELINE: Should NOT have @package annotation (added in main)'
+        );
+        
+        $this->assertStringNotContainsString(
             '@author',
             $content,
-            'CURRENT BASELINE: Includes @author annotation'
+            'PROD BASELINE: Should NOT have @author annotation (added in main)'
         );
     }
     
     /**
      * @test
-     * CURRENT BASELINE: File reflects expanded repository implementation
+     * PROD BASELINE: File is approximately 55 lines (simple implementation)
      */
     public function testProdBaseline_SimplifiedImplementation()
     {
         $content = file_get_contents($this->repoFile);
         $lineCount = count(explode("\n", $content));
         
-        $this->assertGreaterThan(
-            250,
-            $lineCount,
-            'CURRENT BASELINE: File should reflect expanded repository implementation'
-        );
-
         $this->assertLessThan(
-            500,
+            100,
             $lineCount,
-            'CURRENT BASELINE: File size should remain bounded despite expanded implementation'
+            'PROD BASELINE: File should be under 100 lines (simple implementation). Main adds 294 lines for QueryBuilder pattern.'
+        );
+        
+        $this->assertGreaterThan(
+            40,
+            $lineCount,
+            'PROD BASELINE: File should have at least 40 lines (5 methods)'
         );
     }
 }

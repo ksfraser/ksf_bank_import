@@ -8,14 +8,16 @@ use Ksfraser\FaBankImport\Application;
 class TransactionProcessingFeatureTest extends DatabaseTestCase
 {
     private $app;
-    private $repository;
 
     protected function setUp(): void
     {
         parent::setUp();
         $_SESSION['user_id'] = 1;
         $this->app = new Application();
-        $this->repository = $this->app->getTransactionRepository();
+    }
+
+    protected function seedTestData(): void
+    {
         $this->createTestTransaction([
             'amount' => 500.00,
             'valueTimestamp' => '2025-05-22',
@@ -74,21 +76,4 @@ class TransactionProcessingFeatureTest extends DatabaseTestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         ob_clean();
     }
-
-    protected function createTestTransaction(array $data): int
-    {
-        // This should insert a test transaction into the database for testing
-        // Implementation depends on your repository/database setup
-        $this->repository->insert([
-            'id' => 1,
-            'amount' => $data['amount'],
-            'valueTimestamp' => $data['valueTimestamp'],
-            'memo' => $data['memo'],
-            'transactionDC' => $data['transactionDC'],
-            'status' => $data['status'],
-        ]);
-
-        return 1; // Assuming ID 1 for test
-    }
 }
-// Duplicate removed by Copilot. Canonical version is in src/Ksfraser/FaBankImport/tests/TransactionProcessingFeatureTest.php

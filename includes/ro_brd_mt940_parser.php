@@ -1,8 +1,4 @@
 <?php
-/**
- * @author Kevin Fraser / ChatGPT
- * @since 20250409
- */
 
 class ro_brd_mt940_parser extends mt940_parser {
     // brd uses :OS: to asend some info
@@ -77,82 +73,6 @@ class ro_brd_mt940_parser extends mt940_parser {
 	    } while($exists == true);
 	    $i++;
 	}
-
-	// Extract contacts for all transactions in this statement
-	foreach($smt->transactions as &$trz) {
-	    $this->extractContactForTransaction($trz);
-	}
-    }
-
-    /**
-     * Extract/create contact for BRD MT940 transaction.
-     *
-     * Integrates with ContactService and ContactDeduplicationService to maintain
-     * a persistent contact database linked to bank transactions.
-     *
-     * Design: Non-blocking. Errors caught and logged but don't interrupt parsing.
-     *
-     * @param transaction $trz The bank_import transaction object being populated
-     * @return void
-     */
-    private function extractContactForTransaction($trz): void
-    {
-        // Determine merchant name (try multiple fields)
-        $merchant = null;
-        if (!empty($trz->merchant)) {
-            $merchant = $trz->merchant;
-        } elseif (!empty($trz->account)) {
-            $merchant = $trz->account;
-        } elseif (!empty($trz->accountName1)) {
-            $merchant = $trz->accountName1;
-        } elseif (!empty($trz->transactionTitle1)) {
-            $merchant = $trz->transactionTitle1;
-        }
-
-        // Only attempt extraction if we have merchant name
-        if (empty($merchant)) {
-            return;
-        }
-
-        try {
-            // Graceful degradation: if db not available, skip contact extraction
-            if (!isset($GLOBALS['db'])) {
-                return;
-            }
-
-            $db = $GLOBALS['db'];
-
-            // Load services (lazy load to avoid mandatory dependency)
-            if (!class_exists('\Ksfraser\FaBankImport\Services\ContactService')) {
-                return;
-            }
-
-            $contactService = new \Ksfraser\FaBankImport\Services\ContactService($db);
-            $deduplicateService = new \Ksfraser\FaBankImport\Services\ContactDeduplicationService($contactService);
-
-            // Determine contact type based on transaction direction
-            // DEBIT (outgoing) = supplier; CREDIT (incoming) = customer
-            $contactType = ($trz->transactionDC === 'D') ? 'supplier' : 'customer';
-
-            // Prepare contact data from merchant
-            $contactData = new \Ksfraser\Contact\DTO\ContactData();
-            $contactData->fromArray([
-                'name' => (string) $merchant,
-                'contact_type' => $contactType,
-            ]);
-
-            // Get or create contact with deduplication
-            $contact = $deduplicateService->getOrCreateWithDeduplicate($contactData);
-
-            // Link transaction to contact if creation succeeded
-            if ($contact && !empty($contact->id)) {
-                $trz->contact_id = (int) $contact->id;
-            }
-
-        } catch (\Throwable $e) {
-            // Non-blocking error handling: Log but don't fail the import
-            error_log('BRD MT940 contact extraction failed: ' . $e->getMessage());
-        }
     }
     
 }

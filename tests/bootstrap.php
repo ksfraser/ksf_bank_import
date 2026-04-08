@@ -1,37 +1,14 @@
-﻿<?php
+<?php
 
-if (!ob_get_level()) {
-ob_start();
-}
-
-require_once __DIR__ . "/../vendor/autoload.php";
-
-// Load FAMock for comprehensive FA function mocking (suppress HTML output) - optional
-$famock_path = __DIR__ . "/../vendor/ksfraser/famock/php/FAMock.php";
-if (file_exists($famock_path)) {
-ob_start();
-require_once $famock_path;
-ob_end_clean();
-}
-
-// FrontAccounting function stubs for tests (not guarded)
-require_once __DIR__ . "/helpers/fa_functions.php";
-
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Set up test environment
 error_reporting(E_ALL);
-ini_set("display_errors", "1");
-ini_set("display_startup_errors", "1");
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
 
 // Initialize any test-specific configurations
-define("FA_ROOT", dirname(__DIR__));
+define('FA_ROOT', dirname(__DIR__));
 
-// FrontAccounting table prefix for database operations
-if (!defined("TB_PREF")) {
-define("TB_PREF", "0_");
-}
-
-// Pre-load test base class for PHPUnit discovery
-if (class_exists("Tests\Integration\DatabaseTestCase") === false) {
-require_once __DIR__ . "/integration/DatabaseTestCase.php";
-}
+// Load test base classes (not autoloaded)
+require_once __DIR__ . '/integration/DatabaseTestCase.php';

@@ -1,21 +1,10 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :PerformanceMonitor [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for PerformanceMonitor.
- */
-
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
-use Ksfraser\FaBankImport\Services\BaseLogger;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
 
 class PerformanceMonitor
 {
@@ -26,8 +15,13 @@ class PerformanceMonitor
     private function __construct()
     {
         $config = Config::getInstance();
-        $logFile = $config->get('logging.path') . '/performance.log';
-        $this->logger = new BaseLogger('performance', $logFile, \Monolog\Logger::INFO);
+        $this->logger = new Logger('performance');
+        $this->logger->pushHandler(
+            new StreamHandler(
+                $config->get('logging.path') . '/performance.log',
+                Logger::INFO
+            )
+        );
     }
 
     public static function getInstance(): self
@@ -80,4 +74,3 @@ class PerformanceMonitor
         ];
     }
 }
-

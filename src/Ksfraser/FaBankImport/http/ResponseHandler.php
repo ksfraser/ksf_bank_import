@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :ResponseHandler [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for ResponseHandler.
- */
 namespace Ksfraser\FaBankImport\Http;
 
 use Symfony\Component\HttpFoundation\Response;

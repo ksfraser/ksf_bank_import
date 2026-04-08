@@ -12,12 +12,21 @@
  * *************************************************************************************/
 
 
+$path_to_root = "../..";
+
+//TODO
+//	Update the queries in the functions to use $this->table_details['tablename'] instead of .TB_PREF."bi_transactions 
+
 /*
  *
  * Each import type needs to read in the source document, and process line by line placing a record into this class.
  * This class then needs to insert the record.
  *
  * */
+
+require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
+require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+require_once( 'class.bi_transactions.php' );
 
 /**//**************************************************************************************************************
 *
@@ -53,7 +62,7 @@
 	| matched             | int(1)       | NO   |     | 0       |                |
 	| created             | int(1)       | NO   |     | 0       |                |
 *	+---------------------+--------------+------+-----+---------+----------------+
-*
+*	
 *
 ******************************************************************************************************************/
 //class bi_transactions_model extends generic_fa_interface_model {
@@ -103,6 +112,26 @@ class bi_transaction extends bi_transactions_model  {
 		$this->matched = 0;
 		$this->created = 0;
 		//display_notification( __FILE__ . "::" . __LINE__ );
+	}
+        /*****************************************************************//**
+        * Set the field if possible
+        *
+        *       Tries to set the field in this class as well as in table_interface
+        *       assumption being we are going to do something with the field in
+        *       the database (else why set the model...)
+        *
+        * @param string field to set
+        * @param mixed value to set
+        * @param bool should we allow the class to only set __construct time fields
+        * @return nothing. (parent) throws exceptions
+        **********************************************************************/
+	function set( $field, $value = null, $enforce = true )
+	{
+		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
+		//display_notification( __FILE__ . "::" . __LINE__ . ":" . "Setting $field to $value" );
+		$ret = parent::set( $field, $value, $enforce );
+		//display_notification( __FILE__ . "::" . __CLASS__ . "::"  . __METHOD__ . ":" . __LINE__, "WARN" );
+		return $ret;
 	}
 	/**//*************************************************************************
 	* Extract the variables out of _POST for this id
@@ -217,10 +246,10 @@ class bi_transaction extends bi_transactions_model  {
 	* @param int status
 	* @returns array transaction rows sorted
 	***************************************************************************/
-	function get_transactions( $status = null, $transAfterDate = null, $transToDate = null, $transactionAmount = null, $transactionTitle = null, $limit = null, $bankAccount = null ) 
+	function get_transactions( $status = null) 
 	{
 		//overriding!
-		//parent::get_transactions( $status, $transAfterDate, $transToDate, $transactionAmount, $transactionTitle, $limit, $bankAccount );
+		//parent::get_transactions( $status = null);
 	}
 	/**//**********************************************************************
 	* Get a specific transaction's details
@@ -245,7 +274,16 @@ class bi_transaction extends bi_transactions_model  {
 		//overriding!
 		//parent::get_normal_pairing( $account = null);
 	}
-	       // trz2obj now inherited from GenericObjectMappingTrait
+	/**//**********************************************************************
+	* Convert Transaction array to this object
+	*
+	* @param class
+	* @returns int how many fields did we copy
+	**************************************************************************/
+	function trz2obj( $trz )
+	{
+		return parent::obj2obj( $trz );
+	}
 	/**//************************************************************
 	* Hand build the INSERT statement
 	*

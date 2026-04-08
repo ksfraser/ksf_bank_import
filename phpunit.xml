@@ -17,6 +17,9 @@
         <testsuite name="Services">
             <directory>./tests/Service</directory>
         </testsuite>
+        <testsuite name="Views">
+            <directory>./tests/Views</directory>
+        </testsuite>
         <testsuite name="Unit (Legacy)">
             <directory suffix="Test.php">./tests/unit</directory>
         </testsuite>
@@ -24,24 +27,10 @@
             <directory suffix="Test.php">./tests/integration</directory>
         </testsuite>
     </testsuites>
-    <coverage processUncoveredFiles="false">
+    <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./src</directory>
-            <directory suffix=".php">./</directory>
         </include>
-        <exclude>
-            <directory suffix=".php">./src/Ksfraser/Application/tests</directory>
-            <directory suffix=".php">./src/Ksfraser/FaBankImport/tests</directory>
-            <!-- Copilot scratch/backup file: not part of production code, and may be syntactically invalid. -->
-            <file>./src/Ksfraser/FaBankImport/class.bi_transactions.copilot.php</file>
-            <!-- Legacy file contains invalid PHP syntax; exclude from coverage parsing. -->
-            <file>./src/Ksfraser/FaBankImport/class.transactions_table.php</file>
-            <!-- Exclude vendor and test files -->
-            <directory>./vendor/</directory>
-            <directory>./tests/</directory>
-            <!-- Exclude FA core files -->
-            <directory>./includes/fa_stubs.php</directory>
-        </exclude>
         <report>
             <html outputDirectory="coverage"/>
             <text outputFile="coverage.txt"/>

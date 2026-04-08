@@ -104,17 +104,8 @@ class CustomerPartnerTypeView
     private function displayAllocatableInvoices(): void
     {
         $_GET['customer_id'] = $this->partnerId;
-
-        $faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-        $useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-        $forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-        $faCustomerPaymentFile = __DIR__ . '/../ksf_modules_common/class.fa_customer_payment.php';
-
-        if (!$forceMocks && is_file($faCustomerPaymentFile)) {
-            require_once($faCustomerPaymentFile);
-        }
-
-        if (class_exists('fa_customer_payment')) {
+        
+        if (@include_once('../ksf_modules_common/class.fa_customer_payment.php')) {
             $tr = 0;
             $fcp = new fa_customer_payment();
             $fcp->set("trans_date", $this->valueTimestamp);

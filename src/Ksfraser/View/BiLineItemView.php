@@ -147,12 +147,14 @@ class BiLineItemView
 					* so if the bank account number matches and adjusted amount matches...
 					*****************************************************************************************/
 					$match_html .= "<b>$matchcount</b>: ";
-					$type = $matchgl['type'];
-					$type_no = $matchgl['type_no'];
-					$typeLabel = (isset($trans_types_readable) && is_array($trans_types_readable) && isset($trans_types_readable[$type]))
-						? $trans_types_readable[$type]
-						: $type;
-					$match_html .= " Transaction " . $typeLabel . ":" . $type_no;
+					if( ! @include_once( __DIR__  . "/../ksf_modules_common/defines.inc.php") )
+					{
+						$match_html .= " Transaction " . $trans_types_readable[$matchgl['type']] . ":" . $matchgl['type_no'];
+					}
+					else
+					{
+						$match_html .= " Transaction " . $matchgl['type'] . ":" . $matchgl['type_no'];
+					}
 					$match_html .= " Score " . $matchgl['score'] . " ";
 					if( strcasecmp( $this->our_account, $matchgl['account'] ) OR strcasecmp( $fa_bank_accounts->get( "bank_account_name" ), $matchgl['account'] ) )
 					{
@@ -521,15 +523,9 @@ class BiLineItemView
  *      List FROM and TO invoices needing payment (allocations) 
 */
 		$_GET['customer_id'] = $model->partnerId;
-		$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-		$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-		$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-		$faCustomerPaymentFile = __DIR__ . '/../../../ksf_modules_common/class.fa_customer_payment.php';
-		if( !$forceMocks && is_file($faCustomerPaymentFile) )
-		{
-			require_once($faCustomerPaymentFile);
-		}
-		if( class_exists('fa_customer_payment') )
+		//if( ! @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
+		//use Ksfraser\frontaccounting\FaCustomerPayment;
+		if(  @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
 		{
 			$tr = 0;
 			$fcp = new fa_customer_payment();
@@ -548,8 +544,6 @@ class BiLineItemView
 			label_row( (_("Allocate Payment to (1) Invoice")), text_input( "Invoice_$model->id", $tr, 6, '', _("Invoice to Allocate Payment:") ) );
 		}
 /* ! Mantis 3018 */
-
-}
 
 }
 

@@ -19,6 +19,7 @@ use KsfBankImport\Views\BankTransferPartnerTypeView;
 use KsfBankImport\Views\QuickEntryPartnerTypeView;
 
 // Load FA stubs
+require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 // Load the factory
 require_once __DIR__ . '/../../../views/ViewFactory.php';
@@ -254,18 +255,9 @@ class ViewFactoryTest extends TestCase
             ['otherBankAccount' => 'Test Account']
         );
         
-        $output = $view->getHtml();
-
-        if (is_object($output) && method_exists($output, 'getHtml')) {
-            $html = (string)$output->getHtml();
-        } elseif (is_object($output) && method_exists($output, 'toHtml')) {
-            ob_start();
-            $output->toHtml();
-            $html = (string)ob_get_clean();
-        } else {
-            $html = (string)$output;
-        }
-
+        $html = $view->getHtml();
+        
+        $this->assertIsString($html);
         $this->assertNotEmpty($html);
     }
 }

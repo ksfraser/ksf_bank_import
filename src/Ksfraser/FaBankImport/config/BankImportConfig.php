@@ -1,17 +1,6 @@
 <?php
 
 /**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :BankImportConfig [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for BankImportConfig.
- */
-/**
  * Bank Import Configuration
  *
  * Centralized configuration management for Bank Import module.
@@ -136,11 +125,6 @@ class BankImportConfig
         
         $result = db_query($sql, "Failed to check GL account");
         $row = db_fetch($result);
-        
-        // Handle case where db_fetch returns false
-        if ($row === false) {
-            return false;
-        }
         
         return (int)$row['count'] > 0;
     }

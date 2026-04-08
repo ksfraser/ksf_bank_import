@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :DuplicateResult [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for DuplicateResult.
- */
 namespace Ksfraser\FaBankImport\ValueObject;
 
 use Ksfraser\FaBankImport\Entity\UploadedFile;
@@ -25,12 +14,9 @@ use Ksfraser\FaBankImport\Entity\UploadedFile;
  */
 class DuplicateResult
 {
-    private  $isDuplicate;
-    //private bool $isDuplicate;
-    private  $existingFile;
-    //private ?UploadedFile $existingFile;
-    private  $action; // 'allow', 'warn', 'block'
-    //private string $action; // 'allow', 'warn', 'block'
+    private bool $isDuplicate;
+    private ?UploadedFile $existingFile;
+    private string $action; // 'allow', 'warn', 'block'
     
     /**
      * Constructor

@@ -229,9 +229,8 @@ class CustomerPartnerTypeView
     private function displayAllocatableInvoices(): ?HtmlFragment
     {
         $_GET['customer_id'] = $this->partnerId;
-
-        $faCustomerPaymentPath = __DIR__ . '/../ksf_modules_common/class.fa_customer_payment.php';
-        if (@include_once($faCustomerPaymentPath)) {
+        
+        if (@include_once('../ksf_modules_common/class.fa_customer_payment.php')) {
             $fragment = new HtmlFragment();
             $tr = 0;
             $fcp = new \fa_customer_payment();

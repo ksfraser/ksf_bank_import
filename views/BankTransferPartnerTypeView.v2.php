@@ -136,10 +136,9 @@ class BankTransferPartnerTypeView
         
         // Build options
         foreach ($bankAccounts as $account) {
-            $label = $account['name'] ?? ($account['bank_account_name'] ?? '');
             $option = new HtmlOption(
                 $account['id'], 
-                $label
+                $account['name']
             );
             
             if ($account['id'] == $selectedId) {

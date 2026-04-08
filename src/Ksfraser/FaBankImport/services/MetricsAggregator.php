@@ -1,21 +1,10 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :MetricsAggregator [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for MetricsAggregator.
- */
 namespace Ksfraser\FaBankImport\Services;
 
 class MetricsAggregator
 {
-    private const METRICS_FILE_GLOB = '/performance_*.log';
+    private const METRICS_FILE_PATTERN = '/performance_*.log';
     private $logPath;
 
     public function __construct(string $logPath)
@@ -26,7 +15,7 @@ class MetricsAggregator
     public function aggregateMetrics(string $startDate, string $endDate): array
     {
         $metrics = [];
-        $files = $this->findMetricsFiles();
+        $files = glob($this->logPath . self::METRICS_FILE_PATTERN);
 
         foreach ($files as $file) {
             $handle = fopen($file, 'r');
@@ -72,33 +61,6 @@ class MetricsAggregator
         }
 
         return $metrics;
-    }
-
-    private function findMetricsFiles(): array
-    {
-        // glob() does not reliably work with stream wrappers (e.g., vfsStream).
-        // Use scandir() for those cases so unit tests can use vfs:// paths.
-        $scheme = (string) parse_url($this->logPath, PHP_URL_SCHEME);
-        if ($scheme !== '' && $scheme !== 'file') {
-            $entries = @scandir($this->logPath);
-            if (!is_array($entries)) {
-                return [];
-            }
-
-            $files = [];
-            foreach ($entries as $entry) {
-                if ($entry === '.' || $entry === '..') {
-                    continue;
-                }
-                if (!preg_match('/^performance_.*\\.log$/', $entry)) {
-                    continue;
-                }
-                $files[] = rtrim($this->logPath, '/\\') . '/' . $entry;
-            }
-            return $files;
-        }
-
-        return glob($this->logPath . self::METRICS_FILE_GLOB) ?: [];
     }
 
     public function getHistoricalTrends(string $metricName, int $days = 7): array

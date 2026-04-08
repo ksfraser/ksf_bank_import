@@ -9,8 +9,6 @@
  *
  * *************************************************************************************/
 
-use Ksfraser\ModulesDAO\Schema\DatabaseSchemaToolsTrait;
-
 
 $path_to_root = "../..";
 
@@ -32,20 +30,10 @@ $path_to_root = "../..";
 
 //display_notification( __FILE__ . "::" . __LINE__ );
 
-$commonDir = __DIR__ . '/../ksf_modules_common';
-$commonInterface = $commonDir . '/class.generic_fa_interface.php';
-$commonDefines = $commonDir . '/defines.inc.php';
-$faTypesInc = $commonDir . '/../../includes/types.inc';
-$faEnv = strtolower((string)getenv('KSF_FA_ENV'));
-$useFaMocks = strtolower((string)getenv('KSF_USE_FA_MOCKS'));
-$forceMocks = ($useFaMocks === '1' || $useFaMocks === 'true' || $faEnv === 'dev' || $faEnv === 'test');
-
-if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_file($faTypesInc)) {
-	require_once($commonInterface);
-	require_once($commonDefines);
-}
-
-
+require_once( '../ksf_modules_common/class.generic_fa_interface.php' );
+//display_notification( __FILE__ . "::" . __LINE__ );
+require_once( '../ksf_modules_common/defines.inc.php' );
+//display_notification( __FILE__ . "::" . __LINE__ );
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
@@ -77,61 +65,46 @@ if (!$forceMocks && is_file($commonInterface) && is_file($commonDefines) && is_f
 *
 ******************************************************************************************************************/
 
-
-class bi_statements_model 
+/**
+ * Bank Import Statements Model
+ * 
+ * Extends generic_fa_interface_model which provides magic methods:
+ * 
+ * @method mixed get(string $property) Get a property value
+ * @method void set(string $property, mixed $value) Set a property value
+ * @method void obj2obj(object $source) Copy properties from another object
+ * @method bool insert() Insert this record into database
+ * @method bool update() Update this record in database
+ * @method bool delete() Delete this record from database
+ */
+class bi_statements_model extends generic_fa_interface_model 
 {
-	use DatabaseSchemaToolsTrait;
-	use Ksfraser\GenericInterface\GenericFaInterfaceTrait;
-
-
-	/**
-	 * Ensure the staging table schema is present (idempotent, non-destructive).
-	 * Table creation is handled by sql/update.sql during module activation; this only
-	 * repairs drift (missing columns/index) for older installs.
-	 */
-	public function ensure_schema(): void
-	{
-		$table = TB_PREF . 'bi_statements';
-		if (!$this->tableExists($table)) {
-			return;
-		}
-		$this->ensureColumn($table, 'updated_ts', "TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
-		$this->ensureColumn($table, 'acctid', "VARCHAR(64) NULL");
-		$this->ensureColumn($table, 'fitid', "VARCHAR(64) NULL");
-		$this->ensureColumn($table, 'bankid', "VARCHAR(64) NULL");
-		$this->ensureColumn($table, 'intu_bid', "VARCHAR(64) NULL");
-		$this->ensureUniqueIndex($table, 'unique_smt', array('bank', 'statementId'));
-	}
-
-	/**
-	 * Cache of table columns to keep INSERT generation schema-tolerant.
-	 *
-	 * @var array<string, array<string, bool>>
-	 */
-	private static $tableColumnsCache = [];
-
-	public $id;
-	public $bank;        // varchar(22) | YES  | MUL | NULL    |                |
-	public $account;		// varchar(24) | YES  |     | NULL    |                |
-	public $currency;		// varchar(3)  | YES  |     | NULL    |                |
-	public $startBalance;	// double      | YES  |     | NULL    |                |
-	public $endBalance;		// double      | YES  |     | NULL    |                |
-	public $smtDate;		// date        | YES  |     | NULL    |                |
-	public $number;		// int(11)     | YES  |     | NULL    |                |
-	public $seq;			// int(11)     | YES  |     | NULL    |                |
-	public $statementId;		// varchar(64) | YES  |     | NULL    |                |
-	public $acctid;		// varchar(64) | YES  |     | NULL    |                |
-	public $fitid;		// varchar(64) | YES  |     | NULL    |                |
-	public $bankid;		// varchar(64) | YES  |     | NULL    |                |
-	public $intu_bid;		// varchar(64) | YES  |     | NULL    |                |
+	protected $id;                  	//| int(11)      | NO   | PRI | NULL    | auto_increment |
+	protected $bank;		// varchar(22) | YES  | MUL | NULL    |                |
+	protected $account;		// varchar(24) | YES  |     | NULL    |                |
+	protected $currency;		// varchar(3)  | YES  |     | NULL    |                |
+	protected $startBalance;	// double      | YES  |     | NULL    |                |
+	protected $endBalance;		// double      | YES  |     | NULL    |                |
+	protected $smtDate;		// date        | YES  |     | NULL    |                |
+	protected $number;		// int(11)     | YES  |     | NULL    |                |
+	protected $seq;			// int(11)     | YES  |     | NULL    |                |
+	protected $statementId;		// varchar(64) | YES  |     | NULL    |                |
+	protected $acctid;		// varchar(64) | YES  |     | NULL    |                |
+	protected $fitid;		// varchar(64) | YES  |     | NULL    |                |
+	protected $bankid;		// varchar(64) | YES  |     | NULL    |                |
+	protected $intu_bid;		// varchar(64) | YES  |     | NULL    |                |
 
 
 
 	function __construct()
 	{
-		$this->initSchemaTools('db_query', 'db_escape', 'db_num_rows');
+//display_notification( __FILE__ . "::" . __LINE__ );
+//		parent::__construct();
+//display_notification( __FILE__ . "::" . __LINE__ );
 		$this->iam = "bi_statements";
+//display_notification( __FILE__ . "::" . __LINE__ );
 		$this->define_table();
+//display_notification( __FILE__ . "::" . __LINE__ );
 	}
 	function define_table()
 	{
@@ -239,83 +212,24 @@ class bi_statements_model
 	*****************************************************************/
 	function hand_insert_sql()
 	{
-		$table = $this->table_details['tablename'];
-		$cols = $this->get_table_columns($table);
-
-		// Build candidate values from whatever properties exist on this model/statement.
-		$smtDateValue = null;
-		if (isset($this->smtDate)) {
-			$smtDateValue = $this->smtDate;
-		} elseif (isset($this->timestamp)) {
-			$smtDateValue = $this->timestamp;
-		}
-
-		$seqValue = null;
-		if (isset($this->seq)) {
-			$seqValue = $this->seq;
-		} elseif (isset($this->sequence)) {
-			$seqValue = $this->sequence;
-		}
-
-		$candidates = [
-			'bank' => $this->bank ?? null,
-			'account' => $this->account ?? null,
-			'currency' => $this->currency ?? null,
-			'startBalance' => $this->startBalance ?? null,
-			'endBalance' => $this->endBalance ?? null,
-			'smtDate' => $smtDateValue,
-			'number' => $this->number ?? null,
-			'seq' => $seqValue,
-			'statementId' => $this->statementId ?? null,
-			'acctid' => $this->acctid ?? null,
-			'fitid' => $this->fitid ?? null,
-			'bankid' => $this->bankid ?? null,
-			'intu_bid' => $this->intu_bid ?? null,
-		];
-
-		$fields = [];
-		$values = [];
-		foreach ($candidates as $field => $value) {
-			if (!isset($cols[$field])) {
-				continue;
-			}
-			$fields[] = $field;
-			$values[] = db_escape($value);
-		}
-
-		if (empty($fields)) {
-			throw new Exception('No matching columns found for bi_statements insert.');
-		}
-
-		return "INSERT IGNORE INTO {$table} (" . implode(', ', $fields) . ") VALUES (" . implode(', ', $values) . ")";
-	}
-
-	/**
-	 * @return array<string,bool>
-	 */
-	private function get_table_columns(string $tableName): array
-	{
-		if (isset(self::$tableColumnsCache[$tableName])) {
-			return self::$tableColumnsCache[$tableName];
-		}
-
-		$cols = [];
-		try {
-			$res = db_query("SHOW COLUMNS FROM {$tableName}", 'Could not read table columns');
-			while ($row = db_fetch($res)) {
-				if (!empty($row['Field'])) {
-					$cols[(string)$row['Field']] = true;
-				}
-			}
-		} catch (Exception $e) {
-			// If introspection fails, fall back to the historical column set.
-			foreach (['bank','account','currency','startBalance','endBalance','smtDate','number','seq','statementId','acctid','fitid','bankid','intu_bid'] as $f) {
-				$cols[$f] = true;
-			}
-		}
-
-		self::$tableColumnsCache[$tableName] = $cols;
-		return $cols;
+               $sql = 	"INSERT IGNORE INTO " . $this->table_details['tablename'] . 
+			"(bank, account, currency, startBalance, endBalance, smtDate, number, seq, statementId, acctid, fitid, bankid, intu_bid)" .
+			" VALUES( " .
+				db_escape($this->bank) . ", " .
+				db_escape($this->account) . ", " .
+				db_escape($this->currency) . ", " .
+				db_escape($this->startBalance) . ", " .
+				db_escape($this->endBalance) . ", " .
+				db_escape($this->timestamp) . ", " .
+				db_escape($this->number) . ", " .
+				db_escape($this->sequence) . ", " .
+				db_escape($this->statementId) . ", " .
+				db_escape($this->acctid) . ", " .
+				db_escape($this->fitid) . ", " .
+				db_escape($this->bankid) . ", " .
+				db_escape($this->intu_bid) . 
+			")";
+		return $sql;
 	}
 	/**//************************************************************
 	* Determine if this particular statement already exists in the staging table
@@ -355,196 +269,6 @@ class bi_statements_model
 			display_notification( __FILE__ . "::" . __LINE__ . $e->getMessage() );
 		}
 		return true;
-	}
-
-	// =====================================================================
-	// BankAccountMapping Cross-Reference Methods (Phase 2)
-	// =====================================================================
-
-	/**
-	 * Get the BankAccountMapping entity for this statement
-	 * 
-	 * Retrieves or creates the cross-reference mapping of OFX identifiers
-	 * to FA bank account for this statement.
-	 * 
-	 * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
-	 */
-	public function getBankAccountMapping(): ?\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
-	{
-		return $this->extractBankAccountMapping();
-	}
-
-	/**
-	 * Get the FA bank account ID mapped to this statement
-	 * 
-	 * Returns the FrontAccounting bank account that this statement's OFX
-	 * identifiers are linked to, or null if no mapping exists.
-	 * Delegates all validation to the Repository.
-	 * 
-	 * @return int|null
-	 */
-	public function getFABankAccountId(): ?int
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return null;
-			}
-			
-			// Repository handles all validation and null/empty checks
-			$statementData = [
-				'bankid' => $this->bankid,
-				'acctid' => $this->acctid,
-				'intu_bid' => $this->intu_bid
-			];
-			
-			return \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::getFABankAccountIdFromStatement($statementData);
-		} catch (\Exception $e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Extract BankAccountMapping from this statement's OFX identifiers
-	 * 
-	 * Creates a BankAccountMapping entity from the OFX identifiers
-	 * stored in this statement (bankid, acctid, intu_bid).
-	 * Delegates validation to the Repository.
-	 * 
-	 * @return \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping|null
-	 */
-	public function extractBankAccountMapping(): ?\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return null;
-			}
-			
-			// Repository handles all validation and null/empty checks
-			$statementData = [
-				'bankid' => $this->bankid,
-				'acctid' => $this->acctid,
-				'intu_bid' => $this->intu_bid,
-				'curdef' => $this->currency
-			];
-			
-			return \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByStatementData($statementData);
-		} catch (\Exception $e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Store BankAccountMapping in repository and link to FA account
-	 * 
-	 * Creates or updates the mapping of this statement's OFX identifiers
-	 * to a FrontAccounting bank account. Operation is idempotent.
-	 * 
-	 * @param \Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping $mapping The mapping to store
-	 * @param int $faAccountId The FA bank account ID to link to
-	 * @return bool True on success, false on failure
-	 */
-	public function storeBankAccountMapping(
-		\Ksfraser\FaBankImport\Shared\Entities\BankAccountMapping $mapping,
-		int $faAccountId
-	): bool
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return false;
-			}
-			
-			// Upsert in repository (idempotent)
-			\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::upsert($mapping, $faAccountId);
-			
-			return true;
-		} catch (\Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Relink this statement's mapping to a different FA account
-	 * 
-	 * Updates the association of this statement's mapping to point to
-	 * a different FrontAccounting bank account. Useful when user changes
-	 * which FA account a bank account is linked to.
-	 * 
-	 * @param int $newFAAccountId The new FA bank account ID
-	 * @return bool True on success, false on failure
-	 */
-	public function relinkBankAccountMapping(int $newFAAccountId): bool
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return false;
-			}
-			
-			// Find existing mapping
-			$mapping = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findByOFXIdentifiers(
-				$this->bankid, 
-				$this->acctid, 
-				$this->intu_bid
-			);
-			
-			if (!$mapping) {
-				return false;
-			}
-			
-			// Update mapping with new account ID
-			$mapping->bank_account_id = $newFAAccountId;
-			\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::upsert($mapping, $newFAAccountId);
-			
-			return true;
-		} catch (\Exception $e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Find statements by BankAccountMapping ID
-	 * 
-	 * Static method to retrieve all statements that share the same
-	 * BankAccountMapping ID. Useful for cross-referencing and auditing.
-	 * 
-	 * @param int $mappingId The BankAccountMapping ID
-	 * @return array Array of statement rows or empty array
-	 */
-	public static function findByBankAccountMappingId(int $mappingId): array
-	{
-		try {
-			if (!class_exists('\Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository')) {
-				return [];
-			}
-			
-			// Get the mapping first
-			$mapping = \Ksfraser\FaBankImport\Shared\Repositories\BankAccountMappingRepository::findById($mappingId);
-			if (!$mapping) {
-				return [];
-			}
-			
-			// Find all statements with matching OFX identifiers
-			$table = TB_PREF . 'bi_statements';
-			$sql = "SELECT * FROM `{$table}`
-					WHERE (bankid=" . db_escape($mapping->bankid) . " OR bankid IS NULL) 
-					  AND (acctid=" . db_escape($mapping->acctid) . " OR acctid IS NULL)
-					  AND (intu_bid=" . db_escape($mapping->intu_bid) . " OR intu_bid IS NULL)
-					ORDER BY id DESC";
-			
-			$result = @db_query($sql, 'Could not find statements by mapping');
-			
-			$statements = [];
-			if (is_object($result)) {
-				while ($row = db_fetch($result)) {
-					if (is_array($row)) {
-						$statements[] = $row;
-					}
-				}
-			}
-			
-			return $statements;
-		} catch (\Exception $e) {
-			return [];
-		}
 	}
 
 }

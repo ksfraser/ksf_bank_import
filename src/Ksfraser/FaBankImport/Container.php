@@ -1,16 +1,5 @@
 <?php
 
-/**
- * Code Flow (UML Activity)
- *
- * @uml
- * start
- * :Container [CURRENT FILE];
- * stop
- * @enduml
- *
- * Responsibility: Core flow and role for Container.
- */
 namespace Ksfraser\FaBankImport;
 
 use Ksfraser\FaBankImport\Factories\TransactionTypeFactory;
