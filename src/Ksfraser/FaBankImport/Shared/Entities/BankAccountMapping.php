@@ -35,7 +35,9 @@ final class BankAccountMapping
         int $faAccountId,
         string $bankId,
         string $acctId,
-        string $intuBid
+        string $intuBid,
+        string $acctType = '',
+        string $curDef = ''
     ) {
         if ($faAccountId <= 0) {
             throw InvalidRepositoryStateException::stateFailed('faAccountId must be > 0');
@@ -54,20 +56,21 @@ final class BankAccountMapping
         $this->bankId = $bankId;
         $this->acctId = $acctId;
         $this->intuBid = $intuBid;
-        $this->acctType = '';
-        $this->curDef = '';
+        $this->acctType = $acctType;
+        $this->curDef = $curDef;
     }
 
     /**
      * Create a new mapping
      */
     public static function create(
-        int $faAccountId,
         string $bankId,
         string $acctId,
-        string $intuBid
+        string $intuBid,
+        string $curDef,
+        int $faAccountId
     ): self {
-        return new self($faAccountId, $bankId, $acctId, $intuBid);
+        return new self($faAccountId, $bankId, $acctId, $intuBid, '', $curDef);
     }
 
     /**

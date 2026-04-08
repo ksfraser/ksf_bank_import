@@ -42,37 +42,24 @@ class ProcessStatementsFetchService
     public function fetch(?int $statusFilter = null, array $filters = [], array $post = []): array
     {
         try {
-            // Guardrail: Validate and sanitize limit
-            $limit = $this->validateLimit($post['limit'] ?? 100);
-
-            // Guardrail: Validate date range if provided
-            $dateFrom = null;
-            $dateTo = null;
-            if (isset($post['date_from']) && !empty($post['date_from'])) {
-                if ($this->isValidDate($post['date_from'])) {
-                    $dateFrom = $post['date_from'];
-                }
-            }
-            if (isset($post['date_to']) && !empty($post['date_to'])) {
-                if ($this->isValidDate($post['date_to'])) {
-                    $dateTo = $post['date_to'];
-                }
-            }
-            
-            // Guardrail: Ensure date_from <= date_to
-            if ($dateFrom && $dateTo && $dateFrom > $dateTo) {
-                throw new \InvalidArgumentException('date_from cannot be greater than date_to');
-            }
-
-            // Guardrail: Whitelist allowed filters
+            // Guardrail: Whitelist allowed filters first
             $allowedFilters = $this->getWhitelistedFilters($filters);
+
+            // Build query object with validation
+            $query = StatementFetchQuery::fromPost($statusFilter, $post, $allowedFilters);
 
             // Delegate to data provider
             if (!$this->dataProvider) {
-                return $this->fetchDirect($statusFilter, $allowedFilters, $dateFrom, $dateTo, $limit);
+                return $this->fetchDirect($query);
             }
 
-            return $this->dataProvider->fetch($statusFilter, $allowedFilters, $dateFrom, $dateTo, $limit);
+            return $this->dataProvider->fetch(
+                $query->statusFilter,
+                $query->filters,
+                $query->dateFrom,
+                $query->dateTo,
+                $query->limit
+            );
         } catch (\Throwable $e) {
             throw TransactionFetchException::queryFailed(
                 "SELECT * FROM bi_statements",
@@ -198,33 +185,34 @@ class ProcessStatementsFetchService
     /**
      * Direct database fetch (fallback implementation).
      *
+     * @param StatementFetchQuery $query Query parameters
      * @return array
      */
-    protected function fetchDirect(?int $statusFilter, array $filters, ?string $dateFrom, ?string $dateTo, int $limit): array
+    protected function fetchDirect(StatementFetchQuery $query): array
     {
         // Build query
-        $query = "SELECT * FROM " . TB_PREF . "bi_statements WHERE 1=1";
+        $sql = "SELECT * FROM " . TB_PREF . "bi_statements WHERE 1=1";
 
-        if ($statusFilter !== null) {
-            $query .= " AND status = " . (int)$statusFilter;
+        if ($query->statusFilter !== null) {
+            $sql .= " AND status = " . (int)$query->statusFilter;
         }
 
         // Apply whitelisted filters
-        foreach ($filters as $field => $value) {
-            $query .= " AND " . preg_replace('/[^a-zA-Z0-9_]/', '', $field) . " = " . db_escape($value);
+        foreach ($query->filters as $field => $value) {
+            $sql .= " AND " . preg_replace('/[^a-zA-Z0-9_]/', '', $field) . " = " . db_escape($value);
         }
 
         // Date range
-        if ($dateFrom) {
-            $query .= " AND smtDate >= " . db_escape($dateFrom);
+        if ($query->dateFrom) {
+            $sql .= " AND smtDate >= " . db_escape($query->dateFrom);
         }
-        if ($dateTo) {
-            $query .= " AND smtDate <= " . db_escape($dateTo);
+        if ($query->dateTo) {
+            $sql .= " AND smtDate <= " . db_escape($query->dateTo);
         }
 
-        $query .= " ORDER BY smtDate DESC, id DESC LIMIT " . (int)$limit;
+        $sql .= " ORDER BY smtDate DESC, id DESC LIMIT " . (int)$query->limit;
 
-        $result = db_query($query, "Could not fetch statements");
+        $result = db_query($sql, "Could not fetch statements");
         $statements = [];
         while ($row = db_fetch_assoc($result)) {
             $statements[] = $row;

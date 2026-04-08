@@ -1,0 +1,92 @@
+{
+  "synonyms": {
+    "transactionDate": [
+      "Date",
+      "Transaction Date",
+      "Posted Date",
+      "valueDate",
+      "MatureDate",
+      "PostingDate"
+    ],
+    "amount": [
+      "Amount",
+      "Transaction Amount",
+      "Sum",
+      "Value",
+      "Debit"
+    ],
+    "merchant": [
+      "Merchant Name",
+      "Beneficiary",
+      "Counterparty",
+      "account Name",
+      "Company",
+      "Vendor"
+    ],
+    "description": [
+      "Description",
+      "Activity Type",
+      "Transaction Type",
+      "memo",
+      "Narration",
+      "Details"
+    ],
+    "reference": [
+      "Reference Number",
+      "Reference",
+      "Transaction Code",
+      "Check Number",
+      "InvoiceNumber",
+      "OrderNumber"
+    ],
+    "category": [
+      "Merchant Category",
+      "Category",
+      "Type",
+      "Classification"
+    ],
+    "account": [
+      "Account",
+      "Card Number",
+      "Account Number",
+      "acctid",
+      "AccountId"
+    ],
+    "currency": [
+      "Currency",
+      "Currency Code",
+      "ISO Code",
+      "CurrencyCode"
+    ]
+  },
+  "parserSpecific": {
+    "csv": {
+      "transactionDate": [
+        "Date",
+        "Transaction Date",
+        "Posted Date",
+        "valueDate"
+      ],
+      "amount": [
+        "Amount",
+        "Sum"
+      ]
+    },
+    "ofx": {
+      "reference": [
+        "TRN",
+        "FITID"
+      ]
+    },
+    "qif": {
+      "transactionDate": [
+        "D",
+        "Date"
+      ],
+      "amount": [
+        "T",
+        "Amount"
+      ]
+    }
+  }
+}

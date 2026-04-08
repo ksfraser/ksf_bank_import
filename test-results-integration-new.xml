@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Integration\Services\ServicePipelineIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php" tests="5" assertions="1" errors="5" warnings="0" failures="0" skipped="0" time="0.044275">
+    <testcase name="testProcessEnrichValidatePipeline" class="Tests\Integration\Services\ServicePipelineIntegrationTest" classname="Tests.Integration.Services.ServicePipelineIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php" line="36" assertions="0" time="0.016443">
+      <error type="Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException">Tests\Integration\Services\ServicePipelineIntegrationTest::testProcessEnrichValidatePipeline
+Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException: acctId cannot be empty or invalid
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:69
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:123
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php:53</error>
+    </testcase>
+    <testcase name="testEmptyStatementProcessing" class="Tests\Integration\Services\ServicePipelineIntegrationTest" classname="Tests.Integration.Services.ServicePipelineIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php" line="83" assertions="1" time="0.025436">
+      <error type="TypeError">Tests\Integration\Services\ServicePipelineIntegrationTest::testEmptyStatementProcessing
+TypeError: Ksfraser\FaBankImport\Import\Services\Validation\ValidationService::isValidDate(): Argument #1 ($date) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Services\Validation\ValidationService.php on line 100
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Services\Validation\ValidationService.php:161
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Services\Validation\ValidationService.php:100
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Services\Validation\ValidationService.php:37
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php:108</error>
+    </testcase>
+    <testcase name="testMultipleTransactionHandling" class="Tests\Integration\Services\ServicePipelineIntegrationTest" classname="Tests.Integration.Services.ServicePipelineIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php" line="117" assertions="0" time="0.000860">
+      <error type="Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException">Tests\Integration\Services\ServicePipelineIntegrationTest::testMultipleTransactionHandling
+Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException: acctId cannot be empty or invalid
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:69
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:123
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php:127</error>
+    </testcase>
+    <testcase name="testForeignCurrencyStatementHandling" class="Tests\Integration\Services\ServicePipelineIntegrationTest" classname="Tests.Integration.Services.ServicePipelineIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php" line="168" assertions="0" time="0.000833">
+      <error type="Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException">Tests\Integration\Services\ServicePipelineIntegrationTest::testForeignCurrencyStatementHandling
+Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException: acctId cannot be empty or invalid
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:69
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:123
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php:184</error>
+    </testcase>
+    <testcase name="testTransactionTypeVariety" class="Tests\Integration\Services\ServicePipelineIntegrationTest" classname="Tests.Integration.Services.ServicePipelineIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php" line="213" assertions="0" time="0.000702">
+      <error type="Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException">Tests\Integration\Services\ServicePipelineIntegrationTest::testTransactionTypeVariety
+Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException: acctId cannot be empty or invalid
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:69
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:123
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ServicePipelineIntegrationTest.php:216</error>
+    </testcase>
+  </testsuite>
+</testsuites>

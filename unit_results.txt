@@ -1,0 +1,351 @@
+php : PHP Deprecated:  
+Ksfraser\FaBankImport\Import\Results\OperationResult::getContext(): Implicitly 
+marking parameter $key as nullable is deprecated, the explicit nullable type 
+must be used instead in C:\Users\prote\Documents\software-devel\ksf_bank_import
+\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php on line 178
+At line:1 char:1
++ php -d memory_limit=2048M vendor/bin/phpunit tests/Unit/Import/Result ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (PHP Deprecated:...php on line 178 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\ContactResolutionResult.php on line 43
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\ContactResolutionResult.php on line 43
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\ContactResolutionResult.php on line 43
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\ContactResolutionResult.php on line 60
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$errors is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\ContactResolutionResult.php on line 62
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\ContactResolutionResult.php on line 60
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$errors is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\ContactResolutionResult.php on line 62
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\StatementImportResult.php on line 58
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\StatementImportResult.php on line 80
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\StatementImportResult::$errors is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\StatementImportResult.php on line 81
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\StatementImportResult.php on line 58
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\StatementImportResult.php on line 58
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\StatementImportResult.php on line 58
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\TransactionProcessResult.php on line 46
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\TransactionProcessResult.php on line 61
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$errors is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\TransactionProcessResult.php on line 63
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\TransactionProcessResult.php on line 46
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\TransactionProcessResult.php on line 46
+PHP Deprecated:  Creation of dynamic property 
+Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is 
+deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfra
+ser\FaBankImport\Import\Results\TransactionProcessResult.php on line 46
+PHPUnit 9.6.34 by Sebastian Bergmann and contributors.
+
+Contact Resolution Result (Tests\Unit\Import\Results\ContactResolutionResult)
+ ? Resolved contact auto
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ContactResolutionResultTest.php:19
+   ?
+
+Deprecated: Ksfraser\FaBankImport\Import\Results\OperationResult::getContext(): Implicitly marking parameter $key as nullable is deprecated, the explicit nullable type must be used instead in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php on line 178
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\ContactResolutionResult.php on line 43
+
+ ? Resolved contact manual
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ContactResolutionResultTest.php:36
+   ?
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\ContactResolutionResult.php on line 43
+
+ ? Resolved contact created
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ContactResolutionResultTest.php:51
+   ?
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\ContactResolutionResult.php on line 43
+
+ ? Skipped contact
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ContactResolutionResultTest.php:64
+   ?
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\ContactResolutionResult.php on line 60
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$errors is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\ContactResolutionResult.php on line 62
+
+ ? Unresolved returns null
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\ContactResolutionResult.php on line 60
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\ContactResolutionResult::$errors is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\ContactResolutionResult.php on line 62
+
+Operation Result (Tests\Unit\Import\Results\OperationResult)
+ ? Successful result
+ ? Failure result
+ ? Multiple errors
+ ? Warnings
+ ? Context
+ ? Chaining
+
+Statement Import Result (Tests\Unit\Import\Results\StatementImportResult)
+ ? Successful import result
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\StatementImportResultTest.php:24
+   ?
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\StatementImportResult.php on line 58
+
+ ? Failed import result
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\StatementImportResultTest.php:40
+   ?
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\StatementImportResult.php on line 80
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\StatementImportResult::$errors is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\StatementImportResult.php on line 81
+
+ ? Record imported transactions
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\StatementImportResult.php on line 58
+ ? Record skipped transactions
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\StatementImportResult.php on line 58
+ ? Record failed transactions
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\StatementImportResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\StatementImportResult.php on line 58
+
+Transaction Process Result (Tests\Unit\Import\Results\TransactionProcessResult)
+ ? Successful result
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\TransactionProcessResultTest.php:19
+   ?
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\TransactionProcessResult.php on line 46
+
+ ? Failed result
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\TransactionProcessResultTest.php:33
+   ?
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\TransactionProcessResult.php on line 61
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$errors is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\TransactionProcessResult.php on line 63
+
+ ? Record gl entries
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\TransactionProcessResult.php on line 46
+ ? Contact info
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\TransactionProcessResult.php on line 46
+ ? Chaining
+
+Deprecated: Creation of dynamic property Ksfraser\FaBankImport\Import\Results\TransactionProcessResult::$success is deprecated in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\TransactionProcessResult.php on line 46
+
+Validation Result (Tests\Unit\Import\Results\ValidationResult)
+ ? Passing validation
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ValidationResultTest.php:20
+   ?
+
+ ? Failing validation
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ValidationResultTest.php:34
+   ?
+
+ ? Field level errors
+   ?
+   ? Failed asserting that true is false.
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ValidationResultTest.php:51
+   ?
+
+ ? Rule checks
+ ? Violation count
+   ?
+   ? Failed asserting that 3 matches expected 4.
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ValidationResultTest.php:88
+   ?
+
+Time: 00:05.441, Memory: 8.00 MB
+
+Summary of non-successful tests:
+
+Contact Resolution Result (Tests\Unit\Import\Results\ContactResolutionResult)
+ ? Resolved contact auto
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ContactResolutionResultTest.php:19
+   ?
+
+ ? Resolved contact manual
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ContactResolutionResultTest.php:36
+   ?
+
+ ? Resolved contact created
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ContactResolutionResultTest.php:51
+   ?
+
+ ? Skipped contact
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ContactResolutionResultTest.php:64
+   ?
+
+Statement Import Result (Tests\Unit\Import\Results\StatementImportResult)
+ ? Successful import result
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\StatementImportResultTest.php:24
+   ?
+
+ ? Failed import result
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\StatementImportResultTest.php:40
+   ?
+
+Transaction Process Result (Tests\Unit\Import\Results\TransactionProcessResult)
+ ? Successful result
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\TransactionProcessResultTest.php:19
+   ?
+
+ ? Failed result
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\TransactionProcessResultTest.php:33
+   ?
+
+Validation Result (Tests\Unit\Import\Results\ValidationResult)
+ ? Passing validation
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ValidationResultTest.php:20
+   ?
+
+ ? Failing validation
+   ?
+   ? Error: Typed property Ksfraser\FaBankImport\Import\Results\OperationResult::$success must not be accessed before initialization
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Results\OperationResult.php:79
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ValidationResultTest.php:34
+   ?
+
+ ? Field level errors
+   ?
+   ? Failed asserting that true is false.
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ValidationResultTest.php:51
+   ?
+
+ ? Violation count
+   ?
+   ? Failed asserting that 3 matches expected 4.
+   ?
+   ? C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Import\Results\ValidationResultTest.php:88
+   ?
+
+ERRORS!
+Tests: 26, Assertions: 40, Errors: 10, Failures: 2.

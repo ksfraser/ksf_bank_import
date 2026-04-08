@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services" tests="14" assertions="0" errors="14" warnings="0" failures="0" skipped="0" time="0.778146">
+    <testsuite name="Tests\Integration\Services\EnrichmentServiceIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php" tests="6" assertions="0" errors="6" warnings="0" failures="0" skipped="0" time="0.749308">
+      <testcase name="testEnrichThenValidateWorkflow" class="Tests\Integration\Services\EnrichmentServiceIntegrationTest" classname="Tests.Integration.Services.EnrichmentServiceIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php" line="55" assertions="0" time="0.745058">
+        <error type="TypeError">Tests\Integration\Services\EnrichmentServiceIntegrationTest::testEnrichThenValidateWorkflow
+TypeError: Ksfraser\FaBankImport\Import\Services\Validation\ValidationService::isValidDate(): Argument #1 ($date) must be of type string, DateTime given, called in C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Services\Validation\ValidationService.php on line 100
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Services\Validation\ValidationService.php:161
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Services\Validation\ValidationService.php:100
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Import\Services\Validation\ValidationService.php:37
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php:63</error>
+      </testcase>
+      <testcase name="testProcessEnrichValidateWorkflow" class="Tests\Integration\Services\EnrichmentServiceIntegrationTest" classname="Tests.Integration.Services.EnrichmentServiceIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php" line="75" assertions="0" time="0.001123">
+        <error type="Error">Tests\Integration\Services\EnrichmentServiceIntegrationTest::testProcessEnrichValidateWorkflow
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php:303
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php:78</error>
+      </testcase>
+      <testcase name="testMultipleEnrichmentPasses" class="Tests\Integration\Services\EnrichmentServiceIntegrationTest" classname="Tests.Integration.Services.EnrichmentServiceIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php" line="97" assertions="0" time="0.000832">
+        <error type="Error">Tests\Integration\Services\EnrichmentServiceIntegrationTest::testMultipleEnrichmentPasses
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php:303
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php:100</error>
+      </testcase>
+      <testcase name="testEnrichmentResilientToProcessingErrors" class="Tests\Integration\Services\EnrichmentServiceIntegrationTest" classname="Tests.Integration.Services.EnrichmentServiceIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php" line="120" assertions="0" time="0.000776">
+        <error type="Error">Tests\Integration\Services\EnrichmentServiceIntegrationTest::testEnrichmentResilientToProcessingErrors
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php:125</error>
+      </testcase>
+      <testcase name="testEnrichmentWithForeignCurrency" class="Tests\Integration\Services\EnrichmentServiceIntegrationTest" classname="Tests.Integration.Services.EnrichmentServiceIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php" line="167" assertions="0" time="0.000797">
+        <error type="Error">Tests\Integration\Services\EnrichmentServiceIntegrationTest::testEnrichmentWithForeignCurrency
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php:185</error>
+      </testcase>
+      <testcase name="testFullStatementLifecycle" class="Tests\Integration\Services\EnrichmentServiceIntegrationTest" classname="Tests.Integration.Services.EnrichmentServiceIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php" line="216" assertions="0" time="0.000723">
+        <error type="Error">Tests\Integration\Services\EnrichmentServiceIntegrationTest::testFullStatementLifecycle
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\EnrichmentServiceIntegrationTest.php:232</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="Tests\Integration\Services\ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" tests="8" assertions="0" errors="8" warnings="0" failures="0" skipped="0" time="0.028838">
+      <testcase name="testProcessValidateWorkflow" class="Tests\Integration\Services\ProcessingValidationIntegrationTest" classname="Tests.Integration.Services.ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" line="43" assertions="0" time="0.000735">
+        <error type="Error">Tests\Integration\Services\ProcessingValidationIntegrationTest::testProcessValidateWorkflow
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:365
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:46</error>
+      </testcase>
+      <testcase name="testDuplicateProcessingWithValidation" class="Tests\Integration\Services\ProcessingValidationIntegrationTest" classname="Tests.Integration.Services.ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" line="65" assertions="0" time="0.017088">
+        <error type="Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException">Tests\Integration\Services\ProcessingValidationIntegrationTest::testDuplicateProcessingWithValidation
+Ksfraser\FaBankImport\Shared\Exceptions\InvalidTransactionException: acctId cannot be empty or invalid
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:69
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiTransaction.php:123
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:70</error>
+      </testcase>
+      <testcase name="testZeroAmountFilteringWithValidation" class="Tests\Integration\Services\ProcessingValidationIntegrationTest" classname="Tests.Integration.Services.ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" line="101" assertions="0" time="0.001074">
+        <error type="Error">Tests\Integration\Services\ProcessingValidationIntegrationTest::testZeroAmountFilteringWithValidation
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:109</error>
+      </testcase>
+      <testcase name="testValidationDetectsProcessingIssues" class="Tests\Integration\Services\ProcessingValidationIntegrationTest" classname="Tests.Integration.Services.ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" line="139" assertions="0" time="0.006789">
+        <error type="Ksfraser\FaBankImport\Shared\Exceptions\InvalidStatementException">Tests\Integration\Services\ProcessingValidationIntegrationTest::testValidationDetectsProcessingIssues
+Ksfraser\FaBankImport\Shared\Exceptions\InvalidStatementException: bank cannot be empty
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiStatement.php:55
+C:\Users\prote\Documents\software-devel\ksf_bank_import\src\Ksfraser\FaBankImport\Shared\Entities\BiStatement.php:102
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:141</error>
+      </testcase>
+      <testcase name="testLargeBatchProcessingValidation" class="Tests\Integration\Services\ProcessingValidationIntegrationTest" classname="Tests.Integration.Services.ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" line="186" assertions="0" time="0.000858">
+        <error type="Error">Tests\Integration\Services\ProcessingValidationIntegrationTest::testLargeBatchProcessingValidation
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:196</error>
+      </testcase>
+      <testcase name="testMultipleStatementProcessValidation" class="Tests\Integration\Services\ProcessingValidationIntegrationTest" classname="Tests.Integration.Services.ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" line="224" assertions="0" time="0.000759">
+        <error type="Error">Tests\Integration\Services\ProcessingValidationIntegrationTest::testMultipleStatementProcessValidation
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:244</error>
+      </testcase>
+      <testcase name="testTransactionTypeValidationDuringProcessing" class="Tests\Integration\Services\ProcessingValidationIntegrationTest" classname="Tests.Integration.Services.ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" line="276" assertions="0" time="0.000738">
+        <error type="Error">Tests\Integration\Services\ProcessingValidationIntegrationTest::testTransactionTypeValidationDuringProcessing
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:284</error>
+      </testcase>
+      <testcase name="testProcessingValidationConsistency" class="Tests\Integration\Services\ProcessingValidationIntegrationTest" classname="Tests.Integration.Services.ProcessingValidationIntegrationTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php" line="313" assertions="0" time="0.000795">
+        <error type="Error">Tests\Integration\Services\ProcessingValidationIntegrationTest::testProcessingValidationConsistency
+Error: Call to undefined method Ksfraser\FaBankImport\Shared\Entities\BiStatement::addTransaction()
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:365
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\integration\Services\ProcessingValidationIntegrationTest.php:316</error>
+      </testcase>
+    </testsuite>
+  </testsuite>
+</testsuites>

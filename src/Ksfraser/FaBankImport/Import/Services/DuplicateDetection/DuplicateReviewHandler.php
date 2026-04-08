@@ -117,12 +117,22 @@ class DuplicateReviewHandler
     private function insertDupRecord(array $record): int
     {
         try {
-            $cols = array_keys($record);
-            $vals = array_values($record);
+            // Whitelist of allowed columns to prevent SQL injection via column names
+            $allowedColumns = $this->getAllowedDuplicateColumns();
             
-            // Build column list
+            // Filter to only allowed columns
+            $filteredRecord = array_intersect_key($record, array_flip($allowedColumns));
+            
+            if (empty($filteredRecord)) {
+                throw new \Exception('No valid columns provided for duplicate record');
+            }
+            
+            $cols = array_keys($filteredRecord);
+            $vals = array_values($filteredRecord);
+            
+            // Build column list with table prefix (safe now that columns are validated)
             $colList = implode(', ', array_map(function($c) {
-                return sprintf('%s.%s', TB_PREF, $c);
+                return TB_PREF . $c;
             }, $cols));
             
             // Build value placeholders
@@ -137,7 +147,7 @@ class DuplicateReviewHandler
                 "INSERT INTO %sbi_transactions_dupe (%s) VALUES (%s)",
                 TB_PREF,
                 $colList,
-                $placeholders
+                vsprintf($placeholders, $escaped)
             );
             
             db_query($sql, 'Could not insert duplicate record');
@@ -151,6 +161,33 @@ class DuplicateReviewHandler
                 $e
             );
         }
+    }
+
+    /**
+     * Get list of allowed columns for duplicate records (whitelist for SQL injection prevention)
+     *
+     * @return array List of column names that can be inserted
+     */
+    private function getAllowedDuplicateColumns(): array
+    {
+        return [
+            'fitid',
+            'acctId',
+            'transactionId',
+            'type',
+            'date',
+            'amount',
+            'description',
+            'balance',
+            'status',
+            'confidence_score',
+            'duplicate_of_id',
+            'review_notes',
+            'reviewed_by',
+            'reviewed_at',
+            'created_at',
+            'updated_at'
+        ];
     }
 
     /**

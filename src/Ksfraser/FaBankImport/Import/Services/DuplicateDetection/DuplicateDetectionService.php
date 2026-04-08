@@ -2,10 +2,18 @@
 
 namespace Ksfraser\FaBankImport\Import\Services\DuplicateDetection;
 
+use Ksfraser\FaBankImport\Shared\Entities\BiTransaction;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+
 /**
  * Main Duplicate Detection Service
  * 
- * Orchestrates three-level duplicate detection:
+ * PHASE 2 REFACTORING: Now supports both:
+ * 1. Legacy array-based API (detect) - for backward compatibility
+ * 2. Modern entity-based Chain of Responsibility (detectEntity) - recommended
+ * 
+ * Legacy three-level duplicate detection (array-based):
  * 
  * Level 1: Direct Code Match (authoritative)
  *   - transactionCode + acctid must both match
@@ -23,6 +31,8 @@ namespace Ksfraser\FaBankImport\Import\Services\DuplicateDetection;
  *   - No rule → show user review UI
  * 
  * Responsibility: Coordinate matchers and apply business logic
+ * 
+ * @see DuplicateDetectionChain for modern entity-based chain orchestration
  */
 class DuplicateDetectionService
 {
@@ -30,14 +40,30 @@ class DuplicateDetectionService
     private $fuzzyMatcher;
     private $rulesProvider;
     
+    /**
+     * Optional modern chain orchestrator
+     * @var DuplicateDetectionChain|null
+     */
+    private $chain;
+    
+    /**
+     * PSR-3 logger for debugging
+     * @var LoggerInterface
+     */
+    private LoggerInterface $logger;
+    
     public function __construct(
         DirectCodeMatcher $directMatcher = null,
         FuzzyMatcher $fuzzyMatcher = null,
-        DuplicateRulesProvider $rulesProvider = null
+        DuplicateRulesProvider $rulesProvider = null,
+        DuplicateDetectionChain $chain = null,
+        LoggerInterface $logger = null
     ) {
         $this->directMatcher = $directMatcher ?? new DirectCodeMatcher();
         $this->fuzzyMatcher = $fuzzyMatcher ?? new FuzzyMatcher();
         $this->rulesProvider = $rulesProvider ?? new DuplicateRulesProvider();
+        $this->chain = $chain;
+        $this->logger = $logger ?? new NullLogger();
     }
     
     /**
@@ -45,6 +71,8 @@ class DuplicateDetectionService
      *
      * PHASE 2 UPDATE: Level 1 now validates ALL fields when code+acctid match.
      * If fields differ on code match, flags for review (potential data corruption).
+     *
+     * LEGACY METHOD: Use detectEntity() for new code with BiTransaction entities.
      *
      * @param array $transaction Transaction data
      * @return DuplicateCheckResult Decision with action and matching records
@@ -84,6 +112,74 @@ class DuplicateDetectionService
         
         // Not whitelisted - show user
         return DuplicateCheckResult::fuzzyMatchNeedsReview($fuzzy);
+    }
+    
+    /**
+     * Detect duplicates using modern Chain of Responsibility pattern
+     *
+     * Preferred method for new code. Uses BiTransaction entities and pluggable matchers.
+     *
+     * @param BiTransaction $transaction New transaction to check
+     * @param BiTransaction $existingTransaction Existing transaction to compare
+     * @return DuplicateMatchResult Result with match status, confidence, and recommended action
+     */
+    public function detectEntity(
+        BiTransaction $transaction,
+        BiTransaction $existingTransaction
+    ): DuplicateMatchResult {
+        // Create chain on first use if not injected
+        if ($this->chain === null) {
+            $this->chain = $this->createDefaultChain();
+        }
+        
+        return $this->chain->detect($transaction, $existingTransaction);
+    }
+    
+    /**
+     * Create default matcher chain with adapters
+     *
+     * Provides standard configuration for entity-based duplicate detection:
+     * - DirectCodeMatcherAdapter (priority 10)
+     * - FuzzyMatcherAdapter (priority 20)
+     * - Confidence threshold 0.8
+     *
+     * @return DuplicateDetectionChain
+     */
+    private function createDefaultChain(): DuplicateDetectionChain
+    {
+        $matchers = [
+            new DirectCodeMatcherAdapter($this->directMatcher, $this->logger),
+            new FuzzyMatcherAdapter($this->fuzzyMatcher, $this->logger),
+        ];
+        
+        return new DuplicateDetectionChain($matchers, 0.8, $this->logger);
+    }
+    
+    /**
+     * Get or create matcher chain
+     *
+     * Allows external configuration of the chain (e.g., adding custom matchers).
+     *
+     * @return DuplicateDetectionChain
+     */
+    public function getChain(): DuplicateDetectionChain
+    {
+        if ($this->chain === null) {
+            $this->chain = $this->createDefaultChain();
+        }
+        return $this->chain;
+    }
+    
+    /**
+     * Set custom matcher chain
+     *
+     * @param DuplicateDetectionChain $chain
+     * @return self Fluent interface
+     */
+    public function setChain(DuplicateDetectionChain $chain): self
+    {
+        $this->chain = $chain;
+        return $this;
     }
     
     /**

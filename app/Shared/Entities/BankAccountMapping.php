@@ -72,6 +72,32 @@ class BankAccountMapping
     }
 
     /**
+     * Factory creates a new mapping
+     * 
+     * @param string $bankId OFX bank ID
+     * @param string $acctId OFX account ID
+     * @param string $intuBid Intuit OFX BID
+     * @param string $curDef Currency code
+     * @param int $faAccountId FrontAccounting bank account ID
+     * @return self
+     */
+    public static function create(
+        string $bankId,
+        string $acctId,
+        string $intuBid,
+        string $curDef,
+        int $faAccountId
+    ): self {
+        return new self([
+            'bank_account_id' => $faAccountId,
+            'bankid' => $bankId,
+            'acctid' => $acctId,
+            'intu_bid' => $intuBid,
+            'curdef' => $curDef,
+        ]);
+    }
+
+    /**
      * Check if this mapping has valid OFX identifiers
      */
     public function hasValidIdentifiers(): bool
