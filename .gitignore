@@ -5,6 +5,12 @@ composer.phar
 # PHPUnit
 .phpunit.result.cache
 /coverage/
+phpunit*.txt
+phpunit*.xml
+test-output.txt
+test*.txt
+*_results*.txt
+phpunit_full_results.txt
 
 # IDE Files
 .vscode/
