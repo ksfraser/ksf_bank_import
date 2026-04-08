@@ -1,0 +1,15 @@
+PHPUnit 9.6.34 by Sebastian Bergmann and contributors.
+
+Duplicate Result (Ksfraser\FaBankImport\Tests\ValueObject\DuplicateResult)
+ ? Not duplicate
+ ? Allow duplicate
+ ? Warn duplicate
+ ? Block duplicate
+ ? Mutual exclusive actions
+ ? Immutability
+ ? Properties are private
+ ? Constructor is private
+
+Time: 00:00.038, Memory: 6.00 MB
+
+OK (8 tests, 44 assertions)

@@ -1,6 +1,5 @@
 <?php
 
-require_once( '../ksf_modules_common/class.origin.php' );
 
 /**//******************************************************************************
 * File to generate the HEADER table on the process_statements
@@ -11,8 +10,25 @@ require_once( '../ksf_modules_common/class.origin.php' );
 *
 *	Also, this code could be used for other modules that need to filter on dates.
 *
+* TODO - Future Filter Enhancements (Mantis #3188 follow-up):
+*	1. Add transaction amount range filter
+*	   - Two input fields: "Amount From:" and "Amount To:"
+*	   - Place between Status filter and Bank Account filter
+*	   - Use amount_cells() for currency formatting
+*	   - Default: empty (no amount filter)
+*	
+*	2. Add transaction title search filter
+*	   - Text input field: "Search Title:"
+*	   - Place after Bank Account filter, before Search button
+*	   - Use text_cells() for input
+*	   - Support partial matching with wildcards
+*	   - Default: empty (no title filter)
+*	
+*	See: Services/TransactionFilterService.php for backend implementation
+*	See: class.bi_transactions.php for model integration
+*
 ******************************************************************************************/
-class ksf_modules_table_filter_by_date extends origin
+class ksf_modules_table_filter_by_date 
 {
 	protected $cell1;	//!<array "label", "var_name", "type" (callback), "options"
 	protected $cell2;	//!<array "label", "var_name", "type" (callback), "options"
@@ -26,7 +42,8 @@ class ksf_modules_table_filter_by_date extends origin
 	***********************************************************************************/
 	function __construct()
 	{
-		parent::__construct();
+//echo __FILE__ . "::" . __LINE__ . "::" . __METHOD__ . "<br />";
+		//parent::__construct();
 	}
 	/**//********************************************************
 	* Display the table
@@ -34,6 +51,7 @@ class ksf_modules_table_filter_by_date extends origin
 	*************************************************************/
 	function display( $tablestype = TABLESTYLE_NOBORDER )
 	{
+//echo __FILE__ . "::" . __LINE__ . "::" . __METHOD__ . "<br />";
  		// this is filter table
         	start_table( $tablestyle );
         	start_row();
@@ -72,8 +90,13 @@ class ksf_modules_table_filter_by_date extends origin
 	        end_row();
 	        end_table();
 	}
-	function bank_import_header( $tablestype = TABLESTYLE_NOBORDER )
+	function getBankImportHeaderHtml()
 	{
+		return $this->bank_import_header();
+	}
+	function bank_import_header( $tablestyle = TABLESTYLE_NOBORDER )
+	{
+//echo __FILE__ . "::" . __LINE__ . "::" . __METHOD__ . "<br />";
  		// this is filter table
         	start_table( $tablestyle );
         	start_row();
@@ -84,6 +107,12 @@ class ksf_modules_table_filter_by_date extends origin
 
         	if (!isset($_POST['TransToDate']))
         	        $_POST['TransToDate'] = end_month(Today());
+		if (!isset($_POST['bankAccountFilter']))
+        	        $_POST['bankAccountFilter'] = 'ALL';
+		if (!isset($_POST['page_size']))
+        	        $_POST['page_size'] = 10;
+		$_POST['page_size'] = (int)$_POST['page_size'];  // Cast to int so array keys match
+        	        
         	date_cells(_("From:"), 'TransAfterDate', '', null, -30);
         	date_cells(_("To:"), 'TransToDate', '', null, 1);
         	label_cells(_("Status:"), array_selector('statusFilter', $_POST['statusFilter'], array(0 => 'Unsettled', 1 => 'Settled', 255 => 'All')));
@@ -94,13 +123,19 @@ class ksf_modules_table_filter_by_date extends origin
 		$ba_model = new fa_bank_accounts_MODEL();
 		$ba_view = new fa_bank_accounts_VIEW( $ba_model );
 		$ba_view->set( "b_showNoneAll", true );
-/*
+/* * /
 		$ba_view->bank_accounts_list_row( _("Filter by Bank Account") , 'bank_account_filter', null, false);
-*/
+
+/* */
+		//$ba_view->bank_accounts_list_row( _("Bank Account:") , 'bankAccountFilter', null, false);
 /** ! 3188 */
+		//20260407 Pagination
+        	label_cells(_("Page Size:"), array_selector('page_size', $_POST['page_size'], array(5 => '5', 10 => '10', 25 => '25', 100 => '100')));
+		//!20260407
 	        submit_cells('RefreshInquiry', _("Search"),'',_('Refresh Inquiry'), 'default');
 	        end_row();
 	        end_table();
+//echo __FILE__ . "::" . __LINE__ . "::" . __METHOD__ . " RETURNING <br />";
 	}
 }
 

@@ -36,3 +36,4 @@ composer.phar
 *.copilot.php
 *-old.php
 *.bak
+test-output.txt
