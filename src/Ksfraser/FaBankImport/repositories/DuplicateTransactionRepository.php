@@ -2,6 +2,7 @@
 
 namespace Ksfraser\FaBankImport\Repositories;
 
+use Ksfraser\FaBankImport\Repositories\Interfaces\IDuplicateTransactionRepository;
 use Ksfraser\FaBankImport\Shared\Entities\DuplicateTransaction;
 use DateTime;
 use PDO;
@@ -16,7 +17,7 @@ use PDOStatement;
  * @package Ksfraser\FaBankImport\Repositories
  * @since 2026-04-08
  */
-final class DuplicateTransactionRepository
+final class DuplicateTransactionRepository implements IDuplicateTransactionRepository
 {
     /**
      * @var PDO
