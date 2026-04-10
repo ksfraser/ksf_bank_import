@@ -6,6 +6,7 @@ namespace Ksfraser\FaBankImport\Repositories\Interfaces;
 
 use DateTimeImmutable;
 use Ksfraser\FaBankImport\Shared\Entities\DuplicateTransaction;
+use Ksfraser\FaBankImport\Import\Services\Review\DTOs\QueryFilters;
 
 /**
  * Interface for DuplicateTransaction repository
@@ -38,6 +39,22 @@ interface IDuplicateTransactionRepository
      * @return void
      */
     public function update(DuplicateTransaction $entity): void;
+
+    /**
+     * Find pending duplicates with filtering and pagination
+     * 
+     * @param QueryFilters $filters
+     * @return DuplicateTransaction[]
+     */
+    public function findPendingWithFilters(QueryFilters $filters): array;
+
+    /**
+     * Count pending duplicates with filtering
+     * 
+     * @param QueryFilters $filters
+     * @return int
+     */
+    public function countPendingWithFilters(QueryFilters $filters): int;
 
     /**
      * Create an audit record for a decision
