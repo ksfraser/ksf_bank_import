@@ -42,7 +42,7 @@ final class AdminReviewService
 
         // Convert to display DTOs
         $items = array_map(
-            fn (DuplicateTransaction $dup) => $this->domainToDisplay($dup),
+            function ($dup) { return $this->domainToDisplay($dup); },
             $duplicates
         );
 
@@ -132,7 +132,7 @@ final class AdminReviewService
     /**
      * Convert DuplicateTransaction domain model to display DTO
      */
-    private function domainToDisplay(DuplicateTransaction $duplicate): DuplicateReviewDisplay
+    private function domainToDisplay($duplicate): DuplicateReviewDisplay
     {
         return DuplicateReviewDisplay::fromArray([
             'id' => $duplicate->id,

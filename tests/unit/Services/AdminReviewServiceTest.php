@@ -330,9 +330,9 @@ class TestDuplicateTransactionRepository
         $this->findByIdResult = $result;
     }
 
-    public function findPendingWithFilters(QueryFilters $filters): array
+    public function findPendingWithFilters($filters)
     {
-        $filtered = array_filter($this->pendingDuplicates, function (DuplicateTransaction $d) use ($filters) {
+        $filtered = array_filter($this->pendingDuplicates, function ($d) use ($filters) {
             if ($d->decision_status !== 'PENDING') {
                 return false;
             }
@@ -366,9 +366,9 @@ class TestDuplicateTransactionRepository
         return array_slice($filtered, $filters->calculateOffset(), $filters->perPage);
     }
 
-    public function countPendingWithFilters(QueryFilters $filters): int
+    public function countPendingWithFilters($filters)
     {
-        return count(array_filter($this->pendingDuplicates, function (DuplicateTransaction $d) use ($filters) {
+        return count(array_filter($this->pendingDuplicates, function ($d) use ($filters) {
             if ($d->decision_status !== 'PENDING') {
                 return false;
             }
@@ -400,22 +400,25 @@ class TestDuplicateTransactionRepository
         }));
     }
 
-    public function findById(int $id): DuplicateTransaction
+    public function findById($id)
     {
-        return $this->findByIdResult ?? throw new EntityNotFoundException(sprintf('Duplicate %d not found', $id));
+        if (!$this->findByIdResult) {
+            throw new EntityNotFoundException(sprintf('Duplicate %d not found', $id));
+        }
+        return $this->findByIdResult;
     }
 }
 
 class TestDuplicateReviewService
 {
-    public bool $approveWasCalled = false;
-    public bool $rejectWasCalled = false;
-    public bool $investigateWasCalled = false;
-    public int $lastDuplicateId = 0;
-    public ?string $lastReason = null;
-    public ?string $lastDecidedBy = null;
+    public $approveWasCalled = false;
+    public $rejectWasCalled = false;
+    public $investigateWasCalled = false;
+    public $lastDuplicateId = 0;
+    public $lastReason = null;
+    public $lastDecidedBy = null;
 
-    public function approve(int $duplicateId, string $reason, string $decidedBy): void
+    public function approve($duplicateId, $reason, $decidedBy)
     {
         $this->approveWasCalled = true;
         $this->lastDuplicateId = $duplicateId;
@@ -423,7 +426,7 @@ class TestDuplicateReviewService
         $this->lastDecidedBy = $decidedBy;
     }
 
-    public function reject(int $duplicateId, string $reason, string $decidedBy): void
+    public function reject($duplicateId, $reason, $decidedBy)
     {
         $this->rejectWasCalled = true;
         $this->lastDuplicateId = $duplicateId;
@@ -431,7 +434,7 @@ class TestDuplicateReviewService
         $this->lastDecidedBy = $decidedBy;
     }
 
-    public function investigate(int $duplicateId, string $reason, string $decidedBy): void
+    public function investigate($duplicateId, $reason, $decidedBy)
     {
         $this->investigateWasCalled = true;
         $this->lastDuplicateId = $duplicateId;
@@ -442,9 +445,9 @@ class TestDuplicateReviewService
 
 class TestLogger
 {
-    public bool $infoWasLogged = false;
+    public $infoWasLogged = false;
 
-    public function info($message, array $context = []): void
+    public function info($message, $context = array())
     {
         $this->infoWasLogged = true;
     }
