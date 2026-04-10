@@ -96,11 +96,15 @@ include_once($path_to_root . "/modules/bank_import/includes/pdata.inc");
 //	Add a filter on the search screen to filter by "our account"
 
 
+$use_date_picker = true; // Ensure datepicker JS is included on this page (hotfix)
 $js = "";
 if ($use_popup_windows)
 	$js .= get_js_open_window(900, 500);
 if ($use_date_picker)
 	$js .= get_js_date_picker();
+
+// Fallback script (standalone file) — toggles native date input when FA date_picker is not present
+$js .= '<script src="' . $path_to_root . '/modules/bank_import/js/date-fallback.js"></script>';
 
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
 
