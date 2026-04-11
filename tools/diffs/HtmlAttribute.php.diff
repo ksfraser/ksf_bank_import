@@ -1,0 +1,46 @@
+--- external/HtmlAttribute.php
++++ repo/HtmlAttribute.php
+@@ -19,10 +19,6 @@
+ 	protected $value;	//Value
+ 	function __construct( $attribute, $value )
+ 	{
+-		// Valid HTML attribute name: must start with a letter and contain only letters, digits, hyphens, or underscores
+-		if (!preg_match('/^[A-Za-z][A-Za-z0-9_-]*$/', $attribute)) {
+-			throw new \InvalidArgumentException("Invalid attribute name: must start with a letter and contain only letters, digits, hyphens, or underscores.");
+-		}
+ 		$this->attribute = $attribute;
+ 		$this->value = $value;
+ 	}
+@@ -38,16 +34,11 @@
+ 	 * @return string The attribute in format: name="value"
+ 	 */
+ 	public function getHtml(): string {
+-		if (strlen($this->attribute) > 0) {
+-			$value = $this->value;
+-			if (is_object($value) && method_exists($value, 'getHtml')) {
+-				$value = $value->getHtml();
+-			} else {
+-				$value = (string)$value;
+-			}
+-			$html = $this->attribute . '="' . $value . '"';
++		if( strlen( $this->attribute ) > 0 )
++		{
++			$html = $this->attribute . '="' . $this->value . '"';
+ 			return $html;
+-		}
++		}	
+ 		return "";
+ 	}
+ 
+@@ -58,10 +49,6 @@
+ 
+     public function getValue(): string
+     {
+-		$value = $this->value;
+-		if (is_object($value) && method_exists($value, 'getHtml')) {
+-			return $value->getHtml();
+-		}
+-		return (string)$value;
++        return $this->value;
+     }
+ }

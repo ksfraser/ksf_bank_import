@@ -104,7 +104,7 @@ if ($use_date_picker)
 	$js .= get_js_date_picker();
 
 // Fallback script (standalone file) — toggles native date input when FA date_picker is not present
-$js .= '<script src="' . $path_to_root . '/modules/bank_import/js/date-fallback.js"></script>';
+//$js .= '<script src="' . $path_to_root . '/modules/bank_import/js/date-fallback.js"></script>';
 
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
 
@@ -616,6 +616,16 @@ if (isset($_POST['partnerType'])) {
 	$Ajax->activate('doc_tbl');
 }
 
+ 
+// Start output buffering to capture and discard any stray debug output
+if (!ob_get_level()) {
+	ob_start();
+}
+
+// Clear any debug output that may have been emitted during includes
+if (ob_get_length() > 0) {
+	ob_clean();
+}
 
 start_form();
 

@@ -1,21 +1,11 @@
 <?php
-
-use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
-
-//TODO: Refactor to replace the Submit button with our own class.
-
-class AddCustomerButton
-{
-	protected $HTML_LABEL_ROW;
-	function __construct( int $index )
-	{
-		$this->HTML_LABEL_ROW = new HTML_ROW_LABELDecorator( 
-						submit( "AddCustomer[$index]", _("AddCustomer"), false, '', 'default' ), 
-						"Add Customer" );
-		//label_row("Add Customer", submit("AddCustomer[$this->id]",_("AddCustomer"),false, '', 'default'));
-	}
-	function toHTML()
-	{
-		$this->HTML_LABEL_ROW->toHTML();
-	}
+// Legacy shim: alias the namespaced implementation so legacy code can
+// continue to instantiate `AddCustomerButton` without changing includes.
+// Ensure namespaced implementation is loaded and provide a legacy alias.
+$nsFile = __DIR__ . '/../src/Ksfraser/FaBankImport/Views/AddCustomerButton.php';
+if (file_exists($nsFile)) {
+	require_once $nsFile;
+}
+if (!class_exists('AddCustomerButton') && class_exists(\Ksfraser\FaBankImport\Views\AddCustomerButton::class)) {
+	class_alias(\Ksfraser\FaBankImport\Views\AddCustomerButton::class, 'AddCustomerButton');
 }

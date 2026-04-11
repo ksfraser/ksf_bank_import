@@ -33,6 +33,9 @@ require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php');
 require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php');
 require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlHidden.php');
 require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlTable.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlTableRow.php');
+require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlTd.php');
 
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 use Ksfraser\PartnerFormData;
@@ -236,13 +239,14 @@ class CustomerPartnerTypeView
             $fcp = new \fa_customer_payment();
             $fcp->set("trans_date", $this->valueTimestamp);
             
-            // Show allocatable invoices
-            $allocatableHtml = new HtmlRaw($fcp->show_allocatable());
-            $invoicesLabel = new HtmlString("Invoices to Pay");
-            $invoicesRow = new HtmlLabelRow($invoicesLabel, $allocatableHtml);
-            $fragment->addChild($invoicesRow);
-            
+            // Build allocatable invoices UI using SRP AllocatableInvoicesTable
             $res = $fcp->get_alloc_details();
+            if (count($res) > 0) {
+                $allocTable = new AllocatableInvoicesTable($res);
+                $invoicesLabel = new HtmlString('Invoices to Pay');
+                $invoicesRow = new HtmlLabelRow($invoicesLabel, $allocTable);
+                $fragment->addChild($invoicesRow);
+            }
             
             // Extract the invoice number from allocation details
             foreach ($res as $row) {

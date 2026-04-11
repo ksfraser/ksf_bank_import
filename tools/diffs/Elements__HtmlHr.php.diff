@@ -1,0 +1,17 @@
+--- external/Elements/HtmlHr.php
++++ repo/Elements/HtmlHr.php
+@@ -8,9 +8,9 @@
+ 
+ class HtmlHr extends HtmlEmptyElement
+ {
+-	       function __construct( HtmlElementInterface $data )
+-	       {
+-		       parent::__construct( $data );
+-		       $this->tag = "hr";
+-	       }
++	function __construct( $data = "" )
++	{
++		parent::__construct( "" );
++		$this->tag = "hr";
++	}
+ }

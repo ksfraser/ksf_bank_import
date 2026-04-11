@@ -1,0 +1,173 @@
+--- external_exact:HtmlElement.php
++++ repo:HtmlElement (2).php
+@@ -6,15 +6,6 @@
+ use Ksfraser\HTML\HtmlAttributeList;
+ use Ksfraser\HTML\HtmlAttribute;
+ use Ksfraser\HTML\Elements\HtmlString;
+-use Ksfraser\HTML\Traits\CSSManagementTrait;
+-use Ksfraser\HTML\Traits\EventHandlerTrait;
+-use Ksfraser\HTML\Traits\DataAttributeTrait;
+-use Ksfraser\HTML\Traits\AriaAttributeTrait;
+-use Ksfraser\HTML\Traits\ElementIntrospectionTrait;
+-use Ksfraser\HTML\Traits\FormElementsTrait;
+-use Ksfraser\HTML\Traits\ComponentFactoryTrait;
+-use Ksfraser\HTML\Traits\ResponsiveLayoutTrait;
+-use Ksfraser\HTML\Traits\SemanticElementsTrait;
+ 
+ require_once( 'HtmlAttributeList.php' );
+ 
+@@ -25,8 +16,6 @@
+  * Elements can have nested elements and attributes.
+  *
+  * Follows Single Responsibility Principle: Renders HTML elements
+- * Uses CSSManagementTrait for enhanced CSS class management (FR-006)
+- * Uses EventHandlerTrait for event handler methods (FR-007)
+  *
+  * @link https://www.w3schools.com/html/html_elements.asp
+  * @author Kevin Fraser
+@@ -34,15 +23,6 @@
+  * @version 20250119
+  */
+ class HtmlElement implements HtmlElementInterface {
+-    use CSSManagementTrait;
+-    use EventHandlerTrait;
+-    use DataAttributeTrait;
+-    use AriaAttributeTrait;
+-    use ElementIntrospectionTrait;
+-    use FormElementsTrait;
+-    use ComponentFactoryTrait;
+-    use ResponsiveLayoutTrait;
+-    use SemanticElementsTrait;
+     /**
+      * Allow casting to string to return HTML output
+      */
+@@ -123,37 +103,20 @@
+     /** @var bool Whether this is an empty element (no closing tag) */
+     protected $empty;
+ 
+-    /** @var string|null Optional text content (for elements created with tag + text) */
+-    protected $content;
+-
+     /** @var HtmlAttributeList List of HTML attributes */
+     protected $attributeList;
+ 
+     /**
+      * Constructor
+      *
+-     * @param string|HtmlElementInterface|null $tagOrData Optional tag name or initial nested element
+-     * @param string|null $content Optional text content (only used with tag parameter)
+-     */
+-    public function __construct($tagOrData = null, ?string $content = null)
++     * @param HtmlElementInterface|null $data Optional initial nested element
++     */
++    public function __construct(?HtmlElementInterface $data = null)
+     {
+         $this->nested = array();
+-        $this->content = null;  // Initialize content property
+-        $this->tag = null;      // Initialize tag property
+-
+-        // Handle tag string parameter
+-        if (is_string($tagOrData)) {
+-            $this->setTag($tagOrData);
+-            // If content provided with tag, add as text
+-            if ($content !== null && $content !== '') {
+-                $this->content = $content;
+-            }
+-        } // Handle HtmlElementInterface parameter
+-        else if ($tagOrData !== null && $tagOrData instanceof HtmlElementInterface) {
+-            $this->addNested($tagOrData);
+-        }
+-        // else: null passed or nothing - that's fine
+-
++        if ($data !== null) {
++            $this->addNested($data);
++        }
+         $this->newAttributeList();
+         $this->empty = false;
+     }
+@@ -195,18 +158,31 @@
+         return null;
+     }
+ 
+-    /**
+-     * Remove an attribute from the element
+-     *
+-     * @param string $name Attribute name to remove
+-     * @return self (Fluent interface)
+-     */
+-    public function removeAttribute(string $name): self
+-    {
+-        if (method_exists($this->attributeList, 'removeAttribute')) {
+-            $this->attributeList->removeAttribute($name);
+-        }
+-        return $this;
++
++    /**
++     * CSS Classes for this element
++     * @var array
++     */
++    protected $CSSClasses = [];
++
++    /**
++     * Add a CSS class without clobbering existing class attribute.
++     *
++     * @param string $class
++     * @return self (Fluent interface)
++     */
++    public function addCSSClass(string $class): self
++    {
++        $existing = $this->getAttributeValue('class');
++        if ($existing === null || trim($existing) === '') {
++            return $this->setAttribute('class', $class);
++        }
++        // Avoid duplicate class tokens
++        $tokens = preg_split('/\s+/', trim($existing)) ?: [];
++        if (in_array($class, $tokens, true)) {
++            return $this;
++        }
++        return $this->setAttribute('class', trim($existing . ' ' . $class));
+     }
+ 
+     /**
+@@ -234,20 +210,13 @@
+     }
+ 
+     /**
+-     * Renders HTML for all nested children and text content
++     * Render children elements to HTML
+      *
+      * @return string HTML string of all nested children
+      */
+     protected function renderChildrenHtml(): string
+     {
+         $html = '';
+-
+-        // Add text content first if present
+-        if (!empty($this->content)) {
+-            $html .= htmlspecialchars($this->content, ENT_QUOTES, 'UTF-8');
+-        }
+-
+-        // Then add nested element children
+         foreach ($this->nested as $child) {
+             $html .= $child->getHtml();
+         }
+@@ -287,18 +256,12 @@
+     /**
+      * Get HTML attributes as string
+      *
+-     * Includes both regular attributes and event handlers
+-     *
+      * @return string Formatted attribute string
+      */
+     protected function getAttributes(): string
+     {
+         $html = " ";
+-        $html .= $this->attributeList->getHtml();
+-        $html .= $this->renderEventHandlers();
+-        $html .= $this->renderDataAttributes();
+-        $html .= $this->renderAriaAttributes();
+-        $html .= " ";
++        $html .= $this->attributeList->getHtml() . " ";
+         return $html;
+     }
+ }

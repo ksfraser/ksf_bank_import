@@ -15,6 +15,8 @@
             "Ksfraser\\View\\": "src/Ksfraser/View/",
             "KsfBankImport\\Services\\": "Services/",
             "KsfBankImport\\OperationTypes\\": "OperationTypes/"
+            ,
+            "KsfBankImport\\Views\\": "views/"
         },
         "classmap": [
             "src/Ksfraser/FaBankImport/FactoryTransactions.php",
@@ -35,7 +37,9 @@
         "asgrim/ofxparser": "^1.2",
         "mimographix/qif-library": "^1.0",
         "nesbot/carbon": "^2.46",
-        "psr/container": "^1.0"
+        "psr/container": "^1.0",
+        "ksfraser/ksf_ofxparser": "0.1.1",
+        "ksfraser/qifparser": "0.3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3",

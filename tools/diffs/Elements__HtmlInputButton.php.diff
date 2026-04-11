@@ -1,0 +1,69 @@
+--- external/Elements/HtmlInputButton.php
++++ repo/Elements/HtmlInputButton.php
+@@ -64,20 +64,7 @@
+ 		$this->empty = true;
+ 		$this->tag = "input";
+ 		$this->newAttributeList();
+-		$this->setAttribute( "type", $type );
+-	}
+-
+-	/**
+-	 * Set the input type attribute
+-	 *
+-	 * @param string $type
+-	 * @return self
+-	 */
+-	public function setType( string $type ): self
+-	{
+-		$this->buttonType = $type;
+-		$this->setAttribute( 'type', $type );
+-		return $this;
++		$this->addAttribute( new HtmlAttribute( "type", $type ) );
+ 	}
+ 
+ 	/**
+@@ -88,7 +75,7 @@
+ 	 */
+ 	public function setName( string $name ): self
+ 	{
+-		$this->setAttribute( "name", $name );
++		$this->addAttribute( new HtmlAttribute( "name", $name ) );
+ 		return $this;
+ 	}
+ 
+@@ -100,7 +87,7 @@
+ 	 */
+ 	public function setId( string $id ): self
+ 	{
+-		$this->setAttribute( "id", $id );
++		$this->addAttribute( new HtmlAttribute( "id", $id ) );
+ 		return $this;
+ 	}
+ 
+@@ -112,7 +99,7 @@
+ 	 */
+ 	public function setClass( string $class ): self
+ 	{
+-		$this->setAttribute( "class", $class );
++		$this->addAttribute( new HtmlAttribute( "class", $class ) );
+ 		return $this;
+ 	}
+ 
+@@ -123,7 +110,7 @@
+ 	 */
+ 	public function setDisabled(): self
+ 	{
+-		$this->setAttribute( "disabled", "disabled" );
++		$this->addAttribute( new HtmlAttribute( "disabled", "disabled" ) );
+ 		return $this;
+ 	}
+ 
+@@ -136,7 +123,7 @@
+ 	{
+ 		// Set the value attribute from the label (already escaped by HtmlString)
+ 		$labelText = $this->label->getHtml();
+-		$this->setAttribute( "value", $labelText );
++		$this->addAttribute( new HtmlAttribute( "value", $labelText ) );
+ 
+ 		// Build the input tag
+ 		$html = "<" . $this->tag;

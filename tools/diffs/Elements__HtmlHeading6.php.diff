@@ -1,0 +1,17 @@
+--- external/Elements/HtmlHeading6.php
++++ repo/Elements/HtmlHeading6.php
+@@ -9,6 +9,11 @@
+ *
+ * @since 20250517
+ */
+-/**
+- */
+-class HtmlHeading6 extends HtmlH6 {}
++class HtmlHeading6 extends HtmlHeading
++{
++	function __construct( HtmlElementInterface $data )
++	{
++		parent::__construct( $data );
++		$this->tag = "h6";
++	}
++}

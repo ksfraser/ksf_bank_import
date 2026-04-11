@@ -1,24 +1,31 @@
 <?php
+namespace Ksfraser\FaBankImport\Views;
 
-use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
-use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
+use Ksfraser\HTML\Elements\HtmlSubmit;
+use Ksfraser\HTML\Elements\HtmlString;
 
-namespace Ksfraser\FaBankImport;
-
-//TODO: Refactor to replace the Submit button with our own class.
-
-class AddCustomerButton
+class AddCustomerButton implements \Ksfraser\HTML\HtmlElementInterface
 {
-	protected $HTML_LABEL_ROW;
-	function __construct( int $index )
-	{
-		$data = submit( "AddCustomer[$index]", _("AddCustomer"), false, '', 'default' ) ;
-		$label = "Add Customer" ;
-		$this->HTML_LABEL_ROW = new HTML_ROW_LABELDecorator( $data, $label );
-		//label_row("Add Customer", submit("AddCustomer[$this->id]",_("AddCustomer"),false, '', 'default'));
-	}
-	function toHTML()
-	{
-		$this->HTML_LABEL_ROW->toHTML();
-	}
+    protected $submit;
+
+    public function __construct(int $index)
+    {
+        /**
+         * Composition chosen intentionally: this class configures and wraps
+         * a `HtmlSubmit` element rather than extending it. See project
+         * docs for rationale.
+         */
+        $this->submit = new HtmlSubmit(new HtmlString(_("AddCustomer")));
+        $this->submit->setName("AddCustomer[$index]")->setClass('default');
+    }
+
+    public function getHtml(): string
+    {
+        return $this->submit->getHtml();
+    }
+
+    public function toHtml(): void
+    {
+        echo $this->getHtml();
+    }
 }

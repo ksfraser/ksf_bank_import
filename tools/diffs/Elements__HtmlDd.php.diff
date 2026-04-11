@@ -1,0 +1,10 @@
+--- external/Elements/HtmlDd.php
++++ repo/Elements/HtmlDd.php
+@@ -1,6 +1,6 @@
+ <?php
+ 
+-namespace Ksfraser\HTML\Elements;
++namespace Ksfraser\HTML\HTMLAtomic;
+ 
+ use Ksfraser\HTML\HtmlElementInterface;
+ 

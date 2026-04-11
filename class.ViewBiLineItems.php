@@ -52,13 +52,23 @@ class ViewBILineItems
 		$table->appendRow( new AmountCharges( $bi_lineitem ) );
 		$table->appendRow( new TransTitle( $bi_lineitem ) );
 
-		$this->displayAddVendorOrCustomer();
-		$this->displayEditTransData();
-		if( $this->isPaired() )
-		{
-			//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
-			$this->displayPaired();
+		// Build composable elements for the legacy parts so they can be
+		// appended as proper HtmlElementInterface rows instead of using output buffering.
+		$fragment = new \Ksfraser\HTML\HtmlFragment();
+
+		// displayAddVendorOrCustomer() now returns HtmlElementInterface
+		$fragment->addChild( $this->displayAddVendorOrCustomer() );
+		// displayEditTransData() now returns HtmlElementInterface
+		$fragment->addChild( $this->displayEditTransData() );
+		if ( $this->isPaired() ) {
+			$paired = $this->displayPaired();
+			if ($paired instanceof \Ksfraser\HTML\HtmlElementInterface) {
+				$fragment->addChild($paired);
+			}
 		}
+
+		// Append captured fragment as a row so the AddVendor button appears inside the table (bottom)
+		$table->appendRow($fragment);
 		$table->toHTML();
 
 	}
@@ -68,32 +78,48 @@ class ViewBILineItems
 	**********************************************************************/
 	function displayAddVendorOrCustomer()
 	{
+
+		// Build and return HtmlElementInterface instead of echoing
+		$fragment = new \Ksfraser\HTML\HtmlFragment();
+
 		try {
 			$matchedVendor = $this->matchedVendor();
 			$matched_supplier = $this->matchedSupplierId( $matchedVendor );
-			hidden( 'vendor_id', $matchedVendor );
-			label_row("Matched Vendor", print_r( $matchedVendor, true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supp_name'], true ) );
+
+			// Hidden vendor id
+			$vendorIdHidden = new \Ksfraser\HTML\Elements\HtmlHidden('vendor_id', $matchedVendor);
+			$fragment->addChild($vendorIdHidden);
+
+			// Matched vendor info as escaped string
+			$info = print_r( $matchedVendor, true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supp_name'], true );
+			$label = new \Ksfraser\HTML\Elements\HtmlString("Matched Vendor");
+			$content = new \Ksfraser\HTML\Elements\HtmlString($info);
+			$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($label, $content);
+			$fragment->addChild($labelRow);
+
+		} catch (Exception $e) {
+			// If no matched vendor, build and add the appropriate button element
+			$fragment->addChild( $this->selectAndDisplayButtonElement() );
+		} finally {
+			// Add vendor short/long hidden fields
+			$vendorShort = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$this->id", $this->otherBankAccount);
+			$vendorLong = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$this->id", $this->otherBankAccountName);
+			$fragment->addChild($vendorShort);
+			$fragment->addChild($vendorLong);
 		}
-		catch( Exception $e )
-		{
-			$this-> selectAndDisplayButton();
-		}
-		finally
-		{
-			hidden( "vendor_short_$this->id", $this->otherBankAccount );
-			hidden( "vendor_long_$this->id", $this->otherBankAccountName );
-		}
+
+		return $fragment;
 	}
 	function addCustomerButton()
 	{
-		$b = new AddCustomerButton( $this->id );
-		$b->toHtml();
+		// Return the ButtonRow wrapper so callers get a complete label+button row
+		return new AddCustomerButtonRow($this->id);
 		//label_row("Add Customer", submit("AddCustomer[$this->id]",_("AddCustomer"),false, '', 'default'));
 	}
 	function addVendorButton()
 	{
-		$b = new AddVendorButton( $this->id );
-		$b->toHtml();
+		// Return the ButtonRow wrapper so callers get a complete label+button row
+		return new AddVendorButtonRow($this->id);
 		//label_row("Add Vendor", submit("AddVendor[$this->id]",_("AddVendor"),false, '', 'default'));
 	}
 	/**//**************************************************************
@@ -368,6 +394,16 @@ class ViewBILineItems
 		);
 		$this->partnerId = $_POST["partnerId_$this->id"];
 	}
+	/**
+	 * Backwards-compatible wrapper used above to always return an HtmlElement
+	 */
+	function selectAndDisplayButtonElement()
+	{
+		$el = $this->selectAndDisplayButton();
+		if ($el instanceof \Ksfraser\HTML\HtmlElementInterface) return $el;
+		// Fallback: return empty fragment
+		return new \Ksfraser\HTML\HtmlFragment();
+	}
 	/**//*******************************************************************
 	* Display Quick Entry partner type
 	*
@@ -472,7 +508,7 @@ class ViewBILineItems
 			(_("Comment:")),
 			text_input( "comment_$this->id", $this->memo, strlen($this->memo), '', _("Comment:") )
 		);
- 		label_row("", submit("ProcessTransaction[$this->id]",_("Process"),false, '', 'default'));
+		(new ProcessTransactionButtonRow($this->id))->toHtml();
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -541,13 +577,9 @@ class ViewBILineItems
 	*************************************************************************************/
 	function displayEditTransData()
 	{
-		//label_row("Edit this Transaction Data", submit("EditTransaction[$this->id]",_("EditTransaction"),false, '', 'default'));
-		label_row("Toggle Transaction Type Debit/Credit", submit("ToggleTransaction[$this->id]",_("ToggleTransaction"),false, '', 'default'));
-/*
-		label_row("Edit this Transaction Data", submit("EditTransaction[$this->id]",_("EditTransaction"),false, '', 'default'));
-		hidden( "vendor_short_$this->id", $this->otherBankAccount );
-		hidden( "vendor_long_$this->id", $this->otherBankAccountName );
-*/
+		// Use composable view classes: return a ToggleTransactionRow
+		// which composes a ToggleTransactionTypeButton into a HtmlLabelRow.
+		return new ToggleTransactionRow($this->id);
 	}
 	/**//*****************************************************************
 	* Display a settled transaction
@@ -579,6 +611,6 @@ class ViewBILineItems
 				label_row("Status:", "other transaction type; no info yet " . print_r( $this, true ) );
 			break;
 	      	}
-		label_row( "Unset Transaction Association", submit( "UnsetTrans[$this->id]", _( "Unset Transaction $this->fa_trans_no"), false, '', 'default' ));
+		(new UnsetTransButtonRow($this->id, $this->fa_trans_no))->toHtml();
 	}
 }

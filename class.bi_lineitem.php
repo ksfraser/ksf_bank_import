@@ -369,6 +369,7 @@ class bi_lineitem extends generic_fa_interface_model
 		// Complex components - capture their echoed output using HtmlOB
 		// TODO: Refactor these methods to return strings directly
 		$complexHtml = (new HtmlOB(function() {
+			echo "<!-- START-LEFT-OB-{$this->id} -->";
 			$this->displayAddVendorOrCustomer();
 			$this->displayEditTransData();
 			if( $this->isPaired() )
@@ -376,6 +377,7 @@ class bi_lineitem extends generic_fa_interface_model
 				//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
 				$this->displayPaired();
 			}
+			echo "<!-- END-LEFT-OB-{$this->id} -->";
 		}))->getHtml();
 		
 		// Build complete HTML structure using HTML library classes
@@ -426,11 +428,11 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		if( $this->transactionDC=='D' )
 		{
-			$b = new AddVendorButton( $this->id );
+			$b = new AddVendorButtonRow( $this->id );
 		} else
 		if( $this->transactionDC=='C' )
 		{
-			$b = new AddCustomerButton( $this->id );
+			$b = new AddCustomerButtonRow( $this->id );
 		}
 		else
 		{
@@ -1027,6 +1029,7 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		// Use HtmlOB to capture echoed output from display methods
 		$contentHtml = (new HtmlOB(function() {
+			echo "<!-- START-RIGHT-OB-{$this->id} -->";
 			//now display stuff: forms and information
 			if ($this->status == 1)
 			{
@@ -1036,13 +1039,13 @@ class bi_lineitem extends generic_fa_interface_model
 				// this is a new transaction, but not matched by routine so just display some forms
 				$this->setPartnerType();
 				$this->getDisplayMatchingTrans();
-				
+                
 				// Display Operation label using HtmlLabelRow
 				$operationLabel = new \Ksfraser\HTML\Elements\HtmlString("Operation:");
 				$operationContent = new \Ksfraser\HTML\Elements\HtmlString($this->oplabel);
 				$operationLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($operationLabel, $operationContent);
 				$operationLabelRow->toHtml();
-				
+                
 				// Display Partner Type selector using PartnerTypeSelectorView
 				$partnerSelectorData = [
 					'id' => $this->id,
@@ -1053,7 +1056,7 @@ class bi_lineitem extends generic_fa_interface_model
 				];
 				$partnerSelector = new PartnerTypeSelectorView($partnerSelectorData);
 				$partnerSelector->display();
-		
+        
 				//3rd cell
 				if ( !$this->formData->hasPartnerId() )
 				{
@@ -1070,13 +1073,14 @@ class bi_lineitem extends generic_fa_interface_model
 					$cids = array();
 				}
 				$cids = implode(',', $cids);
-				
+                
 				// Use HtmlHidden instead of hidden() function
 				$hiddenInput = new \Ksfraser\HTML\Elements\HtmlHidden("cids[$this->id]", $cids);
 				$hiddenInput->toHtml();
-				
+                
 				$this->displayMatchingTransArr();
 			}
+			echo "<!-- END-RIGHT-OB-{$this->id} -->";
 		}))->getHtml();
 		
 		// Wrap content in HtmlTable with proper attributes

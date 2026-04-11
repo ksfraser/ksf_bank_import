@@ -43,3 +43,6 @@ phpunit_full_results.txt
 *-old.php
 *.bak
 test-output.txt
+
+# Production dump directory (local)
+PROD/
