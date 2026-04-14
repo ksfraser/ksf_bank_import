@@ -376,7 +376,7 @@ class ttr_label_row
 	/**/
 			label_row("Operation:", $oplabel, "width='25%' class='label'");
 			//label_row("Operation:", (($transactionDC=='C') ? "Deposit" : "Payment"), "width='25%' class='label'");
-			label_row("Partner:", array_selector("partnerType[$tid]", $_POST['partnerType'][$tid], $optypes, array('select_submit'=> true)));
+			label_row("Partner:", array_selector("partnerType[$tid]", $_POST['partnerType'][$tid], $optypes, array('params' => 'onchange="preserveSubmit(this)"')));
 	
 	/*************************************************************************************************************/
 		//3rd cell

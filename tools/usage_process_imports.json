@@ -1,0 +1,1309 @@
+{
+  "generated": "2026-04-11T22:51:00Z",
+  "root": "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import",
+  "entry_files": [
+    "PROD/process_statements.php",
+    "PROD/src/Ksfraser/Controller/BiLineItemController.php",
+    "PROD/src/Ksfraser/FaBankImport/Views/BiLineItemView.php",
+    "PROD/src/Ksfraser/FaBankImport/controller/BiLineItemController.php",
+    "PROD/src/Ksfraser/FaBankImport/controllers/BiLineItemController.php",
+    "PROD/src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+    "PROD/src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+    "PROD/src/Ksfraser/FaBankImport/view/BiLineItemView.php",
+    "PROD/src/Ksfraser/FaBankImport/views/BiLineItemView.php",
+    "PROD/src/Ksfraser/FaBankImport/views/ProcessStatementsView.php",
+    "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+    "PROD/src/Ksfraser/View/BiLineItemView.php",
+    "PROD/tests/integration/BiLineItemModelProductionBaselineTest.php",
+    "PROD/tests/integration/ProcessStatementsViewRefactoringTest.php",
+    "PROD/tests/unit/views/ProcessStatementsViewTest.php",
+    "PROD/vendor/composer/autoload_classmap.php",
+    "PROD/vendor/composer/autoload_static.php",
+    "process_statements.php",
+    "src/Ksfraser/Controller/BiLineItemController.php",
+    "src/Ksfraser/FaBankImport/controller/BiLineItemController.php",
+    "src/Ksfraser/FaBankImport/controllers/BiLineItemController.php",
+    "src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+    "src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+    "src/Ksfraser/FaBankImport/view/BiLineItemView.php",
+    "src/Ksfraser/FaBankImport/views/BiLineItemView.php",
+    "src/Ksfraser/FaBankImport/views/ProcessStatementsView.php",
+    "src/Ksfraser/Model/BiLineItemModel.php",
+    "src/Ksfraser/View/BiLineItemView.php",
+    "tests/Views/ProcessStatementsViewTest.php",
+    "tests/integration/BiLineItemModelProductionBaselineTest.php",
+    "tests/integration/ProcessStatementsViewRefactoringTest.php",
+    "tests/unit/BiTransactionsPaginationTest.php",
+    "tests/unit/views/ProcessStatementsViewTest.php",
+    "update_process_statements.php",
+    "vendor/composer/autoload_classmap.php",
+    "vendor/composer/autoload_static.php"
+  ],
+  "nodes": {
+    "PROD/process_statements.php": {
+      "type": "file",
+      "path": "PROD/process_statements.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\views\\ProcessStatementsView"
+      ],
+      "namespaces": [],
+      "requires": [
+        "Views/module_menu_view.php",
+        "class.bank_import_controller.php",
+        "../ksf_modules_common/class.fa_bank_transfer.php",
+        "src/Ksfraser/FaBankImport/header_table.php",
+        "class.bi_transactions.php"
+      ]
+    },
+    "symbol:Ksfraser\\FaBankImport\\views\\ProcessStatementsView": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\FaBankImport\\views\\ProcessStatementsView"
+    },
+    "PROD/Views/module_menu_view.php": {
+      "type": "file",
+      "path": "PROD/Views/module_menu_view.php"
+    },
+    "PROD/class.bank_import_controller.php": {
+      "type": "file",
+      "path": "PROD/class.bank_import_controller.php"
+    },
+    "ksf_modules_common/class.fa_bank_transfer.php": {
+      "type": "file",
+      "path": "ksf_modules_common/class.fa_bank_transfer.php"
+    },
+    "PROD/src/Ksfraser/FaBankImport/header_table.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/header_table.php"
+    },
+    "PROD/class.bi_transactions.php": {
+      "type": "file",
+      "path": "PROD/class.bi_transactions.php"
+    },
+    "PROD/src/Ksfraser/Controller/BiLineItemController.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/Controller/BiLineItemController.php",
+      "uses": [
+        "Ksfraser\\common\\GenericFaInterface",
+        "Ksfraser\\common\\Defines",
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+        "Ksfraser\\FaBankImport\\View\\BiLineItemView"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Controller"
+      ],
+      "requires": []
+    },
+    "symbol:Ksfraser\\common\\GenericFaInterface": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\common\\GenericFaInterface"
+    },
+    "symbol:Ksfraser\\common\\Defines": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\common\\Defines"
+    },
+    "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\FaBankImport\\Model\\BiLineItemModel"
+    },
+    "symbol:Ksfraser\\FaBankImport\\View\\BiLineItemView": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\FaBankImport\\View\\BiLineItemView"
+    },
+    "PROD/src/Ksfraser/FaBankImport/Views/BiLineItemView.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/Views/BiLineItemView.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\View"
+      ],
+      "requires": []
+    },
+    "PROD/src/Ksfraser/FaBankImport/controller/BiLineItemController.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/controller/BiLineItemController.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+        "Ksfraser\\FaBankImport\\View\\BiLineItemView"
+      ],
+      "namespaces": [],
+      "requires": []
+    },
+    "PROD/src/Ksfraser/FaBankImport/controllers/BiLineItemController.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/controllers/BiLineItemController.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+        "Ksfraser\\FaBankImport\\View\\BiLineItemView"
+      ],
+      "namespaces": [],
+      "requires": []
+    },
+    "PROD/src/Ksfraser/FaBankImport/model/BiLineItemModel.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "uses": [
+        "Ksfraser\\common\\GenericFaInterface",
+        "Ksfraser\\frontaccounting\\FaBankAccounts",
+        "Ksfraser\\frontaccounting\\FaCustomerPayment",
+        "Ksfraser\\frontaccounting\\FaGl"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Model"
+      ],
+      "requires": []
+    },
+    "symbol:Ksfraser\\frontaccounting\\FaBankAccounts": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\frontaccounting\\FaBankAccounts"
+    },
+    "symbol:Ksfraser\\frontaccounting\\FaCustomerPayment": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\frontaccounting\\FaCustomerPayment"
+    },
+    "symbol:Ksfraser\\frontaccounting\\FaGl": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\frontaccounting\\FaGl"
+    },
+    "PROD/src/Ksfraser/FaBankImport/models/BiLineItemModel.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "uses": [
+        "Ksfraser\\common\\GenericFaInterface",
+        "Ksfraser\\frontaccounting\\FaBankAccounts",
+        "Ksfraser\\frontaccounting\\FaCustomerPayment",
+        "Ksfraser\\frontaccounting\\FaGl"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Models"
+      ],
+      "requires": []
+    },
+    "PROD/src/Ksfraser/FaBankImport/view/BiLineItemView.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/view/BiLineItemView.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\View"
+      ],
+      "requires": []
+    },
+    "PROD/src/Ksfraser/FaBankImport/views/BiLineItemView.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/views/BiLineItemView.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\View"
+      ],
+      "requires": []
+    },
+    "PROD/src/Ksfraser/FaBankImport/views/ProcessStatementsView.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/views/ProcessStatementsView.php",
+      "uses": [],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Views"
+      ],
+      "requires": [
+        "class.bi_lineitem.php"
+      ]
+    },
+    "PROD/src/Ksfraser/FaBankImport/views/class.bi_lineitem.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/FaBankImport/views/class.bi_lineitem.php"
+    },
+    "PROD/src/Ksfraser/Model/BiLineItemModel.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "uses": [
+        "Ksfraser\\common\\GenericFaInterface",
+        "Ksfraser\\frontaccounting\\FaBankAccounts",
+        "Ksfraser\\frontaccounting\\FaCustomerPayment",
+        "Ksfraser\\frontaccounting\\FaGl",
+        "Ksfraser\\frontaccounting\\FaBankAccounts",
+        "Ksfraser\\frontaccounting\\FaGl"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Model"
+      ],
+      "requires": [
+        "../ksf_modules_common/class.fa_bank_accounts.php",
+        "class.bi_transactions.php"
+      ]
+    },
+    "PROD/src/Ksfraser/ksf_modules_common/class.fa_bank_accounts.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/ksf_modules_common/class.fa_bank_accounts.php"
+    },
+    "PROD/src/Ksfraser/Model/class.bi_transactions.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/Model/class.bi_transactions.php"
+    },
+    "PROD/src/Ksfraser/View/BiLineItemView.php": {
+      "type": "file",
+      "path": "PROD/src/Ksfraser/View/BiLineItemView.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\View"
+      ],
+      "requires": []
+    },
+    "PROD/tests/integration/BiLineItemModelProductionBaselineTest.php": {
+      "type": "file",
+      "path": "PROD/tests/integration/BiLineItemModelProductionBaselineTest.php",
+      "uses": [
+        "PHPUnit\\Framework\\TestCase"
+      ],
+      "namespaces": [],
+      "requires": []
+    },
+    "symbol:PHPUnit\\Framework\\TestCase": {
+      "type": "symbol",
+      "symbol": "PHPUnit\\Framework\\TestCase"
+    },
+    "PROD/tests/integration/ProcessStatementsViewRefactoringTest.php": {
+      "type": "file",
+      "path": "PROD/tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "uses": [
+        "PHPUnit\\Framework\\TestCase"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Tests\\Integration"
+      ],
+      "requires": [
+        "header_table.php",
+        "src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php",
+        "src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php"
+      ]
+    },
+    "PROD/tests/integration/header_table.php": {
+      "type": "file",
+      "path": "PROD/tests/integration/header_table.php"
+    },
+    "PROD/tests/integration/src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php": {
+      "type": "file",
+      "path": "PROD/tests/integration/src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php"
+    },
+    "PROD/tests/unit/views/ProcessStatementsViewTest.php": {
+      "type": "file",
+      "path": "PROD/tests/unit/views/ProcessStatementsViewTest.php",
+      "uses": [
+        "PHPUnit\\Framework\\TestCase",
+        "Ksfraser\\FaBankImport\\Views\\ProcessStatementsView"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Tests\\Unit\\Views"
+      ],
+      "requires": []
+    },
+    "symbol:Ksfraser\\FaBankImport\\Views\\ProcessStatementsView": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\FaBankImport\\Views\\ProcessStatementsView"
+    },
+    "PROD/vendor/composer/autoload_classmap.php": {
+      "type": "file",
+      "path": "PROD/vendor/composer/autoload_classmap.php",
+      "uses": [],
+      "namespaces": [],
+      "requires": []
+    },
+    "PROD/vendor/composer/autoload_static.php": {
+      "type": "file",
+      "path": "PROD/vendor/composer/autoload_static.php",
+      "uses": [],
+      "namespaces": [
+        "Composer\\Autoload"
+      ],
+      "requires": []
+    },
+    "process_statements.php": {
+      "type": "file",
+      "path": "process_statements.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\views\\ProcessStatementsView"
+      ],
+      "namespaces": [],
+      "requires": [
+        "Views/module_menu_view.php",
+        "class.bank_import_controller.php",
+        "../ksf_modules_common/class.fa_bank_transfer.php",
+        "src/Ksfraser/FaBankImport/header_table.php",
+        "class.bi_transactions.php",
+        "class.bi_lineitem.php"
+      ]
+    },
+    "Views/module_menu_view.php": {
+      "type": "file",
+      "path": "Views/module_menu_view.php"
+    },
+    "class.bank_import_controller.php": {
+      "type": "file",
+      "path": "class.bank_import_controller.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Handlers\\AddVendor"
+      ],
+      "requires": [
+        "../ksf_modules_common/class.origin.php",
+        "class.bi_transaction.php",
+        "class.bi_transactions.php",
+        "includes/pdata.inc",
+        "../ksf_modules_common/class.fa_bank_transfer.php"
+      ],
+      "parsed": true
+    },
+    "../ksf_modules_common/class.fa_bank_transfer.php": {
+      "type": "file",
+      "path": "../ksf_modules_common/class.fa_bank_transfer.php",
+      "uses": [],
+      "requires": [
+        "../ksf_modules_common/class.fa_origin.php",
+        "../ksf_modules_common/class.VIEW.php"
+      ],
+      "parsed": true
+    },
+    "src/Ksfraser/FaBankImport/header_table.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/header_table.php",
+      "uses": [],
+      "requires": [
+        "../ksf_modules_common/class.fa_bank_transfer.php"
+      ],
+      "parsed": true
+    },
+    "class.bi_transactions.php": {
+      "type": "file",
+      "path": "class.bi_transactions.php",
+      "uses": [],
+      "requires": [],
+      "parsed": true
+    },
+    "class.bi_lineitem.php": {
+      "type": "file",
+      "path": "class.bi_lineitem.php",
+      "uses": [
+        "KsfBankImport\\Views\\ViewFactory",
+        "Ksfraser\\SettledTransactionDisplay",
+        "Ksfraser\\Views\\CommentSubmitView",
+        "Ksfraser\\Views\\PartnerTypeSelectorView",
+        "Ksfraser\\HTML\\Composites\\HTML_ROW",
+        "Ksfraser\\HTML\\Elements\\HtmlString",
+        "Ksfraser\\HTML\\Elements\\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA}",
+        "Ksfraser\\HTML\\{HtmlElement, HtmlAttribute, HtmlFragment}",
+        "Ksfraser\\HTML\\Composites\\HTML_ROW_LABEL",
+        "Ksfraser\\PartnerFormData",
+        "Ksfraser\\FaBankImport\\models\\BankAccountByNumber",
+        "Ksfraser\\FaBankImport\\models\\MatchingJEs"
+      ],
+      "requires": [
+        "class.bi_transactions.php"
+      ],
+      "parsed": true
+    },
+    "src/Ksfraser/Controller/BiLineItemController.php": {
+      "type": "file",
+      "path": "src/Ksfraser/Controller/BiLineItemController.php",
+      "uses": [
+        "Ksfraser\\common\\GenericFaInterface",
+        "Ksfraser\\common\\Defines",
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+        "Ksfraser\\FaBankImport\\View\\BiLineItemView"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Controller"
+      ],
+      "requires": []
+    },
+    "src/Ksfraser/FaBankImport/controller/BiLineItemController.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/controller/BiLineItemController.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+        "Ksfraser\\FaBankImport\\View\\BiLineItemView"
+      ],
+      "namespaces": [],
+      "requires": []
+    },
+    "src/Ksfraser/FaBankImport/controllers/BiLineItemController.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/controllers/BiLineItemController.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+        "Ksfraser\\FaBankImport\\View\\BiLineItemView"
+      ],
+      "namespaces": [],
+      "requires": []
+    },
+    "src/Ksfraser/FaBankImport/model/BiLineItemModel.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "uses": [
+        "Ksfraser\\common\\GenericFaInterface",
+        "Ksfraser\\frontaccounting\\FaBankAccounts",
+        "Ksfraser\\frontaccounting\\FaCustomerPayment",
+        "Ksfraser\\frontaccounting\\FaGl"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Model"
+      ],
+      "requires": []
+    },
+    "src/Ksfraser/FaBankImport/models/BiLineItemModel.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "uses": [
+        "Ksfraser\\common\\GenericFaInterface",
+        "Ksfraser\\frontaccounting\\FaBankAccounts",
+        "Ksfraser\\frontaccounting\\FaCustomerPayment",
+        "Ksfraser\\frontaccounting\\FaGl"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Models"
+      ],
+      "requires": []
+    },
+    "src/Ksfraser/FaBankImport/view/BiLineItemView.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/view/BiLineItemView.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\View"
+      ],
+      "requires": []
+    },
+    "src/Ksfraser/FaBankImport/views/BiLineItemView.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/views/BiLineItemView.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\View"
+      ],
+      "requires": []
+    },
+    "src/Ksfraser/FaBankImport/views/ProcessStatementsView.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/views/ProcessStatementsView.php",
+      "uses": [],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Views"
+      ],
+      "requires": [
+        "class.bi_lineitem.php"
+      ]
+    },
+    "src/Ksfraser/FaBankImport/views/class.bi_lineitem.php": {
+      "type": "file",
+      "path": "src/Ksfraser/FaBankImport/views/class.bi_lineitem.php"
+    },
+    "src/Ksfraser/Model/BiLineItemModel.php": {
+      "type": "file",
+      "path": "src/Ksfraser/Model/BiLineItemModel.php",
+      "uses": [
+        "Ksfraser\\common\\GenericFaInterface",
+        "Ksfraser\\frontaccounting\\FaBankAccounts",
+        "Ksfraser\\frontaccounting\\FaCustomerPayment",
+        "Ksfraser\\frontaccounting\\FaGl",
+        "Ksfraser\\frontaccounting\\FaBankAccounts",
+        "Ksfraser\\frontaccounting\\FaGl"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Model"
+      ],
+      "requires": [
+        "../ksf_modules_common/class.fa_bank_accounts.php",
+        "class.bi_transactions.php"
+      ]
+    },
+    "src/Ksfraser/ksf_modules_common/class.fa_bank_accounts.php": {
+      "type": "file",
+      "path": "src/Ksfraser/ksf_modules_common/class.fa_bank_accounts.php"
+    },
+    "src/Ksfraser/Model/class.bi_transactions.php": {
+      "type": "file",
+      "path": "src/Ksfraser/Model/class.bi_transactions.php"
+    },
+    "src/Ksfraser/View/BiLineItemView.php": {
+      "type": "file",
+      "path": "src/Ksfraser/View/BiLineItemView.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Model\\BiLineItemModel"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\View"
+      ],
+      "requires": []
+    },
+    "tests/Views/ProcessStatementsViewTest.php": {
+      "type": "file",
+      "path": "tests/Views/ProcessStatementsViewTest.php",
+      "uses": [
+        "Ksfraser\\FaBankImport\\Views\\ProcessStatementsView",
+        "PHPUnit\\Framework\\TestCase"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Tests\\Views"
+      ],
+      "requires": []
+    },
+    "tests/integration/BiLineItemModelProductionBaselineTest.php": {
+      "type": "file",
+      "path": "tests/integration/BiLineItemModelProductionBaselineTest.php",
+      "uses": [
+        "PHPUnit\\Framework\\TestCase"
+      ],
+      "namespaces": [],
+      "requires": []
+    },
+    "tests/integration/ProcessStatementsViewRefactoringTest.php": {
+      "type": "file",
+      "path": "tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "uses": [
+        "PHPUnit\\Framework\\TestCase"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Tests\\Integration"
+      ],
+      "requires": [
+        "header_table.php",
+        "src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php",
+        "src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php"
+      ]
+    },
+    "tests/integration/header_table.php": {
+      "type": "file",
+      "path": "tests/integration/header_table.php"
+    },
+    "tests/integration/src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php": {
+      "type": "file",
+      "path": "tests/integration/src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php"
+    },
+    "tests/unit/BiTransactionsPaginationTest.php": {
+      "type": "file",
+      "path": "tests/unit/BiTransactionsPaginationTest.php",
+      "uses": [
+        "PHPUnit\\Framework\\TestCase"
+      ],
+      "namespaces": [],
+      "requires": []
+    },
+    "tests/unit/views/ProcessStatementsViewTest.php": {
+      "type": "file",
+      "path": "tests/unit/views/ProcessStatementsViewTest.php",
+      "uses": [
+        "PHPUnit\\Framework\\TestCase",
+        "Ksfraser\\FaBankImport\\Views\\ProcessStatementsView"
+      ],
+      "namespaces": [
+        "Ksfraser\\FaBankImport\\Tests\\Unit\\Views"
+      ],
+      "requires": []
+    },
+    "update_process_statements.php": {
+      "type": "file",
+      "path": "update_process_statements.php",
+      "uses": [],
+      "namespaces": [],
+      "requires": []
+    },
+    "vendor/composer/autoload_classmap.php": {
+      "type": "file",
+      "path": "vendor/composer/autoload_classmap.php",
+      "uses": [],
+      "namespaces": [],
+      "requires": []
+    },
+    "vendor/composer/autoload_static.php": {
+      "type": "file",
+      "path": "vendor/composer/autoload_static.php",
+      "uses": [],
+      "namespaces": [
+        "Composer\\Autoload"
+      ],
+      "requires": []
+    },
+    "symbol:Ksfraser\\FaBankImport\\Handlers\\AddVendor": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\FaBankImport\\Handlers\\AddVendor"
+    },
+    "../ksf_modules_common/class.origin.php": {
+      "type": "file",
+      "path": "../ksf_modules_common/class.origin.php",
+      "uses": [],
+      "requires": [
+        "defines.inc.php"
+      ],
+      "parsed": true
+    },
+    "class.bi_transaction.php": {
+      "type": "file",
+      "path": "class.bi_transaction.php",
+      "uses": [],
+      "requires": [
+        "class.bi_transactions.php"
+      ],
+      "parsed": true
+    },
+    "includes/pdata.inc": {
+      "type": "file",
+      "path": "includes/pdata.inc",
+      "uses": [],
+      "requires": [],
+      "parsed": true
+    },
+    "../ksf_modules_common/class.fa_origin.php": {
+      "type": "file",
+      "path": "../ksf_modules_common/class.fa_origin.php",
+      "uses": [],
+      "requires": [
+        "class.origin.php"
+      ],
+      "parsed": true
+    },
+    "../ksf_modules_common/class.VIEW.php": {
+      "type": "file",
+      "path": "../ksf_modules_common/class.VIEW.php",
+      "uses": [],
+      "requires": [
+        "class.origin.php"
+      ],
+      "parsed": true
+    },
+    "src/Ksfraser/ksf_modules_common/class.fa_bank_transfer.php": {
+      "type": "file",
+      "path": "src/Ksfraser/ksf_modules_common/class.fa_bank_transfer.php"
+    },
+    "symbol:KsfBankImport\\Views\\ViewFactory": {
+      "type": "symbol",
+      "symbol": "KsfBankImport\\Views\\ViewFactory"
+    },
+    "symbol:Ksfraser\\SettledTransactionDisplay": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\SettledTransactionDisplay"
+    },
+    "symbol:Ksfraser\\Views\\CommentSubmitView": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\Views\\CommentSubmitView"
+    },
+    "symbol:Ksfraser\\Views\\PartnerTypeSelectorView": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\Views\\PartnerTypeSelectorView"
+    },
+    "symbol:Ksfraser\\HTML\\Composites\\HTML_ROW": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\HTML\\Composites\\HTML_ROW"
+    },
+    "symbol:Ksfraser\\HTML\\Elements\\HtmlString": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\HTML\\Elements\\HtmlString"
+    },
+    "symbol:Ksfraser\\HTML\\Elements\\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA}": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\HTML\\Elements\\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA}"
+    },
+    "symbol:Ksfraser\\HTML\\{HtmlElement, HtmlAttribute, HtmlFragment}": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\HTML\\{HtmlElement, HtmlAttribute, HtmlFragment}"
+    },
+    "symbol:Ksfraser\\HTML\\Composites\\HTML_ROW_LABEL": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\HTML\\Composites\\HTML_ROW_LABEL"
+    },
+    "symbol:Ksfraser\\PartnerFormData": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\PartnerFormData"
+    },
+    "symbol:Ksfraser\\FaBankImport\\models\\BankAccountByNumber": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\FaBankImport\\models\\BankAccountByNumber"
+    },
+    "symbol:Ksfraser\\FaBankImport\\models\\MatchingJEs": {
+      "type": "symbol",
+      "symbol": "Ksfraser\\FaBankImport\\models\\MatchingJEs"
+    },
+    "defines.inc.php": {
+      "type": "file",
+      "path": "defines.inc.php"
+    },
+    "class.origin.php": {
+      "type": "file",
+      "path": "class.origin.php"
+    }
+  },
+  "edges": [
+    {
+      "from": "PROD/process_statements.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\views\\ProcessStatementsView",
+      "type": "use"
+    },
+    {
+      "from": "PROD/process_statements.php",
+      "to": "PROD/Views/module_menu_view.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/process_statements.php",
+      "to": "PROD/class.bank_import_controller.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/process_statements.php",
+      "to": "ksf_modules_common/class.fa_bank_transfer.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/process_statements.php",
+      "to": "PROD/src/Ksfraser/FaBankImport/header_table.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/process_statements.php",
+      "to": "PROD/class.bi_transactions.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\common\\GenericFaInterface",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\common\\Defines",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\View\\BiLineItemView",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/Views/BiLineItemView.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\View\\BiLineItemView",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/controllers/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/controllers/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\View\\BiLineItemView",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\common\\GenericFaInterface",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaBankAccounts",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaCustomerPayment",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaGl",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\common\\GenericFaInterface",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaBankAccounts",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaCustomerPayment",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaGl",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/view/BiLineItemView.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/views/BiLineItemView.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/FaBankImport/views/ProcessStatementsView.php",
+      "to": "PROD/src/Ksfraser/FaBankImport/views/class.bi_lineitem.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\common\\GenericFaInterface",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaBankAccounts",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaCustomerPayment",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaGl",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaBankAccounts",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaGl",
+      "type": "use"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "PROD/src/Ksfraser/ksf_modules_common/class.fa_bank_accounts.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "PROD/src/Ksfraser/Model/class.bi_transactions.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/src/Ksfraser/View/BiLineItemView.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "PROD/tests/integration/BiLineItemModelProductionBaselineTest.php",
+      "to": "symbol:PHPUnit\\Framework\\TestCase",
+      "type": "use"
+    },
+    {
+      "from": "PROD/tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "to": "symbol:PHPUnit\\Framework\\TestCase",
+      "type": "use"
+    },
+    {
+      "from": "PROD/tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "to": "PROD/tests/integration/header_table.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "to": "PROD/tests/integration/src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "to": "PROD/tests/integration/src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php",
+      "type": "require"
+    },
+    {
+      "from": "PROD/tests/unit/views/ProcessStatementsViewTest.php",
+      "to": "symbol:PHPUnit\\Framework\\TestCase",
+      "type": "use"
+    },
+    {
+      "from": "PROD/tests/unit/views/ProcessStatementsViewTest.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Views\\ProcessStatementsView",
+      "type": "use"
+    },
+    {
+      "from": "process_statements.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\views\\ProcessStatementsView",
+      "type": "use"
+    },
+    {
+      "from": "process_statements.php",
+      "to": "Views/module_menu_view.php",
+      "type": "require"
+    },
+    {
+      "from": "process_statements.php",
+      "to": "class.bank_import_controller.php",
+      "type": "require"
+    },
+    {
+      "from": "process_statements.php",
+      "to": "../ksf_modules_common/class.fa_bank_transfer.php",
+      "type": "require"
+    },
+    {
+      "from": "process_statements.php",
+      "to": "src/Ksfraser/FaBankImport/header_table.php",
+      "type": "require"
+    },
+    {
+      "from": "process_statements.php",
+      "to": "class.bi_transactions.php",
+      "type": "require"
+    },
+    {
+      "from": "process_statements.php",
+      "to": "class.bi_lineitem.php",
+      "type": "require"
+    },
+    {
+      "from": "src/Ksfraser/Controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\common\\GenericFaInterface",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\common\\Defines",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\View\\BiLineItemView",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/controller/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\View\\BiLineItemView",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/controllers/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/controllers/BiLineItemController.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\View\\BiLineItemView",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\common\\GenericFaInterface",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaBankAccounts",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaCustomerPayment",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaGl",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\common\\GenericFaInterface",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaBankAccounts",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaCustomerPayment",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/models/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaGl",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/view/BiLineItemView.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/views/BiLineItemView.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/views/ProcessStatementsView.php",
+      "to": "src/Ksfraser/FaBankImport/views/class.bi_lineitem.php",
+      "type": "require"
+    },
+    {
+      "from": "src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\common\\GenericFaInterface",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaBankAccounts",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaCustomerPayment",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaGl",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaBankAccounts",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "symbol:Ksfraser\\frontaccounting\\FaGl",
+      "type": "use"
+    },
+    {
+      "from": "src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "src/Ksfraser/ksf_modules_common/class.fa_bank_accounts.php",
+      "type": "require"
+    },
+    {
+      "from": "src/Ksfraser/Model/BiLineItemModel.php",
+      "to": "src/Ksfraser/Model/class.bi_transactions.php",
+      "type": "require"
+    },
+    {
+      "from": "src/Ksfraser/View/BiLineItemView.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Model\\BiLineItemModel",
+      "type": "use"
+    },
+    {
+      "from": "tests/Views/ProcessStatementsViewTest.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Views\\ProcessStatementsView",
+      "type": "use"
+    },
+    {
+      "from": "tests/Views/ProcessStatementsViewTest.php",
+      "to": "symbol:PHPUnit\\Framework\\TestCase",
+      "type": "use"
+    },
+    {
+      "from": "tests/integration/BiLineItemModelProductionBaselineTest.php",
+      "to": "symbol:PHPUnit\\Framework\\TestCase",
+      "type": "use"
+    },
+    {
+      "from": "tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "to": "symbol:PHPUnit\\Framework\\TestCase",
+      "type": "use"
+    },
+    {
+      "from": "tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "to": "tests/integration/header_table.php",
+      "type": "require"
+    },
+    {
+      "from": "tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "to": "tests/integration/src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php",
+      "type": "require"
+    },
+    {
+      "from": "tests/integration/ProcessStatementsViewRefactoringTest.php",
+      "to": "tests/integration/src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php",
+      "type": "require"
+    },
+    {
+      "from": "tests/unit/BiTransactionsPaginationTest.php",
+      "to": "symbol:PHPUnit\\Framework\\TestCase",
+      "type": "use"
+    },
+    {
+      "from": "tests/unit/views/ProcessStatementsViewTest.php",
+      "to": "symbol:PHPUnit\\Framework\\TestCase",
+      "type": "use"
+    },
+    {
+      "from": "tests/unit/views/ProcessStatementsViewTest.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Views\\ProcessStatementsView",
+      "type": "use"
+    },
+    {
+      "from": "class.bank_import_controller.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\Handlers\\AddVendor",
+      "type": "use"
+    },
+    {
+      "from": "class.bank_import_controller.php",
+      "to": "../ksf_modules_common/class.origin.php",
+      "type": "require"
+    },
+    {
+      "from": "class.bank_import_controller.php",
+      "to": "class.bi_transaction.php",
+      "type": "require"
+    },
+    {
+      "from": "class.bank_import_controller.php",
+      "to": "class.bi_transactions.php",
+      "type": "require"
+    },
+    {
+      "from": "class.bank_import_controller.php",
+      "to": "includes/pdata.inc",
+      "type": "require"
+    },
+    {
+      "from": "class.bank_import_controller.php",
+      "to": "../ksf_modules_common/class.fa_bank_transfer.php",
+      "type": "require"
+    },
+    {
+      "from": "../ksf_modules_common/class.fa_bank_transfer.php",
+      "to": "../ksf_modules_common/class.fa_origin.php",
+      "type": "require"
+    },
+    {
+      "from": "../ksf_modules_common/class.fa_bank_transfer.php",
+      "to": "../ksf_modules_common/class.VIEW.php",
+      "type": "require"
+    },
+    {
+      "from": "src/Ksfraser/FaBankImport/header_table.php",
+      "to": "src/Ksfraser/ksf_modules_common/class.fa_bank_transfer.php",
+      "type": "require"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:KsfBankImport\\Views\\ViewFactory",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\SettledTransactionDisplay",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\Views\\CommentSubmitView",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\Views\\PartnerTypeSelectorView",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\HTML\\Composites\\HTML_ROW",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\HTML\\Elements\\HtmlString",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\HTML\\Elements\\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA}",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\HTML\\{HtmlElement, HtmlAttribute, HtmlFragment}",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\HTML\\Composites\\HTML_ROW_LABEL",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\PartnerFormData",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\models\\BankAccountByNumber",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "symbol:Ksfraser\\FaBankImport\\models\\MatchingJEs",
+      "type": "use"
+    },
+    {
+      "from": "class.bi_lineitem.php",
+      "to": "class.bi_transactions.php",
+      "type": "require"
+    },
+    {
+      "from": "../ksf_modules_common/class.origin.php",
+      "to": "defines.inc.php",
+      "type": "require"
+    },
+    {
+      "from": "class.bi_transaction.php",
+      "to": "class.bi_transactions.php",
+      "type": "require"
+    },
+    {
+      "from": "../ksf_modules_common/class.fa_origin.php",
+      "to": "class.origin.php",
+      "type": "require"
+    },
+    {
+      "from": "../ksf_modules_common/class.VIEW.php",
+      "to": "class.origin.php",
+      "type": "require"
+    }
+  ]
+}

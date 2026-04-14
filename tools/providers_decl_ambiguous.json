@@ -1,0 +1,2062 @@
+{
+  "count": 942,
+  "ambiguous": [
+    {
+      "symbol": "bank_import_controller",
+      "declares": [
+        "PROD/class.bank_import_controller.php",
+        "PROD/duplicates_backup_20251116_183246/class.bank_import_controller.php",
+        "PROD/src/Ksfraser/FaBankImport/class.bank_import_controller.php",
+        "class.bank_import_controller.php",
+        "duplicates_backup_20251116_183246/class.bank_import_controller.php",
+        "src/Ksfraser/FaBankImport/class.bank_import_controller.php"
+      ],
+      "usages_count": 13
+    },
+    {
+      "symbol": "bi_counterparty_model",
+      "declares": [
+        "PROD/class.bi_counterparty_model.php",
+        "PROD/duplicates_backup_20251116_183246/class.bi_counterparty_model.php",
+        "PROD/src/Ksfraser/FaBankImport/class.bi_counterparty_model.php",
+        "class.bi_counterparty_model.php",
+        "duplicates_backup_20251116_183246/class.bi_counterparty_model.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "bi_lineitem",
+      "declares": [
+        "PROD/class.bi_lineitem.php",
+        "PROD/duplicates_backup_20251116_183246/class.bi_lineitem.php",
+        "PROD/duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "class.bi_lineitem.php",
+        "duplicates_backup_20251116_183246/class.bi_lineitem.php",
+        "duplicates_backup_20251116_183246/views_class.bi_lineitem.php"
+      ],
+      "usages_count": 21
+    },
+    {
+      "symbol": "bi_partners_data",
+      "declares": [
+        "PROD/class.bi_partners_data.php",
+        "PROD/duplicates_backup_20251116_183246/class.bi_partners_data.php",
+        "class.bi_partners_data.php",
+        "duplicates_backup_20251116_183246/class.bi_partners_data.php"
+      ],
+      "usages_count": 6
+    },
+    {
+      "symbol": "bi_statements_model",
+      "declares": [
+        "PROD/class.bi_statements.php",
+        "PROD/duplicates_backup_20251116_183246/class.bi_statements.php",
+        "class.bi_statements.php",
+        "duplicates_backup_20251116_183246/class.bi_statements.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "bi_transaction",
+      "declares": [
+        "PROD/class.bi_transaction.copilot.php",
+        "PROD/class.bi_transaction.php",
+        "PROD/src/Ksfraser/FaBankImport/class.bi_transaction.copilot.php",
+        "class.bi_transaction.php",
+        "src/Ksfraser/FaBankImport/class.bi_transaction.copilot.php"
+      ],
+      "usages_count": 10
+    },
+    {
+      "symbol": "bi_transactions_model",
+      "declares": [
+        "PROD/class.bi_transactions.copilot.php",
+        "PROD/class.bi_transactions.php",
+        "PROD/duplicates_backup_20251116_183246/class.bi_transactions.php",
+        "PROD/src/Ksfraser/FaBankImport/class.bi_transactions.copilot.php",
+        "class.bi_transactions.php",
+        "duplicates_backup_20251116_183246/class.bi_transactions.php",
+        "src/Ksfraser/FaBankImport/class.bi_transactions.copilot.php"
+      ],
+      "usages_count": 52
+    },
+    {
+      "symbol": "bi_transactions_model_refactored",
+      "declares": [
+        "PROD/class.bi_transactions_refactored_example.php",
+        "class.bi_transactions_refactored_example.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "bi_transationTitle_model",
+      "declares": [
+        "PROD/class.bi_transactionTitle_model.php",
+        "PROD/duplicates_backup_20251116_183246/class.bi_transactionTitle_model.php",
+        "class.bi_transactionTitle_model.php",
+        "duplicates_backup_20251116_183246/class.bi_transactionTitle_model.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "transaction_table",
+      "declares": [
+        "PROD/class.transactions_table.php",
+        "PROD/duplicates_backup_20251116_183246/class.transactions_table.php",
+        "PROD/src/Ksfraser/FaBankImport/class.transactions_table.php",
+        "class.transactions_table.php",
+        "duplicates_backup_20251116_183246/class.transactions_table.php",
+        "src/Ksfraser/FaBankImport/class.transactions_table.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "transaction_table_row",
+      "declares": [
+        "PROD/class.transactions_table.php",
+        "PROD/duplicates_backup_20251116_183246/class.transactions_table.php",
+        "PROD/src/Ksfraser/FaBankImport/class.transactions_table.php",
+        "class.transactions_table.php",
+        "duplicates_backup_20251116_183246/class.transactions_table.php",
+        "src/Ksfraser/FaBankImport/class.transactions_table.php"
+      ],
+      "usages_count": 6
+    },
+    {
+      "symbol": "ttr_table",
+      "declares": [
+        "PROD/class.transactions_table.php",
+        "PROD/duplicates_backup_20251116_183246/class.transactions_table.php",
+        "PROD/src/Ksfraser/FaBankImport/class.transactions_table.php",
+        "class.transactions_table.php",
+        "duplicates_backup_20251116_183246/class.transactions_table.php",
+        "src/Ksfraser/FaBankImport/class.transactions_table.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "ttr_label_row",
+      "declares": [
+        "PROD/class.transactions_table.php",
+        "PROD/duplicates_backup_20251116_183246/class.transactions_table.php",
+        "PROD/src/Ksfraser/FaBankImport/class.transactions_table.php",
+        "class.transactions_table.php",
+        "duplicates_backup_20251116_183246/class.transactions_table.php",
+        "src/Ksfraser/FaBankImport/class.transactions_table.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "ViewBILineItems",
+      "declares": [
+        "PROD/class.ViewBiLineItems.php",
+        "PROD/duplicates_backup_20251116_183246/class.ViewBiLineItems.php",
+        "PROD/duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "PROD/src/Ksfraser/FaBankImport/class.ViewBiLineItems.php",
+        "class.ViewBiLineItems.php",
+        "duplicates_backup_20251116_183246/class.ViewBiLineItems.php",
+        "duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "src/Ksfraser/FaBankImport/class.ViewBiLineItems.php"
+      ],
+      "usages_count": 5
+    },
+    {
+      "symbol": "GetTransaction",
+      "declares": [
+        "GetTransaction.php",
+        "PROD/GetTransaction.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "hooks_bank_import",
+      "declares": [
+        "PROD/hooks.php",
+        "PROD/src/Ksfraser/FaBankImport/hooks.php",
+        "hooks.php",
+        "src/Ksfraser/FaBankImport/hooks.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "mt940_parser",
+      "declares": [
+        "PROD/includes/mt940_parser.php",
+        "PROD/mt940_parser.php",
+        "includes/mt940_parser.php",
+        "mt940_parser.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "parser",
+      "declares": [
+        "PROD/includes/parser.php",
+        "PROD/parser.php",
+        "PROD/vendor/ksfraser/qifparser/qif_parser.php",
+        "parser.php",
+        "vendor/ksfraser/qifparser/qif_parser.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "AbstractQfxParser",
+      "declares": [
+        "PROD/class.AbstractQfxParser.php",
+        "PROD/class.CibcQfxParser.php",
+        "PROD/class.ManuQfxParser.php",
+        "PROD/class.PcmcQfxParser.php",
+        "PROD/class.QfxParserFactory.php",
+        "PROD/qfx_parser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.QfxParserFactory.php",
+        "qfx_parser.php",
+        "src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.QfxParserFactory.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "CibcQfxParser",
+      "declares": [
+        "PROD/class.AbstractQfxParser.php",
+        "PROD/class.CibcQfxParser.php",
+        "PROD/class.ManuQfxParser.php",
+        "PROD/class.PcmcQfxParser.php",
+        "PROD/class.QfxParserFactory.php",
+        "PROD/qfx_parser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.QfxParserFactory.php",
+        "qfx_parser.php",
+        "src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.QfxParserFactory.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "PmcQfxParser",
+      "declares": [
+        "PROD/class.AbstractQfxParser.php",
+        "PROD/class.CibcQfxParser.php",
+        "PROD/class.ManuQfxParser.php",
+        "PROD/class.PcmcQfxParser.php",
+        "PROD/class.QfxParserFactory.php",
+        "PROD/qfx_parser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.QfxParserFactory.php",
+        "qfx_parser.php",
+        "src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.QfxParserFactory.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "ManuQfxParser",
+      "declares": [
+        "PROD/class.AbstractQfxParser.php",
+        "PROD/class.CibcQfxParser.php",
+        "PROD/class.ManuQfxParser.php",
+        "PROD/class.PcmcQfxParser.php",
+        "PROD/class.QfxParserFactory.php",
+        "PROD/qfx_parser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.QfxParserFactory.php",
+        "qfx_parser.php",
+        "src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.QfxParserFactory.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "QfxParserFactory",
+      "declares": [
+        "PROD/class.AbstractQfxParser.php",
+        "PROD/class.CibcQfxParser.php",
+        "PROD/class.ManuQfxParser.php",
+        "PROD/class.PcmcQfxParser.php",
+        "PROD/class.QfxParserFactory.php",
+        "PROD/qfx_parser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "PROD/src/Ksfraser/FaBankImport/class.QfxParserFactory.php",
+        "qfx_parser.php",
+        "src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.CibcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.ManuQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.PcmcQfxParser.php",
+        "src/Ksfraser/FaBankImport/class.QfxParserFactory.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "KsfBankImport\\VendorListManager",
+      "declares": [
+        "PROD/VendorListManager.php",
+        "VendorListManager.php"
+      ],
+      "usages_count": 11
+    },
+    {
+      "symbol": "HTML_SUBMIT",
+      "declares": [
+        "PROD/class.bi_lineitem.php",
+        "PROD/duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "duplicates_backup_20251116_183246/views_class.bi_lineitem.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "HTML_ROW",
+      "declares": [
+        "PROD/duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "PROD/src/Ksfraser/FaBankImport/views/HTML_ROW.php",
+        "PROD/views/HTML_ROW.php",
+        "duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "src/Ksfraser/FaBankImport/views/HTML_ROW.php",
+        "views/HTML_ROW.php"
+      ],
+      "usages_count": 9
+    },
+    {
+      "symbol": "HTML_ROW_LABEL",
+      "declares": [
+        "PROD/duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "duplicates_backup_20251116_183246/views_class.bi_lineitem.php"
+      ],
+      "usages_count": 41
+    },
+    {
+      "symbol": "HTML_TABLE",
+      "declares": [
+        "PROD/class.bi_lineitem.php",
+        "PROD/duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "duplicates_backup_20251116_183246/views_class.bi_lineitem.php"
+      ],
+      "usages_count": 23
+    },
+    {
+      "symbol": "displayLeft",
+      "declares": [
+        "PROD/class.bi_lineitem.php",
+        "PROD/duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "duplicates_backup_20251116_183246/views_class.bi_lineitem.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "displayRight",
+      "declares": [
+        "PROD/class.bi_lineitem.php",
+        "PROD/duplicates_backup_20251116_183246/views_class.bi_lineitem.php",
+        "duplicates_backup_20251116_183246/views_class.bi_lineitem.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "banking_base",
+      "declares": [
+        "PROD/includes/banking.php",
+        "PROD/vendor/ksfraser/qifparser/tests/QifParserAdapterTest.php",
+        "includes/banking.php",
+        "vendor/ksfraser/qifparser/tests/QifParserAdapterTest.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "transaction",
+      "declares": [
+        "PROD/includes/banking.php",
+        "PROD/vendor/ksfraser/qifparser/tests/QifParserAdapterTest.php",
+        "includes/banking.php",
+        "vendor/ksfraser/qifparser/tests/QifParserAdapterTest.php"
+      ],
+      "usages_count": 48
+    },
+    {
+      "symbol": "statement",
+      "declares": [
+        "PROD/includes/banking.php",
+        "PROD/vendor/ksfraser/qifparser/tests/QifParserAdapterTest.php",
+        "includes/banking.php",
+        "vendor/ksfraser/qifparser/tests/QifParserAdapterTest.php"
+      ],
+      "usages_count": 32
+    },
+    {
+      "symbol": "OfxParser\\Parser",
+      "declares": [
+        "PROD/includes/Parser.php",
+        "PROD/includes/Parser00.php",
+        "PROD/includes/Parser23.php",
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Parser.php",
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Parser_orig-mod.php",
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Parser_rep.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Parser.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Parser.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Parser.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Parser.php",
+        "includes/Parser00.php",
+        "includes/Parser23.php",
+        "includes/parser.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Parser.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Parser_orig-mod.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Parser_rep.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Parser.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Parser.php"
+      ],
+      "usages_count": 120
+    },
+    {
+      "symbol": "qfx_parser",
+      "declares": [
+        "PROD/includes/qfx_parser.php",
+        "includes/qfx_parser.php"
+      ],
+      "usages_count": 9
+    },
+    {
+      "symbol": "ro_bcr_csv_parser",
+      "declares": [
+        "PROD/includes/ro_bcr_csv_parser.php",
+        "includes/ro_bcr_csv_parser.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "ro_brd_mt940_parser",
+      "declares": [
+        "PROD/includes/ro_brd_mt940_parser.php",
+        "includes/ro_brd_mt940_parser.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "ro_ing_csv_parser",
+      "declares": [
+        "PROD/includes/ro_ing_csv_parser.php",
+        "includes/ro_ing_csv_parser.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "ro_wmmc_csv_parser",
+      "declares": [
+        "PROD/includes/ro_wmmc_csv_parser.php",
+        "includes/ro_wmmc_csv_parser.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "OfxParser\\Ofx",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Ofx.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Ofx.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Ofx.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Ofx.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Ofx.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Ofx.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Ofx.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Ofx.php"
+      ],
+      "usages_count": 82
+    },
+    {
+      "symbol": "OfxParser\\Entities\\AbstractEntity",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/AbstractEntity.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/AbstractEntity.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/AbstractEntity.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/AbstractEntity.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/AbstractEntity.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/AbstractEntity.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Entities/AbstractEntity.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/AbstractEntity.php"
+      ],
+      "usages_count": 129
+    },
+    {
+      "symbol": "OfxParser\\Entities\\AccountInfo",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/AccountInfo.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/AccountInfo.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/AccountInfo.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/AccountInfo.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/AccountInfo.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/AccountInfo.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Entities/AccountInfo.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/AccountInfo.php"
+      ],
+      "usages_count": 14
+    },
+    {
+      "symbol": "OfxParser\\Entities\\BankAccount",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BankAccount.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BankAccount.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/BankAccount.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/BankAccount.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BankAccount.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BankAccount.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Entities/BankAccount.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BankAccount.php"
+      ],
+      "usages_count": 25
+    },
+    {
+      "symbol": "OfxParser\\Entities\\BankAccountInfo",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BankAccountInformation.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/BankAccountInformation.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BankAccountInformation.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BankAccountInformation.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BankAccountInformation.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\BankingAccount",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BankingAccount.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/BankingAccount.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BankingAccount.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BankingAccount.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BankingAccount.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\CreditCardAccount",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/CreditCardAccount.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/CreditCardAccount.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/CreditCardAccount.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/CreditCardAccount.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/CreditCardAccount.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\CreditCardAccountInfo",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/CreditCardAccountInfo.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/CreditCardAccountInfo.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/CreditCardAccountInfo.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/CreditCardAccountInfo.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/CreditCardAccountInfo.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Institute",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Institute.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Institute.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Institute.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Institute.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Institute.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Institute.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Entities/Institute.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Institute.php"
+      ],
+      "usages_count": 18
+    },
+    {
+      "symbol": "OfxParser\\Entities\\SignOn",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/SignOn.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/SignOn.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/SignOn.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/SignOn.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/SignOn.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/SignOn.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Entities/SignOn.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/SignOn.php"
+      ],
+      "usages_count": 24
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Statement",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Statement.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Statement.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Statement.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Statement.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Statement.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Statement.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Entities/Statement.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Statement.php"
+      ],
+      "usages_count": 27
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Status",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Status.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Status.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Status.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Status.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Status.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Status.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Entities/Status.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Status.php"
+      ],
+      "usages_count": 21
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Transaction",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Transaction.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Transaction.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Transaction.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Transaction.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Transaction.php",
+        "includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Transaction.php",
+        "vendor/asgrim/ofxparser/lib/OfxParser/Entities/Transaction.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Transaction.php"
+      ],
+      "usages_count": 35
+    },
+    {
+      "symbol": "OfxParserTest\\OfxTest",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/tests/OfxParser/OfxTest.php",
+        "PROD/vendor/asgrim/ofxparser/tests/OfxParser/OfxTest.php",
+        "PROD/vendor/jacques-ofxparser/tests/OfxParser/OfxTest.php",
+        "PROD/vendor/ksf_ofxparser/tests/OfxParser/OfxTest.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/tests/OfxParser/OfxTest.php",
+        "includes/vendor/asgrim/ofxparser/tests/OfxParser/OfxTest.php",
+        "vendor/asgrim/ofxparser/tests/OfxParser/OfxTest.php",
+        "vendor/ksfraser/ksf_ofxparser/tests/OfxParser/OfxTest.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParserTest\\ParserTest",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/tests/OfxParser/ParserTest.php",
+        "PROD/vendor/asgrim/ofxparser/tests/OfxParser/ParserTest.php",
+        "PROD/vendor/jacques-ofxparser/tests/OfxParser/ParserTest.php",
+        "PROD/vendor/ksf_ofxparser/tests/OfxParser/ParserTest.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/tests/OfxParser/ParserTest.php",
+        "includes/vendor/asgrim/ofxparser/tests/OfxParser/ParserTest.php",
+        "vendor/asgrim/ofxparser/tests/OfxParser/ParserTest.php",
+        "vendor/ksfraser/ksf_ofxparser/tests/OfxParser/ParserTest.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "ComposerAutoloaderInited17e532aa9e766e4256c6bd2ff6b4b2",
+      "declares": [
+        "PROD/includes/vendor/composer/autoload_real.php",
+        "includes/vendor/composer/autoload_real.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "Composer\\Autoload\\ComposerStaticInited17e532aa9e766e4256c6bd2ff6b4b2",
+      "declares": [
+        "PROD/includes/vendor/composer/autoload_static.php",
+        "includes/vendor/composer/autoload_static.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "Composer\\Autoload\\ClassLoader",
+      "declares": [
+        "PROD/includes/vendor/composer/ClassLoader.php",
+        "PROD/vendor/composer/ClassLoader.php",
+        "includes/vendor/composer/ClassLoader.php",
+        "vendor/composer/ClassLoader.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "Composer\\InstalledVersions",
+      "declares": [
+        "PROD/includes/vendor/composer/InstalledVersions.php",
+        "PROD/vendor/composer/InstalledVersions.php",
+        "includes/vendor/composer/InstalledVersions.php",
+        "vendor/composer/InstalledVersions.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "Models\\SquareTransaction",
+      "declares": [
+        "Models/SquareTransaction.php",
+        "PROD/Models/SquareTransaction.php",
+        "PROD/SquareTransaction.php",
+        "PROD/src/Ksfraser/FaBankImport/class.bi_transaction.php",
+        "src/Ksfraser/FaBankImport/class.bi_transaction.php"
+      ],
+      "usages_count": 13
+    },
+    {
+      "symbol": "Models\\AbstractThirdPartyTransaction",
+      "declares": [
+        "Models/ThirdPartyTransaction.php",
+        "PROD/Models/ThirdPartyTransaction.php",
+        "PROD/ThirdPartyTransaction.php",
+        "PROD/src/Ksfraser/FaBankImport/models/ThirdPartyTransaction.php",
+        "src/Ksfraser/FaBankImport/models/ThirdPartyTransaction.php"
+      ],
+      "usages_count": 3
+    },
+    {
+      "symbol": "Models\\ThirdPartyTransactionInterface",
+      "declares": [
+        "Models/ThirdPartyTransaction.php",
+        "PROD/Models/ThirdPartyTransaction.php",
+        "PROD/ThirdPartyTransaction.php",
+        "PROD/src/Ksfraser/FaBankImport/class.bi_transaction.php",
+        "PROD/src/Ksfraser/FaBankImport/models/ThirdPartyTransaction.php",
+        "src/Ksfraser/FaBankImport/class.bi_transaction.php",
+        "src/Ksfraser/FaBankImport/models/ThirdPartyTransaction.php"
+      ],
+      "usages_count": 7
+    },
+    {
+      "symbol": "KsfBankImport\\OperationTypes\\OperationTypeInterface",
+      "declares": [
+        "OperationTypes/OperationTypeInterface.php",
+        "PROD/OperationTypeInterface.php",
+        "PROD/OperationTypes/OperationTypeInterface.php"
+      ],
+      "usages_count": 3
+    },
+    {
+      "symbol": "KsfBankImport\\OperationTypes\\OperationTypesRegistry",
+      "declares": [
+        "OperationTypes/OperationTypesRegistry.php",
+        "PROD/OperationTypes/OperationTypesRegistry.php",
+        "PROD/OperationTypesRegistry.php"
+      ],
+      "usages_count": 12
+    },
+    {
+      "symbol": "KsfBankImport\\Services\\BankTransferAmountCalculator",
+      "declares": [
+        "PROD/BankTransferAmountCalculator.php",
+        "PROD/Services/BankTransferAmountCalculator.php",
+        "Services/BankTransferAmountCalculator.php"
+      ],
+      "usages_count": 7
+    },
+    {
+      "symbol": "KsfBankImport\\Services\\BankTransferFactory",
+      "declares": [
+        "PROD/BankTransferFactory.php",
+        "PROD/Services/BankTransferFactory.php",
+        "Services/BankTransferFactory.php"
+      ],
+      "usages_count": 6
+    },
+    {
+      "symbol": "BankTransferFactoryInterface",
+      "declares": [
+        "PROD/BankTransferFactoryInterface.php",
+        "PROD/Services/BankTransferFactoryInterface.php",
+        "Services/BankTransferFactoryInterface.php"
+      ],
+      "usages_count": 6
+    },
+    {
+      "symbol": "BiPartnersData",
+      "declares": [
+        "PROD/class.bi_partners_data.copilot.php",
+        "PROD/src/Ksfraser/FaBankImport/class.bi_partners_data.copilot.php",
+        "src/Ksfraser/FaBankImport/class.bi_partners_data.copilot.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "bi_transactionTitle_model",
+      "declares": [
+        "PROD/class.bi_transactionTitle_model.copilot.php",
+        "PROD/src/Ksfraser/FaBankImport/class.bi_transactionTitle_model.copilot.php",
+        "src/Ksfraser/FaBankImport/class.bi_transactionTitle_model.copilot.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "KsfBankImport\\Services\\ExchangeRateService",
+      "declares": [
+        "PROD/ExchangeRateService.php",
+        "PROD/Services/ExchangeRateService.php",
+        "Services/ExchangeRateService.php"
+      ],
+      "usages_count": 10
+    },
+    {
+      "symbol": "KsfBankImport\\Services\\PairedTransferProcessor",
+      "declares": [
+        "PROD/PairedTransferProcessor.php",
+        "PROD/Services/PairedTransferProcessor.php",
+        "Services/PairedTransferProcessor.php"
+      ],
+      "usages_count": 3
+    },
+    {
+      "symbol": "KsfBankImport\\Services\\TransactionFilterService",
+      "declares": [
+        "PROD/Services/TransactionFilterService.php",
+        "PROD/TransactionFilterService.php",
+        "Services/TransactionFilterService.php"
+      ],
+      "usages_count": 7
+    },
+    {
+      "symbol": "KsfBankImport\\Services\\TransactionUpdater",
+      "declares": [
+        "PROD/Services/TransactionUpdater.php",
+        "PROD/TransactionUpdater.php",
+        "Services/TransactionUpdater.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "KsfBankImport\\Services\\TransferDirectionAnalyzer",
+      "declares": [
+        "PROD/Services/TransferDirectionAnalyzer.php",
+        "PROD/TransferDirectionAnalyzer.php",
+        "Services/TransferDirectionAnalyzer.php"
+      ],
+      "usages_count": 12
+    },
+    {
+      "symbol": "OfxParser\\Utils",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Utils.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Utils.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Utils.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Utils.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Utils.php"
+      ],
+      "usages_count": 40
+    },
+    {
+      "symbol": "OfxParser\\Builder\\TransactionBuilder",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Builder/TransactionBuilder.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Builder/TransactionBuilder.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Builder/TransactionBuilder.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Builder/TransactionBuilder.php"
+      ],
+      "usages_count": 23
+    },
+    {
+      "symbol": "OfxParser\\Builders\\SgmlOfxBuilder",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Builders/SgmlOfxBuilder.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Builders/SgmlOfxBuilder.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Builders/SgmlOfxBuilder.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Builders/SgmlOfxBuilder.php"
+      ],
+      "usages_count": 29
+    },
+    {
+      "symbol": "OfxParser\\Config\\DefensiveParsingConfig",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Config/DefensiveParsingConfig.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Config/DefensiveParsingConfig.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Config/DefensiveParsingConfig.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Config/DefensiveParsingConfig.php"
+      ],
+      "usages_count": 32
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Inspectable",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Inspectable.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Inspectable.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Inspectable.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Inspectable.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Inspectable.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Inspectable.php"
+      ],
+      "usages_count": 11
+    },
+    {
+      "symbol": "OfxParser\\Entities\\InterXfer",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/InterXfer.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/InterXfer.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/InterXfer.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/InterXfer.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment.php"
+      ],
+      "usages_count": 27
+    },
+    {
+      "symbol": "OfxParser\\Entities\\LoaderTrait",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/LoaderTrait.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/LoaderTrait.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/LoaderTrait.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/LoaderTrait.php"
+      ],
+      "usages_count": 7
+    },
+    {
+      "symbol": "OfxParser\\Entities\\OfxLoadable",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/OfxLoadable.php",
+        "PROD/vendor/asgrim/ofxparser/lib/OfxParser/Entities/OfxLoadable.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/OfxLoadable.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/OfxLoadable.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/OfxLoadable.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/OfxLoadable.php"
+      ],
+      "usages_count": 11
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Payee",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Payee.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Payee.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Payee.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Payee.php"
+      ],
+      "usages_count": 30
+    },
+    {
+      "symbol": "OfxParser\\Entities\\BillPay\\BillPayAccount",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BillPay/BillPayAccount.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/BillPay/BillPayAccount.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BillPay/BillPayAccount.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BillPay/BillPayAccount.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\BillPay\\Payment",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/BillPay/Payment.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/BillPay/Payment.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BillPay/Payment.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/BillPay/Payment.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Account",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Account.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Account.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Account.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Account.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Account.php"
+      ],
+      "usages_count": 9
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Security",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Security.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Security.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Security.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Security.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\SecurityList",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/SecurityList.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/SecurityList.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/SecurityList.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/SecurityList.php"
+      ],
+      "usages_count": 11
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Banking",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Banking.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Banking.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Banking.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Banking.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Banking.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\BuyMutualFund",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/BuyMutualFund.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/BuyMutualFund.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuyMutualFund.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuyMutualFund.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuyMutualFund.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\BuySecurity",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/BuySecurity.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/BuySecurity.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuySecurity.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuySecurity.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuySecurity.php"
+      ],
+      "usages_count": 20
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\BuyStock",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/BuyStock.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/BuyStock.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuyStock.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuyStock.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/BuyStock.php"
+      ],
+      "usages_count": 23
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Income",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Income.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Income.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Income.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Income.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Income.php"
+      ],
+      "usages_count": 23
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Reinvest",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Reinvest.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Reinvest.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Reinvest.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Reinvest.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Reinvest.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\SellMutualFund",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/SellMutualFund.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/SellMutualFund.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellMutualFund.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellMutualFund.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellMutualFund.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\SellSecurity",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/SellSecurity.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/SellSecurity.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellSecurity.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellSecurity.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellSecurity.php"
+      ],
+      "usages_count": 19
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\SellStock",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/SellStock.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/SellStock.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellStock.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellStock.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/SellStock.php"
+      ],
+      "usages_count": 22
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Traits\\BuyType",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/BuyType.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/BuyType.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/BuyType.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/BuyType.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/BuyType.php"
+      ],
+      "usages_count": 10
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Traits\\IncomeType",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/IncomeType.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/IncomeType.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/IncomeType.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/IncomeType.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/IncomeType.php"
+      ],
+      "usages_count": 5
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Traits\\InvTran",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/InvTran.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/InvTran.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/InvTran.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/InvTran.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/InvTran.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Traits\\Pricing",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/Pricing.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/Pricing.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/Pricing.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/Pricing.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/Pricing.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Traits\\SecId",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/SecId.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/SecId.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/SecId.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/SecId.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/SecId.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Investment\\Transaction\\Traits\\SellType",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/SellType.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Entities/Investment/Transaction/Traits/SellType.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/SellType.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/SellType.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Investment/Transaction/Traits/SellType.php"
+      ],
+      "usages_count": 5
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Loan\\LoanAccount",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Loan/LoanAccount.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Loan/LoanAccount.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Loan/LoanAccount.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Loan/LoanAccount.php"
+      ],
+      "usages_count": 11
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Profile\\MessageSetInfo",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Profile/MessageSetInfo.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Profile/MessageSetInfo.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Profile/MessageSetInfo.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Profile/MessageSetInfo.php"
+      ],
+      "usages_count": 11
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Profile\\Profile",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Profile/Profile.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Profile/Profile.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Profile/Profile.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Profile/Profile.php"
+      ],
+      "usages_count": 11
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Profile\\SignonInfo",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Profile/SignonInfo.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Profile/SignonInfo.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Profile/SignonInfo.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Profile/SignonInfo.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Tax1099\\Tax1099",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Tax1099/Tax1099.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099.php"
+      ],
+      "usages_count": 12
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Tax1099\\Tax1099B",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Tax1099/Tax1099B.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099B.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099B.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099B.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Tax1099\\Tax1099DIV",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Tax1099/Tax1099DIV.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099DIV.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099DIV.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099DIV.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\Tax1099\\Tax1099INT",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/Tax1099/Tax1099INT.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099INT.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099INT.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/Tax1099/Tax1099INT.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Entities\\WireTransfer\\WireTransfer",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Entities/WireTransfer/WireTransfer.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Entities/WireTransfer/WireTransfer.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/WireTransfer/WireTransfer.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Entities/WireTransfer/WireTransfer.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\OfxParsingException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/OfxParsingException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/OfxParsingException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/OfxParsingException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/OfxParsingException.php"
+      ],
+      "usages_count": 31
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Document\\InvalidOfxStructureException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Document/InvalidOfxStructureException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Document/InvalidOfxStructureException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Document/InvalidOfxStructureException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Document/InvalidOfxStructureException.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Document\\MalformedXmlException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Document/MalformedXmlException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Document/MalformedXmlException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Document/MalformedXmlException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Document/MalformedXmlException.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Field\\InvalidFieldFormatException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Field/InvalidFieldFormatException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Field/InvalidFieldFormatException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Field/InvalidFieldFormatException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Field/InvalidFieldFormatException.php"
+      ],
+      "usages_count": 7
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Field\\InvalidFieldValueException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Field/InvalidFieldValueException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Field/InvalidFieldValueException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Field/InvalidFieldValueException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Field/InvalidFieldValueException.php"
+      ],
+      "usages_count": 9
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Field\\OptionalFieldMissingException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Field/OptionalFieldMissingException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Field/OptionalFieldMissingException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Field/OptionalFieldMissingException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Field/OptionalFieldMissingException.php"
+      ],
+      "usages_count": 16
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Field\\RequiredFieldMissingException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Field/RequiredFieldMissingException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Field/RequiredFieldMissingException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Field/RequiredFieldMissingException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Field/RequiredFieldMissingException.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Transaction\\CorruptTransactionException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Transaction/CorruptTransactionException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/CorruptTransactionException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/CorruptTransactionException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/CorruptTransactionException.php"
+      ],
+      "usages_count": 16
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Transaction\\IncompleteTransactionException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Transaction/IncompleteTransactionException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/IncompleteTransactionException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/IncompleteTransactionException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/IncompleteTransactionException.php"
+      ],
+      "usages_count": 13
+    },
+    {
+      "symbol": "OfxParser\\Exceptions\\Transaction\\TransactionParsingException",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Exceptions/Transaction/TransactionParsingException.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/TransactionParsingException.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/TransactionParsingException.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Exceptions/Transaction/TransactionParsingException.php"
+      ],
+      "usages_count": 11
+    },
+    {
+      "symbol": "OfxParser\\Extraction\\FieldExtractor",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Extraction/FieldExtractor.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Extraction/FieldExtractor.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Extraction/FieldExtractor.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Extraction/FieldExtractor.php"
+      ],
+      "usages_count": 30
+    },
+    {
+      "symbol": "OfxParser\\Loaders\\OfxLoaderInterface",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Loaders/OfxLoaderInterface.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Loaders/OfxLoaderInterface.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Loaders/OfxLoaderInterface.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Loaders/OfxLoaderInterface.php"
+      ],
+      "usages_count": 12
+    },
+    {
+      "symbol": "OfxParser\\Loaders\\SgmlOfxLoader",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Loaders/SgmlOfxLoader.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Loaders/SgmlOfxLoader.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Loaders/SgmlOfxLoader.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Loaders/SgmlOfxLoader.php"
+      ],
+      "usages_count": 7
+    },
+    {
+      "symbol": "OfxParser\\Loaders\\XmlOfxLoader",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Loaders/XmlOfxLoader.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Loaders/XmlOfxLoader.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Loaders/XmlOfxLoader.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Loaders/XmlOfxLoader.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "OfxParser\\Metrics\\ParsingMetrics",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Metrics/ParsingMetrics.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Metrics/ParsingMetrics.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Metrics/ParsingMetrics.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Metrics/ParsingMetrics.php"
+      ],
+      "usages_count": 47
+    },
+    {
+      "symbol": "OfxParser\\Metrics\\ParsingResult",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Metrics/ParsingResult.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Metrics/ParsingResult.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Metrics/ParsingResult.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Metrics/ParsingResult.php"
+      ],
+      "usages_count": 22
+    },
+    {
+      "symbol": "OfxParser\\Ofx\\Investment",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Ofx/Investment.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Ofx/Investment.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Ofx/Investment.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Ofx/Investment.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Ofx/Investment.php"
+      ],
+      "usages_count": 36
+    },
+    {
+      "symbol": "OfxParser\\Parsers\\Investment",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Parsers/Investment.php",
+        "PROD/vendor/jacques-ofxparser/lib/OfxParser/Parsers/Investment.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Parsers/Investment.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Parsers/Investment.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Parsers/Investment.php"
+      ],
+      "usages_count": 31
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\RecoveryContext",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/RecoveryContext.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/RecoveryContext.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/RecoveryContext.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/RecoveryContext.php"
+      ],
+      "usages_count": 21
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\RecoveryStrategyInterface",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/RecoveryStrategyInterface.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/RecoveryStrategyInterface.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/RecoveryStrategyInterface.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/RecoveryStrategyInterface.php"
+      ],
+      "usages_count": 36
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\FieldRecovery\\CurrentDateStrategy",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/FieldRecovery/CurrentDateStrategy.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/CurrentDateStrategy.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/CurrentDateStrategy.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/CurrentDateStrategy.php"
+      ],
+      "usages_count": 10
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\FieldRecovery\\DefaultValueStrategy",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/FieldRecovery/DefaultValueStrategy.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/DefaultValueStrategy.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/DefaultValueStrategy.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/DefaultValueStrategy.php"
+      ],
+      "usages_count": 9
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\FieldRecovery\\EmptyStringStrategy",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/FieldRecovery/EmptyStringStrategy.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/EmptyStringStrategy.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/EmptyStringStrategy.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/EmptyStringStrategy.php"
+      ],
+      "usages_count": 10
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\FieldRecovery\\NullStrategy",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/FieldRecovery/NullStrategy.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/NullStrategy.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/NullStrategy.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/NullStrategy.php"
+      ],
+      "usages_count": 19
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\FieldRecovery\\ZeroAmountStrategy",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/FieldRecovery/ZeroAmountStrategy.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/ZeroAmountStrategy.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/ZeroAmountStrategy.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/FieldRecovery/ZeroAmountStrategy.php"
+      ],
+      "usages_count": 13
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\TransactionRecovery\\LogAndContinueStrategy",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/TransactionRecovery/LogAndContinueStrategy.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/LogAndContinueStrategy.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/LogAndContinueStrategy.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/LogAndContinueStrategy.php"
+      ],
+      "usages_count": 13
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\TransactionRecovery\\PartialTransactionStrategy",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/TransactionRecovery/PartialTransactionStrategy.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/PartialTransactionStrategy.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/PartialTransactionStrategy.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/PartialTransactionStrategy.php"
+      ],
+      "usages_count": 13
+    },
+    {
+      "symbol": "OfxParser\\Recovery\\TransactionRecovery\\SkipTransactionStrategy",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Recovery/TransactionRecovery/SkipTransactionStrategy.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/SkipTransactionStrategy.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/SkipTransactionStrategy.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Recovery/TransactionRecovery/SkipTransactionStrategy.php"
+      ],
+      "usages_count": 16
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\DateFormatter",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/DateFormatter.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/DateFormatter.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/DateFormatter.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/DateFormatter.php"
+      ],
+      "usages_count": 22
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\ElementFactory",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/ElementFactory.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/ElementFactory.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/ElementFactory.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/ElementFactory.php"
+      ],
+      "usages_count": 10
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Parser",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Parser.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Parser.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Parser.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Parser.php"
+      ],
+      "usages_count": 125
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Token",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Token.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Token.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Token.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Token.php"
+      ],
+      "usages_count": 19
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Tokenizer",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Tokenizer.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Tokenizer.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Tokenizer.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Tokenizer.php"
+      ],
+      "usages_count": 13
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Elements\\ContainerElement",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Elements/ContainerElement.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Elements/ContainerElement.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/ContainerElement.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/ContainerElement.php"
+      ],
+      "usages_count": 21
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Elements\\CurrencyElement",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Elements/CurrencyElement.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Elements/CurrencyElement.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/CurrencyElement.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/CurrencyElement.php"
+      ],
+      "usages_count": 7
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Elements\\Element",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Elements/Element.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Elements/Element.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/Element.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/Element.php"
+      ],
+      "usages_count": 59
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Elements\\NullElement",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Elements/NullElement.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Elements/NullElement.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/NullElement.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/NullElement.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Elements\\UnknownElement",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Elements/UnknownElement.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Elements/UnknownElement.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/UnknownElement.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/UnknownElement.php"
+      ],
+      "usages_count": 7
+    },
+    {
+      "symbol": "OfxParser\\Sgml\\Elements\\ValueElement",
+      "declares": [
+        "PROD/includes/vendor/asgrim/ofxparser/lib/OfxParser/Sgml/Elements/ValueElement.php",
+        "PROD/vendor/ksf_ofxparser/src/Ksfraser/Sgml/Elements/ValueElement.php",
+        "PROD/vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/ValueElement.php",
+        "vendor/ksfraser/ksf_ofxparser/src/Ksfraser/Sgml/Elements/ValueElement.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "Ksfraser\\BankAccountDataProvider",
+      "declares": [
+        "PROD/src/Ksfraser/BankAccountDataProvider.php",
+        "src/Ksfraser/BankAccountDataProvider.php"
+      ],
+      "usages_count": 15
+    },
+    {
+      "symbol": "Ksfraser\\CustomerDataProvider",
+      "declares": [
+        "PROD/src/Ksfraser/CustomerDataProvider.php",
+        "src/Ksfraser/CustomerDataProvider.php"
+      ],
+      "usages_count": 19
+    },
+    {
+      "symbol": "Ksfraser\\FormFieldNameGenerator",
+      "declares": [
+        "PROD/src/Ksfraser/FormFieldNameGenerator.php",
+        "src/Ksfraser/FormFieldNameGenerator.php"
+      ],
+      "usages_count": 16
+    },
+    {
+      "symbol": "Ksfraser\\MatchingTransactionsList",
+      "declares": [
+        "PROD/src/Ksfraser/MatchingTransactionsList.php",
+        "src/Ksfraser/MatchingTransactionsList.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "Ksfraser\\PartnerFormData",
+      "declares": [
+        "PROD/src/Ksfraser/PartnerFormData.php",
+        "src/Ksfraser/PartnerFormData.php"
+      ],
+      "usages_count": 13
+    },
+    {
+      "symbol": "Ksfraser\\PartnerFormFactory",
+      "declares": [
+        "PROD/src/Ksfraser/PartnerFormFactory.php",
+        "src/Ksfraser/PartnerFormFactory.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "Ksfraser\\PartnerSelectionPanel",
+      "declares": [
+        "PROD/src/Ksfraser/PartnerSelectionPanel.php",
+        "src/Ksfraser/PartnerSelectionPanel.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "Ksfraser\\PartnerTypeConstants",
+      "declares": [
+        "PROD/src/Ksfraser/PartnerTypeConstants.php",
+        "src/Ksfraser/PartnerTypeConstants.php"
+      ],
+      "usages_count": 20
+    },
+    {
+      "symbol": "Ksfraser\\QuickEntryDataProvider",
+      "declares": [
+        "PROD/src/Ksfraser/QuickEntryDataProvider.php",
+        "src/Ksfraser/QuickEntryDataProvider.php"
+      ],
+      "usages_count": 19
+    },
+    {
+      "symbol": "Ksfraser\\SettledTransactionDisplay",
+      "declares": [
+        "PROD/src/Ksfraser/SettledTransactionDisplay.php",
+        "src/Ksfraser/SettledTransactionDisplay.php"
+      ],
+      "usages_count": 3
+    },
+    {
+      "symbol": "Ksfraser\\SupplierDataProvider",
+      "declares": [
+        "PROD/src/Ksfraser/SupplierDataProvider.php",
+        "src/Ksfraser/SupplierDataProvider.php"
+      ],
+      "usages_count": 21
+    },
+    {
+      "symbol": "Ksfraser\\UrlBuilder",
+      "declares": [
+        "PROD/src/Ksfraser/UrlBuilder.php",
+        "src/Ksfraser/UrlBuilder.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Application",
+      "declares": [
+        "PROD/src/Ksfraser/Application/Application.php",
+        "src/Ksfraser/Application/Application.php"
+      ],
+      "usages_count": 25
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Bootstrap",
+      "declares": [
+        "PROD/src/Ksfraser/Application/Bootstrap.php",
+        "src/Ksfraser/Application/Bootstrap.php"
+      ],
+      "usages_count": 1
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Container",
+      "declares": [
+        "PROD/src/Ksfraser/Application/Container.php",
+        "src/Ksfraser/Application/Container.php"
+      ],
+      "usages_count": 30
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Config\\Config",
+      "declares": [
+        "PROD/src/Ksfraser/Application/config/Config.php",
+        "src/Ksfraser/Application/config/Config.php"
+      ],
+      "usages_count": 68
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Controllers\\AbstractController",
+      "declares": [
+        "PROD/src/Ksfraser/Application/controllers/AbstractController.php",
+        "src/Ksfraser/Application/controllers/AbstractController.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Controllers\\AdminController",
+      "declares": [
+        "PROD/src/Ksfraser/Application/controllers/AdminController.php",
+        "src/Ksfraser/Application/controllers/AdminController.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Database\\DatabaseFactory",
+      "declares": [
+        "PROD/src/Ksfraser/Application/database/DatabaseFactory.php",
+        "src/Ksfraser/Application/database/DatabaseFactory.php"
+      ],
+      "usages_count": 10
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Database\\QueryBuilder",
+      "declares": [
+        "PROD/src/Ksfraser/Application/database/QueryBuilder.php",
+        "src/Ksfraser/Application/database/QueryBuilder.php"
+      ],
+      "usages_count": 5
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Exceptions\\UnauthorizedException",
+      "declares": [
+        "PROD/src/Ksfraser/Application/exceptions/UnauthorizedException.php",
+        "src/Ksfraser/Application/exceptions/UnauthorizedException.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Handlers\\ErrorHandler",
+      "declares": [
+        "PROD/src/Ksfraser/Application/handlers/ErrorHandler.php",
+        "src/Ksfraser/Application/handlers/ErrorHandler.php"
+      ],
+      "usages_count": 17
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Http\\RequestHandler",
+      "declares": [
+        "PROD/src/Ksfraser/Application/http/RequestHandler.php",
+        "src/Ksfraser/Application/http/RequestHandler.php"
+      ],
+      "usages_count": 36
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Http\\ResponseHandler",
+      "declares": [
+        "PROD/src/Ksfraser/Application/http/ResponseHandler.php",
+        "src/Ksfraser/Application/http/ResponseHandler.php"
+      ],
+      "usages_count": 16
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Interfaces\\CommandBusInterface",
+      "declares": [
+        "PROD/src/Ksfraser/Application/interfaces/CommandBusInterface.php",
+        "src/Ksfraser/Application/interfaces/CommandBusInterface.php"
+      ],
+      "usages_count": 6
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Middleware\\AdminMiddleware",
+      "declares": [
+        "PROD/src/Ksfraser/Application/middleware/AdminMiddleware.php",
+        "src/Ksfraser/Application/middleware/AdminMiddleware.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Middleware\\AuthMiddleware",
+      "declares": [
+        "PROD/src/Ksfraser/Application/middleware/AuthMiddleware.php",
+        "src/Ksfraser/Application/middleware/AuthMiddleware.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Middleware\\MiddlewareInterface",
+      "declares": [
+        "PROD/src/Ksfraser/Application/middleware/MiddlewareInterface.php",
+        "src/Ksfraser/Application/middleware/MiddlewareInterface.php"
+      ],
+      "usages_count": 18
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Middleware\\MiddlewarePipeline",
+      "declares": [
+        "PROD/src/Ksfraser/Application/middleware/MiddlewarePipeline.php",
+        "src/Ksfraser/Application/middleware/MiddlewarePipeline.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Middleware\\PerformanceMonitoringMiddleware",
+      "declares": [
+        "PROD/src/Ksfraser/Application/middleware/PerformanceMonitoringMiddleware.php",
+        "src/Ksfraser/Application/middleware/PerformanceMonitoringMiddleware.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Repositories\\AbstractRepository",
+      "declares": [
+        "PROD/src/Ksfraser/Application/repositories/AbstractRepository.php",
+        "src/Ksfraser/Application/repositories/AbstractRepository.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Services\\AlertService",
+      "declares": [
+        "PROD/src/Ksfraser/Application/services/AlertService.php",
+        "src/Ksfraser/Application/services/AlertService.php"
+      ],
+      "usages_count": 9
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Services\\EventDispatcher",
+      "declares": [
+        "PROD/src/Ksfraser/Application/services/EventDispatcher.php",
+        "src/Ksfraser/Application/services/EventDispatcher.php"
+      ],
+      "usages_count": 16
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Services\\MetricsAggregator",
+      "declares": [
+        "PROD/src/Ksfraser/Application/services/MetricsAggregator.php",
+        "src/Ksfraser/Application/services/MetricsAggregator.php"
+      ],
+      "usages_count": 21
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Services\\PerformanceMonitor",
+      "declares": [
+        "PROD/src/Ksfraser/Application/services/PerformanceMonitoring.php",
+        "src/Ksfraser/Application/services/PerformanceMonitoring.php"
+      ],
+      "usages_count": 12
+    },
+    {
+      "symbol": "Ksfraser\\Application\\Services\\SimpleCommandBus",
+      "declares": [
+        "PROD/src/Ksfraser/Application/services/SimpleCommandBus.php",
+        "PROD/src/Ksfraser/Application/services/TransactionLogger.php",
+        "src/Ksfraser/Application/services/SimpleCommandBus.php",
+        "src/Ksfraser/Application/services/TransactionLogger.php"
+      ],
+      "usages_count": 4
+    },
+    {
+      "symbol": "Tests\\Integration\\DatabaseTestCase",
+      "declares": [
+        "PROD/src/Ksfraser/Application/tests/integration/DatabaseTestCase.php",
+        "PROD/tests/integration/DatabaseTestCase.php",
+        "src/Ksfraser/Application/tests/integration/DatabaseTestCase.php",
+        "tests/integration/DatabaseTestCase.php"
+      ],
+      "usages_count": 18
+    },
+    {
+      "symbol": "Tests\\Unit\\AlertServiceTest",
+      "declares": [
+        "PROD/src/Ksfraser/Application/tests/unit/AlertServiceTest.php",
+        "PROD/tests/unit/AlertServiceTest.php",
+        "src/Ksfraser/Application/tests/unit/AlertServiceTest.php",
+        "tests/unit/AlertServiceTest.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "Tests\\Unit\\ContainerTest",
+      "declares": [
+        "PROD/src/Ksfraser/Application/tests/unit/ContainerTest.php",
+        "PROD/tests/unit/ContainerTest.php",
+        "src/Ksfraser/Application/tests/unit/ContainerTest.php",
+        "tests/unit/ContainerTest.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "Tests\\Unit\\MetricsAggregatorTest",
+      "declares": [
+        "PROD/src/Ksfraser/Application/tests/unit/MetricsAggregatorTest.php",
+        "PROD/tests/unit/MetricsAggregatorTest.php",
+        "src/Ksfraser/Application/tests/unit/MetricsAggregatorTest.php",
+        "tests/unit/MetricsAggregatorTest.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "Ksfraser\\FaBankImport\\Controller\\BiLineItemController",
+      "declares": [
+        "PROD/src/Ksfraser/Controller/BiLineItemController.php",
+        "src/Ksfraser/Controller/BiLineItemController.php"
+      ],
+      "usages_count": 0
+    },
+    {
+      "symbol": "Ksfraser\\FaBankImport\\Application",
+      "declares": [
+        "PROD/src/Ksfraser/FaBankImport/Application.php",
+        "src/Ksfraser/FaBankImport/Application.php"
+      ],
+      "usages_count": 25
+    },
+    {
+      "symbol": "Ksfraser\\FaBankImport\\Controllers\\BankImportController",
+      "declares": [
+        "PROD/src/Ksfraser/FaBankImport/BankImportController.php",
+        "PROD/src/Ksfraser/FaBankImport/controllers/BankImportController.php",
+        "src/Ksfraser/FaBankImport/BankImportController.php",
+        "src/Ksfraser/FaBankImport/controllers/BankImportController.php"
+      ],
+      "usages_count": 8
+    },
+    {
+      "symbol": "Ksfraser\\FaBankImport\\Bootstrap",
+      "declares": [
+        "PROD/src/Ksfraser/FaBankImport/Bootstrap.php",
+        "src/Ksfraser/FaBankImport/Bootstrap.php"
+      ],
+      "usages_count": 1
+    },
+    {
+      "symbol": "Models\\ThirdPartyTransaction",
+      "declares": [
+        "PROD/src/Ksfraser/FaBankImport/class.bi_transaction.php",
+        "src/Ksfraser/FaBankImport/class.bi_transaction.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "Ksfraser\\FaBankImport\\Container",
+      "declares": [
+        "PROD/src/Ksfraser/FaBankImport/Container.php",
+        "src/Ksfraser/FaBankImport/Container.php"
+      ],
+      "usages_count": 30
+    },
+    {
+      "symbol": "Ksfraser\\FaBankImport\\CustomerTransaction",
+      "declares": [
+        "PROD/src/Ksfraser/FaBankImport/CustomerTransaction.php",
+        "src/Ksfraser/FaBankImport/CustomerTransaction.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "Ksfraser\\FaBankImport\\SupplierTransaction",
+      "declares": [
+        "PROD/src/Ksfraser/FaBankImport/FactoryTransactions.php",
+        "src/Ksfraser/FaBankImport/FactoryTransactions.php"
+      ],
+      "usages_count": 2
+    },
+    {
+      "symbol": "Ksfraser\\FaBankImport\\QuickEntryTransaction",
+      "declares": [
+        "PROD/src/Ksfraser/FaBankImport/FactoryTransactions.php",
+        "src/Ksfraser/FaBankImport/FactoryTransactions.php"
+      ],
+      "usages_count": 2
+    }
+  ]
+}

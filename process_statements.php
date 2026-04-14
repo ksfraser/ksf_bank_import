@@ -103,6 +103,11 @@ if ($use_popup_windows)
 if ($use_date_picker)
 	$js .= get_js_date_picker();
 
+// Ensure select changes submit the full form while preserving pagination state
+// preserveSubmit(sel) will ensure a hidden input named 'current_page' exists
+// so that select-triggered submits do not reset the page to 1.
+$js .= "<script>function preserveSubmit(sel){try{var f=sel.form; if(!f) return; var cp = f.querySelector('input[name=\'current_page\']'); if(!cp){cp=document.createElement('input'); cp.type='hidden'; cp.name='current_page'; cp.value='" . (isset($_POST['current_page']) ? (int)$_POST['current_page'] : 1) . "'; f.appendChild(cp);} f.submit();}catch(e){console && console.error(e);} }</script>";
+
 // Fallback script (standalone file) — toggles native date input when FA date_picker is not present
 //$js .= '<script src="' . $path_to_root . '/modules/bank_import/js/date-fallback.js"></script>';
 

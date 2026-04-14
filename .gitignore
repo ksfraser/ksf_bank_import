@@ -1,6 +1,7 @@
 # Composer Dependencies
 /vendor/
 composer.phar
+/vendor/*
 
 # PHPUnit
 .phpunit.result.cache
@@ -42,6 +43,19 @@ phpunit_full_results.txt
 *.copilot.php
 *-old.php
 *.bak
+
+# Local test shim for external dependency (do not commit)
+/ksf_modules_common/
+
+# Ignore local GenericInterface library (has its own repo)
+GenericInterface/
+
+# Ignore HTML code changes for not
+/src/Ksfraser/HTML
+# Test results files
+unit_test_results.txt
+phpunit.log
+
 test-output.txt
 
 # Production dump directory (local)

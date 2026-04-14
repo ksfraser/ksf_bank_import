@@ -493,7 +493,7 @@ class ViewBILineItems
 			////label_row("Operation:", (($transactionDC=='C') ? "Deposit" : "Payment"), "width='25%' class='label'");
 //Something is clobbering $this->partnerType but not $_POST['partnerType'][$this->id]
 			//label_row("Partner:", array_selector("partnerType[$this->id]", $this->partnerType, $this->optypes, array('select_submit'=> true)));
-			label_row("Partner:", array_selector("partnerType[$this->id]", $_POST['partnerType'][$this->id], $this->optypes, array('select_submit'=> true)));
+			label_row("Partner:", array_selector("partnerType[$this->id]", $_POST['partnerType'][$this->id], $this->optypes, array('params' => 'onchange="preserveSubmit(this)"')));
 	/*************************************************************************************************************/
 		//3rd cell
 			if ( !isset( $_POST["partnerId_$this->id"] ) )
