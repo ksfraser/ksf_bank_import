@@ -278,32 +278,32 @@ foreach (new_transactions as $trans) {
 
 ---
 
-### 6. **LLM for Context Understanding** (Very High Effort, High Cost)
+### 6. **LLM for Context Understanding** (Medium Effort With Self-Hosted Ollama)
 ```php
-// Use LLM to understand transaction context semantically
+// Use self-hosted Ollama for semantic reasoning (no API costs!)
 
-$openai = new OpenAI();
+$ollama = new OllamaClient('http://localhost:11434');
 
-$response = $openai->chat->create([
-    'model' => 'gpt-4-turbo',
-    'messages' => [[
-        'role' => 'user',
-        'content' => "Transaction: Pre-Auth Debit;Group benefit 2025 from account 12345. " .
-                     "Possible matches: QE#2(Group Benefit), QE#12(Interest), Customer ABC. " .
-                     "Which is most likely? Explain reasoning."
-    ]]
+$response = $ollama->generate([
+    'model' => 'mistral',  // Or llama2, neural-chat, etc.
+    'prompt' => "Transaction: Pre-Auth Debit;Group benefit 2025 from account 12345. " .
+                "Possible matches: QE#2(Group Benefit), QE#12(Interest), Customer ABC. " .
+                "Which is most likely? Explain reasoning.",
+    'stream' => false
 ]);
 
-// Response: "QE#2 (Group Benefit) is most likely (92%) because..."
+// Response: "QE#2 (Group Benefit) is most likely (92%) because the text 'Group benefit' " .
+//           "directly matches the pattern we have for QE#2..."
 ```
 
 **Benefit**: LLM could provide semantic reasoning about best match
-**Status**: High complexity, requires API integration and costs
+**Status**: Medium complexity, Ollama integration straightforward
+**Cost**: Zero API costs (self-hosted), just server resources
 **Risk**: 
-  - API latency (need caching)
-  - Token costs ($0.10 per transaction?)
-  - Different LLMs give different answers
-  - Requires internet connectivity
+  - Ollama latency (1-3s, but can cache/queue)
+  - Model selection and configuration
+  - Server resource management
+  - Local-only (no cloud sync)
 
 ---
 
@@ -386,22 +386,41 @@ save_weights_to_db(model.coef_, model.intercept_)
 - Pre-trained model is fast (embedding takes 1ms)
 - Good decision point: After 6 months of data
 
-### Skip: LLM Integration (Tier 5)
-- Cost ($0.01-0.10 per transaction) likely > benefit
-- Latency (500ms) ruins interactivity
-- Multi-factor scoring already 95%+ accurate
-- **Exception**: If you need explainability for auditing
+### Tier 5: LLM Integration - Now Viable (Ollama Self-Hosted!)
+- **BEFORE**: Cloud LLM was impractical (cost $0.01-0.10/transaction, latency 500ms+)
+- **NOW**: Self-hosted Ollama changes calculus completely
+  - Zero API costs (just server CPU)
+  - 1-3s latency acceptable for non-blocking UI
+  - Full privacy (data never leaves infrastructure)
+  - No dependency on external service
+- **Status**: Ready for skeleton phase now, full implementation after Ollama container online
+- **Implementation**: See [OLLAMA_SKELETON_INTEGRATION.md](OLLAMA_SKELETON_INTEGRATION.md)
+- **Role**: Tie-breaking for ambiguous matches (< 75% confidence) using semantic reasoning
+- **ROI**: 98% → 99%+ accuracy (semantic reasoning), better explanations
 
 ---
 
 ## Summary: ML Enhancements in Priority Order
 
-| Enhancement | Effort | Benefit | Timeline | Risk |
-|---|---|---|---|---|
-| **Learned Weights** | Low | High (optimal tuning) | With Phase 2 | Low |
-| **Confidence Calibration** | Low | Medium (better thresholds) | After 100+ transactions | Low |
-| **Semantic Embeddings** | Medium | Medium (text variation) | 6 months | Medium |
-| **Anomaly Detection** | Medium | Medium (edge cases) | 6 months | Medium |
-| **Feature Interactions** | High | Low (already handled by scoring) | Year 2+ | High |
-| **LLM Integration** | Very High | Low (cost >> benefit) | Never? | High |
+| Enhancement | Effort | Benefit | Timeline | Cost | Status |
+|---|---|---|---|---|---|
+| **Tier 1: Multi-Factor Scoring** | Medium | Very High (80%→95%) | Now | Dev | Start immediately |
+| **Tier 2: Learned Weights** | Low | High (95%→97%) | After 100 txns | CPU | After Tier 1 data available |
+| **Tier 5: Ollama Skeleton** | Low (2-3 days) | - (dormant now) | Now | 0 | Wire later when container ready |
+| **Tier 3: Semantic Embeddings** | Medium | Medium (97%→98%) | 6 months | Disk | If text variation problem |
+| **Tier 4: Anomaly Detection** | Medium | Medium (edge cases) | 6 months | CPU | If auto-select errors > 5% |
+| **LLM Full Implementation (Tier 5)** | Medium (1-2 weeks) | Medium (98%→99%+) | After Ollama ready | Minimal | Scheduled for later |
+
+---
+
+## Final Recommendation With Ollama
+
+**DEPLOY NOW**: Tier 1 (Multi-Factor Scoring) + Tier 5 Skeleton (Ollama dormant)
+- **Week 1-3**: Phase 1-2 development (schema, ScoringEngine, UI)
+- **Parallel**: 2-3 day effort on Ollama skeleton (architecture + stubs, disabled by default)
+- **No impact**: Skeleton code is optional, Ollama unused until container ready
+- **Future** (weeks-months): When Ollama container online, implement skeleton fill-in (2-3 days)
+- **Later** (6+ months): Tier 2-4 based on accuracy gaps observed
+
+**Key advantage**: Architecture is LLM-ready NOW, but doesn't delay Tier 1 deployment or require Ollama to be operational.
 
