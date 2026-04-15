@@ -198,156 +198,252 @@ Step 6: Display & Learn
    └─ bi_partners_data.occurrence_count += 1
 ```
 
-### B. Special Cases
+### B. Multi-Factor Scoring (No Special Cases - Scoring Handles All)
+
+Instead of special case logic, use sophisticated multi-factor scoring:
 
 ```php
-// Early check before pattern matching
-function checkSpecialCases($transactionTitle, $transactionDC, $memo) {
-    // Interest
-    if (preg_match('/interest/i', $transactionTitle . $memo)) {
-        $qe = ($transactionDC == 'C') ? QE_INTEREST_EARNED : QE_INTEREST_PAID;
-        return match_quick_entry($qe);  // Auto-match
-    }
+/**
+ * Calculate match score using multiple factors
+ * 
+ * Factors:
+ * 1. Exact substring matches (strongest signal)
+ * 2. Individual keyword matches (base signal) 
+ * 3. Occurrence frequency (learned pattern strength)
+ * 4. Recency weighting (recent matches are more relevant)
+ * 5. Account number matching (if applicable)
+ * 6. Co-occurrence clustering bonus
+ */
+function calculateMatchScore($transaction, $candidate) {
+    $score = 0;
+    $weights = [
+        'substring' => 100,      // Exact substring very strong
+        'keyword' => 10,         // Base keyword match
+        'occurrence' => 0.5,     // Frequency multiplier
+        'recency' => 0.1,        // Recent boost
+        'account' => 80,         // Account match very strong
+        'clustering' => 0.2      // Per additional keyword
+    ];
     
-    // E-Transfer (context aware)
-    if (preg_match('/e-transfer|etransfer|interac/i', $transactionTitle)) {
-        if ($transactionDC == 'C') {
-            // Receiving: likely has customer name, try Customer first
-            return search_by_pattern($text_without_etransfer, [PT_CUSTOMER, ST_BANKTRANSFER]);
-        } else {
-            // Sending: try Bank Transfer or Quick Entry
-            return search_by_pattern($text_without_etransfer, [ST_BANKTRANSFER, PT_QE]);
+    // Factor 1: Exact substring matches (e.g., "Credit Card" or "CIBC")
+    $substrings = extract_substrings($transaction);
+    foreach ($substrings as $substr) {
+        if ($candidate['data'] === $substr) {
+            $score += $weights['substring'];
         }
     }
     
-    // Bank charges/fees
-    if (preg_match('/bank\s+charge|monthly\s+fee|service\s+charge/i', $transactionTitle)) {
-        return match_quick_entry(QE_BANK_CHARGES);
+    // Factor 2: Individual keywords
+    $keywords = extract_keywords($transaction);
+    $matched_keywords = 0;
+    foreach ($keywords as $kw) {
+        if ($candidate['data'] === $kw) {
+            $score += $weights['keyword'];
+            $matched_keywords++;
+        }
     }
     
-    return null;  // Fall through to pattern matching
+    // Factor 3: Occurrence frequency
+    $score += $candidate['occurrence_count'] * $weights['occurrence'];
+    
+    // Factor 4: Recency - recent matches weighted higher
+    $days_ago = (time() - strtotime($candidate['updated_ts'])) / 86400;
+    $recency_factor = max(0.5, 1 - ($days_ago / 365));  // Decay over 1 year
+    $score *= $recency_factor;
+    
+    // Factor 5: Account number match (exact match with other_bank_account)
+    if ($candidate['account_number'] === $transaction['otherBankAccount']) {
+        $score += $weights['account'];
+    }
+    
+    // Factor 6: Clustering bonus (multiple keywords = stronger signal)
+    if ($matched_keywords > 1) {
+        $clustering_bonus = $matched_keywords - 1;
+        $score += $score * $clustering_bonus * $weights['clustering'];
+    }
+    
+    return round($score, 2);
 }
 ```
+
+**This approach:**
+- ✓ "Interest" learns to match QE_INTEREST (not hard-coded)
+- ✓ "Credit Card" + account number → learns CC pattern
+- ✓ "Square Up" + recency + account → quickly learns that CIBC = yours, Manulife = Marcia's
+- ✓ Manual CC payments: 2 source accounts → learns both, recency prioritizes most recent
+- ✓ Ad-hoc payments: occasional 3rd account → scores lower until used frequently
+- ✓ No hard-coded logic = infinitely extensible
 
 ### C. GL Score Integration
 
 ```php
-// When matching_trans score is high enough
-function considerGLMatchSuggestion($matching_trans, $pattern_match) {
-    if (empty($matching_trans)) return false;
-    
-    $top_gl = $matching_trans[0];  // Already sorted by score
-    
-    if ($top_gl['score'] >= 80) {
-        // Strong GL match exists
-        // Option 1: Auto-select if no pattern match
-        if (empty($pattern_match)) {
-            return suggest_partner_match_type($matching_trans);
-        }
-        
-        // Option 2: Boost confidence if pattern match exists
-        if ($pattern_match['confidence'] < 80) {
-            $pattern_match['confidence'] = min(80, $pattern_match['confidence'] + 20);
-            $pattern_match['note'] = "Confidence boosted by GL match";
-        }
+// GL Score is another factor in multi-factor scoring
+// Not special-case handling, just another signal
+
+function integrateGLScore($transaction, $pattern_score, $matching_trans) {
+    if (empty($matching_trans)) {
+        return $pattern_score;
     }
     
-    return false;
+    $top_gl = $matching_trans[0];  // Already sorted by score
+    $gl_score = $top_gl['score'] ?? 0;  // 0-100 scale
+    
+    // GL score is normalized and weighted like other factors
+    $weights = [
+        'pattern' => 0.6,   // Pattern matching is primary (60%)
+        'gl' => 0.4         // GL matching is secondary (40%)
+    ];
+    
+    // Combine scores
+    $combined = ($pattern_score * $weights['pattern']) + 
+                ($gl_score * $weights['gl']);
+    
+    return round($combined, 2);
 }
 ```
+
+**Advantage**: When GL score is high, it naturally boosts the final match score.
+When GL score is low, pattern-based scoring dominates. No special cases needed.
 
 ---
 
 ## Implementation Phases
 
-### Phase 1: Fix Data Format (Migrate to Keywords Only)
+### Phase 1: Fix Data Format & Schema (Migrate to Keywords + Substrings + Recency)
 - [ ] Audit current bi_partners_data (which rows have full values vs keywords?)
+- [ ] Add columns to bi_partners_data:
+  - `data_type` ENUM('substring', 'keyword', 'account')
+  - `last_matched_ts` TIMESTAMP (for recency weighting)
 - [ ] Run `build_partner_keyword_data.php` to backfill keywords from settled transactions
+- [ ] Extract substrings from transaction titles and store with high occurrence counts
+- [ ] Set initial `last_matched_ts` to transaction date
 - [ ] Deprecate System A: `search_partner_by_bank_account()`
-- [ ] Consider migration script to convert old full-text values to keywords
+- [ ] Clean data: migrate old full-text values to keyword entries
 
-### Phase 2: Refactor Matching Logic (Pattern-First)
-- [ ] Create `PatternMatcher.php`:
-  - `->extractPattern($transaction): string`
-  - `->search($pattern, $confidence_threshold): array`
-  - `->checkSpecialCases($transaction): ?array`
-  - `->integrateGLScore($matching_trans, $candidates): array`
-
-- [ ] Update `PROD/class.ViewBiLineItems.php::display_right()`:
-  - Call PatternMatcher EARLY (before displayPartnerType() switch)
-  - Store matched suggestion with confidence
-  - Pass to display methods
-
-- [ ] Update display methods to use suggestion:
-  - `displaySupplierPartnerType()` - ignore if pattern suggests otherwise
-  - `displayCustomerPartnerType()` - ignore if pattern suggests otherwise
-  - Special-case handling for suggestions
-
-### Phase 3: Add Learning Mechanism
-- [ ] Track selected partner on form submission
-- [ ] When saving transaction in `process_statements.php`:
-  - Extract keywords from final selection
-  - Call `increment_keyword_occurrence()` for each keyword
-  - `bi_partners_data.occurrence_count` increases
+### Phase 2: Implement Multi-Factor Scoring Engine (No Special Cases)
+- [ ] Create `ScoringEngine.php`:
+  - `->extractKeywords($text): array`
+  - `->extractSubstrings($text): array` (e.g., "Credit Card", "Pre-Auth", "Square Up")
+  - `->calculateScore($transaction, $candidate): float`
+    - Factor 1: Exact substring matches (+100)
+    - Factor 2: Individual keyword matches (+10 each)
+    - Factor 3: Occurrence frequency multiplier (×0.5)
+    - Factor 4: Recency weighting (1.0 to 0.5 over 1 year)
+    - Factor 5: Account number match (+80)
+    - Factor 6: Clustering bonus (×0.2 per additional keyword)
   
-- [ ] Optional: Show learning stats to user
-  - "This pattern is now learned (confidence will increase next time)"
+- [ ] Create `PatternMatcher.php`:
+  - `->search($transaction, $threshold): array` (uses ScoringEngine)
+  - Returns ranked candidates with scores
+  - No type filtering (searches all types)
+  - No special-case logic (all patterns learned)
 
-### Phase 4: Test & Tune
-- [ ] Run existing test transactions
+- [ ] Database queries for ScoringEngine:
+  ```sql
+  -- Get all matches for transaction keywords/substrings
+  SELECT * FROM bi_partners_data
+  WHERE data IN (keywords/substrings)
+  ORDER BY data_type DESC, occurrence_count DESC;
+  ```
+
+### Phase 2b: Add Recency Learning
+- [ ] Track `last_matched_ts` for each partner
+- [ ] On successful match confirmation:
+  ```php
+  UPDATE bi_partners_data 
+  SET last_matched_ts = NOW(),
+      occurrence_count = occurrence_count + 1
+  WHERE partner_id = X AND partner_type = Y AND data = Z;
+  ```
+- [ ] This enables:
+  - Recent patterns score higher (your Square deposits > Marcia's)
+  - Patterns decay slowly if unused (if you stop using specific CC account)
+  - Account clustering learns mode shifts (primary 2nd, occasional 3rd)
+
+### Phase 3: Refactor Matching Logic (Pattern-First, No Types Pre-Assumed)
+- [ ] Update `PROD/class.ViewBiLineItems.php::display_right()`:
+  - Call PatternMatcher EARLY (before any type-specific display)
+  - Store best match with confidence score
+  - Pass to display methods
+  
+- [ ] Update display methods:
+  - All methods now receive pre-computed match suggestion
+  - `displaySupplierPartnerType()` - shows suggestion if type matches, otherwise shows why
+  - `displayCustomerPartnerType()` - same
+  - `displayBankTransferPartnerType()` - same
+  - Only auto-select if confidence >= 75% (no manual override except user choice)
+
+- [ ] If pattern suggests different type than data suggests:
+  - Show suggestion prominently
+  - User can accept or override
+  - Either way, learning is recorded
+
+### Phase 4: Test, Tune & Verify Multi-Factor Scoring
+- [ ] Process real transactions with multi-factor scoring enabled
+- [ ] Run test suite with known patterns (Interest, CC payments, Square Up, E-Transfer)
 - [ ] Measure auto-match rate before/after
-- [ ] Adjust CLUSTERING_FACTOR if needed (0.1-0.3 range)
-- [ ] Test special cases (Interest, E-Transfer, Bank Charges)
-- [ ] Verify GL score integration
+- [ ] Tune weights and multipliers:
+  - Substring bonus: 100 (adjust if too aggressive)
+  - Keyword base: 10 (adjust if too weak)
+  - Occurrence multiplier: 0.5 (frequency sensitivity)
+  - Recency decay: 365 days (adjust if learning is stale)
+  - Account match: 80 (account very strong signal)
+  - Clustering bonus: 0.2 per extra keyword
+- [ ] Verify recency scoring differentiates:
+  - CIBC Square deposits (yours, frequent) vs Manulife (Marcia's, rare)
+  - Primary CC account vs occasional ad-hoc account
+- [ ] Verify substring + keyword + recency handles:
+  - Interest payments (patterns learned automatically)
+  - CC payments from specific account (account + pattern combo)
+  - Pre-Auth CC (same account, learns quickly)
+- [ ] No manual special cases maintained
 
 ---
 
-## Database: What Needs to Change
+## Data Storage: Substrings + Keywords + Recency
 
-### Current Chaos:
+Unlike System B which only stores keywords, enhanced System B stores multiple data types:
+
 ```sql
--- Full values
-INSERT INTO bi_partners_data VALUES (1, -1, 1, "ACME-CORP", NULL);
-
--- Keywords
-INSERT INTO bi_partners_data VALUES (1, -1, 1, "acme", 5);
-INSERT INTO bi_partners_data VALUES (1, -1, 1, "corp", 3);
-
--- Mixed = search breaks!
-SELECT * WHERE data LIKE '%acme%'  -- finds keywords only
-SELECT * WHERE data = 'acme'       -- finds keywords only
+CREATE TABLE bi_partners_data (
+    partner_id INT(11),
+    partner_detail_id INT(11),
+    partner_type INT(11),
+    data VARCHAR(256),              -- Can be substring OR keyword
+    data_type ENUM('substring','keyword'),  -- NEW: Differentiates storage type
+    occurrence_count INTEGER,       -- How many times matched
+    last_matched_ts TIMESTAMP,      -- NEW: When last successfully matched (for recency)
+    updated_ts TIMESTAMP
+);
 ```
 
-### Proposed (Clean):
-```sql
--- ONLY keywords with occurrence counts
-INSERT INTO bi_partners_data VALUES (1, -1, 1, "acme", 1)
-  ON DUPLICATE KEY UPDATE occurrence_count = occurrence_count + 1;
-
-INSERT INTO bi_partners_data VALUES (1, -1, 1, "corp", 1)
-  ON DUPLICATE KEY UPDATE occurrence_count = occurrence_count + 1;
-
--- Search is clean:
-SELECT * WHERE data IN ('acme', 'corp')
-  ORDER BY occurrence_count DESC;
+**Examples of stored patterns:**
 ```
+Substring matches (strong signals, occurrence counts naturally high):
+partner_id=12 (QE-Interest-Paid), data="interest paid", data_type=substring, occurrence_count=47
+partner_id=12 (QE-Interest-Paid), data="interest earned", data_type=substring, occurrence_count=31
 
-### Migration Required:
-```sql
--- Backup old data
-CREATE TABLE bi_partners_data_backup AS SELECT * FROM bi_partners_data;
+partner_id=4 (ST_BANKTRANSFER-to-CIBC), data="Credit Card", data_type=substring, occurrence_count=89
+partner_id=4 (ST_BANKTRANSFER-to-CIBC), data="cibc", data_type=keyword, occurrence_count=215
 
--- Delete old full-value entries
-DELETE FROM bi_partners_data WHERE occurrence_count IS NULL;
+Keyword matches (base signal):
+partner_id=4 (ST_BANKTRANSFER-to-CIBC), data="credit", data_type=keyword, occurrence_count=92
+partner_id=4 (ST_BANKTRANSFER-to-CIBC), data="card", data_type=keyword, occurrence_count=88
 
--- Run build_partner_keyword_data.php
--- Verify new keyword entries exist
+Account-specific learning:
+partner_id=4 (ST_BANKTRANSFER-to-CIBC), data="12345678", data_type=account, occurrence_count=193
 
--- Confirm data quality
-SELECT COUNT(*) as total_entries,
-       COUNT(CASE WHEN occurrence_count > 0 THEN 1 END) as keyword_entries,
-       COUNT(CASE WHEN occurrence_count IS NULL THEN 1 END) as old_entries
-FROM bi_partners_data;
+Recency helps differentiation:
+partner_id=1001 (Square-Up-to-FHS), data="square up", data_type=substring, 
+  occurrence_count=47, last_matched_ts=2026-04-10 (YOUR recent Square deposits)
+
+partner_id=2045 (Square-Up-to-Marcia), data="square up", data_type=substring,
+  occurrence_count=12, last_matched_ts=2026-04-01 (Marcia's occasional deposits)
+  
+-- When Square Up appears next:
+-- Score 1: 47 × (1.0) = 47 (you, recent)
+-- Score 2: 12 × (0.8) = 9.6 (Marcia, less recent)
+-- YOUR account wins!
 ```
 
 ---
