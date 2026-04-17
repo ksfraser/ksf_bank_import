@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Ksfraser\FaBankImport\Database\Migrations;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\Database\Migrations\CreatePartnerTables;
+use Ksfraser\FaBankImport\Infrastructure\Database\Migrations\CreatePartnerTables;
 use PDO;
 
 /**

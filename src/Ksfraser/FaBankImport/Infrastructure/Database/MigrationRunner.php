@@ -42,15 +42,14 @@ final class MigrationRunner
         $tableName = $this->migrationsTable;
 
         try {
-            // Use SQLite-compatible syntax (also works with MySQL)
-            $this->pdo->exec(<<<SQL
-                CREATE TABLE IF NOT EXISTS $tableName (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    migration TEXT NOT NULL UNIQUE,
-                    batch INTEGER NOT NULL,
-                    executed_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                )
-            SQL);
+            // MySQL/MariaDB compatible schema creation
+            $sql = "CREATE TABLE IF NOT EXISTS `" . $tableName . "` (
+                    `id` INT AUTO_INCREMENT PRIMARY KEY,
+                    `migration` VARCHAR(255) NOT NULL UNIQUE,
+                    `batch` INT NOT NULL,
+                    `executed_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )";
+            $this->pdo->exec($sql);
         } catch (\PDOException $e) {
             throw new MigrationException("Failed to initialize migrations table: " . $e->getMessage());
         }

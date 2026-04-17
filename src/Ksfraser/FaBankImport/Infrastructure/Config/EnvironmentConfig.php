@@ -5,12 +5,20 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Infrastructure\Config;
 
 /**
- * ConfigManager - Centralized configuration management
+ * EnvironmentConfig - Infrastructure/Deployment Configuration Management
  * 
- * Handles loading and accessing application configuration from multiple sources:
+ * Handles loading and accessing infrastructure configuration from environment variables.
+ * Distinct from app-level Config which manages runtime application settings.
+ * 
+ * Sources (priority order):
  * 1. Environment variables (highest priority)
  * 2. .env file (medium priority)
  * 3. Default values (lowest priority)
+ * 
+ * Use cases:
+ * - Database credentials for migrations and integration tests
+ * - Environment detection (dev, test, uat, production)
+ * - Logging and deployment settings
  * 
  * Supports environment-based profiles: dev, test, uat, production
  * Provides type-safe accessors: getString, getInt, getBool
@@ -18,7 +26,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Config;
  * @author Kevin Fraser
  * @since 2.2.0
  */
-final class ConfigManager
+final class EnvironmentConfig
 {
     private array $config = [];
     private string $environment;

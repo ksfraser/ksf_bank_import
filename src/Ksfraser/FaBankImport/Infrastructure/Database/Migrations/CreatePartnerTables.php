@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Ksfraser\FaBankImport\Database\Migrations;
+namespace Ksfraser\FaBankImport\Infrastructure\Database\Migrations;
 
 use PDO;
 use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
@@ -32,24 +32,24 @@ final class CreatePartnerTables implements Migration
     public function up(PDO $pdo): void
     {
         try {
-            // Create table with SQLite-compatible syntax (also works with MySQL)
+            // Create table with MySQL/MariaDB-compatible syntax
             $pdo->exec(<<<SQL
-                CREATE TABLE IF NOT EXISTS bi_partners_data (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL,
-                    partner_type TEXT NOT NULL,
-                    occurrence_count INTEGER DEFAULT 0,
-                    last_matched_ts DATETIME NULL,
-                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                CREATE TABLE IF NOT EXISTS `bi_partners_data` (
+                    `id` INT AUTO_INCREMENT PRIMARY KEY,
+                    `name` VARCHAR(255) NOT NULL,
+                    `partner_type` VARCHAR(50) NOT NULL,
+                    `occurrence_count` INT DEFAULT 0,
+                    `last_matched_ts` TIMESTAMP NULL,
+                    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
                 )
             SQL);
             
             // Create indexes for common queries
-            $pdo->exec("CREATE UNIQUE INDEX IF NOT EXISTS uk_partner_name_type ON bi_partners_data (name, partner_type)");
-            $pdo->exec("CREATE INDEX IF NOT EXISTS ix_partner_type ON bi_partners_data (partner_type)");
-            $pdo->exec("CREATE INDEX IF NOT EXISTS ix_occurrence_count ON bi_partners_data (occurrence_count)");
-            $pdo->exec("CREATE INDEX IF NOT EXISTS ix_last_matched_ts ON bi_partners_data (last_matched_ts)");
+            $pdo->exec("CREATE UNIQUE INDEX `uk_partner_name_type` ON `bi_partners_data` (`name`, `partner_type`)");
+            $pdo->exec("CREATE INDEX `ix_partner_type` ON `bi_partners_data` (`partner_type`)");
+            $pdo->exec("CREATE INDEX `ix_occurrence_count` ON `bi_partners_data` (`occurrence_count`)");
+            $pdo->exec("CREATE INDEX `ix_last_matched_ts` ON `bi_partners_data` (`last_matched_ts`)");
         } catch (\PDOException $e) {
             throw new MigrationException(
                 "Failed to create bi_partners_data table: " . $e->getMessage()

@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace Tests\Ksfraser\FaBankImport\Infrastructure\Config;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\Infrastructure\Config\ConfigManager;
+use Ksfraser\FaBankImport\Infrastructure\Config\EnvironmentConfig;
 use Ksfraser\FaBankImport\Infrastructure\Config\ConfigException;
 
 /**
- * Tests for ConfigManager
+ * Tests for EnvironmentConfig
  * 
- * Verifies configuration loading, type-safe accessors, and environment handling.
+ * Verifies infrastructure configuration loading, type-safe accessors, and environment handling.
  * 
  * @author Kevin Fraser
  * @since 2.2.0
  */
-class ConfigManagerTest extends TestCase
+class EnvironmentConfigTest extends TestCase
 {
-    private ConfigManager $config;
+    private EnvironmentConfig $config;
 
     protected function setUp(): void
     {
@@ -40,7 +40,7 @@ class ConfigManagerTest extends TestCase
         $_ENV['TRANSACTION_MAX_AMOUNT'] = '500000.00';
         $_ENV['TRANSACTION_TYPES'] = 'C,D';
 
-        $this->config = new ConfigManager('test');
+        $this->config = new EnvironmentConfig('test');
     }
 
     protected function tearDown(): void
@@ -94,7 +94,7 @@ class ConfigManagerTest extends TestCase
         $_ENV['APP_DEBUG'] = 'true';
         $_ENV['LOG_ENABLED'] = 'false';
 
-        $config = new ConfigManager('test');
+        $config = new EnvironmentConfig('test');
         
         $this->assertTrue($config->getBool('app.debug'));
         $this->assertFalse($config->getBool('logging.enabled'));
@@ -114,22 +114,22 @@ class ConfigManagerTest extends TestCase
 
     public function testIsTest(): void
     {
-        $config = new ConfigManager('test');
+        $config = new EnvironmentConfig('test');
         $this->assertTrue($config->isTest());
 
-        $config = new ConfigManager('development');
+        $config = new EnvironmentConfig('development');
         $this->assertFalse($config->isTest());
     }
 
     public function testIsDevelopment(): void
     {
-        $config = new ConfigManager('development');
+        $config = new EnvironmentConfig('development');
         $this->assertTrue($config->isDevelopment());
 
-        $config = new ConfigManager('dev');
+        $config = new EnvironmentConfig('dev');
         $this->assertTrue($config->isDevelopment());
 
-        $config = new ConfigManager('production');
+        $config = new EnvironmentConfig('production');
         $this->assertFalse($config->isDevelopment());
     }
 
@@ -178,7 +178,7 @@ class ConfigManagerTest extends TestCase
         // Even if env vars are missing, validation passes because of defaults
         unset($_ENV['DB_HOST']);
         
-        $config = new ConfigManager('test');
+        $config = new EnvironmentConfig('test');
         // Should not throw - defaults are used
         $config->validate();
         
@@ -199,7 +199,7 @@ class ConfigManagerTest extends TestCase
         $_ENV['DB_HOST'] = 'env-host';
         $_ENV['DB_PORT'] = '9999';
 
-        $config = new ConfigManager('test');
+        $config = new EnvironmentConfig('test');
         
         $this->assertEquals('env-host', $config->getString('database.host'));
         $this->assertEquals(9999, $config->getInt('database.port'));
