@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Application\Partner;
 
 use Ksfraser\FaBankImport\Contracts\PartnerRepository;
+use Ksfraser\FaBankImport\Contracts\TrainingService as TrainingServiceInterface;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
@@ -23,7 +24,7 @@ use Ksfraser\FaBankImport\Entity\PartnerType;
  * This service supports the training subsystem that improves partner matching
  * accuracy over time by learning from successful matches.
  */
-final class TrainingService
+final class TrainingService implements TrainingServiceInterface
 {
     public function __construct(
         private readonly PartnerRepository $partnerRepository,
@@ -45,7 +46,7 @@ final class TrainingService
      * @param bool $dryRun If true, processes but doesn't modify database
      * @return array{processed: int, learned: int, skipped: int} Training statistics
      */
-    public function buildTrainingData(bool $dryRun = true): array
+    public function buildTrainingData(bool $dryRun = false): array
     {
         $stats = [
             'processed' => 0,
