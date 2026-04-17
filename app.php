@@ -18,13 +18,13 @@ declare(strict_types=1);
  */
 
 // Determine base path
-$basePath = dirname(__DIR__);
+$basePath = __DIR__;
 
 // Load Composer autoloader
 $autoloadPaths = [
     $basePath . '/vendor/autoload.php',
-    $basePath . '/../vendor/autoload.php',
-    __DIR__ . '/../vendor/autoload.php',
+    dirname($basePath) . '/vendor/autoload.php',
+    dirname($basePath) . '/../vendor/autoload.php',
 ];
 
 $autoloadFound = false;
@@ -43,6 +43,7 @@ if (!$autoloadFound) {
 
 use Ksfraser\FaBankImport\Cli\Kernel;
 use Ksfraser\FaBankImport\Cli\Commands\TrainingCommand;
+use Ksfraser\FaBankImport\Cli\Commands\MigrationCommand;
 use Ksfraser\FaBankImport\Infrastructure\Logger\FileLogger;
 use Ksfraser\FaBankImport\Infrastructure\Error\ErrorHandler;
 use Ksfraser\FaBankImport\Infrastructure\Factory\PartnerServiceFactory;
@@ -81,6 +82,10 @@ try {
     
     $trainingCommand = new TrainingCommand($trainingService, $logger, $errorHandler);
     $kernel->register($trainingCommand);
+
+    // Register migration command
+    $migrationCommand = new MigrationCommand($logger);
+    $kernel->register($migrationCommand);
 
     // Run the kernel
     exit($kernel->runFromArgv($argv));
