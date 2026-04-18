@@ -32,7 +32,7 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  * @author Kevin Fraser
  * @since 2.3.0
  */
-final class ConfidenceEnhancer
+class ConfidenceEnhancer
 {
     private const MIN_CONFIDENCE_FOR_AUTO_MATCH = 75.0;
 

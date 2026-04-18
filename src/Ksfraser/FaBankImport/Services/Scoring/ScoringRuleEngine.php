@@ -35,7 +35,7 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  * @author Kevin Fraser
  * @since 2.3.0
  */
-final class ScoringRuleEngine
+class ScoringRuleEngine
 {
     /** @var array<string, ScoringRule> Registered rules by name */
     private array $rules = [];
