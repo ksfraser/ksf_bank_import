@@ -293,6 +293,184 @@ final class ScoringRuleEngineTest extends TestCase
     }
 
     /**
+     * Test 14: Rules can be registered with weights
+     */
+    public function testRulesCanBeRegisteredWithWeights(): void
+    {
+        $this->engine->register(new RecencyRule(), 1.5);
+        $this->engine->register(new AmountRangeRule(), 0.5);
+        $this->engine->register(new TypeConsistencyRule()); // Default 1.0
+
+        $this->assertEquals(3, $this->engine->getRuleCount());
+        $this->assertEquals(1.5, $this->engine->getRuleWeight('RecencyRule'));
+        $this->assertEquals(0.5, $this->engine->getRuleWeight('AmountRangeRule'));
+        $this->assertEquals(1.0, $this->engine->getRuleWeight('TypeConsistencyRule'));
+    }
+
+    /**
+     * Test 15: Invalid weight throws exception
+     */
+    public function testInvalidWeightThrowsException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->engine->register(new RecencyRule(), 0.0); // Weight must be positive
+    }
+
+    /**
+     * Test 16: Weighted scoring calculation
+     */
+    public function testWeightedScoringCalculation(): void
+    {
+        $this->engine
+            ->register(new RecencyRule(), 2.0)      // 5.0 * 2.0 = 10.0
+            ->register(new AmountRangeRule(), 0.5); // 3.0 * 0.5 = 1.5
+
+        $transaction = [
+            'amount' => 500.0,
+            'date' => date('Y-m-d', time() - 5 * 86400),
+        ];
+        $match = $this->createMockMatch(80);
+
+        $adjustment = $this->engine->calculateAdjustment($transaction, $match);
+        // Recency: 5 * 2.0 = 10, Amount: 3 * 0.5 = 1.5, Total = 11.5
+        $this->assertEquals(11.5, $adjustment);
+    }
+
+    /**
+     * Test 17: Get rule weights map
+     */
+    public function testGetRuleWeightsMap(): void
+    {
+        $this->engine
+            ->register(new RecencyRule(), 1.5)
+            ->register(new AmountRangeRule());
+
+        $weights = $this->engine->getRuleWeights();
+
+        $this->assertIsArray($weights);
+        $this->assertEquals(1.5, $weights['RecencyRule']);
+        $this->assertEquals(1.0, $weights['AmountRangeRule']);
+    }
+
+    /**
+     * Test 18: Score details include raw and weighted scores
+     */
+    public function testScoreDetailsIncludeWeights(): void
+    {
+        $this->engine
+            ->register(new RecencyRule(), 2.0)
+            ->register(new AmountRangeRule());
+
+        $transaction = [
+            'amount' => 500.0,
+            'date' => date('Y-m-d', time() - 5 * 86400),
+        ];
+        $match = $this->createMockMatch(80);
+
+        $this->engine->calculateAdjustment($transaction, $match);
+        $details = $this->engine->getScoreDetails();
+
+        $this->assertArrayHasKey('rules', $details);
+        $this->assertArrayHasKey('RecencyRule', $details['rules']);
+        
+        $recencyData = $details['rules']['RecencyRule'];
+        $this->assertEquals(5.0, $recencyData['raw_score']);
+        $this->assertEquals(2.0, $recencyData['weight']);
+        $this->assertEquals(10.0, $recencyData['weighted_score']);
+    }
+
+    /**
+     * Test 19: Format score details as human-readable formula
+     */
+    public function testFormatScoreDetails(): void
+    {
+        $this->engine
+            ->register(new RecencyRule())
+            ->register(new AmountRangeRule());
+
+        $transaction = [
+            'amount' => 500.0,
+            'date' => date('Y-m-d', time() - 5 * 86400),
+        ];
+        $match = $this->createMockMatch(80);
+
+        $this->engine->calculateAdjustment($transaction, $match);
+        $formula = $this->engine->formatScoreDetails();
+
+        // Should contain rule names and final score
+        $this->assertStringContainsString('RecencyRule', $formula);
+        $this->assertStringContainsString('AmountRangeRule', $formula);
+        $this->assertStringContainsString('=', $formula);
+        $this->assertStringContainsString('8', $formula); // 5 + 3 = 8
+    }
+
+    /**
+     * Test 20: Format score with negative values
+     */
+    public function testFormatScoreWithNegativeValues(): void
+    {
+        $this->engine->register(new AmountRangeRule()); // Will produce -5 for $2
+
+        $transaction = ['amount' => 2.0]; // Very small amount
+        $match = $this->createMockMatch(80);
+
+        $this->engine->calculateAdjustment($transaction, $match);
+        $formula = $this->engine->formatScoreDetails();
+
+        // Should show negative adjustment
+        $this->assertStringContainsString('-', $formula);
+        $this->assertStringContainsString('5', $formula); // -5
+    }
+
+    /**
+     * Test 21: Calculate adjustment with breakdown includes formula
+     */
+    public function testCalculateAdjustmentWithBreakdownIncludesFormula(): void
+    {
+        $this->engine
+            ->register(new RecencyRule())
+            ->register(new AmountRangeRule());
+
+        $transaction = [
+            'amount' => 500.0,
+            'date' => date('Y-m-d', time() - 5 * 86400),
+        ];
+        $match = $this->createMockMatch(80);
+
+        $result = $this->engine->calculateAdjustmentWithBreakdown($transaction, $match);
+
+        $this->assertArrayHasKey('score_formula', $result);
+        $this->assertStringContainsString('RecencyRule', $result['score_formula']);
+        $this->assertStringContainsString('AmountRangeRule', $result['score_formula']);
+    }
+
+    /**
+     * Test 22: Max possible boost with weights
+     */
+    public function testMaxPossibleBoostWithWeights(): void
+    {
+        $this->engine
+            ->register(new RecencyRule(), 2.0)     // Max 5 * 2.0 = 10
+            ->register(new AmountRangeRule(), 0.5); // Max 3 * 0.5 = 1.5
+
+        $maxBoost = $this->engine->getMaxPossibleBoost();
+        $this->assertEquals(11.5, $maxBoost); // 10 + 1.5
+    }
+
+    /**
+     * Test 23: Max possible reduction with weights
+     */
+    public function testMaxPossibleReductionWithWeights(): void
+    {
+        $this->engine
+            ->register(new RecencyRule(), 1.0)     // Min -2 * 1.0 = -2
+            ->register(new AmountRangeRule(), 2.0); // Min -5 * 2.0 = -10
+
+        $maxReduction = $this->engine->getMaxPossibleReduction();
+        $this->assertEquals(-12.0, $maxReduction); // -2 + -10
+    }
+
+    /**
      * Helper: Create mock KeywordMatch
      */
     private function createMockMatch(
