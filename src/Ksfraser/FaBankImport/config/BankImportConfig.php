@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BankImportConfig [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BankImportConfig.
+ */
+/**
  * Bank Import Configuration
  *
  * Centralized configuration management for Bank Import module.
@@ -40,6 +51,26 @@ class BankImportConfig
      * Default GL account for transaction reference logging
      */
     private const DEFAULT_TRANS_REF_ACCOUNT = '0000';
+
+    /**
+     * Configuration key for recency scoring rule weight
+     */
+    private const KEY_SCORING_RECENCY_WEIGHT = 'bank_import_scoring_recency_weight';
+
+    /**
+     * Configuration key for amount range scoring rule weight
+     */
+    private const KEY_SCORING_AMOUNT_WEIGHT = 'bank_import_scoring_amount_weight';
+
+    /**
+     * Configuration key for type consistency scoring rule weight
+     */
+    private const KEY_SCORING_TYPE_WEIGHT = 'bank_import_scoring_type_weight';
+
+    /**
+     * Default weight for scoring rules (1.0 = no adjustment)
+     */
+    private const DEFAULT_SCORING_WEIGHT = 1.0;
 
     /**
      * Check if transaction reference logging is enabled
@@ -104,7 +135,130 @@ class BankImportConfig
     }
 
     /**
-     * Check if a GL account exists in the chart of accounts
+     * Get recency scoring rule weight
+     *
+     * Controls how much timestamp proximity affects matching confidence.
+     * Values > 1.0 emphasize recency, < 1.0 reduce it.
+     *
+     * @return float Weight multiplier (default: 1.0)
+     */
+    public static function getScoringRecencyWeight(): float
+    {
+        $value = get_company_pref(self::KEY_SCORING_RECENCY_WEIGHT);
+        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+    }
+
+    /**
+     * Get amount range scoring rule weight
+     *
+     * Controls how much transaction amount reliability affects matching.
+     * Values > 1.0 emphasize amount matching, < 1.0 reduce it.
+     *
+     * @return float Weight multiplier (default: 1.0)
+     */
+    public static function getScoringAmountWeight(): float
+    {
+        $value = get_company_pref(self::KEY_SCORING_AMOUNT_WEIGHT);
+        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+    }
+
+    /**
+     * Get type consistency scoring rule weight
+     *
+     * Controls how much transaction type matching affects confidence.
+     * Values > 1.0 emphasize type consistency, < 1.0 reduce it.
+     *
+     * @return float Weight multiplier (default: 1.0)
+     */
+    public static function getScoringTypeWeight(): float
+    {
+        $value = get_company_pref(self::KEY_SCORING_TYPE_WEIGHT);
+        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+    }
+
+    /**
+     * Set recency scoring rule weight
+     *
+     * @param float $weight Weight multiplier (must be > 0)
+     * @return void
+     * @throws \InvalidArgumentException if weight is not positive
+     */
+    public static function setScoringRecencyWeight(float $weight): void
+    {
+        if ($weight <= 0) {
+            throw new \InvalidArgumentException('Scoring weight must be greater than 0, got: ' . $weight);
+        }
+        set_company_pref(self::KEY_SCORING_RECENCY_WEIGHT, (string)$weight);
+    }
+
+    /**
+     * Set amount range scoring rule weight
+     *
+     * @param float $weight Weight multiplier (must be > 0)
+     * @return void
+     * @throws \InvalidArgumentException if weight is not positive
+     */
+    public static function setScoringAmountWeight(float $weight): void
+    {
+        if ($weight <= 0) {
+            throw new \InvalidArgumentException('Scoring weight must be greater than 0, got: ' . $weight);
+        }
+        set_company_pref(self::KEY_SCORING_AMOUNT_WEIGHT, (string)$weight);
+    }
+
+    /**
+     * Set type consistency scoring rule weight
+     *
+     * @param float $weight Weight multiplier (must be > 0)
+     * @return void
+     * @throws \InvalidArgumentException if weight is not positive
+     */
+    public static function setScoringTypeWeight(float $weight): void
+    {
+        if ($weight <= 0) {
+            throw new \InvalidArgumentException('Scoring weight must be greater than 0, got: ' . $weight);
+        }
+        set_company_pref(self::KEY_SCORING_TYPE_WEIGHT, (string)$weight);
+    }
+
+    /**
+     * Get all scoring weights as associative array
+     *
+     * Useful for applying weights to scoring engine or displaying in UI.
+     *
+     * @return array<string, float> {
+     *     recency: float,
+     *     amount: float,
+     *     type: float
+     * }
+     */
+    public static function getScoringWeights(): array
+    {
+        return [
+            'recency' => self::getScoringRecencyWeight(),
+            'amount' => self::getScoringAmountWeight(),
+            'type' => self::getScoringTypeWeight(),
+        ];
+    }
+
+    /**
+     * Set all scoring weights at once
+     *
+     * @param float $recencyWeight Recency rule weight
+     * @param float $amountWeight Amount range rule weight
+     * @param float $typeWeight Type consistency rule weight
+     * @return void
+     * @throws \InvalidArgumentException if any weight is not positive
+     */
+    public static function setScoringWeights(float $recencyWeight, float $amountWeight, float $typeWeight): void
+    {
+        self::setScoringRecencyWeight($recencyWeight);
+        self::setScoringAmountWeight($amountWeight);
+        self::setScoringTypeWeight($typeWeight);
+    }
+
+    /**
+     * Check if GL account exists in the chart of accounts
      *
      * @param string $accountCode GL account code to check
      * @return bool True if account exists, false otherwise
@@ -126,6 +280,11 @@ class BankImportConfig
         $result = db_query($sql, "Failed to check GL account");
         $row = db_fetch($result);
         
+        // Handle case where db_fetch returns false
+        if ($row === false) {
+            return false;
+        }
+        
         return (int)$row['count'] > 0;
     }
 
@@ -141,6 +300,7 @@ class BankImportConfig
         return [
             'trans_ref_logging_enabled' => self::getTransRefLoggingEnabled(),
             'trans_ref_account' => self::getTransRefAccount(),
+            'scoring_weights' => self::getScoringWeights(),
         ];
     }
 
@@ -155,5 +315,10 @@ class BankImportConfig
     {
         self::setTransRefLoggingEnabled(true);
         set_company_pref(self::KEY_TRANS_REF_ACCOUNT, self::DEFAULT_TRANS_REF_ACCOUNT);
+        self::setScoringWeights(
+            self::DEFAULT_SCORING_WEIGHT,
+            self::DEFAULT_SCORING_WEIGHT,
+            self::DEFAULT_SCORING_WEIGHT
+        );
     }
 }
