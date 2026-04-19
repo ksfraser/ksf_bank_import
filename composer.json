@@ -38,6 +38,8 @@
         "mimographix/qif-library": "^1.0",
         "nesbot/carbon": "^2.46",
         "psr/container": "^1.0",
+        "psr/log": "^1.0",
+        "ksfraser/ksf-cache": "@dev",
         "ksfraser/ksf_ofxparser": "0.1.1",
         "ksfraser/qifparser": "0.3.0"
     },

@@ -27,10 +27,10 @@ interface ScoringRule
      * Calculate confidence adjustment for this rule
      *
      * @param array $transaction Transaction data with keys: account, amount, type, date, memo, etc.
-     * @param KeywordMatch $match Partner match result
+     * @param SupplierCandidate $match Supplier/partner candidate
      * @return float Adjustment score (can be negative or positive, no range limit here)
      */
-    public function calculateScore(array $transaction, KeywordMatch $match): float;
+    public function calculateScore(array $transaction, SupplierCandidate $match): float;
 
     /**
      * Get human-readable name of this rule
