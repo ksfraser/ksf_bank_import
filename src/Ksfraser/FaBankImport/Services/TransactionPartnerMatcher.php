@@ -43,11 +43,11 @@ class TransactionPartnerMatcher
     private ScoringRuleEngine $engine;
 
     /**
-     * Supplier matching configuration
+     * Matching configuration (supplier or customer optimized)
      *
-     * @var SupplierMatchingConfiguration
+     * @var object Configuration with getMinimumConfidenceThreshold() method
      */
-    private SupplierMatchingConfiguration $config;
+    private object $config;
 
     /**
      * Partner type constants
@@ -61,12 +61,12 @@ class TransactionPartnerMatcher
     /**
      * Constructor
      *
-     * @param ScoringRuleEngine             $engine Scoring engine instance
-     * @param SupplierMatchingConfiguration $config Matching configuration
+     * @param ScoringRuleEngine $engine Scoring engine instance
+     * @param object            $config Matching configuration (SupplierMatchingConfiguration or CustomerMatchingConfiguration)
      */
     public function __construct(
         ScoringRuleEngine $engine,
-        SupplierMatchingConfiguration $config
+        object $config
     ) {
         $this->engine = $engine;
         $this->config = $config;
