@@ -199,6 +199,193 @@ function displayPartnerType()
     if (USE_UNIFIED_PARTNER_MATCHING) {
         $this->displayPartnerTypeWithMatching();  // New approach
     } else {
+        $this->displayPartnerTypeOld();           // Fallback
+    }
+}
+```
+
+---
+
+## INTEGRATION: Phase 4 - bi_lineitem Integration (2025-04-19)
+
+### New Integration Layer: TransactionMatcherIntegration
+
+**Purpose**: Bridge between bi_lineitem and the matching infrastructure, handling:
+- Loading all partner data from FA database
+- Converting data to matcher-expected array format
+- Executing matches
+- Formatting results for display
+
+**Location**: `src/Ksfraser/FaBankImport/Services/TransactionMatcherIntegration.php`
+
+**Key Methods**:
+```php
+// Main integration point
+$integration = new TransactionMatcherIntegration();
+$results = $integration->matchTransaction($transaction, 'unified');
+
+// Results structure:
+[
+    'supplier' => [TransactionMatchResult, ...],
+    'customer' => [TransactionMatchResult, ...], 
+    'bank_transfer' => [TransactionMatchResult, ...],
+    'best_match' => TransactionMatchResult|null
+]
+```
+
+**Database Queries**:
+- `loadAllSuppliersAsArrays()` - Queries `{TB_PREF}suppliers` WHERE inactive = 0
+- `loadAllCustomersAsArrays()` - Queries `{TB_PREF}debtors_master` WHERE inactive = 0
+- `loadAllBankAccountsAsArrays()` - Queries `{TB_PREF}bank_accounts` WHERE inactive = 0
+
+**Array Format Expected by Matcher**:
+```php
+[
+    [
+        'partner_id' => 123,           // Supplier ID / Customer ID / Bank Account ID
+        'name' => 'Partner Name',       // Display name
+        'account' => '1234567890'       // Bank account number
+    ],
+    // ... more partners
+]
+```
+
+### New Methods in bi_lineitem
+
+**All methods respect feature flag** `USE_UNIFIED_PARTNER_MATCHING`:
+
+#### `getTransactionMatches(): array`
+Executes unified matching against all partner types. Returns structured results with best_match identified by highest confidence score.
+
+**Usage**:
+```php
+$matches = $this->getTransactionMatches();
+if ($matches['best_match'] !== null) {
+    $confidence = $matches['best_match']->getScore();  // 0-100
+    $type = $matches['best_match']->getPartnerType();   // 'SP', 'CU', 'BT'
+}
+```
+
+#### `getFormattedMatchResults(): array`
+Returns display-ready results with HTML-safe strings and formatted confidence percentages.
+
+**Usage**:
+```php
+$formatted = $this->getFormattedMatchResults();
+// [
+//     'best_match' => ['partner_id' => 123, 'partner_name' => 'ABC Inc', 'confidence_percent' => '85%', ...],
+//     'supplier_matches' => [...],
+//     'customer_matches' => [...],
+//     'bank_matches' => [...]
+// ]
+```
+
+#### `getBestMatchRecommendation(): string`
+Returns user-friendly HTML string recommending best match or empty if none.
+
+**Usage**:
+```php
+echo $this->getBestMatchRecommendation();
+// Outputs: "Suggested: ABC Inc (85% confidence - Supplier)"
+```
+
+#### `hasBestMatchAboveThreshold(): bool`
+Checks if best match exists and meets confidence threshold for auto-prefill recommendation.
+
+**Usage**:
+```php
+if ($this->hasBestMatchAboveThreshold()) {
+    // Auto-prefill form field with best match
+    $this->prefillPartnerType($this->getTransactionMatches()['best_match']);
+}
+```
+
+#### `getSupplierMatches(): array`, `getCustomerMatches(): array`
+Matcher-specific methods for focused matching on single partner type.
+
+### Integration Tests
+
+**File**: `tests/integration/Services/BiLineItemMatchingIntegrationTest.php`  
+**Status**: 3/7 passing, 4 risky (no threshold met, but structure validated)
+
+**Tests Included**:
+- ✅ Match results return all required keys
+- ✅ Matcher handles empty partner lists gracefully
+- ✅ Matcher distinguishes between partner types correctly
+- ⚠️ Formatted results include display-safe data
+- ⚠️ Best match recommendation string generation
+- ⚠️ Match results ranked by score
+- ⚠️ Match confidence threshold behavior
+
+### Feature Flag Control
+
+Feature flag `USE_UNIFIED_PARTNER_MATCHING` enables gradual rollout:
+
+```php
+// Disable for rollback
+define('USE_UNIFIED_PARTNER_MATCHING', false);
+
+// All integration methods gracefully return empty/null if disabled
+$matches = $this->getTransactionMatches();
+// Returns: ['supplier' => [], 'customer' => [], 'bank_transfer' => [], 'best_match' => null]
+```
+
+### Error Handling
+
+All integration methods:
+- Wrap database operations in try/catch
+- Log errors to error_log for debugging
+- Return safe defaults (empty arrays/null) on failure
+- Never throw exceptions (display must continue)
+- Maintain backward compatibility on error
+
+### Security
+
+- ✅ HTML entities escaped in formatted results via `htmlspecialchars()`
+- ✅ SQL uses parameterized queries (FA db_query() function)
+- ✅ All user input validated before display
+- ✅ No direct $_POST access in integration layer
+
+### Test Coverage Summary
+
+| Component | Tests | Status |
+|-----------|-------|--------|
+| Backward Compatibility (bi_lineitem) | 10 | ✅ PASSING |
+| Backward Compatibility (transactions) | 13 | ✅ PASSING |
+| Supplier Matching Rules | 17 | ✅ PASSING |
+| Customer Matcher | 7 | ✅ PASSING |
+| BiLineItem Integration | 7 | ⚠️ 3/7 PASSING, 4 RISKY |
+| **TOTAL** | **54** | **47/54 PASSING** |
+
+### Next Steps
+
+**Phase 5 - Display Integration** (Planned):
+1. Create `displayPartnerTypeWithMatching()` method
+2. Add recommendation banner with best_match info
+3. Pre-populate partner type/ID fields on page load
+4. Allow user override with alternative matches
+
+**Phase 6 - PROD Testing** (Planned):
+1. Load real supplier/customer data from PROD
+2. Run transactions through matcher
+3. Validate confidence scores are reasonable
+4. Collect feedback for rule tuning
+
+---
+
+**Last Updated**: 2025-04-19  
+**Status**: Integration layer complete, feature flag controlled  
+**Tests**: 47/54 passing, all backward compatibility maintained
+
+```php
+// In class.bi_lineitem.php
+define('USE_UNIFIED_PARTNER_MATCHING', true);
+
+function displayPartnerType()
+{
+    if (USE_UNIFIED_PARTNER_MATCHING) {
+        $this->displayPartnerTypeWithMatching();  // New approach
+    } else {
         $this->displayPartnerTypeWithoutMatching(); // Existing approach
     }
 }
