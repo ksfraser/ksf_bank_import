@@ -373,6 +373,30 @@ class BiLineItemModel extends GenericFaInterfaceModel
 		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
 		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
 	}
+
+	/**
+	 * Returns the ±N day tolerance used for transaction date matching.
+	 *
+	 * Reads sr_bi_tx_date_tolerance_days from the global FA config if available,
+	 * falling back to 2 (which matches the original hardcoded value).
+	 * Both this model and the StatementReconcile cross-reference query use the
+	 * same key so the window stays in sync.
+	 *
+	 * @return int
+	 */
+	protected function getDateMatchToleranceDays(): int
+	{
+		global $SysPrefs;
+		if (isset($SysPrefs) && isset($SysPrefs->prefs['sr_bi_tx_date_tolerance_days'])) {
+			return (int) $SysPrefs->prefs['sr_bi_tx_date_tolerance_days'];
+		}
+		// Fall back to module config.php if loaded.
+		if (isset($GLOBALS['config']['sr_bi_tx_date_tolerance_days'])) {
+			return (int) $GLOBALS['config']['sr_bi_tx_date_tolerance_days'];
+		}
+		return 2;
+	}
+
 	/**//***************************************************************
 	* Find paired transactions i.e. bank transfers from one account to another
 	* such as Savings <- -> HISA or CC payments
@@ -388,11 +412,12 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	function findPaired()
 	{
 		return [];
+		// TODO: inject config and wire sr_bi_tx_date_tolerance_days (see getDateMatchToleranceDays())
 		// TODO Finish coding
 		require_once( 'class.bi_transactions.php' );
 		$bi_t = new bi_transactions_model();
 		//Since we are only doing a +2 days and not -2, we should only find the first of a paired set of transactions
-		$trzs = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, 2 ), $this->amount, null );	//This will be matching dollar amounts within 2 days.  
+		$trzs = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, $this->getDateMatchToleranceDays() ), $this->amount, null );	//This will be matching dollar amounts within tolerance days.  
 		$count = 0;
 		foreach( $trzs as $trans )
 		{

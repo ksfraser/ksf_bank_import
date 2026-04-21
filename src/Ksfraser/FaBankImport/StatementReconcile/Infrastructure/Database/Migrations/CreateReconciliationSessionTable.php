@@ -39,12 +39,14 @@ final class CreateReconciliationSessionTable implements Migration
                 CREATE TABLE IF NOT EXISTS `bi_reconciliation_session` (
                     `id`                              INT AUTO_INCREMENT PRIMARY KEY,
                     `statement_ocr_id`                INT          NOT NULL COMMENT 'FK to bi_statement_ocr.id',
+                    `bank_account_id`                 INT          NULL     COMMENT 'FA 0_bank_accounts.id confirmed for this session',
                     `matched_pairs_json`              LONGTEXT     NULL     COMMENT 'JSON: array of MatchedPair objects',
                     `unmatched_statement_line_ids`    TEXT         NULL     COMMENT 'JSON: string array of statement line IDs',
                     `unmatched_bank_transaction_ids`  TEXT         NULL     COMMENT 'JSON: int array of FA bank tx IDs',
                     `status`                          VARCHAR(20)  NOT NULL DEFAULT 'pending' COMMENT 'pending|approved',
-                    `persisted_by_user_id`            INT          NULL     COMMENT 'FA user who approved',
-                    `persisted_at`                    TIMESTAMP    NULL     COMMENT 'When approved',
+                    `created_by_user_id`              INT          NULL     COMMENT 'FA user who initiated the reconciliation',
+                    `approved_by_user_id`             INT          NULL     COMMENT 'FA user who approved (commit to FA)',
+                    `approved_at`                     TIMESTAMP    NULL     COMMENT 'When approved',
                     `created_at`                      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
                     `updated_at`                      TIMESTAMP    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     CONSTRAINT `fk_recon_stmt_ocr`

@@ -114,10 +114,10 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
         $sql = <<<SQL
             INSERT INTO `bi_reconciliation_session`
                 (`statement_ocr_id`, `matched_pairs_json`, `unmatched_statement_line_ids`,
-                 `unmatched_bank_transaction_ids`, `status`, `persisted_by_user_id`, `persisted_at`)
+                 `unmatched_bank_transaction_ids`, `status`, `approved_by_user_id`, `approved_at`)
             VALUES
                 (:statement_ocr_id, :matched_pairs_json, :unmatched_statement_line_ids,
-                 :unmatched_bank_transaction_ids, :status, :persisted_by_user_id, :persisted_at)
+                 :unmatched_bank_transaction_ids, :status, :approved_by_user_id, :approved_at)
         SQL;
 
         try {
@@ -128,8 +128,8 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
                 ':unmatched_statement_line_ids'  => $data['unmatched_statement_line_ids'],
                 ':unmatched_bank_transaction_ids'=> $data['unmatched_bank_transaction_ids'],
                 ':status'                        => $data['status'],
-                ':persisted_by_user_id'          => $data['persisted_by_user_id'],
-                ':persisted_at'                  => $data['persisted_at'],
+                ':approved_by_user_id'          => $data['approved_by_user_id'],
+                ':approved_at'                   => $data['approved_at'],
             ]);
         } catch (PDOException $e) {
             throw ReconciliationException::forReason('DB insert failed: ' . $e->getMessage());
@@ -150,8 +150,8 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
                 `unmatched_statement_line_ids`  = :unmatched_statement_line_ids,
                 `unmatched_bank_transaction_ids`= :unmatched_bank_transaction_ids,
                 `status`                        = :status,
-                `persisted_by_user_id`          = :persisted_by_user_id,
-                `persisted_at`                  = :persisted_at
+                `approved_by_user_id`           = :approved_by_user_id,
+                `approved_at`                   = :approved_at
             WHERE `id` = :id
         SQL;
 
@@ -163,8 +163,8 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
                 ':unmatched_statement_line_ids'  => $data['unmatched_statement_line_ids'],
                 ':unmatched_bank_transaction_ids'=> $data['unmatched_bank_transaction_ids'],
                 ':status'                        => $data['status'],
-                ':persisted_by_user_id'          => $data['persisted_by_user_id'],
-                ':persisted_at'                  => $data['persisted_at'],
+                ':approved_by_user_id'          => $data['approved_by_user_id'],
+                ':approved_at'                   => $data['approved_at'],
             ]);
         } catch (PDOException $e) {
             throw ReconciliationException::forReason('DB update failed: ' . $e->getMessage());

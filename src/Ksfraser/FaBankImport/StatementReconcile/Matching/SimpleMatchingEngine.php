@@ -150,7 +150,9 @@ final class SimpleMatchingEngine implements MatchingEngineInterface
             $line->getLineId(),
             $bestTx->getId(),
             round($bestConfidence, 2),
-            $bestRules
+            $bestRules,
+            $bestTx->getFaTransType(),
+            $bestTx->getFaTransNo()
         );
     }
 
