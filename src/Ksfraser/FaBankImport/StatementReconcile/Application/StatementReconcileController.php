@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationExce
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Repository\ReconciliationSessionRepositoryInterface;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Repository\StatementOcrRepositoryInterface;
+use Ksfraser\FaBankImport\StatementReconcile\Application\PendingSessionStoreInterface;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Service\ReconciliationCommitServiceInterface;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionDto;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\MatchedPair;
@@ -18,6 +19,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\OllamaClientInte
 use Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\PdfTextExtractor;
 use Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\StatementTextParser;
 use Ksfraser\FaBankImport\StatementReconcile\Matching\SimpleMatchingEngine;
+use Smalot\PdfParser\Parser as PdfParser;
 
 /**
  * Application-layer controller for the PDF CC statement reconciliation workflow.
@@ -35,11 +37,8 @@ use Ksfraser\FaBankImport\StatementReconcile\Matching\SimpleMatchingEngine;
  * @package Ksfraser\FaBankImport\StatementReconcile\Application
  * @author  Kevin Fraser
  */
-final class StatementReconcileController
+class StatementReconcileController
 {
-    /** Session key used to persist a pending ReconciliationSession across requests. */
-    private const SESSION_KEY = 'sr_pending_session';
-
     /** Maximum size (bytes) of an uploaded PDF. 10 MB. */
     private const MAX_PDF_BYTES = 10 * 1024 * 1024;
 
@@ -58,6 +57,9 @@ final class StatementReconcileController
     /** @var BankAccountMatchService */
     private $bankAccountMatchService;
 
+    /** @var PendingSessionStoreInterface */
+    private $pendingStore;
+
     /** @var array Module config (from config.php). */
     private $config;
 
@@ -68,6 +70,7 @@ final class StatementReconcileController
      * @param ReconciliationCommitServiceInterface     $commitService
      * @param BankAccountMatchService                  $bankAccountMatchService
      * @param array                                    $config
+     * @param PendingSessionStoreInterface|null        $pendingStore  Defaults to PhpSessionPendingSessionStore.
      */
     public function __construct(
         ReconcileView $view,
@@ -75,7 +78,8 @@ final class StatementReconcileController
         ReconciliationSessionRepositoryInterface $sessionRepo,
         ReconciliationCommitServiceInterface $commitService,
         BankAccountMatchService $bankAccountMatchService,
-        array $config
+        array $config,
+        ?PendingSessionStoreInterface $pendingStore = null
     ) {
         $this->view                    = $view;
         $this->ocrRepo                 = $ocrRepo;
@@ -83,6 +87,7 @@ final class StatementReconcileController
         $this->commitService           = $commitService;
         $this->bankAccountMatchService = $bankAccountMatchService;
         $this->config                  = $config;
+        $this->pendingStore            = $pendingStore ?? new PhpSessionPendingSessionStore();
     }
 
     /**
@@ -111,6 +116,14 @@ final class StatementReconcileController
                     $this->handleRemovePair();
                     break;
 
+                case 'manual_match':
+                    $this->handleManualMatch($userId);
+                    break;
+
+                case 'print_schedule':
+                    $this->handlePrintSchedule($userId);
+                    break;
+
                 default:
                     $this->clearPendingSession();
                     $this->view->renderUploadForm();
@@ -137,18 +150,8 @@ final class StatementReconcileController
         $upload  = $this->validateUpload();
         $tmpPath = $upload['tmp_name'];
 
-        // Build OCR pipeline.
-        $pdfExtractor = new PdfTextExtractor();
-        $ollama       = $this->buildOllamaClient();
-        $parser       = new StatementTextParser(
-            $pdfExtractor,
-            $ollama,
-            $this->config['ollama_ocr_model']       ?? 'glm-ocr',
-            $this->config['ollama_extraction_model'] ?? 'gemma4'
-        );
-
-        // Step 1: Parse PDF → StatementOcr domain object.
-        $statementOcr = $parser->parse($tmpPath);
+        // Step 1: Parse PDF → StatementOcr domain object (OCR pipeline encapsulated in buildStatementOcr).
+        $statementOcr = $this->buildStatementOcr($tmpPath);
 
         // Step 2: Persist the OCR result so it has an ID for FK references.
         $ocrId = $this->ocrRepo->save($statementOcr);
@@ -208,6 +211,39 @@ final class StatementReconcileController
         // Load FA native bank transactions for matching.
         $bankTransactions = $this->loadBankTransactions($statementOcr, $bankAccountId);
 
+        // REQ-017: detect possible duplicate bank transactions (same date + amount).
+        $duplicateTransactionIds = $this->detectDuplicateTransactionIds($bankTransactions);
+
+        // REQ-013: compare OCR opening balance to FA ending_reconcile_balance (non-blocking).
+        $warnings = [];
+        $faEndingBalance = $this->loadBankAccountEndingBalance($bankAccountId);
+        $ocrOpeningBalance = (float) $statementOcr->getMetadata()->getOpeningBalance();
+        if ($faEndingBalance !== null && abs($faEndingBalance - $ocrOpeningBalance) > 0.01) {
+            $warnings[] = sprintf(
+                _('Balance mismatch (REQ-013): statement opening balance is %s but '
+                    . 'the FA last ending reconcile balance for this account is %s. '
+                    . 'This may indicate a gap in the reconciliation history.'),
+                number_format($ocrOpeningBalance, 2),
+                number_format($faEndingBalance, 2)
+            );
+        }
+
+        // REQ-016: sum OCR line amounts vs |closing - opening| sanity check (non-blocking).
+        $lineTotal = 0.0;
+        foreach ($statementOcr->getLines() as $line) {
+            $lineTotal += (float) $line->getAmount();
+        }
+        $expectedDiff = abs((float) $statementOcr->getMetadata()->getClosingBalance() - $ocrOpeningBalance);
+        if ($expectedDiff > 0.0 && abs($lineTotal - $expectedDiff) > 0.01) {
+            $warnings[] = sprintf(
+                _('Statement sanity check (REQ-016): sum of OCR line amounts (%s) differs '
+                    . 'from the expected balance change (%s). '
+                    . 'The statement may be incomplete or contain excluded items.'),
+                number_format($lineTotal, 2),
+                number_format($expectedDiff, 2)
+            );
+        }
+
         // Auto-match.
         $engine  = new SimpleMatchingEngine(
             (float) ($this->config['sr_match_threshold'] ?? SimpleMatchingEngine::DEFAULT_THRESHOLD)
@@ -219,15 +255,24 @@ final class StatementReconcileController
 
         // Update PHP session with full review state.
         $this->storePendingSession([
-            'ocr_id'            => $ocrId,
-            'session_id'        => $sessionId,
-            'bank_account_id'   => $bankAccountId,
-            'statement_ocr'     => $statementOcr,
-            'bank_transactions' => $bankTransactions,
-            'session'           => $session,
+            'ocr_id'                   => $ocrId,
+            'session_id'               => $sessionId,
+            'bank_account_id'          => $bankAccountId,
+            'statement_ocr'            => $statementOcr,
+            'bank_transactions'        => $bankTransactions,
+            'session'                  => $session,
+            'warnings'                 => $warnings,
+            'duplicate_transaction_ids'=> $duplicateTransactionIds,
         ]);
 
-        $this->view->renderReview($statementOcr, $session, $bankTransactions);
+        $this->view->renderReview(
+            $statementOcr,
+            $session,
+            $bankTransactions,
+            [],
+            $warnings,
+            $duplicateTransactionIds
+        );
     }
 
     // -------------------------------------------------------------------------
@@ -257,7 +302,7 @@ final class StatementReconcileController
 
         /** @var \Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr $statementOcr */
         $statementOcr    = $pending['statement_ocr'];
-        $closingBalance  = $statementOcr->getMetadata()->getClosingBalance();
+        $closingBalance  = (float) $statementOcr->getMetadata()->getClosingBalance();
         $statementEndDate = $statementOcr->getMetadata()->getStatementEndDate()->format('Y-m-d');
 
         $this->commitService->commit($sessionId, $userId, $bankAccountId, $statementEndDate, $closingBalance);
@@ -300,8 +345,130 @@ final class StatementReconcileController
         $this->view->renderReview(
             $pending['statement_ocr'],
             $session,
-            $pending['bank_transactions']
+            $pending['bank_transactions'],
+            [],
+            $pending['warnings'] ?? [],
+            $pending['duplicate_transaction_ids'] ?? []
         );
+    }
+
+    // -------------------------------------------------------------------------
+    // Action: manual_match
+    // -------------------------------------------------------------------------
+
+    /**
+     * Apply a manually selected line↔bank_tx pair to the pending session (REQ-014).
+     *
+     * @param int $userId
+     */
+    private function handleManualMatch(int $userId): void
+    {
+        $lineId   = trim((string) ($_POST['line_id']   ?? ''));
+        $bankTxId = (int)          ($_POST['bank_tx_id'] ?? 0);
+
+        if ($lineId === '') {
+            $this->view->renderError('Missing line_id for manual_match action.');
+            return;
+        }
+        if ($bankTxId <= 0) {
+            $this->view->renderError('Missing or invalid bank_tx_id for manual_match action.');
+            return;
+        }
+
+        $pending = $this->loadPendingSession();
+        if ($pending === null) {
+            $this->view->renderError('Session expired. Please re-upload the PDF.');
+            return;
+        }
+
+        /** @var ReconciliationSession $session */
+        $session = $pending['session'];
+
+        // Look up the bank transaction FA keys so they survive commit.
+        $bankTransactions = $pending['bank_transactions'] ?? [];
+        $bankTx           = null;
+        foreach ($bankTransactions as $tx) {
+            if ($tx->getId() === $bankTxId) {
+                $bankTx = $tx;
+                break;
+            }
+        }
+
+        $pair = new MatchedPair(
+            $lineId,
+            $bankTxId,
+            1.0,
+            ['MANUAL'],
+            $bankTx !== null ? $bankTx->getFaTransType() : null,
+            $bankTx !== null ? $bankTx->getFaTransNo()   : null
+        );
+
+        $session->addPair($pair);
+
+        // Re-persist and re-render.
+        $this->sessionRepo->save($session);
+        $pending['session'] = $session;
+        $this->storePendingSession($pending);
+
+        $this->view->renderReview(
+            $pending['statement_ocr'],
+            $session,
+            $bankTransactions,
+            [],
+            $pending['warnings'] ?? [],
+            $pending['duplicate_transaction_ids'] ?? []
+        );
+    }
+
+    // -------------------------------------------------------------------------
+    // Action: print_schedule
+    // -------------------------------------------------------------------------
+
+    /**
+     * Render the printable reconciliation schedule (REQ-015).
+     *
+     * @param int $userId
+     */
+    private function handlePrintSchedule(int $userId): void
+    {
+        $pending = $this->loadPendingSession();
+        if ($pending === null) {
+            $this->view->renderError('No pending reconciliation session found. Please start over.');
+            return;
+        }
+
+        $this->view->renderPrintSchedule(
+            $pending['statement_ocr'],
+            $pending['session'],
+            $pending['bank_transactions'] ?? [],
+            $userId
+        );
+    }
+
+    // -------------------------------------------------------------------------
+    // Protected helpers: OCR pipeline factory (overridable in tests)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Build the OCR pipeline, parse the PDF, and return the StatementOcr aggregate.
+     *
+     * Extracted as a protected method so test subclasses can return a fixture
+     * StatementOcr without requiring a real PDF file or Ollama.
+     *
+     * @param string $tmpPath Absolute path to the uploaded PDF.
+     * @return StatementOcr
+     */
+    protected function buildStatementOcr(string $tmpPath): StatementOcr
+    {
+        $pdfExtractor = new PdfTextExtractor(new PdfParser());
+        $ollama       = $this->buildOllamaClient();
+        $parser       = new StatementTextParser(
+            $pdfExtractor,
+            $ollama,
+            $this->config['ollama_ocr_model']       ?? 'glm-ocr',
+            $this->config['ollama_extraction_model'] ?? 'gemma4'
+        );
+        return $parser->parse($tmpPath);
     }
 
     // -------------------------------------------------------------------------
@@ -314,7 +481,7 @@ final class StatementReconcileController
      * @return array{name:string,tmp_name:string,size:int}
      * @throws \RuntimeException on invalid upload.
      */
-    private function validateUpload(): array
+    protected function validateUpload(): array
     {
         if (empty($_FILES['pdf_file']['tmp_name'])
             || $_FILES['pdf_file']['error'] !== UPLOAD_ERR_OK
@@ -369,7 +536,7 @@ final class StatementReconcileController
      * @param int          $bankAccountId  FA 0_bank_accounts.id
      * @return BankTransactionDto[]
      */
-    private function loadBankTransactions(StatementOcr $statementOcr, int $bankAccountId): array
+    protected function loadBankTransactions(StatementOcr $statementOcr, int $bankAccountId): array
     {
         $meta  = $statementOcr->getMetadata();
         $start = $meta->getStatementStartDate()->format('Y-m-d');
@@ -423,6 +590,72 @@ final class StatementReconcileController
     }
 
     // -------------------------------------------------------------------------
+    // Helpers: FA bank account – ending reconcile balance (REQ-013)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Query the last ending reconcile balance for a FA bank account.
+     *
+     * Returns null when FA globals are unavailable (unit-test environment) or the
+     * account record has no prior reconciliation data.
+     *
+     * @param int $bankAccountId
+     * @return float|null
+     */
+    protected function loadBankAccountEndingBalance(int $bankAccountId): ?float
+    {
+        if (!function_exists('db_query')) {
+            return null;
+        }
+
+        $sql = "SELECT ending_reconcile_balance
+                  FROM " . TB_PREF . "bank_accounts
+                 WHERE id = " . db_escape($bankAccountId);
+
+        $result = db_query($sql, 'StatementReconcile: could not fetch bank account ending balance');
+        $row    = db_fetch($result);
+        if (!$row || $row['ending_reconcile_balance'] === null) {
+            return null;
+        }
+        return (float) $row['ending_reconcile_balance'];
+    }
+
+    // -------------------------------------------------------------------------
+    // Helpers: duplicate FA bank transaction detection (REQ-017)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Detect FA bank transactions with the same date + amount.
+     *
+     * Returns the sequence IDs (integer keys assigned during load) of any rows
+     * that appear to be duplicates.  Both members of a duplicate pair are included
+     * so the view can highlight all of them.
+     *
+     * @param BankTransactionDto[] $bankTransactions
+     * @return int[]
+     */
+    protected function detectDuplicateTransactionIds(array $bankTransactions): array
+    {
+        // Group by date|amount key.
+        $groups = [];
+        foreach ($bankTransactions as $tx) {
+            $key = $tx->getDate()->format('Y-m-d') . '|' . $tx->getAmount();
+            $groups[$key][] = $tx->getId();
+        }
+
+        $duplicateIds = [];
+        foreach ($groups as $ids) {
+            if (count($ids) > 1) {
+                foreach ($ids as $id) {
+                    $duplicateIds[] = $id;
+                }
+            }
+        }
+
+        return $duplicateIds;
+    }
+
+    // -------------------------------------------------------------------------
     // Helpers: FA bank account list
     // -------------------------------------------------------------------------
 
@@ -431,7 +664,7 @@ final class StatementReconcileController
      *
      * @return array[] Each entry has 'id' and 'bank_account_name'.
      */
-    private function loadAllFaBankAccounts(): array
+    protected function loadAllFaBankAccounts(): array
     {
         $sql    = "SELECT id, bank_account_name
                      FROM " . TB_PREF . "bank_accounts
@@ -471,44 +704,18 @@ final class StatementReconcileController
         return new OllamaClient($baseUrl, $apiKey, $timeout);
     }
 
-    // -------------------------------------------------------------------------
-    // Helpers: PHP session persistence for in-progress review
-    // -------------------------------------------------------------------------
-
-    /**
-     * Store pending session data in $_SESSION.
-     *
-     * @param array $data
-     */
     private function storePendingSession(array $data): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        $_SESSION[self::SESSION_KEY] = $data;
+        $this->pendingStore->store($data);
     }
 
-    /**
-     * Load pending session data from $_SESSION, or null if none.
-     *
-     * @return array|null
-     */
     private function loadPendingSession(): ?array
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        return $_SESSION[self::SESSION_KEY] ?? null;
+        return $this->pendingStore->load();
     }
 
-    /**
-     * Remove the pending session from $_SESSION.
-     */
     private function clearPendingSession(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        unset($_SESSION[self::SESSION_KEY]);
+        $this->pendingStore->clear();
     }
 }

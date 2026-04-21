@@ -31,7 +31,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Service\ReconciliationCommit
  * @package Ksfraser\FaBankImport\StatementReconcile\Application
  * @author  Kevin Fraser
  */
-final class ReconciliationCommitService implements ReconciliationCommitServiceInterface
+class ReconciliationCommitService implements ReconciliationCommitServiceInterface
 {
     /** @var ReconciliationSessionRepositoryInterface */
     private $sessionRepo;
@@ -57,7 +57,7 @@ final class ReconciliationCommitService implements ReconciliationCommitServiceIn
         string $statementEndDate,
         float $closingBalance
     ): void {
-        if (!function_exists('db_query')) {
+        if (!$this->isFaDbAvailable()) {
             throw new \RuntimeException(
                 'ReconciliationCommitService requires FA db_query() — '
                 . 'ensure FA session bootstrap has run before calling commit().'
@@ -98,8 +98,19 @@ final class ReconciliationCommitService implements ReconciliationCommitServiceIn
     }
 
     // -------------------------------------------------------------------------
-    // Private helpers
+    // Protected helpers (overridable in tests)
     // -------------------------------------------------------------------------
+
+    /**
+     * Whether the FA db_query global is available.
+     * Overridable in tests.
+     *
+     * @return bool
+     */
+    protected function isFaDbAvailable(): bool
+    {
+        return function_exists('db_query');
+    }
 
     /**
      * Replicate FA's reconciliation commit for a single 0_bank_trans row.
@@ -112,7 +123,7 @@ final class ReconciliationCommitService implements ReconciliationCommitServiceIn
      * @param int    $faTransNo
      * @param string $reconciledDate  YYYY-MM-DD
      */
-    private function markFaBankTransactionReconciled(
+    protected function markFaBankTransactionReconciled(
         int $faTransType,
         int $faTransNo,
         string $reconciledDate
@@ -133,7 +144,7 @@ final class ReconciliationCommitService implements ReconciliationCommitServiceIn
      * @param string $statementEndDate  YYYY-MM-DD
      * @param float  $closingBalance
      */
-    private function updateBankAccount(
+    protected function updateBankAccount(
         int $bankAccountId,
         string $statementEndDate,
         float $closingBalance

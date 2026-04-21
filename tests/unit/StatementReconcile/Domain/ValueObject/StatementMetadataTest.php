@@ -152,4 +152,52 @@ class StatementMetadataTest extends TestCase
         $this->assertSame('2026-03-01', $arr['statement_start_date']);
         $this->assertNull($arr['due_date']);
     }
+
+    public function testGetClosingBalanceFloat(): void
+    {
+        $meta = new StatementMetadata(
+            null,
+            new \DateTimeImmutable('2026-01-01'),
+            new \DateTimeImmutable('2026-01-31'),
+            '200.00',
+            '350.75'
+        );
+
+        $this->assertEqualsWithDelta(350.75, $meta->getClosingBalanceFloat(), 0.001);
+    }
+
+    public function testFromArrayThrowsOnBadStartDate(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        StatementMetadata::fromArray([
+            'statement_start_date' => 'not-a-date',
+            'statement_end_date'   => '2026-01-31',
+            'opening_balance'      => '0',
+            'closing_balance'      => '0',
+        ]);
+    }
+
+    public function testFromArrayThrowsOnBadDueDate(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        StatementMetadata::fromArray([
+            'statement_start_date' => '2026-01-01',
+            'statement_end_date'   => '2026-01-31',
+            'opening_balance'      => '0',
+            'closing_balance'      => '0',
+            'due_date'             => 'invalid',
+        ]);
+    }
+
+    public function testGetDueDateReturnsNullWhenNotSet(): void
+    {
+        $meta = StatementMetadata::fromArray([
+            'statement_start_date' => '2026-01-01',
+            'statement_end_date'   => '2026-01-31',
+            'opening_balance'      => '0',
+            'closing_balance'      => '0',
+        ]);
+
+        $this->assertNull($meta->getDueDate());
+    }
 }

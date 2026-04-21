@@ -161,4 +161,51 @@ class StatementTextParserTest extends TestCase
             @unlink($tmpPdf);
         }
     }
+
+    /**
+     * Lines 142-144: glm-ocr returns empty text → StatementOcrException.
+     */
+    public function testOcrFallbackThrowsWhenGlmOcrReturnsEmpty(): void
+    {
+        // PDF text too short → triggers OCR fallback.
+        $pdf = $this->createMock(PdfTextExtractorInterface::class);
+        $pdf->method('extractText')->willReturn('ab'); // < 100 chars
+
+        // glm-ocr returns empty response.
+        $ollama = $this->createMock(OllamaClientInterface::class);
+        $ollama->method('generate')->willReturn(['response' => '']);
+
+        $parser = new StatementTextParser($pdf, $ollama, 'glm-ocr', 'gemma4');
+        $tmpPdf = tempnam(sys_get_temp_dir(), 'stmt_') . '.pdf';
+        file_put_contents($tmpPdf, '%PDF fake');
+
+        try {
+            $this->expectException(StatementOcrException::class);
+            $parser->parse($tmpPdf);
+        } finally {
+            @unlink($tmpPdf);
+        }
+    }
+
+    /**
+     * Lines 178-180: extraction model returns non-empty but invalid JSON → StatementOcrException.
+     */
+    public function testParseThrowsWhenExtractionReturnsInvalidJson(): void
+    {
+        // PDF text long enough to skip OCR fallback.
+        $pdf    = $this->makePdfExtractor(str_repeat('STATEMENT ', 20));
+        $ollama = $this->createMock(OllamaClientInterface::class);
+        $ollama->method('generate')->willReturn(['response' => 'not-valid-json{{{']);
+
+        $parser = new StatementTextParser($pdf, $ollama);
+        $tmpPdf = tempnam(sys_get_temp_dir(), 'stmt_') . '.pdf';
+        file_put_contents($tmpPdf, '%PDF fake');
+
+        try {
+            $this->expectException(StatementOcrException::class);
+            $parser->parse($tmpPdf);
+        } finally {
+            @unlink($tmpPdf);
+        }
+    }
 }

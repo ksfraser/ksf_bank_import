@@ -116,4 +116,50 @@ class StatementOcrTest extends TestCase
         $this->assertSame('5678', $ocr->getMetadata()->getAccountIdentifier());
         $this->assertSame(1, $ocr->getLineCount());
     }
+
+    public function testGetRawOcrResult(): void
+    {
+        $raw = $this->makeRawOcrResult();
+        $ocr = StatementOcr::create($this->makeMetadata(), [], $raw);
+
+        $this->assertSame($raw, $ocr->getRawOcrResult());
+    }
+
+    public function testGetCreatedAt(): void
+    {
+        $ocr = StatementOcr::create($this->makeMetadata(), [], $this->makeRawOcrResult());
+
+        $this->assertInstanceOf(\DateTimeImmutable::class, $ocr->getCreatedAt());
+    }
+
+    public function testFromDatabaseFallsBackOnBadCreatedAt(): void
+    {
+        $row = [
+            'id'         => 3,
+            'created_at' => 'not-a-valid-datetime',
+        ];
+        $metaArray = [
+            'account_identifier'   => null,
+            'statement_start_date' => '2026-01-01',
+            'statement_end_date'   => '2026-01-31',
+            'opening_balance'      => '0',
+            'closing_balance'      => '0',
+        ];
+
+        $ocr = StatementOcr::fromDatabase($row, $metaArray, [], [
+            'raw_json'   => '{}',
+            'model_name' => 'gemma4',
+        ]);
+
+        // Should not throw; falls back to new DateTimeImmutable().
+        $this->assertSame(3, $ocr->getId());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $ocr->getCreatedAt());
+    }
+
+    public function testCreateThrowsForNonStatementLineInArray(): void
+    {
+        $this->expectException(\Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException::class);
+        // Pass a non-StatementLine object to trigger assertValidLines()
+        StatementOcr::create($this->makeMetadata(), [new \stdClass()], $this->makeRawOcrResult());
+    }
 }

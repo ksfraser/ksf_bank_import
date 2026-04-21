@@ -22,7 +22,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Application;
  * @package Ksfraser\FaBankImport\StatementReconcile\Application
  * @author  Kevin Fraser
  */
-final class BankAccountMatchService
+class BankAccountMatchService
 {
     /** Exact suffix match score. */
     private const SCORE_EXACT_SUFFIX = 1.00;
@@ -142,7 +142,7 @@ final class BankAccountMatchService
      *
      * @return array[]
      */
-    private function loadFaBankAccounts(): array
+    protected function loadFaBankAccounts(): array
     {
         $sql = "SELECT id, bank_account_name, bank_account_number, bank_name
                   FROM " . TB_PREF . "bank_accounts
@@ -166,7 +166,7 @@ final class BankAccountMatchService
      * @param string $accountIdentifier
      * @return array<int, true>
      */
-    private function loadHistoryMap(string $accountIdentifier): array
+    protected function loadHistoryMap(string $accountIdentifier): array
     {
         $sql = "SELECT DISTINCT s.bank_account_id
                   FROM " . TB_PREF . "bi_reconciliation_session s
@@ -192,7 +192,7 @@ final class BankAccountMatchService
      * @param string $value
      * @return string
      */
-    private function stripNonDigits(string $value): string
+    protected function stripNonDigits(string $value): string
     {
         return preg_replace('/[^0-9]/', '', $value) ?? '';
     }

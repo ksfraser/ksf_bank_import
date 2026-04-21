@@ -85,4 +85,20 @@ class MatchedPairTest extends TestCase
         $this->assertEqualsWithDelta(0.80, $arr['match_confidence'], 0.001);
         $this->assertSame(['DESCRIPTION_FUZZY'], $arr['rules_matched']);
     }
+
+    public function testGetFaTransTypeAndNoWhenSet(): void
+    {
+        $pair = new MatchedPair('L001', 1, 0.95, ['EXACT_AMOUNT_DATE'], 41, 100);
+
+        $this->assertSame(41, $pair->getFaTransType());
+        $this->assertSame(100, $pair->getFaTransNo());
+    }
+
+    public function testGetFaTransTypeAndNoNullByDefault(): void
+    {
+        $pair = new MatchedPair('L001', 1, 0.95, []);
+
+        $this->assertNull($pair->getFaTransType());
+        $this->assertNull($pair->getFaTransNo());
+    }
 }

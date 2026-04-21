@@ -102,4 +102,11 @@ class StatementLineTest extends TestCase
         $this->assertSame('4.50', $arr['amount']);
         $this->assertSame('debit', $arr['type']);
     }
+
+    public function testGetRawText(): void
+    {
+        $line = new StatementLine('L010', $this->makeDate(), 'Vendor', '9.99', 'debit', 'raw OCR text here');
+
+        $this->assertSame('raw OCR text here', $line->getRawText());
+    }
 }

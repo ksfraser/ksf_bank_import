@@ -141,4 +141,39 @@ class ReconciliationSessionTest extends TestCase
         $this->assertJson($data['matched_pairs_json']);
         $this->assertJson($data['unmatched_statement_line_ids']);
     }
+
+    public function testIsPendingTrue(): void
+    {
+        $session = ReconciliationSession::createPending(1, [], [], []);
+
+        $this->assertTrue($session->isPending());
+        $this->assertFalse($session->isApproved());
+    }
+
+    public function testIsApprovedAfterApprove(): void
+    {
+        $session = ReconciliationSession::createPending(1, [], [], []);
+        $session->approve(7);
+
+        $this->assertTrue($session->isApproved());
+        $this->assertFalse($session->isPending());
+        $this->assertSame(7, $session->getPersistedByUserId());
+        $this->assertNotNull($session->getPersistedAt());
+    }
+
+    public function testFromDatabaseWithNullPersistedAt(): void
+    {
+        $row = [
+            'id'                   => 10,
+            'statement_ocr_id'     => 1,
+            'status'               => 'pending',
+            'persisted_by_user_id' => null,
+            'persisted_at'         => null,
+        ];
+
+        $session = ReconciliationSession::fromDatabase($row, [], [], []);
+
+        $this->assertNull($session->getPersistedByUserId());
+        $this->assertNull($session->getPersistedAt());
+    }
 }

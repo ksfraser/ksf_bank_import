@@ -2,7 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Ksfraser\FaBankImport\Tests\StatementReconcile\Infrastructure\Ocr;
+// ---------------------------------------------------------------------------
+// Namespace-scoped override of is_readable() so the production class
+// (Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\PdfTextExtractor)
+// can be forced to see false for specific paths in tests.
+// PHP resolves unqualified function calls within a namespace by first looking for
+// a namespace-level definition before falling back to the global function.
+// ---------------------------------------------------------------------------
+
+namespace Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr {
+    if (!function_exists('Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\is_readable')) {
+        function is_readable(string $filename): bool
+        {
+            global $__pdf_test_force_not_readable;
+            if (($__pdf_test_force_not_readable ?? false) && $filename === ($GLOBALS['__pdf_test_not_readable_path'] ?? null)) {
+                return false;
+            }
+            return \is_readable($filename);
+        }
+    }
+}
+
+namespace Ksfraser\FaBankImport\Tests\StatementReconcile\Infrastructure\Ocr {
 
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 use Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\PdfTextExtractor;
@@ -79,4 +100,34 @@ class PdfTextExtractorTest extends TestCase
 
         $this->assertFalse($extractor->isUsableText('short'));
     }
+
+    /**
+     * Lines 48-50: is_readable() returns false → StatementOcrException.
+     */
+    public function testThrowsWhenFileNotReadable(): void
+    {
+        // Create a real temp file so is_file() passes.
+        $tmpFile = tempnam(sys_get_temp_dir(), 'pdf_nr_') . '.pdf';
+        file_put_contents($tmpFile, '%PDF-1.4 fake');
+
+        // Activate the namespace-level override.
+        $GLOBALS['__pdf_test_force_not_readable'] = true;
+        $GLOBALS['__pdf_test_not_readable_path']  = $tmpFile;
+
+        try {
+            $parser    = $this->createMock(Parser::class);
+            $extractor = new PdfTextExtractor($parser);
+
+            $this->expectException(
+                \Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException::class
+            );
+            $extractor->extractText($tmpFile);
+        } finally {
+            $GLOBALS['__pdf_test_force_not_readable'] = false;
+            $GLOBALS['__pdf_test_not_readable_path']  = null;
+            @unlink($tmpFile);
+        }
+    }
 }
+
+} // end namespace Ksfraser\FaBankImport\Tests\StatementReconcile\Infrastructure\Ocr

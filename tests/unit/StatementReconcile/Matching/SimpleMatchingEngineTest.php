@@ -180,4 +180,21 @@ class SimpleMatchingEngineTest extends TestCase
         // L003 has date mismatch → unmatched.
         $this->assertContains('L003', $session->getUnmatchedStatementLineIds());
     }
+
+    /**
+     * Line 190: when either description tokenises to an empty array, scoresDescriptionFuzzy
+     * returns false (no DESCRIPTION_FUZZY bonus).  The engine should still match via
+     * EXACT_AMOUNT_DATE + TYPE_MATCH (0.70 + 0.10 = 0.80 ≥ default threshold 0.70).
+     */
+    public function testEmptyDescriptionTokensDoNotPreventMatchOnAmountAndDate(): void
+    {
+        $line   = $this->makeLine('L001', '2026-03-15', '50.00', '');
+        $bankTx = $this->makeBankTx(1, '2026-03-15', '50.00', '');
+
+        $engine  = new SimpleMatchingEngine();
+        $session = $engine->match($this->makeStatementOcr([$line]), [$bankTx]);
+
+        // Still matches on amount+date+type; fuzzy false-return branch (line 190) covered.
+        $this->assertCount(1, $session->getMatchedPairs());
+    }
 }
