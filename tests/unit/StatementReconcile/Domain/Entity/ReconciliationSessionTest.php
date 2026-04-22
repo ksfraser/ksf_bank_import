@@ -176,4 +176,56 @@ class ReconciliationSessionTest extends TestCase
         $this->assertNull($session->getPersistedByUserId());
         $this->assertNull($session->getPersistedAt());
     }
+
+    public function testFromDatabaseWithMalformedPersistedAtFallsBackToNull(): void
+    {
+        // A non-null value that fails createFromFormat() → line 133: $persistedAt = null
+        $row = [
+            'id'                   => 11,
+            'statement_ocr_id'     => 1,
+            'status'               => 'approved',
+            'persisted_by_user_id' => 5,
+            'persisted_at'         => 'NOT-A-DATE',
+        ];
+
+        $session = ReconciliationSession::fromDatabase($row, [], [], []);
+
+        $this->assertNull($session->getPersistedAt());
+    }
+
+    public function testRemovePairWithMultiplePairsKeepsOthers(): void
+    {
+        // Two pairs so that the filter callback hits return true (line 207) for the pair that is NOT removed.
+        $session = ReconciliationSession::createPending(
+            1,
+            [$this->makePair('L001', 10), $this->makePair('L002', 20)],
+            [],
+            []
+        );
+
+        $session->removePair('L001');
+
+        $remaining = $session->getMatchedPairs();
+        $this->assertCount(1, $remaining);
+        $this->assertSame('L002', $remaining[0]->getStatementLineId());
+    }
+
+    public function testGetStatementOcrId(): void
+    {
+        $session = ReconciliationSession::createPending(42, [], [], []);
+
+        $this->assertSame(42, $session->getStatementOcrId());
+    }
+
+    public function testToStorageArrayWithNonNullPersistedAt(): void
+    {
+        // Approved session has a non-null persistedAt → line 309 is executed.
+        $session = ReconciliationSession::createPending(3, [$this->makePair('L001', 10)], [], []);
+        $session->approve(7);
+
+        $data = $session->toStorageArray();
+
+        $this->assertNotNull($data['persisted_at']);
+        $this->assertIsString($data['persisted_at']);
+    }
 }

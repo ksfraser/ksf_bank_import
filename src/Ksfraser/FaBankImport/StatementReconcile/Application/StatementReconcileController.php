@@ -14,6 +14,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Application\PendingSessionStoreInte
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Service\ReconciliationCommitServiceInterface;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionDto;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\MatchedPair;
+use GuzzleHttp\Client as GuzzleClient;
 use Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\OllamaClient;
 use Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\OllamaClientInterface;
 use Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\PdfTextExtractor;
@@ -697,11 +698,12 @@ class StatementReconcileController
             );
         }
 
-        $apiKey  = $this->config['ollama_api_key'] ?? null;
+        $apiKey  = (string) ($this->config['ollama_api_key'] ?? '');
         $timeout = (int) ($this->config['ollama_timeout_ms'] ?? 30000);
 
-        // OllamaClient accepts base URL, optional API key, and timeout in milliseconds.
-        return new OllamaClient($baseUrl, $apiKey, $timeout);
+        $http = new GuzzleClient(['timeout' => (int) ceil($timeout / 1000)]);
+
+        return new OllamaClient($http, $baseUrl, $apiKey, $timeout);
     }
 
     private function storePendingSession(array $data): void

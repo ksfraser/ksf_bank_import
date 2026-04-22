@@ -156,6 +156,27 @@ class StatementOcrTest extends TestCase
         $this->assertInstanceOf(\DateTimeImmutable::class, $ocr->getCreatedAt());
     }
 
+    public function testFromDatabaseWithMissingCreatedAt(): void
+    {
+        // Row has no 'created_at' key → ternary else branch (line 107): new \DateTimeImmutable()
+        $row = ['id' => 9];
+        $metaArray = [
+            'account_identifier'   => null,
+            'statement_start_date' => '2026-01-01',
+            'statement_end_date'   => '2026-01-31',
+            'opening_balance'      => '0',
+            'closing_balance'      => '0',
+        ];
+
+        $ocr = StatementOcr::fromDatabase($row, $metaArray, [], [
+            'raw_json'   => '{}',
+            'model_name' => 'gemma4',
+        ]);
+
+        $this->assertSame(9, $ocr->getId());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $ocr->getCreatedAt());
+    }
+
     public function testCreateThrowsForNonStatementLineInArray(): void
     {
         $this->expectException(\Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException::class);

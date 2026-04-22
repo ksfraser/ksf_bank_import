@@ -41,4 +41,26 @@ class ReconcileViewCsrfFallbackTest extends TestCase
 
         $this->assertStringContainsString('session_csrf_fallback_xyz', $output);
     }
+
+    // ------------------------------------------------------------------
+    // Line 793: csrfField() returns '' when no function and no session token.
+    // ------------------------------------------------------------------
+
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testCsrfFieldReturnsEmptyWhenNoTokenAvailable(): void
+    {
+        // generate_csrf_token() is NOT defined in this isolated process.
+        // $_SESSION['token'] is also not set.
+        unset($_SESSION['token']);
+
+        ob_start();
+        (new ReconcileView())->renderUploadForm();
+        $output = (string) ob_get_clean();
+
+        // The return '' branch means no hidden token field in the output.
+        $this->assertStringNotContainsString('name="token"', $output);
+    }
 }

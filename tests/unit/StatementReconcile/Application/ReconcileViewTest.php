@@ -810,4 +810,78 @@ class ReconcileViewTest extends TestCase
     }
     // csrfField() branch tests are in ReconcileViewCsrfTest.php (separate file with
     // braced namespace blocks so generate_csrf_token can be defined in global namespace).
+
+    // ------------------------------------------------------------------
+    // Lines 680-682: renderPrintSchedule – faRef fallback when pair has no
+    //               FA type — uses bank tx FA type if available (line 681)
+    //               or '#id' otherwise (line 682).
+    // ------------------------------------------------------------------
+
+    public function testRenderPrintScheduleClearedPairUsesTxFaRefWhenPairFaTypeIsNull(): void
+    {
+        $view = new ReconcileView();
+        $ocr  = $this->makeOcr([$this->makeLine('L001')]);
+        // Pair with NO FA type (getFaTransType() === null).
+        $pair = new MatchedPair('L001', 1, 0.95, ['EXACT_AMOUNT_DATE']);
+        $session = ReconciliationSession::createPending(1, [$pair], [], []);
+        // Tx WITH FA type 55 / transNo 200.
+        $tx = new BankTransactionDto(
+            1,
+            new \DateTimeImmutable('2026-03-15'),
+            '99.99',
+            'Amazon',
+            'debit',
+            55,
+            200
+        );
+
+        $output = $this->capture(fn () => $view->renderPrintSchedule($ocr, $session, [$tx], 1));
+
+        // The inner ternary true-branch: tx FA ref used (line 681).
+        $this->assertStringContainsString('55:200', $output);
+    }
+
+    public function testRenderPrintScheduleClearedPairUsesBankTxIdWhenBothFaTypesNull(): void
+    {
+        $view = new ReconcileView();
+        $ocr  = $this->makeOcr([$this->makeLine('L001')]);
+        // Pair with NO FA type.
+        $pair = new MatchedPair('L001', 1, 0.95, ['EXACT_AMOUNT_DATE']);
+        $session = ReconciliationSession::createPending(1, [$pair], [], []);
+        // Tx also with NO FA type.
+        $tx = $this->makeBankTx(1, '99.99');
+
+        $output = $this->capture(fn () => $view->renderPrintSchedule($ocr, $session, [$tx], 1));
+
+        // The inner ternary false-branch: fallback to '#id' (line 682).
+        $this->assertStringContainsString('#1', $output);
+    }
+
+    // ------------------------------------------------------------------
+    // Line 713: renderPrintSchedule – outstanding FA tx uses FA type ref
+    //           when tx has getFaTransType() !== null.
+    // ------------------------------------------------------------------
+
+    public function testRenderPrintScheduleOutstandingTxUsesFaTypeRefWhenAvailable(): void
+    {
+        $view = new ReconcileView();
+        $ocr  = $this->makeOcr();
+        // Session with unmatched FA bank tx id = 1.
+        $session = ReconciliationSession::createPending(1, [], [], [1]);
+        // Tx WITH FA type 55 / transNo 300.
+        $tx = new BankTransactionDto(
+            1,
+            new \DateTimeImmutable('2026-03-10'),
+            '50.00',
+            'Hydro',
+            'debit',
+            55,
+            300
+        );
+
+        $output = $this->capture(fn () => $view->renderPrintSchedule($ocr, $session, [$tx], 1));
+
+        // True-branch of line 713 ternary.
+        $this->assertStringContainsString('55:300', $output);
+    }
 }

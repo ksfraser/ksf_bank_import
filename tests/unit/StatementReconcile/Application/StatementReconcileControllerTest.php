@@ -680,4 +680,168 @@ class StatementReconcileControllerTest extends TestCase
         ]);
         $ctrl->handle('approve', 1);
     }
+
+    // ------------------------------------------------------------------
+    // handle() — ReconciliationException caught → renderError (line 136)
+    // ------------------------------------------------------------------
+
+    public function testHandleCatchesReconciliationExceptionAndRendersError(): void
+    {
+        $ocr  = $this->makeOcr();
+        $view = $this->getMockBuilder(ReconcileView::class)->disableOriginalConstructor()->getMock();
+        $view->expects($this->once())->method('renderError')
+            ->with($this->stringContains('Reconciliation error:'));
+
+        $commit = $this->createMock(ReconciliationCommitServiceInterface::class);
+        $commit->method('commit')->willThrowException(
+            \Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationException::forReason('test reconciliation error')
+        );
+
+        $ctrl = $this->makeFullController($view, null, null, $commit, [
+            'session_id'      => 7,
+            'bank_account_id' => 5,
+            'statement_ocr'   => $ocr,
+        ]);
+        $ctrl->handle('approve', 1);
+    }
+
+    // ------------------------------------------------------------------
+    // handle('confirm_account') — REQ-013 balance mismatch warning
+    // (lines 223-229: FA ending balance differs from OCR opening balance)
+    // ------------------------------------------------------------------
+
+    public function testHandleConfirmAccountAddsBalanceMismatchWarning(): void
+    {
+        // OCR opening balance = 500; FA ending balance = 400 → diff = 100 > 0.01
+        $metadata = \Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata::fromArray([
+            'statement_start_date' => '2026-03-01',
+            'statement_end_date'   => '2026-03-31',
+            'opening_balance'      => '500.00',
+            'closing_balance'      => '500.00', // same as opening → REQ-016 diff = 0, no second warning
+            'account_identifier'   => '5678',
+        ]);
+        $raw = new \Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\RawOcrResult('{}', 'gemma4');
+        $ocr = \Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr::create($metadata, [], $raw);
+
+        $_POST['bank_account_id'] = '5';
+
+        $view     = $this->getMockBuilder(ReconcileView::class)->disableOriginalConstructor()->getMock();
+        $view->expects($this->once())->method('renderReview');
+
+        $sessRepo = $this->createMock(ReconciliationSessionRepositoryInterface::class);
+        $sessRepo->method('save')->willReturn(1);
+        $ocrRepo  = $this->createMock(StatementOcrRepositoryInterface::class);
+        $commit   = $this->createMock(ReconciliationCommitServiceInterface::class);
+        $matcher  = $this->getMockBuilder(BankAccountMatchService::class)->disableOriginalConstructor()->getMock();
+
+        $ctrl = new class ($view, $ocrRepo, $sessRepo, $commit, $matcher,
+            ['ollama_base_url' => 'http://localhost:11434'],
+            new InMemoryPendingSessionStore(['ocr_id' => 1, 'statement_ocr' => $ocr])
+        ) extends StatementReconcileController {
+            protected function loadBankTransactions(
+                \Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr $ocr,
+                int $id
+            ): array {
+                return [];
+            }
+
+            protected function loadBankAccountEndingBalance(int $bankAccountId): ?float
+            {
+                return 400.00; // differs from OCR opening 500.00 by 100 > 0.01
+            }
+        };
+
+        $ctrl->handle('confirm_account', 1);
+
+        unset($_POST['bank_account_id']);
+    }
+
+    // ------------------------------------------------------------------
+    // handle('confirm_account') — OCR lines summed (line 235 foreach body)
+    // ------------------------------------------------------------------
+
+    public function testHandleConfirmAccountSumsOcrLineAmounts(): void
+    {
+        // Create an OCR with one StatementLine so the foreach body on line 235 executes.
+        $metadata = \Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata::fromArray([
+            'statement_start_date' => '2026-03-01',
+            'statement_end_date'   => '2026-03-31',
+            'opening_balance'      => '500.00',
+            'closing_balance'      => '600.00',
+            'account_identifier'   => '5678',
+        ]);
+        $line = new \Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine(
+            'L001',
+            new \DateTimeImmutable('2026-03-15'),
+            'Coffee',
+            '25.00',
+            'debit',
+            'raw'
+        );
+        $raw = new \Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\RawOcrResult('{}', 'gemma4');
+        $ocr = \Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr::create($metadata, [$line], $raw);
+
+        $_POST['bank_account_id'] = '5';
+
+        $view     = $this->getMockBuilder(ReconcileView::class)->disableOriginalConstructor()->getMock();
+        $view->expects($this->once())->method('renderReview');
+
+        $sessRepo = $this->createMock(ReconciliationSessionRepositoryInterface::class);
+        $sessRepo->method('save')->willReturn(1);
+        $ocrRepo  = $this->createMock(StatementOcrRepositoryInterface::class);
+        $commit   = $this->createMock(ReconciliationCommitServiceInterface::class);
+        $matcher  = $this->getMockBuilder(BankAccountMatchService::class)->disableOriginalConstructor()->getMock();
+
+        $ctrl = new class ($view, $ocrRepo, $sessRepo, $commit, $matcher,
+            ['ollama_base_url' => 'http://localhost:11434'],
+            new InMemoryPendingSessionStore(['ocr_id' => 1, 'statement_ocr' => $ocr])
+        ) extends StatementReconcileController {
+            protected function loadBankTransactions(
+                \Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr $ocr,
+                int $id
+            ): array {
+                return [];
+            }
+
+            protected function loadBankAccountEndingBalance(int $bankAccountId): ?float
+            {
+                return null;
+            }
+        };
+
+        $ctrl->handle('confirm_account', 1);
+
+        unset($_POST['bank_account_id']);
+    }
+
+    // ------------------------------------------------------------------
+    // handle('manual_match') — bank tx found in pending list (lines 392-394)
+    // ------------------------------------------------------------------
+
+    public function testHandleManualMatchWithMatchingBankTxRendersReview(): void
+    {
+        $ocr     = $this->makeOcr();
+        $session = \Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\ReconciliationSession::createPending(1, [], ['L001'], [2]);
+        $_POST['line_id']    = 'L001';
+        $_POST['bank_tx_id'] = '2';
+
+        $bankTx = $this->makeTx(2, '75.00', '2026-03-20');
+
+        $view = $this->getMockBuilder(ReconcileView::class)->disableOriginalConstructor()->getMock();
+        $view->expects($this->once())->method('renderReview');
+
+        $sessRepo = $this->createMock(ReconciliationSessionRepositoryInterface::class);
+        $sessRepo->method('save')->willReturn(1);
+
+        $ctrl = $this->makeFullController($view, null, $sessRepo, null, [
+            'statement_ocr'             => $ocr,
+            'session'                   => $session,
+            'bank_transactions'         => [$bankTx],  // tx with id=2 matches POST bank_tx_id=2
+            'warnings'                  => [],
+            'duplicate_transaction_ids' => [],
+        ]);
+        $ctrl->handle('manual_match', 1);
+
+        unset($_POST['line_id'], $_POST['bank_tx_id']);
+    }
 }

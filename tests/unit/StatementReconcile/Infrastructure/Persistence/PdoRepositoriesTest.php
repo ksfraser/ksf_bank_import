@@ -292,4 +292,37 @@ class PdoRepositoriesTest extends TestCase
         $this->assertCount(1, $pairs);
         $this->assertSame('L001', $pairs[0]->getStatementLineId());
     }
+
+    public function testSaveExistingOcrUpdateThrowsOnDbError(): void
+    {
+        // Insert succeeds; then drop table so the subsequent UPDATE fails with PDOException.
+        $pdo   = $this->makeOcrPdo();
+        $repo  = new PdoStatementOcrRepository($pdo);
+        $id    = $repo->save($this->makeOcr());
+        $found = $repo->findById($id);
+        $this->assertNotNull($found);
+
+        $pdo->exec('DROP TABLE bi_statement_ocr');
+
+        $this->expectException(
+            \Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException::class
+        );
+        $repo->save($found);
+    }
+
+    public function testSessionSaveExistingUpdateThrowsOnDbError(): void
+    {
+        // Insert succeeds; then drop table so the subsequent UPDATE fails with PDOException.
+        $pdo     = $this->makeSessionPdo();
+        $repo    = new PdoReconciliationSessionRepository($pdo);
+        $session = ReconciliationSession::createPending(1, [], [], []);
+        $id      = $repo->save($session);
+        $found   = $repo->findById($id);
+        $this->assertNotNull($found);
+
+        $pdo->exec('DROP TABLE bi_reconciliation_session');
+
+        $this->expectException(ReconciliationException::class);
+        $repo->save($found);
+    }
 }

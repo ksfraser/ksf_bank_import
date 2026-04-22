@@ -6,6 +6,11 @@ composer.phar
 # PHPUnit
 .phpunit.result.cache
 /coverage/
+/coverage_html/
+/coverage.txt
+/coverage*.txt
+/coverage*.xml
+/test_out.txt
 phpunit*.txt
 phpunit*.xml
 test-output.txt
