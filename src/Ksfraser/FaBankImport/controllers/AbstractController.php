@@ -29,7 +29,7 @@ abstract class AbstractController
     {
         extract($data);
         ob_start();
-        include __DIR__ . "/../../views/$view.php";
+        include __DIR__ . "/../../Views/$view.php";
         $content = ob_get_clean();
         
         $this->response->setContent($content)->send();

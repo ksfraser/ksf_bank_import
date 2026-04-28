@@ -108,7 +108,7 @@ class MatchingGLFactory
                                         }
                                         if( isset( $matchgl["person_type_id"] ) )
                                         {
-                                                require_once( __DIR__ . '/Views/TransactionCustomerDetails.php' );
+                                                require_once( __DIR__ . '/TransactionCustomerDetails.php' );
                                                 $cdet = new TransactionCustomerDetails( $matchgl['type'], $matchgl['type_no'] );
                                                 $match_html .= $cdet->getLineitemMatchedCustomerDetails();
                                         }
