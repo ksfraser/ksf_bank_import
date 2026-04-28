@@ -1,6 +1,6 @@
 <?php
 
-namespace Ksfraser\FaBankImport\View;
+namespace Ksfraser\FaBankImport\Views;
 
 use Ksfraser\FaBankImport\Model\BiLineItemModel;
 

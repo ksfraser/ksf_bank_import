@@ -9,7 +9,7 @@ use Ksfraser\common\Defines;
 
 
 use Ksfraser\FaBankImport\Model\BiLineItemModel;
-use Ksfraser\FaBankImport\View\BiLineItemView;
+use Ksfraser\FaBankImport\Views\BiLineItemView;
 
 /**
  * Controller class for managing line item interactions.
