@@ -12,13 +12,6 @@ class HtmlEmailAndATest extends TestCase
 	protected function setUp(): void
 	{
 		// Load all dependencies in order
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/HtmlElementInterface.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/HtmlElement.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlString.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/HtmlAttribute.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlLink.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlEmail.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlA.php';
 	}
 	
 	public function testHtmlEmailCreatesMailtoLink()

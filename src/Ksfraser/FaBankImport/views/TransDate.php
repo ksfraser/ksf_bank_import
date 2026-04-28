@@ -2,7 +2,7 @@
 
 namespace Ksfraser\FaBankImport;
 
-
+use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 use Ksfraser\HTML\HtmlElementInterface;
 
 class TransDate implements HtmlElementInterface

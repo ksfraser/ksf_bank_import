@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
-use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
-
 /**
  * Type Consistency Scoring Rule
  *
@@ -34,7 +32,7 @@ final class TypeConsistencyRule implements ScoringRule
     private const SUPPLIER_TYPES = ['CHECK', 'BANK_TRANSFER', 'WIRE', 'ACH'];
     private const CUSTOMER_TYPES = ['INVOICE', 'DEPOSIT', 'CHECK_DEPOSIT'];
 
-    public function calculateScore(array $transaction, KeywordMatch $match): float
+    public function calculateScore(array $transaction, SupplierCandidate $match): float
     {
         if (!isset($transaction['type'])) {
             return 0.0;

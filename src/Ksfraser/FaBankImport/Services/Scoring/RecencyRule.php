@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
-use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
-
 /**
  * Recency Scoring Rule
  *
@@ -23,7 +21,7 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  */
 final class RecencyRule implements ScoringRule
 {
-    public function calculateScore(array $transaction, KeywordMatch $match): float
+    public function calculateScore(array $transaction, SupplierCandidate $match): float
     {
         if (!isset($transaction['date'])) {
             return 0.0;

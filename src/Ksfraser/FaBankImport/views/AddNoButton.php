@@ -1,6 +1,7 @@
 <?php
 
 use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
+use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
 
 namespace Ksfraser\FaBankImport;

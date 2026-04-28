@@ -44,7 +44,8 @@
         "ksfraser/ksf_ofxparser": "0.1.1",
         "ksfraser/qifparser": "0.3.0",
         "guzzlehttp/guzzle": "^7.10",
-        "smalot/pdfparser": "^2.12"
+        "smalot/pdfparser": "^2.12",
+        "ksfraser/html": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3",

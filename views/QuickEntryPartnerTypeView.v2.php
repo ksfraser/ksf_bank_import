@@ -59,11 +59,6 @@ namespace KsfBankImport\Views;
 
 require_once(__DIR__ . '/DataProviders/QuickEntryDataProvider.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlFragment.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php');
 
 use KsfBankImport\Views\DataProviders\QuickEntryDataProvider;
 use Ksfraser\PartnerFormData;

@@ -6,8 +6,6 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\HtmlAttributeList;
 use Ksfraser\HTML\HtmlAttribute;
 
-require_once( 'HtmlAttributeList.php' );
-
 /**
  * HTML Element Class
  * 
@@ -54,7 +52,7 @@ class HtmlElement implements HtmlElementInterface {
      */
     function newAttributeList(): void
     {
-        $this->attributeList = new HtmlAttributeList(new HtmlAttribute("", ""));
+        $this->attributeList = new HtmlAttributeList();
     }
     
     /**
