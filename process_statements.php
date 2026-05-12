@@ -1,6 +1,6 @@
 <?php
 
-use Ksfraser\FaBankImport\views\ProcessStatementsView;
+use Ksfraser\FaBankImport\Views\ProcessStatementsView;
 
 //20260214 DEV changes to help with troubleshooting:
 // Prevent conditional-cache responses (304) that can break legacy jsHttpRequest flows.

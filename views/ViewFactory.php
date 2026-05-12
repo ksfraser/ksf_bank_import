@@ -53,11 +53,8 @@ require_once(__DIR__ . '/CustomerPartnerTypeView.v2.php');
 require_once(__DIR__ . '/SupplierPartnerTypeView.v2.php');
 require_once(__DIR__ . '/QuickEntryPartnerTypeView.v2.php');
 
-// Load DataProviders
-require_once(__DIR__ . '/../src/Ksfraser/BankAccountDataProvider.php');
-require_once(__DIR__ . '/DataProviders/CustomerDataProvider.php');
-require_once(__DIR__ . '/DataProviders/SupplierDataProvider.php');
-require_once(__DIR__ . '/DataProviders/QuickEntryDataProvider.php');
+// DataProviders are now loaded in class.bi_lineitem.php before ViewFactory is required
+// This ensures correct path resolution and avoids relative path issues
 
 use Ksfraser\BankAccountDataProvider;
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;

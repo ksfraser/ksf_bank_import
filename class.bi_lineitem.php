@@ -46,6 +46,12 @@ require_once( __DIR__ . '/Views/CustomerPartnerTypeView.php' );
 require_once( __DIR__ . '/Views/BankTransferPartnerTypeView.php' );
 require_once( __DIR__ . '/Views/QuickEntryPartnerTypeView.php' );
 
+// Load DataProviders needed by ViewFactory
+require_once( __DIR__ . '/src/Ksfraser/BankAccountDataProvider.php' );
+require_once( __DIR__ . '/Views/DataProviders/CustomerDataProvider.php' );
+require_once( __DIR__ . '/Views/DataProviders/SupplierDataProvider.php' );
+require_once( __DIR__ . '/Views/DataProviders/QuickEntryDataProvider.php' );
+
 // V2 Views with ViewFactory (feature flag controlled)
 require_once( __DIR__ . '/Views/ViewFactory.php' );
 use KsfBankImport\Views\ViewFactory;

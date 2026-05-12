@@ -1,0 +1,1108 @@
+=== PROD vs Repo Comparison ===
+Generated: 2026-04-29 05:02:36
+PROD path: C:\Users\prote\Documents\software-devel\ksf_bank_import/PROD
+Repo path: C:\Users\prote\Documents\software-devel\ksf_bank_import
+
+=== DIFF: Files that exist in both but differ (401) ===
+  DIFF: .gitattributes
+  DIFF: .github/workflows/php.yml
+  DIFF: .gitignore
+  DIFF: .phpunit.result.cache
+  DIFF: OperationTypes/OperationTypeInterface.php
+  DIFF: OperationTypes/OperationTypesRegistry.php
+  DIFF: Services/BankTransferAmountCalculator.php
+  DIFF: Services/BankTransferFactoryInterface.php
+  DIFF: Services/ExchangeRateService.php
+  DIFF: Services/TransactionFilterService.php
+  DIFF: Services/TransactionUpdater.php
+  DIFF: Services/TransferDirectionAnalyzer.php
+  DIFF: VendorListManager.php
+  DIFF: app.php
+  DIFF: build_partner_keyword_data.php
+  DIFF: class.ViewBiLineItems.php
+  DIFF: class.bank_import_controller.php
+  DIFF: class.bi_lineitem.php
+  DIFF: class.bi_statements.php
+  DIFF: class.bi_transaction.php
+  DIFF: class.bi_transactions.php
+  DIFF: class.bi_transactions_refactored_example.php
+  DIFF: class.transactions_table.php
+  DIFF: composer.json
+  DIFF: composer.lock
+  DIFF: config.example.php
+  DIFF: cron/monitor_performance.php
+  DIFF: docs/REFACTORING_EXAMPLES.php
+  DIFF: docs/REQUIREMENTS_TRACEABILITY_MATRIX.csv
+  DIFF: fix_test.php
+  DIFF: hooks.php
+  DIFF: html_migration_map.php
+  DIFF: import_statements.php
+  DIFF: includes.inc
+  DIFF: includes/CsvFieldMapper.php
+  DIFF: includes/CsvMappingTemplate.php
+  DIFF: includes/GenericCsvParser.php
+  DIFF: includes/Parser23.php
+  DIFF: includes/banking.php
+  DIFF: includes/csv_mapping_review.php
+  DIFF: includes/example.ofx.php
+  DIFF: includes/includes.inc
+  DIFF: includes/parser.php
+  DIFF: includes/parsers.inc
+  DIFF: includes/qfx_parser.php
+  DIFF: includes/ro_manulife_csv_parser.php
+  DIFF: includes/test.qfx
+  DIFF: includes/test_import.php
+  DIFF: includes/test_parser.php
+  DIFF: ksf_bank_import.code-workspace
+  DIFF: manage_uploaded_files.php
+  DIFF: manual_test_paired_transfers.php
+  DIFF: module_config.php
+  DIFF: parsers.inc
+  DIFF: pdata.inc
+  DIFF: phpunit.xml
+  DIFF: process_statements.php
+  DIFF: qfx_parser.php
+  DIFF: sql/migrations/002_add_last_matched_ts_to_partners.sql
+  DIFF: sql/update.sql
+  DIFF: src/Ksfraser/Application/Application.php
+  DIFF: src/Ksfraser/Application/Bootstrap.php
+  DIFF: src/Ksfraser/Application/Container.php
+  DIFF: src/Ksfraser/Application/config/admin_routes.php
+  DIFF: src/Ksfraser/Application/config/monitoring.php
+  DIFF: src/Ksfraser/Application/controllers/AbstractController.php
+  DIFF: src/Ksfraser/Application/database/DatabaseFactory.php
+  DIFF: src/Ksfraser/Application/database/QueryBuilder.php
+  DIFF: src/Ksfraser/Application/exceptions/UnauthorizedException.php
+  DIFF: src/Ksfraser/Application/handlers/ErrorHandler.php
+  DIFF: src/Ksfraser/Application/http/RequestHandler.php
+  DIFF: src/Ksfraser/Application/http/ResponseHandler.php
+  DIFF: src/Ksfraser/Application/interfaces/CommandBusInterface.php
+  DIFF: src/Ksfraser/Application/middleware/AdminMiddleware.php
+  DIFF: src/Ksfraser/Application/middleware/AuthMiddleware.php
+  DIFF: src/Ksfraser/Application/middleware/MiddlewareInterface.php
+  DIFF: src/Ksfraser/Application/middleware/MiddlewarePipeline.php
+  DIFF: src/Ksfraser/Application/middleware/PerformanceMonitoringMiddleware.php
+  DIFF: src/Ksfraser/Application/services/EventDispatcher.php
+  DIFF: src/Ksfraser/Application/services/PerformanceMonitoring.php
+  DIFF: src/Ksfraser/Application/services/SimpleCommandBus.php
+  DIFF: src/Ksfraser/Application/tests/bootstrap.php
+  DIFF: src/Ksfraser/Application/tests/integration/DatabaseTestCase.php
+  DIFF: src/Ksfraser/Application/tests/unit/ContainerTest.php
+  DIFF: src/Ksfraser/Application/tests/unit/MetricsAggregatorTest.php
+  DIFF: src/Ksfraser/BankAccountDataProvider.php
+  DIFF: src/Ksfraser/Controller/BiLineItemController.php
+  DIFF: src/Ksfraser/CustomerDataProvider.php
+  DIFF: src/Ksfraser/FaBankImport/API/APIErrorResponse.php
+  DIFF: src/Ksfraser/FaBankImport/API/DTOs.php
+  DIFF: src/Ksfraser/FaBankImport/API/MatchTransactionRequest.php
+  DIFF: src/Ksfraser/FaBankImport/API/MatchTransactionResponse.php
+  DIFF: src/Ksfraser/FaBankImport/API/MatchingAPI.php
+  DIFF: src/Ksfraser/FaBankImport/API/PartnerStatsResponse.php
+  DIFF: src/Ksfraser/FaBankImport/API/ReportSummaryResponse.php
+  DIFF: src/Ksfraser/FaBankImport/Application/Partner/KeywordExtractor.php
+  DIFF: src/Ksfraser/FaBankImport/Application/Partner/PartnerDataService.php
+  DIFF: src/Ksfraser/FaBankImport/Application/Partner/PartnerDataServiceInterface.php
+  DIFF: src/Ksfraser/FaBankImport/Application/Partner/PartnerSearchService.php
+  DIFF: src/Ksfraser/FaBankImport/Application/Partner/ScoringEngine.php
+  DIFF: src/Ksfraser/FaBankImport/Application/Partner/TrainingService.php
+  DIFF: src/Ksfraser/FaBankImport/Cli/Commands/MigrationCommand.php
+  DIFF: src/Ksfraser/FaBankImport/Cli/Commands/TrainingCommand.php
+  DIFF: src/Ksfraser/FaBankImport/Cli/Kernel.php
+  DIFF: src/Ksfraser/FaBankImport/Contracts/Command.php
+  DIFF: src/Ksfraser/FaBankImport/Contracts/Logger.php
+  DIFF: src/Ksfraser/FaBankImport/Contracts/Migration.php
+  DIFF: src/Ksfraser/FaBankImport/Contracts/PartnerRepository.php
+  DIFF: src/Ksfraser/FaBankImport/Contracts/TrainingService.php
+  DIFF: src/Ksfraser/FaBankImport/Entity/PartnerEntity.php
+  DIFF: src/Ksfraser/FaBankImport/Entity/PartnerMatchResult.php
+  DIFF: src/Ksfraser/FaBankImport/Exception/PartnerException.php
+  DIFF: src/Ksfraser/FaBankImport/Exception/PartnerNotFoundException.php
+  DIFF: src/Ksfraser/FaBankImport/Exception/PartnerPersistenceException.php
+  DIFF: src/Ksfraser/FaBankImport/Exception/PartnerValidationException.php
+  DIFF: src/Ksfraser/FaBankImport/Exception/TrainingException.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Config/ConfigException.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Config/EnvironmentConfig.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Database/Migration.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Database/MigrationException.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Database/MigrationRunner.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Database/Migrations/CreatePartnerTables.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Database/Migrations/Migration002AddLastMatchedTs.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Database/PartnerRepositoryPdoImpl.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Error/ErrorHandler.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Factory/PartnerServiceFactory.php
+  DIFF: src/Ksfraser/FaBankImport/Infrastructure/Logger/FileLogger.php
+  DIFF: src/Ksfraser/FaBankImport/Reporting/MatchingReport.php
+  DIFF: src/Ksfraser/FaBankImport/Reporting/OperationReport.php
+  DIFF: src/Ksfraser/FaBankImport/Reporting/ReportingService.php
+  DIFF: src/Ksfraser/FaBankImport/Repository/PartnerRepository.php
+  DIFF: src/Ksfraser/FaBankImport/Repository/PdoPartnerRepository.php
+  DIFF: src/Ksfraser/FaBankImport/Results/PaginatedTransactionResult.php
+  DIFF: src/Ksfraser/FaBankImport/Services/ConfidenceEnhancer.php
+  DIFF: src/Ksfraser/FaBankImport/Services/CustomerMatchingConfiguration.php
+  DIFF: src/Ksfraser/FaBankImport/Services/CustomerScoringEngineFactory.php
+  DIFF: src/Ksfraser/FaBankImport/Services/PartnerMatcherFactory.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Rules/AmountMatchRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Rules/BankAccountMatchRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Rules/InvoiceDetectionRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Rules/RefundDetectionRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Rules/VendorNameMatchRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Scoring/AmountRangeRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Scoring/RecencyRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Scoring/ScoringEngineFactory.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Scoring/ScoringRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Scoring/ScoringRuleEngine.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Scoring/SupplierCandidate.php
+  DIFF: src/Ksfraser/FaBankImport/Services/Scoring/TypeConsistencyRule.php
+  DIFF: src/Ksfraser/FaBankImport/Services/SupplierMatchResult.php
+  DIFF: src/Ksfraser/FaBankImport/Services/SupplierMatcher.php
+  DIFF: src/Ksfraser/FaBankImport/Services/SupplierMatchingConfiguration.php
+  DIFF: src/Ksfraser/FaBankImport/Services/SupplierMatchingRules.php
+  DIFF: src/Ksfraser/FaBankImport/Services/SupplierScoringEngineFactory.php
+  DIFF: src/Ksfraser/FaBankImport/Services/SupplierTransactionMatcher.php
+  DIFF: src/Ksfraser/FaBankImport/Services/TransactionCounter.php
+  DIFF: src/Ksfraser/FaBankImport/Services/TransactionMatchResult.php
+  DIFF: src/Ksfraser/FaBankImport/Services/TransactionMatcherIntegration.php
+  DIFF: src/Ksfraser/FaBankImport/Services/TransactionMatchingService.php
+  DIFF: src/Ksfraser/FaBankImport/Services/TransactionPartnerMatcher.php
+  DIFF: src/Ksfraser/FaBankImport/Services/VendorCandidate.php
+  DIFF: src/Ksfraser/FaBankImport/Views/AddCustomerButton.php
+  DIFF: src/Ksfraser/FaBankImport/Views/AddNoButton.php
+  DIFF: src/Ksfraser/FaBankImport/Views/AddVendorButton.php
+  DIFF: src/Ksfraser/FaBankImport/Views/BiLineItemView.php
+  DIFF: src/Ksfraser/FaBankImport/Views/Comment.php
+  DIFF: src/Ksfraser/FaBankImport/Views/DisplaySettledTransactions.php
+  DIFF: src/Ksfraser/FaBankImport/Views/HTML_ROW_LABELDecorator.php
+  DIFF: src/Ksfraser/FaBankImport/Views/ImportUploadForm.php
+  DIFF: src/Ksfraser/FaBankImport/Views/Operation.php
+  DIFF: src/Ksfraser/FaBankImport/Views/PartnerSubSelect.php
+  DIFF: src/Ksfraser/FaBankImport/Views/PartnerType.php
+  DIFF: src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php
+  DIFF: src/Ksfraser/FaBankImport/Views/TransDate.php
+  DIFF: src/Ksfraser/FaBankImport/Views/TransType.php
+  DIFF: src/Ksfraser/FaBankImport/class.ViewBiLineItems.php
+  DIFF: src/Ksfraser/FaBankImport/class.bi_partners_data.copilot.php
+  DIFF: src/Ksfraser/FaBankImport/class.bi_transaction.copilot.php
+  DIFF: src/Ksfraser/FaBankImport/class.bi_transactionTitle_model.copilot.php
+  DIFF: src/Ksfraser/FaBankImport/class.bi_transactions.copilot.php
+  DIFF: src/Ksfraser/FaBankImport/class.transactions_table.php
+  DIFF: src/Ksfraser/FaBankImport/commands/CommandDispatcher.php
+  DIFF: src/Ksfraser/FaBankImport/commands/ProcessTransactionCommand.php
+  DIFF: src/Ksfraser/FaBankImport/config/BankImportConfig.php
+  DIFF: src/Ksfraser/FaBankImport/controller/BiLineItemController.php
+  DIFF: src/Ksfraser/FaBankImport/controllers/AbstractController.php
+  DIFF: src/Ksfraser/FaBankImport/controllers/BiLineItemController.php
+  DIFF: src/Ksfraser/FaBankImport/cron/monitor_performance.php
+  DIFF: src/Ksfraser/FaBankImport/import_statements.copilot.php
+  DIFF: src/Ksfraser/FaBankImport/manage_partners_data.php
+  DIFF: src/Ksfraser/FaBankImport/models/BankAccountByNumber.php
+  DIFF: src/Ksfraser/FaBankImport/models/MatchingJEs.php
+  DIFF: src/Ksfraser/FaBankImport/process_statements_preclean.php
+  DIFF: src/Ksfraser/FaBankImport/repositories/TransactionRepository.php
+  DIFF: src/Ksfraser/FaBankImport/test.php
+  DIFF: src/Ksfraser/FaBankImport/tests/bootstrap.php
+  DIFF: src/Ksfraser/FaBankImport/tests/functional.php
+  DIFF: src/Ksfraser/FaBankImport/tests/functional2.php
+  DIFF: src/Ksfraser/FaBankImport/view_statements.php
+  DIFF: src/Ksfraser/FormFieldNameGenerator.php
+  DIFF: src/Ksfraser/FrontAccounting/TransactionTypes/TransactionTypeInterface.php
+  DIFF: src/Ksfraser/FrontAccounting/TransactionTypes/TransactionTypesRegistry.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlA.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlBold.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlButton.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlEmail.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlExternalCSS.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlForm.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlFormatting.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlHeading1.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlHeading2.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlHeading3.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlHeading4.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlHeading5.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlHeading6.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlHr.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlInput.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlInputButton.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlInserted.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlItalic.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlLink.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlListItem.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlMark.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlOption.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlOrderedList.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlParagraph.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlPreformatted.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlSelect.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlSmall.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlStrong.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlStyle.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlStyleList.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlSubscript.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlSuperscript.php
+  DIFF: src/Ksfraser/HTML/Elements/HtmlTable.php
+  DIFF: src/Ksfraser/HTML/HtmlAttributeList.php
+  DIFF: src/Ksfraser/HTML/HtmlAttributesTrait.php
+  DIFF: src/Ksfraser/HTML/HtmlElement.php
+  DIFF: src/Ksfraser/MatchingTransactionsList.php
+  DIFF: src/Ksfraser/Model/BiLineItemModel.php
+  DIFF: src/Ksfraser/PartnerFormData.php
+  DIFF: src/Ksfraser/PartnerFormFactory.php
+  DIFF: src/Ksfraser/PartnerSelectionPanel.php
+  DIFF: src/Ksfraser/PartnerTypeConstants.php
+  DIFF: src/Ksfraser/PartnerTypes/AbstractPartnerType.php
+  DIFF: src/Ksfraser/PartnerTypes/BankTransferPartnerType.php
+  DIFF: src/Ksfraser/PartnerTypes/CustomerPartnerType.php
+  DIFF: src/Ksfraser/PartnerTypes/ManualSettlementPartnerType.php
+  DIFF: src/Ksfraser/PartnerTypes/MatchedPartnerType.php
+  DIFF: src/Ksfraser/PartnerTypes/PartnerTypeInterface.php
+  DIFF: src/Ksfraser/PartnerTypes/PartnerTypeRegistry.php
+  DIFF: src/Ksfraser/PartnerTypes/QuickEntryPartnerType.php
+  DIFF: src/Ksfraser/PartnerTypes/SupplierPartnerType.php
+  DIFF: src/Ksfraser/QuickEntryDataProvider.php
+  DIFF: src/Ksfraser/SettledTransactionDisplay.php
+  DIFF: src/Ksfraser/SupplierDataProvider.php
+  DIFF: src/Ksfraser/UrlBuilder.php
+  DIFF: src/Ksfraser/View/BiLineItemView.php
+  DIFF: src/Ksfraser/Views/CommentSubmitView.php
+  DIFF: src/Ksfraser/Views/PartnerTypeSelectorView.php
+  DIFF: src/Ksfraser/logs/performance.log
+  DIFF: test.php
+  DIFF: test_helpers/mail_mock.php
+  DIFF: test_html_links_manual.php
+  DIFF: test_nested_links.php
+  DIFF: test_syntax_check.php
+  DIFF: test_wrapper.php
+  DIFF: tests/BankTransferAmountCalculatorTest.php
+  DIFF: tests/BiLineitemTest.php
+  DIFF: tests/BiPartnersDataTest.php
+  DIFF: tests/BiStatementsModelTest.php
+  DIFF: tests/BiTransactionTableTest.php
+  DIFF: tests/BiTransactionTest.php
+  DIFF: tests/BiTransactionsModelTest.php
+  DIFF: tests/Entity/UploadedFileTest.php
+  DIFF: tests/ExchangeRateServiceTest.php
+  DIFF: tests/HTML/HtmlInputButtonTest.php
+  DIFF: tests/HTML/HtmlInputGenericButtonTest.php
+  DIFF: tests/HTML/HtmlInputResetTest.php
+  DIFF: tests/HTML/HtmlLabelRowTest.php
+  DIFF: tests/HTML/HtmlSubmitTest.php
+  DIFF: tests/ImportStatementsTest.php
+  DIFF: tests/Service/FileStorageServiceTest.php
+  DIFF: tests/Strategy/DuplicateStrategyTest.php
+  DIFF: tests/TransactionFilterServiceTest.php
+  DIFF: tests/TransactionRepositoryIntegrationTest.php
+  DIFF: tests/TransactionRepositoryTest.php
+  DIFF: tests/TransactionServiceTest.php
+  DIFF: tests/TransactionTypeFactoryTest.php
+  DIFF: tests/TransactionViewServiceTest.php
+  DIFF: tests/ValueObject/DuplicateResultTest.php
+  DIFF: tests/ValueObject/FileInfoTest.php
+  DIFF: tests/ValueObject/UploadResultTest.php
+  DIFF: tests/acceptance/EdgeCasesUATTest.php
+  DIFF: tests/acceptance/October2025FeaturesUATTest.php
+  DIFF: tests/acceptance/PairedTransferUATTest.php
+  DIFF: tests/bootstrap.php
+  DIFF: tests/functional.php
+  DIFF: tests/functional2.php
+  DIFF: tests/helpers/fa_functions.php
+  DIFF: tests/integration/BiCounterpartyModelProductionBaselineTest.php
+  DIFF: tests/integration/BiLineItemBackwardCompatibilityTest.php
+  DIFF: tests/integration/BiLineItemMainBranchRegressionTest.php
+  DIFF: tests/integration/BiLineItemModelProductionBaselineTest.php
+  DIFF: tests/integration/BiLineItemProductionBaselineTest.php
+  DIFF: tests/integration/BiTransactionsBackwardCompatibilityTest.php
+  DIFF: tests/integration/ConfigProductionBaselineTest.php
+  DIFF: tests/integration/ConfigurationIntegrationTest.php
+  DIFF: tests/integration/DatabaseTestCase.php
+  DIFF: tests/integration/HandlerDiscoveryIntegrationTest.php
+  DIFF: tests/integration/PairedTransferIntegrationTest.php
+  DIFF: tests/integration/ProcessStatementsBackwardCompatibilityTest.php
+  DIFF: tests/test_validation.php
+  DIFF: tests/unit/BankImportControllerRegressionTest.php
+  DIFF: tests/unit/BiLineItemMatchingTest.php
+  DIFF: tests/unit/BiLineItemQERegressionTest.php
+  DIFF: tests/unit/Commands/AddCustomerCommandTest.php
+  DIFF: tests/unit/Commands/AddVendorCommandTest.php
+  DIFF: tests/unit/Commands/CommandDispatcherTest.php
+  DIFF: tests/unit/Commands/ToggleDebitCreditCommandTest.php
+  DIFF: tests/unit/Commands/UnsetTransactionCommandTest.php
+  DIFF: tests/unit/Config/BankImportConfigIntegrationTest.php
+  DIFF: tests/unit/CustomerDataProviderTest.php
+  DIFF: tests/unit/Domain/ValueObjects/KeywordMatchTest.php
+  DIFF: tests/unit/Domain/ValueObjects/KeywordTest.php
+  DIFF: tests/unit/Domain/ValueObjects/MatchConfidenceTest.php
+  DIFF: tests/unit/Domain/ValueObjects/PartnerDataTest.php
+  DIFF: tests/unit/Exceptions/HandlerDiscoveryExceptionTest.php
+  DIFF: tests/unit/FormFieldNameGeneratorTest.php
+  DIFF: tests/unit/HTML/HTML_TABLETest.php
+  DIFF: tests/unit/HTML/HtmlCommentTest.php
+  DIFF: tests/unit/HTML/HtmlHiddenTest.php
+  DIFF: tests/unit/HTML/HtmlOptionTest.php
+  DIFF: tests/unit/HTML/LabelRowBaseTest.php
+  DIFF: tests/unit/Handlers/AbstractTransactionHandlerRefactoredTest.php
+  DIFF: tests/unit/Handlers/CustomerTransactionHandlerTest.php
+  DIFF: tests/unit/Handlers/ManualSettlementHandlerTest.php
+  DIFF: tests/unit/Handlers/MatchedTransactionHandlerTest.php
+  DIFF: tests/unit/Handlers/QuickEntryTransactionHandlerTest.php
+  DIFF: tests/unit/Handlers/SupplierTransactionHandlerTest.php
+  DIFF: tests/unit/HtmlEmailAndATest.php
+  DIFF: tests/unit/HtmlOBTest.php
+  DIFF: tests/unit/PartnerFormFactoryTest.php
+  DIFF: tests/unit/PartnerSelectionPanelTest.php
+  DIFF: tests/unit/ProcessStatementsRegressionTest.php
+  DIFF: tests/unit/Results/TransactionResultTest.php
+  DIFF: tests/unit/Services/KeywordExtractorServiceTest.php
+  DIFF: tests/unit/Services/KeywordMatchingServiceTest.php
+  DIFF: tests/unit/Services/PartnerDataServiceTest.php
+  DIFF: tests/unit/Services/ReferenceNumberServiceTest.php
+  DIFF: tests/unit/SettledTransactionDisplayTest.php
+  DIFF: tests/unit/SupplierDataProviderTest.php
+  DIFF: tests/unit/TransactionProcessorTest.php
+  DIFF: tests/unit/TransactionQueryBuilderTest.php
+  DIFF: tests/unit/TransactionRepositoryRegressionTest.php
+  DIFF: tests/unit/TransferDirectionAnalyzerTest.php
+  DIFF: tests/unit/UrlBuilderTest.php
+  DIFF: tests/unit/views/BankTransferPartnerTypeViewFinalTest.php
+  DIFF: tests/unit/views/CustomerPartnerTypeViewV2Test.php
+  DIFF: tests/unit/views/DataProviders/CustomerDataProviderTest.php
+  DIFF: tests/unit/views/DataProviders/QuickEntryDataProviderTest.php
+  DIFF: tests/unit/views/DataProviders/SupplierDataProviderTest.php
+  DIFF: tests/unit/views/PartnerTypeDisplayStrategyTest.php
+  DIFF: tests/unit/views/QuickEntryPartnerTypeViewTest.php
+  DIFF: tests/unit/views/SupplierPartnerTypeViewFinalTest.php
+  DIFF: tests/unit/views/TransDateTest.php
+  DIFF: tests/unit/views/ViewFactoryTest.php
+  DIFF: update.sql
+  DIFF: validate_gl_entries.php
+  DIFF: views/AddCustomerButton.php
+  DIFF: views/AddVendorButton.php
+  DIFF: views/AllocatableInvoicesTable.php
+  DIFF: views/AmountCharges.php
+  DIFF: views/BankTransferPartnerTypeView.php
+  DIFF: views/BankTransferPartnerTypeView.v2.php
+  DIFF: views/CustomerPartnerTypeView.v2.php
+  DIFF: views/DataProviders/CustomerDataProvider.php
+  DIFF: views/DataProviders/PartnerDataProviderInterface.php
+  DIFF: views/DataProviders/QuickEntryDataProvider.php
+  DIFF: views/DataProviders/SupplierDataProvider.php
+  DIFF: views/HTML_ROW.php
+  DIFF: views/HTML_ROW_LABELDecorator.php
+  DIFF: views/LabelRowBase.php
+  DIFF: views/LineitemDisplayLeft.php
+  DIFF: views/MatchingGLS.php
+  DIFF: views/PartnerTypeDisplayStrategy.php
+  DIFF: views/ProcessTransactionButtonRow.php
+  DIFF: views/QuickEntryPartnerTypeView.php
+  DIFF: views/QuickEntryPartnerTypeView.v2.php
+  DIFF: views/SubmitButton.php
+  DIFF: views/SubmitButtonRow.php
+  DIFF: views/SupplierPartnerTypeView.php
+  DIFF: views/SupplierPartnerTypeView.v2.php
+  DIFF: views/ToggleTransactionRow.php
+  DIFF: views/TransDate.php
+  DIFF: views/TransTitle.php
+  DIFF: views/TransactionTypeLabel.php
+  DIFF: views/UnsetTransButtonRow.php
+  DIFF: views/ViewFactory.php
+  DIFF: views/_K1XBQ~9
+  DIFF: views/_n
+
+=== NEW_IN_PROD: Files in PROD but missing in repo (248) ===
+  NEW_IN_PROD: .git
+  NEW_IN_PROD: BankTransferAmountCalculator.php
+  NEW_IN_PROD: BankTransferFactory.php
+  NEW_IN_PROD: BankTransferFactoryInterface.php
+  NEW_IN_PROD: ExchangeRateService.php
+  NEW_IN_PROD: OperationTypeInterface.php
+  NEW_IN_PROD: OperationTypesRegistry.php
+  NEW_IN_PROD: PROD_changes.diff
+  NEW_IN_PROD: PS1/fix_composites_refs.ps1
+  NEW_IN_PROD: PS1/fix_elements_internal_refs.ps1
+  NEW_IN_PROD: PS1/fix_views_html_refs.ps1
+  NEW_IN_PROD: PS1/reorganize_html.ps1
+  NEW_IN_PROD: PS1/resolve_dry_violations.ps1
+  NEW_IN_PROD: PairedTransferProcessor.php
+  NEW_IN_PROD: SquareTransaction.php
+  NEW_IN_PROD: ThirdPartyTransaction.php
+  NEW_IN_PROD: TransactionFilterService.php
+  NEW_IN_PROD: TransactionUpdater.php
+  NEW_IN_PROD: TransferDirectionAnalyzer.php
+  NEW_IN_PROD: changed.txt
+  NEW_IN_PROD: class.AbstractQfxParser.php
+  NEW_IN_PROD: class.CibcQfxParser.php
+  NEW_IN_PROD: class.ManuQfxParser.php
+  NEW_IN_PROD: class.PcmcQfxParser.php
+  NEW_IN_PROD: class.QfxParserFactory.php
+  NEW_IN_PROD: class.bi_lineitem.php.hotfpx
+  NEW_IN_PROD: class.bi_partners_data.copilot.php
+  NEW_IN_PROD: class.bi_transaction.copilot.php
+  NEW_IN_PROD: class.bi_transactionTitle_model.copilot.php
+  NEW_IN_PROD: class.bi_transactions.copilot.php
+  NEW_IN_PROD: date-fallback.js
+  NEW_IN_PROD: diffs.txt
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.ViewBiLineItems.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.bank_import_controller.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.bi_counterparty_model.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.bi_lineitem.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.bi_partners_data.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.bi_statements.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.bi_transactionTitle_model.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.bi_transactions.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/class.transactions_table.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/import_statements.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/process_statements.copilot_refactored.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/process_statements_preclean.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/view_statements.php
+  NEW_IN_PROD: duplicates_backup_20251116_183246/views_class.bi_lineitem.php
+  NEW_IN_PROD: import_statements-old.php
+  NEW_IN_PROD: import_statements.copilot.php
+  NEW_IN_PROD: import_statements_202510.php
+  NEW_IN_PROD: includes/Parser.php
+  NEW_IN_PROD: includes/includes.inc.20260326
+  NEW_IN_PROD: includes/test.qfx.20251114
+  NEW_IN_PROD: monitor_performance.php
+  NEW_IN_PROD: process_statements.copilot_refactored.php
+  NEW_IN_PROD: process_statements_preclean.php
+  NEW_IN_PROD: src/Ksfraser/Application/TimeFormatter.php
+  NEW_IN_PROD: src/Ksfraser/Application/interfaces/ClockInterface.php
+  NEW_IN_PROD: src/Ksfraser/Application/models/FakeClock.php
+  NEW_IN_PROD: src/Ksfraser/Application/models/RealClock.php
+  NEW_IN_PROD: src/Ksfraser/Application/services/TransactionLogger.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Bootstrap/CacheControl.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Bootstrap/ConfigLoader.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Contracts/NullLogger.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Contracts/TrainingCommand.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Infrastructure/Config/ConfigManager.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Infrastructure/Database/Migrations/Migration001AddOccurenceCount.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Service/DuplicateDetector.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Service/FileStorageService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Service/FileStorageServiceInterface.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Service/FileUploadService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Service/TransactionCounter.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/Views/MatchingGLsView.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/class.bi_counterparty_model.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/events/VendorAddedEvent.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/events/VendorNotAddedEvent.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/handlers/AddVendor.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/handlers/AddVendorCommandHandler.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/models/PairedJEs.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/models/README
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/AlertService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/EventDispatcher.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/KeywordExtractorService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/KeywordMatchingService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/MetricsAggregator.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/PartnerDataService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/PerformanceMonitor.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/ReferenceNumberService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/SimpleCommandBus.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/TransactionGLValidator.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/TransactionLogger.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/TransactionService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/TransactionValidator.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/TransactionViewService.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/services/UploadedFileManager.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/types/BankTransferTransaction.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/types/CreditTransaction.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/types/DebitTransaction.php
+  NEW_IN_PROD: src/Ksfraser/FaBankImport/views/MatchingGLS.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Composites/HTML_ROW.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Composites/HTML_ROW_LABELDecorator.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Composites/HTML_TABLE.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Composites/HtmlLabelRow.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Composites/LabelRowBase.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlB.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlBody.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlBr.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlComment.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDd.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDel.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDeleted.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDescriptionDescription.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDescriptionList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDescriptionTerm.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDiv.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDl.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlDt.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlEm.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlEmphasize.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlHead.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlHeading.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlHidden.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlHtml.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlI.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlImage.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlImg.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlInputGenericButton.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlInputReset.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlIns.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlInternalCSS.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlInternalCSSList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlInternalCSSListList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlLi.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlOB.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlOl.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlP.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlPre.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlRaw.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlSpan.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlString.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlSub.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlSubmit.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlSup.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableBody.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableCaption.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableCol.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableColGroup.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableFoot.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableHead.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableHeaderCell.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableRow.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTableRowCell.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTd.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTh.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlTitle.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlUl.php
+  NEW_IN_PROD: src/Ksfraser/HTML/Elements/HtmlUnorderedList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HTMLChildrenTrait.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HTML_ROW.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HTML_ROW_LABEL.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HTML_ROW_LABELDecorator.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlA.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlAttribute.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlB.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlBody.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlBold.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlBr.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlButton.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDd.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDel.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDeleted.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDescriptionDescription.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDescriptionList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDescriptionTerm.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDiv.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDl.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlDt.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlElementInterface.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlEm.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlEmail.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlEmphasize.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlEmptyElement.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlExternalCSS.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlForm.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlFormatting.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlFragment.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHead.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHeading.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHeading1.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHeading2.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHeading3.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHeading4.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHeading5.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHeading6.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHr.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlHtml.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlI.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlImage.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlImg.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlInput.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlIns.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlInserted.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlInternalCSS.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlInternalCSSList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlInternalCSSListList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlItalic.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlLi.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlLink.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlListItem.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlMark.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlNull.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlOl.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlOrderedList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlP.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlParagraph.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlPre.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlPreformatted.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlSmall.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlSpan.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlString.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlStrong.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlStyle.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlStyleList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlSub.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlSubscript.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlSup.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlSuperscript.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTable.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableBody.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableCaption.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableCol.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableColGroup.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableFoot.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableHead.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableHeaderCell.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableRow.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTableRowCell.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTd.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTh.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlTitle.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlUl.php
+  NEW_IN_PROD: src/Ksfraser/HTML/HtmlUnorderedList.php
+  NEW_IN_PROD: src/Ksfraser/HTML/LabelRowBase.php
+  NEW_IN_PROD: tests/HtmlAttributeListTest.php
+  NEW_IN_PROD: tests/HtmlAttributeTest.php
+  NEW_IN_PROD: tests/HtmlBrTest.php
+  NEW_IN_PROD: tests/HtmlElementTest.php
+  NEW_IN_PROD: zero_bank_payment.sh
+
+=== MISSING_IN_PROD: Files in repo but missing in PROD (442) ===
+  MISSING_IN_PROD: .env
+  MISSING_IN_PROD: .git_commit_msg.txt
+  MISSING_IN_PROD: .github/context-mode/content/fde5eb10e7ce1816.db
+  MISSING_IN_PROD: .gitmodules
+  MISSING_IN_PROD: .vscode/mcp.json
+  MISSING_IN_PROD: .vscode/settings.json
+  MISSING_IN_PROD: .vscode/tasks.json
+  MISSING_IN_PROD: apply_pagination_updates.py
+  MISSING_IN_PROD: assets/transaction-flow.mmd
+  MISSING_IN_PROD: assets/transaction-flow.svg
+  MISSING_IN_PROD: compare_parsers.php
+  MISSING_IN_PROD: config/ofx_parser_config.php
+  MISSING_IN_PROD: docs/testing/test_results.txt
+  MISSING_IN_PROD: docs/testing/test_results_updated.txt
+  MISSING_IN_PROD: fix_composites_refs.ps1
+  MISSING_IN_PROD: fix_elements_internal_refs.ps1
+  MISSING_IN_PROD: fix_html_requires.php
+  MISSING_IN_PROD: fix_html_requires.ps1
+  MISSING_IN_PROD: fix_views_html_refs.ps1
+  MISSING_IN_PROD: hotfix-customer-payment.html.txt
+  MISSING_IN_PROD: import_statements.debug_version.php
+  MISSING_IN_PROD: ksf_modules_common/class.generic_fa_interface.php
+  MISSING_IN_PROD: ksf_modules_common/defines.inc.php
+  MISSING_IN_PROD: modules/bank_import/js/date-fallback.js
+  MISSING_IN_PROD: phpunit-sr.xml
+  MISSING_IN_PROD: phpunit_no_coverage_latest.txt
+  MISSING_IN_PROD: phpunit_plain_latest.txt
+  MISSING_IN_PROD: phpunit_sr_output.txt
+  MISSING_IN_PROD: phpunit_summary_today.txt
+  MISSING_IN_PROD: reconcile_statement.php
+  MISSING_IN_PROD: reorganize_html.ps1
+  MISSING_IN_PROD: resolve_dry_violations.ps1
+  MISSING_IN_PROD: run-approved-tests.php
+  MISSING_IN_PROD: run-tests.php
+  MISSING_IN_PROD: run_update_and_test.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/Entity/PartnerType.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Application/BankAccountMatchService.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Application/PendingSessionStoreInterface.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Application/PhpSessionPendingSessionStore.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Application/ReconcileView.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Application/ReconciliationCommitService.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Application/StatementReconcileController.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/Entity/ReconciliationSession.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/Entity/StatementOcr.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/Exception/ReconciliationException.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/Exception/StatementOcrException.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/Repository/ReconciliationSessionRepositoryInterface.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/Repository/StatementOcrRepositoryInterface.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/Service/MatchingEngineInterface.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/Service/ReconciliationCommitServiceInterface.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/ValueObject/BankTransactionDto.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/ValueObject/MatchedPair.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/ValueObject/RawOcrResult.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/ValueObject/StatementLine.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Domain/ValueObject/StatementMetadata.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Database/Migrations/CreateReconciliationSessionTable.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Database/Migrations/CreateStatementOcrTable.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Database/Migrations/CreateStatementUploadTable.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Ocr/OllamaClient.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Ocr/OllamaClientInterface.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Ocr/PdfTextExtractor.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Ocr/PdfTextExtractorInterface.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Ocr/StatementTextParser.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Persistence/PdoReconciliationSessionRepository.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Infrastructure/Persistence/PdoStatementOcrRepository.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/StatementReconcile/Matching/SimpleMatchingEngine.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/Testing/Seeder.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/Testing/SeederFactory.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/Testing/Seeders/PartnerSeeder.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/Views/MatchingGLS.php
+  MISSING_IN_PROD: src/Ksfraser/FaBankImport/Views/_K1XBQ~9
+  MISSING_IN_PROD: src/Ksfraser/HTML/Buttons/ActionButton.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/Elements/HtmlScript.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/Handlers/BaseHandler.js
+  MISSING_IN_PROD: src/Ksfraser/HTML/Handlers/InterestFreqHandler.js
+  MISSING_IN_PROD: src/Ksfraser/HTML/Handlers/LoanHandler.js
+  MISSING_IN_PROD: src/Ksfraser/HTML/Handlers/LoanTypeHandler.js
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlA.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlB.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlBody.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlBold.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlBr.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlButton.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDd.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDel.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDeleted.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDescriptionDescription.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDescriptionList.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDescriptionTerm.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDiv.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDl.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlDt.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlEm.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlEmail.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlEmphasize.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlExternalCSS.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlFormatting.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHead.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHeading.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHeading1.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHeading2.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHeading3.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHeading4.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHeading5.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHeading6.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHr.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlHtml.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlI.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlImage.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlImg.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlIns.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlInserted.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlInternalCSS.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlInternalCSSList.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlInternalCSSListList.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlItalic.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlLi.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlLink.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlListItem.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlMark.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlOb
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlOl.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlOrderedList.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlP.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlParagraph.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlPre.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlPreformatted.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlSmall.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlSpan.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlString
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlString.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlStrong.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlStyle.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlStyleList.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlSub.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlSubscript.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlSup.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlSuperscript.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTable.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableBody.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableCaption.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableCol.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableColGroup.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableFoot.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableHead.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableHeaderCell.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableRow.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTableRowCell.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTd.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTh.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlTitle.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlUl.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/HtmlUnorderedList.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_AMOUNT_CELL.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_CELL.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_DATE_CELL.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_DIV.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_FORM.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_ROW.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_SUBMIT_CELL.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_TABLE.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_TABLE_TD.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/archived/class.VIEW_TABLE_TH.php
+  MISSING_IN_PROD: src/Ksfraser/HTML/js/CellEditor.js
+  MISSING_IN_PROD: src/Ksfraser/HTML/readme
+  MISSING_IN_PROD: test-filters.conf
+  MISSING_IN_PROD: test_both.txt
+  MISSING_IN_PROD: test_command_dispatcher_fix.php
+  MISSING_IN_PROD: test_full_output.txt
+  MISSING_IN_PROD: test_ksf_fork.php
+  MISSING_IN_PROD: test_new_classes.txt
+  MISSING_IN_PROD: test_out.txt
+  MISSING_IN_PROD: test_output.txt
+  MISSING_IN_PROD: test_output2.txt
+  MISSING_IN_PROD: test_output3.txt
+  MISSING_IN_PROD: test_output_final.txt
+  MISSING_IN_PROD: test_output_final2.txt
+  MISSING_IN_PROD: test_output_final3.txt
+  MISSING_IN_PROD: test_output_final4.txt
+  MISSING_IN_PROD: test_production_parser.php
+  MISSING_IN_PROD: test_raw_parser.php
+  MISSING_IN_PROD: test_repo_results.txt
+  MISSING_IN_PROD: test_results.txt
+  MISSING_IN_PROD: testresults.txt
+  MISSING_IN_PROD: tests/AllocatableInvoicesTableTest.php
+  MISSING_IN_PROD: tests/Application/Partner/KeywordExtractorTest.php
+  MISSING_IN_PROD: tests/Application/Partner/PartnerDataServiceTest.php
+  MISSING_IN_PROD: tests/Application/Partner/PartnerSearchServiceTest.php
+  MISSING_IN_PROD: tests/Application/Partner/ScoringEngineTest.php
+  MISSING_IN_PROD: tests/Application/Partner/TrainingServiceTest.php
+  MISSING_IN_PROD: tests/Cli/Commands/MigrationCommandTest.php
+  MISSING_IN_PROD: tests/Cli/Commands/TrainingCommandTest.php
+  MISSING_IN_PROD: tests/Cli/KernelTest.php
+  MISSING_IN_PROD: tests/Database/Migrations/CreatePartnerTablesTest.php
+  MISSING_IN_PROD: tests/Entity/PartnerEntityTest.php
+  MISSING_IN_PROD: tests/Entity/PartnerMatchResultTest.php
+  MISSING_IN_PROD: tests/Exception/ExceptionTest.php
+  MISSING_IN_PROD: tests/GetTransactionsIntegrationTest.php
+  MISSING_IN_PROD: tests/Infrastructure/Config/EnvironmentConfigTest.php
+  MISSING_IN_PROD: tests/Infrastructure/Database/MigrationRunnerTest.php
+  MISSING_IN_PROD: tests/Infrastructure/Database/PartnerRepositoryTest.php
+  MISSING_IN_PROD: tests/Infrastructure/Error/ErrorHandlerTest.php
+  MISSING_IN_PROD: tests/Infrastructure/Factory/PartnerServiceFactoryTest.php
+  MISSING_IN_PROD: tests/Infrastructure/Logger/LoggerTest.php
+  MISSING_IN_PROD: tests/Results/PaginatedTransactionResultTest.php
+  MISSING_IN_PROD: tests/Service/TransactionCounterTest.php
+  MISSING_IN_PROD: tests/Services/ConfidenceEnhancerTest.php
+  MISSING_IN_PROD: tests/Services/KeywordMatchingServiceTest.php
+  MISSING_IN_PROD: tests/Services/Scoring/ScoringRuleEngineTest.php
+  MISSING_IN_PROD: tests/Services/Scoring/ScoringRulesTest.php
+  MISSING_IN_PROD: tests/Services/TransactionMatchingServiceTest.php
+  MISSING_IN_PROD: tests/Testing/SeederFactoryTest.php
+  MISSING_IN_PROD: tests/Testing/Seeders/PartnerSeederTest.php
+  MISSING_IN_PROD: tests/Views/ProcessStatementsViewTest.php
+  MISSING_IN_PROD: tests/integration/PartnerRepositoryIntegrationTest.php
+  MISSING_IN_PROD: tests/integration/Services/BiLineItemMatchingIntegrationTest.php
+  MISSING_IN_PROD: tests/unit/API/APIDTOsTest.php
+  MISSING_IN_PROD: tests/unit/API/MatchingAPITest.php
+  MISSING_IN_PROD: tests/unit/BiTransactionsPaginationTest.php
+  MISSING_IN_PROD: tests/unit/Config/BankImportConfigScoringWeightsTest.php
+  MISSING_IN_PROD: tests/unit/ProcessTransactionButtonRowTest.php
+  MISSING_IN_PROD: tests/unit/Reporting/MatchingReportTest.php
+  MISSING_IN_PROD: tests/unit/Reporting/OperationReportTest.php
+  MISSING_IN_PROD: tests/unit/Reporting/ReportingServiceTest.php
+  MISSING_IN_PROD: tests/unit/Services/CustomerMatcherTest.php
+  MISSING_IN_PROD: tests/unit/Services/Scoring/ScoringEngineFactoryTest.php
+  MISSING_IN_PROD: tests/unit/Services/SupplierMatcherTest.php
+  MISSING_IN_PROD: tests/unit/Services/SupplierMatchingRulesTest.php
+  MISSING_IN_PROD: tests/unit/Services/SupplierTransactionMatcherTest.php
+  MISSING_IN_PROD: tests/unit/Services/TransactionPartnerMatcherTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/BankAccountMatchServiceFaMethodsTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/BankAccountMatchServiceTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/InMemoryPendingSessionStore.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/PhpSessionPendingSessionStoreTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/ReconcileViewCsrfFallbackTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/ReconcileViewCsrfTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/ReconcileViewTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/ReconciliationCommitServiceRealMethodsTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/ReconciliationCommitServiceTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/StatementReconcileControllerRealMethodsTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Application/StatementReconcileControllerTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Domain/Entity/ReconciliationSessionTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Domain/Entity/StatementOcrTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Domain/Exception/DomainExceptionsTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Domain/ValueObject/BankTransactionDtoTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Domain/ValueObject/MatchedPairTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Domain/ValueObject/RawOcrResultTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Domain/ValueObject/StatementLineTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Domain/ValueObject/StatementMetadataTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Infrastructure/Database/Migrations/MigrationsTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Infrastructure/Ocr/OllamaClientTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Infrastructure/Ocr/PdfTextExtractorTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Infrastructure/Ocr/StatementTextParserTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Infrastructure/Persistence/PdoRepositoriesTest.php
+  MISSING_IN_PROD: tests/unit/StatementReconcile/Matching/SimpleMatchingEngineTest.php
+  MISSING_IN_PROD: tests/unit/SubmitButtonRowTest.php
+  MISSING_IN_PROD: tests/unit/SubmitButtonTest.php
+  MISSING_IN_PROD: tests/unit/UnsetTransButtonRowTest.php
+  MISSING_IN_PROD: tools/check_key_files.php
+  MISSING_IN_PROD: tools/compare_prod.ps1
+  MISSING_IN_PROD: tools/compare_prod_php.php
+  MISSING_IN_PROD: tools/copy_unique_ksfraser_html.ps1
+  MISSING_IN_PROD: tools/diffs/Composites__HTML_TABLE.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlA.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlB.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlBold.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlBr.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlButton.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlDd.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlDeleted.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlEmail.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlEmphasize.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlExternalCSS.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlForm.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlHeading1.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlHeading2.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlHeading3.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlHeading4.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlHeading5.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlHeading6.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlHr.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlImage.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlInput.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlInputButton.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlInputGenericButton.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlInserted.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlItalic.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlLink.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlListItem.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlMark.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlOption.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlOrderedList.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlP.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlParagraph.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlPreformatted.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlScript.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlSelect.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlSmall.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlString.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlStrong.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlStyle.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlStyleList.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlSubscript.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlSuperscript.php.diff
+  MISSING_IN_PROD: tools/diffs/Elements__HtmlTable.php.diff
+  MISSING_IN_PROD: tools/diffs/FaUiFunctions.php.diff
+  MISSING_IN_PROD: tools/diffs/HtmlAttribute.php.diff
+  MISSING_IN_PROD: tools/diffs/HtmlAttributeList.php.diff
+  MISSING_IN_PROD: tools/diffs/HtmlElement.php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Composites__HTML_ROW (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Composites__HTML_ROW_LABEL (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Composites__HTML_ROW_LABELDecorator (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Composites__HTML_TABLE (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Composites__HtmlLabelRow (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Composites__LabelRowBase (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlA (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlB (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlBody (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlBold (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlBr (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlButton (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlComment (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDd (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDel (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDeleted (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDescriptionDescription (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDescriptionList (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDescriptionTerm (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDiv (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDl (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlDt (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlEm (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlEmail (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlEmphasize (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlExternalCSS (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlForm (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHead (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHeading (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHeading1 (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHeading2 (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHeading3 (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHeading4 (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHeading5 (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHeading6 (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHidden (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHr (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlHtml (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlI (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlImage (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlImg (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlInput (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlInputButton (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlInputGenericButton (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlInputReset (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlIns (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlInserted (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlInternalCSS (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlInternalCSSList (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlInternalCSSListList (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlItalic (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlLi (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlLink (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlListItem (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlMark (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlOB (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlOl (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlOption (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlOrderedList (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlP (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlParagraph (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlPre (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlPreformatted (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlRaw (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlScript (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlSelect (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlSmall (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlSpan (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlString (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlStrong (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlStyle (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlStyleList (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlSub (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlSubmit (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlSubscript (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlSup (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlSuperscript (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTable (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableBody (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableCaption (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableCol (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableColGroup (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableFoot (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableHead (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableHeaderCell (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableRow (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTableRowCell (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTd (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTh (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlTitle (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlUl (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/Elements__HtmlUnorderedList (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/FaUiFunctions (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/HTMLChildrenTrait (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/HtmlAttribute (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/HtmlAttributeList (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/HtmlElement (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/HtmlElementInterface (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/HtmlEmptyElement (2).php.diff
+  MISSING_IN_PROD: tools/diffs_canonical/HtmlFragment (2).php.diff
+  MISSING_IN_PROD: tools/diffs_prod.txt
+  MISSING_IN_PROD: tools/duplicates_backup_removed.json
+  MISSING_IN_PROD: tools/identical_2_files.txt
+  MISSING_IN_PROD: tools/mermaid_full.mmd
+  MISSING_IN_PROD: tools/mermaid_process_imports.mmd
+  MISSING_IN_PROD: tools/missing_mapping.json
+  MISSING_IN_PROD: tools/providers.json
+  MISSING_IN_PROD: tools/providers_decl_ambiguous.json
+  MISSING_IN_PROD: tools/providers_decl_with_usages.json
+  MISSING_IN_PROD: tools/providers_php.augmented.fixed.json
+  MISSING_IN_PROD: tools/providers_php.augmented.json
+  MISSING_IN_PROD: tools/providers_php.cleaned.json
+  MISSING_IN_PROD: tools/providers_php.corrected.json
+  MISSING_IN_PROD: tools/providers_php.json
+  MISSING_IN_PROD: tools/providers_php.nodupes.json
+  MISSING_IN_PROD: tools/providers_php.normalized.json
+  MISSING_IN_PROD: tools/removed_my_backups.json
+  MISSING_IN_PROD: tools/repo_only_missing_in_prod.json
+  MISSING_IN_PROD: tools/scan_providers.php
+  MISSING_IN_PROD: tools/smoke_test.php
+  MISSING_IN_PROD: tools/summarize_diffs.ps1
+  MISSING_IN_PROD: tools/test_output_latest.txt
+  MISSING_IN_PROD: tools/unique_repo_only_files.txt
+  MISSING_IN_PROD: tools/usage_full.json
+  MISSING_IN_PROD: tools/usage_process_imports.json
+  MISSING_IN_PROD: tools/verify_csv_copy.php
+  MISSING_IN_PROD: update_pagination.py
+  MISSING_IN_PROD: update_process_statements.php
+  MISSING_IN_PROD: update_test_output.txt
+  MISSING_IN_PROD: verify_pagination_updates.py
+  MISSING_IN_PROD: views/AddCustomerButtonRow.php
+  MISSING_IN_PROD: views/AddVendorButtonRow.php
+  MISSING_IN_PROD: views/ToggleTransactionTypeButton.php
+
+=== SUMMARY ===
+  Files with diffs:      401
+  New in PROD only:      248
+  Missing in PROD:       442
+  Total PROD files:      983
+  Total repo files:      1177

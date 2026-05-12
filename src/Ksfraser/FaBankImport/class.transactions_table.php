@@ -81,9 +81,9 @@ class transaction_table_row
 			try {
 				$this->bankAccount = shorten_bankAccount_Names( $res_arr['accountName'] );
 			}
-			catch( Exception $this->e )
+			catch( Exception $e )
 			{
-				display_notification( __FILE__ . "::" . __LINE__ . ":" . $this->e->getMessage() );
+				display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
 				$this->bankAccount = $res_arr['accountName'];
 			}
 			$this->bankAccountName = $res_arr['accountName'];
@@ -130,14 +130,14 @@ class ttr_table
 {
 	protected $style;
 	protected $width;	//!<int percentage
-	/**//*************
-	*
+	/**
 	* @param int the style definition
 	* @param int The percentage width
-	function __construct( $style, width )
+	*/
+	function __construct( $style, $width )
 	{	
 		$this->style = $style;
-		$this->width = $width
+		$this->width = $width;
 	}
 	/**//************************************************
 	* Convert our data into an output HTML
@@ -577,7 +577,6 @@ class ttr_label_row
 		end_row();
 		}
 		end_table();
-	}
 	
 	
 	div_end();

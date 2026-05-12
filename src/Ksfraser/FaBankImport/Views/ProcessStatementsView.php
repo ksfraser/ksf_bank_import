@@ -39,9 +39,10 @@ class ProcessStatementsView
      */
     private $paginationData = null;
 
-	/**
-	 * @var int count of calls to Pagination Render
-	private $paginationRenderCount;
+    /**
+     * @var int Count of calls to pagination render
+     */
+    private $paginationRenderCount;
 
     /**
      * Constructor.
@@ -55,7 +56,7 @@ class ProcessStatementsView
         $this->transactions = $transactions;
         $this->operationTypes = $operationTypes;
         $this->vendorList = $vendorList;
-	$this->paginationRenderCount = 0;
+        $this->paginationRenderCount = 0;
     }
 
     /**
