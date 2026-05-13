@@ -41,6 +41,8 @@ class hooks_bank_import extends hooks {
 			$path_to_root."/modules/".$this->module_name."/module_config.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
 		$app->add_lapp_function(2, _("Bank Import Settings"),
 			$path_to_root."/modules/".$this->module_name."/bank_import_settings.php", 'SA_SETUPCOMPANY', MENU_MAINTENANCE);
+		$app->add_lapp_function(3, _("Reconcile CC Statement"),
+			$path_to_root."/modules/".$this->module_name."/reconcile_statement.php", 'SA_BANKACCOUNT', MENU_IMPORT);
 
 		break;
 	}

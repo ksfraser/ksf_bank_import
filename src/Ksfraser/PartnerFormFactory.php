@@ -63,47 +63,47 @@ class PartnerFormFactory
     /**
      * @var int The line item ID
      */
-    private int $lineItemId;
+    private $lineItemId;
 
     /**
      * @var FormFieldNameGenerator Field name generator
      */
-    private FormFieldNameGenerator $fieldGenerator;
+    private $fieldGenerator;
 
     /**
      * @var PartnerTypeRegistry Partner type registry
      */
-    private PartnerTypeRegistry $registry;
+    private $registry;
 
     /**
      * @var string The memo/comment text
      */
-    private string $memo = '';
+    private $memo = '';
 
     /**
      * @var array<string, mixed> Line item data
      */
-    private array $lineItemData = [];
+    private $lineItemData = [];
 
     /**
      * @var SupplierDataProvider Supplier data provider
      */
-    private SupplierDataProvider $supplierProvider;
+    private $supplierProvider;
 
     /**
      * @var CustomerDataProvider Customer data provider
      */
-    private CustomerDataProvider $customerProvider;
+    private $customerProvider;
 
     /**
      * @var BankAccountDataProvider Bank account data provider
      */
-    private BankAccountDataProvider $bankAccountProvider;
+    private $bankAccountProvider;
 
     /**
      * @var QuickEntryDataProvider Quick entry data provider
      */
-    private QuickEntryDataProvider $quickEntryProvider;
+    private $quickEntryProvider;
 
     /**
      * Constructor

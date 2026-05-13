@@ -1,9 +1,0 @@
-<?php
-
-namespace Ksfraser\HTML\Elements;
-
-use Ksfraser\HTML\HtmlElementInterface;
-
-class HtmlDl extends HtmlDescriptionList
-{
-}

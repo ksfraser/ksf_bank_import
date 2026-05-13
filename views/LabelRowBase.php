@@ -4,8 +4,6 @@ namespace Ksfraser\Html;
 
 use  Ksfraser\Html\HtmlElementInterface;
 
-require_once( __DIR__ .  '/HtmlElementInterface.php' );
-
 class LabelRowBase implements HtmlElementInterface
 //class LabelRowBase implements Ksfraser\Html\HtmlElementInterface
 {

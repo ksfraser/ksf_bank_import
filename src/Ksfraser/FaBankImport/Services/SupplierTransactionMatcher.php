@@ -35,6 +35,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
+use Ksfraser\FaBankImport\Services\VendorCandidate;
 
 /**
  * Supplier Transaction Matcher - Adapter for Legacy Vendor List
@@ -282,93 +283,6 @@ class SupplierTransactionMatcher
     public function getMatcher(): SupplierMatcher
     {
         return $this->matcher;
-    }
-}
-
-/**
- * Vendor Candidate Adapter
- *
- * Minimal implementation that provides the interface expected by
- * ScoringRuleEngine without requiring a full KeywordMatch object.
- *
- * @package Ksfraser\FaBankImport\Services
- * @since   7.6
- */
-class VendorCandidate implements SupplierCandidate
-{
-    /**
-     * Supplier ID
-     *
-     * @var int
-     */
-    private int $partnerId;
-
-    /**
-     * Supplier name
-     *
-     * @var string
-     */
-    private string $partnerName;
-
-    /**
-     * Bank account short name
-     *
-     * @var string
-     */
-    private string $partnerAccount;
-
-    /**
-     * Constructor
-     *
-     * @param int $partnerId Supplier ID
-     * @param string $partnerName Supplier name
-     * @param string $partnerAccount Bank account short form
-     */
-    public function __construct(int $partnerId, string $partnerName, string $partnerAccount)
-    {
-        $this->partnerId = $partnerId;
-        $this->partnerName = $partnerName;
-        $this->partnerAccount = $partnerAccount;
-    }
-
-    /**
-     * Get partner/supplier ID
-     *
-     * @return int
-     */
-    public function getPartnerId(): int
-    {
-        return $this->partnerId;
-    }
-
-    /**
-     * Get partner/supplier name
-     *
-     * @return string
-     */
-    public function getPartnerName(): string
-    {
-        return $this->partnerName;
-    }
-
-    /**
-     * Get partner type (1 = Supplier)
-     *
-     * @return int
-     */
-    public function getPartnerType(): int
-    {
-        return 1;
-    }
-
-    /**
-     * Get bank account for matching
-     *
-     * @return string
-     */
-    public function getPartnerAccount(): string
-    {
-        return $this->partnerAccount;
     }
 }
 

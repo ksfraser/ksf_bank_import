@@ -24,12 +24,6 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\HtmlRaw;
 use Ksfraser\HTML\Elements\HtmlSubmit;
 
-require_once(__DIR__ . '/HTML/HtmlFragment.php');
-require_once(__DIR__ . '/HTML/HtmlAttribute.php');
-require_once(__DIR__ . '/HTML/Composites/HtmlLabelRow.php');
-require_once(__DIR__ . '/HTML/Elements/HtmlString.php');
-require_once(__DIR__ . '/HTML/Elements/HtmlRaw.php');
-require_once(__DIR__ . '/HTML/Elements/HtmlSubmit.php');
 
 /**
  * SettledTransactionDisplay - Display settled transaction details with FA integration
@@ -59,7 +53,7 @@ class SettledTransactionDisplay
     /**
      * @var array Transaction data (id, fa_trans_type, fa_trans_no, etc.)
      */
-    private array $transactionData;
+    private $transactionData;
 
     /**
      * Constructor

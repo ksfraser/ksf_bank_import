@@ -26,16 +26,6 @@ namespace KsfBankImport\Views;
 require_once(__DIR__ . '/DataProviders/CustomerDataProvider.php');
 require_once(__DIR__ . '/PartnerMatcher.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlFragment.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlHidden.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlRaw.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlTable.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlTableRow.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlTd.php');
 
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 use Ksfraser\PartnerFormData;

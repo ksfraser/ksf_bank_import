@@ -35,11 +35,6 @@ use Ksfraser\HTML\Elements\HtmlString;
 require_once(__DIR__ . '/PartnerMatcher.php');
 require_once(__DIR__ . '/../src/Ksfraser/BankAccountDataProvider.php');
 require_once(__DIR__ . '/../src/Ksfraser/PartnerFormData.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/HtmlFragment.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php');
-require_once(__DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php');
 
 class BankTransferPartnerTypeView
 {

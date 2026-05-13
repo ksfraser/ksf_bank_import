@@ -3,7 +3,7 @@
 namespace Ksfraser\FaBankImport\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\Service\TransactionCounter;
+use Ksfraser\FaBankImport\Services\TransactionCounter;
 
 /**
  * Unit tests for TransactionCounter Service
