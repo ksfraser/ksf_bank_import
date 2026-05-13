@@ -40,17 +40,17 @@ class MatchingTransactionsList
     /**
      * @var array Matching GL transactions array
      */
-    private array $matchingTransactions;
+    private $matchingTransactions;
 
     /**
      * @var array Bank transaction data (our_account, amount, transactionDC, etc.)
      */
-    private array $bankTransactionData;
+    private $bankTransactionData;
 
     /**
      * @var UrlBuilder|null Optional URL builder for transaction links
      */
-    private ?UrlBuilder $urlBuilder = null;
+    private $urlBuilder = null;
 
     /**
      * Constructor

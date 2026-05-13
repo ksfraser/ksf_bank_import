@@ -53,7 +53,7 @@ class SettledTransactionDisplay
     /**
      * @var array Transaction data (id, fa_trans_type, fa_trans_no, etc.)
      */
-    private array $transactionData;
+    private $transactionData;
 
     /**
      * Constructor
