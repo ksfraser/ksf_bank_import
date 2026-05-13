@@ -14,8 +14,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../../views/PartnerTypeDisplayStrategy.php';
-require_once __DIR__ . '/../../../views/ViewFactory.php';
+require_once __DIR__ . '/../../../Views/PartnerTypeDisplayStrategy.php';
+require_once __DIR__ . '/../../../Views/ViewFactory.php';
 
 class PartnerTypeDisplayStrategyTest extends TestCase
 {
