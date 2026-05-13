@@ -46,12 +46,38 @@ require_once( __DIR__ . '/Views/CustomerPartnerTypeView.php' );
 require_once( __DIR__ . '/Views/BankTransferPartnerTypeView.php' );
 require_once( __DIR__ . '/Views/QuickEntryPartnerTypeView.php' );
 
+// Load DataProviders needed by ViewFactory
+require_once( __DIR__ . '/src/Ksfraser/BankAccountDataProvider.php' );
+require_once( __DIR__ . '/Views/DataProviders/CustomerDataProvider.php' );
+require_once( __DIR__ . '/Views/DataProviders/SupplierDataProvider.php' );
+require_once( __DIR__ . '/Views/DataProviders/QuickEntryDataProvider.php' );
+
 // V2 Views with ViewFactory (feature flag controlled)
 require_once( __DIR__ . '/Views/ViewFactory.php' );
 use KsfBankImport\Views\ViewFactory;
 
 // Feature flag to enable v2 Views (set to true to use ViewFactory)
 define('USE_V2_PARTNER_VIEWS', true);
+
+// Feature flag to enable unified transaction partner matching
+// When enabled, transactions are matched against all partner types (supplier/customer/bank)
+// before classification, enabling pre-selection and confidence scoring
+define('USE_UNIFIED_PARTNER_MATCHING', true);
+
+// Unified transaction partner matching infrastructure
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Services/TransactionPartnerMatcher.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Services/TransactionMatchResult.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Services/VendorCandidate.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Services/PartnerMatchingConfiguration.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Services/PartnerMatcherFactory.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Services/TransactionMatcherIntegration.php' );
+use Ksfraser\FaBankImport\Services\{
+    TransactionPartnerMatcher,
+    TransactionMatchResult,
+    VendorCandidate,
+    PartnerMatcherFactory,
+    TransactionMatcherIntegration
+};
 
 // SettledTransactionDisplay for displaying settled transactions
 require_once( __DIR__ . '/src/Ksfraser/SettledTransactionDisplay.php' );
@@ -996,6 +1022,197 @@ class bi_lineitem extends generic_fa_interface_model
 		$commentSubmitView = new CommentSubmitView($commentSubmitData);
 		$commentSubmitView->display();
 	}
+
+	/**//*******************************************************************
+	* UNIFIED TRANSACTION PARTNER MATCHING
+	*
+	* New methods for integrated partner matching across all types
+	*
+	* Feature flag controlled: USE_UNIFIED_PARTNER_MATCHING
+	*
+	* These methods enable pre-selection and confidence scoring of partner
+	* matches BEFORE the user selects a partner type.
+	*
+	* ===============================================================*/
+
+	/**
+	 * Get transaction matches using unified partner matcher
+	 *
+	 * Executes matching logic against all partner types (suppliers, customers,
+	 * bank accounts) and returns ranked results with confidence scores.
+	 *
+	 * @return array Matching results:
+	 *              [
+	 *                  'supplier' => [TransactionMatchResult, ...],
+	 *                  'customer' => [TransactionMatchResult, ...],
+	 *                  'bank_transfer' => [TransactionMatchResult, ...],
+	 *                  'best_match' => TransactionMatchResult|null
+	 *              ]
+	 *
+	 * @since 2025-04-19
+	 */
+	public function getTransactionMatches(): array
+	{
+		if (!USE_UNIFIED_PARTNER_MATCHING) {
+			return $this->getEmptyMatchResults();
+		}
+
+		try {
+			$integration = new TransactionMatcherIntegration();
+			return $integration->matchTransaction($this, 'unified');
+		} catch (Exception $e) {
+			// Log error but don't break display
+			error_log('Transaction matching failed: ' . $e->getMessage());
+			return $this->getEmptyMatchResults();
+		}
+	}
+
+	/**
+	 * Get supplier-specific matches
+	 *
+	 * @return array Results with supplier focus
+	 * @since 2025-04-19
+	 */
+	public function getSupplierMatches(): array
+	{
+		if (!USE_UNIFIED_PARTNER_MATCHING) {
+			return $this->getEmptyMatchResults();
+		}
+
+		try {
+			$integration = new TransactionMatcherIntegration();
+			return $integration->matchTransaction($this, 'supplier');
+		} catch (Exception $e) {
+			error_log('Supplier matching failed: ' . $e->getMessage());
+			return $this->getEmptyMatchResults();
+		}
+	}
+
+	/**
+	 * Get customer-specific matches
+	 *
+	 * @return array Results with customer focus
+	 * @since 2025-04-19
+	 */
+	public function getCustomerMatches(): array
+	{
+		if (!USE_UNIFIED_PARTNER_MATCHING) {
+			return $this->getEmptyMatchResults();
+		}
+
+		try {
+			$integration = new TransactionMatcherIntegration();
+			return $integration->matchTransaction($this, 'customer');
+		} catch (Exception $e) {
+			error_log('Customer matching failed: ' . $e->getMessage());
+			return $this->getEmptyMatchResults();
+		}
+	}
+
+	/**
+	 * Get formatted match results for display
+	 *
+	 * Formats raw match results into HTML-safe display data with
+	 * confidence scores, labels, and threshold indicators.
+	 *
+	 * @return array Formatted results ready for view rendering
+	 * @since 2025-04-19
+	 */
+	public function getFormattedMatchResults(): array
+	{
+		try {
+			$results = $this->getTransactionMatches();
+			$integration = new TransactionMatcherIntegration();
+			return $integration->formatResultsForDisplay($results);
+		} catch (Exception $e) {
+			error_log('Match formatting failed: ' . $e->getMessage());
+			return $this->getEmptyFormattedResults();
+		}
+	}
+
+	/**
+	 * Get best match recommendation string for display
+	 *
+	 * Returns a user-friendly HTML string recommending the top match,
+	 * or empty string if no matches or feature disabled.
+	 *
+	 * @return string Display-ready recommendation or empty string
+	 * @since 2025-04-19
+	 */
+	public function getBestMatchRecommendation(): string
+	{
+		if (!USE_UNIFIED_PARTNER_MATCHING) {
+			return '';
+		}
+
+		try {
+			$results = $this->getTransactionMatches();
+			if (empty($results['best_match'])) {
+				return '';
+			}
+
+			$integration = new TransactionMatcherIntegration();
+			return $integration->getBestMatchDisplayString($results['best_match']);
+		} catch (Exception $e) {
+			// Silently fail for display strings
+			return '';
+		}
+	}
+
+	/**
+	 * Check if best match meets confidence threshold
+	 *
+	 * Useful for determining whether to auto-prefill vs show selector.
+	 *
+	 * @return bool True if best match exists and meets threshold
+	 * @since 2025-04-19
+	 */
+	public function hasBestMatchAboveThreshold(): bool
+	{
+		if (!USE_UNIFIED_PARTNER_MATCHING) {
+			return false;
+		}
+
+		try {
+			$results = $this->getTransactionMatches();
+			return $results['best_match'] !== null && $results['best_match']->meetsThreshold();
+		} catch (Exception $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Get empty match results structure
+	 *
+	 * @return array Empty results with required keys
+	 * @since 2025-04-19
+	 */
+	private function getEmptyMatchResults(): array
+	{
+		return [
+			'supplier' => [],
+			'customer' => [],
+			'bank_transfer' => [],
+			'best_match' => null
+		];
+	}
+
+	/**
+	 * Get empty formatted results structure
+	 *
+	 * @return array Empty formatted results
+	 * @since 2025-04-19
+	 */
+	private function getEmptyFormattedResults(): array
+	{
+		return [
+			'best_match' => null,
+			'supplier_matches' => [],
+			'customer_matches' => [],
+			'bank_matches' => []
+		];
+	}
+
 	/**//*****************************************************************
 	* Display as a row
 	*

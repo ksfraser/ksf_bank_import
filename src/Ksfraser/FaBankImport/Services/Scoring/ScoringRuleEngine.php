@@ -85,10 +85,10 @@ class ScoringRuleEngine
      * Detailed breakdown available via getScoreBreakdown() or formatScoreDetails().
      *
      * @param array $transaction Transaction data
-     * @param KeywordMatch $match Partner match
+     * @param SupplierCandidate $match Partner/supplier match
      * @return float Total adjustment, clamped to reasonable range
      */
-    public function calculateAdjustment(array $transaction, KeywordMatch $match): float
+    public function calculateAdjustment(array $transaction, SupplierCandidate $match): float
     {
         $totalScore = 0.0;
         $this->lastBreakdown = [
@@ -205,10 +205,10 @@ class ScoringRuleEngine
      * Returns array with both the clamped adjustment and full breakdown.
      *
      * @param array $transaction Transaction data
-     * @param KeywordMatch $match Partner match
+     * @param SupplierCandidate $match Partner/supplier match
      * @return array Result with keys: 'adjustment' (clamped), 'breakdown' (detailed)
      */
-    public function calculateAdjustmentWithBreakdown(array $transaction, KeywordMatch $match): array
+    public function calculateAdjustmentWithBreakdown(array $transaction, SupplierCandidate $match): array
     {
         $adjustment = $this->calculateAdjustment($transaction, $match);
         return [

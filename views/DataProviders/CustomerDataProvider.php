@@ -144,8 +144,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public static function getInstance(): self
-    {
+    public static function getInstance(): CustomerDataProvider {
         if (self::$instance === null) {
             self::$instance = new self();
         }
@@ -159,8 +158,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public static function reset(): void
-    {
+    public static function reset(): void {
         self::$instance = null;
     }
     
@@ -171,8 +169,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getPartners(): array
-    {
+    public function getPartners(): array {
         return $this->getCustomers();
     }
     
@@ -183,8 +180,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getCustomers(): array
-    {
+    public function getCustomers(): array {
         if (!$this->loaded) {
             $this->loadCustomers();
         }
@@ -217,8 +213,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getBranches(int $customerId): array
-    {
+    public function getBranches(int $customerId): array {
         if (!$this->loaded) {
             $this->loadCustomers();
         }
@@ -271,8 +266,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function hasBranches(int $customerId): bool
-    {
+    public function hasBranches(int $customerId): bool {
         if (!$this->loaded) {
             $this->loadCustomers();
         }
@@ -319,8 +313,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function hasPartner(int $partnerId): bool
-    {
+    public function hasPartner(int $partnerId): bool {
         return $this->hasCustomer($partnerId);
     }
     
@@ -333,8 +326,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function hasCustomer(int $customerId): bool
-    {
+    public function hasCustomer(int $customerId): bool {
         if (!$this->loaded) {
             $this->loadCustomers();
         }
@@ -348,8 +340,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getCount(): int
-    {
+    public function getCount(): int {
         if (!$this->loaded) {
             $this->loadCustomers();
         }
@@ -366,8 +357,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    private function loadCustomers(): void
-    {
+    private function loadCustomers(): void {
         if ($this->loaded) {
             return;
         }
@@ -421,8 +411,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    private function loadBranches(): void
-    {
+    private function loadBranches(): void {
         if (function_exists('db_query') && defined('TB_PREF')) {
             $sql = "SELECT branch_code, debtor_no, br_name, br_address, 
                            contact_name, email, inactive 

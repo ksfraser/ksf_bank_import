@@ -81,7 +81,7 @@ class HtmlSelect implements HtmlElementInterface
     {
         $this->name = $name;
         $this->options = [];
-        $this->attributes = new HtmlAttributeList(new HtmlAttribute("", ""));
+        $this->attributes = new HtmlAttributeList();
     }
 
     /**

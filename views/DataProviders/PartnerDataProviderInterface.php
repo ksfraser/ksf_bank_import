@@ -85,7 +85,7 @@ interface PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getPartners(): array;
+    public function getPartners(): array ;
     
     /**
      * Get label for a specific partner
@@ -98,7 +98,7 @@ interface PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getPartnerLabel(int $partnerId): ?string;
+    public function getPartnerLabel(int $partnerId): ?string ;
     
     /**
      * Check if partner exists
@@ -109,7 +109,7 @@ interface PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function hasPartner(int $partnerId): bool;
+    public function hasPartner(int $partnerId): bool ;
     
     /**
      * Get count of partners
@@ -118,5 +118,5 @@ interface PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getCount(): int;
+    public function getCount(): int ;
 }

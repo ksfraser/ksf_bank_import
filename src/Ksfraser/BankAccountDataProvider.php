@@ -57,14 +57,14 @@ use Ksfraser\HTML\Elements\HtmlOption;
 class BankAccountDataProvider
 {
     /**
-     * @var array<int, array<string, mixed>>|null Static cache for bank account data
+     * @var array|null Static cache for bank account data
      */
-    private static ?array $bankAccountCache = null;
+    private static $bankAccountCache = null;
 
     /**
      * @var bool Flag indicating if bank account data has been loaded
      */
-    private static bool $isLoaded = false;
+    private static $isLoaded = false;
 
     /**
      * Constructor
@@ -82,11 +82,11 @@ class BankAccountDataProvider
      * Returns cached data if available, otherwise loads from database.
      * For testing purposes, also checks if data was set via setBankAccounts().
      *
-     * @return array<int, array<string, mixed>> Array of bank account records
+     * @return array Array of bank account records
      *
      * @since 20251020
      */
-    public function getBankAccounts(): array
+    public function getBankAccounts()
     {
         // Return cached data if available
         if (self::$bankAccountCache !== null) {
@@ -131,7 +131,7 @@ class BankAccountDataProvider
      *
      * @since 20251020
      */
-    public function generateSelectHtml(string $fieldName, ?string $selectedId): string
+    public function generateSelectHtml(string $fieldName, $selectedId = null)
     {
         $accounts = $this->getBankAccounts();
 
@@ -157,7 +157,7 @@ class BankAccountDataProvider
      *
      * @since 20251020
      */
-    public function getBankAccountNameById(string $accountId): ?string
+    public function getBankAccountNameById(string $accountId)
     {
         $accounts = $this->getBankAccounts();
 
@@ -175,11 +175,11 @@ class BankAccountDataProvider
      *
      * @param string $accountId The bank account ID
      *
-     * @return array<string, mixed>|null Bank account record or null if not found
+     * @return array|null Bank account record or null if not found
      *
      * @since 20251020
      */
-    public function getBankAccountById(string $accountId): ?array
+    public function getBankAccountById(string $accountId)
     {
         $accounts = $this->getBankAccounts();
 
@@ -244,7 +244,7 @@ class BankAccountDataProvider
      *
      * @codeCoverageIgnore
      */
-    private function loadBankAccountsFromDatabase(): array
+    private function loadBankAccountsFromDatabase()
     {
         // TODO: Task #16 - Implement actual database loading
         // This will be called when integrating with FA database layer

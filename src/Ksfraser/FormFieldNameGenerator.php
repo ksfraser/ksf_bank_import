@@ -33,7 +33,7 @@ class FormFieldNameGenerator
     /**
      * @var string The separator character used between field name and ID
      */
-    private string $separator;
+    private $separator;
 
     /**
      * Constructor

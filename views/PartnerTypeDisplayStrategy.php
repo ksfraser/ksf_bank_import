@@ -42,18 +42,6 @@ require_once( __DIR__ . '/BankTransferPartnerTypeView.php' );
 require_once( __DIR__ . '/QuickEntryPartnerTypeView.php' );
 
 // HTML Library classes for type-safe HTML generation
-require_once( __DIR__ . '/../src/Ksfraser/HTML/HtmlElementInterface.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/HtmlAttribute.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/HtmlAttributeList.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/HtmlFragment.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/HtmlEmptyElement.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlHidden.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlString.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlOption.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlSelect.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlInput.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlTd.php' );
-require_once( __DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php' );
 use Ksfraser\HTML\Elements\HtmlHidden;
 use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\HTML\Composites\HtmlLabelRow;

@@ -111,8 +111,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public static function getInstance(): self
-    {
+    public static function getInstance(): SupplierDataProvider {
         if (self::$instance === null) {
             self::$instance = new self();
         }
@@ -126,8 +125,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public static function reset(): void
-    {
+    public static function reset(): void {
         self::$instance = null;
     }
     
@@ -138,8 +136,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getPartners(): array
-    {
+    public function getPartners(): array {
         return $this->getSuppliers();
     }
     
@@ -150,8 +147,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getSuppliers(): array
-    {
+    public function getSuppliers(): array {
         if (!$this->loaded) {
             $this->loadSuppliers();
         }
@@ -213,8 +209,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function hasPartner(int $partnerId): bool
-    {
+    public function hasPartner(int $partnerId): bool {
         return $this->hasSupplier($partnerId);
     }
     
@@ -227,8 +222,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function hasSupplier(int $supplierId): bool
-    {
+    public function hasSupplier(int $supplierId): bool {
         if (!$this->loaded) {
             $this->loadSuppliers();
         }
@@ -242,8 +236,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    public function getCount(): int
-    {
+    public function getCount(): int {
         if (!$this->loaded) {
             $this->loadSuppliers();
         }
@@ -260,8 +253,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
      * 
      * @since 1.0.0
      */
-    private function loadSuppliers(): void
-    {
+    private function loadSuppliers(): void {
         if ($this->loaded) {
             return;
         }

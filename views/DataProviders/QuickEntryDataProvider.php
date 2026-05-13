@@ -126,8 +126,7 @@ class QuickEntryDataProvider
      * 
      * @since 1.0.0
      */
-    public static function forDeposit(): self
-    {
+    public static function forDeposit(): QuickEntryDataProvider {
         if (self::$depositInstance === null) {
             // QE_DEPOSIT constant from FrontAccounting
             if (!defined('QE_DEPOSIT')) {
@@ -145,8 +144,7 @@ class QuickEntryDataProvider
      * 
      * @since 1.0.0
      */
-    public static function forPayment(): self
-    {
+    public static function forPayment(): QuickEntryDataProvider {
         if (self::$paymentInstance === null) {
             // QE_PAYMENT constant from FrontAccounting
             if (!defined('QE_PAYMENT')) {
@@ -164,8 +162,7 @@ class QuickEntryDataProvider
      * 
      * @since 1.0.0
      */
-    public static function reset(): void
-    {
+    public static function reset(): void {
         self::$depositInstance = null;
         self::$paymentInstance = null;
     }
@@ -177,8 +174,7 @@ class QuickEntryDataProvider
      * 
      * @since 1.0.0
      */
-    public function getEntries(): array
-    {
+    public function getEntries(): array {
         if (!$this->loaded) {
             $this->loadEntries();
         }
@@ -226,8 +222,7 @@ class QuickEntryDataProvider
      * 
      * @since 1.0.0
      */
-    public function hasEntry(int $entryId): bool
-    {
+    public function hasEntry(int $entryId): bool {
         if (!$this->loaded) {
             $this->loadEntries();
         }
@@ -241,8 +236,7 @@ class QuickEntryDataProvider
      * 
      * @since 1.0.0
      */
-    public function getCount(): int
-    {
+    public function getCount(): int {
         if (!$this->loaded) {
             $this->loadEntries();
         }
@@ -259,8 +253,7 @@ class QuickEntryDataProvider
      * 
      * @since 1.0.0
      */
-    private function loadEntries(): void
-    {
+    private function loadEntries(): void {
         if ($this->loaded) {
             return;
         }

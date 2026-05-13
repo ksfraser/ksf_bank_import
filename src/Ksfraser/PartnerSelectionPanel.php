@@ -46,37 +46,37 @@ class PartnerSelectionPanel
     /**
      * @var array<string, string>|null Cached partner types array
      */
-    private static ?array $cachedPartnerTypes = null;
+    private static $cachedPartnerTypes = null;
 
     /**
      * @var int The line item ID
      */
-    private int $id;
+    private $id;
 
     /**
      * @var string The selected partner type code
      */
-    private string $selectedType;
+    private $selectedType;
 
     /**
      * @var FormFieldNameGenerator Field name generator
      */
-    private FormFieldNameGenerator $fieldGenerator;
+    private $fieldGenerator;
 
     /**
      * @var PartnerTypeRegistry Partner type registry
      */
-    private PartnerTypeRegistry $registry;
+    private $registry;
 
     /**
      * @var string The label text for the selector
      */
-    private string $label = 'Partner:';
+    private $label = 'Partner:';
 
     /**
      * @var bool Whether to enable select_submit
      */
-    private bool $selectSubmit = true;
+    private $selectSubmit = true;
 
     /**
      * Constructor
