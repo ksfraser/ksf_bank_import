@@ -60,3 +60,10 @@ test-output.txt
 
 # Production dump directory (local)
 PROD/
+
+# VS Code Copilot context-mode local database artifacts
+.github/context-mode/
+
+# Ignore nested repository metadata in local dump directories
+**/.git/
+**/.git/**
