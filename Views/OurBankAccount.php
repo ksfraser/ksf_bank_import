@@ -22,7 +22,7 @@ class OurBankAccount extends LabelRowBase
 	{
 		// Set properties BEFORE calling parent::__construct()
 		$this->label = "Our Bank Account - (Account Name)(Number):";
-		$this->data = $bi_lineitem->our_account . ' - ' . $bi_lineitem->ourBankDetails['bank_name'] . " (" . $bi_lineitem->ourBankAccountName . ")(" . $bi_lineitem->ourBankAccountCode . ")";
+		$this->data = $bi_lineitem->getOurAccount() . ' - ' . $bi_lineitem->getOurBankDetails()['bank_name'] . " (" . $bi_lineitem->getOurBankAccountName() . ")(" . $bi_lineitem->getOurBankAccountCode() . ")";
 		
 		parent::__construct( "" );
 	}

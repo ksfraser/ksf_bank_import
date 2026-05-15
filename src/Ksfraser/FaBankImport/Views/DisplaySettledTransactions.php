@@ -1,6 +1,6 @@
 <?php
 
-namespace Ksfraser\FaBankImport;
+namespace Ksfraser\FaBankImport\Views;
 
 use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\LabelRowBase;

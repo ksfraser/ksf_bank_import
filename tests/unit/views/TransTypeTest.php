@@ -5,7 +5,7 @@ namespace Tests\Unit\Views;
 use PHPUnit\Framework\TestCase;
 
 // Load the classes from views directory (global namespace)
-require_once __DIR__ . '/../../../views/TransType.php';
+require_once __DIR__ . '/../../../Views/TransType.php';
 
 /**
  * Test TransType view component

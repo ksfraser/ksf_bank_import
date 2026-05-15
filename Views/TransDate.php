@@ -29,7 +29,7 @@ class TransDate implements HtmlElementInterface
 		// FIXED: Was $this->bi_lineitem (undefined property), now $bi_lineitem (parameter)
 		// HTML_ROW_LABEL signature: ($data, $label, $width, $class)
 		$this->row = new HTML_ROW_LABEL( 
-			$bi_lineitem->valueTimestamp . " :: (" . $bi_lineitem->entryTimestamp . ")",  // data (content)
+			$bi_lineitem->getValueTimestamp() . " :: (" . $bi_lineitem->getEntryTimestamp() . ")",  // data (content)
 			"Trans Date (Event Date):",  // label
 			null, 
 			null 

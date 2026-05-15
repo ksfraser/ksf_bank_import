@@ -5,7 +5,7 @@ namespace Tests\Unit\Views;
 use PHPUnit\Framework\TestCase;
 
 // Load the class from views directory (global namespace)
-require_once __DIR__ . '/../../../views/TransDate.php';
+require_once __DIR__ . '/../../../Views/TransDate.php';
 
 /**
  * Test TransDate view component

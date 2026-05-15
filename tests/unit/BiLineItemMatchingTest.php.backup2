@@ -1,35 +1,17 @@
 <?php
-
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-
-// Define constants if not already defined
-if (!defined('ST_JOURNAL')) {
-    define('ST_JOURNAL', 0);
-}
-if (!defined('ST_SUPPINVOICE')) {
-    define('ST_SUPPINVOICE', 20);
-}
-if (!defined('ST_BANKPAYMENT')) {
-    define('ST_BANKPAYMENT', 1);
-}
-if (!defined('ST_BANKDEPOSIT')) {
-    define('ST_BANKDEPOSIT', 2);
-}
-if (!defined('ST_SUPPAYMENT')) {
-    define('ST_SUPPAYMENT', 22);
-}
-// USE_V2_PARTNER_VIEWS is defined in class.bi_lineitem.php
+define('ST_SUPPINVOICE', 20);
+define('ST_JOURNAL', 0);
+define('ST_BANKPAYMENT', 1);
+define('ST_BANKDEPOSIT', 2);
+define('ST_SUPPAYMENT', 22);
 
 /**
  * Comprehensive tests for bi_lineitem matching logic
  * Tests all branches, edge cases, and conditions in getDisplayMatchingTrans()
  */
-class BiLineItemMatchingTest extends TestCase
-{
-    private $lineItem;
-
     protected function setUp(): void
     {
         // Mock $_POST to avoid undefined index warnings
@@ -37,25 +19,28 @@ class BiLineItemMatchingTest extends TestCase
             $_POST = [];
         }
         
-        // Include the class file
+        // Include required files
+        require_once __DIR__ . '/../../includes/fa_stubs.php';
         require_once __DIR__ . '/../../class.bi_lineitem.php';
         
         // Create a mock bi_lineitem instance that mocks findMatchingExistingJE
         $this->lineItem = $this->getMockBuilder(\bi_lineitem::class)
             ->setMethods(['findMatchingExistingJE'])
-            ->enableOriginalConstructor()
+            ->setConstructorArgs([null, [], []])
             ->getMock(); 
         
         // Set a test ID
         $this->lineItem->setId(123);
     }
+class BiLineItemMatchingTest extends TestCase
+{
+    private $lineItem;
 
     protected function tearDown(): void
     {
-        // Clean up $_POST for partnerType
-        $key = "partnerType[{$this->lineItem->getId()}]";
-        if (isset($_POST[$key])) {
-            unset($_POST[$key]);
+        // Clean up $_POST
+        if (isset($_POST['partnerType'])) {
+            unset($_POST['partnerType']);
         }
     }
 
@@ -76,7 +61,7 @@ class BiLineItemMatchingTest extends TestCase
         $this->lineItem->getDisplayMatchingTrans();
         
         // Assert no partner type was set
-        $this->assertNull($this->lineItem->getFormData()->getPartnerType());
+        $this->assertArrayNotHasKey($this->lineItem->getId(), $_POST);
     }
 
     /**
@@ -111,7 +96,7 @@ class BiLineItemMatchingTest extends TestCase
         $output = ob_get_clean();
         
         // Assert no partner type was set due to low score
-        $this->assertNull($this->lineItem->getFormData()->getPartnerType());
+        $this->assertArrayNotHasKey($this->lineItem->getId(), $_POST);
         
         // Should trigger var_dump for low score branch
         $this->assertNotEmpty($output);
@@ -147,7 +132,7 @@ class BiLineItemMatchingTest extends TestCase
         $this->lineItem->getDisplayMatchingTrans();
         
         // Assert partner type set to SP
-        $this->assertEquals('SP', $this->lineItem->getFormData()->getPartnerType());
+        $this->assertEquals('SP', $_POST['partnerType'][$this->lineItem->getId()] ?? null);
         $this->assertEquals("MATCH", $this->lineItem->getOplabel());
     }
 
@@ -181,7 +166,7 @@ class BiLineItemMatchingTest extends TestCase
         $this->lineItem->getDisplayMatchingTrans();
         
         // In OLD version: should be 'ZZ'
-        $this->assertEquals('ZZ', $this->lineItem->getFormData()->getPartnerType());
+        $this->assertEquals('ZZ', $_POST['partnerType'][$this->lineItem->getId()] ?? null);
         $this->assertEquals("MATCH", $this->lineItem->getOplabel());
     }
 
@@ -227,7 +212,7 @@ class BiLineItemMatchingTest extends TestCase
         $this->lineItem->getDisplayMatchingTrans();
         
         // Should process first match with highest score
-        $this->assertEquals('ZZ', $this->lineItem->getFormData()->getPartnerType());
+        $this->assertEquals('ZZ', $_POST['partnerType'][$this->lineItem->getId()] ?? null);
     }
 
     /**
@@ -254,7 +239,7 @@ class BiLineItemMatchingTest extends TestCase
         $this->lineItem->getDisplayMatchingTrans();
         
         // Should NOT set partner type (needs manual review)
-        $this->assertNull($this->lineItem->getFormData()->getPartnerType());
+        $this->assertArrayNotHasKey($this->lineItem->getId(), $_POST);
     }
 
     /**
@@ -287,7 +272,7 @@ class BiLineItemMatchingTest extends TestCase
         $this->lineItem->getDisplayMatchingTrans();
         
         // Should process with score = 50
-        $this->assertEquals('ZZ', $this->lineItem->getFormData()->getPartnerType());
+        $this->assertEquals('ZZ', $_POST['partnerType'][$this->lineItem->getId()] ?? null);
     }
 
     /**
@@ -322,7 +307,7 @@ class BiLineItemMatchingTest extends TestCase
         $output = ob_get_clean();
         
         // Should NOT process with score = 49
-        $this->assertNull($this->lineItem->getFormData()->getPartnerType());
+        $this->assertArrayNotHasKey($this->lineItem->getId(), $_POST);
     }
 
     /**
@@ -349,12 +334,12 @@ class BiLineItemMatchingTest extends TestCase
         $this->lineItem->getDisplayMatchingTrans();
         
         // Should NOT process (count >= 3)
-        $this->assertNull($this->lineItem->getFormData()->getPartnerType());
+        $this->assertArrayNotHasKey($this->lineItem->getId(), $_POST);
     }
 
     /**
      * Test: Verify hidden fields are set for high-score match
-     * Expected: Hidden fields for trans_type and trans_no are output
+     * Expected: Hidden fields for trans_type and trans_no
      */
     public function testHiddenFieldsSetForMatch(): void
     {
@@ -379,15 +364,16 @@ class BiLineItemMatchingTest extends TestCase
                 ];
             });
         
-        // Capture output from getDisplayMatchingTrans (which echoes the hidden fields)
-        ob_start();
-        $this->lineItem->getDisplayMatchingTrans();
-        $output = ob_get_clean();
+        // Capture hidden() function calls
+        $GLOBALS['hidden_fields'] = [];
+        function hidden($name, $value) {
+            $GLOBALS['hidden_fields'][$name] = $value;
+        }
         
-        // Verify hidden fields were output
-        $this->assertStringContainsString('trans_type_123', $output);
-        $this->assertStringContainsString('value="22"', $output);
-        $this->assertStringContainsString('trans_no_123', $output);
-        $this->assertStringContainsString('value="999"', $output);
+        $this->lineItem->getDisplayMatchingTrans();
+        
+        // Verify hidden fields were set
+        $this->assertEquals(\ST_SUPPAYMENT, $GLOBALS['hidden_fields']["trans_type_{$this->lineItem->getId()}"] ?? null);
+        $this->assertEquals(999, $GLOBALS['hidden_fields']["trans_no_{$this->lineItem->getId()}"] ?? null);
     }
 }

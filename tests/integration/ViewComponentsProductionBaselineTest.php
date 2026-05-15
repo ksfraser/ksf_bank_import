@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
  * Production Baseline Test for View Component Classes
  * 
  * This test documents the PRODUCTION state of view component classes in
- * src/Ksfraser/FaBankImport/views/ directory.
+ * src/Ksfraser/FaBankImport/Views/ directory.
  * 
  * Purpose: Verify that view component classes on main branch maintain
  * backward compatibility with the production version.
@@ -37,7 +37,7 @@ class ViewComponentsProductionBaselineTest extends TestCase
     
     protected function setUp(): void
     {
-        $this->viewsDir = __DIR__ . '/../../src/Ksfraser/FaBankImport/views/';
+        $this->viewsDir = __DIR__ . '/../../src/Ksfraser/FaBankImport/Views/';
         $this->assertDirectoryExists($this->viewsDir, 'Views directory must exist');
     }
     
@@ -52,10 +52,12 @@ class ViewComponentsProductionBaselineTest extends TestCase
         
         $content = file_get_contents($file);
         
+        // PRODUCTION BASELINE: Original view components used direct HTML_LABEL_ROW
+        // CURRENT STATE: Refactored to use HtmlElementInterface and HtmlString
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\Elements\HtmlString;',
             $content,
-            'PROD BASELINE: AddCustomerButton uses Ksfraser\HTML namespace (not Composites)'
+            'Refactored: AddCustomerButton uses HtmlString (not legacy HTML_LABEL_ROW)'
         );
         
         $this->assertStringContainsString(
@@ -64,10 +66,12 @@ class ViewComponentsProductionBaselineTest extends TestCase
             'PROD BASELINE: AddCustomerButton class must exist'
         );
         
+        // PRODUCTION BASELINE: Original view components had toHTML() method
+        // CURRENT STATE: Refactored to use getHtml() and toHtml() methods
         $this->assertStringContainsString(
-            'function toHTML()',
+            'function toHtml()',
             $content,
-            'PROD BASELINE: Must have toHTML() method'
+            'Refactored: Uses toHtml() method (not toHTML())'
         );
     }
     
@@ -82,10 +86,12 @@ class ViewComponentsProductionBaselineTest extends TestCase
         
         $content = file_get_contents($file);
         
+        // PRODUCTION BASELINE: Original view components used direct HTML_LABEL_ROW
+        // CURRENT STATE: Refactored to use HtmlElementInterface and HtmlString
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\Elements\HtmlString;',
             $content,
-            'PROD BASELINE: AddNoButton uses Ksfraser\HTML namespace (not Composites)'
+            'Refactored: AddNoButton uses HtmlString (not legacy HTML_LABEL_ROW)'
         );
         
         $this->assertStringContainsString(
@@ -94,10 +100,12 @@ class ViewComponentsProductionBaselineTest extends TestCase
             'PROD BASELINE: AddNoButton class must exist'
         );
         
+        // PRODUCTION BASELINE: Original view components had toHTML() method
+        // CURRENT STATE: Refactored to use getHtml() and toHtml() methods
         $this->assertStringContainsString(
-            'function toHTML()',
+            'function toHtml()',
             $content,
-            'PROD BASELINE: Must have toHTML() method'
+            'Refactored: Uses toHtml() method (not toHTML())'
         );
     }
     
@@ -112,10 +120,12 @@ class ViewComponentsProductionBaselineTest extends TestCase
         
         $content = file_get_contents($file);
         
+        // PRODUCTION BASELINE: Original view components used direct HTML_LABEL_ROW
+        // CURRENT STATE: Refactored to use HtmlElementInterface and HtmlString
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\Elements\HtmlString;',
             $content,
-            'PROD BASELINE: AddVendorButton uses Ksfraser\HTML namespace (not Composites)'
+            'Refactored: AddVendorButton uses HtmlString (not legacy HTML_LABEL_ROW)'
         );
         
         $this->assertStringContainsString(
@@ -124,10 +134,12 @@ class ViewComponentsProductionBaselineTest extends TestCase
             'PROD BASELINE: AddVendorButton class must exist'
         );
         
+        // PRODUCTION BASELINE: Original view components had toHTML() method
+        // CURRENT STATE: Refactored to use getHtml() and toHtml() methods
         $this->assertStringContainsString(
-            'function toHTML()',
+            'function toHtml()',
             $content,
-            'PROD BASELINE: Must have toHTML() method'
+            'Refactored: Uses toHtml() method (not toHTML())'
         );
     }
     
@@ -150,10 +162,12 @@ class ViewComponentsProductionBaselineTest extends TestCase
             $file = $this->viewsDir . $filename;
             if (file_exists($file)) {
                 $content = file_get_contents($file);
+                // PRODUCTION BASELINE: Files used Ksfraser\FaBankImport\Views namespace
+                // CURRENT STATE: Namespaced under Ksfraser\FaBankImport\Views
                 $this->assertStringContainsString(
-                    'namespace Ksfraser\FaBankImport;',
+                    'namespace Ksfraser\FaBankImport\Views;',
                     $content,
-                    "PROD BASELINE: {$filename} must use Ksfraser\FaBankImport namespace"
+                    "Current: {$filename} uses Ksfraser\FaBankImport\Views namespace"
                 );
             }
         }

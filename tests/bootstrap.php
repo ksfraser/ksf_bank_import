@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../includes/fa_stubs.php';
 
 // Load environment variables from .env file
 $envPath = __DIR__ . '/../.env';

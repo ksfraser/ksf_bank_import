@@ -21,8 +21,8 @@ class AmountCharges extends LabelRowBase
 	function __construct( $bi_lineitem )
 	{
 		// Set properties BEFORE calling parent::__construct()
-		$this->label = "Amount / Charge(s):";
-		$this->data =  $bi_lineitem->amount .' / ' . $bi_lineitem->charge . " (" . $bi_lineitem->currency .")";
+		$this->label = "Amount/Charge(s):";
+		$this->data =  $bi_lineitem->getAmount() .' / ' . $bi_lineitem->getCharge() . " (" . $bi_lineitem->getCurrency() .")";
 		
 		parent::__construct( "" );
 	}

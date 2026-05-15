@@ -91,18 +91,6 @@ use Ksfraser\Views\CommentSubmitView;
 require_once( __DIR__ . '/src/Ksfraser/Views/PartnerTypeSelectorView.php' );
 use Ksfraser\Views\PartnerTypeSelectorView;
 
-require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOB.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlRaw.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTable.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTd.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTableRow.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlElement.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlA.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlFragment.php' );
 use Ksfraser\HTML\Composites\HTML_ROW;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA};
@@ -110,7 +98,6 @@ use Ksfraser\HTML\{HtmlElement, HtmlAttribute, HtmlFragment};
 
 
 
-require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php' );
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 require_once( __DIR__ . '/src/Ksfraser/PartnerFormData.php' );
@@ -208,21 +195,23 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $formData;	//!< PartnerFormData - Encapsulates $_POST access
 
 
-	function __construct( $trz, $vendor_list = array(), $optypes = array() )
-	{
-		//display_notification( __FILE__ . "::" . __LINE__ );
-		//display_notification( __FILE__ . "::" . __LINE__ );
-		parent::__construct( null, null, null, null, null);
-		//display_notification( __FILE__ . "::" . __LINE__ );
+function __construct( $trz = null, $vendor_list = array(), $optypes = array() )
+{
+	//display_notification( __FILE__ . "::" . __LINE__ );
+	//display_notification( __FILE__ . "::" . __LINE__ );
+	parent::__construct( null, null, null, null, null);
+	//display_notification( __FILE__ . "::" . __LINE__ );
 	//	$this->iam = "bi_transactions";
 	//	$this->define_table();
-		$this->matched = 0;
-		$this->created = 0;
-		$this->charge = 0;
-		$this->days_spread = 2;
-		$this->vendor_list = $vendor_list;
-		$this->optypes = $optypes;
+	$this->matched = 0;
+	$this->created = 0;
+	$this->charge = 0;
+	$this->days_spread = 2;
+	$this->vendor_list = $vendor_list;
+	$this->optypes = $optypes;
 
+	// Handle case when $trz is null (for testing)
+	if ($trz !== null) {
 		$this->transactionDC = $trz['transactionDC'];
 		$this->determineTransactionTypeLabel();
 		$this->memo = $trz['memo'];
@@ -253,7 +242,7 @@ class bi_lineitem extends generic_fa_interface_model
 		$this->id = $trz['id'];
 		$this->fa_trans_type = $trz['fa_trans_type'];
 		$this->fa_trans_no = $trz['fa_trans_no'];
-//Original code MT370 can have COM lines that add to the transaction
+	//Original code MT370 can have COM lines that add to the transaction
 		$this->amount = $trz['transactionAmount'];
 		if ($trz['transactionType'] != 'COM') 
 		{
@@ -261,13 +250,48 @@ class bi_lineitem extends generic_fa_interface_model
 			//moved amount to above IF
 			//$this->amount = $trz['transactionAmount'];
 		} 
-/*
+	/*
 		else if ($trz['transactionType'] == 'COM')
 		{
 			$this->amount += $trz['transactionAmount'];
 		}
-*/
-		// Initialize form data handler for $_POST access
+	*/
+	} else {
+		// Initialize with default values for testing
+		$this->transactionDC = '';
+		$this->memo = '';
+		$this->our_account = '';
+		$this->valueTimestamp = '';
+		$this->entryTimestamp = '';
+		$this->otherBankAccount = '';
+		$this->otherBankAccountName = '';
+		$this->transactionTitle = '';
+		$this->transactionCode = '';
+		$this->transactionCodeDesc = '';
+		$this->currency = '';
+		$this->status = 0;
+		$this->id = 0;
+		$this->fa_trans_type = 0;
+		$this->fa_trans_no = 0;
+		$this->amount = 0;
+		$this->has_trans = 0;
+	}
+	
+	// Initialize form data handler for $_POST access
+	$this->formData = new PartnerFormData($this->id);
+	
+	// Use PartnerFormData instead of direct $_POST access
+	if( $this->formData->hasPartnerId() )
+	{
+		$this->partnerId = $this->formData->getPartnerId();
+	}
+	else
+	{
+		//We are using if(empty( ->partnerId ) ) so don't want to make it not empty!!
+		//$this->partnerId = "";
+	}
+	
+	// Initialize form data handler for $_POST access
 		$this->formData = new PartnerFormData($this->id);
 		
 		// Use PartnerFormData instead of direct $_POST access
@@ -353,14 +377,54 @@ class bi_lineitem extends generic_fa_interface_model
 	}
 	
 	/**//****************************************************************
-	* Get left column HTML (backward compatibility wrapper)
+	* Get left column HTML (returns HTML string of inner table)
 	*
-	* @deprecated Use getLeftTd() for proper HTML element structure
-	* @return string HTML for left column
+	* @return string HTML for left column (inner table only, no surrounding TD)
 	**********************************************************************/
-	function getLeftHtml(): string
-	{
-		return $this->getLeftTd()->getHtml();
+function getLeftHtml(): string
+{
+	// Populate bank details first
+	$this->getBankAccountDetails();
+	
+	// Build label rows using SRP View classes (replaces legacy label calls)
+	$rows = [];
+		$rows[] = new TransDate($this);
+		$rows[] = new TransType($this);
+		$rows[] = new OurBankAccount($this);
+		$rows[] = new OtherBankAccount($this);
+		$rows[] = new AmountCharges($this);
+		$rows[] = new TransTitle($this);
+		
+		// Collect HTML strings from View classes
+		$labelRowsHtml = '';
+		foreach ($rows as $row) {
+			$labelRowsHtml .= $row->getHtml();
+		}
+		
+		// Complex components - capture their echoed output using HtmlOB
+		// TODO: Refactor these methods to return strings directly
+		$complexHtml = (new HtmlOB(function() {
+			echo "<!-- START-LEFT-OB-{$this->id} -->";
+			$this->displayAddVendorOrCustomer();
+			$this->displayEditTransData();
+			if( $this->isPaired() )
+			{
+				//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
+				$this->displayPaired();
+			}
+			echo "<!-- END-LEFT-OB-{$this->id} -->";
+		}))->getHtml();
+		
+		// Build complete HTML structure using HTML library classes
+		// Wrap content strings in HtmlRaw since they're pre-generated HTML
+		$tableContent = new HtmlRaw($labelRowsHtml . $complexHtml);
+		
+		$innerTable = new HtmlTable($tableContent);
+		$innerTable->addAttribute(new HtmlAttribute('class', TABLESTYLE2));
+		$innerTable->addAttribute(new HtmlAttribute('width', '100%'));
+		
+		// Return the HTML string of the inner table (without surrounding TD)
+		return $innerTable->getHtml();
 	}
 	
 	/**//****************************************************************
@@ -744,7 +808,7 @@ class bi_lineitem extends generic_fa_interface_model
 	function getDisplayMatchingTrans()
 	{
 		//our find_... sets matching_trans
-		//$this->matching_trans = $this->findMatchingExistingJE();
+		//$this->matching_trans = $this->matching_trans = $this->findMatchingExistingJE();
 		$this->findMatchingExistingJE();
 		if( count( $this->matching_trans ) > 0 )
 		{
@@ -927,13 +991,6 @@ class bi_lineitem extends generic_fa_interface_model
 	function displayMatchedPartnerType()
 	{
 		require_once(__DIR__ . '/src/Ksfraser/FrontAccounting/TransactionTypes/TransactionTypesRegistry.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlHidden.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlSelect.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOption.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlInput.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php');
 		
 		// Hidden field for partnerId
 		$hidden = new \Ksfraser\HTML\Elements\HtmlHidden("partnerId_$this->id", 'manual');
@@ -1480,12 +1537,314 @@ class bi_lineitem extends generic_fa_interface_model
 	}
 	
 	/**
-	 * Get form data handler
+	 * Set our bank account name (for testing)
 	 * 
-	 * @return PartnerFormData Form data access object
+	 * @param string $name
 	 */
-	public function getFormData(): PartnerFormData
+	public function setOurBankAccountName(string $name): void
 	{
-		return $this->formData;
+		$this->ourBankAccountName = $name;
 	}
+
+	/**
+	 * Set our bank account code (for testing)
+	 * 
+	 * @param string $code
+	 */
+	public function setOurBankAccountCode(string $code): void
+	{
+		$this->ourBankAccountCode = $code;
+	}
+
+	/**
+	 * Get value timestamp (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getValueTimestamp(): string
+	{
+		return $this->valueTimestamp;
+	}
+
+	/**
+	 * Set value timestamp (for testing)
+	 * 
+	 * @param string $timestamp
+	 */
+	public function setValueTimestamp(string $timestamp): void
+	{
+		$this->valueTimestamp = $timestamp;
+	}
+
+	/**
+	 * Get entry timestamp (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getEntryTimestamp(): string
+	{
+		return $this->entryTimestamp;
+	}
+
+	/**
+	 * Set entry timestamp (for testing)
+	 * 
+	 * @param string $timestamp
+	 */
+	public function setEntryTimestamp(string $timestamp): void
+	{
+		$this->entryTimestamp = $timestamp;
+	}
+
+	/**
+	 * Get transaction type label (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getTransactionTypeLabel(): string
+	{
+		return $this->transactionTypeLabel;
+	}
+
+	/**
+	 * Set transaction type label (for testing)
+	 * 
+	 * @param string $label
+	 */
+	public function setTransactionTypeLabel(string $label): void
+	{
+		$this->transactionTypeLabel = $label;
+	}
+
+	/**
+	 * Get our bank account (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getOurAccount(): string
+	{
+		return $this->our_account;
+	}
+
+	/**
+	 * Set our bank account (for testing)
+	 * 
+	 * @param string $account
+	 */
+	public function setOurAccount(string $account): void
+	{
+		$this->our_account = $account;
+	}
+
+	/**
+	 * Get other bank account (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getOtherBankAccount(): string
+	{
+		return $this->otherBankAccount;
+	}
+
+	/**
+	 * Set other bank account (for testing)
+	 * 
+	 * @param string $account
+	 */
+	public function setOtherBankAccount(string $account): void
+	{
+		$this->otherBankAccount = $account;
+	}
+
+	/**
+	 * Get other bank account name (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getOtherBankAccountName(): string
+	{
+		return $this->otherBankAccountName;
+	}
+
+	/**
+	 * Set other bank account name (for testing)
+	 * 
+	 * @param string $name
+	 */
+	public function setOtherBankAccountName(string $name): void
+	{
+		$this->otherBankAccountName = $name;
+	}
+
+	/**
+	 * Get amount (for testing)
+	 * 
+	 * @return float
+	 */
+	public function getAmount(): float
+	{
+		return $this->amount;
+	}
+
+	/**
+	 * Set amount (for testing)
+	 * 
+	 * @param float $amount
+	 */
+	public function setAmount(float $amount): void
+	{
+		$this->amount = $amount;
+	}
+
+	/**
+	 * Get charge (for testing)
+	 * 
+	 * @return float
+	 */
+	public function getCharge(): float
+	{
+		return $this->charge;
+	}
+
+	/**
+	 * Set charge (for testing)
+	 * 
+	 * @param float $charge
+	 */
+	public function setCharge(float $charge): void
+	{
+		$this->charge = $charge;
+	}
+
+	/**
+	 * Get transaction DC (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getTransactionDC(): string
+	{
+		return $this->transactionDC;
+	}
+
+	/**
+	 * Get currency (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getCurrency(): string
+	{
+		return $this->currency;
+	}
+
+	/**
+	 * Set currency (for testing)
+	 * 
+	 * @param string $currency
+	 */
+	public function setCurrency(string $currency): void
+	{
+		$this->currency = $currency;
+	}
+
+	/**
+	 * Get our bank details (for testing)
+	 * 
+	 * @return array
+	 */
+	public function getOurBankDetails(): array
+	{
+		return $this->ourBankDetails;
+	}
+
+	/**
+	 * Get our bank account name (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getOurBankAccountName(): string
+	{
+		return $this->ourBankAccountName;
+	}
+
+	/**
+	 * Get our bank account code (for testing)
+	 * 
+	 * @return string
+	 */
+	public function getOurBankAccountCode(): string
+	{
+		return $this->ourBankAccountCode;
+	}
+
+	/**
+	 * Set transaction DC (for testing)
+	 * 
+	 * @param string $dc
+	 */
+	public function setTransactionDC(string $dc): void
+	{
+		$this->transactionDC = $dc;
+	}
+
+	/**
+	 * Set transaction title (for testing)
+	 * 
+	 * @param string $title
+	 */
+	public function setTransactionTitle(string $title): void
+	{
+		$this->transactionTitle = $title;
+	}
+
+        /**
+         * Set transaction ID (for testing)
+         * 
+         * @param int $id
+         */
+        public function setId(int $id): void
+        {
+            $this->id = $id;
+            // Reset the formData object with the new ID
+            $this->formData = new PartnerFormData($this->id);
+        }
+
+        /**
+         * Get operation label (for testing)
+         * 
+         * @return string
+         */
+        public function getOplabel(): string
+        {
+            return $this->oplabel;
+        }
+
+        /**
+         * Set operation label (for testing)
+         * 
+         * @param string $label
+         */
+        public function setOplabel(string $label): void
+        {
+            $this->oplabel = $label;
+        }
+
+        /**
+         * Set matching transactions (for testing)
+         * 
+         * @param array $matchingTrans
+         */
+        public function setMatchingTrans(array $matchingTrans): void
+        {
+            $this->matching_trans = $matchingTrans;
+        }
+
+        /**
+         * Get form data handler
+         * 
+         * @return PartnerFormData Form data access object
+         */
+        public function getFormData(): PartnerFormData
+        {
+            return $this->formData;
+        }
 }

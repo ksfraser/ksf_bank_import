@@ -5,15 +5,15 @@ namespace Tests\Unit\Views;
 use PHPUnit\Framework\TestCase;
 
 // Load the class from views directory (global namespace)
-require_once __DIR__ . '/../../../views/LineitemDisplayLeft.php';
+require_once __DIR__ . '/../../../Views/LineitemDisplayLeft.php';
 
 // Load all the dependencies (TransDate, TransType, etc.)
-require_once __DIR__ . '/../../../views/TransDate.php';
-require_once __DIR__ . '/../../../views/TransType.php';
-require_once __DIR__ . '/../../../views/OurBankAccount.php';
-require_once __DIR__ . '/../../../views/OtherBankAccount.php';
-require_once __DIR__ . '/../../../views/AmountCharges.php';
-require_once __DIR__ . '/../../../views/TransTitle.php';
+require_once __DIR__ . '/../../../Views/TransDate.php';
+require_once __DIR__ . '/../../../Views/TransType.php';
+require_once __DIR__ . '/../../../Views/OurBankAccount.php';
+require_once __DIR__ . '/../../../Views/OtherBankAccount.php';
+require_once __DIR__ . '/../../../Views/AmountCharges.php';
+require_once __DIR__ . '/../../../Views/TransTitle.php';
 
 /**
  * Test LineitemDisplayLeft view component

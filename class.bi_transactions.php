@@ -1,191 +1,122 @@
 <?php
 
 /****************************************************************************************
- * Table and handling class for staging of imported financial data
+ * Update transaction with array data from bank_import's import
  *
- * This table will hold each record that we are importing.  That way we can check if
- * we have already seen the record when re-processing the same file, or perhaps one
- * from the same source that overlaps dates so we would have duplicate data.
- *
- * *************************************************************************************/
+ * @param int $id The transaction ID
+ * @param array $data The transaction data from bank_import's import
+ * @returns bool success
+ ****************************************************************************************/
+public function update(int $id, array $data): bool
+{
+	//This class's variables were set by trans_exists when called by import_statements
 
-
-$path_to_root = "../..";
-
-/*******************************************
- * If you change the list of properties below, ensure that you also modify
- * build_write_properties_array
- * */
-
-//TODO
-//	Update the queries in the functions to use $this->table_details['tablename'] instead of .TB_PREF."bi_transactions
-//
-// TODO - Future Filter Enhancements (Mantis #3188 follow-up):
-//	1. Add transaction amount range filter (min/max) - see get_transactions() line 425
-//	   - Useful for finding large transactions or specific amount ranges
-//	   - Should support: minAmount and maxAmount parameters
-//	   - Implementation: WHERE t.transactionAmount >= minAmount AND t.transactionAmount <= maxAmount
-//	
-//	2. Add transaction title filter (LIKE search) - see get_transactions() line 430
-//	   - Useful for searching by vendor name, description, memo text
-//	   - Should support: partial text matching with wildcards
-//	   - Implementation: WHERE t.transactionTitle LIKE '%searchText%'
-//	   - Consider: Case-insensitive search, multiple keywords (AND/OR logic)
-//	
-//	See: Services/TransactionFilterService.php for scaffolded implementation
-//	See: header_table.php for UI element placement notes 
-
-/*
- *
- * Each import type needs to read in the source document, and process line by line placing a record into this class.
- * This class then needs to insert the record.
- *
- * This table should not have any views (forms).
- * */
-
-require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
-require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
-require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Service/TransactionCounter.php' );
-require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Results/PaginatedTransactionResult.php' );
-
-/**//**************************************************************************************************************
-* A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
-*
-*
-*
-*	***** WARNING *** WARNING *** WARNING *****
-*	MySQL has a row limit of 4k.  Having a bunch of large fields can lead to errors and issues.
-*
-*	+---------------------+--------------+------+-----+---------+----------------+
-*	| Field               | Type         | Null | Key | Default | Extra          |
-*	+---------------------+--------------+------+-----+---------+----------------+
-*	| id                  | int(11)      | NO   | PRI | NULL    | auto_increment |
-*	| smt_id              | int(11)      | NO   |     | NULL    |                |
-*	| valueTimestamp      | date         | YES  |     | NULL    |                |
-*	| entryTimestamp      | date         | YES  |     | NULL    |                |
-*	| account             | varchar(24)  | YES  |     | NULL    |                |
-*	| accountName         | varchar(60)  | YES  |     | NULL    |                |
-*	| transactionType     | varchar(3)   | YES  |     | NULL    |                |
-*	| transactionCode     | varchar(32)  | YES  |     | NULL    |                |
-*	| transactionCodeDesc | varchar(32)  | YES  |     | NULL    |                |
-*	| transactionDC       | varchar(2)   | YES  |     | NULL    |                |
-*	| transactionAmount   | double       | YES  |     | NULL    |                |
-*	| transactionTitle    | varchar(256) | YES  |     | NULL    |                |
-*	| status              | int(11)      | YES  |     | 0       |                |
-*	| matchinfo           | varchar(256) | YES  |     | NULL    |                |
-*	| fa_trans_type       | int(11)      | YES  |     | 0       |                |
-*	| fa_trans_no         | int(11)      | YES  |     | 0       |                |
-*	| fitid               | varchar(32)  | NO   |     | NULL    |                |
-*	| acctid              | varchar(32)  | NO   |     | NULL    |                |
-	| merchant            | varchar(64)  | NO   |     | NULL    |                |
-	| category            | varchar(64)  | NO   |     | NULL    |                |
-	| sic                 | varchar(64)  | NO   |     | NULL    |                |
-	| memo                | varchar(64)  | NO   |     | NULL    |                |
-	| checknumber         | int(11)      | NO   |     | NULL    |                |
-	| matched             | int(1)       | NO   |     | 0       |                |
-	| created             | int(1)       | NO   |     | 0       |                |
-*	+---------------------+--------------+------+-----+---------+----------------+
-*	
-*
-         * Inherits:
-        *    ORIGIN
-        *       function __construct( $loglevel = PEAR_LOG_DEBUG )
-        *       function set_var( $var, $value )
-        *       function get_var( $var )
-        *       function var2data()
-        *       function fields2data( $fieldlist )
-        *       function LogError( $message, $level = PEAR_LOG_ERR )
-        *       function LogMsg( $message, $level = PEAR_LOG_INFO )
-         *    DB_BASE
-        *       function __construct( $host, $user, $pass, $database, $prefs_tablename )
-        *       function connect_db()
-        *       function is_installed()
-        *       function set_prefix()
-        *       function create_prefs_tablename()
-        *       function mysql_query( $sql = null, $errmsg = NULL )
-        *       function set_pref( $pref, $value )
-        *       function get_pref( $pref )
-        *       function loadprefs()
-        *       function updateprefs()
-        *       function create_table( $table_array, $field_array )
-        *    GENERIC_FA_INTERFACE
-        *       function __construct( $host, $user, $pass, $database, $pref_tablename )
-        *       function eventloop( $event, $method )
-        *       function eventregister( $event, $method )
-        *       function add_submodules()
-        *       function module_install()
-        *       function install()
-        *       function loadprefs()
-        *       function updateprefs()
-        *       function checkprefs()
-        *       function call_table( $action, $msg )
-        *       function action_show_form()
-        *       function show_config_form()
-        *       function form_export()
-        *       function related_tabs()
-        *       function show_form()
-        *       function base_page()
-        *       function display()
-        *       function run()
-        *       function modify_table_column( $tables_array )
-        *       function adjust_stock_id_lengths( $barcode_max_length, $sku_length, $stock_id )
-        *       function append_file( $filename )
-        *       function overwrite_file( $filename )
-        *       function open_write_file( $filename )
-        *       function write_line( $fp, $line )
-        *       function close_file( $fp )
-        *       function file_finish( $fp )
-        *       function backtrace()
-        *       function write_sku_labels_line( $stock_id, $category, $description, $price )
-        *       function show_generic_form($form_array)
-	*    generic_fa_interface_model
-	*
-*
-******************************************************************************************************************/
-class bi_transactions_model extends generic_fa_interface_model {
-	var $id_bi_transactions_model;	//!< Index of table
-	protected $id;                  //| int(11)      | NO   | PRI | NULL    | auto_increment |
-	protected $smt_id;              //| int(11)      | NO   |     | NULL    |                |
-	protected $valueTimestamp;      //| date         | YES  |     | NULL    |                |
-	protected $entryTimestamp;      //| date         | YES  |     | NULL    |                |
-	protected $account;             //| varchar(24)  | YES  |     | NULL    |                |
-	protected $accountName;         //| varchar(60)  | YES  |     | NULL    |                |
-	protected $transactionType;     //| varchar(3)   | YES  |     | NULL    |                |
-	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |                |
-	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |                |
-	protected $transactionDC;       //| varchar(2)   | YES  |     | NULL    |                |
-	protected $transactionAmount;   //| double       | YES  |     | NULL    |                |
-	protected $transactionTitle;    //| varchar(256) | YES  |     | NULL    |                |
-	protected $status;              //| int(11)      | YES  |     | 0       |                |
-	protected $matchinfo;           //| varchar(256) | YES  |     | NULL    |                |
-	protected $fa_trans_type;       //| int(11)      | YES  |     | 0       |                |
-	protected $fa_trans_no;         //| int(11)      | YES  |     | 0       |                |
-	protected $fitid;
-	protected $acctid;
-	protected $merchant;            //| varchar(64)  | NO   |     | NULL    |                |
-	protected $category;            //| varchar(64)  | NO   |     | NULL    |                |
-	protected $sic;                 //| varchar(64)  | NO   |     | NULL    |                |
-	protected $memo;                //| varchar(64)  | NO   |     | NULL    |                |
-	protected $checknumber;	//!<int
-	protected $matched;	//!<bool
-	protected $created;	//!<bool
-	protected $g_partner;	//!<varchar	Which action (bank/Quick Entry/...
-	protected $g_option;	//!<varchar	Which choice - ATB/Groceries/...
-	protected $limit;	//!<int 	SQL Limit
-
-
-
-	function __construct()
+	//Find out what has changed
+	$diffarr = array();
+	foreach( get_object_vars($this) as $key => $value )
 	{
-		//display_notification( __FILE__ . "::" . __LINE__ );
-		//display_notification( __FILE__ . "::" . __LINE__ );
-		parent::__construct( null, null, null, null, null);
-		//display_notification( __FILE__ . "::" . __LINE__ );
-		$this->iam = "bi_transactions";
-		$this->define_table();
-		$this->matched = 0;
-		$this->created = 0;
+		if( isset( $data[$key] ) )
+		{
+			if( $this->isdiff( $key, $data[$key] ) )
+			{
+				$diffarr[$key] = $value;
+			}
+		}
+		else
+		{
+			//      display_notification( __FILE__ . "::" . __LINE__ . " $key not set in " . print_r( $data, true ) );
+		}
 	}
+
+	if( $this->matched )
+	{
+		//If matched, we may have just looked at Journals and amount
+	}
+	if( $this->created )
+	{
+		if( isset( $diffarr['transactionCode'] ) )
+		{
+			//Transaction Code is the key we checked against.  If it changed we have a logic error elsewher
+			throw new Exception( "Transaction Code, which was our search key changed.  LOGIC ERROR!", KSF_INVALID_DATA_VALUE );
+		}
+		if( isset( $diffarr['accountName'] ) )
+		{
+			//account can't change - not an identical transaction.  ERROR somewhere
+			throw new Exception( "We should not have matched against this transaction - accountName changed!", KSF_INVALID_DATA_VALUE );
+		}
+		if( isset( $diffarr['account'] ) )
+		{
+			//account can't change - not an identical transaction.  ERROR somewhere
+			throw new Exception( "We should not have matched against this transaction - account changed!", KSF_INVALID_DATA_VALUE );
+		}
+		if( isset( $diffarr['valueTimestamp'] ) OR isset( $diffarr['entryTimestamp'] ) )
+		{
+			//time can't change if transactions are immutable - not an identical transaction.  ERROR somewhere
+			throw new Exception( "We should not have matched against this transaction - Timestamps changed!", KSF_INVALID_DATA_VALUE );
+		}
+		if( isset( $diffarr['transactionType'] ) )
+		{
+			//Transaction Type shouldn't change, but there might be some reason it could - some change in my code somewhere and re-import an old file?  
+			//throw new Exception( "We should not have matched against this transaction - account changed!", KSF_INVALID_DATA_VALUE );
+		}
+		if( isset( $diffarr['transactionAmount'] ) )
+		{
+			if( abs($diffarr['transactionAmount']) !== abs($this->transactionAmount) )
+			{
+				throw new Exception( "(ABS) Transaction Amount changed! It is possible that the sign changed due to our re-processing, but the absolute value shouldn't", KSF_INVALID_DATA_VALUE );
+			}
+			else
+			{
+				//Sign changed but value didn't.  We will want to update our record.
+				$this->set( "transactionAmount", $diffarr['transactionAmount'] );
+			}
+		}
+		//smt_id could change if we changed date ranges and imported.
+		if( isset( $diffarr['smt_id'] ) )
+		{
+			$this->set( "smt_id",  $diffarr['smt_id'] );
+		}
+		//transactionCodeDesc and transactionDC could possibly change
+		if( isset( $diffarr['transactionCodeDesc'] ) )
+		{
+			$this->set( "transactionCodeDesc",  $diffarr['transactionCodeDesc'] );
+		}
+		if( isset( $diffarr['transactionDC'] ) )
+		{
+			$this->set( "transactionDC",  $diffarr['transactionDC'] );
+		}
+		//If status is set, then we've matched/created.,,
+		//matchinfo shouldn't match on a re-import
+		//fa_trans_type and fa_trans_no should not match.
+		//fitid and acctid should not change.  However our earlier imports didn't set it.
+		if( isset( $diffarr['fitid'] ) )
+		{
+			$this->set( "fitid",  $diffarr['fitid'] );
+		}
+		if( isset( $diffarr['acctid'] ) )
+		{
+			$this->set( "acctid",  $diffarr['acctid'] );
+		}
+		//merchant, category and sic may not have been set in the past.
+		if( isset( $diffarr['merchant'] ) )
+		{
+			$this->set( "merchant",  $diffarr['merchant'] );
+		}
+		if( isset( $diffarr['category'] ) )
+		{
+			$this->set( "category",  $diffarr['category'] );
+		}
+		if( isset( $diffarr['sic'] ) )
+		{
+			$this->set( "sic",  $diffarr['sic'] );
+		}
+		//update the fields
+		foreach( $diffarr as $key => $value )
+		{
+			$this->set( $key, $value );
+		}
+		return true;
+}
 	function define_table()
 	{
 		$ind = "id";

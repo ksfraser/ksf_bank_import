@@ -20,8 +20,8 @@ class TransTitle extends LabelRowBase
 	function __construct( $bi_lineitem )
 	{
 		// Set properties BEFORE calling parent::__construct()
-		$this->label = "Transaction Title:";
-		$this->data =  $bi_lineitem->transactionTitle;
+		$this->label = "Trans Title:";
+		$this->data =  $bi_lineitem->getTransactionTitle();
 		
 		parent::__construct( "" );
 	}

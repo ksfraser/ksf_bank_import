@@ -24,52 +24,52 @@ class BiLineItemViewClassesTest extends TestCase
 	{
 		require_once __DIR__ . '/../../class.bi_lineitem.php';
 		
-		// Create test instance with minimal data
-		$lineitem = new \bi_lineitem();
-		$lineitem->valueTimestamp = '2025-12-19';
-		$lineitem->entryTimestamp = '2025-12-19 10:00:00';
-		$lineitem->transactionTypeLabel = 'Test Type';
-		$lineitem->our_account = '12345';
-		$lineitem->ourBankAccountName = 'Test Account';
-		$lineitem->ourBankAccountCode = 'TA001';
-		$lineitem->otherBankAccount = '67890';
-		$lineitem->otherBankAccountName = 'Other Account';
-		$lineitem->amount = 100.00;
-		$lineitem->charge = 5.00;
-		$lineitem->currency = 'CAD';
-		$lineitem->transactionTitle = 'Test Transaction';
+	// Create test instance with minimal data
+	$lineitem = new \bi_lineitem(null); // Pass null for $trz to use test initialization
+	$lineitem->setValueTimestamp('2025-12-19');
+	$lineitem->setEntryTimestamp('2025-12-19 10:00:00');
+	$lineitem->setTransactionTypeLabel('Test Type');
+	$lineitem->setOurAccount('12345');
+	$lineitem->setOurBankAccountName('Test Account');
+	$lineitem->setOurBankAccountCode('TA001');
+	$lineitem->setOtherBankAccount('67890');
+	$lineitem->setOtherBankAccountName('Other Account');
+	$lineitem->setAmount(100.00);
+	$lineitem->setCharge(5.00);
+	$lineitem->setCurrency('CAD');
+	$lineitem->setTransactionTitle('Test Transaction');
 		
 		// Get HTML output
 		$html = $lineitem->getLeftHtml();
 		
-		// Verify key content from View classes is present
-		$this->assertStringContainsString('Trans Date (Event Date):', $html, 
-			'TransDate View class should render label');
-		$this->assertStringContainsString($lineitem->valueTimestamp, $html,
-			'TransDate View class should render date value');
-		
-		$this->assertStringContainsString('Trans type:', $html,
-			'TransType View class should render label');
-		$this->assertStringContainsString($lineitem->transactionTypeLabel, $html,
-			'TransType View class should render transaction type');
-		
-		$this->assertStringContainsString('Our Bank Account', $html,
-			'OurBankAccount View class should render label');
-		
-		$this->assertStringContainsString('Other account:', $html,
-			'OtherBankAccount View class should render label');
-		$this->assertStringContainsString($lineitem->otherBankAccountName, $html,
-			'OtherBankAccount View class should render other account name');
-		
-		$this->assertStringContainsString('Amount/Charge(s):', $html,
-			'AmountCharges View class should render label');
-		$this->assertStringContainsString((string)$lineitem->amount, $html,
-			'AmountCharges View class should render amount');
-		
-		$this->assertStringContainsString('Trans Title:', $html,
-			'TransTitle View class should render label');
-		$this->assertStringContainsString($lineitem->transactionTitle, $html,
-			'TransTitle View class should render title');
+	// Verify key content from View classes is present
+	$this->assertStringContainsString('Trans Date (Event Date):', $html, 
+		'TransDate View class should render label');
+	$this->assertStringContainsString($lineitem->getValueTimestamp(), $html,
+		'TransDate View class should render date value');
+	
+	$this->assertStringContainsString('Trans type:', $html,
+		'TransType View class should render label');
+	$this->assertStringContainsString($lineitem->getTransactionTypeLabel(), $html,
+		'TransType View class should render transaction type');
+	
+	$this->assertStringContainsString('Our Bank Account', $html,
+		'OurBankAccount View class should render label');
+	
+	$this->assertStringContainsString('Other account:', $html,
+		'OtherBankAccount View class should render label');
+	$this->assertStringContainsString($lineitem->getOtherBankAccountName(), $html,
+		'OtherBankAccount View class should render other account name');
+	
+	$this->assertStringContainsString('Amount/Charge(s):', $html,
+		'AmountCharges View class should render label');
+	$this->assertStringContainsString((string)$lineitem->getAmount(), $html,
+		'AmountCharges View class should render amount');
+	
+	$this->assertStringContainsString('Trans Title:', $html,
+		'TransTitle View class should render label');
+	$this->assertStringContainsString($lineitem->getTransactionTitle(), $html,
+		'TransTitle View class should render title');
 	}
 	
 	/**
@@ -114,19 +114,19 @@ class BiLineItemViewClassesTest extends TestCase
 	{
 		require_once __DIR__ . '/../../class.bi_lineitem.php';
 		
-		$lineitem = new \bi_lineitem();
-		$lineitem->valueTimestamp = '2025-12-19';
-		$lineitem->entryTimestamp = '2025-12-19 10:00:00';
-		$lineitem->transactionTypeLabel = 'Test';
-		$lineitem->our_account = '12345';
-		$lineitem->ourBankAccountName = 'Test';
-		$lineitem->ourBankAccountCode = 'T001';
-		$lineitem->otherBankAccount = '67890';
-		$lineitem->otherBankAccountName = 'Other';
-		$lineitem->amount = 100.00;
-		$lineitem->charge = 5.00;
-		$lineitem->currency = 'CAD';
-		$lineitem->transactionTitle = 'Test';
+	$lineitem = new \bi_lineitem(null); // Pass null for $trz to use test initialization
+	$lineitem->setValueTimestamp('2025-12-19');
+	$lineitem->setEntryTimestamp('2025-12-19 10:00:00');
+	$lineitem->setTransactionTypeLabel('Test');
+	$lineitem->setOurAccount('12345');
+	$lineitem->setOurBankAccountName('Test');
+	$lineitem->setOurBankAccountCode('T001');
+	$lineitem->setOtherBankAccount('67890');
+	$lineitem->setOtherBankAccountName('Other');
+	$lineitem->setAmount(100.00);
+	$lineitem->setCharge(5.00);
+	$lineitem->setCurrency('CAD');
+	$lineitem->setTransactionTitle('Test');
 		
 		$html = $lineitem->getLeftHtml();
 		
