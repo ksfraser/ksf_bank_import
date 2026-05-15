@@ -93,6 +93,24 @@ require_once(__DIR__ . '/PartnerDataProviderInterface.php');
 class CustomerDataProvider implements PartnerDataProviderInterface
 {
     /**
+     * Resolve first available value from candidate keys.
+     *
+     * @param array $row
+     * @param array $keys
+     * @return mixed|null
+     */
+    private function firstValue(array $row, array $keys)
+    {
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $row) && $row[$key] !== null && $row[$key] !== '') {
+                return $row[$key];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Singleton instance
      * 
      * @var CustomerDataProvider|null
@@ -368,13 +386,29 @@ class CustomerDataProvider implements PartnerDataProviderInterface
             
             if ($result) {
                 while ($row = db_fetch($result)) {
-                    $this->customers[$row['debtor_no']] = [
-                        'debtor_no' => $row['debtor_no'],
-                        'name' => $row['name'],
-                        'debtor_ref' => $row['debtor_ref'] ?? '',
-                        'address' => $row['address'] ?? '',
-                        'email' => $row['email'] ?? '',
-                        'inactive' => $row['inactive'] ?? 0,
+                    if (is_object($row)) {
+                        $row = (array)$row;
+                    }
+
+                    if (!is_array($row)) {
+                        continue;
+                    }
+
+                    $customerId = $this->firstValue($row, ['debtor_no', 'customer_id', 'id', 'debtorno', 'debtorNo', 'cust_id']);
+                    if ($customerId === null) {
+                        continue;
+                    }
+
+                    $customerId = (int) $customerId;
+                    $customerName = (string)($this->firstValue($row, ['name', 'debtor_name', 'cust_name', 'customer_name']) ?? '');
+
+                    $this->customers[$customerId] = [
+                        'debtor_no' => $customerId,
+                        'name' => $customerName,
+                        'debtor_ref' => (string)($this->firstValue($row, ['debtor_ref', 'cust_ref', 'reference']) ?? ''),
+                        'address' => (string)($this->firstValue($row, ['address', 'cust_address']) ?? ''),
+                        'email' => (string)($this->firstValue($row, ['email', 'cust_email']) ?? ''),
+                        'inactive' => (int)($this->firstValue($row, ['inactive']) ?? 0),
                     ];
                 }
             }
@@ -390,7 +424,24 @@ class CustomerDataProvider implements PartnerDataProviderInterface
                 
                 if ($result) {
                     while ($row = db_fetch($result)) {
-                        $this->customers[$row['debtor_no']] = $row;
+                        if (is_object($row)) {
+                            $row = (array)$row;
+                        }
+
+                        if (!is_array($row)) {
+                            continue;
+                        }
+
+                        $customerId = $this->firstValue($row, ['debtor_no', 'customer_id', 'id', 'debtorno', 'debtorNo', 'cust_id']);
+                        if ($customerId === null) {
+                            continue;
+                        }
+
+                        $customerId = (int) $customerId;
+                        $row['debtor_no'] = $customerId;
+                        $row['name'] = (string)($this->firstValue($row, ['name', 'debtor_name', 'cust_name', 'customer_name']) ?? '');
+                        $row['debtor_ref'] = (string)($this->firstValue($row, ['debtor_ref', 'cust_ref', 'reference']) ?? '');
+                        $this->customers[$customerId] = $row;
                     }
                 }
             }
@@ -423,8 +474,25 @@ class CustomerDataProvider implements PartnerDataProviderInterface
             
             if ($result) {
                 while ($row = db_fetch($result)) {
-                    $branchCode = $row['branch_code'];
-                    $customerId = $row['debtor_no'];
+                    if (is_object($row)) {
+                        $row = (array)$row;
+                    }
+
+                    if (!is_array($row)) {
+                        continue;
+                    }
+
+                    $branchCode = $this->firstValue($row, ['branch_code', 'branch_id', 'id']);
+                    $customerId = $this->firstValue($row, ['debtor_no', 'customer_id', 'cust_id']);
+                    if ($branchCode === null || $customerId === null) {
+                        continue;
+                    }
+
+                    $branchCode = (int) $branchCode;
+                    $customerId = (int) $customerId;
+                    $row['branch_code'] = $branchCode;
+                    $row['debtor_no'] = $customerId;
+                    $row['br_name'] = (string)($this->firstValue($row, ['br_name', 'branch_name', 'name']) ?? '');
                     
                     // Store branch data
                     $this->branches[$branchCode] = $row;

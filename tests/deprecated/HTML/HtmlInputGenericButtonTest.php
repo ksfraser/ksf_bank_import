@@ -13,6 +13,8 @@ use Ksfraser\HTML\Elements\HtmlString;
  * Used for client-side JavaScript interactions without form submission
  *
  * @package Tests\HTML
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
  */
 class HtmlInputGenericButtonTest extends TestCase
 {

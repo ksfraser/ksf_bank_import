@@ -9,6 +9,8 @@ use Ksfraser\HTML\Elements\HtmlHidden;
  * Test HtmlHidden Class
  * 
  * @coversDefaultClass \Ksfraser\HTML\HtmlHidden
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
  */
 class HtmlHiddenTest extends TestCase
 {

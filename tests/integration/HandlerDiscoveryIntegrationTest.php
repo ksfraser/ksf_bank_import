@@ -34,7 +34,7 @@ class HandlerDiscoveryIntegrationTest extends TestCase
         // Load FA function stubs
         require_once __DIR__ . '/../helpers/fa_functions.php';
         
-        $this->handlersPath = dirname(__DIR__, 2) . '/src/Ksfraser/FaBankImport/handlers';
+        $this->handlersPath = dirname(__DIR__, 2) . '/src/Ksfraser/FaBankImport/Handlers';
         $this->processor = new TransactionProcessor();
     }
 
@@ -149,7 +149,7 @@ class HandlerDiscoveryIntegrationTest extends TestCase
         // Assert: All handlers implement TransactionHandlerInterface
         foreach ($handlers as $handler) {
             $this->assertInstanceOf(
-                'Ksfraser\FaBankImport\handlers\TransactionHandlerInterface',
+                'Ksfraser\FaBankImport\Handlers\TransactionHandlerInterface',
                 $handler,
                 get_class($handler) . " must implement TransactionHandlerInterface"
             );

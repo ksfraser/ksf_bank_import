@@ -12,6 +12,8 @@ use Ksfraser\HTML\Elements\HtmlString;
  * Tests the reset button input element (<input type="reset">)
  *
  * @package Tests\HTML
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
  */
 class HtmlInputResetTest extends TestCase
 {

@@ -5,6 +5,11 @@ namespace Tests\Unit\HTML;
 use PHPUnit\Framework\TestCase;
 use Ksfraser\HTML\Elements\HtmlString;
 
+/**
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML
+ *             with the tested namespace. Kept only as historical package coverage
+ *             outside the active suite.
+ */
 class HtmlStringTest extends TestCase
 {
     private HtmlString $htmlString;

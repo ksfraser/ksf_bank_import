@@ -13,6 +13,8 @@ use Ksfraser\HTML\Elements\HtmlString;
  * Commonly used in forms: <tr><td class="label">Name:</td><td>John Doe</td></tr>
  *
  * @package Tests\HTML
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
  */
 class HtmlLabelRowTest extends TestCase
 {

@@ -11,6 +11,8 @@ use Ksfraser\HTML\Composites\HTML_ROW;
  * 
  * @package Tests\Unit\HTML
  * @since 20251019
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
  */
 class HTML_TABLETest extends TestCase
 {

@@ -16,7 +16,7 @@
             "KsfBankImport\\Services\\": "Services/",
             "KsfBankImport\\OperationTypes\\": "OperationTypes/"
             ,
-            "KsfBankImport\\Views\\": "views/"
+            "KsfBankImport\\Views\\": "Views/"
         },
         "classmap": [
             "src/Ksfraser/FaBankImport/FactoryTransactions.php",

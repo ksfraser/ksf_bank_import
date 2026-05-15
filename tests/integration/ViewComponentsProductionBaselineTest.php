@@ -37,7 +37,7 @@ class ViewComponentsProductionBaselineTest extends TestCase
     
     protected function setUp(): void
     {
-        $this->viewsDir = __DIR__ . '/../../src/Ksfraser/FaBankImport/views/';
+        $this->viewsDir = __DIR__ . '/../../src/Ksfraser/FaBankImport/Views/';
         $this->assertDirectoryExists($this->viewsDir, 'Views directory must exist');
     }
     

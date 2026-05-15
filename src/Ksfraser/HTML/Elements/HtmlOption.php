@@ -83,7 +83,7 @@ class HtmlOption implements HtmlElementInterface
         $this->value = $value;
         $this->label = $label;
         $this->selected = $selected;
-        $this->attributes = new HtmlAttributeList(new HtmlAttribute("", ""));
+        $this->attributes = new HtmlAttributeList();
     }
 
     /**

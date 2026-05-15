@@ -44,7 +44,7 @@ class ProcessStatementsViewTest extends TestCase
      */
     public function test_class_file_exists_at_correct_path(): void
     {
-        $classPath = 'src/Ksfraser/FaBankImport/views/ProcessStatementsView.php';
+        $classPath = 'src/Ksfraser/FaBankImport/Views/ProcessStatementsView.php';
         $this->assertTrue(
             file_exists($classPath),
             "ProcessStatementsView.php file must exist at $classPath"

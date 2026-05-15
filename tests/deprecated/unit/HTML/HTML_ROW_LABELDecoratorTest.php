@@ -5,6 +5,10 @@ namespace Tests\Unit\HTML;
 use PHPUnit\Framework\TestCase;
 use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
 
+/**
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
+ */
 class HTML_ROW_LABELDecoratorTest extends TestCase
 {
     private HTML_ROW_LABELDecorator $decorator;

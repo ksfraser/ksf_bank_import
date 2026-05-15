@@ -2,9 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../views/SubmitButton.php';
-require_once __DIR__ . '/../../views/SubmitButtonRow.php';
-require_once __DIR__ . '/../../views/UnsetTransButtonRow.php';
+require_once __DIR__ . '/../../Views/SubmitButton.php';
+require_once __DIR__ . '/../../Views/SubmitButtonRow.php';
+require_once __DIR__ . '/../../Views/UnsetTransButtonRow.php';
 
 class UnsetTransButtonRowTest extends TestCase
 {

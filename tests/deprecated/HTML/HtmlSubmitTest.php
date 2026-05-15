@@ -13,6 +13,8 @@ use Ksfraser\HTML\Elements\HtmlString;
  * 
  * @author Kevin Fraser
  * @since 20250119
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
  */
 class HtmlSubmitTest extends TestCase
 {

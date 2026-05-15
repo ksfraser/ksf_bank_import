@@ -8,6 +8,11 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\HtmlAttribute;
 
+/**
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML
+ *             with the tested namespace. Kept only as historical package coverage
+ *             outside the active suite.
+ */
 class HtmlTableRowTest extends TestCase
 {
     private HtmlString $content;

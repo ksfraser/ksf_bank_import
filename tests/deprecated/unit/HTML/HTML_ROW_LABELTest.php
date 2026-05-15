@@ -6,6 +6,10 @@ use PHPUnit\Framework\TestCase;
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 use Ksfraser\HTML\FaUiFunctions;
 
+/**
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
+ */
 class HTML_ROW_LABELTest extends TestCase
 {
     private HTML_ROW_LABEL $labelRow;

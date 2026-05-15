@@ -76,6 +76,24 @@ require_once(__DIR__ . '/PartnerDataProviderInterface.php');
 class SupplierDataProvider implements PartnerDataProviderInterface
 {
     /**
+     * Resolve first available value from candidate keys.
+     *
+     * @param array $row
+     * @param array $keys
+     * @return mixed|null
+     */
+    private function firstValue(array $row, array $keys)
+    {
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $row) && $row[$key] !== null && $row[$key] !== '') {
+                return $row[$key];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Singleton instance
      * 
      * @var SupplierDataProvider|null
@@ -265,13 +283,29 @@ class SupplierDataProvider implements PartnerDataProviderInterface
             
             if ($result) {
                 while ($row = db_fetch($result)) {
-                    $this->suppliers[$row['supplier_id']] = [
-                        'supplier_id' => $row['supplier_id'],
-                        'supp_name' => $row['supp_name'],
-                        'supp_ref' => $row['supp_ref'] ?? '',
-                        'address' => $row['address'] ?? '',
-                        'email' => $row['email'] ?? '',
-                        'inactive' => $row['inactive'] ?? 0,
+                    if (is_object($row)) {
+                        $row = (array)$row;
+                    }
+
+                    if (!is_array($row)) {
+                        continue;
+                    }
+
+                    $supplierId = $this->firstValue($row, ['supplier_id', 'creditor_id', 'id', 'supp_id']);
+                    if ($supplierId === null) {
+                        continue;
+                    }
+
+                    $supplierId = (int) $supplierId;
+                    $supplierName = (string)($this->firstValue($row, ['supp_name', 'name', 'supplier_name', 'creditor_name']) ?? '');
+
+                    $this->suppliers[$supplierId] = [
+                        'supplier_id' => $supplierId,
+                        'supp_name' => $supplierName,
+                        'supp_ref' => (string)($this->firstValue($row, ['supp_ref', 'supplier_ref', 'reference']) ?? ''),
+                        'address' => (string)($this->firstValue($row, ['address', 'supp_address']) ?? ''),
+                        'email' => (string)($this->firstValue($row, ['email', 'supp_email']) ?? ''),
+                        'inactive' => (int)($this->firstValue($row, ['inactive']) ?? 0),
                     ];
                 }
             }
@@ -287,7 +321,24 @@ class SupplierDataProvider implements PartnerDataProviderInterface
                 
                 if ($result) {
                     while ($row = db_fetch($result)) {
-                        $this->suppliers[$row['supplier_id']] = $row;
+                        if (is_object($row)) {
+                            $row = (array)$row;
+                        }
+
+                        if (!is_array($row)) {
+                            continue;
+                        }
+
+                        $supplierId = $this->firstValue($row, ['supplier_id', 'creditor_id', 'id', 'supp_id']);
+                        if ($supplierId === null) {
+                            continue;
+                        }
+
+                        $supplierId = (int) $supplierId;
+                        $row['supplier_id'] = $supplierId;
+                        $row['supp_name'] = (string)($this->firstValue($row, ['supp_name', 'name', 'supplier_name', 'creditor_name']) ?? '');
+                        $row['supp_ref'] = (string)($this->firstValue($row, ['supp_ref', 'supplier_ref', 'reference']) ?? '');
+                        $this->suppliers[$supplierId] = $row;
                     }
                 }
             }

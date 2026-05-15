@@ -15,6 +15,8 @@ use Ksfraser\HTML\Elements\HtmlComment;
  * @package    Ksfraser\Tests\Unit\HTML
  * @author     Claude AI Assistant
  * @since      20251019
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
  */
 class HtmlCommentTest extends TestCase
 {

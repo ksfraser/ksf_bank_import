@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../views/SubmitButton.php';
+require_once __DIR__ . '/../../Views/SubmitButton.php';
 
 class SubmitButtonTest extends TestCase
 {
