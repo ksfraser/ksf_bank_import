@@ -91,18 +91,7 @@ use Ksfraser\Views\CommentSubmitView;
 require_once( __DIR__ . '/src/Ksfraser/Views/PartnerTypeSelectorView.php' );
 use Ksfraser\Views\PartnerTypeSelectorView;
 
-require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOB.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlRaw.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTable.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTd.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTableRow.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlElement.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlA.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlFragment.php' );
+// HTML classes are autoloaded from vendor/ksfraser/html package - no require_once needed
 use Ksfraser\HTML\Composites\HTML_ROW;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA};

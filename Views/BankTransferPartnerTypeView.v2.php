@@ -131,9 +131,11 @@ class BankTransferPartnerTypeView
         
         // Build options
         foreach ($bankAccounts as $account) {
+            // Support multiple key names for account name (bank_account_name, name, account_name, etc.)
+            $accountName = $account['bank_account_name'] ?? $account['name'] ?? $account['account_name'] ?? 'Unknown';
             $option = new HtmlOption(
                 $account['id'], 
-                $account['name']
+                $accountName
             );
             
             if ($account['id'] == $selectedId) {

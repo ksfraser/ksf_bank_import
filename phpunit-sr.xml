@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    cacheResultFile=".phpunit.result.cache"
+    colors="true"
+    stopOnFailure="false"
+>
+    <testsuites>
+        <testsuite name="StatementReconcile">
+            <directory suffix="Test.php">./tests/unit/StatementReconcile</directory>
+        </testsuite>
+    </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./src/Ksfraser/FaBankImport/StatementReconcile</directory>
+        </include>
+        <report>
+            <text outputFile="coverage_sr.txt"/>
+            <html outputDirectory="coverage_html"/>
+        </report>
+    </coverage>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="DB_CONNECTION" value="testing"/>
+        <ini name="display_errors" value="true"/>
+        <ini name="error_reporting" value="-1"/>
+    </php>
+</phpunit>
