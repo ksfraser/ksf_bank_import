@@ -184,11 +184,12 @@ class AbstractTransactionHandlerTest extends TestCase
         $handler = new TestTransactionHandler();
         
         $result = $handler->testCreateErrorResult('Test error');
+        $resultArray = $result->toArray();
         
-        $this->assertFalse($result['success']);
-        $this->assertSame(0, $result['trans_no']);
-        $this->assertSame(0, $result['trans_type']);
-        $this->assertSame('Test error', $result['message']);
+        $this->assertFalse($resultArray['success']);
+        $this->assertSame(0, $resultArray['trans_no']);
+        $this->assertSame(0, $resultArray['trans_type']);
+        $this->assertSame('Test error', $resultArray['message']);
     }
 
     /**
@@ -201,11 +202,12 @@ class AbstractTransactionHandlerTest extends TestCase
         $handler = new TestTransactionHandler();
         
         $result = $handler->testCreateSuccessResult(123, 12, 'Success');
+        $resultArray = $result->toArray();
         
-        $this->assertTrue($result['success']);
-        $this->assertSame(123, $result['trans_no']);
-        $this->assertSame(12, $result['trans_type']);
-        $this->assertSame('Success', $result['message']);
+        $this->assertTrue($resultArray['success']);
+        $this->assertSame(123, $resultArray['trans_no']);
+        $this->assertSame(12, $resultArray['trans_type']);
+        $this->assertSame('Success', $resultArray['message']);
     }
 
     /**
@@ -223,10 +225,11 @@ class AbstractTransactionHandlerTest extends TestCase
             'Success',
             ['view_link' => '/view', 'extra' => 'data']
         );
+        $resultArray = $result->toArray();
         
-        $this->assertTrue($result['success']);
-        $this->assertSame('/view', $result['view_link']);
-        $this->assertSame('data', $result['extra']);
+        $this->assertTrue($resultArray['success']);
+        $this->assertSame('/view', $resultArray['view_link']);
+        $this->assertSame('data', $resultArray['extra']);
     }
 
     /**
@@ -325,5 +328,18 @@ class TestTransactionHandler extends AbstractTransactionHandler
     public function testCreateSuccessResult(int $transNo, int $transType, string $message, array $additionalData = []): \Ksfraser\FaBankImport\Results\TransactionResult
     {
         return $this->createSuccessResult($transNo, $transType, $message, $additionalData);
+    }
+
+    // Test helper methods for verifying protected/private functionality
+
+    public function testGetPartnerTypeLabel(): string
+    {
+        return $this->getPartnerTypeObject()->getLabel();
+    }
+
+    public static function resetInstanceCount(): void
+    {
+        // This would reset any instance counting if the handler maintains a count
+        // For now, this is a placeholder that allows tests to reset state if needed
     }
 }

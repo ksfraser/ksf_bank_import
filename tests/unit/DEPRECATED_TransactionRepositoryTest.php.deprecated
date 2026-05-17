@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * DEPRECATED - Use tests/TransactionRepositoryTest.php instead
+ * 
+ * This file is deprecated and no longer maintained.
+ * The proper TransactionRepository integration test is located at:
+ *   tests/TransactionRepositoryTest.php
+ * 
+ * Reason for deprecation:
+ * - Duplicate of root-level test with incorrect setup
+ * - Missing required TransactionQueryBuilder dependency injection
+ * - Caused memory exhaustion due to mock db_fetch issues
+ * - Root-level version properly configured with mocks
+ * 
+ * Restoration:
+ * If you need to maintain this test, fix the setUp() to inject
+ * TransactionQueryBuilder and ensure mock functions support
+ * proper database iteration (db_fetch should return null when done).
+ */

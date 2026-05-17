@@ -70,6 +70,11 @@ final class PartnerTypeConstants
     public const MATCHED = 'ZZ';
 
     /**
+     * Unknown/Unclassified partner type (alias for MATCHED)
+     */
+    public const UNKNOWN = 'ZZ';
+
+    /**
      * Prevent instantiation of this constants class
      */
     private function __construct()
