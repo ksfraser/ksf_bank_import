@@ -1,58 +1,11 @@
 <?php
-
-use Ksfraser\HTML\HtmlElementInterface;
-use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
-
-/**
- * TransDate - Display transaction date row
- * 
- * Shows the transaction value date and entry timestamp.
- * Format: "Trans Date (Event Date): YYYY-MM-DD :: (YYYY-MM-DD HH:MM:SS)"
- * 
- * @package Views
- * @since 20251019 - Fixed $this->bi_lineitem bug, added use statements, return type hints, PHPDoc
- */
-class TransDate implements HtmlElementInterface
-{
-	/**
-	 * @var HTML_ROW_LABEL
-	 */
-	protected $row;
-	
-	/**
-	 * Create transaction date row
-	 * 
-	 * @param object $bi_lineitem The bank import line item with valueTimestamp and entryTimestamp properties
-	 */
-	function __construct( $bi_lineitem )
-	{
-		// FIXED: Was $this->bi_lineitem (undefined property), now $bi_lineitem (parameter)
-		// HTML_ROW_LABEL signature: ($data, $label, $width, $class)
-		$this->row = new HTML_ROW_LABEL( 
-			$bi_lineitem->getValueTimestamp() . " :: (" . $bi_lineitem->getEntryTimestamp() . ")",  // data (content)
-			"Trans Date (Event Date):",  // label
-			null, 
-			null 
-		);
-	}
-	
-	/**
-	 * Get the HTML as a string
-	 * 
-	 * @return string The HTML
-	 */
-	function getHtml(): string
-	{
-		return $this->row->getHtml();
-	}
-	
-	/**
-	 * Output the HTML directly to screen
-	 * 
-	 * @return void
-	 */
-	function toHtml(): void
-	{
-		$this->row->toHtml();
-	}
+// Legacy shim: alias the namespaced implementation so legacy code can
+// continue to instantiate `TransDate` without changing includes.
+// Ensure namespaced implementation is loaded and provide a legacy alias.
+$nsFile = __DIR__ . '/../src/Ksfraser/FaBankImport/Views/TransDate.php';
+if (file_exists($nsFile)) {
+	require_once $nsFile;
+}
+if (!class_exists('TransDate') && class_exists(\Ksfraser\FaBankImport\Views\TransDate::class)) {
+	class_alias(\Ksfraser\FaBankImport\Views\TransDate::class, 'TransDate');
 }
