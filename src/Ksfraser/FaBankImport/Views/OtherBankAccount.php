@@ -1,18 +1,30 @@
 <?php
+namespace Ksfraser\FaBankImport\Views;
 
-namespace Ksfraser\FaBankImport;
+use Ksfraser\HTML\Composites\LabelRowBase;
 
-
-use Ksfraser\HTML\HtmlElementInterface;
-
-require_once( 'LabelRowBase.php' );
-
+/**
+ * OtherBankAccount - Display other party's bank account row
+ * 
+ * Shows the counterparty's bank account number and name.
+ * Format: "ACCOUNT_NUMBER / ACCOUNT_NAME"
+ * 
+ * @package Views
+ * @since 20251019 - Added use statement, PHPDoc
+ */
 class OtherBankAccount extends LabelRowBase
 {
+	/**
+	 * Create other bank account row
+	 * 
+	 * @param object $bi_lineitem The bank import line item with otherBankAccount properties
+	 */
 	function __construct( $bi_lineitem )
 	{
-		$this->label = "Other Bank Account:";
-		$this->data = $bi_lineitem->otherBankAccount . ' / '. $bi_lineitem->otherBankAccountName;
+		// Set properties BEFORE calling parent::__construct()
+		$this->label = "Other account:";
+		$this->data = $bi_lineitem->getOtherBankAccount() . ' / '. $bi_lineitem->getOtherBankAccountName();
+		
 		parent::__construct( "" );
 	}
 }

@@ -1,18 +1,29 @@
 <?php
+namespace Ksfraser\FaBankImport\Views;
 
-namespace Ksfraser\FaBankImport;
+use Ksfraser\HTML\Composites\LabelRowBase;
 
-
-use Ksfraser\HTML\HtmlElementInterface;
-
-require_once( 'LabelRowBase.php' );
-
+/**
+ * TransTitle - Display transaction title row
+ * 
+ * Shows the transaction title/description from the bank statement.
+ * 
+ * @package Views
+ * @since 20251019 - Fixed missing property assignment, added use statement, PHPDoc
+ */
 class TransTitle extends LabelRowBase
 {
+	/**
+	 * Create transaction title row
+	 * 
+	 * @param object $bi_lineitem The bank import line item with transactionTitle property
+	 */
 	function __construct( $bi_lineitem )
 	{
-		$this->label = "Transaction Title:";
-		$this->data =  $bi_lineitem->transactionTitle;
+		// Set properties BEFORE calling parent::__construct()
+		$this->label = "Trans Title:";
+		$this->data =  $bi_lineitem->getTransactionTitle();
+		
 		parent::__construct( "" );
 	}
 }
