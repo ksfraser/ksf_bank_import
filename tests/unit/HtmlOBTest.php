@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
+use Ksfraser\HTML\Elements\HtmlOB;
 
 /**
  * Tests for HtmlOB (HTML Output Buffer) class
@@ -11,17 +12,12 @@ use PHPUnit\Framework\TestCase;
  */
 class HtmlOBTest extends TestCase
 {
-	protected function setUp(): void
-	{
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlOB.php';
-	}
-	
 	/**
 	 * Test static capture method with simple echo
 	 */
 	public function testCaptureSimpleEcho()
 	{
-		$html = \Ksfraser\HTML\Elements\HtmlOB::capture(function() {
+		$html = HtmlOB::capture(function() {
 			echo '<p>Hello World</p>';
 		});
 		
@@ -33,7 +29,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testCaptureMultipleEchoes()
 	{
-		$html = \Ksfraser\HTML\Elements\HtmlOB::capture(function() {
+		$html = HtmlOB::capture(function() {
 			echo '<div>';
 			echo '<span>Line 1</span>';
 			echo '<span>Line 2</span>';
@@ -49,7 +45,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testDoesNotEscapeHtml()
 	{
-		$html = \Ksfraser\HTML\Elements\HtmlOB::capture(function() {
+		$html = HtmlOB::capture(function() {
 			echo '<script>alert("test");</script>';
 		});
 		
@@ -64,7 +60,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testManualStartEnd()
 	{
-		$ob = new \Ksfraser\HTML\Elements\HtmlOB();
+		$ob = new HtmlOB();
 		$ob->start();
 		echo '<p>Manual capture</p>';
 		$result = $ob->end();
@@ -78,7 +74,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testToHtmlEchoes()
 	{
-		$html = \Ksfraser\HTML\Elements\HtmlOB::capture(function() {
+		$html = HtmlOB::capture(function() {
 			echo '<p>Test</p>';
 		});
 		
@@ -102,7 +98,7 @@ class HtmlOBTest extends TestCase
 			}
 		};
 		
-		$html = \Ksfraser\HTML\Elements\HtmlOB::capture(function() use ($obj) {
+		$html = HtmlOB::capture(function() use ($obj) {
 			$obj->displaySomething();
 		});
 		
@@ -115,7 +111,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testEmptyCapture()
 	{
-		$html = \Ksfraser\HTML\Elements\HtmlOB::capture(function() {
+		$html = HtmlOB::capture(function() {
 			// No output
 		});
 		
@@ -127,7 +123,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testImplementsHtmlElementInterface()
 	{
-		$html = \Ksfraser\HTML\Elements\HtmlOB::capture(function() {
+		$html = HtmlOB::capture(function() {
 			echo '<p>Test</p>';
 		});
 		
@@ -139,7 +135,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testConstructorWithCallable()
 	{
-		$html = new \Ksfraser\HTML\Elements\HtmlOB(function() {
+		$html = new HtmlOB(function() {
 			echo '<p>Constructor callback</p>';
 		});
 		
@@ -151,7 +147,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testConstructorWithString()
 	{
-		$html = new \Ksfraser\HTML\Elements\HtmlOB('<p>Pre-captured</p>');
+		$html = new HtmlOB('<p>Pre-captured</p>');
 		
 		$this->assertEquals('<p>Pre-captured</p>', $html->getHtml());
 	}
@@ -161,7 +157,7 @@ class HtmlOBTest extends TestCase
 	 */
 	public function testConstructorWithNull()
 	{
-		$html = new \Ksfraser\HTML\Elements\HtmlOB();
+		$html = new HtmlOB();
 		
 		$this->assertEquals('', $html->getHtml());
 		
@@ -181,8 +177,8 @@ class HtmlOBTest extends TestCase
 			echo '<p>Same output</p>';
 		};
 		
-		$html1 = \Ksfraser\HTML\Elements\HtmlOB::capture($callback);
-		$html2 = new \Ksfraser\HTML\Elements\HtmlOB($callback);
+		$html1 = HtmlOB::capture($callback);
+		$html2 = new HtmlOB($callback);
 		
 		$this->assertEquals($html1->getHtml(), $html2->getHtml());
 		$this->assertEquals('<p>Same output</p>', $html1->getHtml());

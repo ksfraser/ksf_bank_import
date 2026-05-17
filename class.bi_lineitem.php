@@ -96,10 +96,6 @@ use Ksfraser\HTML\Composites\HTML_ROW;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA};
 use Ksfraser\HTML\{HtmlElement, HtmlAttribute, HtmlFragment};
-
-
-
-require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php' );
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 require_once( __DIR__ . '/src/Ksfraser/PartnerFormData.php' );
@@ -916,13 +912,6 @@ class bi_lineitem extends generic_fa_interface_model
 	function displayMatchedPartnerType()
 	{
 		require_once(__DIR__ . '/src/Ksfraser/FrontAccounting/TransactionTypes/TransactionTypesRegistry.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlHidden.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlSelect.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOption.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlInput.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php');
 		
 		// Hidden field for partnerId
 		$hidden = new \Ksfraser\HTML\Elements\HtmlHidden("partnerId_$this->id", 'manual');
