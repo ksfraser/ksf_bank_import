@@ -1,30 +1,8 @@
 <?php
-
-use Ksfraser\HTML\Composites\HtmlLabelRow;
-use Ksfraser\HTML\Elements\HtmlString;
-
 /**
- * ToggleTransactionRow - composes a ToggleTransactionTypeButton into
- * a HtmlLabelRow for use in legacy views.
+ * Shim file for ToggleTransactionRow - loads namespaced version and creates alias
+ * 
+ * @since 20251019
  */
-class ToggleTransactionRow implements \Ksfraser\HTML\HtmlElementInterface
-{
-    protected $row;
-
-    public function __construct(int $index)
-    {
-        $button = new ToggleTransactionTypeButton($index);
-        $label = new HtmlString("Toggle Transaction Type Debit/Credit");
-        $this->row = new HtmlLabelRow($label, $button);
-    }
-
-    public function getHtml(): string
-    {
-        return $this->row->getHtml();
-    }
-
-    public function toHtml(): void
-    {
-        $this->row->toHtml();
-    }
-}
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Views/ToggleTransactionRow.php';
+class_alias('Ksfraser\FaBankImport\Views\ToggleTransactionRow', 'ToggleTransactionRow');
