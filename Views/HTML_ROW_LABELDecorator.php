@@ -1,21 +1,8 @@
 <?php
-
-use Ksfraser\HTML\HtmlElementInterface;
-use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
-
-class HTML_ROW_LABELDecorator implements HtmlElementInterface
-{
-	protected $HTML_LABEL_ROW;
-	function __construct( $data, $label, $width = 25, $class = 'label' )
-	{
-		$this->HTML_LABEL_ROW = new HTML_ROW_LABEL( $data, $label, $width, $class );
-	}
-	function toHTML():void
-	{
-		$this->HTML_LABEL_ROW->toHTML();
-	}
-	function getHTML():string
-	{
-		return $this->HTML_LABEL_ROW->getHTML();
-	}
-}
+/**
+ * Shim file for HTML_ROW_LABELDecorator - loads namespaced version and creates alias
+ * 
+ * @since 20251019
+ */
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Views/HTML_ROW_LABELDecorator.php';
+class_alias('Ksfraser\FaBankImport\Views\HTML_ROW_LABELDecorator', 'HTML_ROW_LABELDecorator');
