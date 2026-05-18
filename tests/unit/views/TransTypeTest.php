@@ -1,11 +1,12 @@
 <?php
-
 namespace Tests\Unit\Views;
 
 use PHPUnit\Framework\TestCase;
 
 // Load the classes from views directory (global namespace)
 require_once __DIR__ . '/../../../Views/TransType.php';
+// Load bi_lineitem class for mocking
+require_once __DIR__ . '/../../../class.bi_lineitem.php';
 
 /**
  * Test TransType view component
@@ -18,10 +19,11 @@ class TransTypeTest extends TestCase
     /**
      * Create a mock bi_lineitem object for testing
      */
-    private function createMockLineitem(string $transactionDC = 'D'): object
+    private function createMockLineitem(string $transactionTypeLabel = 'Debit'): object
     {
-        $mock = new \stdClass();
-        $mock->transactionDC = $transactionDC;
+        $mock = $this->createMock(\bi_lineitem::class);
+        $mock->method('getTransactionTypeLabel')
+            ->willReturn($transactionTypeLabel);
         
         return $mock;
     }
@@ -42,7 +44,7 @@ class TransTypeTest extends TestCase
      */
     public function testDebitType(): void
     {
-        $lineitem = $this->createMockLineitem('D');
+        $lineitem = $this->createMockLineitem('Debit');
         $transType = new \TransType($lineitem);
         
         $html = $transType->getHtml();
@@ -56,7 +58,7 @@ class TransTypeTest extends TestCase
      */
     public function testCreditType(): void
     {
-        $lineitem = $this->createMockLineitem('C');
+        $lineitem = $this->createMockLineitem('Credit');
         $transType = new \TransType($lineitem);
         
         $html = $transType->getHtml();
@@ -70,7 +72,7 @@ class TransTypeTest extends TestCase
      */
     public function testBankTransferType(): void
     {
-        $lineitem = $this->createMockLineitem('B');
+        $lineitem = $this->createMockLineitem('Bank Transfer');
         $transType = new \TransType($lineitem);
         
         $html = $transType->getHtml();
@@ -98,7 +100,7 @@ class TransTypeTest extends TestCase
      */
     public function testToHtmlOutputsDirectly(): void
     {
-        $lineitem = $this->createMockLineitem('C');
+        $lineitem = $this->createMockLineitem('Credit');
         $transType = new \TransType($lineitem);
         
         ob_start();
