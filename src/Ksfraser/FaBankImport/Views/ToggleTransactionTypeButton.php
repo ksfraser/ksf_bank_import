@@ -1,28 +1,52 @@
 <?php
-
 namespace Ksfraser\FaBankImport\Views;
 
+use Ksfraser\HTML\Elements\HtmlSubmit;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\HtmlElementInterface;
 
-use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
-use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
-//require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
-
-
-
-//TODO: Refactor to replace the Submit button with our own class.
-
-class ToggleTransactionTypeButton
+/**
+ * ToggleTransactionTypeButton - small adapter that builds a HtmlSubmit
+ * element for toggling transaction debit/credit.
+ * 
+ * @package Views
+ * @since 20251019
+ */
+class ToggleTransactionTypeButton implements HtmlElementInterface
 {
-	protected $HTML_LABEL_ROW;
-	function __construct( int $index )
-	{
-		$data = submit("ToggleTransaction[$index]",_("ToggleTransaction"),false, '', 'default');
-		$label =  "Toggle Transaction Type Debit/Credit" ;
-		$this->HTML_LABEL_ROW = new HTML_ROW_LABELDecorator(  $data, $label );
-		// label_row("Toggle Transaction Type Debit/Credit", submit("ToggleTransaction[$this->id]",_("ToggleTransaction"),false, '', 'default'));
-	}
-	function toHTML()
-	{
-		$this->HTML_LABEL_ROW->toHTML();
-	}
+    /**
+     * @var HtmlSubmit
+     */
+    protected $submit;
+
+    /**
+     * Create toggle button for transaction at given index
+     * 
+     * @param int $index The transaction index
+     */
+    public function __construct(int $index)
+    {
+        $this->submit = new HtmlSubmit(new HtmlString(_("ToggleTransaction")));
+        $this->submit->setName("ToggleTransaction[$index]")->setClass('default');
+    }
+
+    /**
+     * Get HTML as string
+     * 
+     * @return string The HTML
+     */
+    public function getHtml(): string
+    {
+        return $this->submit->getHtml();
+    }
+
+    /**
+     * Output HTML directly to screen
+     * 
+     * @return void
+     */
+    public function toHtml(): void
+    {
+        echo $this->getHtml();
+    }
 }
