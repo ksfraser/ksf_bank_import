@@ -1,9 +1,20 @@
 <?php
-namespace Views;
+namespace Ksfraser\FaBankImport\Views;
 
+/**
+ * ModuleMenuView - Renders the module navigation menu
+ * 
+ * @package Views
+ * @since 20251019
+ */
 class ModuleMenuView
 {
-    public function renderMenu()
+    /**
+     * Render the module menu HTML
+     * 
+     * @return void
+     */
+    public function renderMenu(): void
     {
         echo '<nav class="module-menu">';
         echo '<ul>';
