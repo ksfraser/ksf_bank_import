@@ -1,29 +1,8 @@
 <?php
-
-use Ksfraser\HTML\Composites\HtmlLabelRow;
-use Ksfraser\HTML\Elements\HtmlString;
-
 /**
- * ProcessTransactionButtonRow - wraps a ProcessTransaction submit into a HtmlLabelRow
+ * Shim file for ProcessTransactionButtonRow - loads namespaced version and creates alias
+ * 
+ * @since 20251019
  */
-class ProcessTransactionButtonRow implements \Ksfraser\HTML\HtmlElementInterface
-{
-    protected $row;
-
-    public function __construct(int $index)
-    {
-        $button = new SubmitButton("ProcessTransaction[$index]", _("Process"));
-        $label = new HtmlString('');
-        $this->row = new HtmlLabelRow($label, $button);
-    }
-
-    public function getHtml(): string
-    {
-        return $this->row->getHtml();
-    }
-
-    public function toHtml(): void
-    {
-        $this->row->toHtml();
-    }
-}
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Views/ProcessTransactionButtonRow.php';
+class_alias('Ksfraser\FaBankImport\Views\ProcessTransactionButtonRow', 'ProcessTransactionButtonRow');
