@@ -1,35 +1,8 @@
 <?php
-
-/**//*****************************************************************
-*Return the appropriate Transaction Type Label
-*
-*	Changing to be SRP and IoC compliant.
-*
-*@since 20250515
-**********************************************************************/
-class TransactionTypeLabel
-{
-	private $transactionTypeLabel;
-	function __construct( $transactionDC )
-	{
-		//This could probably be moved to a getTransactionTypeLabel function
-		switch( $transactionDC )
-		{
-			case 'C':
-				$this->transactionTypeLabel = "Credit";
-			break;
-			case 'B':
-				$this->transactionTypeLabel = "Bank Transfer";
-			break;
-			case 'D':
-			default:
-				$this->transactionTypeLabel = "Debit";
-			break;
-		}
-		//return $transactionTypeLabel;
-	}
-	function getTransactionTypeLabel()
-	{
-		return $this->transactionTypeLabel;
-	}
-}
+/**
+ * Shim file for TransactionTypeLabel - loads namespaced version and creates alias
+ * 
+ * @since 20251019
+ */
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Views/TransactionTypeLabel.php';
+class_alias('Ksfraser\FaBankImport\Views\TransactionTypeLabel', 'TransactionTypeLabel');
