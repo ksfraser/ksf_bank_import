@@ -2,9 +2,9 @@
 namespace Ksfraser\FaBankImport\Views;
 
 use Ksfraser\BankAccountDataProvider;
-use Ksfraser\FaBankImport\Views\DataProviders\CustomerDataProvider;
-use Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider;
-use Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider;
+use Ksfraser\SupplierDataProvider;
+use Ksfraser\CustomerDataProvider;
+use Ksfraser\QuickEntryDataProvider;
 
 /**
  * ViewFactory - Factory for creating PartnerType Views
@@ -126,13 +126,10 @@ class ViewFactory
      */
     protected static function createBankTransferView(int $lineItemId, array $context): BankTransferPartnerTypeView
     {
-        $dataProvider = new BankAccountDataProvider();
-        
         return new BankTransferPartnerTypeView(
             $lineItemId,
             $context['otherBankAccount'] ?? '',
             $context['transactionDC'] ?? 'D',
-            $dataProvider,
             $context['partnerId'] ?? null,
             $context['partnerDetailId'] ?? null
         );
