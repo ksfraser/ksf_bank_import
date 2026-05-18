@@ -1,6 +1,6 @@
 <?php
 /**
- * Shim file for PartnerMatcher - loads namespaced version from Services and creates alias
+ * Shim file for PartnerMatcher - loads namespaced version and creates alias
  * 
  * @since 20251019
  */

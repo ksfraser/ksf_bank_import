@@ -1,11 +1,9 @@
 <?php
-// Legacy shim: alias the namespaced implementation so legacy code can
-// continue to instantiate `QuickEntryPartnerTypeView` without changing includes.
-// Ensure namespaced implementation is loaded and provide a legacy alias.
-$nsFile = __DIR__ . '/../src/Ksfraser/FaBankImport/Views/QuickEntryPartnerTypeView.php';
-if (file_exists($nsFile)) {
-	require_once $nsFile;
-}
-if (!class_exists('QuickEntryPartnerTypeView') && class_exists(\Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView::class)) {
-	class_alias(\Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView::class, 'QuickEntryPartnerTypeView');
-}
+/**
+ * Shim file for QuickEntryPartnerTypeView - loads namespaced version and creates alias
+ * 
+ * @since 20251019
+ */
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Views/QuickEntryPartnerTypeView.php';
+class_alias('Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView', 'KsfBankImport\Views\QuickEntryPartnerTypeView');
+class_alias('Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView', 'QuickEntryPartnerTypeView');

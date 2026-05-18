@@ -1,270 +1,218 @@
 <?php
+namespace Tests\Unit\Views;
 
-/**
- * Unit Tests for QuickEntryPartnerTypeView
- * 
- * @package    KsfBankImport\Tests\Unit\Views
- * @author     Kevin Fraser / ChatGPT
- * @copyright  2025 KSF
- * @version    1.0.0
- */
-
-namespace KsfBankImport\Tests\Unit\Views;
-
+use Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider;
 use PHPUnit\Framework\TestCase;
-use KsfBankImport\Views\QuickEntryPartnerTypeView;
-use KsfBankImport\Views\DataProviders\QuickEntryDataProvider;
 
-// Load FA stubs
-require_once __DIR__ . '/../../../includes/fa_stubs.php';
-
-// Load the view
-require_once __DIR__ . '/../../../Views/QuickEntryPartnerTypeView.v2.php';
+require_once __DIR__ . '/../../../src/Ksfraser/FaBankImport/Views/QuickEntryPartnerTypeView.php';
 
 /**
- * Test Quick Entry Partner Type View
+ * Test QuickEntryPartnerTypeView
  * 
- * @coversDefaultClass \KsfBankImport\Views\QuickEntryPartnerTypeView
+ * @package Tests\Unit\Views
+ * @coversDefaultClass \Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView
  */
 class QuickEntryPartnerTypeViewTest extends TestCase
 {
+    /**
+     * @var QuickEntryDataProvider|\PHPUnit\Framework\MockObject\MockObject
+     */
     private $dataProvider;
     
-    /**
-     * Set up before each test
-     */
     protected function setUp(): void
     {
         parent::setUp();
-        // Create a deposit provider for testing
-        $this->dataProvider = QuickEntryDataProvider::forDeposit();
-        $_POST = [];
-        $_GET = [];
+        
+        $this->dataProvider = $this->createMock(QuickEntryDataProvider::class);
+        $this->dataProvider->method('getEntries')->willReturn([
+            1 => ['id' => 1, 'description' => 'Deposit Entry 1', 'base_desc' => 'Base Deposit'],
+            2 => ['id' => 2, 'description' => 'Deposit Entry 2', 'base_desc' => 'Base Payment'],
+        ]);
+        $this->dataProvider->method('getEntry')->willReturnMap([
+            [1, ['id' => 1, 'description' => 'Deposit Entry 1', 'base_desc' => 'Base Deposit']],
+            [2, ['id' => 2, 'description' => 'Deposit Entry 2', 'base_desc' => 'Base Payment']],
+        ]);
     }
     
     /**
-     * Reset after each test
-     */
-    protected function tearDown(): void
-    {
-        QuickEntryDataProvider::reset();
-        $_POST = [];
-        $_GET = [];
-        parent::tearDown();
-    }
-    
-    /**
-     * Test constructor accepts all required parameters
-     * 
      * @covers ::__construct
      */
-    public function testConstructorAcceptsAllParameters(): void
+    public function testCanBeInstantiated(): void
     {
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',
-            $this->dataProvider
-        );
-        
-        $this->assertInstanceOf(QuickEntryPartnerTypeView::class, $view);
+        $view = $this->createView();
+        $this->assertInstanceOf(\Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView::class, $view);
     }
     
     /**
-     * Test getHtml returns string
-     * 
+     * @covers ::getLineItemId
+     */
+    public function testGetLineItemIdReturnsCorrectValue(): void
+    {
+        $view = $this->createView(['lineItemId' => 42]);
+        $this->assertSame(42, $view->getLineItemId());
+    }
+    
+    /**
+     * @covers ::getSelectedPartnerId
+     */
+    public function testGetSelectedPartnerIdReturnsNullWhenNotSet(): void
+    {
+        $view = $this->createView();
+        $this->assertNull($view->getSelectedPartnerId());
+    }
+    
+    /**
+     * @covers ::getSelectedPartnerDetailId
+     */
+    public function testGetSelectedPartnerDetailIdReturnsNull(): void
+    {
+        $view = $this->createView();
+        $this->assertNull($view->getSelectedPartnerDetailId());
+    }
+    
+    /**
      * @covers ::getHtml
      */
     public function testGetHtmlReturnsString(): void
     {
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',
-            $this->dataProvider
-        );
-        
-        $htmlObject = $view->getHtml();
-        
-        // V2: Returns HtmlLabelRow object, not string
-        $this->assertInstanceOf(\Ksfraser\HTML\Composites\HtmlLabelRow::class, $htmlObject);
-        
-        // Can be converted to string
-        $html = $htmlObject->getHtml();
+        $view = $this->createView();
+        $html = $view->getHtml();
         $this->assertIsString($html);
         $this->assertNotEmpty($html);
     }
     
     /**
-     * Test HTML contains Quick Entry label
-     * 
      * @covers ::getHtml
      */
-    public function testHtmlContainsQuickEntryLabel(): void
+    public function testGetHtmlContainsSelectElement(): void
     {
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',
-            $this->dataProvider
-        );
-        
+        $view = $this->createView();
         $html = $view->getHtml();
-        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
-
-        $this->assertStringContainsString('Quick Entry', $html);
+        $this->assertStringContainsString('<select', $html);
+        $this->assertStringContainsString('partnerId_1', $html);
     }
     
     /**
-     * Test uses data provider for quick entry checking
-     * 
      * @covers ::getHtml
-     * @covers ::renderQuickEntryDescription
      */
-    public function testUsesDataProviderForQuickEntryChecking(): void
+    public function testGetHtmlContainsQuickEntryOptions(): void
     {
-        // Set a partner ID in POST
-        $_POST['partnerId_1'] = '1';
-        
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',
-            $this->dataProvider
-        );
-        
+        $view = $this->createView();
         $html = $view->getHtml();
-        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
-
-        // Should use data provider to get entry details
-        $this->assertIsString($html);
+        $this->assertStringContainsString('Deposit Entry 1', $html);
+        $this->assertStringContainsString('Deposit Entry 2', $html);
     }
     
     /**
-     * Test display method outputs HTML
-     * 
-     * @covers ::display
+     * @covers ::getHtml
      */
-    public function testDisplayMethodOutputsHtml(): void
+    public function testGetHtmlContainsQuickEntryLabel(): void
     {
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',
-            $this->dataProvider
-        );
+        $view = $this->createView();
+        $html = $view->getHtml();
+        $this->assertStringContainsString('Quick Entry:', $html);
+    }
+    
+    /**
+     * @covers ::getQuickEntryDescription
+     */
+    public function testShowsBaseDescriptionWhenEntrySelected(): void
+    {
+        $_POST['partnerId_1'] = 1;
+        
+        $view = $this->createView();
+        $html = $view->getHtml();
+        
+        $this->assertStringContainsString('Base Deposit', $html);
+        
+        unset($_POST['partnerId_1']);
+    }
+    
+    /**
+     * @covers ::getQuickEntryDescription
+     */
+    public function testNoDescriptionWhenNoEntrySelected(): void
+    {
+        $view = $this->createView();
+        $html = $view->getHtml();
+        
+        $this->assertStringNotContainsString('Base Deposit', $html);
+    }
+    
+    /**
+     * @covers ::buildQuickEntrySelect
+     */
+    public function testSelectsMatchingEntry(): void
+    {
+        $_POST['partnerId_1'] = 2;
+        
+        $view = $this->createView();
+        $html = $view->getHtml();
+        
+        $this->assertStringContainsString('selected', $html);
+        $this->assertStringContainsString('Deposit Entry 2', $html);
+        
+        unset($_POST['partnerId_1']);
+    }
+    
+    /**
+     * @covers ::toHtml
+     */
+    public function testToHtmlOutputsDirectly(): void
+    {
+        $view = $this->createView();
         
         ob_start();
-        $view->display();
+        $view->toHtml();
         $output = ob_get_clean();
         
-        $this->assertIsString($output);
+        $this->assertStringContainsString('<select', $output);
         $this->assertNotEmpty($output);
-        $this->assertStringContainsString('Quick Entry', $output);
     }
     
     /**
-     * Test HTML structure is well-formed
-     * 
      * @covers ::getHtml
      */
-    public function testHtmlStructureIsWellFormed(): void
+    public function testSelectHasOnChangeAttribute(): void
     {
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',
-            $this->dataProvider
-        );
-        
+        $view = $this->createView();
         $html = $view->getHtml();
-        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
-
-        // Check for basic HTML structure
-        $this->assertStringContainsString('<tr', $html);
-        $this->assertStringContainsString('</tr>', $html);
+        $this->assertStringContainsString('onchange', $html);
     }
     
     /**
-     * Test deposit transaction type uses QE_DEPOSIT
-     * 
-     * @covers ::renderQuickEntrySelector
+     * @covers ::__construct
      */
-    public function testDepositTransactionTypeUsesQeDeposit(): void
+    public function testWorksWithDepositTransactionType(): void
     {
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',  // Credit = Deposit
-            $this->dataProvider
-        );
-        
-        $html = $view->getHtml();
-        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
-
-        // Should render without errors
-        $this->assertIsString($html);
+        $view = $this->createView(['transactionDC' => 'C']);
+        $this->assertInstanceOf(\Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView::class, $view);
     }
     
     /**
-     * Test payment transaction type uses QE_PAYMENT
-     * 
-     * @covers ::renderQuickEntrySelector
+     * @covers ::__construct
      */
-    public function testPaymentTransactionTypeUsesQePayment(): void
+    public function testWorksWithPaymentTransactionType(): void
     {
-        // Create payment provider
-        $paymentProvider = QuickEntryDataProvider::forPayment();
-        
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'D',  // Debit = Payment
-            $paymentProvider
-        );
-        
-        $html = $view->getHtml();
-        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
-
-        // Should render without errors
-        $this->assertIsString($html);
+        $view = $this->createView(['transactionDC' => 'D']);
+        $this->assertInstanceOf(\Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView::class, $view);
     }
     
     /**
-     * Test renders base description when entry is selected
+     * Helper method to create view with customizable parameters
      * 
-     * @covers ::renderQuickEntryDescription
+     * @param array $params Override parameters
+     * @return \Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView
      */
-    public function testRendersBaseDescriptionWhenEntryIsSelected(): void
+    private function createView(array $params = []): \Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView
     {
-        // Set a partner ID in POST
-        $_POST['partnerId_1'] = '1';
+        $lineItemId = $params['lineItemId'] ?? 1;
+        $transactionDC = $params['transactionDC'] ?? 'C';
         
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',
+        return new \Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView(
+            $lineItemId,
+            $transactionDC,
             $this->dataProvider
         );
-        
-        $html = $view->getHtml();
-        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
-
-        // Should attempt to fetch and display base description
-        $this->assertIsString($html);
-    }
-    
-    /**
-     * Test no description rendered when no entry selected
-     * 
-     * @covers ::renderQuickEntryDescription
-     */
-    public function testNoDescriptionRenderedWhenNoEntrySelected(): void
-    {
-        // Don't set any POST data
-        
-        $view = new QuickEntryPartnerTypeView(
-            1,
-            'C',
-            $this->dataProvider
-        );
-        
-        $html = $view->getHtml();
-        $html = $html->getHtml(); // V2: Convert HtmlLabelRow to string
-
-        // Should render dropdown but no description
-        $this->assertIsString($html);
-        $this->assertStringContainsString('Quick Entry', $html);
     }
 }

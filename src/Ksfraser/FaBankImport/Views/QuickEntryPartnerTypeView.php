@@ -1,32 +1,98 @@
 <?php
 namespace Ksfraser\FaBankImport\Views;
 
-use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\FaBankImport\Views\DataProviders\PartnerDataProviderInterface;
+use Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider;
+use Ksfraser\HTML\Composites\HtmlLabelRow;
+use Ksfraser\HTML\Elements\HtmlOption;
+use Ksfraser\HTML\Elements\HtmlSelect;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\HtmlFragment;
+use Ksfraser\PartnerFormData;
 
 /**
- * Quick Entry Partner Type View
+ * QuickEntryPartnerTypeView - Display quick entry selection UI
  * 
- * Single Responsibility: Display quick entry selection UI for a bank transaction line item.
+ * Single Responsibility: Render quick entry selection dropdown based on transaction direction.
  * 
- * Displays:
- * - "Quick Entry:" label
- * - Quick entry dropdown list
+ * Responsibilities:
+ * - Build quick entry dropdown from injected data provider
+ * - Display base description of selected entry
  * 
- * @author Kevin Fraser
- * @since 20250422
+ * Dependencies (via DI):
+ * - QuickEntryDataProvider: Provides quick entry list (deposit or payment based on transactionDC)
+ * 
+ * @package Ksfraser\FaBankImport\Views
+ * @since 20251019
  */
-class QuickEntryPartnerTypeView implements HtmlElementInterface
+class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
 {
+    /**
+     * @var int
+     */
     private $lineItemId;
+    
+    /**
+     * @var string 'C' for credit/deposit, 'D' for debit/payment
+     */
+    private $transactionDC;
+    
+    /**
+     * @var QuickEntryDataProvider
+     */
+    private $dataProvider;
+    
+    /**
+     * @var PartnerFormData
+     */
+    private $formData;
     
     /**
      * Constructor
      * 
      * @param int $lineItemId The ID of the line item
+     * @param string $transactionDC Transaction type ('C' for credit/deposit, 'D' for debit/payment)
+     * @param QuickEntryDataProvider $dataProvider Quick entry data provider
      */
-    public function __construct(int $lineItemId)
-    {
+    public function __construct(
+        int $lineItemId,
+        string $transactionDC,
+        QuickEntryDataProvider $dataProvider
+    ) {
         $this->lineItemId = $lineItemId;
+        $this->transactionDC = $transactionDC;
+        $this->dataProvider = $dataProvider;
+        $this->formData = new PartnerFormData($lineItemId);
+    }
+    
+    /**
+     * Get the line item ID
+     * 
+     * @return int
+     */
+    public function getLineItemId(): int
+    {
+        return $this->lineItemId;
+    }
+    
+    /**
+     * Get the selected partner ID
+     * 
+     * @return int|null
+     */
+    public function getSelectedPartnerId(): ?int
+    {
+        return $this->formData->hasPartnerId() ? $this->formData->getPartnerId() : null;
+    }
+    
+    /**
+     * Get the selected partner detail ID
+     * 
+     * @return int|null
+     */
+    public function getSelectedPartnerDetailId(): ?int
+    {
+        return null;
     }
     
     /**
@@ -36,22 +102,94 @@ class QuickEntryPartnerTypeView implements HtmlElementInterface
      */
     public function getHtml(): string
     {
-        ob_start();
+        $select = $this->buildQuickEntrySelect();
+        $description = $this->getQuickEntryDescription();
         
-        // Display quick entry selection
-        label_row(
-            _("Quick Entry:"),
-            quick_entries_list("partnerId_{$this->lineItemId}")
-        );
+        if ($description !== '') {
+            $content = new HtmlFragment();
+            $content->addChild($select);
+            $content->addChild(new HtmlString(' ' . $description));
+        } else {
+            $content = $select;
+        }
         
-        return ob_get_clean();
+        $label = new HtmlString(_('Quick Entry:'));
+        $labelRow = new HtmlLabelRow($label, $content);
+        
+        $fragment = new HtmlFragment();
+        $fragment->addChild($labelRow);
+        
+        return $fragment->getHtml();
     }
     
     /**
-     * Output HTML directly (for legacy compatibility)
+     * Output HTML directly
+     * 
+     * @return void
      */
     public function toHtml(): void
     {
         echo $this->getHtml();
+    }
+    
+    /**
+     * Build quick entry select dropdown
+     * 
+     * @return HtmlSelect
+     */
+    private function buildQuickEntrySelect(): HtmlSelect
+    {
+        $select = new HtmlSelect("partnerId_{$this->lineItemId}");
+        $select->setClass('combo');
+        $select->setAttribute('onchange', 'this.form.submit()');
+        
+        $select->addOption(new HtmlOption('', _('Select Quick Entry')));
+        
+        $entries = $this->dataProvider->getEntries();
+        
+        foreach ($entries as $entry) {
+            $entryId = $entry['id'] ?? null;
+            $entryDescription = $entry['description'] ?? '';
+            
+            if ($entryId === null) {
+                continue;
+            }
+            
+            $option = new HtmlOption((string)$entryId, $entryDescription);
+            
+            if ($this->formData->hasPartnerId() && $this->formData->getPartnerId() == $entryId) {
+                $option->setSelected(true);
+            }
+            
+            $select->addOption($option);
+        }
+        
+        return $select;
+    }
+    
+    /**
+     * Get base description of selected quick entry
+     * 
+     * @return string Description text (empty string if none)
+     */
+    private function getQuickEntryDescription(): string
+    {
+        if (!$this->formData->hasPartnerId()) {
+            return '';
+        }
+        
+        $selectedId = $this->formData->getPartnerId();
+        
+        if (!$selectedId) {
+            return '';
+        }
+        
+        $entry = $this->dataProvider->getEntry($selectedId);
+        
+        if (!$entry) {
+            return '';
+        }
+        
+        return $entry['base_desc'] ?? '';
     }
 }

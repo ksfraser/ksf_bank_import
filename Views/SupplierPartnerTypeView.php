@@ -1,11 +1,9 @@
 <?php
-// Legacy shim: alias the namespaced implementation so legacy code can
-// continue to instantiate `SupplierPartnerTypeView` without changing includes.
-// Ensure namespaced implementation is loaded and provide a legacy alias.
-$nsFile = __DIR__ . '/../src/Ksfraser/FaBankImport/Views/SupplierPartnerTypeView.php';
-if (file_exists($nsFile)) {
-	require_once $nsFile;
-}
-if (!class_exists('SupplierPartnerTypeView') && class_exists(\Ksfraser\FaBankImport\Views\SupplierPartnerTypeView::class)) {
-	class_alias(\Ksfraser\FaBankImport\Views\SupplierPartnerTypeView::class, 'SupplierPartnerTypeView');
-}
+/**
+ * Shim file for SupplierPartnerTypeView - loads namespaced version and creates alias
+ * 
+ * @since 20251019
+ */
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Views/SupplierPartnerTypeView.php';
+class_alias('Ksfraser\FaBankImport\Views\SupplierPartnerTypeView', 'KsfBankImport\Views\SupplierPartnerTypeView');
+class_alias('Ksfraser\FaBankImport\Views\SupplierPartnerTypeView', 'SupplierPartnerTypeView');
