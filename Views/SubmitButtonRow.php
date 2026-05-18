@@ -1,29 +1,8 @@
 <?php
-
-use Ksfraser\HTML\Composites\HtmlLabelRow;
-use Ksfraser\HTML\Elements\HtmlString;
-
 /**
- * SubmitButtonRow - composes a SubmitButton into a HtmlLabelRow.
+ * Shim file for SubmitButtonRow - loads namespaced version and creates alias
+ * 
+ * @since 20251019
  */
-class SubmitButtonRow implements \Ksfraser\HTML\HtmlElementInterface
-{
-    protected $row;
-
-    public function __construct(string $name, string $label)
-    {
-        $button = new SubmitButton($name, $label);
-        $labelElem = new HtmlString('');
-        $this->row = new HtmlLabelRow($labelElem, $button);
-    }
-
-    public function getHtml(): string
-    {
-        return $this->row->getHtml();
-    }
-
-    public function toHtml(): void
-    {
-        $this->row->toHtml();
-    }
-}
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Views/SubmitButtonRow.php';
+class_alias('Ksfraser\FaBankImport\Views\SubmitButtonRow', 'SubmitButtonRow');

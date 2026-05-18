@@ -1,28 +1,8 @@
 <?php
-
-use Ksfraser\HTML\Elements\HtmlSubmit;
-use Ksfraser\HTML\Elements\HtmlString;
-
 /**
- * SubmitButton - generic adapter that builds a HtmlSubmit element.
+ * Shim file for SubmitButton - loads namespaced version and creates alias
+ * 
+ * @since 20251019
  */
-class SubmitButton implements \Ksfraser\HTML\HtmlElementInterface
-{
-    protected $submit;
-
-    public function __construct(string $name, string $label)
-    {
-        $this->submit = new HtmlSubmit(new HtmlString($label));
-        $this->submit->setName($name)->setClass('default');
-    }
-
-    public function getHtml(): string
-    {
-        return $this->submit->getHtml();
-    }
-
-    public function toHtml(): void
-    {
-        echo $this->getHtml();
-    }
-}
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Views/SubmitButton.php';
+class_alias('Ksfraser\FaBankImport\Views\SubmitButton', 'SubmitButton');
