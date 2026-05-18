@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * DEPRECATED - ResponseHandlerTest
+ * 
+ * Original test file archived. See DEPRECATED_ResponseHandlerTest.info for details.
+ * 
+ * This test class requires symfony/http-foundation which is not a project dependency.
+ * The ResponseHandler feature was experimental and is not part of core functionality.
+ * 
+ * Original tests (kept for reference if restoration needed):
+ * - testSetHeader
+ * - testSetStatusCode
+ * - testSetContent
+ * - testMethodChaining
+ * - testJsonResponse
+ * - testRedirectResponse
+ * - testGetResponse
+ * 
+ * To restore:
+ * 1. Uncomment the code in tests/unit/ResponseHandlerTest.php.bak
+ * 2. Install symfony/http-foundation
+ * 3. Re-enable in phpunit.xml test suites if needed
+ */
+
+// Deprecated test class - not executed by PHPUnit due to non-standard file extension

@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * DEPRECATED - MetricsAggregatorTest
+ * 
+ * This test file is deprecated and no longer maintained.
+ * 
+ * Reason for deprecation:
+ * - Requires org\bovigo\vfs\vfsStream (not in composer.json)
+ * - MetricsAggregator class uses virtual file system mocking which requires external package
+ * - This feature was experimental and is not part of the core functionality
+ * - Tests depend on external package not committed to composer.json (6 tests)
+ * 
+ * Status:
+ * ✗ Tests cannot run without installing league/flysystem and org.bovigo/vfsstream separately
+ * ✗ Not part of approved test suite (SupplierMatching, SupplierTransaction, StatementReconcile)
+ * 
+ * Restoration:
+ * If metrics aggregation with virtual file system mocking is needed:
+ * 1. Run: composer require --dev org.bovigo/vfsstream
+ * 2. Uncomment tests/unit/MetricsAggregatorTest.php.deprecated
+ * 3. Verify tests pass
+ * 4. Update composer.json require-dev if making this permanent
+ * 
+ * Better Alternative:
+ * Consider using actual file system testing or dependency injection for file operations.
+ */
