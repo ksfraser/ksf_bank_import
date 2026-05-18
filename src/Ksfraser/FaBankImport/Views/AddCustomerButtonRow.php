@@ -1,0 +1,52 @@
+<?php
+namespace Ksfraser\FaBankImport\Views;
+
+use Ksfraser\HTML\Composites\HtmlLabelRow;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\HtmlElementInterface;
+
+/**
+ * AddCustomerButtonRow - composes an AddCustomerButton into a HtmlLabelRow.
+ * 
+ * @package Views
+ * @since 20251019
+ */
+class AddCustomerButtonRow implements HtmlElementInterface
+{
+    /**
+     * @var HtmlLabelRow
+     */
+    protected $row;
+
+    /**
+     * Create add customer button row for given index
+     * 
+     * @param int $index The transaction index
+     */
+    public function __construct(int $index)
+    {
+        $button = new AddCustomerButton($index);
+        $labelText = new HtmlString("Add Customer");
+        $this->row = new HtmlLabelRow($labelText, $button);
+    }
+
+    /**
+     * Get HTML as string
+     * 
+     * @return string The HTML
+     */
+    public function getHtml(): string
+    {
+        return $this->row->getHtml();
+    }
+
+    /**
+     * Output HTML directly to screen
+     * 
+     * @return void
+     */
+    public function toHtml(): void
+    {
+        $this->row->toHtml();
+    }
+}
