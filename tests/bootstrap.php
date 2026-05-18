@@ -35,3 +35,8 @@ define('FA_ROOT', dirname(__DIR__));
 
 // Load test base classes (not autoloaded)
 require_once __DIR__ . '/integration/DatabaseTestCase.php';
+
+// Load FrontAccounting stubs for tests that use FA constants
+if (file_exists(__DIR__ . '/../includes/fa_stubs.php')) {
+    require_once __DIR__ . '/../includes/fa_stubs.php';
+}
