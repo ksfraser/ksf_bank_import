@@ -130,7 +130,10 @@ $optypes = array(
 include_once($path_to_root . "/modules/ksf_modules_common/defines.inc.php");	//$trans_types_readable
 
 require_once( 'class.bank_import_controller.php' );
-	try {
+	
+	// Initialize new architecture integration
+	$integration = \Ksfraser\FaBankImport\Integration\BiLineItemIntegration::getInstance();
+	
 		$bi_controller = new bank_import_controller();	//no vars for constructor.
 	} catch( Exception $e )
 	{	
@@ -192,10 +195,9 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 		if (!$error) {
 			$tid = $k;
 			//time to gather data about transaction
-			//load $tid
+			//load $tid using new architecture
 echo __FILE__ . "::" . __LINE__ . "<br />";
-		        $bit = new bi_transactions_model();
-        		$trz = $bit->get_transaction( $tid );
+        		$trz = $integration->getLineItemById($tid);
 				//Setting internal so we can refactor further later to use Object rather than Array
         			//$trz = $bit->get_transaction( $tid, true );
 
@@ -679,8 +681,10 @@ if (1) {
 
 	error_reporting(E_ALL);
 
-	require_once( 'class.bi_transactions.php' );
-	$bit = new bi_transactions_model();
+	// Use new architecture for transaction fetching
+	// require_once( 'class.bi_transactions.php' );
+	// $bit = new bi_transactions_model();
+	// Replaced with integration layer above
 
 /*20260406 */
 	// Initialize pagination parameters
@@ -736,33 +740,26 @@ if (1) {
 
 /* */
 
-	// Get transactions with pagination
+	// Get transactions with pagination using new architecture
 	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
 	{
-		//$trzs = $bit->get_transactions( $_POST['statusFilter'], null, null, null, null, 10, null );
-		//$trzs = $bit->get_transactions( $_POST['statusFilter'] );
-		$result = $bit->get_transactions( $_POST['statusFilter'], null, null, null, null, null, null, $offset, $limit_page );
-		//$result = $bit->get_transactions( $_POST['statusFilter'] );
+		// Filter by matched/unmatched status
+		if ($_POST['statusFilter'] == 1) {
+			$trzs = $integration->getMatchedLineItems($offset, $limit_page);
+		} else {
+			$trzs = $integration->getUnmatchedLineItems($offset, $limit_page);
+		}
 	}
 	else
 	{
-		//$trzs = $bit->get_transactions( null,  null, null, null, null, 10, null );
-		//$trzs = $bit->get_transactions();
-		$result = $bit->get_transactions( null, null, null, null, null, null, null, $offset, $limit_page );
-		//$result = $bit->get_transactions();
+		// Get all transactions
+		$trzs = $integration->getLineItems([], $offset, $limit_page);
 	}
-	if( is_array( $result ) )
-	{
-		$trzs = $result;
+	
+	// Ensure $trzs is array
+	if (!is_array($trzs)) {
+		$trzs = [];
 	}
-	else
-	if($result instanceof Ksfraser\FaBankImport\Results\PaginatedTransactionResult )
-	{
-		// Extract transactions and pagination metadata from result
-		$trzs = $result->transactions;
-		$pagination = array(
-			'total_count' => $result->total_count,
-			'current_page' => $result->current_page,
 			'total_pages' => $result->total_pages,
 			'page_size' => $limit_page,
 			'limit' => $limit_page,
