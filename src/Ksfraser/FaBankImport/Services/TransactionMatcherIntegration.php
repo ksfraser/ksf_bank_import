@@ -74,6 +74,9 @@ final class TransactionMatcherIntegration
             'amount' => $transaction->amount ?? 0
         ];
 
+        // Reuse confirmed historical memo-type decisions when available.
+        $transactionArray['memo_consistency_hint'] = $this->getMemoTypeHint((string)$transactionArray['memo']);
+
         // Load all partners from database as arrays (format expected by matcher)
         $suppliers = $this->loadAllSuppliersAsArrays();
         $customers = $this->loadAllCustomersAsArrays();
@@ -89,6 +92,85 @@ final class TransactionMatcherIntegration
             $customers,
             $bankAccounts
         );
+    }
+
+    /**
+     * Resolve historical memo-type hint from bi_partners_data.
+     *
+     * @param string $memo
+     * @return string|null 'customer' | 'supplier' | null
+     */
+    private function getMemoTypeHint(string $memo): ?string
+    {
+        $fingerprint = $this->extractMemoFingerprint($memo);
+        if ($fingerprint === '') {
+            return null;
+        }
+
+        $supplierType = defined('PT_SUPPLIER') ? (int)PT_SUPPLIER : 1;
+        $customerType = defined('PT_CUSTOMER') ? (int)PT_CUSTOMER : 2;
+
+        $sql = "SELECT partner_type, COUNT(*) AS c
+                FROM " . TB_PREF . "bi_partners_data
+                WHERE data = " . db_escape('MEMO_TYPE:' . $fingerprint) . "
+                  AND partner_type IN (" . db_escape($supplierType) . ", " . db_escape($customerType) . ")
+                GROUP BY partner_type";
+
+        $result = db_query($sql, 'Could not read memo type hint');
+        $counts = [
+            $supplierType => 0,
+            $customerType => 0,
+        ];
+
+        while ($row = db_fetch_assoc($result)) {
+            $ptype = (int)($row['partner_type'] ?? 0);
+            $counts[$ptype] = (int)($row['c'] ?? 0);
+        }
+
+        if ($counts[$supplierType] === 0 && $counts[$customerType] === 0) {
+            return null;
+        }
+
+        if ($counts[$customerType] > $counts[$supplierType]) {
+            return 'customer';
+        }
+        if ($counts[$supplierType] > $counts[$customerType]) {
+            return 'supplier';
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string $memo
+     * @return string
+     */
+    private function extractMemoFingerprint(string $memo): string
+    {
+        $memoU = strtoupper(trim($memo));
+        if ($memoU === '') {
+            return '';
+        }
+
+        if (strpos($memoU, 'E-TRANSFER') === false
+            && strpos($memoU, 'ETRANSFER') === false
+            && strpos($memoU, 'INTERAC') === false) {
+            return '';
+        }
+
+        $parts = array_values(array_filter(array_map('trim', explode(';', $memoU)), function ($p) {
+            return $p !== '';
+        }));
+        $seed = $parts[1] ?? $memoU;
+
+        $clean = preg_replace('/[^A-Z0-9 ]+/', '', $seed);
+        $clean = preg_replace('/\s+/', ' ', trim((string)$clean));
+
+        if (strlen((string)$clean) > 48) {
+            $clean = substr((string)$clean, 0, 48);
+        }
+
+        return (string)$clean;
     }
 
     /**

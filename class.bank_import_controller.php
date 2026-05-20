@@ -336,6 +336,82 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 	update_partner_data( $this->partnerId, $this->partnerType, $partner_detail_id, $this->trz['account']);
 }
 
+/**//*********************************************************************************
+* Persist confirmed memo-type decision for e-transfer classification reuse
+*
+* @param int partner type (PT_SUPPLIER / PT_CUSTOMER)
+* @param int partner detail id (branch for customers, null for suppliers)
+* @returns none
+******************************************************************************************/
+function persist_memo_type_decision($partner_type, $partner_detail_id = ANY_NUMERIC)
+{
+	require_once('includes/pdata.inc');
+	$memo = '';
+	if (isset($this->trz['memo']) && strlen(trim((string)$this->trz['memo'])) > 0) {
+		$memo = (string)$this->trz['memo'];
+	} else if (isset($this->trz['transactionTitle'])) {
+		$memo = (string)$this->trz['transactionTitle'];
+	}
+
+	if (!$this->is_etransfer_memo($memo)) {
+		return;
+	}
+
+	$fingerprint = $this->extract_memo_fingerprint($memo);
+	if (strlen($fingerprint) === 0) {
+		return;
+	}
+
+	set_partner_data(
+		$this->partnerId,
+		$partner_type,
+		$partner_detail_id,
+		'MEMO_TYPE:' . $fingerprint
+	);
+}
+
+/**
+ * @param string $memo
+ * @return bool
+ */
+function is_etransfer_memo($memo)
+{
+	$memo_u = strtoupper((string)$memo);
+	return strpos($memo_u, 'E-TRANSFER') !== false
+		|| strpos($memo_u, 'ETRANSFER') !== false
+		|| strpos($memo_u, 'INTERAC') !== false;
+}
+
+/**
+ * @param string $memo
+ * @return string
+ */
+function extract_memo_fingerprint($memo)
+{
+	$memo_u = strtoupper(trim((string)$memo));
+	if (strlen($memo_u) === 0) {
+		return '';
+	}
+
+	$parts = array_values(array_filter(array_map('trim', explode(';', $memo_u)), function ($p) {
+		return strlen((string)$p) > 0;
+	}));
+
+	$seed = $memo_u;
+	if (count($parts) >= 2) {
+		$seed = $parts[1];
+	}
+
+	$clean = preg_replace('/[^A-Z0-9 ]+/', '', $seed);
+	$clean = preg_replace('/\s+/', ' ', trim((string)$clean));
+
+	if (strlen((string)$clean) > 48) {
+		$clean = substr((string)$clean, 0, 48);
+	}
+
+	return (string)$clean;
+}
+
 	/**//**********************************************************
 	* Create the CART class as needed by some routines
 	*
@@ -425,6 +501,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				/***/
 				$this->update_transactions($this->tid, $_cids, $status=1, $payment_id, $this->transType, false, true,  "SP", $this->partnerId );
 				$this->update_partner_data( null );	//Suppliers don't have branches
+				$this->persist_memo_type_decision(PT_SUPPLIER, null);
 				display_notification('Supplier Payment Processed:' . $payment_id );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
 				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
@@ -509,6 +586,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				/***/
 				$this->update_transactions($this->tid, $_cids, $status=1, $payment_id[1], $this->transType, false, true,  "SP", $this->partnerId );
 				$this->update_partner_data( null );
+				$this->persist_memo_type_decision(PT_SUPPLIER, null);
 				display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
 				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
@@ -592,6 +670,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			update_partner_data($this->partnerId, $this->transType, $this->custBranch, $this->trz['memo']);
 			if( $this->transType !== PT_CUSTOMER )
 				update_partner_data($this->partnerId, PT_CUSTOMER, $this->custBranch, $this->trz['memo']);
+			$this->persist_memo_type_decision(PT_CUSTOMER, $this->custBranch);
 			display_notification('Customer Payment/Deposit processed');
 			display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
 		}

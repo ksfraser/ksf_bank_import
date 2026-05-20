@@ -206,6 +206,27 @@ class TransactionPartnerMatcher
             }
         }
 
+        // For e-transfer memos, bias selection to the type with stronger memo consistency
+        // between customer payments and supplier refunds.
+        if ($this->isEtransferMemo($transaction)) {
+            $hintPreferredBest = $this->selectHintPreferredBest(
+                $transaction,
+                $results['customer'],
+                $results['supplier']
+            );
+            if ($hintPreferredBest !== null) {
+                $bestResult = $hintPreferredBest;
+            } else {
+            $typePreferredBest = $this->selectTypePreferredBest(
+                $results['customer'],
+                $results['supplier']
+            );
+            if ($typePreferredBest !== null) {
+                $bestResult = $typePreferredBest;
+            }
+            }
+        }
+
         // Set best match if it meets minimum threshold
         if ($bestResult !== null && $bestResult->meetsThreshold($this->config->getMinimumConfidenceThreshold())) {
             $results['best_match'] = $bestResult;
@@ -227,5 +248,116 @@ class TransactionPartnerMatcher
         $this->partnerTypeSupplier = $supplier;
         $this->partnerTypeCustomer = $customer;
         $this->partnerTypeBankTransfer = $bankTransfer;
+    }
+
+    /**
+     * Detect whether transaction memo appears to be an e-transfer descriptor.
+     *
+     * @param array $transaction
+     * @return bool
+     */
+    private function isEtransferMemo(array $transaction): bool
+    {
+        $memo = strtoupper((string)($transaction['memo'] ?? $transaction['description'] ?? ''));
+        if ($memo === '') {
+            return false;
+        }
+
+        return strpos($memo, 'E-TRANSFER') !== false
+            || strpos($memo, 'ETRANSFER') !== false
+            || strpos($memo, 'INTERAC') !== false;
+    }
+
+    /**
+     * Choose best match from customer or supplier based on consistency score.
+     *
+     * Consistency is derived from the top-N confidence concentration per type,
+     * so we prefer the type whose memo pattern is repeatedly stronger.
+     *
+     * @param array $customerMatches Array of TransactionMatchResult
+     * @param array $supplierMatches Array of TransactionMatchResult
+     * @return TransactionMatchResult|null
+     */
+    private function selectTypePreferredBest(array $customerMatches, array $supplierMatches): ?TransactionMatchResult
+    {
+        if (empty($customerMatches) && empty($supplierMatches)) {
+            return null;
+        }
+        if (empty($customerMatches)) {
+            return $supplierMatches[0] ?? null;
+        }
+        if (empty($supplierMatches)) {
+            return $customerMatches[0] ?? null;
+        }
+
+        $customerConsistency = $this->calculateConsistencyScore($customerMatches);
+        $supplierConsistency = $this->calculateConsistencyScore($supplierMatches);
+
+        return $customerConsistency >= $supplierConsistency
+            ? $customerMatches[0]
+            : $supplierMatches[0];
+    }
+
+    /**
+     * Prefer best match from historical memo-type hint if provided.
+     *
+     * @param array $transaction
+     * @param array $customerMatches
+     * @param array $supplierMatches
+     * @return TransactionMatchResult|null
+     */
+    private function selectHintPreferredBest(
+        array $transaction,
+        array $customerMatches,
+        array $supplierMatches
+    ): ?TransactionMatchResult {
+        $hint = strtolower((string)($transaction['memo_consistency_hint'] ?? ''));
+        if ($hint === 'customer' && !empty($customerMatches)) {
+            return $customerMatches[0];
+        }
+        if ($hint === 'supplier' && !empty($supplierMatches)) {
+            return $supplierMatches[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * Calculate consistency score from top matches in a type bucket.
+     *
+     * @param array $matches Array of TransactionMatchResult
+     * @return float
+     */
+    private function calculateConsistencyScore(array $matches): float
+    {
+        if (empty($matches)) {
+            return 0.0;
+        }
+
+        $top = array_slice($matches, 0, 3);
+        $sum = 0.0;
+        $max = 0.0;
+
+        foreach ($top as $match) {
+            if (!$match instanceof TransactionMatchResult) {
+                continue;
+            }
+            $score = $match->getScore();
+            $sum += $score;
+            if ($score > $max) {
+                $max = $score;
+            }
+        }
+
+        $count = count($top);
+        if ($count === 0) {
+            return 0.0;
+        }
+
+        $avg = $sum / $count;
+
+        // For memo consistency we prioritize repeated support over a single spike.
+        // This helps classify e-transfers by historical type consistency.
+        return $sum + ($avg * 0.25) + ($count * 5.0) + ($max * 0.1);
     }
 }
