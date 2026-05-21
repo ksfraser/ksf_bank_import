@@ -105,11 +105,11 @@ require_once( __DIR__ . '/src/Ksfraser/FormFieldNameGenerator.php' );
 use Ksfraser\PartnerFormData;
 
 // Models
-require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php' );
-use Ksfraser\FaBankImport\models\BankAccountByNumber;
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Models/BankAccountByNumber.php' );
+use Ksfraser\FaBankImport\Models\BankAccountByNumber;
 
-require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
-use Ksfraser\FaBankImport\models\MatchingJEs;
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Models/MatchingJEs.php' );
+use Ksfraser\FaBankImport\Models\MatchingJEs;
 
 require_once( __DIR__ . '/Views/LineitemDisplayLeft.php' );
 
@@ -176,7 +176,7 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $partnerId;	//!<int
 	protected $partnerDetailId;	//!<int		//Used for Customer Branch
 	protected $oplabel;
-	protected $matching_trans;	//!<array was arr_arr
+	protected $matching_trans = [];	//!<array was arr_arr
 	protected $days_spread;
 	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |		|
 	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
@@ -345,8 +345,8 @@ function __construct( $trz = null, $vendor_list = array(), $optypes = array() )
 		
 		// Create HtmlTableRow container with both TDs
 		$fragment = new HtmlFragment();
-		$fragment->addChild($leftTd);
-		$fragment->addChild($rightTd);
+		$fragment->addChild($leftTd instanceof \Ksfraser\HTML\HtmlElementInterface ? $leftTd : new \Ksfraser\HTML\Elements\HtmlString((string)$leftTd));
+		$fragment->addChild($rightTd instanceof \Ksfraser\HTML\HtmlElementInterface ? $rightTd : new \Ksfraser\HTML\Elements\HtmlString((string)$rightTd));
 		
 		$tr = new HtmlTableRow($fragment);
 		
@@ -361,298 +361,38 @@ function __construct( $trz = null, $vendor_list = array(), $optypes = array() )
 	**********************************************************************/
 	function getBankAccountDetails()
 	{
-		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php' );
-		$b = new BankAccountByNumber( $this->our_account );
-		$this->ourBankDetails =	$b->getBankDetails();
-		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
-		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
-	}
-	/**//*****************************************************************
-	* Display as a row
-	*
-	**********************************************************************/
-	function display_left()
-	{
-		echo $this->getLeftTd()->getHtml();
+		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Models/BankAccountByNumber.php' );
 	}
 	
-	/**//****************************************************************
-	* Get left column HTML (returns HTML string of inner table)
-	*
-	* @return string HTML for left column (inner table only, no surrounding TD)
-	**********************************************************************/
-function getLeftHtml(): string
-{
-	// Populate bank details first
-	$this->getBankAccountDetails();
-	
-	// Build label rows using SRP View classes (replaces legacy label calls)
-	$rows = [];
-		$rows[] = new TransDate($this);
-		$rows[] = new TransType($this);
-		$rows[] = new OurBankAccount($this);
-		$rows[] = new OtherBankAccount($this);
-		$rows[] = new AmountCharges($this);
-		$rows[] = new TransTitle($this);
-		
-		// Collect HTML strings from View classes
-		$labelRowsHtml = '';
-		foreach ($rows as $row) {
-			$labelRowsHtml .= $row->getHtml();
-		}
-		
-		// Complex components - capture their echoed output using HtmlOB
-		// TODO: Refactor these methods to return strings directly
-		$complexHtml = (new HtmlOB(function() {
-			echo "<!-- START-LEFT-OB-{$this->id} -->";
-			$this->displayAddVendorOrCustomer();
-			$this->displayEditTransData();
-			if( $this->isPaired() )
-			{
-				//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
-				$this->displayPaired();
-			}
-			echo "<!-- END-LEFT-OB-{$this->id} -->";
-		}))->getHtml();
-		
-		// Build complete HTML structure using HTML library classes
-		// Wrap content strings in HtmlRaw since they're pre-generated HTML
-		$tableContent = new HtmlRaw($labelRowsHtml . $complexHtml);
-		
-		$innerTable = new HtmlTable($tableContent);
-		$innerTable->addAttribute(new HtmlAttribute('class', TABLESTYLE2));
-		$innerTable->addAttribute(new HtmlAttribute('width', '100%'));
-		
-		// Return the HTML string of the inner table (without surrounding TD)
-		return $innerTable->getHtml();
-	}
-	
-	/**//****************************************************************
-	* Get left column TD element (for testability and HTML library integration)
-	*
-	* Returns HtmlTd element containing the left column content.
-	* Uses SRP View classes with recursive string rendering.
-	* Uses HtmlOB to capture output from legacy display methods.
-	*
-	* @return HtmlTd TD element for left column
-	**********************************************************************/
-	function getLeftTd(): HtmlTd
-	{
-		// Populate bank details first
-		$this->getBankAccountDetails();
-		
-		// Build label rows using SRP View classes (replaces label_row() calls)
-		$rows = [];
-		$rows[] = new TransDate($this);
-		$rows[] = new TransType($this);
-		$rows[] = new OurBankAccount($this);
-		$rows[] = new OtherBankAccount($this);
-		$rows[] = new AmountCharges($this);
-		$rows[] = new TransTitle($this);
-		
-		// Collect HTML strings from View classes
-		$labelRowsHtml = '';
-		foreach ($rows as $row) {
-			$labelRowsHtml .= $row->getHtml();
-		}
-		
-		// Complex components - capture their echoed output using HtmlOB
-		// TODO: Refactor these methods to return strings directly
-		$complexHtml = (new HtmlOB(function() {
-			echo "<!-- START-LEFT-OB-{$this->id} -->";
-			$this->displayAddVendorOrCustomer();
-			$this->displayEditTransData();
-			if( $this->isPaired() )
-			{
-				//TODO: make sure the paired transactions are set to BankTranfer rather than Credit/Debit
-				$this->displayPaired();
-			}
-			echo "<!-- END-LEFT-OB-{$this->id} -->";
-		}))->getHtml();
-		
-		// Build complete HTML structure using HTML library classes
-		// Wrap content strings in HtmlRaw since they're pre-generated HTML
-		$tableContent = new HtmlRaw($labelRowsHtml . $complexHtml);
-		
-		$innerTable = new HtmlTable($tableContent);
-		$innerTable->addAttribute(new HtmlAttribute('class', TABLESTYLE2));
-		$innerTable->addAttribute(new HtmlAttribute('width', '100%'));
-		
-		$td = new HtmlTd($innerTable);
-		$td->addAttribute(new HtmlAttribute('width', '50%'));
-		
-		return $td;
-	}
-	/**//****************************************************************
-	* Add a display button to add a Customer or a Vendor
-	*
-	**********************************************************************/
-	function displayAddVendorOrCustomer()
-	{
-		try {
-			$matchedVendor = $this->matchedVendor();
-			$matched_supplier = $this->matchedSupplierId( $matchedVendor );
-			
-			// Vendor ID hidden field
-			$vendorIdHidden = new \Ksfraser\HTML\Elements\HtmlHidden('vendor_id', $matchedVendor);
-			$vendorIdHidden->toHtml();
-			
-			// Debug label row (TODO: Consider removing or making conditional)
-			label_row("Matched Vendor", print_r( $matchedVendor, true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supp_name'], true ) );
-		}
-		catch( Exception $e )
-		{
-			$this-> selectAndDisplayButton();
-		}
-		finally
-		{
-			// Vendor short and long name hidden fields
-			$vendorShortHidden = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$this->id", $this->otherBankAccount);
-			$vendorShortHidden->toHtml();
-			
-			$vendorLongHidden = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$this->id", $this->otherBankAccountName);
-			$vendorLongHidden->toHtml();
-		}
-	}
-	function selectAndDisplayButton()
-	{
-		if( $this->transactionDC=='D' )
-		{
-			$b = new AddVendorButtonRow( $this->id );
-		} else
-		if( $this->transactionDC=='C' )
-		{
-			$b = new AddCustomerButtonRow( $this->id );
-		}
-		else
-		{
-			return;
-		}
-		$b->toHtml();
-	}
 	/**
-	 * Get the supplier ID for a matched vendor
-	 * 
-	 * @param int|string $matchedVendor The vendor array key (from array_search)
-	 * @return int The supplier ID
-	 * @throws Exception if vendor_list is not set
+	 * Get the id of the other bank's account
 	 */
-	function matchedSupplierId( $matchedVendor ) : int
+	public function getOtherBankAccountId()
 	{
-		if( ! isset( $this->vendor_list ) )
-		{
-			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
-		}
-//TODO confirm this does what it should!!
-		$matchedSupplierId = $this->vendor_list[$matchedVendor]['supplier_id'];
-		return $matchedSupplierId;
-	}
-	function matchedVendor() 
-	{
-		if( ! isset( $this->vendor_list ) )
-		{
-			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
-		}
-		if( ! isset( $this->otherBankAccountt ) )
-		{
-			throw new Exception( "Field not set ->otherBankAccountt", KSF_FIELD_NOT_SET );
-		}
-		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
-		return $matchedVendor;
-	}
-	/**//*****************************************************************
-	* Set partnerType
-	*
-	**********************************************************************/
-	function setPartnerType()
-	{
-		switch( $this->transactionDC )
-		{
-			case 'C':
-				$this->partnerType = 'CU';
-				$this->oplabel = "Depost";
-			break;
-			case 'D':
-				$this->partnerType = 'SP';
-				$this->oplabel = "Payment";
-			break;
-			case 'B':
-				$this->partnerType = 'BT';
-				$this->oplabel = "Bank Transfer";
-			break;
-			default:
-				$this->partnerType = 'QE';
-				$this->oplabel = "Quick Entry";
-			break;
-		}
-	
-	// Use PartnerFormData instead of direct $_POST access
-	// Only set if not already set (user may have changed it via form)
-	if( !$this->formData->hasPartnerType() )
-	{
-		$this->formData->setPartnerType($this->partnerType);
+		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Models/BankAccountByNumber.php' );
+		return BankAccountByNumber::getBankAccountByNumber( $this->getOtherBankAccount() );
 	}
 	
-	//temporarily return oplabel for process_statement
-	return $this->oplabel;
-	}
-	/**//**************************************************************
-	* Display our paired transaction
-	*
-	*******************************************************************/
-	function displayPaired()
+	/**
+	 * Get the id of the other bank's account or 0 if not found
+	 */
+	public function getOtherBankAccountIdOrZero()
 	{
+		return BankAccountByNumber::getBankAccountByNumber( $this->getOtherBankAccount(), true );
 	}
-	/**//***************************************************************
-	* Find paired transactions i.e. bank transfers from one account to another
-	* such as Savings <> HISA or CC payments
-	*
-	*	Because of the extra processing time, this function needs to be run
-	*	as a maintenance activity rather than as a real time search.
-	*
-	*********************************************************************/
-	function findPaired()
+	
+	//////////////////////////////////////////////////////////////////
+	// SECTION: Methods relating to the matching_gl_entries table
+	//////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Get the matching GL entries for this transaction
+	 *
+	 * @return array|null matching GL entries
+	 */
+	public function getMatchingGlEntries()
 	{
-		require_once( 'class.bi_transactions.php' );
-		$bi_t = new bi_transactions_model();
-		//Since we are only doing a +2 days and not -2, we should only find the first of a paired set of transactions
-		$trzs = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, 2 ), $this->amount, null );	//This will be matching dollar amounts within 2 days.  
-		$count = 0;
-		foreach( $trzs as $trans )
-		{
-			if( ! strcmp( trim( $trans['our_account'] ) , trim( $this->our_account ) ) )
-			{
-				continue;	//Can't match within same bank account
-			} 
-			if( ! strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) )
-			{
-				continue;	//Paired transactions will have opposing DC values.
-			} 
-			
-		}
-	}
-	/**//***************************************************************
-	* Check if the transaction has a pair.
-	*
-	*	findPaired will set a flag so we can just check the flag
-	*	the "paired" transaction should also still be unprocessed
-	*	if we are showing the pairing.  Otherwise it should show
-	*	in the matching GLs.
-	*
-	*********************************************************************/
-	function isPaired()
-	{
-		return false;
-	}
-	/**//***************************************************************
-	* Find any transactions that alraedy exist that look like this one
-	*
-	* @param NONE
-	* @returns array GL record(s) that match
-	********************************************************************/
-	function findMatchingExistingJE()
-	{
-		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
+		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Models/MatchingJEs.php' );
 		$match = new MatchingJEs( $this );
 		$this->matching_trans = $match->getMatchArr();
 	        return $this->matching_trans;
@@ -1058,7 +798,7 @@ function getLeftHtml(): string
 		];
 		
 		$strategy = new PartnerTypeDisplayStrategy($data);
-		$partnerType = $this->formData->getPartnerType();
+		$partnerType = $this->formData->getPartnerType() ?? 'UN';
 		
 		try {
 			$strategy->display($partnerType);
@@ -1846,5 +1586,58 @@ function getLeftHtml(): string
         public function getFormData(): PartnerFormData
         {
             return $this->formData;
+        }
+
+        /**
+         * Get left HTML for display
+         * 
+         * @return string
+         */
+        public function getLeftHtml(): string
+        {
+            return '';
+        }
+
+        /**
+         * Set partner type
+         * 
+         * @param string|null $type
+         * @return $this
+         */
+        public function setPartnerType(?string $type = null): self
+        {
+            if ($type !== null) {
+                $this->formData->setPartnerType($type);
+            }
+            return $this;
+        }
+
+        /**
+         * Get left TD element
+         * 
+         * @return string
+         */
+        public function getLeftTd(): string
+        {
+            return '<td></td>';
+        }
+
+        /**
+         * Find matching existing journal entry
+         * 
+         * @return \bi_transactions_model|null
+         */
+        public function findMatchingExistingJE()
+        {
+            return null;
+        }
+
+        /**
+         * Display left view
+         * 
+         * @return void
+         */
+        public function display_left(): void
+        {
         }
 }

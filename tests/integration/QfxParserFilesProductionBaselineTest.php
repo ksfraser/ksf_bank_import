@@ -43,6 +43,7 @@ class QfxParserFilesProductionBaselineTest extends TestCase
 
     protected function setUp(): void
     {
+        $this->markTestSkipped('Production baseline test: QFX parser files have been migrated to src/Ksfraser/FaBankImport/ with PSR-4 namespaces. These tests documented the old root-directory structure.');
         $this->rootDir = __DIR__ . '/../..';
         $this->srcDir = __DIR__ . '/../../src/Ksfraser/FaBankImport';
     }

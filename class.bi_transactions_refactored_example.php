@@ -14,8 +14,8 @@
  * @version    20251104.1
  */
 
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/database/TransactionQueryBuilder.php');
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/database/TransactionRepository.php');
+require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Database/TransactionQueryBuilder.php');
+require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Database/TransactionRepository.php');
 
 use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
 use Ksfraser\FaBankImport\Database\TransactionRepository;

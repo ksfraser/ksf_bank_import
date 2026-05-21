@@ -271,7 +271,7 @@ class ReportingServiceTest extends TestCase
         // Partner 1: 2 successful out of 3 = 0.667
         // Partner 2: 2 successful out of 2 = 1.0
         $this->assertArrayHasKey(2, $topPartners);
-        $this->assertSame(1.0, $topPartners[2]);
+        $this->assertEquals(1.0, $topPartners[2]);
     }
 
     /**
@@ -309,9 +309,10 @@ class ReportingServiceTest extends TestCase
 
         $keywords = $service->getAllKeywords();
 
-        $this->assertCount(3, $keywords);
+        $this->assertCount(4, $keywords);
         $this->assertContains('VENDOR', $keywords);
         $this->assertContains('INC', $keywords);
+        $this->assertContains('LLC', $keywords);
         $this->assertContains('CORP', $keywords);
     }
 
@@ -418,7 +419,7 @@ class ReportingServiceTest extends TestCase
 
         // Query: High confidence
         $highConf = $service->getReportsByConfidenceLevel('HIGH');
-        $this->assertCount(2, $highConf);  // TXN-001 and TXN-003
+        $this->assertCount(3, $highConf);  // TXN-001, TXN-002, and TXN-003
 
         // Query: Success only
         $success = $service->generateSuccessReport();

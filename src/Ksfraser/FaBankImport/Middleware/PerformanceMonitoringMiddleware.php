@@ -2,6 +2,7 @@
 
 namespace Ksfraser\FaBankImport\Middleware;
 
+use Ksfraser\FaBankImport\Middleware\MiddlewareInterface;
 use Ksfraser\FaBankImport\Config\Config;
 use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Services\PerformanceMonitor;

@@ -53,7 +53,7 @@ namespace Ksfraser\FaBankImport\Results;
  * $array = $result->toArray();  // Returns ['success' => true, 'trans_no' => 42, ...]
  * ```
  */
-class TransactionResult
+class TransactionResult implements \ArrayAccess
 {
     /**
      * Success status
@@ -388,6 +388,59 @@ class TransactionResult
     public function __toString(): string
     {
         return $this->message;
+    }
+
+    /**
+     * Check if an offset exists
+     *
+     * @param mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset): bool
+    {
+        return in_array($offset, ['success', 'trans_no', 'trans_type', 'message', 'level'], true)
+            || array_key_exists($offset, $this->data);
+    }
+
+    /**
+     * Get an offset value
+     *
+     * @param mixed $offset
+     * @return mixed
+     */
+    public function offsetGet($offset): mixed
+    {
+        return match ($offset) {
+            'success' => $this->success,
+            'trans_no' => $this->transNo,
+            'trans_type' => $this->transType,
+            'message' => $this->message,
+            'level' => $this->level,
+            default => $this->data[$offset] ?? null,
+        };
+    }
+
+    /**
+     * Set an offset value (immutable - not supported)
+     *
+     * @param mixed $offset
+     * @param mixed $value
+     * @return void
+     */
+    public function offsetSet($offset, $value): void
+    {
+        throw new \RuntimeException('TransactionResult is immutable');
+    }
+
+    /**
+     * Unset an offset (immutable - not supported)
+     *
+     * @param mixed $offset
+     * @return void
+     */
+    public function offsetUnset($offset): void
+    {
+        throw new \RuntimeException('TransactionResult is immutable');
     }
 
     /**

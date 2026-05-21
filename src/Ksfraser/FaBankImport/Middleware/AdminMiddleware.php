@@ -2,6 +2,7 @@
 
 namespace Ksfraser\FaBankImport\Middleware;
 
+use Ksfraser\FaBankImport\Middleware\MiddlewareInterface;
 use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Http\ResponseHandler;
 use Ksfraser\FaBankImport\Exceptions\UnauthorizedException;

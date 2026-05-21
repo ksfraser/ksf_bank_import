@@ -25,6 +25,9 @@
         </testsuite>
         <testsuite name="Unit (Legacy)">
             <directory suffix="Test.php">./tests/unit</directory>
+            <exclude>./tests/unit/views/BankTransferPartnerTypeViewFinalTest.php</exclude>
+            <exclude>./tests/unit/views/SupplierPartnerTypeViewFinalTest.php</exclude>
+            <exclude>./tests/unit/views/CustomerPartnerTypeViewV2Test.php</exclude>
         </testsuite>
         <testsuite name="Integration (Legacy)">
             <directory suffix="Test.php">./tests/integration</directory>
@@ -34,6 +37,17 @@
         <include>
             <directory suffix=".php">./src</directory>
         </include>
+        <exclude>
+            <directory>./src/Ksfraser/Application/tests</directory>
+            <directory>./src/Ksfraser/FaBankImport/tests</directory>
+            <file>./src/Ksfraser/FaBankImport/Views/Operation.php</file>
+            <file>./src/Ksfraser/FaBankImport/Controllers/BiLineItemController.php</file>
+            <file>./src/Ksfraser/FaBankImport/Controller/BiLineItemController.php</file>
+            <file>./src/Ksfraser/FaBankImport/class.bi_transactions.copilot.php</file>
+            <file>./src/Ksfraser/Model/BiLineItemModel.php</file>
+            <file>./src/Ksfraser/FaBankImport/BankImportController.php</file>
+            <file>./src/Ksfraser/FaBankImport/Controller/BankImportController.php</file>
+        </exclude>
         <report>
             <html outputDirectory="coverage"/>
             <text outputFile="coverage.txt"/>

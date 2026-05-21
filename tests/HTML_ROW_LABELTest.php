@@ -3,7 +3,7 @@
 namespace Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\HTML_ROW_LABEL;
+use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 use Ksfraser\HTML\FaUiFunctions;
 
 class HTML_ROW_LABELTest extends TestCase

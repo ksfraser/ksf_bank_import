@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Controllers\ProcessStatementsController;
-use Models\SquareTransaction;
+use Ksfraser\FaBankImport\Models\SquareTransaction;
 use Views\TransactionView;
 
 class ProcessStatementsControllerTest extends TestCase

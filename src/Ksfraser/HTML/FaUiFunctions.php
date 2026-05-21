@@ -6,10 +6,17 @@ if (!defined('FA_ROOT')) {
     define('FA_ROOT', realpath(__DIR__ . '/../../../..'));
 }
 
-// Load FA UI functions in global namespace
-require_once(FA_ROOT . "/includes/ui/ui_input.inc");
-require_once(FA_ROOT . "/includes/ui/ui_lists.inc");
-require_once(FA_ROOT . "/includes/ui/ui_controls.inc");
+// Load FA UI functions in global namespace (skip if files don't exist - e.g., in test environment)
+$faUiFiles = [
+    FA_ROOT . "/includes/ui/ui_input.inc",
+    FA_ROOT . "/includes/ui/ui_lists.inc",
+    FA_ROOT . "/includes/ui/ui_controls.inc",
+];
+foreach ($faUiFiles as $faFile) {
+    if (file_exists($faFile)) {
+        require_once($faFile);
+    }
+}
 
 /**
  * Facade for Front Accounting UI functions

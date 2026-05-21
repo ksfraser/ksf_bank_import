@@ -10,7 +10,7 @@ $checks = [
     // [ rel_path, description ]
     ['class.bank_import_controller.php', 'Core bank import controller'],
     ['process_statements.php', 'Core statement processing'],
-    ['src/Ksfraser/FaBankImport/models/PairedJEs.php', 'Paired transactions model'],
+    ['src/Ksfraser/FaBankImport/Models/PairedJEs.php', 'Paired transactions model'],
     ['includes/CsvFieldMapper.php', 'CSV field mapping (NEW_IN_PROD)'],
     ['includes/GenericCsvParser.php', 'Generic CSV parser (NEW_IN_PROD)'],
     ['includes/Parser.php', 'Parser (NEW_IN_PROD?)'],

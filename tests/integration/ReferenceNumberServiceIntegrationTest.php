@@ -28,6 +28,7 @@ class ReferenceNumberServiceIntegrationTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->markTestSkipped('Integration test requires real FrontAccounting database and Refs class');
         
         // Load FA function stubs
         require_once __DIR__ . '/../helpers/fa_functions.php';

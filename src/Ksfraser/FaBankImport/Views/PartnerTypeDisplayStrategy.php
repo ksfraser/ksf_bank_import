@@ -151,7 +151,7 @@ class PartnerTypeDisplayStrategy
             
             $labelRow = $view->getHtml();
             $fragment = new HtmlFragment();
-            $fragment->addChild($labelRow);
+            $fragment->addChild($labelRow instanceof \Ksfraser\HTML\HtmlElementInterface ? $labelRow : new HtmlString((string)$labelRow));
             return $fragment;
         } else {
             $view = new SupplierPartnerTypeView(
@@ -184,7 +184,10 @@ class PartnerTypeDisplayStrategy
                 ]
             );
             
-            return $view->getHtml();
+            $html = $view->getHtml();
+            $fragment = new HtmlFragment();
+            $fragment->addChild($html instanceof \Ksfraser\HTML\HtmlElementInterface ? $html : new HtmlString((string)$html));
+            return $fragment;
         } else {
             $view = new CustomerPartnerTypeView(
                 $this->data['id'],
@@ -218,7 +221,10 @@ class PartnerTypeDisplayStrategy
                 ]
             );
             
-            return $view->getHtml();
+            $html = $view->getHtml();
+            $fragment = new HtmlFragment();
+            $fragment->addChild($html instanceof \Ksfraser\HTML\HtmlElementInterface ? $html : new HtmlString((string)$html));
+            return $fragment;
         } else {
             $view = new BankTransferPartnerTypeView(
                 $this->data['id'],
@@ -251,7 +257,7 @@ class PartnerTypeDisplayStrategy
             
             $labelRow = $view->getHtml();
             $fragment = new HtmlFragment();
-            $fragment->addChild($labelRow);
+            $fragment->addChild($labelRow instanceof \Ksfraser\HTML\HtmlElementInterface ? $labelRow : new HtmlString((string)$labelRow));
             return $fragment;
         } else {
             $view = new QuickEntryPartnerTypeView(

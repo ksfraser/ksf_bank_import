@@ -20,9 +20,9 @@ class TransDateTest extends TestCase
      */
     private function createMockLineitem(): object
     {
-        $mock = new \stdClass();
-        $mock->valueTimestamp = '2025-10-19';
-        $mock->entryTimestamp = '2025-10-19 14:30:00';
+        $mock = $this->createMock(\bi_lineitem::class);
+        $mock->method('getValueTimestamp')->willReturn('2025-10-19');
+        $mock->method('getEntryTimestamp')->willReturn('2025-10-19 14:30:00');
         
         return $mock;
     }

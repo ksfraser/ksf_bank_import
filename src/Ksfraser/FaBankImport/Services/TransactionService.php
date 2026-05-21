@@ -11,7 +11,7 @@ class TransactionService
     private $factory;
 
     public function __construct(
-        TransactionRepositoryInterface $repository,
+        $repository,
         TransactionTypeFactory $factory
     ) {
         $this->repository = $repository;

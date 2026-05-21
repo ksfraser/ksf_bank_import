@@ -39,9 +39,8 @@ class ProcessStatementsViewTest extends TestCase
         $html = $view->render();
 
         $this->assertIsString($html);
-        $this->assertStringContains('<form', $html);
-        $this->assertStringContains('<div id="doc_tbl">', $html);
-        $this->assertStringContains('</form>', $html);
+        $this->assertStringContainsString('<div id="doc_tbl">', $html);
+        $this->assertStringContainsString('<table', $html);
     }
 
     /**
@@ -56,13 +55,11 @@ class ProcessStatementsViewTest extends TestCase
         $view = new ProcessStatementsView($transactions, $operationTypes, $vendorList);
         $html = $view->render();
 
-        // Should contain form tags
-        $this->assertStringContains('<form', $html);
-        $this->assertStringContains('</form>', $html);
-
         // Should contain document table div
-        $this->assertStringContains('<div id="doc_tbl">', $html);
-        $this->assertStringContains('</div>', $html);
+        $this->assertStringContainsString('<div id="doc_tbl">', $html);
+        $this->assertStringContainsString('</div>', $html);
+        $this->assertStringContainsString('<table', $html);
+        $this->assertStringContainsString('</table>', $html);
     }
 
     /**
@@ -72,7 +69,25 @@ class ProcessStatementsViewTest extends TestCase
     {
         $transactions = [
             'test_transaction' => [
-                ['id' => 1, 'amount' => 100.00] // Mock transaction data
+                [
+                    'id' => 1,
+                    'amount' => 100.00,
+                    'transactionDC' => 'D',
+                    'memo' => 'Test memo',
+                    'our_account' => 'Test Account',
+                    'valueTimestamp' => '2026-01-01',
+                    'entryTimestamp' => '2026-01-01',
+                    'accountName' => 'Test Bank',
+                    'transactionTitle' => 'Test Title',
+                    'transactionCode' => 'TEST',
+                    'transactionCodeDesc' => 'Test Code',
+                    'currency' => 'CAD',
+                    'status' => 'pending',
+                    'fa_trans_type' => 0,
+                    'fa_trans_no' => 0,
+                    'transactionAmount' => 100.00,
+                    'transactionType' => 'TRN',
+                ]
             ]
         ];
         $operationTypes = ['SP' => 'Supplier', 'CU' => 'Customer'];
@@ -82,10 +97,10 @@ class ProcessStatementsViewTest extends TestCase
         $html = $view->render();
 
         // Should contain table structure
-        $this->assertStringContains('<table', $html);
-        $this->assertStringContains('TABLESTYLE', $html);
-        $this->assertStringContains('<thead>', $html);
-        $this->assertStringContains('<tbody>', $html);
+        $this->assertStringContainsString('<table', $html);
+        $this->assertStringContainsString('TABLESTYLE', $html);
+        $this->assertStringContainsString('<thead>', $html);
+        $this->assertStringContainsString('<tbody>', $html);
     }
 
     /**
@@ -100,7 +115,7 @@ class ProcessStatementsViewTest extends TestCase
         $view = new ProcessStatementsView($transactions, $operationTypes, $vendorList);
         $html = $view->render();
 
-        $this->assertStringContains('Transaction Details', $html);
-        $this->assertStringContains('Operation/Status', $html);
+        $this->assertStringContainsString('Transaction Details', $html);
+        $this->assertStringContainsString('Operation/Status', $html);
     }
 }

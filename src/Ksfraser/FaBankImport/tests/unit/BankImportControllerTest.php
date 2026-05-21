@@ -1,8 +1,8 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Controllers\BankImportController;
-use Models\SquareTransaction;
+use Ksfraser\FaBankImport\Controllers\BankImportController;
+use Ksfraser\FaBankImport\Models\SquareTransaction;
 
 class BankImportControllerTest extends TestCase
 {

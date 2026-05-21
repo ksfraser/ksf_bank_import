@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Events\VendorNotAddedEvent;
 use Ksfraser\Application\TimeFormatter;
 use Ksfraser\Application\Models\RealClock;
-require_once __DIR__ . '/../src/Ksfraser/FaBankImport/events/VendorAddedEvent.php';
+require_once __DIR__ . '/../src/Ksfraser/FaBankImport/Events/VendorAddedEvent.php';
 
 /**
 * Trap errors

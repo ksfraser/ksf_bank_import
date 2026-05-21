@@ -268,17 +268,17 @@ class BankImportConfig
         // In production, this queries FrontAccounting's database
         // For testing, we can mock get_company_pref() to bypass DB
         
-        if (!function_exists('db_escape')) {
+        if (!\function_exists('\\db_escape')) {
             // Not in FrontAccounting context (e.g., unit tests)
             // Allow any account code for testing
             return true;
         }
         
         $sql = "SELECT COUNT(*) as count FROM " . TB_PREF . "chart_master 
-                WHERE account_code = " . db_escape($accountCode);
+                WHERE account_code = " . \db_escape($accountCode);
         
-        $result = db_query($sql, "Failed to check GL account");
-        $row = db_fetch($result);
+        $result = \db_query($sql, "Failed to check GL account");
+        $row = \db_fetch($result);
         
         // Handle case where db_fetch returns false
         if ($row === false) {

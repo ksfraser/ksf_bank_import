@@ -50,7 +50,7 @@ class TransTypeTest extends TestCase
         $html = $transType->getHtml();
         
         $this->assertStringContainsString('Debit', $html);
-        $this->assertStringContainsString('Trans Type:', $html);
+$this->assertStringContainsString('Trans type:', $html);
     }
     
     /**
@@ -64,7 +64,7 @@ class TransTypeTest extends TestCase
         $html = $transType->getHtml();
         
         $this->assertStringContainsString('Credit', $html);
-        $this->assertStringContainsString('Trans Type:', $html);
+        $this->assertStringContainsString('Trans type:', $html);
     }
     
     /**
@@ -78,7 +78,7 @@ class TransTypeTest extends TestCase
         $html = $transType->getHtml();
         
         $this->assertStringContainsString('Bank Transfer', $html);
-        $this->assertStringContainsString('Trans Type:', $html);
+        $this->assertStringContainsString('Trans type:', $html);
     }
     
     /**
@@ -108,7 +108,7 @@ class TransTypeTest extends TestCase
         $output = ob_get_clean();
         
         $this->assertStringContainsString('Credit', $output);
-        $this->assertStringContainsString('Trans Type:', $output);
+        $this->assertStringContainsString('Trans type:', $output);
         $this->assertNotEmpty($output);
     }
 }

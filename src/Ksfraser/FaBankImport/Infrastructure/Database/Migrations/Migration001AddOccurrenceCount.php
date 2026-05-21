@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Infrastructure\Database\Migrations;
 
-use Ksfraser\FaBankImport\Contracts\Migration;
+use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 
 /**
  * Migration 001: Add occurrence_count to bi_partners_data
@@ -16,6 +16,11 @@ final class Migration001AddOccurrenceCount implements Migration
 {
     private const TABLE_PREFIX = '0_';
     private const TABLE = self::TABLE_PREFIX . 'bi_partners_data';
+
+    public function name(): string
+    {
+        return '20260416_140000_add_occurrence_count';
+    }
 
     public function version(): string
     {

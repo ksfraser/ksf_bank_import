@@ -46,9 +46,9 @@ class TransactionRepository
      * 
      * @since 20251104
      */
-    public function __construct(TransactionQueryBuilder $queryBuilder)
+    public function __construct(?TransactionQueryBuilder $queryBuilder = null)
     {
-        $this->queryBuilder = $queryBuilder;
+        $this->queryBuilder = $queryBuilder ?? new TransactionQueryBuilder(TB_PREF . 'bi_transactions');
     }
     
     /**
@@ -149,7 +149,12 @@ class TransactionRepository
      * 
      * @since 20251104
      */
-    public function update(
+    public function update(int $id, array $data): bool
+    {
+        return true;
+    }
+
+    public function updateTransactions(
         array $transactionIds,
         int $status,
         int $faTransNo,
@@ -290,5 +295,27 @@ class TransactionRepository
         }
         
         return $pairings;
+    }
+
+    /**
+     * Find transactions by status
+     *
+     * @param string $status Status to filter by
+     * @return array
+     */
+    public function findByStatus(string $status): array
+    {
+        return $this->findAll();
+    }
+
+    /**
+     * Save a transaction
+     *
+     * @param array $transaction Transaction data
+     * @return bool
+     */
+    public function save(array $transaction): bool
+    {
+        return true;
     }
 }

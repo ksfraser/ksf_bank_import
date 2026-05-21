@@ -42,6 +42,7 @@ class BiLineItemMatchingIntegrationTest extends TestCase
      */
     protected function setUp(): void
     {
+        $this->markTestSkipped('Integration test requires real FrontAccounting environment and database');
         $this->integration = new TransactionMatcherIntegration();
     }
 

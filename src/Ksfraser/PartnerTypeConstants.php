@@ -70,6 +70,11 @@ final class PartnerTypeConstants
     public const MATCHED = 'ZZ';
 
     /**
+     * Unknown partner type
+     */
+    public const UNKNOWN = 'UN';
+
+    /**
      * Prevent instantiation of this constants class
      */
     private function __construct()

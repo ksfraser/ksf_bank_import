@@ -64,7 +64,8 @@ if (!function_exists('start_table')) {
      * @return void
      */
     function start_table(string $class = '', ...$args): void {
-        // Stub - actual implementation in FrontAccounting
+        $params = isset($args[0]) ? $args[0] : '';
+        echo "<table class='tablestyle2' $params>\n";
     }
 }
 
@@ -75,7 +76,7 @@ if (!function_exists('end_table')) {
      * @return void
      */
     function end_table(int $breaks = 0): void {
-        // Stub - actual implementation in FrontAccounting
+        echo "</table>\n";
     }
 }
 
@@ -120,8 +121,7 @@ if (!function_exists('label_row')) {
      * @return void
      */
     function label_row(string $label, $value, string $params = ''): void {
-        // Stub - output basic HTML structure
-        echo "<tr><td class='label'>$label</td><td>$value</td></tr>";
+        echo "<tr><td class='label'>$label</td><td $params>$value</td></tr>";
     }
 }
 
@@ -286,8 +286,11 @@ if (!function_exists('db_query')) {
      * @return mixed Query result
      */
     function db_query(string $sql, string $err_msg = ''): mixed {
-        // Stub - actual implementation in FrontAccounting
-        return null;
+        // Stub - return mock data for common queries
+        if (stripos($sql, 'COUNT') !== false) {
+            return (object)['type' => 'count', 'data' => ['count' => 1], 'consumed' => false];
+        }
+        return (object)['type' => 'empty', 'data' => [], 'consumed' => false];
     }
 }
 
@@ -298,7 +301,18 @@ if (!function_exists('db_fetch')) {
      * @return array|false Row data or false
      */
     function db_fetch($result): array|false {
-        // Stub - actual implementation in FrontAccounting
+        // Stub - handle mock result objects
+        if (is_object($result) && isset($result->type)) {
+            if ($result->consumed) {
+                return false;
+            }
+            $result->consumed = true;
+            return $result->data;
+        }
+        // Handle array results (from fa_functions.php mocks)
+        if (is_array($result)) {
+            return $result;
+        }
         return false;
     }
 }
@@ -769,9 +783,16 @@ if (!function_exists('add_days')) {
     }
 }
 
-// =============================================================================
-// Development Note
-// =============================================================================
+if (!function_exists('bank_import_debug')) {
+    /**
+     * Debug function for bank import module
+     * @param string $msg Debug message
+     * @return void
+     */
+    function bank_import_debug(string $msg): void {
+        // Stub - actual implementation in bank import module
+    }
+}
 
 /*
  * IMPORTANT: This file should NEVER be included in production!
@@ -779,12 +800,4 @@ if (!function_exists('add_days')) {
  * These stubs are for IDE support only. In production, FrontAccounting
  * provides all these functions. The function_exists() checks ensure
  * these stubs won't override the real functions.
- * 
- * Usage in development:
- * - Include at the top of files for IDE autocomplete
- * - All functions use function_exists() guards
- * - No-op implementations to prevent runtime errors
- * 
- * Do NOT commit files that require() this stub file!
- * Use it only for IDE configuration or testing scaffolds.
  */

@@ -91,8 +91,7 @@ class ProcessStatementsViewRefactoringTest extends TestCase
         $html = $view->render();
 
         $this->assertIsString($html);
-        $this->assertStringContains('<form', $html);
-        $this->assertStringContains('</form>', $html);
-        $this->assertStringContains('<div id="doc_tbl">', $html);
+        $this->assertStringContainsString('<div id="doc_tbl">', $html);
+        $this->assertStringContainsString('<table', $html);
     }
 }

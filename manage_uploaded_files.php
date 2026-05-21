@@ -21,7 +21,7 @@ include_once($path_to_root . "/includes/ui.inc");
 include_once($path_to_root . "/includes/date_functions.inc");
 
 // Include the file manager class
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/services/UploadedFileManager.php');
+require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Services/UploadedFileManager.php');
 
 use Ksfraser\FaBankImport\Services\UploadedFileManager;
 

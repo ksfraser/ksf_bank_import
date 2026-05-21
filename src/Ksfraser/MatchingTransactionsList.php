@@ -17,7 +17,7 @@
 
 namespace Ksfraser;
 
-use Ksfraser\HTML\Elements\HtmlLabelRow;
+use Ksfraser\HTML\Composites\HtmlLabelRow;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\HtmlRaw;
 

@@ -3,7 +3,7 @@
 namespace Tests\Unit\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\Elements\HtmlAttribute;
+use Ksfraser\HTML\HtmlAttribute;
 
 class HtmlAttributeTest extends TestCase
 {

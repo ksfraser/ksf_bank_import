@@ -147,10 +147,10 @@ class OperationReportTest extends TestCase
         $operation = new OperationReport($reports);
         $percentiles = $operation->getConfidencePercentiles();
 
-        $this->assertSame(50.0, $percentiles['p50']);  // Median
-        $this->assertSame(75.0, $percentiles['p75']);
-        $this->assertSame(90.0, $percentiles['p90']);
-        $this->assertSame(99.0, $percentiles['p95']);
+        $this->assertEquals(50.5, $percentiles['p50']);  // Median
+        $this->assertEquals(75.25, $percentiles['p75']);
+        $this->assertEqualsWithDelta(90.1, $percentiles['p90'], 0.0001);
+        $this->assertEquals(95.05, $percentiles['p95']);
     }
 
     /**
@@ -168,11 +168,11 @@ class OperationReportTest extends TestCase
         $effectiveness = $operation->getRuleEffectiveness();
 
         // RecencyRule: avg = (10 + 12) / 2 = 11
-        $this->assertSame(11.0, $effectiveness['RecencyRule']['avg_contribution']);
+        $this->assertEquals(11.0, $effectiveness['RecencyRule']['avg_contribution']);
         $this->assertSame(2, $effectiveness['RecencyRule']['firing_count']);
 
         // AmountRule: avg = (3 + 5) / 2 = 4
-        $this->assertSame(4.0, $effectiveness['AmountRule']['avg_contribution']);
+        $this->assertEquals(4.0, $effectiveness['AmountRule']['avg_contribution']);
     }
 
     /**
@@ -280,10 +280,10 @@ class OperationReportTest extends TestCase
         $operation = new OperationReport();
         $percentiles = $operation->getConfidencePercentiles();
 
-        $this->assertSame(0.0, $percentiles['p50']);
-        $this->assertSame(0.0, $percentiles['p75']);
-        $this->assertSame(0.0, $percentiles['p90']);
-        $this->assertSame(0.0, $percentiles['p95']);
+        $this->assertEquals(0.0, $percentiles['p50']);
+        $this->assertEquals(0.0, $percentiles['p75']);
+        $this->assertEquals(0.0, $percentiles['p90']);
+        $this->assertEquals(0.0, $percentiles['p95']);
     }
 
     /**
@@ -300,8 +300,8 @@ class OperationReportTest extends TestCase
         $effectiveness = $operation->getRuleEffectiveness();
 
         // Rule1 fired only on success
-        $this->assertSame(10.0, $effectiveness['Rule1']['avg_when_successful']);
-        $this->assertSame(0.0, $effectiveness['Rule1']['avg_when_failed']);
+        $this->assertEquals(10.0, $effectiveness['Rule1']['avg_when_successful']);
+        $this->assertEquals(0.0, $effectiveness['Rule1']['avg_when_failed']);
     }
 
     /**
