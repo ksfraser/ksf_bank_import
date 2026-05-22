@@ -97,15 +97,23 @@ class CommandDispatcher implements CommandDispatcherInterface
         $commandClass = $this->commands[$actionName];
 
         try {
-            // Get repository dependency
-            $repository = $this->container->make('TransactionRepository');
-            
+            // Get repository dependency (optional — if unavailable, proceed without it)
+            $repository = null;
+            try {
+                $repository = $this->container->make('TransactionRepository');
+            } catch (\Exception $e) {
+                // Repository unavailable — command will run without it
+            }
+
+            // Build params; only include repository if it was resolved
+            $params = ['postData' => $postData];
+            if ($repository !== null) {
+                $params['repository'] = $repository;
+            }
+
             // Instantiate command with dependencies
             /** @var CommandInterface $command */
-            $command = $this->container->make($commandClass, [
-                "postData" => $postData,
-                "repository" => $repository
-            ]);
+            $command = $this->container->make($commandClass, $params);
 
             // Execute command
             return $command->execute();

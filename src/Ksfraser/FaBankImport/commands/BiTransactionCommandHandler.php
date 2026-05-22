@@ -299,6 +299,14 @@ final class BiTransactionCommandHandler
      */
     private function entityToArray(BiTransaction $transaction): array
     {
-        return $transaction->toArray();
+        $raw = $transaction->toArray();
+        // Add camelCase aliases and convert int flags to bool for API consumers
+        $raw['matched'] = $transaction->isMatched();
+        $raw['created'] = $transaction->isCreated();
+        $raw['faTransNo'] = $transaction->getFaTransNo();
+        $raw['faTransType'] = $transaction->getFaTransType();
+        $raw['gPartner'] = $transaction->getGPartner();
+        $raw['gOption'] = $transaction->getGOption();
+        return $raw;
     }
 }

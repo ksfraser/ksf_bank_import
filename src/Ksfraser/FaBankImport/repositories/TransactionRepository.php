@@ -22,6 +22,7 @@
 namespace Ksfraser\FaBankImport\Repositories;
 
 use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
+use Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface;
 
 /**
  * Repository for bi_transactions table
@@ -32,7 +33,7 @@ use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
  * @since 20251104
  * @version 20251104.1
  */
-class TransactionRepository
+class TransactionRepository implements TransactionRepositoryInterface
 {
     /**
      * @var TransactionQueryBuilder Query builder for SQL generation
@@ -69,6 +70,39 @@ class TransactionRepository
         }
         
         return $transactions;
+    }
+
+    public function findByStatus(string $status): array
+    {
+        $prefix = defined('TB_PREF') ? TB_PREF : '0_';
+        $escapedStatus = function_exists('db_escape') ? db_escape($status) : addslashes($status);
+        $sql = "SELECT * FROM {$prefix}bi_transactions WHERE status = '{$escapedStatus}'";
+        $result = db_query($sql, 'unable to get transactions by status');
+        $transactions = [];
+        while ($row = db_fetch($result)) {
+            $transactions[] = $row;
+        }
+        return $transactions;
+    }
+
+    public function save(array $transaction): bool
+    {
+        $prefix = defined('TB_PREF') ? TB_PREF : '0_';
+        if (isset($transaction['id']) && $transaction['id'] > 0) {
+            $id = (int)$transaction['id'];
+            unset($transaction['id']);
+            return $this->update($id, $transaction);
+        }
+        $fields = implode(', ', array_keys($transaction));
+        $values = implode(', ', array_map(function ($v) {
+            if (is_null($v)) return 'NULL';
+            if (is_bool($v)) return $v ? '1' : '0';
+            if (is_numeric($v)) return $v;
+            return "'" . (function_exists('db_escape') ? db_escape((string)$v) : addslashes((string)$v)) . "'";
+        }, array_values($transaction)));
+        $sql = "INSERT INTO {$prefix}bi_transactions ({$fields}) VALUES ({$values})";
+        $result = @db_query($sql, 'unable to save transaction');
+        return $result !== false;
     }
     
     /**

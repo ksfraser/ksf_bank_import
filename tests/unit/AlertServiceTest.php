@@ -16,6 +16,10 @@ class AlertServiceTest extends TestCase
 
     protected function setUp(): void
     {
+        if (!class_exists(\org\bovigo\vfs\vfsStream::class)) {
+            $this->markTestSkipped('vfsStream is not installed. Run: composer require --dev mikey179/vfsstream');
+        }
+
         $this->root = vfsStream::setup('root');
         
         // Mock the mail function

@@ -278,30 +278,9 @@ if (!function_exists('db_insert_id')) {
     }
 }
 
-if (!function_exists('db_query')) {
-    /**
-     * Execute a database query
-     * @param string $sql SQL query
-     * @param string $err_msg Error message if query fails
-     * @return mixed Query result
-     */
-    function db_query(string $sql, string $err_msg = ''): mixed {
-        // Stub - actual implementation in FrontAccounting
-        return null;
-    }
-}
-
-if (!function_exists('db_fetch')) {
-    /**
-     * Fetch a row from query result
-     * @param mixed $result Query result
-     * @return array|false Row data or false
-     */
-    function db_fetch($result): array|false {
-        // Stub - actual implementation in FrontAccounting
-        return false;
-    }
-}
+// Note: db_query and db_fetch are NOT stubbed here so that tests can register
+// their own implementations via if(!function_exists) guards. Tests that need
+// these functions should load tests/helpers/fa_functions.php or define their own stubs.
 
 // =============================================================================
 // Path Functions

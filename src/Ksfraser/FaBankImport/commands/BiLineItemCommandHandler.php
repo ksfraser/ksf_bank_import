@@ -124,7 +124,11 @@ class BiLineItemCommandHandler
                 'unmatched_count' => $unmatched,
             ];
 
-            return $this->successResponse($data);
+            $response = $this->successResponse([], $total);
+            $response['matched_count'] = $matched;
+            $response['unmatched_count'] = $unmatched;
+
+            return $response;
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }

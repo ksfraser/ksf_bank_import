@@ -160,7 +160,11 @@ class BiLineItemService
      */
     public function getSummaryStats(): array
     {
-        return $this->repository->getSummaryStats();
+        $stats = $this->repository->getSummaryStats();
+        $total = (int)($stats['total_count'] ?? 0);
+        $matched = (int)($stats['matched_count'] ?? 0);
+        $stats['match_percentage'] = $total > 0 ? ($matched / $total) * 100 : 0.0;
+        return $stats;
     }
 
     /**

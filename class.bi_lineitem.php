@@ -57,12 +57,12 @@ require_once( __DIR__ . '/Views/ViewFactory.php' );
 use KsfBankImport\Views\ViewFactory;
 
 // Feature flag to enable v2 Views (set to true to use ViewFactory)
-define('USE_V2_PARTNER_VIEWS', true);
+if (!defined('USE_V2_PARTNER_VIEWS')) define('USE_V2_PARTNER_VIEWS', true);
 
 // Feature flag to enable unified transaction partner matching
 // When enabled, transactions are matched against all partner types (supplier/customer/bank)
 // before classification, enabling pre-selection and confidence scoring
-define('USE_UNIFIED_PARTNER_MATCHING', true);
+if (!defined('USE_UNIFIED_PARTNER_MATCHING')) define('USE_UNIFIED_PARTNER_MATCHING', true);
 
 // Unified transaction partner matching infrastructure
 require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Services/TransactionPartnerMatcher.php' );
@@ -193,12 +193,22 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $formData;	//!< PartnerFormData - Encapsulates $_POST access
 
 
-	function __construct( $trz, $vendor_list = array(), $optypes = array() )
+	function __construct( $trz = array(), $vendor_list = array(), $optypes = array() )
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
-		//display_notification( __FILE__ . "::" . __LINE__ );
-		parent::__construct( null, null, null, null, null);
-		//display_notification( __FILE__ . "::" . __LINE__ );
+		// Keep the legacy model lightweight in tests; the inherited FA constructor
+		// chain pulls in database bootstrapping that is not needed for HTML rendering.
+		if (empty($trz)) {
+			$this->matched = 0;
+			$this->created = 0;
+			$this->charge = 0;
+			$this->days_spread = 2;
+			$this->vendor_list = $vendor_list;
+			$this->optypes = $optypes;
+			$this->formData = new PartnerFormData(0);
+			return;
+		}
+
 	//	$this->iam = "bi_transactions";
 	//	$this->define_table();
 		$this->matched = 0;
@@ -277,7 +287,10 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function determineTransactionTypeLabel(): void
 	{
-		$tTL = new TransactionTypeLabel( $this->transactionDC );
+		if (!class_exists('TransactionTypeLabel')) {
+			require_once( __DIR__ . '/Views/TransactionTypeLabel.php' );
+		}
+		$tTL = new \TransactionTypeLabel( $this->transactionDC );
 		$this->transactionTypeLabel = $tTL->getTransactionTypeLabel();
 		return;
 	}

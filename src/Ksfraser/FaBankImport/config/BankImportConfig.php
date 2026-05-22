@@ -252,6 +252,16 @@ class BankImportConfig
      */
     public static function setScoringWeights(float $recencyWeight, float $amountWeight, float $typeWeight): void
     {
+        // Validate ALL weights before setting ANY (atomic validation)
+        if ($recencyWeight <= 0) {
+            throw new \InvalidArgumentException('Recency weight must be positive');
+        }
+        if ($amountWeight <= 0) {
+            throw new \InvalidArgumentException('Amount weight must be positive');
+        }
+        if ($typeWeight <= 0) {
+            throw new \InvalidArgumentException('Type weight must be positive');
+        }
         self::setScoringRecencyWeight($recencyWeight);
         self::setScoringAmountWeight($amountWeight);
         self::setScoringTypeWeight($typeWeight);
