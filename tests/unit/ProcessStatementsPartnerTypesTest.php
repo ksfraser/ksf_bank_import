@@ -70,8 +70,8 @@ class ProcessStatementsPartnerTypesTest extends TestCase
             'CU' => 'Customer',
             'QE' => 'Quick Entry',
             'BT' => 'Bank Transfer',
-            'MA' => 'Manual settlement',
-            'ZZ' => 'Matched',
+            'MA' => 'Matched Transaction',
+            'ZZ' => 'Unknown',
         ];
     }
 
@@ -88,11 +88,12 @@ class ProcessStatementsPartnerTypesTest extends TestCase
         $this->assertSame('QE', PartnerTypeConstants::QUICK_ENTRY);
         $this->assertSame('BT', PartnerTypeConstants::BANK_TRANSFER);
         $this->assertSame('MA', PartnerTypeConstants::MANUAL_SETTLEMENT);
-        $this->assertSame('ZZ', PartnerTypeConstants::MATCHED);
+        $this->assertSame('MA', PartnerTypeConstants::MATCHED);
+        $this->assertSame('ZZ', PartnerTypeConstants::UNKNOWN);
     }
 
     /**
-     * Test that PartnerTypeConstants::getAll() returns array with same keys
+     * Test that PartnerTypeConstants::getCodesWithLabels() returns array with same keys as legacy optypes
      *
      * Note: Order doesn't matter for array_selector() or switch statements,
      * so we only verify that all keys exist, not their order.
@@ -101,7 +102,7 @@ class ProcessStatementsPartnerTypesTest extends TestCase
      */
     public function it_has_same_keys_as_legacy_array(): void
     {
-        $constants = PartnerTypeConstants::getAll();
+        $constants = PartnerTypeConstants::getCodesWithLabels();
         
         // Get the keys from both arrays
         $legacyKeys = array_keys($this->legacyOptypes);
@@ -115,7 +116,7 @@ class ProcessStatementsPartnerTypesTest extends TestCase
         $this->assertSame(
             $legacyKeys,
             $constantKeys,
-            'PartnerTypeConstants::getAll() keys must match legacy $optypes keys'
+            'PartnerTypeConstants::getCodesWithLabels() keys must match legacy $optypes keys'
         );
         
         // Also verify count
@@ -167,8 +168,8 @@ class ProcessStatementsPartnerTypesTest extends TestCase
      */
     public function it_can_build_optypes_array_from_constants(): void
     {
-        // This is what the NEW code would look like
-        $newOptypes = PartnerTypeConstants::getAll();
+        // Use getCodesWithLabels() for the legacy optypes replacement
+        $newOptypes = PartnerTypeConstants::getCodesWithLabels();
 
         // Verify same number of entries
         $this->assertCount(
@@ -220,13 +221,14 @@ class ProcessStatementsPartnerTypesTest extends TestCase
      */
     public function it_is_compatible_with_array_selector_function(): void
     {
-        $newOptypes = PartnerTypeConstants::getAll();
+        // Use getCodesWithLabels() for array_selector compatibility (returns [shortCode => label])
+        $newOptypes = PartnerTypeConstants::getCodesWithLabels();
 
         // array_selector expects an associative array with string keys and values
         foreach ($newOptypes as $key => $value) {
             $this->assertIsString($key, 'Keys must be strings for array_selector');
             $this->assertIsString($value, 'Values must be strings for array_selector');
-            $this->assertMatchesRegularExpression(
+            $this->assertRegExp(
                 '/^[A-Z]{2}$/',
                 $key,
                 'Keys should be 2-letter uppercase codes'
@@ -244,13 +246,19 @@ class ProcessStatementsPartnerTypesTest extends TestCase
      */
     public function it_supports_switch_statement_comparisons(): void
     {
+        // MANUAL_SETTLEMENT and MATCHED are aliases - both map to 'MA'
+        $this->assertSame('MA', PartnerTypeConstants::MANUAL_SETTLEMENT);
+        $this->assertSame('MA', PartnerTypeConstants::MATCHED);
+        $this->assertSame('ZZ', PartnerTypeConstants::UNKNOWN);
+
+        // Full set of switch comparison test cases (unique keys only)
         $testCases = [
             'SP' => PartnerTypeConstants::SUPPLIER,
             'CU' => PartnerTypeConstants::CUSTOMER,
             'QE' => PartnerTypeConstants::QUICK_ENTRY,
             'BT' => PartnerTypeConstants::BANK_TRANSFER,
-            'MA' => PartnerTypeConstants::MANUAL_SETTLEMENT,
-            'ZZ' => PartnerTypeConstants::MATCHED,
+            'MA' => PartnerTypeConstants::MATCHED,
+            'ZZ' => PartnerTypeConstants::UNKNOWN,
         ];
 
         foreach ($testCases as $expected => $actual) {
@@ -296,8 +304,8 @@ class ProcessStatementsPartnerTypesTest extends TestCase
             'Customer' => ['CU', 'Customer'],
             'Quick Entry' => ['QE', 'Quick Entry'],
             'Bank Transfer' => ['BT', 'Bank Transfer'],
-            'Manual settlement' => ['MA', 'Manual settlement'],
-            'Matched' => ['ZZ', 'Matched'],
+            'Manual settlement' => ['MA', 'Matched Transaction'],
+            'Matched' => ['ZZ', 'Unknown'],
         ];
     }
 
@@ -311,7 +319,8 @@ class ProcessStatementsPartnerTypesTest extends TestCase
      */
     public function it_is_compatible_with_bi_lineitem_constructor(): void
     {
-        $newOptypes = PartnerTypeConstants::getAll();
+        // Use getCodesWithLabels() for bi_lineitem (needs [shortCode => label] format)
+        $newOptypes = PartnerTypeConstants::getCodesWithLabels();
 
         // Verify it's an array (for type hint compatibility)
         $this->assertIsArray($newOptypes);
@@ -341,12 +350,12 @@ class ProcessStatementsPartnerTypesTest extends TestCase
             'CU' => 'Customer',
             'QE' => 'Quick Entry',
             'BT' => 'Bank Transfer',
-            'MA' => 'Manual settlement',
-            'ZZ' => 'Matched',
+            'MA' => 'Matched Transaction',
+            'ZZ' => 'Unknown',
         ];
 
-        // NEW CODE (what we'll replace it with):
-        $newOptypes = PartnerTypeConstants::getAll();
+        // NEW CODE (what we'll replace it with, using getCodesWithLabels()):
+        $newOptypes = PartnerTypeConstants::getCodesWithLabels();
 
         // Assert they have the same keys (order doesn't matter)
         $oldKeys = array_keys($oldOptypes);

@@ -5,7 +5,7 @@ namespace Ksfraser\HTML\Composites;
 use Ksfraser\HTML\Elements\HtmlTableRow;
 use Ksfraser\HTML\Elements\HtmlTd;
 use Ksfraser\HTML\HtmlElementInterface;
-use Ksfraser\HTML\HtmlAttribute;
+use Ksfraser\HTML\Elements\HtmlAttribute;
 
 /**
  * HTML Label Row Class

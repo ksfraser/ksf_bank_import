@@ -96,7 +96,7 @@ class ProcessStatementsProductionBaselineTest extends TestCase
      */
     public function testHasHardcodedOptypesArray(): void
     {
-        $this->assertMatchesRegularExpression('/\$optypes\s*=\s*array\s*\(/', $this->fileContent,
+        $this->assertRegExp('/\$optypes\s*=\s*array\s*\(/', $this->fileContent,
             'PROD uses hardcoded $optypes array');
         $this->assertStringContainsString("'SP' => 'Supplier'", $this->fileContent,
             'PROD has SP => Supplier in array');
@@ -128,7 +128,7 @@ class ProcessStatementsProductionBaselineTest extends TestCase
      */
     public function testHasDirectUnsetTransHandler(): void
     {
-        $this->assertMatchesRegularExpression('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'UnsetTrans\'\]\s*\)\s*\)/', 
+        $this->assertRegExp('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'UnsetTrans\'\]\s*\)\s*\)/', 
             $this->fileContent,
             'PROD has direct UnsetTrans handler');
         $this->assertStringContainsString('$bi_controller->unsetTrans()', $this->fileContent,
@@ -140,7 +140,7 @@ class ProcessStatementsProductionBaselineTest extends TestCase
      */
     public function testHasDirectAddCustomerHandler(): void
     {
-        $this->assertMatchesRegularExpression('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'AddCustomer\'\]\s*\)\s*\)/',
+        $this->assertRegExp('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'AddCustomer\'\]\s*\)\s*\)/',
             $this->fileContent,
             'PROD has direct AddCustomer handler');
         $this->assertStringContainsString('$bi_controller->addCustomer()', $this->fileContent,
@@ -152,7 +152,7 @@ class ProcessStatementsProductionBaselineTest extends TestCase
      */
     public function testHasDirectAddVendorHandler(): void
     {
-        $this->assertMatchesRegularExpression('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'AddVendor\'\]\s*\)\s*\)/',
+        $this->assertRegExp('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'AddVendor\'\]\s*\)\s*\)/',
             $this->fileContent,
             'PROD has direct AddVendor handler');
         $this->assertStringContainsString('$bi_controller->addVendor()', $this->fileContent,
@@ -221,16 +221,16 @@ class ProcessStatementsProductionBaselineTest extends TestCase
      */
     public function testHasProcessTransactionWithSwitch(): void
     {
-        $this->assertMatchesRegularExpression('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/',
+        $this->assertRegExp('/if\s*\(\s*isset\s*\(\s*\$_POST\[\'ProcessTransaction\'\]\s*\)\s*\)/',
             $this->fileContent,
             'PROD has ProcessTransaction handler');
-        $this->assertMatchesRegularExpression('/switch\s*\(\s*true\s*\)/',
+        $this->assertRegExp('/switch\s*\(\s*true\s*\)/',
             $this->fileContent,
             'PROD uses switch(true) for transaction processing');
-        $this->assertMatchesRegularExpression('/case\s*\(\s*\$_POST\[\'partnerType\'\].*==\s*\'SP\'\s*\):/',
+        $this->assertRegExp('/case\s*\(\s*\$_POST\[\'partnerType\'\].*==\s*\'SP\'\s*\):/',
             $this->fileContent,
             'PROD has case for SP (Supplier) in switch');
-        $this->assertMatchesRegularExpression('/case\s*\(\s*\$_POST\[\'partnerType\'\].*==\s*\'CU\'/',
+        $this->assertRegExp('/case\s*\(\s*\$_POST\[\'partnerType\'\].*==\s*\'CU\'/',
             $this->fileContent,
             'PROD has case for CU (Customer) in switch');
     }
@@ -262,7 +262,7 @@ class ProcessStatementsProductionBaselineTest extends TestCase
      */
     public function testUsesEachFunction(): void
     {
-        $this->assertMatchesRegularExpression('/list\s*\(\s*\$k\s*,\s*\$v\s*\)\s*=\s*each\s*\(/',
+        $this->assertRegExp('/list\s*\(\s*\$k\s*,\s*\$v\s*\)\s*=\s*each\s*\(/',
             $this->fileContent,
             'PROD uses each() function (deprecated but present)');
     }
@@ -341,7 +341,7 @@ class ProcessStatementsProductionBaselineTest extends TestCase
      */
     public function testHasUnsetKVComment(): void
     {
-        $this->assertMatchesRegularExpression('/unset\s*\(\s*\$k\s*,\s*\$v\s*\)/',
+        $this->assertRegExp('/unset\s*\(\s*\$k\s*,\s*\$v\s*\)/',
             $this->fileContent,
             'PROD has unset($k, $v) statement');
         $this->assertStringContainsString('// actions', $this->fileContent,

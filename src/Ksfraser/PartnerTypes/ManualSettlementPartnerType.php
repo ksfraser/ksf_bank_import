@@ -37,8 +37,8 @@ class ManualSettlementPartnerType extends AbstractPartnerType
      */
     public function getLabel(): string
     {
-        // Updated to match legacy process_statements.php label for backward compatibility
-        return 'Manual settlement';
+        // Updated to match new design: MA = Matched Transaction
+        return 'Matched Transaction';
     }
 
     /**
@@ -46,7 +46,7 @@ class ManualSettlementPartnerType extends AbstractPartnerType
      */
     public function getConstantName(): string
     {
-        return 'MANUAL_SETTLEMENT';
+        return 'MATCHED';
     }
 
     /**

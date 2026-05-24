@@ -14,7 +14,7 @@ namespace Ksfraser\FaBankImport\Tests\Handlers;
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Handlers\MatchedTransactionHandler;
 use Ksfraser\FaBankImport\Handlers\TransactionHandlerInterface;
-use Ksfraser\PartnerTypes\MatchedPartnerType;
+use Ksfraser\PartnerTypes\UnknownPartnerType;
 
 class MatchedTransactionHandlerTest extends TestCase
 {
@@ -47,9 +47,9 @@ class MatchedTransactionHandlerTest extends TestCase
     public function it_returns_matched_partner_type_object(): void
     {
         $partnerType = $this->handler->getPartnerTypeObject();
-        $this->assertInstanceOf(MatchedPartnerType::class, $partnerType);
+        $this->assertInstanceOf(UnknownPartnerType::class, $partnerType);
         $this->assertEquals('ZZ', $partnerType->getShortCode());
-        $this->assertEquals('Matched', $partnerType->getLabel());
+        $this->assertEquals('Unknown', $partnerType->getLabel());
     }
 
     /**

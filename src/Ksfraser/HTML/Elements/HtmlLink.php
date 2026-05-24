@@ -4,7 +4,7 @@ namespace Ksfraser\HTML\Elements;
 
 use Ksfraser\HTML\HtmlElement;
 use Ksfraser\HTML\HtmlElementInterface;
-use Ksfraser\HTML\HtmlAttribute;
+use Ksfraser\HTML\Elements\HtmlAttribute;
 
 /**//****************************
 * Links 

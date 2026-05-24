@@ -938,7 +938,7 @@ class bi_lineitem extends generic_fa_interface_model
 		$entryInput = new \Ksfraser\HTML\Elements\HtmlInput("text");
 		$entryInput->setName("Existing_Entry");
 		$entryInput->setValue('0');
-		$entryInput->addAttribute(new \Ksfraser\HTML\HtmlAttribute("size", "6"));
+		$entryInput->addAttribute(new \Ksfraser\HTML\Elements\HtmlAttribute("size", "6"));
 		$entryInput->setPlaceholder(_("Existing Entry:"));
 		
 		// Create label row for entry input
