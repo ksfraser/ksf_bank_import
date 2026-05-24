@@ -246,12 +246,17 @@ class ProcessStatementsPartnerTypesTest extends TestCase
      */
     public function it_supports_switch_statement_comparisons(): void
     {
+        // MANUAL_SETTLEMENT and MATCHED are aliases - both map to 'MA'
+        $this->assertSame('MA', PartnerTypeConstants::MANUAL_SETTLEMENT);
+        $this->assertSame('MA', PartnerTypeConstants::MATCHED);
+        $this->assertSame('ZZ', PartnerTypeConstants::UNKNOWN);
+
+        // Full set of switch comparison test cases (unique keys only)
         $testCases = [
             'SP' => PartnerTypeConstants::SUPPLIER,
             'CU' => PartnerTypeConstants::CUSTOMER,
             'QE' => PartnerTypeConstants::QUICK_ENTRY,
             'BT' => PartnerTypeConstants::BANK_TRANSFER,
-            'MA' => PartnerTypeConstants::MANUAL_SETTLEMENT,
             'MA' => PartnerTypeConstants::MATCHED,
             'ZZ' => PartnerTypeConstants::UNKNOWN,
         ];

@@ -88,11 +88,11 @@ class AbstractTransactionHandlerTest extends TestCase
     }
 
     /**
-     * Test constructor throws exception for invalid constant
+     * Test constructor throws exception for invalid partner type short code
      *
      * @test
      */
-    public function it_throws_exception_for_invalid_constant(): void
+    public function it_throws_exception_for_invalid_partner_type_short_code(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid partner type short code');
