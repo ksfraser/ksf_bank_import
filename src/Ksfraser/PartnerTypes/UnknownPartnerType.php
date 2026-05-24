@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Matched Partner Type
+ * Unknown Partner Type
  *
- * Represents a matched transaction partner type in the bank import system.
+ * Represents an unknown or unprocessed transaction partner type.
  *
  * @package    Ksfraser\PartnerTypes
  * @author     Original Author
@@ -18,19 +18,19 @@ declare(strict_types=1);
 namespace Ksfraser\PartnerTypes;
 
 /**
- * Matched Partner Type
+ * Unknown Partner Type
  *
- * Used for transactions that have been matched to existing GL entries.
- * Short code 'MA' represents manually matched transactions.
+ * Used for transactions with unknown or unresolved partner types.
+ * Short code 'ZZ' is used to represent unknown/catch-all transactions.
  */
-class MatchedPartnerType extends AbstractPartnerType
+class UnknownPartnerType extends AbstractPartnerType
 {
     /**
      * @inheritDoc
      */
     public function getShortCode(): string
     {
-        return 'MA';
+        return 'ZZ';
     }
 
     /**
@@ -38,7 +38,7 @@ class MatchedPartnerType extends AbstractPartnerType
      */
     public function getLabel(): string
     {
-        return 'Matched Transaction';
+        return 'Unknown';
     }
 
     /**
@@ -46,7 +46,7 @@ class MatchedPartnerType extends AbstractPartnerType
      */
     public function getConstantName(): string
     {
-        return 'MATCHED';
+        return 'UNKNOWN';
     }
 
     /**
@@ -54,7 +54,7 @@ class MatchedPartnerType extends AbstractPartnerType
      */
     public function getPriority(): int
     {
-        return 50;
+        return 999;
     }
 
     /**
@@ -62,14 +62,14 @@ class MatchedPartnerType extends AbstractPartnerType
      */
     public function getDescription(): ?string
     {
-        return 'Manually match to existing GL entries';
+        return 'Unknown transaction type';
     }
-    
+
     /**
      * @inheritDoc
      */
     public function getStrategyMethodName(): string
     {
-        return 'displayManualSettlement';
+        return 'displayUnknown';
     }
 }

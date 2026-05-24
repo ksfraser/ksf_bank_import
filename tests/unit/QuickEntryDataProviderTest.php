@@ -165,7 +165,7 @@ class QuickEntryDataProviderTest extends TestCase
         $html = $provider->generateSelectHtml('quickEntry', 'QE_PAYMENT', '2');
 
         $this->assertStringContainsString('selected', $html);
-        $this->assertMatchesRegularExpression('/value="2"[^>]*selected/', $html);
+        $this->assertRegExp('/value="2"[^>]*selected/', $html);
     }
 
     public function testGetQuickEntryDescriptionById(): void

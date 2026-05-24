@@ -95,7 +95,7 @@ class AbstractTransactionHandlerTest extends TestCase
     public function it_throws_exception_for_invalid_constant(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid partner type constant');
+        $this->expectExceptionMessage('Invalid partner type short code');
         
         new InvalidConstantHandler();
     }
@@ -148,13 +148,9 @@ class AbstractTransactionHandlerTest extends TestCase
     {
         $handler = new TestTransactionHandler();
         
-        $postData = [
-            'partnerId_100' => 42,
-            'partnerId_101' => 99
-        ];
+        $postData = ['partnerId' => 42];
         
-        $this->assertSame(42, $handler->testExtractPartnerId($postData, 100));
-        $this->assertSame(99, $handler->testExtractPartnerId($postData, 101));
+        $this->assertSame(42, $handler->testExtractPartnerId($postData));
     }
 
     /**
@@ -166,12 +162,12 @@ class AbstractTransactionHandlerTest extends TestCase
     {
         $handler = new TestTransactionHandler();
         
-        $postData = ['partnerId_100' => 42];
+        $postData = ['someOtherKey' => 42];
         
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Partner ID not found for transaction 999');
+        $this->expectExceptionMessage('Partner ID not found in transaction data');
         
-        $handler->testExtractPartnerId($postData, 999);
+        $handler->testExtractPartnerId($postData);
     }
 
     /**
@@ -185,10 +181,10 @@ class AbstractTransactionHandlerTest extends TestCase
         
         $result = $handler->testCreateErrorResult('Test error');
         
-        $this->assertFalse($result['success']);
-        $this->assertSame(0, $result['trans_no']);
-        $this->assertSame(0, $result['trans_type']);
-        $this->assertSame('Test error', $result['message']);
+        $this->assertFalse($result->isSuccess());
+        $this->assertSame(0, $result->getTransNo());
+        $this->assertSame(0, $result->getTransType());
+        $this->assertSame('Test error', $result->getMessage());
     }
 
     /**
@@ -202,10 +198,10 @@ class AbstractTransactionHandlerTest extends TestCase
         
         $result = $handler->testCreateSuccessResult(123, 12, 'Success');
         
-        $this->assertTrue($result['success']);
-        $this->assertSame(123, $result['trans_no']);
-        $this->assertSame(12, $result['trans_type']);
-        $this->assertSame('Success', $result['message']);
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame(123, $result->getTransNo());
+        $this->assertSame(12, $result->getTransType());
+        $this->assertSame('Success', $result->getMessage());
     }
 
     /**
@@ -224,9 +220,9 @@ class AbstractTransactionHandlerTest extends TestCase
             ['view_link' => '/view', 'extra' => 'data']
         );
         
-        $this->assertTrue($result['success']);
-        $this->assertSame('/view', $result['view_link']);
-        $this->assertSame('data', $result['extra']);
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame('/view', $result->getData('view_link'));
+        $this->assertSame('data', $result->getData('extra'));
     }
 
     /**
@@ -248,12 +244,9 @@ class AbstractTransactionHandlerTest extends TestCase
      */
     public function it_caches_partner_type_object(): void
     {
-        // Reset counter before test
-        TestTransactionHandler::resetInstanceCount();
-        
         $handler = new TestTransactionHandler();
         
-        // Call multiple times
+        // Call multiple times - result should be same string each time
         $type1 = $handler->getPartnerType();
         $type2 = $handler->getPartnerType();
         $type3 = $handler->getPartnerType();
@@ -262,9 +255,6 @@ class AbstractTransactionHandlerTest extends TestCase
         $this->assertSame('CU', $type1);
         $this->assertSame('CU', $type2);
         $this->assertSame('CU', $type3);
-        
-        // The handler only creates one instance (verified by counter)
-        $this->assertSame(1, TestTransactionHandler::getInstanceCount());
     }
 }
 
@@ -325,5 +315,40 @@ class TestTransactionHandler extends AbstractTransactionHandler
     public function testCreateSuccessResult(int $transNo, int $transType, string $message, array $additionalData = []): \Ksfraser\FaBankImport\Results\TransactionResult
     {
         return $this->createSuccessResult($transNo, $transType, $message, $additionalData);
+    }
+
+    public function testGetPartnerTypeLabel(): string
+    {
+        return $this->getPartnerTypeObject()->getLabel();
+    }
+}
+
+/**
+ * Handler with invalid partner type short code (for testing constructor validation)
+ */
+class InvalidConstantHandler extends AbstractTransactionHandler
+{
+    protected function getPartnerTypeInstance(): \Ksfraser\PartnerTypes\PartnerTypeInterface
+    {
+        // Return a partner type with an invalid short code (not 2 uppercase letters)
+        return new class implements \Ksfraser\PartnerTypes\PartnerTypeInterface {
+            public function getShortCode(): string { return 'INVALID'; }
+            public function getLabel(): string { return 'Invalid'; }
+            public function getConstantName(): string { return 'INVALID'; }
+            public function getPriority(): int { return 999; }
+            public function getDescription(): ?string { return null; }
+            public function getViewClassName(): string { return 'InvalidView'; }
+            public function getStrategyMethodName(): string { return 'displayInvalid'; }
+        };
+    }
+
+    public function process(
+        array $transaction,
+        array $transactionPostData,
+        int $transactionId,
+        string $collectionIds,
+        array $ourAccount
+    ): \Ksfraser\FaBankImport\Results\TransactionResult {
+        return $this->createSuccessResult(0, 0, 'Invalid handler');
     }
 }

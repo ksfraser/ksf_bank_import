@@ -29,7 +29,7 @@ use Ksfraser\PartnerTypeConstants;
 /**
  * Test bi_lineitem Partner Types Compatibility
  *
- * These tests verify that PartnerTypeConstants::getAll() returns an array
+ * These tests verify that PartnerTypeConstants::getCodesWithLabels() returns an array
  * structure that is 100% compatible with what bi_lineitem expects.
  */
 class BiLineitemPartnerTypesTest extends TestCase
@@ -94,8 +94,8 @@ class BiLineitemPartnerTypesTest extends TestCase
             'CU' => 'Customer',
             'QE' => 'Quick Entry',
             'BT' => 'Bank Transfer',
-            'MA' => 'Manual settlement',
-            'ZZ' => 'Matched',
+            'MA' => 'Matched Transaction',
+            'ZZ' => 'Unknown',
         ];
     }
 
@@ -109,7 +109,7 @@ class BiLineitemPartnerTypesTest extends TestCase
     public function partner_type_constants_matches_legacy_optypes_exactly(): void
     {
         // Get optypes from PartnerTypeConstants (NEW way)
-        $newOptypes = PartnerTypeConstants::getAll();
+        $newOptypes = PartnerTypeConstants::getCodesWithLabels();
 
         // Keys should match (order-independent)
         $legacyKeys = array_keys($this->legacyOptypes);
@@ -148,7 +148,7 @@ class BiLineitemPartnerTypesTest extends TestCase
      */
     public function all_legacy_keys_exist_in_partner_type_constants(): void
     {
-        $newOptypes = PartnerTypeConstants::getAll();
+        $newOptypes = PartnerTypeConstants::getCodesWithLabels();
 
         foreach (array_keys($this->legacyOptypes) as $legacyKey) {
             $this->assertArrayHasKey(
@@ -166,7 +166,7 @@ class BiLineitemPartnerTypesTest extends TestCase
      */
     public function all_legacy_values_match_in_partner_type_constants(): void
     {
-        $newOptypes = PartnerTypeConstants::getAll();
+        $newOptypes = PartnerTypeConstants::getCodesWithLabels();
 
         foreach ($this->legacyOptypes as $code => $legacyLabel) {
             $this->assertSame(
@@ -186,7 +186,7 @@ class BiLineitemPartnerTypesTest extends TestCase
      */
     public function optypes_structure_compatible_with_array_selector(): void
     {
-        $optypes = PartnerTypeConstants::getAll();
+        $optypes = PartnerTypeConstants::getCodesWithLabels();
 
         // Must be an array
         $this->assertIsArray($optypes);
@@ -215,18 +215,18 @@ class BiLineitemPartnerTypesTest extends TestCase
             'CU' => 'Customer',
             'QE' => 'Quick Entry',
             'BT' => 'Bank Transfer',
-            'MA' => 'Manual settlement',
-            'ZZ' => 'Matched',
+            'MA' => 'Matched Transaction',
+            'ZZ' => 'Unknown',
         ];
 
         // AFTER (line 54 in new process_statements.php):
-        $newCode = PartnerTypeConstants::getAll();
+        $newCode = PartnerTypeConstants::getCodesWithLabels();
 
         // They must be identical
         $this->assertEquals(
             $oldCode,
             $newCode,
-            'Migration: PartnerTypeConstants::getAll() must return same array as legacy code'
+            'Migration: PartnerTypeConstants::getCodesWithLabels() must return same array as legacy code'
         );
     }
 
@@ -238,7 +238,7 @@ class BiLineitemPartnerTypesTest extends TestCase
      */
     public function each_partner_type_exists_with_correct_label(string $code, string $expectedLabel): void
     {
-        $optypes = PartnerTypeConstants::getAll();
+        $optypes = PartnerTypeConstants::getCodesWithLabels();
 
         $this->assertArrayHasKey(
             $code,
@@ -265,8 +265,8 @@ class BiLineitemPartnerTypesTest extends TestCase
             'Customer' => ['CU', 'Customer'],
             'Quick Entry' => ['QE', 'Quick Entry'],
             'Bank Transfer' => ['BT', 'Bank Transfer'],
-            'Manual settlement' => ['MA', 'Manual settlement'],
-            'Matched' => ['ZZ', 'Matched'],
+            'Manual settlement' => ['MA', 'Matched Transaction'],
+            'Matched' => ['ZZ', 'Unknown'],
         ];
     }
 
@@ -279,7 +279,7 @@ class BiLineitemPartnerTypesTest extends TestCase
      */
     public function bi_lineitem_constructor_signature_is_compatible(): void
     {
-        $optypes = PartnerTypeConstants::getAll();
+        $optypes = PartnerTypeConstants::getCodesWithLabels();
 
         // Verify it's an array (matches $optypes = array() default parameter)
         $this->assertIsArray($optypes);
@@ -291,7 +291,7 @@ class BiLineitemPartnerTypesTest extends TestCase
         foreach ($optypes as $code => $label) {
             $this->assertIsString($code, "Code must be string");
             $this->assertIsString($label, "Label must be string");
-            $this->assertMatchesRegularExpression(
+            $this->assertRegExp(
                 '/^[A-Z]{2}$/',
                 $code,
                 "Code must be 2 uppercase letters"
@@ -306,7 +306,7 @@ class BiLineitemPartnerTypesTest extends TestCase
      */
     public function partner_type_count_matches_legacy(): void
     {
-        $optypes = PartnerTypeConstants::getAll();
+        $optypes = PartnerTypeConstants::getCodesWithLabels();
 
         $this->assertCount(
             count($this->legacyOptypes),

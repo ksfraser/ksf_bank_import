@@ -50,7 +50,7 @@ class ManualSettlementHandlerTest extends TestCase
         $partnerType = $this->handler->getPartnerTypeObject();
         $this->assertInstanceOf(ManualSettlementPartnerType::class, $partnerType);
         $this->assertEquals('MA', $partnerType->getShortCode());
-        $this->assertEquals('Manual settlement', $partnerType->getLabel());
+        $this->assertEquals('Matched Transaction', $partnerType->getLabel());
     }
 
     /**

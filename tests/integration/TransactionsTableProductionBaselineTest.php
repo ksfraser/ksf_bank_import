@@ -69,10 +69,10 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testHasThreeClasses(): void
     {
-        $this->assertMatchesRegularExpression('/class\s+transaction_table\b/', $this->fileContent);
-        $this->assertMatchesRegularExpression('/class\s+transaction_table_row\b/', $this->fileContent);
-        $this->assertMatchesRegularExpression('/class\s+ttr_table\b/', $this->fileContent);
-        $this->assertMatchesRegularExpression('/class\s+ttr_label_row\b/', $this->fileContent);
+        $this->assertRegExp('/class\s+transaction_table\b/', $this->fileContent);
+        $this->assertRegExp('/class\s+transaction_table_row\b/', $this->fileContent);
+        $this->assertRegExp('/class\s+ttr_table\b/', $this->fileContent);
+        $this->assertRegExp('/class\s+ttr_label_row\b/', $this->fileContent);
     }
 
     /**
@@ -101,15 +101,15 @@ class TransactionsTableProductionBaselineTest extends TestCase
     public function testUsesLabelRowFunction(): void
     {
         // Check for multiple label_row() patterns
-        $this->assertMatchesRegularExpression('/label_row\s*\(\s*"Trans Date/', $this->fileContent,
+        $this->assertRegExp('/label_row\s*\(\s*"Trans Date/', $this->fileContent,
             'PROD uses label_row() for Trans Date');
-        $this->assertMatchesRegularExpression('/label_row\s*\(\s*"Trans Type/', $this->fileContent,
+        $this->assertRegExp('/label_row\s*\(\s*"Trans Type/', $this->fileContent,
             'PROD uses label_row() for Trans Type');
-        $this->assertMatchesRegularExpression('/label_row\s*\(\s*"Our Bank Account/', $this->fileContent,
+        $this->assertRegExp('/label_row\s*\(\s*"Our Bank Account/', $this->fileContent,
             'PROD uses label_row() for bank account');
-        $this->assertMatchesRegularExpression('/label_row\s*\(\s*"Other account/', $this->fileContent,
+        $this->assertRegExp('/label_row\s*\(\s*"Other account/', $this->fileContent,
             'PROD uses label_row() for other account');
-        $this->assertMatchesRegularExpression('/label_row\s*\(\s*"Amount/', $this->fileContent,
+        $this->assertRegExp('/label_row\s*\(\s*"Amount/', $this->fileContent,
             'PROD uses label_row() for amount');
         
         // Count occurrences - should be many in PROD
@@ -122,11 +122,11 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testUsesHiddenFunction(): void
     {
-        $this->assertMatchesRegularExpression('/hidden\s*\(\s*"vendor_short_/', $this->fileContent,
+        $this->assertRegExp('/hidden\s*\(\s*"vendor_short_/', $this->fileContent,
             'PROD uses hidden() for vendor_short');
-        $this->assertMatchesRegularExpression('/hidden\s*\(\s*"vendor_long_/', $this->fileContent,
+        $this->assertRegExp('/hidden\s*\(\s*"vendor_long_/', $this->fileContent,
             'PROD uses hidden() for vendor_long');
-        $this->assertMatchesRegularExpression('/hidden\s*\(\s*"partnerId_/', $this->fileContent,
+        $this->assertRegExp('/hidden\s*\(\s*"partnerId_/', $this->fileContent,
             'PROD uses hidden() for partnerId');
         
         // Count occurrences
@@ -139,11 +139,11 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testUsesSubmitFunction(): void
     {
-        $this->assertMatchesRegularExpression('/submit\s*\(\s*"AddVendor/', $this->fileContent,
+        $this->assertRegExp('/submit\s*\(\s*"AddVendor/', $this->fileContent,
             'PROD uses submit() for AddVendor button');
-        $this->assertMatchesRegularExpression('/submit\s*\(\s*"ProcessTransaction/', $this->fileContent,
+        $this->assertRegExp('/submit\s*\(\s*"ProcessTransaction/', $this->fileContent,
             'PROD uses submit() for ProcessTransaction button');
-        $this->assertMatchesRegularExpression('/submit\s*\(\s*"UnsetTrans/', $this->fileContent,
+        $this->assertRegExp('/submit\s*\(\s*"UnsetTrans/', $this->fileContent,
             'PROD uses submit() for UnsetTrans button');
     }
 
@@ -167,15 +167,15 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testUsesFAListFunctions(): void
     {
-        $this->assertMatchesRegularExpression('/array_selector\s*\(\s*"partnerType/', $this->fileContent,
+        $this->assertRegExp('/array_selector\s*\(\s*"partnerType/', $this->fileContent,
             'PROD uses array_selector() for partnerType');
-        $this->assertMatchesRegularExpression('/supplier_list\s*\(/', $this->fileContent,
+        $this->assertRegExp('/supplier_list\s*\(/', $this->fileContent,
             'PROD uses supplier_list()');
-        $this->assertMatchesRegularExpression('/customer_list\s*\(/', $this->fileContent,
+        $this->assertRegExp('/customer_list\s*\(/', $this->fileContent,
             'PROD uses customer_list()');
-        $this->assertMatchesRegularExpression('/bank_accounts_list\s*\(/', $this->fileContent,
+        $this->assertRegExp('/bank_accounts_list\s*\(/', $this->fileContent,
             'PROD uses bank_accounts_list()');
-        $this->assertMatchesRegularExpression('/quick_entries_list\s*\(/', $this->fileContent,
+        $this->assertRegExp('/quick_entries_list\s*\(/', $this->fileContent,
             'PROD uses quick_entries_list()');
     }
 
@@ -231,12 +231,12 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testTransactionTableDisplayMethod(): void
     {
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             '/function\s+display\s*\(\s*\)\s*\{[^}]*start_table\s*\(\s*TABLESTYLE/s',
             $this->fileContent,
             'PROD transaction_table::display() uses start_table(TABLESTYLE)'
         );
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             '/function\s+display\s*\(\s*\)\s*\{[^}]*table_header/s',
             $this->fileContent,
             'PROD transaction_table::display() uses table_header()'
@@ -248,7 +248,7 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testTtrTableDisplayReturnsStartTable(): void
     {
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             '/class\s+ttr_table[^{]*\{.*?function\s+display.*?return\s+start_table/s',
             $this->fileContent,
             'PROD ttr_table::display() returns start_table() directly'
@@ -289,7 +289,7 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testUsesCustomerBranchesList(): void
     {
-        $this->assertMatchesRegularExpression('/customer_branches_list\s*\(/', $this->fileContent,
+        $this->assertRegExp('/customer_branches_list\s*\(/', $this->fileContent,
             'PROD uses customer_branches_list() function');
     }
 
@@ -309,7 +309,7 @@ class TransactionsTableProductionBaselineTest extends TestCase
      */
     public function testUsesTextInputFunction(): void
     {
-        $this->assertMatchesRegularExpression('/text_input\s*\(\s*"Existing_Entry"/', $this->fileContent,
+        $this->assertRegExp('/text_input\s*\(\s*"Existing_Entry"/', $this->fileContent,
             'PROD uses text_input() function for manual entry');
     }
 
@@ -319,17 +319,17 @@ class TransactionsTableProductionBaselineTest extends TestCase
     public function testTransactionDCSwitchUsesLabelRow(): void
     {
         // Find the switch statement for transactionDC and verify it uses label_row
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             '/switch\s*\(\s*\$transactionDC\s*\)[^}]+case\s+\'C\':[^}]*label_row/s',
             $this->fileContent,
             'PROD uses label_row() inside transactionDC switch for Credit'
         );
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             '/switch\s*\(\s*\$transactionDC\s*\)[^}]+case\s+\'D\':[^}]*label_row/s',
             $this->fileContent,
             'PROD uses label_row() inside transactionDC switch for Debit'
         );
-        $this->assertMatchesRegularExpression(
+        $this->assertRegExp(
             '/switch\s*\(\s*\$transactionDC\s*\)[^}]+case\s+\'B\':[^}]*label_row/s',
             $this->fileContent,
             'PROD uses label_row() inside transactionDC switch for Bank Transfer'

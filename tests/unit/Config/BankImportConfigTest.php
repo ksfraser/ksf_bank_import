@@ -131,7 +131,7 @@ class BankImportConfigTest extends TestCase
         $account = BankImportConfig::getTransRefAccount();
         
         $this->assertIsString($account);
-        $this->assertMatchesRegularExpression('/^\d{4}$/', $account);
+        $this->assertRegExp('/^\d{4}$/', $account);
     }
 
     /**

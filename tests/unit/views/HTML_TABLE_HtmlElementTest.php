@@ -47,7 +47,7 @@ class HTML_TABLE_HtmlElementTest extends TestCase
         $html = $table->getHtml();
         $this->assertStringContainsString('Row 1', $html);
         $this->assertStringContainsString('Row 2', $html);
-        $this->assertMatchesRegularExpression('/<tr\s/', $html); // Allow spaces after tr
+        $this->assertRegExp('/<tr\s/', $html); // Allow spaces after tr
     }
     
     /**

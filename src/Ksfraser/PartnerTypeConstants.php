@@ -60,14 +60,21 @@ final class PartnerTypeConstants
     public const QUICK_ENTRY = 'QE';
 
     /**
-     * Manual settlement partner type
+     * Manual settlement partner type (legacy alias for MATCHED)
+     *
+     * @deprecated Use MATCHED instead
      */
     public const MANUAL_SETTLEMENT = 'MA';
 
     /**
      * Matched transaction partner type
      */
-    public const MATCHED = 'ZZ';
+    public const MATCHED = 'MA';
+
+    /**
+     * Unknown transaction partner type
+     */
+    public const UNKNOWN = 'ZZ';
 
     /**
      * Prevent instantiation of this constants class
@@ -77,7 +84,30 @@ final class PartnerTypeConstants
     }
 
     /**
-     * Get all partner type constants as short code => label array
+     * Get all partner type constants as constant name => short code array
+     *
+     * Returns an array mapping constant names to their short codes.
+     * Format: ['SUPPLIER' => 'SP', 'CUSTOMER' => 'CU', ...]
+     *
+     * Delegates to PartnerTypeRegistry for dynamic discovery.
+     *
+     * @return array<string, string> Array of constant names mapped to short codes
+     */
+    public static function getAll(): array
+    {
+        $registry = PartnerTypeRegistry::getInstance();
+        $result = [];
+        
+        // Build array with constant names as keys and short codes as values
+        foreach ($registry->getAll() as $type) {
+            $result[$type->getConstantName()] = $type->getShortCode();
+        }
+        
+        return $result;
+    }
+
+    /**
+     * Get all partner type codes with their human-readable labels
      *
      * Returns an array suitable for use in dropdowns and form selectors.
      * Format: ['SP' => 'Supplier', 'CU' => 'Customer', ...]
@@ -86,12 +116,11 @@ final class PartnerTypeConstants
      *
      * @return array<string, string> Array of short codes and human-readable labels
      */
-    public static function getAll(): array
+    public static function getCodesWithLabels(): array
     {
         $registry = PartnerTypeRegistry::getInstance();
         $result = [];
         
-        // Build array with short codes as keys and labels as values
         foreach ($registry->getAll() as $type) {
             $result[$type->getShortCode()] = $type->getLabel();
         }

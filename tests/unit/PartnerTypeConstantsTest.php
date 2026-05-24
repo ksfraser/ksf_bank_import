@@ -328,12 +328,12 @@ class PartnerTypeConstantsTest extends TestCase
 
         $this->assertSame(
             'MA',
-            PartnerTypeConstants::getCodeByConstant('MANUAL_SETTLEMENT')
+            PartnerTypeConstants::getCodeByConstant('MATCHED')
         );
 
         $this->assertSame(
             'ZZ',
-            PartnerTypeConstants::getCodeByConstant('MATCHED')
+            PartnerTypeConstants::getCodeByConstant('UNKNOWN')
         );
     }
 

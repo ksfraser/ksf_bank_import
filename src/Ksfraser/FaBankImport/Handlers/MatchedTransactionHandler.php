@@ -38,18 +38,21 @@ namespace Ksfraser\FaBankImport\Handlers;
 
 use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
-use Ksfraser\PartnerTypes\MatchedPartnerType;
+use Ksfraser\PartnerTypes\UnknownPartnerType;
 
 class MatchedTransactionHandler extends AbstractTransactionHandler
 {
     /**
-     * Get the partner type instance for Matched transactions
+     * Get the partner type instance for Unknown/unmatched transactions
      * 
-     * @return PartnerTypeInterface Returns MatchedPartnerType value object
+     * Uses UnknownPartnerType (ZZ) for transactions that have been automatically
+     * matched by the system but are pending confirmation.
+     * 
+     * @return PartnerTypeInterface Returns UnknownPartnerType value object
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
-        return new MatchedPartnerType();
+        return new UnknownPartnerType();
     }
 
     /**

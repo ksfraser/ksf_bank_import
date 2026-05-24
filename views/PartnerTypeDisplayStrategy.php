@@ -373,7 +373,7 @@ class PartnerTypeDisplayStrategy
             $input = new HtmlInput('text');
             $input->setName("Existing_Entry")
                   ->setValue('0')
-                  ->addAttribute(new \Ksfraser\HTML\HtmlAttribute('size', '6'));
+                  ->addAttribute(new \Ksfraser\HTML\Elements\HtmlAttribute('size', '6'));
             
             // Create label row for entry number input
             $entryLabel = new HtmlString(_("Existing Entry:"));
