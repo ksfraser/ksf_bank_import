@@ -1,7 +1,10 @@
 <?php
 namespace Ksfraser\FaBankImport\Model;
 
+require_once __DIR__ . '/../FaBankImport/Support/ExceptionDisplayNotifier.php';
+
 use Ksfraser\common\GenericFaInterface;
+use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
 use Ksfraser\frontaccounting\FaBankAccounts;
 use Ksfraser\frontaccounting\FaCustomerPayment;
 use Ksfraser\frontaccounting\FaGl;
@@ -324,14 +327,19 @@ class BiLineItemModel extends GenericFaInterfaceModel
 			return; // No matches, nothing to do
 		}
 
-		// Handle rewards/split transactions (< 3 line items)
-		if (count($this->matching_trans) >= 3) {
-			// TODO: Sort by score and take highest scored item
-			return;
-		}
+		// Always select the highest-score candidate when multiple rows are present.
+		usort($this->matching_trans, function ($a, $b) {
+			$scoreA = isset($a['score']) ? (float) $a['score'] : 0.0;
+			$scoreB = isset($b['score']) ? (float) $b['score'] : 0.0;
+			if ($scoreA === $scoreB) {
+				return 0;
+			}
+			return ($scoreA < $scoreB) ? 1 : -1;
+		});
 
 		// Check if we have a high-confidence match (score >= 50)
-		if ($this->matching_trans[0]['score'] < 50) {
+		$bestScore = isset($this->matching_trans[0]['score']) ? (float) $this->matching_trans[0]['score'] : 0.0;
+		if ($bestScore < 50) {
 			return;
 		}
 
@@ -366,8 +374,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	function getBankAccountDetails()
 	{
 		// require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
-		use Ksfraser\frontaccounting\FaBankAccounts;
-		$this->fa_bank_accounts = new FaBankAccounts( $this );
+		$this->fa_bank_accounts = new \Ksfraser\frontaccounting\FaBankAccounts( $this );
 		$this->ourBankDetails =	$this->fa_bank_accounts->getByBankAccountNumber( $this->our_account );
 		//$this->ourBankDetails = get_bank_account_by_number( $this->our_account );
 		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
@@ -411,14 +418,11 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	*********************************************************************/
 	function findPaired()
 	{
-		return [];
-		// TODO: inject config and wire sr_bi_tx_date_tolerance_days (see getDateMatchToleranceDays())
-		// TODO Finish coding
+		$matching = array();
 		require_once( 'class.bi_transactions.php' );
 		$bi_t = new bi_transactions_model();
 		//Since we are only doing a +2 days and not -2, we should only find the first of a paired set of transactions
 		$trzs = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, $this->getDateMatchToleranceDays() ), $this->amount, null );	//This will be matching dollar amounts within tolerance days.  
-		$count = 0;
 		foreach( $trzs as $trans )
 		{
 			if( ! strcmp( trim( $trans['our_account'] ) , trim( $this->our_account ) ) )
@@ -465,13 +469,12 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	
 		$new_arr = array();
 		// $inc = include_once( __DIR__ . '/../ksf_modules_common/class.fa_gl.php' );
-		use Ksfraser\frontaccounting\FaGl;
 /* NAMESPACE
 		if( $inc )
 		{
 */
  	 		//display_notification( __FILE__ . "::" . __LINE__ );
-			$fa_gl = new FaGl();
+			$fa_gl = new \Ksfraser\frontaccounting\FaGl();
  			$fa_gl->set( "amount_min", $this->amount );
 			$fa_gl->set( "amount_max", $this->amount );
 			$fa_gl->set( "amount", $this->amount );
@@ -490,7 +493,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 							//display_notification( __FILE__ . "::" . __LINE__ );
 			} catch( Exception $e )
 			{
-					display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
+					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'find_matching_transactions');
 			}
 /* NAMESPACE
 									//display_notification( __FILE__ . "::" . __LINE__ );
@@ -519,14 +522,14 @@ class BiLineItemModel extends GenericFaInterfaceModel
 		if ( empty( $this->partnerId ) )
 		{
 */
-			require_once( class.bi_partners_data.php );
+			require_once('class.bi_partners_data.php');
 			$pd = new bi_partners_data();
 			$matched_supplier = $pd->search_partner_by_bank_account( $parterType, $this->otherBankAccount);
 				//$matched_supplier = search_partner_by_bank_account(PT_SUPPLIER, $this->otherBankAccount);
 			if (!empty($matched_supplier))
 			{
 				$this->partnerId = $_POST["partnerId_$this->id"] = $matched_supplier['partner_id'];
-				$this->partnerDetailId = $_POST["partnerDetailId_$this->id"] = $match['partner_detail_id'];
+				$this->partnerDetailId = $_POST["partnerDetailId_$this->id"] = $matched_supplier['partner_detail_id'];
 			}
 /*
 		}

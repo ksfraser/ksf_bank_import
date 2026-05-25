@@ -121,14 +121,11 @@ class QuickEntryDataProvider
             return self::$quickEntryCache[$type];
         }
 
-        // In production, would call:
-        // self::$quickEntryCache[$type] = $this->loadQuickEntriesFromDatabase($type);
-        // self::$isLoaded[$type] = true;
-
-        // For now, return empty array if no data set
         if (!isset(self::$quickEntryCache[$type])) {
             self::$quickEntryCache[$type] = [];
         }
+
+        self::$quickEntryCache[$type] = $this->loadQuickEntriesFromDatabase($type);
         self::$isLoaded[$type] = true;
 
         return self::$quickEntryCache[$type];
@@ -298,22 +295,32 @@ class QuickEntryDataProvider
      */
     private function loadQuickEntriesFromDatabase(string $type): array
     {
-        // TODO: Task #16 - Implement actual database loading
-        // This will be called when integrating with FA database layer
-        //
-        // Example implementation:
-        // $sql = "SELECT id, description, type, base_amount, base_desc 
-        //         FROM quick_entries 
-        //         WHERE type = " . db_escape($type) . " 
-        //         AND inactive = 0 
-        //         ORDER BY description";
-        // $result = db_query($sql, "Could not load quick entries");
-        // $entries = [];
-        // while ($row = db_fetch_assoc($result)) {
-        //     $entries[] = $row;
-        // }
-        // return $entries;
+        if (!function_exists('db_query') || !function_exists('db_fetch')) {
+            return [];
+        }
 
-        return [];
+        // Map semantic type labels used by this provider to FA quick_entries.type values.
+        $faType = ($type === 'QE_DEPOSIT') ? 1 : 2;
+
+        $sql = "SELECT id, description, type, base_amount, base_desc "
+            . "FROM " . TB_PREF . "quick_entries "
+            . "WHERE type=" . db_escape($faType) . " AND inactive=0 ORDER BY description";
+        $result = db_query($sql, "Could not load quick entries");
+        if (!$result) {
+            return [];
+        }
+
+        $entries = [];
+        while ($row = function_exists('db_fetch_assoc') ? db_fetch_assoc($result) : db_fetch($result)) {
+            $entries[] = [
+                'id' => (string)($row['id'] ?? ''),
+                'description' => (string)($row['description'] ?? ''),
+                'type' => (string)($row['type'] ?? ''),
+                'base_amount' => $row['base_amount'] ?? null,
+                'base_desc' => (string)($row['base_desc'] ?? ''),
+            ];
+        }
+
+        return $entries;
     }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d90149ee51cce9087fcf1ede5aada01e",
+    "content-hash": "f55e4714c14af6d0dc5cc40ed6e904f6",
     "packages": [
         {
             "name": "asgrim/ofxparser",
@@ -510,6 +510,43 @@
                 "source": "https://github.com/ksfraser/Contact-DTO/tree/0.1.0"
             },
             "time": "2026-03-20T15:12:49+00:00"
+        },
+        {
+            "name": "ksfraser/exceptions",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../Exceptions",
+                "reference": "54ec3f015e1b69f0caf5b544264d0c02aa579425"
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ksfraser\\Exceptions\\": "src/Ksfraser/Exceptions/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Ksfraser\\Exceptions\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Fraser",
+                    "email": "ksfraser@example.com"
+                }
+            ],
+            "description": "A comprehensive exception library for ksfraser projects with factory methods for domain-specific errors.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "ksfraser/html",
@@ -4791,6 +4828,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "ksfraser/exceptions": 20,
         "ksfraser/ksf-cache": 20
     },
     "prefer-stable": false,

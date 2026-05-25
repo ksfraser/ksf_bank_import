@@ -93,12 +93,7 @@ class BankAccountDataProvider
             return self::$bankAccountCache;
         }
 
-        // In production, would call:
-        // self::$bankAccountCache = $this->loadBankAccountsFromDatabase();
-        // self::$isLoaded = true;
-
-        // For now, return empty array if no data set
-        self::$bankAccountCache = [];
+        self::$bankAccountCache = $this->loadBankAccountsFromDatabase();
         self::$isLoaded = true;
 
         return self::$bankAccountCache;
@@ -244,23 +239,30 @@ class BankAccountDataProvider
      *
      * @codeCoverageIgnore
      */
-    private function loadBankAccountsFromDatabase()
+    private function loadBankAccountsFromDatabase(): array
     {
-        // TODO: Task #16 - Implement actual database loading
-        // This will be called when integrating with FA database layer
-        //
-        // Example implementation:
-        // $sql = "SELECT id, bank_account_name, bank_name, bank_curr_code 
-        //         FROM bank_accounts 
-        //         WHERE inactive = 0 
-        //         ORDER BY bank_account_name";
-        // $result = db_query($sql, "Could not load bank accounts");
-        // $accounts = [];
-        // while ($row = db_fetch_assoc($result)) {
-        //     $accounts[] = $row;
-        // }
-        // return $accounts;
+        if (!function_exists('db_query') || !function_exists('db_fetch')) {
+            return [];
+        }
 
-        return [];
+        $sql = "SELECT id, bank_account_name, bank_name, bank_curr_code "
+            . "FROM " . TB_PREF . "bank_accounts "
+            . "WHERE inactive=0 ORDER BY bank_account_name";
+        $result = db_query($sql, "Could not load bank accounts");
+        if (!$result) {
+            return [];
+        }
+
+        $accounts = [];
+        while ($row = function_exists('db_fetch_assoc') ? db_fetch_assoc($result) : db_fetch($result)) {
+            $accounts[] = [
+                'id' => (string)($row['id'] ?? ''),
+                'bank_account_name' => (string)($row['bank_account_name'] ?? ''),
+                'bank_name' => (string)($row['bank_name'] ?? ''),
+                'bank_curr_code' => (string)($row['bank_curr_code'] ?? ''),
+            ];
+        }
+
+        return $accounts;
     }
 }

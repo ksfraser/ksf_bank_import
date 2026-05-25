@@ -2,6 +2,10 @@
 
 namespace Ksfraser\FaBankImport\models;
 
+require_once __DIR__ . '/../Support/ExceptionDisplayNotifier.php';
+
+use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
+
 /**
  * MatchingJEs - Find matching Journal Entries for imported transactions
  * 
@@ -74,7 +78,7 @@ class MatchingJEs
                         //display_notification( __FILE__ . "::" . __LINE__ );
             } catch( \Exception $e )
             {
-                display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
+                ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'find_matching_transactions');
             }
                         //display_notification( __FILE__ . "::" . __LINE__ );
         }

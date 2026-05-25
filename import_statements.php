@@ -19,6 +19,7 @@ include_once($path_to_root . "/includes/ui.inc");
 include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 require_once 'includes/qfx_parser.php';
+require_once __DIR__ . '/src/Ksfraser/FaBankImport/Support/ExceptionDisplayNotifier.php';
 
 // Emergency error handler for blank screen debugging
 register_shutdown_function(function() {
@@ -157,7 +158,7 @@ function importStatement($smt, $file_id = null)
 			}
 		} catch( Exception $e )
 		{
-			display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $e, true ) );
+			\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'import transaction init');
 		}
 		$bit->trz2obj( $t );
 		$bit->set( "smt_id", $smt_id );

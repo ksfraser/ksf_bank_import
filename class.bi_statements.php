@@ -11,6 +11,7 @@
 
 
 $path_to_root = "../..";
+require_once __DIR__ . '/src/Ksfraser/FaBankImport/Support/ExceptionDisplayNotifier.php';
 
 /*******************************************
  * If you change the list of properties below, ensure that you also modify
@@ -266,7 +267,7 @@ class bi_statements_model extends generic_fa_interface_model
 		}
 		catch( Exception $e )
 		{
-			display_notification( __FILE__ . "::" . __LINE__ . $e->getMessage() );
+			\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'statement_exists query');
 		}
 		return true;
 	}

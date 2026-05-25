@@ -1,6 +1,8 @@
 <?php
 
 use Ksfraser\FaBankImport\Views\ProcessStatementsView;
+use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
+use Ksfraser\Exceptions\VarNotSetException;
 
 //20260214 DEV changes to help with troubleshooting:
 // Prevent conditional-cache responses (304) that can break legacy jsHttpRequest flows.
@@ -130,15 +132,50 @@ $optypes = array(
 include_once($path_to_root . "/modules/ksf_modules_common/defines.inc.php");	//$trans_types_readable
 
 require_once( 'class.bank_import_controller.php' );
-	
+
+/**
+ * Check whether an FA transaction is already linked to another staged bank transaction.
+ *
+ * @param int $currentBiId Current bank import transaction ID being processed.
+ * @param int $faType      FrontAccounting transaction type.
+ * @param int $faNo        FrontAccounting transaction number.
+ * @return bool True when no conflicting link exists.
+ */
+function canLinkFaTransactionToBiId($currentBiId, $faType, $faNo)
+{
+	if (!is_numeric($currentBiId) || !is_numeric($faType) || !is_numeric($faNo)) {
+		return false;
+	}
+
+	$currentBiId = (int)$currentBiId;
+	$faType = (int)$faType;
+	$faNo = (int)$faNo;
+
+	if ($faType <= 0 || $faNo <= 0) {
+		return false;
+	}
+
+	$sql = "SELECT id FROM " . TB_PREF . "bi_transactions "
+		. "WHERE fa_trans_type=" . db_escape($faType) . " "
+		. "AND fa_trans_no=" . db_escape($faNo) . " "
+		. "AND status=1 "
+		. "AND id<>" . db_escape($currentBiId) . " LIMIT 1";
+
+	$res = db_query($sql, 'Could not verify existing transaction links');
+	$existing = db_fetch($res);
+
+	return empty($existing);
+}
+
+try {
 	// Initialize new architecture integration
 	$integration = \Ksfraser\FaBankImport\Integration\BiLineItemIntegration::getInstance();
-	
-		$bi_controller = new bank_import_controller();	//no vars for constructor.
-	} catch( Exception $e )
-	{	
-		display_error( __LINE__ . "::" . print_r( $e, true ) );
-	}
+
+	$bi_controller = new bank_import_controller();	//no vars for constructor.
+} catch( Exception $e )
+{	
+	display_error( __LINE__ . "::" . print_r( $e, true ) );
+}
 
 
 //---------------------------------------------------------------------------------
@@ -260,6 +297,9 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 				try
 				{
 					$bi_controller->processSupplierTransaction();
+				} catch( VarNotSetException $e )
+				{
+					display_error( "Error processing supplier transaction: " . print_r( $e, true ) );
 				} catch( Exception $e )
 				{
 					display_error( "Error processing supplier transaction: " . print_r( $e, true ) );
@@ -347,7 +387,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 			}
 			catch( Exception $e )
 			{
-				display_notification('Exception' . print_r( $e, true ) );
+				ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'customer payment processing');
 			}
 
 			break;
@@ -390,7 +430,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 					$rval = qe_to_cart($cart, $partnerId, $trz['transactionAmount'], ($trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
 				} catch( Exception $e )
 				{
-					display_notification('RVAL Exception' . print_r( $e, true ) );
+					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'qe_to_cart');
 				}
 				// function add_gl_item($code_id, $dimension_id, $dimension2_id, $amount, $memo='', $act_descr=null, $person_id=null, $date=null)
 	//TODO:
@@ -513,6 +553,11 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 			break;
 	/*************************************************************************************************************/
 			case ($_POST['partnerType'][$k] == 'MA'):
+				if (!canLinkFaTransactionToBiId($tid, $_POST['Existing_Type'], $_POST['Existing_Entry'])) {
+					$Ajax->activate('doc_tbl');
+					display_error('This transaction is already linked to another imported row. Choose a different entry or unset the existing link first.');
+					break;
+				}
 				$counterparty_arr = get_trans_counterparty( $_POST['Existing_Entry'], $_POST['Existing_Type'] );
 					display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 				update_transactions($tid, $_cids, $status=1, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
@@ -532,6 +577,11 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 				//		Sort by scoring.  Go with highest?
 				//20240214 Matching Works.  As long as score is high enough, can "process".
 			case ($_POST['partnerType'][$k] == 'ZZ'):
+				if (!canLinkFaTransactionToBiId($tid, $_POST["trans_type_$tid"], $_POST["trans_no_$tid"])) {
+					$Ajax->activate('doc_tbl');
+					display_error('This matched transaction is already linked to another imported row. Choose a different match or unset the existing link first.');
+					break;
+				}
 				//display_notification("Entry Matched against an existing Entry (LE/Cp/SP/...)");
 				//display_notification(__FILE__ . "::" . __LINE__ . ":" . " Trans Type and No: ".print_r( $_POST["trans_type_$tid"], true) . ":" . print_r( $_POST["trans_no_$tid"], true ) );
 					$counterparty_arr = get_trans_counterparty( $_POST["trans_no_$tid"], $_POST["trans_type_$tid"] );
@@ -760,21 +810,15 @@ if (1) {
 	if (!is_array($trzs)) {
 		$trzs = [];
 	}
-			'total_pages' => $result->total_pages,
-			'page_size' => $limit_page,
-			'limit' => $limit_page,
-			//'page_size' => $result->limit,
-			'offset' => $result->offset
-		);
-	}
-	else
-	{
-		echo "<br />";
-		echo __FILE__ . "::" . __LINE__ . ":: Invalid TYPE!!<br />";
-		//Invalid return type but we should never hit here!!
-		display_error( "Invalid return type" );
-		//throw new InvalidReturnType();
-	}
+
+	$hasNextPage = (count($trzs) === $limit_page);
+	$pagination = [
+		'current_page' => $current_page,
+		'total_pages' => $hasNextPage ? ($current_page + 1) : $current_page,
+		'page_size' => $limit_page,
+		'limit' => $limit_page,
+		'offset' => $offset,
+	];
 	
 /*************************************************************************************************************/
 /* * /

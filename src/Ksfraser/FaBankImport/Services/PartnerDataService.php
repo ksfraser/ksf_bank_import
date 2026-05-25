@@ -275,23 +275,66 @@ class PartnerDataService
     /**
      * Rebuild keywords for a partner from current transaction data
      *
-     * This method would be used to reprocess existing transactions and rebuild
-     * the keyword index. Implementation requires access to transaction data.
+        * Rebuilds the partner keyword index from currently stored partner data rows.
+        *
+        * Until direct transaction-source access is wired in this service, this method
+        * performs a deterministic rebuild by re-tokenizing existing keyword strings,
+        * preserving relative occurrence weights.
      *
      * @param int      $partnerId   Partner ID
      * @param int|null $partnerType Optional partner type filter
      *
      * @return int Number of keywords rebuilt
-     * @todo Implement when transaction access is available
      */
     public function rebuildPartnerKeywords(int $partnerId, ?int $partnerType = null): int
     {
-        // TODO: This would:
-        // 1. Delete existing keywords for partner
-        // 2. Find all transactions for partner
-        // 3. Extract keywords from transaction memos/descriptions
-        // 4. Save new keywords with occurrence counts
-        
-        throw new \BadMethodCallException('rebuildPartnerKeywords() not yet implemented');
+        $existing = $this->getPartnerKeywords($partnerId, $partnerType);
+        if (empty($existing)) {
+            return 0;
+        }
+
+        // Aggregate normalized keywords by (type, detail, keyword).
+        $aggregated = [];
+        foreach ($existing as $entry) {
+            $baseTokens = $this->extractor->extractAsStrings($entry->getData());
+            if (empty($baseTokens)) {
+                continue;
+            }
+
+            $weight = max(1, $entry->getOccurrenceCount());
+            foreach ($baseTokens as $token) {
+                if (!$this->extractor->isValid($token)) {
+                    continue;
+                }
+
+                $key = $entry->getPartnerType() . ':' . $entry->getPartnerDetailId() . ':' . $token;
+                if (!isset($aggregated[$key])) {
+                    $aggregated[$key] = [
+                        'partnerType' => $entry->getPartnerType(),
+                        'partnerDetailId' => $entry->getPartnerDetailId(),
+                        'keyword' => $token,
+                        'occurrence' => 0,
+                    ];
+                }
+                $aggregated[$key]['occurrence'] += $weight;
+            }
+        }
+
+        $this->deletePartnerKeywords($partnerId, $partnerType);
+
+        $rebuilt = 0;
+        foreach ($aggregated as $item) {
+            if ($this->saveKeyword(
+                $partnerId,
+                (int) $item['partnerType'],
+                (int) $item['partnerDetailId'],
+                (string) $item['keyword'],
+                (int) $item['occurrence']
+            )) {
+                $rebuilt++;
+            }
+        }
+
+        return $rebuilt;
     }
 }

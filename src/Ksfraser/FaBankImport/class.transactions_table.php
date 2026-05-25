@@ -1,4 +1,5 @@
 <?php
+	require_once __DIR__ . '/Support/ExceptionDisplayNotifier.php';
 	$trzs = array();
 	$vendor_list = get_vendor_list();	//array
 
@@ -19,7 +20,7 @@
 		//display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $res, true ) );
 	} catch( Error $e )
 	{
-			display_notification( __FILE__ . "::" . __LINE__ . " " . $e->getMessage() );
+			\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'query transactions');
 	}
 
 class transaction_table
@@ -81,9 +82,9 @@ class transaction_table_row
 			try {
 				$this->bankAccount = shorten_bankAccount_Names( $res_arr['accountName'] );
 			}
-			catch( Exception $e )
+			catch( \Throwable $e )
 			{
-				display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
+				\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'shorten_bankAccount_Names failed');
 				$this->bankAccount = $res_arr['accountName'];
 			}
 			$this->bankAccountName = $res_arr['accountName'];

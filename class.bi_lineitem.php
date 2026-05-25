@@ -108,6 +108,9 @@ use Ksfraser\FaBankImport\models\BankAccountByNumber;
 
 require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
 use Ksfraser\FaBankImport\models\MatchingJEs;
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Support/ExceptionDisplayNotifier.php' );
+use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
+use Ksfraser\Exceptions\FieldNotSetException;
 
 require_once( __DIR__ . '/Views/LineitemDisplayLeft.php' );
 
@@ -229,7 +232,7 @@ class bi_lineitem extends generic_fa_interface_model
 		}
 		catch( Exception $e )
 		{
-			display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
+			ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'shorten_bankAccount_Names failed');
 			$this->otherBankAccount = $trz['accountName'];
 		}
 		$this->otherBankAccountName = $trz['accountName'];
@@ -434,7 +437,7 @@ class bi_lineitem extends generic_fa_interface_model
 			// Debug label row (TODO: Consider removing or making conditional)
 			label_row("Matched Vendor", print_r( $matchedVendor, true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supp_name'], true ) );
 		}
-		catch( Exception $e )
+		catch( FieldNotSetException $e )
 		{
 			$this-> selectAndDisplayButton();
 		}
@@ -475,9 +478,11 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		if( ! isset( $this->vendor_list ) )
 		{
-			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
+			throw new FieldNotSetException("Field not set ->vendor_list");
 		}
-//TODO confirm this does what it should!!
+		if (!isset($this->vendor_list[$matchedVendor]['supplier_id'])) {
+			throw new FieldNotSetException("Matched vendor does not contain supplier_id");
+		}
 		$matchedSupplierId = $this->vendor_list[$matchedVendor]['supplier_id'];
 		return $matchedSupplierId;
 	}
@@ -485,11 +490,11 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		if( ! isset( $this->vendor_list ) )
 		{
-			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
+			throw new FieldNotSetException("Field not set ->vendor_list");
 		}
-		if( ! isset( $this->otherBankAccountt ) )
+		if( ! isset( $this->otherBankAccount ) )
 		{
-			throw new Exception( "Field not set ->otherBankAccountt", KSF_FIELD_NOT_SET );
+			throw new FieldNotSetException("Field not set ->otherBankAccount");
 		}
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
 		return $matchedVendor;
@@ -504,7 +509,7 @@ class bi_lineitem extends generic_fa_interface_model
 		{
 			case 'C':
 				$this->partnerType = 'CU';
-				$this->oplabel = "Depost";
+				$this->oplabel = "Deposit";
 			break;
 			case 'D':
 				$this->partnerType = 'SP';

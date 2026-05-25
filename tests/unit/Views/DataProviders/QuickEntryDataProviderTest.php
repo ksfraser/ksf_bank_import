@@ -56,6 +56,26 @@ class QuickEntryDataProviderTest extends TestCase
         if (!defined('QE_PAYMENT')) {
             define('QE_PAYMENT', 2);
         }
+
+        $depositProvider = QuickEntryDataProvider::forDeposit();
+        $paymentProvider = QuickEntryDataProvider::forPayment();
+
+        $reflection = new \ReflectionClass($depositProvider);
+
+        $entriesProperty = $reflection->getProperty('entries');
+        $entriesProperty->setAccessible(true);
+        $entriesProperty->setValue($depositProvider, [
+            11 => ['id' => 11, 'description' => 'Deposit Fee', 'base_desc' => 'Deposit Fee', 'type' => QE_DEPOSIT],
+            12 => ['id' => 12, 'description' => 'Deposit Interest', 'base_desc' => 'Deposit Interest', 'type' => QE_DEPOSIT],
+        ]);
+        $entriesProperty->setValue($paymentProvider, [
+            21 => ['id' => 21, 'description' => 'Payment Fee', 'base_desc' => 'Payment Fee', 'type' => QE_PAYMENT],
+        ]);
+
+        $loadedProperty = $reflection->getProperty('loaded');
+        $loadedProperty->setAccessible(true);
+        $loadedProperty->setValue($depositProvider, true);
+        $loadedProperty->setValue($paymentProvider, true);
     }
     
     /**
@@ -324,8 +344,12 @@ class QuickEntryDataProviderTest extends TestCase
      */
     public function testDepositProviderFiltersDepositEntries(): void
     {
-        $this->markTestIncomplete(
-            'Requires database fixtures or mocking of FrontAccounting functions'
-        );
+        $provider = QuickEntryDataProvider::forDeposit();
+        $entries = $provider->getEntries();
+
+        $this->assertNotEmpty($entries);
+        foreach ($entries as $entry) {
+            $this->assertSame(QE_DEPOSIT, $entry['type']);
+        }
     }
 }

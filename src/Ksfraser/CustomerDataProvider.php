@@ -105,12 +105,8 @@ class CustomerDataProvider
             return self::$customerCache;
         }
 
-        // In production, would call:
-        // self::$customerCache = $this->loadCustomersFromDatabase();
-        // self::$isLoaded = true;
-
-        // For now, return empty array if no data set
-        self::$customerCache = [];
+        self::$customerCache = $this->loadCustomersFromDatabase();
+        self::$branchCache = $this->loadBranchesFromDatabase();
         self::$isLoaded = true;
 
         return self::$customerCache;
@@ -391,19 +387,27 @@ class CustomerDataProvider
      */
     private function loadCustomersFromDatabase(): array
     {
-        // TODO: Task #16 - Implement actual database loading
-        // This will be called when integrating with FA database layer
-        //
-        // Example implementation:
-        // $sql = "SELECT debtor_no, name, curr_code FROM debtors_master WHERE inactive = 0 ORDER BY name";
-        // $result = db_query($sql, "Could not load customers");
-        // $customers = [];
-        // while ($row = db_fetch_assoc($result)) {
-        //     $customers[] = $row;
-        // }
-        // return $customers;
+        if (!function_exists('db_query') || !function_exists('db_fetch')) {
+            return [];
+        }
 
-        return [];
+        $sql = "SELECT debtor_no, name, curr_code "
+            . "FROM " . TB_PREF . "debtors_master WHERE inactive=0 ORDER BY name";
+        $result = db_query($sql, "Could not load customers");
+        if (!$result) {
+            return [];
+        }
+
+        $customers = [];
+        while ($row = function_exists('db_fetch_assoc') ? db_fetch_assoc($result) : db_fetch($result)) {
+            $customers[] = [
+                'debtor_no' => (string)($row['debtor_no'] ?? ''),
+                'name' => (string)($row['name'] ?? ''),
+                'curr_code' => (string)($row['curr_code'] ?? ''),
+            ];
+        }
+
+        return $customers;
     }
 
     /**
@@ -420,22 +424,34 @@ class CustomerDataProvider
      */
     private function loadBranchesFromDatabase(): array
     {
-        // TODO: Task #16 - Implement actual database loading
-        // This will be called when integrating with FA database layer
-        //
-        // Example implementation:
-        // $sql = "SELECT debtor_no, branch_code, br_name, br_address FROM cust_branch ORDER BY debtor_no, br_name";
-        // $result = db_query($sql, "Could not load branches");
-        // $branches = [];
-        // while ($row = db_fetch_assoc($result)) {
-        //     $debtorNo = $row['debtor_no'];
-        //     if (!isset($branches[$debtorNo])) {
-        //         $branches[$debtorNo] = [];
-        //     }
-        //     $branches[$debtorNo][] = $row;
-        // }
-        // return $branches;
+        if (!function_exists('db_query') || !function_exists('db_fetch')) {
+            return [];
+        }
 
-        return [];
+        $sql = "SELECT debtor_no, branch_code, br_name, br_address "
+            . "FROM " . TB_PREF . "cust_branch ORDER BY debtor_no, br_name";
+        $result = db_query($sql, "Could not load branches");
+        if (!$result) {
+            return [];
+        }
+
+        $branches = [];
+        while ($row = function_exists('db_fetch_assoc') ? db_fetch_assoc($result) : db_fetch($result)) {
+            $debtorNo = (string)($row['debtor_no'] ?? '');
+            if ($debtorNo === '') {
+                continue;
+            }
+            if (!isset($branches[$debtorNo])) {
+                $branches[$debtorNo] = [];
+            }
+            $branches[$debtorNo][] = [
+                'debtor_no' => $debtorNo,
+                'branch_code' => (string)($row['branch_code'] ?? ''),
+                'br_name' => (string)($row['br_name'] ?? ''),
+                'br_address' => (string)($row['br_address'] ?? ''),
+            ];
+        }
+
+        return $branches;
     }
 }

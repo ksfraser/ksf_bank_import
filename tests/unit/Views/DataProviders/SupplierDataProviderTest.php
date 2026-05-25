@@ -48,6 +48,20 @@ class SupplierDataProviderTest extends TestCase
         
         // Reset singleton for test isolation
         SupplierDataProvider::reset();
+
+        $provider = SupplierDataProvider::getInstance();
+        $reflection = new \ReflectionClass($provider);
+
+        $suppliersProperty = $reflection->getProperty('suppliers');
+        $suppliersProperty->setAccessible(true);
+        $suppliersProperty->setValue($provider, [
+            101 => ['supplier_id' => 101, 'supp_name' => 'Alpha Supplies', 'supp_ref' => 'ALPHA', 'address' => '1 Test Way', 'email' => 'alpha@example.com', 'inactive' => 0],
+            202 => ['supplier_id' => 202, 'supp_name' => 'Beta Trading', 'supp_ref' => 'BETA', 'address' => '2 Test Way', 'email' => 'beta@example.com', 'inactive' => 0],
+        ]);
+
+        $loadedProperty = $reflection->getProperty('loaded');
+        $loadedProperty->setAccessible(true);
+        $loadedProperty->setValue($provider, true);
     }
     
     /**
@@ -359,8 +373,14 @@ class SupplierDataProviderTest extends TestCase
      */
     public function testSupplierDataStructure(): void
     {
-        $this->markTestIncomplete(
-            'Requires database fixtures or mocking of FrontAccounting functions'
-        );
+        $provider = SupplierDataProvider::getInstance();
+        $suppliers = $provider->getSuppliers();
+
+        $this->assertNotEmpty($suppliers);
+
+        $firstSupplier = reset($suppliers);
+        $this->assertArrayHasKey('supplier_id', $firstSupplier);
+        $this->assertArrayHasKey('supp_name', $firstSupplier);
+        $this->assertSame('Alpha Supplies', $firstSupplier['supp_name']);
     }
 }

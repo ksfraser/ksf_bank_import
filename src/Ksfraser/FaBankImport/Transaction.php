@@ -4,8 +4,11 @@ namespace Ksfraser\FaBankImport;
 
 //use Ksfraser\FaBankImport\TransactionTypeLabel.php;
 use \Exception;
+use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
+use Ksfraser\Exceptions\FieldNotSetException;
 
 require_once( __DIR__ . "../../../../Views/TransactionTypeLabel.php" );
+require_once( __DIR__ . '/Support/ExceptionDisplayNotifier.php' );
 
 abstract class Transaction
 {
@@ -62,7 +65,7 @@ abstract class Transaction
 		}
 		catch( Exception $e )
 		{
-			display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
+			ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'shorten_bankAccount_Names failed');
 			$this->otherBankAccount = $trz['accountName'];
 		}
 		$this->otherBankAccountName = $trz['accountName'];
@@ -202,7 +205,7 @@ abstract class Transaction
 		                                //display_notification( __FILE__ . "::" . __LINE__ );
 		                } catch( Exception $e )
 		                {
-		                        display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
+		                        ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'find_matching_transactions');
 		                }
 		                                //display_notification( __FILE__ . "::" . __LINE__ );
 		        }
@@ -219,7 +222,7 @@ abstract class Transaction
 			}
 			catch( Exception $e )
 			{
-		        	display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
+		        	ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'retrieveMatchingTransactions');
 			}
 		}
 	        return $this->matching_trans;
@@ -236,7 +239,7 @@ abstract class Transaction
 			hidden( 'vendor_id', $matchedVendor );
 			label_row("Matched Vendor", print_r( $matchedVendor, true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supp_name'], true ) );
 		}
-		catch( Exception $e )
+		catch( FieldNotSetException $e )
 		{
 			$this->selectAndDisplayButton();
 		}
@@ -251,11 +254,11 @@ abstract class Transaction
 	{
 		if( ! isset( $this->vendor_list ) )
 		{
-			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
+			throw new FieldNotSetException("Field not set ->vendor_list");
 		}
 		if( ! isset( $this->otherBankAccountt ) )
 		{
-			throw new Exception( "Field not set ->otherBankAccountt", KSF_FIELD_NOT_SET );
+			throw new FieldNotSetException("Field not set ->otherBankAccountt");
 		}
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
 		return $matchedVendor;

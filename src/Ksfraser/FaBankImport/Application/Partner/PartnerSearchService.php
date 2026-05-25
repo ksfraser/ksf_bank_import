@@ -68,11 +68,13 @@ final class PartnerSearchService
 
         // Fetch all candidate partners of this type
         $candidates = $this->partnerRepository->getByType($partnerType);
+        $clusterSizeByPartnerId = $this->buildClusterSizeMap($candidates);
 
         // Score each candidate and build results
         $results = [];
         foreach ($candidates as $candidate) {
-            $factors = $this->calculateFactors($searchTextTrimmed, $searchKeywords, $candidate);
+            $clusterSize = $clusterSizeByPartnerId[$candidate->id()] ?? 1;
+            $factors = $this->calculateFactors($searchTextTrimmed, $searchKeywords, $candidate, $clusterSize);
             $confidence = $this->calculateConfidence($factors);
 
             $results[] = new PartnerMatchResult(
@@ -158,7 +160,8 @@ final class PartnerSearchService
     private function calculateFactors(
         string $searchText,
         array $searchKeywords,
-        PartnerEntity $candidate
+        PartnerEntity $candidate,
+        int $clusterSize = 1
     ): array {
         $partnerName = $candidate->name();
         $partnerKeywords = $this->keywordExtractor->extract($partnerName);
@@ -166,14 +169,65 @@ final class PartnerSearchService
         // Handle null lastMatchedTs
         $lastMatchedTs = $candidate->lastMatchedTs() ?? new \DateTime('-1 year');
 
+        $searchAccounts = $this->extractAccountHints($searchText);
+        $partnerAccounts = $this->extractAccountHints($partnerName);
+        $accountScore = 0.0;
+        if (!empty($searchAccounts)) {
+            $accountScore = $this->scoringEngine->calculateAccountScore($searchAccounts[0], $partnerAccounts);
+        }
+
         return [
             'substring' => $this->scoringEngine->calculateSubstringScore($searchText, $partnerName),
             'keyword' => $this->scoringEngine->calculateKeywordScore($searchKeywords, $partnerKeywords),
-            'account' => 0, // TODO: Implement account matching from partner data
+            'account' => $accountScore,
             'occurrence' => $this->scoringEngine->calculateOccurrenceMultiplier($candidate->occurrenceCount()),
             'recency' => $this->scoringEngine->calculateRecencyMultiplier($lastMatchedTs, new \DateTime()),
-            'clustering' => $this->scoringEngine->calculateClusteringBonus($candidate->name(), 1), // TODO: Get actual cluster size from DB
+            'clustering' => $this->scoringEngine->calculateClusteringBonus($candidate->name(), max(1, $clusterSize)),
         ];
+    }
+
+    /**
+     * Extract likely account-number tokens from free text.
+     *
+     * @param string $text
+     * @return string[]
+     */
+    private function extractAccountHints(string $text): array
+    {
+        if (!preg_match_all('/\b\d{3,}\b/', $text, $matches)) {
+            return [];
+        }
+
+        return array_values(array_unique($matches[0]));
+    }
+
+    /**
+     * Build a simple cluster-size map based on shared account hints in partner names.
+     *
+     * @param PartnerEntity[] $candidates
+     * @return array<int,int> keyed by partner ID
+     */
+    private function buildClusterSizeMap(array $candidates): array
+    {
+        $clusters = [];
+        foreach ($candidates as $candidate) {
+            $hints = $this->extractAccountHints($candidate->name());
+            if (empty($hints)) {
+                $clusters[$candidate->id()] = 1;
+                continue;
+            }
+
+            $clusterSize = 0;
+            foreach ($candidates as $other) {
+                $otherHints = $this->extractAccountHints($other->name());
+                if (!empty(array_intersect($hints, $otherHints))) {
+                    $clusterSize++;
+                }
+            }
+            $clusters[$candidate->id()] = max(1, $clusterSize);
+        }
+
+        return $clusters;
     }
 
     /**

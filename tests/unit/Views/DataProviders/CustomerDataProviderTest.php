@@ -44,6 +44,33 @@ class CustomerDataProviderTest extends TestCase
     {
         parent::setUp();
         CustomerDataProvider::reset();
+
+        $provider = CustomerDataProvider::getInstance();
+        $reflection = new \ReflectionClass($provider);
+
+        $customersProperty = $reflection->getProperty('customers');
+        $customersProperty->setAccessible(true);
+        $customersProperty->setValue($provider, [
+            1001 => ['debtor_no' => 1001, 'name' => 'Acme Retail', 'debtor_ref' => 'ACME', 'address' => '10 Main St', 'email' => 'acme@example.com', 'inactive' => 0],
+            1002 => ['debtor_no' => 1002, 'name' => 'Beta Services', 'debtor_ref' => 'BETA', 'address' => '20 Side St', 'email' => 'beta@example.com', 'inactive' => 0],
+        ]);
+
+        $branchesProperty = $reflection->getProperty('branches');
+        $branchesProperty->setAccessible(true);
+        $branchesProperty->setValue($provider, [
+            2001 => ['branch_code' => 2001, 'debtor_no' => 1001, 'br_name' => 'Acme North', 'br_address' => '11 Main St', 'contact_name' => 'North Contact', 'email' => 'north@example.com', 'inactive' => 0],
+            2002 => ['branch_code' => 2002, 'debtor_no' => 1001, 'br_name' => 'Acme South', 'br_address' => '12 Main St', 'contact_name' => 'South Contact', 'email' => 'south@example.com', 'inactive' => 0],
+        ]);
+
+        $customerBranchesProperty = $reflection->getProperty('customerBranches');
+        $customerBranchesProperty->setAccessible(true);
+        $customerBranchesProperty->setValue($provider, [
+            1001 => [2001, 2002],
+        ]);
+
+        $loadedProperty = $reflection->getProperty('loaded');
+        $loadedProperty->setAccessible(true);
+        $loadedProperty->setValue($provider, true);
     }
     
     /**
@@ -114,11 +141,6 @@ class CustomerDataProviderTest extends TestCase
         $provider = CustomerDataProvider::getInstance();
         $customers = $provider->getCustomers();
         
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
-        
         // Check first customer has expected keys
         $firstCustomer = reset($customers);
         $this->assertArrayHasKey('debtor_no', $firstCustomer, 'Customer should have debtor_no key');
@@ -135,11 +157,6 @@ class CustomerDataProviderTest extends TestCase
     {
         $provider = CustomerDataProvider::getInstance();
         $customers = $provider->getCustomers();
-        
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
         
         $firstCustomerId = key($customers);
         $customer = $provider->getCustomer($firstCustomerId);
@@ -188,11 +205,6 @@ class CustomerDataProviderTest extends TestCase
         $provider = CustomerDataProvider::getInstance();
         $customers = $provider->getCustomers();
         
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
-        
         $firstCustomerId = key($customers);
         $firstCustomer = reset($customers);
         $expectedLabel = $firstCustomer['name'];
@@ -226,11 +238,6 @@ class CustomerDataProviderTest extends TestCase
     {
         $provider = CustomerDataProvider::getInstance();
         $customers = $provider->getCustomers();
-        
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
         
         $firstCustomerId = key($customers);
         $hasPartner = $provider->hasPartner($firstCustomerId);
@@ -276,15 +283,7 @@ class CustomerDataProviderTest extends TestCase
     public function testGetBranchesReturnsArray(): void
     {
         $provider = CustomerDataProvider::getInstance();
-        $customers = $provider->getCustomers();
-        
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
-        
-        $firstCustomerId = key($customers);
-        $branches = $provider->getBranches($firstCustomerId);
+        $branches = $provider->getBranches(1001);
         
         $this->assertIsArray($branches, 'getBranches() should return an array');
     }
@@ -341,28 +340,10 @@ class CustomerDataProviderTest extends TestCase
     public function testGetBranchReturnsCorrectBranch(): void
     {
         $provider = CustomerDataProvider::getInstance();
-        $customers = $provider->getCustomers();
-        
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
-        
-        // Find a customer with branches
-        foreach ($customers as $customerId => $customer) {
-            if ($provider->hasBranches($customerId)) {
-                $branches = $provider->getBranches($customerId);
-                $firstBranchCode = key($branches);
-                
-                $branch = $provider->getBranch($customerId, $firstBranchCode);
-                
-                $this->assertNotNull($branch, 'getBranch() should return branch data');
-                $this->assertEquals($firstBranchCode, $branch['branch_code'], 'getBranch() should return correct branch');
-                return;
-            }
-        }
-        
-        $this->markTestIncomplete('No multi-branch customers in database - needs fixtures');
+        $branch = $provider->getBranch(1001, 2001);
+
+        $this->assertNotNull($branch, 'getBranch() should return branch data');
+        $this->assertEquals(2001, $branch['branch_code'], 'getBranch() should return correct branch');
     }
     
     /**
@@ -374,28 +355,9 @@ class CustomerDataProviderTest extends TestCase
     public function testGetBranchReturnsNullForWrongCustomer(): void
     {
         $provider = CustomerDataProvider::getInstance();
-        $customers = $provider->getCustomers();
-        
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
-        
-        // Find a customer with branches
-        foreach ($customers as $customerId => $customer) {
-            if ($provider->hasBranches($customerId)) {
-                $branches = $provider->getBranches($customerId);
-                $firstBranchCode = key($branches);
-                
-                // Try to get branch with wrong customer ID
-                $branch = $provider->getBranch(999999, $firstBranchCode);
-                
-                $this->assertNull($branch, 'getBranch() should return null for wrong customer ID');
-                return;
-            }
-        }
-        
-        $this->markTestIncomplete('No multi-branch customers in database - needs fixtures');
+        $branch = $provider->getBranch(999999, 2001);
+
+        $this->assertNull($branch, 'getBranch() should return null for wrong customer ID');
     }
     
     /**
@@ -407,15 +369,7 @@ class CustomerDataProviderTest extends TestCase
     public function testGetBranchReturnsNullForNonExistentBranch(): void
     {
         $provider = CustomerDataProvider::getInstance();
-        $customers = $provider->getCustomers();
-        
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
-        
-        $firstCustomerId = key($customers);
-        $branch = $provider->getBranch($firstCustomerId, 999999);
+        $branch = $provider->getBranch(1001, 999999);
         
         $this->assertNull($branch, 'getBranch() should return null for non-existent branch');
     }
@@ -455,39 +409,12 @@ class CustomerDataProviderTest extends TestCase
     public function testBranchRelationshipIntegrity(): void
     {
         $provider = CustomerDataProvider::getInstance();
-        $customers = $provider->getCustomers();
-        
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
+        $branches = $provider->getBranches(1001);
+
+        foreach ($branches as $branchCode => $branch) {
+            $this->assertEquals(1001, $branch['debtor_no'], 'Branch should belong to the correct customer');
+            $branchData = $provider->getBranch(1001, $branchCode);
+            $this->assertEquals($branch, $branchData, 'getBranch() should return same data as getBranches()');
         }
-        
-        // Find a customer with branches
-        foreach ($customers as $customerId => $customer) {
-            if ($provider->hasBranches($customerId)) {
-                $branches = $provider->getBranches($customerId);
-                
-                // Verify all branches belong to this customer
-                foreach ($branches as $branchCode => $branch) {
-                    $this->assertEquals(
-                        $customerId,
-                        $branch['debtor_no'],
-                        'Branch should belong to the correct customer'
-                    );
-                    
-                    // Verify getBranch() returns same data
-                    $branchData = $provider->getBranch($customerId, $branchCode);
-                    $this->assertEquals(
-                        $branch,
-                        $branchData,
-                        'getBranch() should return same data as getBranches()'
-                    );
-                }
-                
-                return;
-            }
-        }
-        
-        $this->markTestIncomplete('No multi-branch customers in database - needs fixtures');
     }
 }

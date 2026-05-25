@@ -19,6 +19,7 @@ include_once($path_to_root . "/includes/ui.inc");
 include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 require_once 'includes/qfx_parser.php';
+require_once __DIR__ . '/Support/ExceptionDisplayNotifier.php';
 
 page(_($help_context = "Import Bank Statement"));
 
@@ -122,15 +123,15 @@ function importStatement($smt)
 /**
 				$bit = new BiTransactions();
 */
-			} catch( Exception $e )
+			} catch( \Throwable $e )
 			{
-				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );
+				\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bi_transactions_model init');
 			}
 		//var_dump( __FILE__ . "::" . __LINE__  );
 		//var_dump( $bit );
-		} catch( Exception $e )
+		} catch( \Throwable $e )
 		{
-			display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $e, true ) );
+			\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'import transaction init');
 		}
 		//var_dump( __FILE__ . "::" . __LINE__ );
 		$bit->trz2obj( $t );

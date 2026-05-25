@@ -1,4 +1,5 @@
 <?php
+	require_once __DIR__ . '/src/Ksfraser/FaBankImport/Support/ExceptionDisplayNotifier.php';
 	$trzs = array();
 	$vendor_list = get_vendor_list();	//array
 
@@ -17,9 +18,9 @@
 		$res = db_query($sql, 'unable to get transactions data'); 
 		//The following shows how many rows/columns of results there are but without doint the fetch, just the mysql_results object.
 		//display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $res, true ) );
-	} catch( Error $e )
+	} catch( \Throwable $e )
 	{
-			display_notification( __FILE__ . "::" . __LINE__ . " " . $e->getMessage() );
+		\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'query transactions');
 	}
 
 class transaction_table
@@ -87,9 +88,9 @@ class transaction_table_row
 			try {
 				$this->bankAccount = shorten_bankAccount_Names( $res_arr['accountName'] );
 			}
-			catch( Exception $this->e )
+			catch( \Throwable $e )
 			{
-				display_notification( __FILE__ . "::" . __LINE__ . ":" . $this->e->getMessage() );
+				\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'shorten_bankAccount_Names failed');
 				$this->bankAccount = $res_arr['accountName'];
 			}
 			$this->bankAccountName = $res_arr['accountName'];
@@ -790,7 +791,6 @@ class ttr_label_row
 		echo $operationsTable->closeTable(); // Close tablestyle2 table
 		echo $rightCell->closeCell();
 		echo $mainRow->closeRow();
-		}
 		// Main table closing handled by transaction_table class display() method
 	}
 	

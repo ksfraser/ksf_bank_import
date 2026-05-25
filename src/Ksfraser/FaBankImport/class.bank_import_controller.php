@@ -2,7 +2,11 @@
 
 require_once( '../ksf_modules_common/class.origin.php' );
 require_once( 'class.bi_transaction.php' );
+require_once( __DIR__ . '/Support/ExceptionDisplayNotifier.php' );
 //require_once( 'class.bi_transactions.php' );
+use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
+use Ksfraser\Exceptions\InvalidDataValueException;
+use Ksfraser\Exceptions\VarNotSetException;
 
 class bank_import_controller extends origin
 {
@@ -186,9 +190,12 @@ class bank_import_controller extends origin
 			 		display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $cTransactions, true )  );
 					//$sql =  $cTransactions->hand_update_sql();
 					//db_query( $sql, "Couldn't toggle C/D for transaction" );
+				} catch (InvalidDataValueException $e )
+				{
+					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'toggleDebitCredit validation');
 				} catch (Exception $e )
 				{
-			 		display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $e, true )  );
+					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'toggleDebitCredit unexpected');
 				}
 				
 			}
@@ -361,27 +368,27 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		if( !isset( $this->trz ) )
 		{
 				display_error( "->trz not set" );
-			throw new Exception( "->trz not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->trz not set");
 		}
 		if( !isset( $this->partnerId ) )
 		{
 				display_error( "->partnerId not set" );
-			throw new Exception( "->partnerId not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->partnerId not set");
 		}
 		if( !isset( $this->our_account ) )
 		{
 				display_error( "->our_account not set" );
-			throw new Exception( "->our_account not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->our_account not set");
 		}
 		if( !isset( $this->charge ) )
 		{
 				display_error( "->charge not set" );
-			throw new Exception( "->charge not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->charge not set");
 		}
 		if( !isset( $this->tid ) )
 		{
 				display_error( "->tid not set" );
-			throw new Exception( "->tid not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->tid not set");
 		}
 		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		$trans_no = 0;  //NEW.  A number would be an update - leads to voiding of a bunch of stuff and then redo-ing.
@@ -396,7 +403,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			if( !isset( $reference ) )
 			{
 				display_error( "Didn't acquire new Reference" );
-				throw new Exception( "Didn't acquire new Reference", KSF_VAR_NOT_SET );
+				throw new VarNotSetException("Didn't acquire new Reference");
 			}
 		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		
@@ -672,7 +679,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							$rval = qe_to_cart($cart, $this->partnerId, $this->trz['transactionAmount'], ($this->trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
 						} catch( Exception $e )
 						{
-							display_notification('RVAL Exception' . print_r( $e, true ) );
+							ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'qe_to_cart');
 						}
 						// function add_gl_item($code_id, $dimension_id, $dimension2_id, $amount, $memo='', $act_descr=null, $person_id=null, $date=null)
 			//TODO:

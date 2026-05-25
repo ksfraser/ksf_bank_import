@@ -92,12 +92,7 @@ class SupplierDataProvider
             return self::$supplierCache;
         }
 
-        // In production, would call:
-        // self::$supplierCache = $this->loadSuppliersFromDatabase();
-        // self::$isLoaded = true;
-
-        // For now, return empty array if no data set
-        self::$supplierCache = [];
+        self::$supplierCache = $this->loadSuppliersFromDatabase();
         self::$isLoaded = true;
 
         return self::$supplierCache;
@@ -246,18 +241,26 @@ class SupplierDataProvider
      */
     private function loadSuppliersFromDatabase(): array
     {
-        // TODO: Task #16 - Implement actual database loading
-        // This will be called when integrating with FA database layer
-        //
-        // Example implementation:
-        // $sql = "SELECT supplier_id, supp_name, supp_ref FROM suppliers WHERE inactive = 0 ORDER BY supp_name";
-        // $result = db_query($sql, "Could not load suppliers");
-        // $suppliers = [];
-        // while ($row = db_fetch_assoc($result)) {
-        //     $suppliers[] = $row;
-        // }
-        // return $suppliers;
+        if (!function_exists('db_query') || !function_exists('db_fetch')) {
+            return [];
+        }
 
-        return [];
+        $sql = "SELECT supplier_id, supp_name, supp_ref "
+            . "FROM " . TB_PREF . "suppliers WHERE inactive=0 ORDER BY supp_name";
+        $result = db_query($sql, "Could not load suppliers");
+        if (!$result) {
+            return [];
+        }
+
+        $suppliers = [];
+        while ($row = function_exists('db_fetch_assoc') ? db_fetch_assoc($result) : db_fetch($result)) {
+            $suppliers[] = [
+                'supplier_id' => (string)($row['supplier_id'] ?? ''),
+                'supp_name' => (string)($row['supp_name'] ?? ''),
+                'supp_ref' => (string)($row['supp_ref'] ?? ''),
+            ];
+        }
+
+        return $suppliers;
     }
 }

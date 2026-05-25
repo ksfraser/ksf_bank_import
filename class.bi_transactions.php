@@ -11,6 +11,7 @@
 
 
 $path_to_root = "../..";
+require_once __DIR__ . '/src/Ksfraser/FaBankImport/Support/ExceptionDisplayNotifier.php';
 
 /*******************************************
  * If you change the list of properties below, ensure that you also modify
@@ -47,6 +48,10 @@ require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' 
 require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
 require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Service/TransactionCounter.php' );
 require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Results/PaginatedTransactionResult.php' );
+
+use Ksfraser\Exceptions\FieldNotSetException;
+use Ksfraser\Exceptions\InvalidDataTypeException;
+use Ksfraser\Exceptions\InvalidDataValueException;
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.
@@ -259,7 +264,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 			case 'limit':
 				if( ! is_numeric( $value ) )
 				{
-					throw new Exception( "Limit must be a number as its for SQL", KSF_INVALID_DATA_TYPE );
+					throw new InvalidDataTypeException("Limit must be a number as its for SQL");
 				}
 				break;
 		}
@@ -731,7 +736,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 				} 
 				catch( Exception $e )
 				{
-					display_notification( __FILE__ . "::" , __LINE__ . "::" . $e->getCode() . ":" . $e->getMessage() );
+					\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'arr2obj during trans_exists');
 				}
 			}
 			return true;
@@ -787,22 +792,22 @@ class bi_transactions_model extends generic_fa_interface_model {
 			if( isset( $diffarr['transactionCode'] ) )
 			{
 				//Transaction Code is the key we checked against.  If it changed we have a logic error elsewher
-				throw new Exception( "Transaction Code, which was our search key changed.  LOGIC ERROR!", KSF_INVALID_DATA_VALUE );
+				throw new InvalidDataValueException("Transaction Code, which was our search key changed.  LOGIC ERROR!");
 			}
 			if( isset( $diffarr['accountName'] ) )
 			{
 				//account can't change - not an identical transaction.  ERROR somewhere
-				throw new Exception( "We should not have matched against this transaction - accountName changed!", KSF_INVALID_DATA_VALUE );
+				throw new InvalidDataValueException("We should not have matched against this transaction - accountName changed!");
 			}
 			if( isset( $diffarr['account'] ) )
 			{
 				//account can't change - not an identical transaction.  ERROR somewhere
-				throw new Exception( "We should not have matched against this transaction - account changed!", KSF_INVALID_DATA_VALUE );
+				throw new InvalidDataValueException("We should not have matched against this transaction - account changed!");
 			}
 			if( isset( $diffarr['valueTimestamp'] ) OR isset( $diffarr['entryTimestamp'] ) )
 			{
 				//time can't change if transactions are immutable - not an identical transaction.  ERROR somewhere
-				throw new Exception( "We should not have matched against this transaction - Timestamps changed!", KSF_INVALID_DATA_VALUE );
+				throw new InvalidDataValueException("We should not have matched against this transaction - Timestamps changed!");
 			}
 			if( isset( $diffarr['transactionType'] ) )
 			{
@@ -813,7 +818,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 			{
 				if( abs($diffarr['transactionAmount']) !== abs($this->transactionAmount) )
 				{
-					throw new Exception( "(ABS) Transaction Amount changed! It is possible that the sign changed due to our re-processing, but the absolute value shouldn't", KSF_INVALID_DATA_VALUE );
+					throw new InvalidDataValueException("(ABS) Transaction Amount changed! It is possible that the sign changed due to our re-processing, but the absolute value shouldn't");
 				}
 				else
 				{
@@ -878,7 +883,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 		display_notification( __FILE__ . "::" . __LINE__ );
 		if( ! isset( $this->transactionDC ) )
 		{
-			throw new Exception( "Required field transactionDC not set!", KSF_FIELD_NOT_SET );
+			throw new FieldNotSetException("Required field transactionDC not set!");
 		}
 		switch( $this->transactionDC )
 		{
@@ -894,7 +899,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 				break;
 			default:
 				display_notification( __FILE__ . "::" . __LINE__  . " Unexpected value" );
-				throw new Exception( "field transactionDC has unexpected value!", KSF_INVALID_DATA_VALUE );
+				throw new InvalidDataValueException("field transactionDC has unexpected value!");
 		}
 		$sql = " UPDATE " . TB_PREF ."bi_transactions t ";
 		$sql .= "set transactionDC='" . $this->transactionDC . "', transactionCodeDesc='" . $this->transactionCodeDesc . "' ";
