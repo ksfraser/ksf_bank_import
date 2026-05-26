@@ -148,6 +148,9 @@ use Ksfraser\Exceptions\InvalidDataValueException;
 *
 ******************************************************************************************************************/
 class bi_transactions_model extends generic_fa_interface_model {
+	private const STATUS_UNPROCESSED = 0;
+	private const STATUS_PROCESSED = 1;
+
 	var $id_bi_transactions_model;	//!< Index of table
 	protected $id;                  //| int(11)      | NO   | PRI | NULL    | auto_increment |
 	protected $smt_id;              //| int(11)      | NO   |     | NULL    |                |
@@ -311,16 +314,12 @@ class bi_transactions_model extends generic_fa_interface_model {
 		$cids = implode(',', $cids);
 	
 		$sql = "
-			UPDATE ".TB_PREF."bi_transactions
-			SET status=0,
-				fa_trans_no=".db_escape($trans_no).",
-				fa_trans_type=".db_escape($trans_type);
-			$sql .= ",
-					matched=0";
-			$sql .= ",
-					created=0";
-			$sql .= "
-				WHERE id in ($cids)";
+			UPDATE ".$this->table_details['tablename'] .
+			" SET status=" . db_escape(self::STATUS_UNPROCESSED) . ",
+				fa_trans_no=" . db_escape($trans_no) . ",
+				fa_trans_type=" . db_escape($trans_type) . ",
+				created=0
+			WHERE id in ($cids)";
 		//display_notification($sql);
 		db_query($sql, 'Could not update trans');
 	}
@@ -414,11 +413,11 @@ class bi_transactions_model extends generic_fa_interface_model {
 		//When a FA GL entry is being voided
 		$sql = "
 			UPDATE " . $this->table_details['tablename'] .
-			" SET status=0, fa_trans_no=0, fa_trans_type=0, created=0, matched=0, g_partner='', g_option=''
+			" SET status=" . db_escape(self::STATUS_UNPROCESSED) . ", fa_trans_no=0, fa_trans_type=0, created=0, matched=0, g_partner='', g_option=''
 			WHERE
 				fa_trans_no=".db_escape($trans_no)." AND
 				fa_trans_type=".db_escape($trans_type)." AND
-				status = 1";
+				status = " . db_escape(self::STATUS_PROCESSED);
 		//display_notification($sql);
 		db_query($sql, 'Could not void transaction');
 	}

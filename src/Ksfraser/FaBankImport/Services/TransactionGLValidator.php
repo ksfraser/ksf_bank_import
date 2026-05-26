@@ -2,6 +2,10 @@
 
 namespace Ksfraser\FaBankImport\Services;
 
+if (!defined('BI_STATUS_UNPROCESSED')) {
+    define('BI_STATUS_UNPROCESSED', 0);
+}
+
 /**
  * TransactionGLValidator - Validate imported bank transactions against GL entries
  * 
@@ -331,7 +335,7 @@ class TransactionGLValidator
                 // Return top 5 matches
                 $suggestions = array_slice($matches, 0, 5);
                 
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // Silently fail, return empty suggestions
             }
         }
@@ -430,7 +434,7 @@ class TransactionGLValidator
     public function clearFlag($trans_id)
     {
         $sql = "UPDATE " . TB_PREF . "bi_transactions 
-                SET status = 0, 
+                SET status = " . db_escape(BI_STATUS_UNPROCESSED) . ", 
                     matchinfo = NULL
                 WHERE id = " . db_escape($trans_id);
         

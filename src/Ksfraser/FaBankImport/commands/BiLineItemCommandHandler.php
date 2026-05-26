@@ -43,7 +43,7 @@ class BiLineItemCommandHandler
             $data = $this->convertCollectionToArray($items, $limit, $offset);
 
             return $this->successResponse($data, count($data));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -62,7 +62,7 @@ class BiLineItemCommandHandler
             $data = $this->convertCollectionToArray($items, $limit, $offset);
 
             return $this->successResponse($data, count($data));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -81,7 +81,7 @@ class BiLineItemCommandHandler
             $data = $this->convertCollectionToArray($items, $limit, $offset);
 
             return $this->successResponse($data, count($data));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -101,7 +101,7 @@ class BiLineItemCommandHandler
             return $this->successResponse($data);
         } catch (RepositoryException $e) {
             return $this->errorResponse("Line item with ID {$id} not found");
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -129,7 +129,7 @@ class BiLineItemCommandHandler
             $response['unmatched_count'] = $unmatched;
 
             return $response;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -145,7 +145,7 @@ class BiLineItemCommandHandler
             $stats = $this->service->getSummaryStats();
 
             return $this->successResponse($stats);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -161,7 +161,7 @@ class BiLineItemCommandHandler
             $stats = $this->service->getStatsByPartnerType();
 
             return $this->successResponse($stats);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -177,7 +177,7 @@ class BiLineItemCommandHandler
             $stats = $this->service->getStatsByTransactionCode();
 
             return $this->successResponse($stats);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -193,7 +193,7 @@ class BiLineItemCommandHandler
             $stats = $this->service->getMatchStats();
 
             return $this->successResponse($stats);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -218,7 +218,7 @@ class BiLineItemCommandHandler
             $data = $this->convertCollectionToArray($items, $limit, $offset);
 
             return $this->successResponse($data, count($data));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -241,7 +241,7 @@ class BiLineItemCommandHandler
             $data = $this->convertCollectionToArray($items, $limit, $offset);
 
             return $this->successResponse($data, count($data));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -264,7 +264,7 @@ class BiLineItemCommandHandler
             $data = $this->convertCollectionToArray($items, $limit, $offset);
 
             return $this->successResponse($data, count($data));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -283,7 +283,7 @@ class BiLineItemCommandHandler
             $data = $this->convertCollectionToArray($items, $limit, $offset);
 
             return $this->successResponse($data, count($data));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -301,7 +301,7 @@ class BiLineItemCommandHandler
             $this->service->saveLineItem($lineItem);
 
             return $this->successResponse(['id' => $lineItem->getId()], 1);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -318,7 +318,7 @@ class BiLineItemCommandHandler
             $this->service->deleteLineItem($id);
 
             return $this->successResponse(['id' => $id]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
@@ -341,7 +341,7 @@ class BiLineItemCommandHandler
             $data = $this->convertCollectionToArray($items, $limit, $offset);
 
             return $this->successResponse($data, count($data));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->errorResponse($e->getMessage());
         }
     }

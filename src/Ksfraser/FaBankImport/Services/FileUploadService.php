@@ -136,7 +136,7 @@ class FileUploadService
             
             $fileId = $this->fileRepository->save($uploadedFile);
             
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Rollback: delete file from disk since database save failed
             $this->storageService->delete($filePath);
             

@@ -190,7 +190,7 @@ class TransactionProcessor
                 // Could log this for debugging if needed
                 continue;
                 
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // Unexpected exception during instantiation - this should be investigated
                 throw new \RuntimeException(
                     "Unexpected exception discovering handler {$fqcn}: {$e->getMessage()}",

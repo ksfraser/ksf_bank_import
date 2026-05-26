@@ -128,7 +128,7 @@ function importStatement($smt) {
         
         try {
             $bis = new bi_statements_model();
-        } catch (Exception $e) {
+                } catch (\Throwable $e) {
             echo "ERROR creating bi_statements_model: " . $e->getMessage() . "\n";
             echo "Stack trace: " . $e->getTraceAsString() . "\n";
             return "ERROR: " . $e->getMessage();
@@ -156,7 +156,7 @@ function importStatement($smt) {
                             echo( __FILE__ . "::" . __LINE__ . " - Inserted Statement ID: $smt_id\n" );
                     $bis->set( "id", $smt_id );
                     $message .= "new, imported";
-                } catch (Exception $e) {
+                                } catch (\Throwable $e) {
                     echo "ERROR inserting statement: " . $e->getMessage() . "\n";
                     return "ERROR: " . $e->getMessage();
                 }
@@ -167,7 +167,7 @@ function importStatement($smt) {
                     $bis->update_statement();
                             echo( __FILE__ . "::" . __LINE__ . " - Updated Statement $smt->statementId\n" );
                     $message .= "existing, updated";
-                } catch (Exception $e) {
+                                } catch (\Throwable $e) {
                     echo "ERROR updating statement: " . $e->getMessage() . "\n";
                     return "ERROR: " . $e->getMessage();
                 }
@@ -188,7 +188,7 @@ function importStatement($smt) {
                 try {
                                 unset( $bit );
                         $bit = new bi_transactions_model();
-                } catch( Exception $e )
+                } catch( \Throwable $e )
                 {
                         echo( __FILE__ . "::" . __LINE__ . " ERROR creating bi_transactions_model: " . $e->getMessage() . "\n" );
                         continue;
@@ -215,7 +215,7 @@ function importStatement($smt) {
                             $t_id = db_insert_id();
                             echo( __FILE__ . "::" . __LINE__ . " - Inserted transaction ID: $t_id\n" );
                             $newinserted++;
-                        } catch (Exception $e) {
+                                                } catch (\Throwable $e) {
                             echo "ERROR inserting transaction: " . $e->getMessage() . "\n";
                         }
                 }
@@ -333,7 +333,7 @@ try {
     // If we got here, test completed successfully
     echo "\n✓ All operations completed successfully\n";
     
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     echo "\n❌ ERROR during test execution:\n";
     echo "   " . $e->getMessage() . "\n";
     echo "   Stack trace: " . $e->getTraceAsString() . "\n";

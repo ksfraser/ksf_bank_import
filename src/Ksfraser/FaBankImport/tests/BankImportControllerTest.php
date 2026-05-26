@@ -2,6 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
+require_once(__DIR__ . '/../../../../class.bank_import_controller.php');
+
 class BankImportControllerTest extends TestCase
 {
     protected $controller;

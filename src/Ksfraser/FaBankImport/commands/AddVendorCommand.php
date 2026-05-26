@@ -69,7 +69,7 @@ class AddVendorCommand implements CommandInterface
                     'vendor_id' => $vendorId,
                     'name' => $transaction['counterpartyName'] ?? 'Unknown'
                 ];
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $errors[] = [
                     'transaction_id' => $transactionId,
                     'error' => $e->getMessage()

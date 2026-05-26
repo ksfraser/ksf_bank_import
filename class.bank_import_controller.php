@@ -12,6 +12,9 @@ use Ksfraser\Exceptions\VarNotSetException;
 
 class bank_import_controller extends origin
 {
+	private const STATUS_UNPROCESSED = 0;
+	private const STATUS_PROCESSED = 1;
+
 	protected $trz;	//!< transaction
 	protected $repository;	//!<object	bi_transactions
 	protected $our_account;
@@ -191,7 +194,7 @@ class bank_import_controller extends origin
 				} catch (InvalidDataValueException $e )
 				{
 					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'toggleDebitCredit validation');
-				} catch (Exception $e )
+				} catch (\Throwable $e )
 				{
 					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'toggleDebitCredit unexpected');
 				}
@@ -506,7 +509,7 @@ function extract_memo_fingerprint($memo)
 				$counterparty_arr = get_trans_counterparty( $payment_id, $this->transType );
 				//display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 				/***/
-				$this->update_transactions($this->tid, $_cids, $status=1, $payment_id, $this->transType, false, true,  "SP", $this->partnerId );
+				$this->update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $payment_id, $this->transType, false, true,  "SP", $this->partnerId );
 				$this->update_partner_data( null );	//Suppliers don't have branches
 				$this->persist_memo_type_decision(PT_SUPPLIER, null);
 				display_notification('Supplier Payment Processed:' . $payment_id );
@@ -591,7 +594,7 @@ function extract_memo_fingerprint($memo)
 				$counterparty_arr = get_trans_counterparty( $payment_id, $this->transType );
 				display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 				/***/
-				$this->update_transactions($this->tid, $_cids, $status=1, $payment_id[1], $this->transType, false, true,  "SP", $this->partnerId );
+				$this->update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $payment_id[1], $this->transType, false, true,  "SP", $this->partnerId );
 				$this->update_partner_data( null );
 				$this->persist_memo_type_decision(PT_SUPPLIER, null);
 				display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
@@ -672,7 +675,7 @@ function extract_memo_fingerprint($memo)
 				$fcp->set( "payment_id", $deposit_id );
 				$fcp->write_allocation();
 			}
-			update_transactions($this->tid, $_cids, $status=1, $deposit_id, $this->transType, false, true,  "CU", $this->partnerId);
+			update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $deposit_id, $this->transType, false, true,  "CU", $this->partnerId);
 			//We want to update fa_trans_type, fa_trans_no, account/accountName, status, matchinfo, matched/created, g_partner
 			update_partner_data($this->partnerId, $this->transType, $this->custBranch, $this->trz['memo']);
 			if( $this->transType !== PT_CUSTOMER )
@@ -760,7 +763,7 @@ function extract_memo_fingerprint($memo)
 							//function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 							$qe_memo = "A:" . $this->our_account['bank_account_name'] . ":" . $this->trz['account_name'] . " M:" . $this->trz['account'] . ":" . $this->trz['transactionTitle'] . ": " . $this->trz['transactionCode'];
 							$rval = qe_to_cart($cart, $this->partnerId, $this->trz['transactionAmount'], ($this->trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
-						} catch( Exception $e )
+						} catch( \Throwable $e )
 						{
 							ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'qe_to_cart');
 						}
@@ -813,7 +816,7 @@ function extract_memo_fingerprint($memo)
 								//partnerID in this case is the QE index.
 							set_bank_partner_data( $this->our_account['id'], $this->transType, $this->partnerId, $this->trz['transactionTitle'] );
 						***/
-							update_transactions($this->tid, $_cids, $status=1, $trans[1], $this->transType, false, true, "QE", $this->partnerId );
+							update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $trans[1], $this->transType, false, true, "QE", $this->partnerId );
 							commit_transaction();
 							//Don't want this preventing the commit!
 							set_bank_partner_data( $this->our_account['id'], $this->transType, $this->partnerId, $this->trz['transactionTitle'] );
@@ -866,9 +869,9 @@ function extract_memo_fingerprint($memo)
 								$bttrf->set( "memo_", $this->trz['transactionTitle'] . "::" . $this->trz['transactionCode'] . "::" . $this->trz['memo'] );
 								$bttrf->set( "target_amount", $this->trz['transactionAmount'] );
 							}
-							catch( Exception $e )
+							catch( \Throwable $e )
 							{
-								//display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
+								ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bank transfer setup');
 								break;
 							}
 							try
@@ -876,8 +879,9 @@ function extract_memo_fingerprint($memo)
 								$bttrf->getNextRef();
 								//$bttrf->trans_date_in_fiscal_year();
 							}
-							catch( Exception $e )
+							catch( \Throwable $e )
 							{
+								ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bank transfer getNextRef');
 								break;
 							}
 							begin_transaction();
@@ -887,7 +891,7 @@ function extract_memo_fingerprint($memo)
 								////display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 							$trans_no = $bttrf->get( "trans_no" );
 							$this->transType = $bttrf->get( "trans_type" );
-							update_transactions( $this->tid, $_cids, $status=1, $trans_no, $this->transType, false, true,  "BT", $this->partnerId );
+							update_transactions( $this->tid, $_cids, $status=self::STATUS_PROCESSED, $trans_no, $this->transType, false, true,  "BT", $this->partnerId );
 							//update_transactions( $this->tid, $_cids, $status=1, $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ), false, true );
 		
 							set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $this->trz['memo'] );   //Short Form
@@ -904,7 +908,7 @@ function extract_memo_fingerprint($memo)
 					case ($_POST['partnerType'][$this->tid] == 'MA'):
 						$counterparty_arr = get_trans_counterparty( $_POST['Existing_Entry'], $_POST['Existing_Type'] );
 							display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-						update_transactions($this->tid, $_cids, $status=1, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
+						update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
 						display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
 						set_partner_data( $counterparty_arr['person_type'], $_POST['Existing_Type'], $counterparty_arr['person_type_id'], $this->trz['memo'] );       //Short Form
 						display_notification("Transaction was manually settled " . print_r( $_POST['Existing_Type'], true ) . ":" . print_r( $_POST['Existing_Entry'], true ) );
@@ -951,7 +955,7 @@ function extract_memo_fingerprint($memo)
 							}
 						}
 							//display_notification(__FILE__ . "::" . __LINE__  );
-							update_transactions( $this->tid, $_cids, $status=1, $_POST["trans_no_$this->tid"], $_POST["trans_type_$this->tid"], true, false,  "ZZ", $this->partnerId );
+							update_transactions( $this->tid, $_cids, $status=self::STATUS_PROCESSED, $_POST["trans_no_$this->tid"], $_POST["trans_type_$this->tid"], true, false,  "ZZ", $this->partnerId );
 							//display_notification(__FILE__ . "::" . __LINE__  );
 							display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$this->tid"] . "::" . $_POST["trans_no_$this->tid"] . "::" . "<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$this->tid"] . "&trans_no=" . $_POST["trans_no_$this->tid"] . "'>View Entry</a>");
 						set_partner_data( $person_type, $_POST["trans_type_$this->tid"], $person_type_id, $memo );

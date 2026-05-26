@@ -30,6 +30,9 @@ namespace Ksfraser\FaBankImport\Database;
  */
 class TransactionQueryBuilder
 {
+    private const STATUS_UNPROCESSED = 0;
+    private const STATUS_PROCESSED = 1;
+
     /**
      * @var string Database table name with prefix
      */
@@ -202,7 +205,7 @@ class TransactionQueryBuilder
         $placeholders = implode(',', array_fill(0, count($transactionIds), '?'));
         
         $sql = "UPDATE {$this->tableName} 
-                SET status = 0,
+            SET status = " . self::STATUS_UNPROCESSED . ",
                     fa_trans_no = ?,
                     fa_trans_type = ?,
                     matched = 0,
@@ -293,16 +296,16 @@ class TransactionQueryBuilder
     public function buildPrevoidQuery(int $faTransNo, int $faTransType): array
     {
         $sql = "UPDATE {$this->tableName} 
-                SET status = 0,
+            SET status = " . self::STATUS_UNPROCESSED . ",
                     fa_trans_no = 0,
                     fa_trans_type = 0,
                     created = 0,
                     matched = 0,
                     g_partner = '',
                     g_option = ''
-                WHERE fa_trans_no = ? 
-                  AND fa_trans_type = ? 
-                  AND status = 1";
+                                WHERE fa_trans_no = ? 
+                                    AND fa_trans_type = ? 
+                                    AND status = " . self::STATUS_PROCESSED;
         
         return [
             'sql' => $sql,

@@ -76,7 +76,7 @@ class MatchingJEs
             try {
                 $new_arr = $fa_gl->find_matching_transactions( $this->bi_lineitem->memo );
                         //display_notification( __FILE__ . "::" . __LINE__ );
-            } catch( \Exception $e )
+            } catch (\Throwable $e)
             {
                 ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'find_matching_transactions');
             }

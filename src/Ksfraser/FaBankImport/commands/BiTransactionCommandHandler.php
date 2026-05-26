@@ -59,8 +59,8 @@ final class BiTransactionCommandHandler
                 'bulkDelete' => $this->handleBulkDelete($command['ids'] ?? []),
                 default => $this->errorResponse(self::ERROR_UNKNOWN_ACTION, "Unknown action: {$action}"),
             };
-        } catch (\Exception $e) {
-            return $this->errorResponse(self::ERROR_OPERATION_FAILED, $e->getMessage());
+        } catch (\Throwable $e) {
+                return $this->errorResponse(self::ERROR_OPERATION_FAILED, $e->getMessage());
         }
     }
 

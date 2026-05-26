@@ -63,7 +63,7 @@ abstract class Transaction
 		try {
 			$this->otherBankAccount = shorten_bankAccount_Names( $trz['accountName'] );
 		}
-		catch( Exception $e )
+		catch (\Throwable $e)
 		{
 			ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'shorten_bankAccount_Names failed');
 			$this->otherBankAccount = $trz['accountName'];
@@ -203,7 +203,7 @@ abstract class Transaction
 		                try {
 		                        $new_arr = $fa_gl->find_matching_transactions( $this->memo );
 		                                //display_notification( __FILE__ . "::" . __LINE__ );
-		                } catch( Exception $e )
+		                } catch (\Throwable $e)
 		                {
 		                        ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'find_matching_transactions');
 		                }
@@ -220,7 +220,7 @@ abstract class Transaction
 				$fa = new FaGLWrapper( $this );
 				$this->matching_trans = $fa->retrieveMatchingTransactions();
 			}
-			catch( Exception $e )
+			catch (\Throwable $e)
 			{
 		        	ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'retrieveMatchingTransactions');
 			}

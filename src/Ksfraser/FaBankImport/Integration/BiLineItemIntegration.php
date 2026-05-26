@@ -87,7 +87,7 @@ class BiLineItemIntegration
             }
 
             return $result;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getLineItems failed: " . $e->getMessage());
             return [];
         }
@@ -105,7 +105,7 @@ class BiLineItemIntegration
         try {
             $collection = $this->service->getMatchedLineItems();
             return $this->collectionToArray($collection, $offset, $limit);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getMatchedLineItems failed: " . $e->getMessage());
             return [];
         }
@@ -123,7 +123,7 @@ class BiLineItemIntegration
         try {
             $collection = $this->service->getUnmatchedLineItems();
             return $this->collectionToArray($collection, $offset, $limit);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getUnmatchedLineItems failed: " . $e->getMessage());
             return [];
         }
@@ -143,7 +143,7 @@ class BiLineItemIntegration
         } catch (RepositoryException $e) {
             error_log("BiLineItemIntegration::getLineItemById($id) not found");
             return [];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getLineItemById failed: " . $e->getMessage());
             return [];
         }
@@ -160,7 +160,7 @@ class BiLineItemIntegration
     {
         try {
             return $this->service->getMatchStats();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getStatistics failed: " . $e->getMessage());
             return [];
         }
@@ -175,7 +175,7 @@ class BiLineItemIntegration
     {
         try {
             return $this->service->countAllLineItems();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getCount failed: " . $e->getMessage());
             return 0;
         }
@@ -190,7 +190,7 @@ class BiLineItemIntegration
     {
         try {
             return $this->service->countMatchedLineItems();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getMatchedCount failed: " . $e->getMessage());
             return 0;
         }
@@ -205,7 +205,7 @@ class BiLineItemIntegration
     {
         try {
             return $this->service->countUnmatchedLineItems();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getUnmatchedCount failed: " . $e->getMessage());
             return 0;
         }
@@ -223,7 +223,7 @@ class BiLineItemIntegration
             $lineItem = BiLineItem::create($data);
             $this->service->saveLineItem($lineItem);
             return ['success' => true, 'id' => $lineItem->getId()];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::saveLineItem failed: " . $e->getMessage());
             return ['success' => false, 'error' => $e->getMessage()];
         }
@@ -240,7 +240,7 @@ class BiLineItemIntegration
         try {
             $this->service->deleteLineItem($id);
             return ['success' => true, 'id' => $id];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::deleteLineItem failed: " . $e->getMessage());
             return ['success' => false, 'error' => $e->getMessage()];
         }
@@ -255,7 +255,7 @@ class BiLineItemIntegration
     {
         try {
             return $this->service->getTotalAmount();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getTotalAmount failed: " . $e->getMessage());
             return 0.0;
         }
@@ -270,7 +270,7 @@ class BiLineItemIntegration
     {
         try {
             return $this->service->getMatchedAmount();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getMatchedAmount failed: " . $e->getMessage());
             return 0.0;
         }
@@ -285,7 +285,7 @@ class BiLineItemIntegration
     {
         try {
             return $this->service->getUnmatchedAmount();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::getUnmatchedAmount failed: " . $e->getMessage());
             return 0.0;
         }
@@ -305,7 +305,7 @@ class BiLineItemIntegration
         try {
             $collection = $this->service->filterByAmountRange($minAmount, $maxAmount);
             return $this->collectionToArray($collection, $offset, $limit);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::filterByAmountRange failed: " . $e->getMessage());
             return [];
         }
@@ -324,7 +324,7 @@ class BiLineItemIntegration
         try {
             $collection = $this->service->filterByPartnerType($partnerType);
             return $this->collectionToArray($collection, $offset, $limit);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::filterByPartnerType failed: " . $e->getMessage());
             return [];
         }
@@ -343,7 +343,7 @@ class BiLineItemIntegration
         try {
             $collection = $this->service->filterByTransactionCode($code);
             return $this->collectionToArray($collection, $offset, $limit);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             error_log("BiLineItemIntegration::filterByTransactionCode failed: " . $e->getMessage());
             return [];
         }

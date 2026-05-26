@@ -15,6 +15,8 @@ use Ksfraser\FaBankImport\Exceptions\InvalidBiLineItemException;
  */
 final class BiLineItem
 {
+    private const STATUS_UNPROCESSED = 0;
+
     // Core identifiers
     private int $id;
 
@@ -83,7 +85,7 @@ final class BiLineItem
 
         $this->transactionDc = $transactionDc;
         $this->id = 0;
-        $this->status = 0;
+        $this->status = self::STATUS_UNPROCESSED;
         $this->fa_trans_type = 0;
         $this->fa_trans_no = 0;
         $this->has_trans = 1;

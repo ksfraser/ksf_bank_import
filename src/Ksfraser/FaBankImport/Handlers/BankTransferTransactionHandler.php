@@ -75,7 +75,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
         // Extract partner ID (other bank account ID)
         try {
             $partnerBankAccountId = $this->extractPartnerId($transactionPostData);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Partner bank account ID is required for bank transfers'
             );
@@ -191,7 +191,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             
             $bttrf->set("memo_", $fullMemo);
             
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Failed to configure bank transfer: ' . $e->getMessage()
             );
@@ -200,7 +200,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
         // Get next reference number
         try {
             $bttrf->getNextRef();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Failed to get reference number: ' . $e->getMessage()
             );
@@ -223,7 +223,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             update_transactions(
                 $transactionId,
                 $collectionIds,
-                1, // status = processed
+                self::STATUS_PROCESSED, // status = processed
                 $transNo,
                 $transType,
                 false,
@@ -242,7 +242,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             
             commit_transaction();
             
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Failed to execute bank transfer: ' . $e->getMessage()
             );

@@ -101,7 +101,7 @@ class CommandDispatcher implements CommandDispatcherInterface
             $repository = null;
             try {
                 $repository = $this->container->make('TransactionRepository');
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // Repository unavailable — command will run without it
             }
 
@@ -117,7 +117,7 @@ class CommandDispatcher implements CommandDispatcherInterface
 
             // Execute command
             return $command->execute();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Gracefully handle execution errors
             return TransactionResult::error(
                 sprintf(

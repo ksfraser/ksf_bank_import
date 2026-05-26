@@ -1,6 +1,12 @@
 <?php
 
 define( 'MENU_IMPORT', 'menu_import' );
+if (!defined('BI_STATUS_UNPROCESSED')) {
+	define('BI_STATUS_UNPROCESSED', 0);
+}
+if (!defined('BI_STATUS_PROCESSED')) {
+	define('BI_STATUS_PROCESSED', 1);
+}
 
 class hooks_bank_import extends hooks {
     var $module_name = 'bank_import'; 
@@ -61,11 +67,11 @@ class hooks_bank_import extends hooks {
 	    //SET status=0
 	$sql = "
 	    UPDATE ".TB_PREF."bi_transactions
-	    SET status=0, fa_trans_no=0, fa_trans_type=0, created=0, matched=0, g_partner='', g_option=''
+	    SET status=".db_escape(BI_STATUS_UNPROCESSED).", fa_trans_no=0, fa_trans_type=0, created=0, matched=0, g_partner='', g_option=''
 	    WHERE
 		fa_trans_no=".db_escape($trans_no)." AND
 		fa_trans_type=".db_escape($trans_type)." AND
-		status = 1";
+		status = ".db_escape(BI_STATUS_PROCESSED);
 	display_notification($sql);
 	db_query($sql, 'Could not void transaction');
 

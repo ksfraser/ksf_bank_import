@@ -76,7 +76,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
         // Extract partner ID (Quick Entry template ID)
         try {
             $partnerId = $this->extractPartnerId($transactionPostData);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Partner ID (Quick Entry template) is required'
             );
@@ -177,7 +177,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
                 $qeType,
                 $qeMemo
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Failed to load Quick Entry template: ' . $e->getMessage()
             );
@@ -251,7 +251,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
         update_transactions(
             $transactionId,
             $collectionIds,
-            1, // status = processed
+            self::STATUS_PROCESSED, // status = processed
             $trans[1], // trans_no
             $transType,
             false,

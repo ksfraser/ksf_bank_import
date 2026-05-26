@@ -61,7 +61,7 @@ class ViewBILineItems
 			hidden( 'vendor_id', $matchedVendor );
 			label_row("Matched Vendor", print_r( $matchedVendor, true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supplier_id'], true ) . "::" . print_r( $this->vendor_list[$matchedVendor]['supp_name'], true ) );
 		}
-		catch( Exception $e )
+		catch (\Throwable $e)
 		{
 			$this-> selectAndDisplayButton();
 		}

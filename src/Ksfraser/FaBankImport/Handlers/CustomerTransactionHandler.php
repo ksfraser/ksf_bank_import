@@ -18,7 +18,6 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Handlers;
 
-use Exception;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\CustomerPartnerType;
@@ -92,7 +91,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
                 $collectionIds,
                 $charge
             );
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Error processing customer transaction: ' . $e->getMessage()
             );
@@ -110,7 +109,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
      * @param string $collectionIds Collection IDs
      * @param float $charge Bank charge amount
      * @return TransactionResult Processing result
-     * @throws Exception if processing fails
+    * @throws \Throwable if processing fails
      */
     private function processCustomerPayment(
         array $transaction,
@@ -162,7 +161,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
         );
         
         if (!$payment_id) {
-            throw new Exception('Failed to create customer payment');
+            throw new \RuntimeException('Failed to create customer payment');
         }
         
         // If invoice number provided, allocate payment against invoice
@@ -186,7 +185,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
         update_transactions(
             $transactionId,
             $collectionIds,
-            1, // status
+            self::STATUS_PROCESSED, // status
             $payment_id,
             $trans_type,
             false, // matched

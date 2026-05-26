@@ -59,7 +59,7 @@ final class SeederFactory
             try {
                 $seeder->seed($this->pdo);
                 $results[$name] = $seeder->recordCount();
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 throw new \RuntimeException(
                     sprintf("Seeder %s failed: %s", $name, $e->getMessage()),
                     0,
@@ -91,7 +91,7 @@ final class SeederFactory
             $seeder = $this->seeders[$seederName];
             $seeder->seed($this->pdo);
             return $seeder->recordCount();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new \RuntimeException(
                 sprintf("Seeder %s failed: %s", $seederName, $e->getMessage()),
                 0,

@@ -60,7 +60,7 @@ class Bootstrap
                 $this->config->get('db.user'),
                 $this->config->get('db.pass')
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new \RuntimeException('Database connection failed: ' . $e->getMessage());
         }
     }

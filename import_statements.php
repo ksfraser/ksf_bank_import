@@ -127,7 +127,7 @@ function importStatement($smt, $file_id = null)
 		try {
 			$uploadService = FileUploadService::create();
 			$uploadService->linkToStatements($file_id, array($smt_id));
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			display_error("Failed to link file to statement: " . $e->getMessage());
 		}
 	}
@@ -152,11 +152,11 @@ function importStatement($smt, $file_id = null)
 /**
 				$bit = new BiTransactions();
 */
-			} catch( Exception $e )
+			} catch( \Throwable $e )
 			{
 				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, true ) );
 			}
-		} catch( Exception $e )
+		} catch( \Throwable $e )
 		{
 			\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'import transaction init');
 		}
@@ -374,7 +374,7 @@ function parse_uploaded_files() {
     	        continue;
     	    }
     	    
-    	} catch (\Exception $e) {
+	    } catch (\Throwable $e) {
     	    display_error("Failed to upload file '$fname': " . $e->getMessage());
     	    display_error(__FILE__ . "::" . __LINE__ . " Stack trace: " . $e->getTraceAsString());
     	    $smt_err++;
@@ -403,14 +403,14 @@ function parse_uploaded_files() {
             $statements = $parser->parse($content, $static_data, $debug=true);
             file_put_contents($debug_log, "Parse SUCCESS! Statements: " . count($statements) . "\n", FILE_APPEND);
             display_notification( __FILE__ . "::" . __LINE__ . "  Parse complete! Statement count: " . count($statements) );
-        } catch (\Exception $e) {
+		} catch (\Throwable $e) {
             file_put_contents($debug_log, "EXCEPTION: " . $e->getMessage() . "\n", FILE_APPEND);
             file_put_contents($debug_log, "File: " . $e->getFile() . ":" . $e->getLine() . "\n", FILE_APPEND);
             display_error( __FILE__ . "::" . __LINE__ . "  PARSE EXCEPTION: " . $e->getMessage());
             display_error( __FILE__ . "::" . __LINE__ . "  Stack trace: " . $e->getTraceAsString());
             $smt_err++;
             $statements = array();  // Empty array to avoid further errors
-        } catch (\Error $e) {
+		} catch (\Error $e) {
             file_put_contents($debug_log, "ERROR (Fatal): " . $e->getMessage() . "\n", FILE_APPEND);
             file_put_contents($debug_log, "File: " . $e->getFile() . ":" . $e->getLine() . "\n", FILE_APPEND);
             display_error( __FILE__ . "::" . __LINE__ . "  PARSE ERROR (Fatal): " . $e->getMessage());

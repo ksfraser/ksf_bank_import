@@ -19,7 +19,6 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Handlers;
 
-use Exception;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\SupplierPartnerType;
@@ -94,9 +93,9 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
                     $charge
                 );
             } else {
-                throw new Exception("Invalid transaction DC type: {$transaction['transactionDC']}");
+                throw new \RuntimeException("Invalid transaction DC type: {$transaction['transactionDC']}");
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Error processing supplier transaction: ' . $e->getMessage()
             );
@@ -113,7 +112,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
      * @param string $collectionIds Collection IDs
      * @param float $charge Bank charge amount
      * @return TransactionResult Processing result
-     * @throws Exception if processing fails
+    * @throws \Throwable if processing fails
      */
     private function processSupplierPayment(
         array $transaction,
@@ -144,7 +143,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
         );
         
         if (!$payment_id) {
-            throw new Exception('Failed to create supplier payment');
+            throw new \RuntimeException('Failed to create supplier payment');
         }
         
         // Update transaction status
@@ -152,7 +151,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
         update_transactions(
             $transactionId,
             $collectionIds,
-            1, // status
+            self::STATUS_PROCESSED, // status
             $payment_id,
             $trans_type,
             false, // matched
@@ -185,7 +184,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
      * @param string $collectionIds Collection IDs
      * @param float $charge Bank charge amount
      * @return TransactionResult Processing result
-     * @throws Exception if processing fails
+    * @throws \Throwable if processing fails
      */
     private function processSupplierRefund(
         array $transaction,

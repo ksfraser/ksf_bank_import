@@ -49,7 +49,7 @@ class BankImportController extends AbstractController
 
             $this->container->getCommandBus()->dispatch($processCommand);
             $this->redirect($_SERVER['PHP_SELF'] . '?success=1');
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->render('transactions/list', [
                 'transactions' => $this->container->getTransactionService()->getPendingTransactions(),
                 'error' => $e->getMessage()

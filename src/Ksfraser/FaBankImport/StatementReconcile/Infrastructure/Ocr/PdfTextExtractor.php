@@ -53,7 +53,7 @@ final class PdfTextExtractor implements PdfTextExtractorInterface
         try {
             $pdf  = $this->parser->parseFile($pdfPath);
             $text = $pdf->getText();
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw StatementOcrException::forReason(
                 "smalot/pdfparser failed on '{$pdfPath}': " . $e->getMessage()
             );

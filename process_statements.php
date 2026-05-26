@@ -129,6 +129,13 @@ $optypes = array(
 	'ZZ' => 'Matched',
 );
 
+if (!defined('BI_STATUS_UNPROCESSED')) {
+	define('BI_STATUS_UNPROCESSED', 0);
+}
+if (!defined('BI_STATUS_PROCESSED')) {
+	define('BI_STATUS_PROCESSED', 1);
+}
+
 include_once($path_to_root . "/modules/ksf_modules_common/defines.inc.php");	//$trans_types_readable
 
 require_once( 'class.bank_import_controller.php' );
@@ -158,7 +165,7 @@ function canLinkFaTransactionToBiId($currentBiId, $faType, $faNo)
 	$sql = "SELECT id FROM " . TB_PREF . "bi_transactions "
 		. "WHERE fa_trans_type=" . db_escape($faType) . " "
 		. "AND fa_trans_no=" . db_escape($faNo) . " "
-		. "AND status=1 "
+		. "AND status=" . db_escape(BI_STATUS_PROCESSED) . " "
 		. "AND id<>" . db_escape($currentBiId) . " LIMIT 1";
 
 	$res = db_query($sql, 'Could not verify existing transaction links');
@@ -172,9 +179,9 @@ try {
 	$integration = \Ksfraser\FaBankImport\Integration\BiLineItemIntegration::getInstance();
 
 	$bi_controller = new bank_import_controller();	//no vars for constructor.
-} catch( Exception $e )
+} catch( \Throwable $e )
 {	
-	display_error( __LINE__ . "::" . print_r( $e, true ) );
+	ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'initialize controller');
 }
 
 
@@ -300,9 +307,9 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 				} catch( VarNotSetException $e )
 				{
 					display_error( "Error processing supplier transaction: " . print_r( $e, true ) );
-				} catch( Exception $e )
+				} catch( \Throwable $e )
 				{
-					display_error( "Error processing supplier transaction: " . print_r( $e, true ) );
+					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'supplier transaction processing');
 				}
 			break;
 	/*************************************************************************************************************/
@@ -373,7 +380,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 					{
 						//Alolocate payment against an invoice
 						$counterparty_arr = get_trans_counterparty( $deposit_id, $trans_type );
-						update_transactions($tid, $_cids, $status=1, $deposit_id, $trans_type, false, true,  "CU", $partnerId);
+						update_transactions($tid, $_cids, $status=BI_STATUS_PROCESSED, $deposit_id, $trans_type, false, true,  "CU", $partnerId);
 //We want to update fa_trans_type, fa_trans_no, account/accountName, status, matchinfo, matched/created, g_partner
 						update_partner_data($partnerId, PT_CUSTOMER, $_POST["partnerDetailId_$k"], $trz['memo']);
 						update_partner_data($partnerId, $trans_type, $_POST["partnerDetailId_$k"], $trz['memo']);
@@ -385,7 +392,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 						//No allocation - only record (above) the payment
 					}
 			}
-			catch( Exception $e )
+			catch( \Throwable $e )
 			{
 				ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'customer payment processing');
 			}
@@ -428,7 +435,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 				//GL_BANK PERSON_ID is the index of which QE was seleteded.  totamount is the master dollar amount.
 					$qe_memo = $_POST['comment_' . $tid] . " A:" . $our_account['bank_account_name'] . ":" . $trz['account_name'] . " M:" . $trz['account'] . ":" . $trz['transactionTitle'] . ": " . $trz['transactionCode'];
 					$rval = qe_to_cart($cart, $partnerId, $trz['transactionAmount'], ($trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
-				} catch( Exception $e )
+				} catch( \Throwable $e )
 				{
 					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'qe_to_cart');
 				}
@@ -454,7 +461,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 							//$cart->reference, $trz['transactionTitle'], true, null);
 	
 					$counterparty_arr = get_trans_counterparty( $trans[1], $trans_type );
-					update_transactions($tid, $_cids, $status=1, $trans[1], $trans_type, false, true, "QE", $partnerId );
+					update_transactions($tid, $_cids, $status=BI_STATUS_PROCESSED, $trans[1], $trans_type, false, true, "QE", $partnerId );
 					commit_transaction();
 					//Don't want this preventing the commit!
 					set_bank_partner_data( $our_account['id'], $trans_type, $partnerId, $trz['transactionTitle'] );
@@ -518,9 +525,9 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 						$bttrf->set( "memo_", $_POST['comment_' . $tid] . " :: " . $trz['transactionTitle'] . "::" . $trz['transactionCode'] . "::" . $trz['memo'] );
 						$bttrf->set( "target_amount", $trz['transactionAmount'] );
 					}
-					catch( Exception $e )
+					catch( \Throwable $e )
 					{
-						//display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
+						ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bank transfer setup');
 						break;
 					}
 					try
@@ -528,8 +535,9 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 						$bttrf->getNextRef();
 						//$bttrf->trans_date_in_fiscal_year();
 					}
-					catch( Exception $e )
+					catch( \Throwable $e )
 					{
+						ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bank transfer getNextRef');
 						break;
 					}
 					begin_transaction();
@@ -538,7 +546,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 					$counterparty_arr = get_trans_counterparty( $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ) );
 					$trans_no = $bttrf->get( "trans_no" );
 					$trans_type = $bttrf->get( "trans_type" );
-					update_transactions( $tid, $_cids, $status=1, $trans_no, $trans_type, false, true,  "BT", $partnerId );
+					update_transactions( $tid, $_cids, $status=BI_STATUS_PROCESSED, $trans_no, $trans_type, false, true,  "BT", $partnerId );
 					//update_transactions( $tid, $_cids, $status=1, $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ), false, true );
 
 					set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $trz['memo'] );	//Short Form
@@ -560,7 +568,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 				}
 				$counterparty_arr = get_trans_counterparty( $_POST['Existing_Entry'], $_POST['Existing_Type'] );
 					display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-				update_transactions($tid, $_cids, $status=1, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
+				update_transactions($tid, $_cids, $status=BI_STATUS_PROCESSED, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
 				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
 				set_partner_data( $counterparty_arr['person_type'], $_POST['Existing_Type'], $counterparty_arr['person_type_id'], $trz['memo'] );	//Short Form
 				display_notification("Transaction was manually settled " . print_r( $_POST['Existing_Type'], true ) . ":" . print_r( $_POST['Existing_Entry'], true ) );
@@ -616,7 +624,7 @@ echo __FILE__ . "::" . __LINE__ . "<br />";
 					}
 				}
 					//display_notification(__FILE__ . "::" . __LINE__  );
-					update_transactions( $tid, $_cids, $status=1, $_POST["trans_no_$tid"], $_POST["trans_type_$tid"], true, false,  "ZZ", $partnerId );
+					update_transactions( $tid, $_cids, $status=BI_STATUS_PROCESSED, $_POST["trans_no_$tid"], $_POST["trans_type_$tid"], true, false,  "ZZ", $partnerId );
 					//display_notification(__FILE__ . "::" . __LINE__  );
 					display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$tid"] . "::" . $_POST["trans_no_$tid"] . "::" . "<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$tid"] . "&trans_no=" . $_POST["trans_no_$tid"] . "'>View Entry</a>");
 					if( $_POST["trans_no_$tid"] == 12 )

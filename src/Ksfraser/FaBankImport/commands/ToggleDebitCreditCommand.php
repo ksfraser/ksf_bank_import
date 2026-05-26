@@ -62,7 +62,7 @@ class ToggleDebitCreditCommand implements CommandInterface
                     'new_dc' => $result['new_dc'] ?? null,
                     'old_dc' => $result['old_dc'] ?? null
                 ];
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $errors[] = [
                     'transaction_id' => $transactionId,
                     'error' => $e->getMessage()

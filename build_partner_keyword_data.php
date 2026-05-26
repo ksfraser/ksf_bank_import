@@ -26,6 +26,10 @@ include_once($path_to_root . "/includes/ui.inc");
 include_once($path_to_root . "/includes/banking.inc");
 include_once($path_to_root . "/modules/ksf_bank_import/includes/pdata.inc");
 
+if (!defined('BI_STATUS_PROCESSED')) {
+    define('BI_STATUS_PROCESSED', 1);
+}
+
 page(_($help_context = "Build Partner Keyword Data"));
 
 /**
@@ -204,7 +208,7 @@ function process_all_transactions($dry_run = false) {
     $sql = "SELECT * FROM " . TB_PREF . "bi_transactions 
             WHERE fa_trans_no > 0 
             AND fa_trans_type > 0
-            AND status = 1
+            AND status = " . db_escape(BI_STATUS_PROCESSED) . "
             ORDER BY id";
     
     $result = db_query($sql, "Could not get transactions");
@@ -344,7 +348,7 @@ if ($action == 'dry_run') {
         echo "</ul>";
         echo "</div>";
         
-    } catch (Exception $e) {
+    } catch (\Throwable $e) {
         rollback_transaction();
         display_error("Error during processing: " . $e->getMessage());
     }
@@ -355,7 +359,7 @@ if ($action == 'dry_run') {
     
     // Show current stats
     $trans_count_sql = "SELECT COUNT(*) as cnt FROM " . TB_PREF . "bi_transactions 
-                        WHERE fa_trans_no > 0 AND fa_trans_type > 0 AND status = 1";
+                        WHERE fa_trans_no > 0 AND fa_trans_type > 0 AND status = " . db_escape(BI_STATUS_PROCESSED);
     $trans_result = db_query($trans_count_sql, "Could not count transactions");
     $trans_count = db_fetch($trans_result)['cnt'];
     

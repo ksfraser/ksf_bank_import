@@ -108,7 +108,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
         // Extract partner ID (used for tracking)
         try {
             $partnerId = $this->extractPartnerId($transactionPostData);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Partner ID is optional for matched transactions
             $partnerId = 0;
         }
@@ -150,7 +150,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
         // Get counterparty information from the matched entry
         try {
             $counterpartyArr = get_trans_counterparty($transNo, $transType);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Failed to get counterparty information: ' . $e->getMessage()
             );
@@ -189,7 +189,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
             update_transactions(
                 $transactionId,
                 $collectionIds,
-                1, // status = processed
+                self::STATUS_PROCESSED, // status = processed
                 $transNo,
                 $transType,
                 true, // matched flag
@@ -197,7 +197,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
                 "ZZ",
                 $partnerId
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Failed to update transaction: ' . $e->getMessage()
             );
@@ -208,7 +208,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
             if (!empty($personType) && $personTypeId > 0) {
                 set_partner_data($personType, $transType, $personTypeId, $memo);
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Non-critical error, continue processing
             // Partner data update is optional
         }

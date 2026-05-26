@@ -170,7 +170,7 @@ class MatchingAPI
                 keywords: [],
                 reason: $failureReason
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $report = MatchingReport::failed(
                 transactionId: $request->getTransactionId(),
                 reason: "Matching error: {$e->getMessage()}"
