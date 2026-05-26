@@ -285,7 +285,9 @@ class bank_import_controller extends origin
 		$chgs = array();
 		$charge = 0;
 		//display_notification("tid=$this->tid, cids=`".$_POST['cids'][$tid]."`");
-		$_cids = array_filter(explode(',', $_POST['cids'][$tid]));
+		$_cids = isset($_POST['cids'][$tid])
+			? array_filter(explode(',', $_POST['cids'][$tid]))
+			: array();
 		//display_notification("cids_array=".print_r($_cids,true));
 
 		foreach($_cids as $cid) {
