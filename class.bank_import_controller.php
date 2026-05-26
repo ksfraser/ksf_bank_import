@@ -430,7 +430,7 @@ function extract_memo_fingerprint($memo)
 	{
 		$this->cCart = new items_cart($this->transType);
 		$this->cCart->order_id = 0;
-		$this->cCart->original_amount = $this->trz['transactionAmount'] + $charge;
+		$this->cCart->original_amount = $this->trz['transactionAmount'] + $this->charge;
 		$reference = $this->getNewRef( $this->transType );
 		$this->cCart->tran_date = sql2date($this->trz['valueTimestamp']);
 		/** date of cart should be date of transaction
@@ -743,7 +743,7 @@ function extract_memo_fingerprint($memo)
 						//      Auto match Vendor (from CC data) to Suppliers.
 						//	      Auto Create a supplier if doesn't exist
 						//		      We get name, address, etc from CC statements.
-					case ( $partnerType == 'SP' ):
+					case ( $_POST['partnerType'][$this->tid] == 'SP' ):
 						$this->processSupplierTransaction();
 					break;
 			/*************************************************************************************************************/
@@ -751,7 +751,7 @@ function extract_memo_fingerprint($memo)
 						//      Match customers to records
 						//	      i.e. E-Transfer from XXYYY (CIBC statements)
 					case ($_POST['partnerType'][$this->tid] == 'CU' && $this->trz['transactionDC'] == 'C'):
-						$this->processCustomer();
+						$this->processCustomerPayment();
 					break;
 			/*************************************************************************************************************/
 					case ($_POST['partnerType'][$this->tid] == 'QE'):
@@ -780,15 +780,17 @@ function extract_memo_fingerprint($memo)
 							$this->cCart->add_gl_item(get_company_pref('bank_charge_act'), 0, 0, $this->charge, 'Charge/'.$this->trz['transactionTitle']);
 							//process the transaction
 							begin_transaction();
+							try
+							{
 		
-							$trans = write_bank_transaction(
-								$this->cCart->trans_type, $this->cCart->order_id, $this->our_account['id'],
-								$this->cCart, sql2date($this->trz['valueTimestamp']),
-									PT_QUICKENTRY, $this->partnerId, 0,
-									$this->cCart->reference, $qe_memo, true, null);
-									//$this->cCart->reference, $this->trz['transactionTitle'], true, null);
+								$trans = write_bank_transaction(
+									$this->cCart->trans_type, $this->cCart->order_id, $this->our_account['id'],
+									$this->cCart, sql2date($this->trz['valueTimestamp']),
+										PT_QUICKENTRY, $this->partnerId, 0,
+										$this->cCart->reference, $qe_memo, true, null);
+										//$this->cCart->reference, $this->trz['transactionTitle'], true, null);
 		
-							$counterparty_arr = get_trans_counterparty( $trans[1], $this->transType );
+								$counterparty_arr = get_trans_counterparty( $trans[1], $this->transType );
 							//display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 						/***
 							Array (	 [0] =>
@@ -816,17 +818,24 @@ function extract_memo_fingerprint($memo)
 								//partnerID in this case is the QE index.
 							set_bank_partner_data( $this->our_account['id'], $this->transType, $this->partnerId, $this->trz['transactionTitle'] );
 						***/
-							update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $trans[1], $this->transType, false, true, "QE", $this->partnerId );
-							commit_transaction();
-							//Don't want this preventing the commit!
-							set_bank_partner_data( $this->our_account['id'], $this->transType, $this->partnerId, $this->trz['transactionTitle'] );
-							//ST_BANKPAYMENT or ST_BANKDEPOSIT
+								update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $trans[1], $this->transType, false, true, "QE", $this->partnerId );
+								commit_transaction();
+								//Don't want this preventing the commit!
+								set_bank_partner_data( $this->our_account['id'], $this->transType, $this->partnerId, $this->trz['transactionTitle'] );
+								//ST_BANKPAYMENT or ST_BANKDEPOSIT
 		
-							//Let User attach a document
-							display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
-							//Let the user view the created transaction
-							//http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
-							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
+								//Let User attach a document
+								display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
+								//Let the user view the created transaction
+								//http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
+								display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
+							}
+							catch( \Throwable $e )
+							{
+								rollback_transaction();
+								ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'quick entry execution');
+								break;
+							}
 		
 		
 							}
@@ -885,19 +894,28 @@ function extract_memo_fingerprint($memo)
 								break;
 							}
 							begin_transaction();
-							//can_process is baked into add_bank_transfer
-							$bttrf->add_bank_transfer();
-							$counterparty_arr = get_trans_counterparty( $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ) );
-								////display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-							$trans_no = $bttrf->get( "trans_no" );
-							$this->transType = $bttrf->get( "trans_type" );
-							update_transactions( $this->tid, $_cids, $status=self::STATUS_PROCESSED, $trans_no, $this->transType, false, true,  "BT", $this->partnerId );
-							//update_transactions( $this->tid, $_cids, $status=1, $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ), false, true );
+							try
+							{
+								//can_process is baked into add_bank_transfer
+								$bttrf->add_bank_transfer();
+								$counterparty_arr = get_trans_counterparty( $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ) );
+									////display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
+								$trans_no = $bttrf->get( "trans_no" );
+								$this->transType = $bttrf->get( "trans_type" );
+								update_transactions( $this->tid, $_cids, $status=self::STATUS_PROCESSED, $trans_no, $this->transType, false, true,  "BT", $this->partnerId );
+								//update_transactions( $this->tid, $_cids, $status=1, $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ), false, true );
 		
-							set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $this->trz['memo'] );   //Short Form
+								set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $this->trz['memo'] );   //Short Form
 										//memo/transactionTitle holds the reference number, which would be unique :(
-							commit_transaction();
-							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans_no . "'>View Entry</a>" );
+								commit_transaction();
+								display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans_no . "'>View Entry</a>" );
+							}
+							catch( \Throwable $e )
+							{
+								rollback_transaction();
+								ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bank transfer execution');
+								break;
+							}
 						}
 						else
 						{
