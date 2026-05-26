@@ -743,7 +743,13 @@ function extract_memo_fingerprint($memo)
 				: array();
 				//time to gather data about transaction
 				$this->getTransaction($this->tid);
-				$bError = $this->retrieveOurAccount();
+				if (empty($this->trz) || !isset($this->trz['transactionDC'])) {
+					display_error('missing transaction data');
+					$bError = true;
+				}
+				if ( ! $bError ) {
+					$bError = $this->retrieveOurAccount();
+				}
 			if ( ! $bError ) 
 			{
 				$this->charge = $this->sumCharges( $this->tid );
