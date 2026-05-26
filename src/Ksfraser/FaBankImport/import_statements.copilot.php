@@ -104,7 +104,7 @@ function processTransaction($transaction, $statementId)
     display_notification("Processing transaction");
     try {
         $bit = new bi_transactions_model();
-    } catch (Exception $e) {
+    } catch (\Throwable $e) {
         logError("Failed to create bi_transactions_model: " . print_r($e, true));
         display_error("An error occurred while processing the transaction.");
         return null;

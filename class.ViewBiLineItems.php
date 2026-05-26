@@ -97,7 +97,7 @@ class ViewBILineItems
 			$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($label, $content);
 			$fragment->addChild($labelRow);
 
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			// If no matched vendor, build and add the appropriate button element
 			$fragment->addChild( $this->selectAndDisplayButtonElement() );
 		} finally {

@@ -733,7 +733,7 @@ class bi_transactions_model extends generic_fa_interface_model {
 					$ret = $this->arr2obj( $row );
 					//ret is number of fields set.
 				} 
-				catch( Exception $e )
+				catch( \Throwable $e )
 				{
 					\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'arr2obj during trans_exists');
 				}

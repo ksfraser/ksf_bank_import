@@ -38,7 +38,7 @@ require_once(__DIR__ . '/../../../class.bank_import_controller.php');
 
 try {
     $bi_controller = new bank_import_controller();
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     display_error(__LINE__ . "::" . print_r($e, true));
 }
 
@@ -96,7 +96,7 @@ function processTransaction($controller)
                     case ($_POST['partnerType'][$k] == 'SP'):
                         try {
                             $controller->processSupplierTransaction();
-                        } catch (Exception $e) {
+                        } catch (\Throwable $e) {
                             display_error("Error processing supplier transaction: " . print_r($e, true));
                         }
                         break;

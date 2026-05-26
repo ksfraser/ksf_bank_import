@@ -302,7 +302,7 @@ final class BiTransactionService
             try {
                 $this->markAsMatched($id);
                 $results[] = true;
-            } catch (\Exception) {
+            } catch (\Throwable) {
                 $results[] = false;
             }
         }

@@ -92,7 +92,7 @@ final class BiTransactionRepository implements BiTransactionRepositoryInterface
     {
         try {
             return $this->findById($id);
-        } catch (\Exception) {
+        } catch (\Throwable) {
             return null;
         }
     }

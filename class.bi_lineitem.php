@@ -230,7 +230,7 @@ class bi_lineitem extends generic_fa_interface_model
 		try {
 			$this->otherBankAccount = shorten_bankAccount_Names( $trz['accountName'] );
 		}
-		catch( Exception $e )
+		catch( \Throwable $e )
 		{
 			ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'shorten_bankAccount_Names failed');
 			$this->otherBankAccount = $trz['accountName'];
@@ -1001,7 +1001,7 @@ class bi_lineitem extends generic_fa_interface_model
 		
 		try {
 			$strategy->display($partnerType);
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			// Fallback for unknown partner type
 			display_error("Unknown partner type: $partnerType");
 		}
@@ -1056,7 +1056,7 @@ class bi_lineitem extends generic_fa_interface_model
 		try {
 			$integration = new TransactionMatcherIntegration();
 			return $integration->matchTransaction($this, 'unified');
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			// Log error but don't break display
 			error_log('Transaction matching failed: ' . $e->getMessage());
 			return $this->getEmptyMatchResults();
@@ -1078,7 +1078,7 @@ class bi_lineitem extends generic_fa_interface_model
 		try {
 			$integration = new TransactionMatcherIntegration();
 			return $integration->matchTransaction($this, 'supplier');
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			error_log('Supplier matching failed: ' . $e->getMessage());
 			return $this->getEmptyMatchResults();
 		}
@@ -1099,7 +1099,7 @@ class bi_lineitem extends generic_fa_interface_model
 		try {
 			$integration = new TransactionMatcherIntegration();
 			return $integration->matchTransaction($this, 'customer');
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			error_log('Customer matching failed: ' . $e->getMessage());
 			return $this->getEmptyMatchResults();
 		}
@@ -1120,7 +1120,7 @@ class bi_lineitem extends generic_fa_interface_model
 			$results = $this->getTransactionMatches();
 			$integration = new TransactionMatcherIntegration();
 			return $integration->formatResultsForDisplay($results);
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			error_log('Match formatting failed: ' . $e->getMessage());
 			return $this->getEmptyFormattedResults();
 		}
@@ -1149,7 +1149,7 @@ class bi_lineitem extends generic_fa_interface_model
 
 			$integration = new TransactionMatcherIntegration();
 			return $integration->getBestMatchDisplayString($results['best_match']);
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			// Silently fail for display strings
 			return '';
 		}
@@ -1172,7 +1172,7 @@ class bi_lineitem extends generic_fa_interface_model
 		try {
 			$results = $this->getTransactionMatches();
 			return $results['best_match'] !== null && $results['best_match']->meetsThreshold();
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			return false;
 		}
 	}
