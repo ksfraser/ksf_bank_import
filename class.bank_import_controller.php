@@ -6,6 +6,7 @@ require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Support/ExceptionDisplayNoti
 //require_once( 'class.bi_transactions.php' );
 
 use Ksfraser\FaBankImport\Handlers\AddVendor;
+use Ksfraser\FaBankImport\Services\CustomerInvoiceAllocator;
 use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
 use Ksfraser\Exceptions\InvalidDataValueException;
 use Ksfraser\Exceptions\VarNotSetException;
@@ -624,6 +625,12 @@ function extract_memo_fingerprint($memo)
 	function processCustomerPayment()
 	{
 		$invoiceKey = "Invoice_{$this->tid}";
+		$paymentDate = sql2date($this->trz['valueTimestamp']);
+		$paymentAmount = user_numeric($this->trz['transactionAmount']);
+		$invoiceAllocations = array();
+		$_cids = isset($_POST['cids'][$this->tid])
+			? array_filter(explode(',', $_POST['cids'][$this->tid]))
+			: array();
 		display_notification( __FILE__ . "::" . __LINE__ . "Index passed in (processTransaction from post): " . $this->tid );
 		display_notification( __FILE__ . "::" . __LINE__ . "Invoice for this Index: " . ($_POST[$invoiceKey] ?? '') );
 		//20240211 Works.  Not sure why BANKDEPOSIT vice CUSTPAYMENT in original module.
@@ -676,13 +683,23 @@ function extract_memo_fingerprint($memo)
 			display_notification("Invoice Number and Deposit Number: $this->invoiceNo :: $deposit_id ");
 			if( $this->invoiceNo )
 			{
-				$counterparty_arr = get_trans_counterparty( $deposit_id, $this->transType );
-				display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-				$fcp = new fa_customer_payment( $this->partnerId );
-				$fcp->set( "trans_date", $valueTimestamp );
-				$fcp->set( "trans_type", $this->transType );
-				$fcp->set( "payment_id", $deposit_id );
-				$fcp->write_allocation();
+				$invoiceAllocations[] = array(
+					'invoice_no' => (int) $this->invoiceNo,
+					'amount' => $paymentAmount,
+				);
+			}
+			else if ($this->is_etransfer_memo((string)($this->trz['memo'] ?? $this->trz['transactionTitle'] ?? '')))
+			{
+				$invoiceAllocations = $this->resolveCustomerInvoiceAllocations($this->partnerId, $paymentDate, $paymentAmount);
+				if (!empty($invoiceAllocations)) {
+					$this->invoiceNo = implode(', ', array_map(function ($allocation) {
+						return (string) $allocation['invoice_no'];
+					}, $invoiceAllocations));
+				}
+			}
+			if (!empty($invoiceAllocations))
+			{
+				$this->applyCustomerInvoiceAllocations($deposit_id, $invoiceAllocations, $paymentDate);
 			}
 			update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $deposit_id, $this->transType, false, true,  "CU", $this->partnerId);
 			//We want to update fa_trans_type, fa_trans_no, account/accountName, status, matchinfo, matched/created, g_partner
@@ -690,9 +707,62 @@ function extract_memo_fingerprint($memo)
 			if( $this->transType !== PT_CUSTOMER )
 				update_partner_data($this->partnerId, PT_CUSTOMER, $this->custBranch, $this->trz['memo']);
 			$this->persist_memo_type_decision(PT_CUSTOMER, $this->custBranch);
-			display_notification('Customer Payment/Deposit processed');
+			display_notification(!empty($invoiceAllocations)
+				? 'Customer Payment/Deposit processed and auto-allocated'
+				: 'Customer Payment/Deposit processed');
 			display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
 		}
+	}
+
+	private function resolveCustomerInvoiceAllocations($partnerId, $paymentDate, $paymentAmount)
+	{
+		$sql = "SELECT trans_no, tran_date, ov_amount, alloc
+				FROM " . TB_PREF . "debtor_trans
+				WHERE type = " . ST_SALESINVOICE . "
+				  AND debtor_no = " . db_escape($partnerId) . "
+				  AND tran_date <= " . db_escape($paymentDate) . "
+				ORDER BY tran_date DESC, trans_no DESC";
+
+		$result = db_query($sql, 'Could not load customer invoices for allocation');
+		$invoices = array();
+		while ($row = db_fetch_assoc($result)) {
+			$outstanding = (float)($row['ov_amount'] ?? 0) - (float)($row['alloc'] ?? 0);
+			if ($outstanding <= 0) {
+				continue;
+			}
+			$invoices[] = array(
+				'invoice_no' => (int)($row['trans_no'] ?? 0),
+				'tran_date' => (string)($row['tran_date'] ?? ''),
+				'amount' => $outstanding,
+			);
+		}
+
+		$allocator = new CustomerInvoiceAllocator();
+		return $allocator->resolveAllocations($invoices, (float)$paymentAmount, (string)$paymentDate);
+	}
+
+	private function applyCustomerInvoiceAllocations($depositId, array $invoiceAllocations, $paymentDate)
+	{
+		foreach ($invoiceAllocations as $allocation) {
+			$invoiceNo = (int)($allocation['invoice_no'] ?? 0);
+			$amount = (float)($allocation['amount'] ?? 0);
+			if ($invoiceNo <= 0 || $amount <= 0) {
+				continue;
+			}
+
+			add_cust_allocation(
+				$amount,
+				ST_CUSTPAYMENT,
+				$depositId,
+				ST_SALESINVOICE,
+				$invoiceNo,
+				$this->partnerId,
+				sql2date($paymentDate)
+			);
+			update_debtor_trans_allocation(ST_SALESINVOICE, $invoiceNo, $this->partnerId);
+		}
+
+		update_debtor_trans_allocation(ST_CUSTPAYMENT, $depositId, $this->partnerId);
 	}
 	/**//**
 	* search for bank account info
