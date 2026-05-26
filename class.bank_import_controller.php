@@ -100,13 +100,16 @@ class bank_import_controller extends origin
 	*****************************************************/
 	function extractPost()
 	{
+		global $Ajax;
 		$bi_t = new bi_transaction();
 //20241208
 		$bPartnerIdSet = $bi_t->set( "extractPost",  $this->tid );	//Get details from _POST for this transaction
 		//check params
 		if( ! $bPartnerIdSet )
 		{
-			$Ajax->activate('doc_tbl');
+			if (isset($Ajax) && is_object($Ajax)) {
+				$Ajax->activate('doc_tbl');
+			}
 			display_error('missing partnerId');
 			return true;
 		}
