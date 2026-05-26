@@ -583,7 +583,7 @@ function extract_memo_fingerprint($memo)
 			//	add_audit_trail
 			//	add_comments
 			//	../../gl/includes/db/gl_db_banking.inc
-			$payment_id = write_bank_transaction( $this->cCart->trans_type, $this->cCart->order_id, $our_account['id'], $this->cCart, sql2date( $this->trz['valueTimestamp'] ), $this->partnerType, $this->partnerId,
+			$payment_id = write_bank_transaction( $this->cCart->trans_type, $this->cCart->order_id, $this->our_account['id'], $this->cCart, sql2date( $this->trz['valueTimestamp'] ), $this->partnerType, $this->partnerId,
 								ANY_NUMERIC, $this->cCart->reference, $this->trz['transactionTitle'], true, number_format2(abs( $this->cCart->gl_items_total() ) ));
 
 			//update trans with payment_id details
@@ -768,7 +768,7 @@ function extract_memo_fingerprint($memo)
 		
 							//function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 							$qe_memo = "A:" . $this->our_account['bank_account_name'] . ":" . $this->trz['account_name'] . " M:" . $this->trz['account'] . ":" . $this->trz['transactionTitle'] . ": " . $this->trz['transactionCode'];
-							$rval = qe_to_cart($cart, $this->partnerId, $this->trz['transactionAmount'], ($this->trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
+							$rval = qe_to_cart($this->cCart, $this->partnerId, $this->trz['transactionAmount'], ($this->trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
 						} catch( \Throwable $e )
 						{
 							ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'qe_to_cart');
