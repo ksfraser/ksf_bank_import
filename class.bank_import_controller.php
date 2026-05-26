@@ -132,16 +132,22 @@ class bank_import_controller extends origin
 	function getTransaction( $id )
 	{
 		$this->trz = GetTransaction::getTransaction( $id );
+		if (!is_array($this->trz)) {
+			$this->trz = array();
+			return $this->trz;
+		}
 		//$this->trz = $this->repository->get_transaction( $id, true );
 			//->trz is array
 			//->repository has values from this ID
 
 		//From processCustomer but should apply everywhere!
-		if( strlen( $this->trz['transactionTitle'] ) < 4 )
+		$transactionTitle = (string)($this->trz['transactionTitle'] ?? '');
+		$memo = (string)($this->trz['memo'] ?? '');
+		if( strlen( $transactionTitle ) < 4 )
 		{
-			if( strlen( $this->trz['memo'] ) > 0 )
+			if( strlen( $memo ) > 0 )
 			{
-				$this->trz['transactionTitle'] .= " : " . $this->trz['memo'];
+				$this->trz['transactionTitle'] = $transactionTitle . " : " . $memo;
 			}
 		}
 		//for backward compatibility
