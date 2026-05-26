@@ -159,7 +159,7 @@ class bank_import_controller extends origin
 				//value is "Unset Transaction"
 				$cids = array();	//Need to figure out if there are related IDs being passed in too in the _POST
 				$this->repository->reset_transactions($key, $cids, 0, 0 );
-				display_notification( "Disassociated $unset from $id"  );
+				display_notification( "Disassociated transaction id $key"  );
 			}
 		}
 	}
