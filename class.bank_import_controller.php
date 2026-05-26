@@ -717,8 +717,14 @@ function extract_memo_fingerprint($memo)
 		}
 		//display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
 
-		//20240208 EACH is depreciated.  Should rewrite with foreach
-		list($this->tid, $v) = each($_POST['ProcessTransaction']);      //K is index.  V is "process/..."
+		// Extract first selected transaction without using deprecated each().
+		$this->tid = null;
+		$v = null;
+		foreach ($_POST['ProcessTransaction'] as $tid => $value) {
+			$this->tid = $tid;
+			$v = $value;
+			break;
+		}
 		if(isset($this->tid) && isset($v) && isset($_POST['partnerType'][$this->tid]))
 		{
 			$error = 0;
