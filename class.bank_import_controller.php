@@ -547,9 +547,6 @@ function extract_memo_fingerprint($memo)
 			$this->cCart->reference = $reference = $this->getNewRef( $this->transType );
 			//display_notification("Reference = $reference");
 
-			while (count($args) < 10) $args[] = 0;
-			$args = (object)array_combine( array( 'trans_no', 'supplier_id', 'bank_account', 'date_', 'ref', 'bank_amount', 'supp_amount', 'supp_discount', 'memo_', 'bank_charge'), $args);
-
 		/* */
 			//$supplier_accounts = get_supplier_accounts($this->partnerId);
 			$supplier_accounts = get_supplier($this->partnerId);  //Does this give us the dimensions?
@@ -615,8 +612,9 @@ function extract_memo_fingerprint($memo)
 	*************/
 	function processCustomerPayment()
 	{
+		$invoiceKey = "Invoice_{$this->tid}";
 		display_notification( __FILE__ . "::" . __LINE__ . "Index passed in (processTransaction from post): " . $this->tid );
-		display_notification( __FILE__ . "::" . __LINE__ . "Invoice for this Index: " . $_POST['Invoice_$this->tid'] );
+		display_notification( __FILE__ . "::" . __LINE__ . "Invoice for this Index: " . ($_POST[$invoiceKey] ?? '') );
 		//20240211 Works.  Not sure why BANKDEPOSIT vice CUSTPAYMENT in original module.
 		//$this->transType = ST_BANKDEPOSIT;
 		$this->transType = ST_CUSTPAYMENT;
@@ -729,6 +727,9 @@ function extract_memo_fingerprint($memo)
 		{
 			$error = 0;
 			$bError = $this->extractPost();
+			$_cids = isset($_POST['cids'][$this->tid])
+				? array_filter(explode(',', $_POST['cids'][$this->tid]))
+				: array();
 				//time to gather data about transaction
 				$this->getTransaction($this->tid);
 				$bError = $this->retrieveOurAccount();
