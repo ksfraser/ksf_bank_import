@@ -326,11 +326,39 @@ class bi_lineitem extends generic_fa_interface_model
 	**********************************************************************/
 	function getBankAccountDetails()
 	{
-		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php' );
-		$b = new BankAccountByNumber( $this->our_account );
-		$this->ourBankDetails =	$b->getBankDetails();
-		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];
-		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
+		// Decoupled (refactor-psr): provider injected or null-object fallback
+		// instead of hard-requiring ksf_modules_common models.
+		if ( isset( $this->bank_account_details_provider )
+			&& $this->bank_account_details_provider instanceof \Ksfraser\FaBankImport\Models\BankAccountDetailsProviderInterface )
+		{
+			$details = $this->bank_account_details_provider->getByNumber( (string) $this->our_account );
+		}
+		else
+		{
+			if ( !isset( $this->ourBankDetails ) || !is_array( $this->ourBankDetails ) )
+			{
+				$this->ourBankDetails = array(
+					'account_code' => '',
+					'bank_account_name' => '',
+				);
+			}
+			$details = $this->ourBankDetails;
+		}
+		$this->ourBankDetails = is_array( $details ) ? $details : array();
+		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'] ?? '';
+		$this->ourBankAccountCode = $this->ourBankDetails['account_code'] ?? '';
+	}
+
+	/**
+	 * Inject a bank account details provider (decouples from ksf_modules_common).
+	 *
+	 * @param \Ksfraser\FaBankImport\Models\BankAccountDetailsProviderInterface $provider Provider.
+	 * @return self Fluent interface.
+	 */
+	public function setBankAccountDetailsProvider( \Ksfraser\FaBankImport\Models\BankAccountDetailsProviderInterface $provider ): self
+	{
+		$this->bank_account_details_provider = $provider;
+		return $this;
 	}
 	/**//*****************************************************************
 	* Display as a row
