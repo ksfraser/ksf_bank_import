@@ -22,8 +22,21 @@ $path_to_root = "../..";
  * build_write_properties_array
  * */
 
-require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
-require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+// Legacy module-common dependencies are optional outside a FrontAccounting
+// install; the test bootstrap provides compat stubs when absent.
+// KSF_TEST_COMPAT is set by tests/bootstrap.php until this class is
+// decoupled from the generic_fa_interface hierarchy (refactor-psr).
+if ( !defined( 'KSF_TEST_COMPAT' ) )
+{
+	if ( file_exists( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' ) )
+	{
+		require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
+	}
+	if ( file_exists( __DIR__ . '/../ksf_modules_common/defines.inc.php' ) )
+	{
+		require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+	}
+}
 
 $viewsDir = is_dir(__DIR__ . '/Views') ? __DIR__ . '/Views' : __DIR__ . '/views';
 
@@ -100,7 +113,7 @@ use Ksfraser\FaBankImport\models\BankAccountByNumber;
 require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
 use Ksfraser\FaBankImport\models\MatchingJEs;
 
-require_once( __DIR__ . '/Views/LineitemDisplayLeft.php' );
+require_once( $viewsDir . '/LineitemDisplayLeft.php' );
 
 /**//**************************************************************************************************************
 * A class to handle displaying the line item of a statement. 
@@ -959,7 +972,8 @@ class bi_lineitem extends generic_fa_interface_model
 	function displayPartnerType()
 	{
 		// Use Strategy pattern instead of switch statement
-		require_once( __DIR__ . '/Views/PartnerTypeDisplayStrategy.php' );
+		$viewsDir = is_dir( __DIR__ . '/Views' ) ? __DIR__ . '/Views' : __DIR__ . '/views';
+		require_once( $viewsDir . '/PartnerTypeDisplayStrategy.php' );
 		
 		// Prepare data array for Strategy
 		$data = [

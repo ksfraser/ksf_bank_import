@@ -50,6 +50,26 @@ GitHub issues #19-#41 (bugs) and #1-#9, #13, #17, #23, #29, #32-#34, #42
 (feature requests) on ksfraser/ksf_bank_import. Bug fixes land on this
 branch only after their characterization/regression tests exist.
 
+## Session progress log
+
+### 2026-08-22 (session 1)
+- HTML category (1) RESOLVED: Elements/Buttons + Elements/Form/Input canonical
+  namespaces with Composites shims; tests/HTML suite wired in (49 green);
+  new input types TDD'd (text/radio/checkbox); 2 latent missing-import bugs fixed.
+- Category 2 PARTIAL: KSF_TEST_COMPAT layer in tests/bootstrap.php
+  (fa_stubs.php + inert generic_fa_interface_model stub + guarded legacy
+  requires). bi_lineitem now LOADS and constructs under PHPUnit.
+- PRODUCTION BUGS FIXED in class.bi_lineitem.php: two hardcoded
+  `__DIR__ . '/Views/'` requires (lines ~116, ~975) that fatal on Linux
+  (case-sensitive FS) — now use $viewsDir; displayPartnerType() recomputes
+  $viewsDir locally since file-scope vars are not in function scope.
+- Suite: 170E -> 143E, assertions 3184 -> 3200. Failures 84 -> 88 (display
+  characterization tests now RUN and fail on deeper ksf_modules_common deps).
+- Remaining category-2 work IS the decoupling refactor: bi_lineitem call
+  chain pulls ksf_modules_common models (BankAccountByNumber etc.). Next:
+  extract a BankAccountResolver interface + FA-backed implementation so
+  bi_lineitem stops requiring module-common files.
+
 ## Plan
 
 1. Fix categories 1-7 above (test-infra first, then namespace moves WITH

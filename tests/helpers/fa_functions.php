@@ -24,10 +24,12 @@ $_test_company_prefs = [];
  * @param string $name Preference name
  * @return mixed Preference value or null
  */
+if (!function_exists('get_company_pref')) {
 function get_company_pref($name)
 {
     global $_test_company_prefs;
     return $_test_company_prefs[$name] ?? null;
+}
 }
 
 /**
@@ -37,10 +39,12 @@ function get_company_pref($name)
  * @param mixed $value Preference value
  * @return void
  */
+if (!function_exists('set_company_pref')) {
 function set_company_pref($name, $value)
 {
     global $_test_company_prefs;
     $_test_company_prefs[$name] = $value;
+}
 }
 
 /**
@@ -49,9 +53,11 @@ function set_company_pref($name, $value)
  * @param string $value Value to escape
  * @return string Escaped value
  */
+if (!function_exists('db_escape')) {
 function db_escape($value)
 {
     return "'" . addslashes($value) . "'";
+}
 }
 
 /**
@@ -61,10 +67,12 @@ function db_escape($value)
  * @param string $error_msg Error message
  * @return array Result array
  */
+if (!function_exists('db_query')) {
 function db_query($sql, $error_msg = '')
 {
     // Mock result for account existence check
     return ['count' => 1];
+}
 }
 
 /**
@@ -73,9 +81,11 @@ function db_query($sql, $error_msg = '')
  * @param mixed $result Query result
  * @return array Row array
  */
+if (!function_exists('db_fetch')) {
 function db_fetch($result)
 {
     return $result;
+}
 }
 
 /**
@@ -84,9 +94,11 @@ function db_fetch($result)
  * @param mixed $result Query result
  * @return int Number of rows
  */
+if (!function_exists('db_num_rows')) {
 function db_num_rows($result)
 {
     return is_array($result) && isset($result['count']) ? (int)$result['count'] : 10;
+}
 }
 
 /**
@@ -96,9 +108,11 @@ function db_num_rows($result)
  * @param int $transType Transaction type
  * @return bool Always returns true in tests
  */
+if (!function_exists('is_new_reference')) {
 function is_new_reference($reference, $transType)
 {
     return true;
+}
 }
 
 /**
@@ -107,9 +121,11 @@ function is_new_reference($reference, $transType)
  * @param string $date Date string
  * @return string First day of month
  */
+if (!function_exists('begin_month')) {
 function begin_month($date)
 {
     return date('Y-m-01', strtotime($date));
+}
 }
 
 /**
@@ -118,9 +134,11 @@ function begin_month($date)
  * @param string $date Date string
  * @return string Last day of month
  */
+if (!function_exists('end_month')) {
 function end_month($date)
 {
     return date('Y-m-t', strtotime($date));
+}
 }
 
 /**
@@ -128,9 +146,11 @@ function end_month($date)
  *
  * @return string Today's date in Y-m-d format
  */
+if (!function_exists('Today')) {
 function Today()
 {
     return date('Y-m-d');
+}
 }
 
 /**
