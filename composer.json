@@ -15,7 +15,17 @@
             "Ksfraser\\Model\\": "src/Ksfraser/Model/",
             "Ksfraser\\View\\": "src/Ksfraser/View/",
             "KsfBankImport\\Services\\": "Services/",
-            "KsfBankImport\\OperationTypes\\": "OperationTypes/"
+            "KsfBankImport\\OperationTypes\\": "OperationTypes/",
+            "Ksfraser\\FaBankImport\\Handlers\\": "src/Ksfraser/FaBankImport/handlers/",
+            "Ksfraser\\FaBankImport\\Services\\": "src/Ksfraser/FaBankImport/services/",
+            "Ksfraser\\FaBankImport\\Config\\": "src/Ksfraser/FaBankImport/config/",
+            "Ksfraser\\FaBankImport\\Database\\": "src/Ksfraser/FaBankImport/database/",
+            "Ksfraser\\FaBankImport\\Commands\\": "src/Ksfraser/FaBankImport/commands/",
+            "Ksfraser\\FaBankImport\\Http\\": "src/Ksfraser/FaBankImport/http/",
+            "Ksfraser\\FaBankImport\\Exceptions\\": "src/Ksfraser/FaBankImport/exceptions/",
+            "Ksfraser\\FaBankImport\\Repositories\\": "src/Ksfraser/FaBankImport/repositories/",
+            "Ksfraser\\FaBankImport\\Factories\\": "src/Ksfraser/FaBankImport/factories/",
+            "Ksfraser\\Application\\Middleware\\": "src/Ksfraser/Application/middleware/"
         }
     },
     "autoload-dev": {
@@ -39,10 +49,10 @@
         "test": "phpunit",
         "test-file": "phpunit",
         "post-install-cmd": [
-            "@php -r \"echo '\\n✅ Dependencies installed successfully!\\n\\n';\""
+            "@php -r \"echo '\\n\u2705 Dependencies installed successfully!\\n\\n';\""
         ],
         "post-update-cmd": [
-            "@php -r \"echo '\\n✅ Dependencies updated successfully!\\n\\n';\""
+            "@php -r \"echo '\\n\u2705 Dependencies updated successfully!\\n\\n';\""
         ]
     },
     "config": {
