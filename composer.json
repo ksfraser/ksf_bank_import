@@ -25,7 +25,9 @@
             "Ksfraser\\FaBankImport\\Exceptions\\": "src/Ksfraser/FaBankImport/exceptions/",
             "Ksfraser\\FaBankImport\\Repositories\\": "src/Ksfraser/FaBankImport/repositories/",
             "Ksfraser\\FaBankImport\\Factories\\": "src/Ksfraser/FaBankImport/factories/",
-            "Ksfraser\\Application\\Middleware\\": "src/Ksfraser/Application/middleware/"
+            "Ksfraser\\Application\\Middleware\\": "src/Ksfraser/Application/middleware/",
+            "Ksfraser\\HTML\\Elements\\Buttons\\": "src/Ksfraser/HTML/Elements/Buttons/",
+            "Ksfraser\\HTML\\Elements\\Form\\Input\\": "src/Ksfraser/HTML/Elements/Form/Input/"
         }
     },
     "autoload-dev": {

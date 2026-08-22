@@ -20,6 +20,9 @@
         <testsuite name="Unit (Legacy)">
             <directory suffix="Test.php">./tests/unit</directory>
         </testsuite>
+        <testsuite name="HTML">
+            <directory suffix="Test.php">./tests/HTML</directory>
+        </testsuite>
         <testsuite name="Integration (Legacy)">
             <directory suffix="Test.php">./tests/integration</directory>
         </testsuite>
