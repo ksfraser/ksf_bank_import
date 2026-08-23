@@ -41,6 +41,12 @@ class ReferenceNumberServiceIntegrationTest extends TestCase
             define('ST_BANKPAYMENT', 2);
         }
         
+        // Integration tests exercise the real FA $Refs global; skip when
+        // running outside a FrontAccounting environment.
+        if (!isset($GLOBALS['Refs']) || $GLOBALS['Refs'] === null) {
+            $this->markTestSkipped('FrontAccounting $Refs global not available (needs FA environment).');
+        }
+
         $this->refService = new ReferenceNumberService();
     }
 
