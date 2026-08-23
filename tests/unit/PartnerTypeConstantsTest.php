@@ -91,9 +91,9 @@ class PartnerTypeConstantsTest extends TestCase
     public function testMatchedConstantIsDefined(): void
     {
         $this->assertSame(
-            'MA',
+            'ZZ',
             PartnerTypeConstants::MATCHED,
-            'MATCHED constant should be "MA"'
+            'MATCHED constant should be "ZZ" (legacy: matched transaction)'
         );
     }
 
@@ -105,9 +105,9 @@ class PartnerTypeConstantsTest extends TestCase
     public function testUnknownConstantIsDefined(): void
     {
         $this->assertSame(
-            'ZZ',
+            'UN',
             PartnerTypeConstants::UNKNOWN,
-            'UNKNOWN constant should be "ZZ"'
+            'UNKNOWN constant should be "UN" (classification-only fallback)'
         );
     }
 
@@ -123,6 +123,7 @@ class PartnerTypeConstantsTest extends TestCase
             PartnerTypeConstants::CUSTOMER,
             PartnerTypeConstants::BANK_TRANSFER,
             PartnerTypeConstants::QUICK_ENTRY,
+            PartnerTypeConstants::MANUAL_SETTLEMENT,
             PartnerTypeConstants::MATCHED,
             PartnerTypeConstants::UNKNOWN,
         ];
@@ -193,13 +194,15 @@ class PartnerTypeConstantsTest extends TestCase
      */
     public function testGetAllReturnsAllConstants(): void
     {
+        // Legacy optypes contract: exactly the 6 dispatchable codes
+        // (UNKNOWN/'UN' is classification-only and excluded).
         $expected = [
-            'SUPPLIER' => 'SP',
-            'CUSTOMER' => 'CU',
-            'BANK_TRANSFER' => 'BT',
-            'QUICK_ENTRY' => 'QE',
-            'MATCHED' => 'MA',
-            'UNKNOWN' => 'ZZ',
+            'SP' => 'Supplier',
+            'CU' => 'Customer',
+            'BT' => 'Bank Transfer',
+            'QE' => 'Quick Entry',
+            'MA' => 'Manual settlement',
+            'ZZ' => 'Matched',
         ];
 
         $this->assertSame(
@@ -271,7 +274,7 @@ class PartnerTypeConstantsTest extends TestCase
         );
 
         $this->assertSame(
-            'Matched Transaction',
+            'Matched',
             PartnerTypeConstants::getLabel(PartnerTypeConstants::MATCHED)
         );
 

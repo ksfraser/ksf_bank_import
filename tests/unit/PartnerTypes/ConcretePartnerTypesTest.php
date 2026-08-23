@@ -105,10 +105,10 @@ class ConcretePartnerTypesTest extends TestCase
     {
         $type = new MatchedPartnerType();
         
-        $this->assertSame('MA', $type->getShortCode());
-        $this->assertSame('Matched Transaction', $type->getLabel());
+        $this->assertSame('ZZ', $type->getShortCode());
+        $this->assertSame('Matched', $type->getLabel());
         $this->assertSame('MATCHED', $type->getConstantName());
-        $this->assertSame(50, $type->getPriority());
+        $this->assertSame(60, $type->getPriority());
         $this->assertNotNull($type->getDescription());
     }
 
@@ -121,7 +121,7 @@ class ConcretePartnerTypesTest extends TestCase
     {
         $type = new UnknownPartnerType();
         
-        $this->assertSame('ZZ', $type->getShortCode());
+        $this->assertSame('UN', $type->getShortCode());
         $this->assertSame('Unknown', $type->getLabel());
         $this->assertSame('UNKNOWN', $type->getConstantName());
         $this->assertSame(999, $type->getPriority());

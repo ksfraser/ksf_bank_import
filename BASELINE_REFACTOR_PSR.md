@@ -83,6 +83,19 @@ branch only after their characterization/regression tests exist.
 - Next slices: same injection pattern for remaining legacy chains surfaced by
   full render (fa_gl display paths); then categories 3-6.
 
+### 2026-08-22 (session 3)
+- Category 1 (Models\\AbstractThirdPartyTransaction, 20 tests) RESOLVED: file
+  renamed to PSR-4 class name (Models/AbstractThirdPartyTransaction.php).
+- Services\\TransactionProcessor (12) RESOLVED: canonical move to Services ns
+  + shim; FIXED latent bug: handler discovery pointed at __DIR__/Handlers
+  (wrong dir AND wrong case) - now ../handlers.
+- HTML drift resolved via aliases: Elements\\HtmlAttribute, bare HTML_ROW_LABEL.
+- PartnerTypes domain decision (Kevin): MA = Manual Settlement, ZZ = Matched
+  are the ONLY live dispatch codes; UNKNOWN ('UN', new UnknownPartnerType) is
+  classification-only, excluded from optype dropdowns via isDispatchable().
+  Test files updated - they had wrongly asserted MA='Matched Transaction'.
+- Suite: 128E -> 111E / 88F.
+
 ## Plan
 
 1. Fix categories 1-7 above (test-infra first, then namespace moves WITH

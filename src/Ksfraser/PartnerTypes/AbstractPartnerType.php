@@ -50,6 +50,20 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
     }
 
     /**
+     * Whether this type is a live dispatch option.
+     *
+     * Dispatchable types appear in optype dropdowns (getAll()) and are
+     * handled by the production case/switch paths. Classification-only
+     * fallbacks override this to false.
+     *
+     * @return bool True by default.
+     */
+    public function isDispatchable(): bool
+    {
+        return true;
+    }
+
+    /**
      * Get optional description for this partner type
      *
      * Default implementation returns null.

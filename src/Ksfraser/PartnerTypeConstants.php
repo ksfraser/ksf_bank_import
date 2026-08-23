@@ -70,6 +70,15 @@ final class PartnerTypeConstants
     public const MATCHED = 'ZZ';
 
     /**
+     * Unknown/unclassified partner type.
+     *
+     * Classification-only fallback registered in PartnerTypeRegistry; no
+     * production case/switch dispatches on this code yet (MA and ZZ are the
+     * two live codes).
+     */
+    public const UNKNOWN = 'UN';
+
+    /**
      * Prevent instantiation of this constants class
      */
     private function __construct()
@@ -93,6 +102,10 @@ final class PartnerTypeConstants
         
         // Build array with short codes as keys and labels as values
         foreach ($registry->getAll() as $type) {
+            // Only live dispatch options belong in optype arrays.
+            if (!$type->isDispatchable()) {
+                continue;
+            }
             $result[$type->getShortCode()] = $type->getLabel();
         }
         
