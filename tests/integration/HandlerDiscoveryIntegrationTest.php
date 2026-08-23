@@ -60,13 +60,14 @@ class HandlerDiscoveryIntegrationTest extends TestCase
             'BankTransferTransactionHandler',
         ];
         
+        // NOTE: basename() does not treat '\' as a separator on Linux,
+        // so normalize namespaces to forward slashes first.
         $discoveredNames = array_map(function($handler) {
-            return basename(get_class($handler));
+            return basename(str_replace('\\', '/', get_class($handler)));
         }, $handlers);
-        
         foreach ($expectedHandlers as $expected) {
             $this->assertContains(
-                $expected, 
+                $expected,
                 $discoveredNames,
                 "Handler {$expected} should be auto-discovered"
             );

@@ -96,6 +96,14 @@ branch only after their characterization/regression tests exist.
   Test files updated - they had wrongly asserted MA='Matched Transaction'.
 - Suite: 128E -> 111E / 88F.
 
+### 2026-08-22 (session 4)
+- PRODUCTION-CLASS PLATFORM BUG #3: tests (and possibly prod code) using
+  basename(get_class()) / basename() over backslash-separated names fail on
+  Linux (backslash not a separator). Fixed in HandlerDiscoveryIntegrationTest;
+  AUDIT remaining basename() usages over class names.
+- TransactionProcessor::getRegisteredHandlers() added (test-facing API drift).
+- Suite: 111E -> 106E.
+
 ## Plan
 
 1. Fix categories 1-7 above (test-infra first, then namespace moves WITH

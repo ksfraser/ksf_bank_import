@@ -334,6 +334,16 @@ class TransactionProcessor
     }
 
     /**
+     * Get all registered handler instances
+     *
+     * @return array<string, TransactionHandlerInterface> Handlers keyed by partner type code.
+     */
+    public function getRegisteredHandlers(): array
+    {
+        return $this->handlers;
+    }
+
+    /**
      * Get a specific handler by partner type
      *
      * @param string $partnerType Partner type code
