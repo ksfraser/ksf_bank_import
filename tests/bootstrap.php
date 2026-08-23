@@ -83,6 +83,15 @@ if (!class_exists('generic_fa_interface_model')) {
         /** @var array Dynamically set properties. */
         public $config_values = array();
 
+        /** @var array Field definitions appended by concrete models' constructors. */
+        public $fields_array = array();
+
+        /** @var array Table metadata (tablename, primarykey, orderby) set by models. */
+        public $table_details = array();
+
+        /** @var string Table prefix used by models when building SQL. */
+        public $company_prefix = '';
+
         /**
          * Tolerant constructor mirroring the legacy signature.
          *
@@ -114,6 +123,34 @@ if (!class_exists('generic_fa_interface_model')) {
         public static function __callStatic($name, $args)
         {
             return null;
+        }
+
+        /**
+         * Magic accessor mirroring the real base class: reads a declared
+         * (or dynamically set) property by name. Optional extra args so
+         * legacy subclasses with wider signatures stay compatible.
+         *
+         * @param string $name Property name.
+         * @return mixed Null when unset.
+         */
+        public function get($name, ...$extra)
+        {
+            return $this->$name;
+        }
+
+        /**
+         * Magic setter mirroring the real base class. Signature matches the
+         * legacy subclasses' override ($field, $value, $enforce).
+         *
+         * @param string $field   Property name.
+         * @param mixed  $value   Value.
+         * @param bool   $enforce Ignored in compat mode.
+         * @return bool True on success.
+         */
+        public function set($field, $value = null, $enforce = true)
+        {
+            $this->$field = $value;
+            return true;
         }
 
         /**

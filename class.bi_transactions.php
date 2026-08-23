@@ -43,8 +43,11 @@ $path_to_root = "../..";
  * This table should not have any views (forms).
  * */
 
-require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
-require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+if ( !defined( 'KSF_TEST_COMPAT' ) )
+{
+	require_once( __DIR__ . '/../ksf_modules_common/class.generic_fa_interface.php' );
+	require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
+}
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.

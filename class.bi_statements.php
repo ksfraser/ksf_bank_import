@@ -30,10 +30,13 @@ $path_to_root = "../..";
 
 //display_notification( __FILE__ . "::" . __LINE__ );
 
-require_once( '../ksf_modules_common/class.generic_fa_interface.php' );
-//display_notification( __FILE__ . "::" . __LINE__ );
-require_once( '../ksf_modules_common/defines.inc.php' );
-//display_notification( __FILE__ . "::" . __LINE__ );
+if ( !defined( 'KSF_TEST_COMPAT' ) )
+{
+	require_once( '../ksf_modules_common/class.generic_fa_interface.php' );
+	//display_notification( __FILE__ . "::" . __LINE__ );
+	require_once( '../ksf_modules_common/defines.inc.php' );
+	//display_notification( __FILE__ . "::" . __LINE__ );
+}
 
 /**//**************************************************************************************************************
 * A DATA class to handle the storage and retrieval of bank records.  STAGE the records before processing into FA.

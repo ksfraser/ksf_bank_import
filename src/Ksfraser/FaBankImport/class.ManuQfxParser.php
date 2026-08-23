@@ -11,8 +11,8 @@
 //	Have a config whether we should match MEMO field i.e. INTERNET TRASFER/PAY/DEPOSIT/...
 //	Have a further config to indicate chunk delimiters.  CIBC uses ";".  Is this standard?
 
-require_once (__DIR__ . '/vendor/autoload.php' );
-include_once( 'includes.inc' );
+require_once (__DIR__ . '/../../../vendor/autoload.php' );
+if ( !defined( 'KSF_TEST_COMPAT' ) ) { include_once( 'includes.inc' ); }
 
 /************************************************
 * Abstract class to parse a QFX/OFX file

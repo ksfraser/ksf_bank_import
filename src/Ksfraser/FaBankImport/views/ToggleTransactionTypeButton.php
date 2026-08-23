@@ -8,21 +8,26 @@ use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
 //require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
 
 
-
 //TODO: Refactor to replace the Submit button with our own class.
 
-class ToggleTransactionTypeButton
+class ToggleTransactionTypeButton implements \Ksfraser\HTML\HtmlElementInterface
 {
 	protected $HTML_LABEL_ROW;
 	function __construct( int $index )
 	{
-		$data = submit("ToggleTransaction[$index]",_("ToggleTransaction"),false, '', 'default');
+		$buttonLabel = new \Ksfraser\HTML\Elements\HtmlString(_("ToggleTransaction"));
+		$submitButton = new \Ksfraser\HTML\Elements\HtmlSubmit($buttonLabel);
+		$submitButton->setName("ToggleTransaction[$index]");
+		$submitButton->setClass("default");
 		$label =  "Toggle Transaction Type Debit/Credit" ;
-		$this->HTML_LABEL_ROW = new HTML_ROW_LABELDecorator(  $data, $label );
-		// label_row("Toggle Transaction Type Debit/Credit", submit("ToggleTransaction[$this->id]",_("ToggleTransaction"),false, '', 'default'));
+		$this->HTML_LABEL_ROW = new HTML_ROW_LABELDecorator(  $submitButton, $label );
 	}
-	function toHTML()
+	function toHtml(): void
 	{
-		$this->HTML_LABEL_ROW->toHTML();
+		$this->HTML_LABEL_ROW->toHtml();
+	}
+	function getHtml(): string
+	{
+		return $this->HTML_LABEL_ROW->getHtml();
 	}
 }

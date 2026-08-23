@@ -750,6 +750,8 @@ function get_vendor_list()
 * @param string the name
 * @returns string shorter form  
 **************************************************/
+if( !function_exists( 'shorten_bankAccount_Names' ) )
+{
 function shorten_bankAccount_Names( $fullname )
 {
 /* */
@@ -794,6 +796,7 @@ function shorten_bankAccount_Names( $fullname )
 	{
 		display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
 	}
+}
 }
 
 /**//***************************************************************

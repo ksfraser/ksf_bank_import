@@ -1,14 +1,13 @@
 <?php
 
-use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
-use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
-
 namespace Ksfraser\FaBankImport;
 
+use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
+use Ksfraser\HTML\Elements\HtmlString;
 
 //TODO: Refactor to replace the Submit button with our own class.
 
-class AddNoButton
+class AddNoButton implements \Ksfraser\HTML\HtmlElementInterface
 {
 	protected $HTML_LABEL_ROW;
 	function __construct( int $index )
@@ -17,8 +16,12 @@ class AddNoButton
 		$label = "Add Button";
 		$this->HTML_LABEL_ROW = new HTML_ROW_LABEL( $data, $label );
 	}
-	function toHTML()
+	function toHtml(): void
 	{
-		$this->HTML_LABEL_ROW->toHTML();
+		$this->HTML_LABEL_ROW->toHtml();
+	}
+	function getHtml(): string
+	{
+		return $this->HTML_LABEL_ROW->getHtml();
 	}
 }
