@@ -83,7 +83,7 @@ class BankTransferPartnerTypeView
      * 
      * @return HtmlFragment HTML fragment containing bank account selection
      */
-    public function getHtml(): HtmlFragment
+    public function getHtml(): string
     {
         // If no partner ID is set, try to match by bank account
         if (!$this->formData->hasPartnerId()) {
@@ -117,7 +117,7 @@ class BankTransferPartnerTypeView
         // Return fragment containing the label row
         $fragment = new HtmlFragment();
         $fragment->addChild($labelRow);
-        return $fragment;
+        return $fragment->getHtml();
     }
     
     /**
@@ -136,9 +136,10 @@ class BankTransferPartnerTypeView
         
         // Build options
         foreach ($bankAccounts as $account) {
+            // FA's 0_bank_accounts column is bank_account_name
             $option = new HtmlOption(
-                $account['id'], 
-                $account['name']
+                $account['id'],
+                $account['bank_account_name'] ?? ($account['name'] ?? '')
             );
             
             if ($account['id'] == $selectedId) {
@@ -156,6 +157,6 @@ class BankTransferPartnerTypeView
      */
     public function display(): void
     {
-        echo $this->getHtml()->toHtml();
+        echo $this->getHtml();
     }
 }

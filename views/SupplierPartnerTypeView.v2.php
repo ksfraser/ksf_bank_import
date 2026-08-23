@@ -83,7 +83,7 @@ class SupplierPartnerTypeView
      * 
      * @since 2.1.0 Returns object instead of string
      */
-    public function getHtml(): HtmlLabelRow
+    public function getHtml(): string
     {
         // If no partner ID is set, try to match by bank account
         $matched_supplier = [];
@@ -102,8 +102,8 @@ class SupplierPartnerTypeView
         // Create label
         $label = new HtmlString(_("Payment To:"));
         
-        // Return composable object
-        return new HtmlLabelRow($label, $select);
+        // Render to string (contract: getHtml() returns string)
+        return (new HtmlLabelRow($label, $select))->getHtml();
     }
     
     /**
@@ -159,6 +159,6 @@ class SupplierPartnerTypeView
      */
     public function display(): void
     {
-        $this->getHtml()->toHtml();
+        echo $this->getHtml();
     }
 }

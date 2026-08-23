@@ -98,7 +98,7 @@ class CustomerPartnerTypeView
      * 
      * @since 2.1.0 Returns HtmlFragment instead of string
      */
-    public function getHtml(): HtmlFragment
+    public function getHtml(): string
     {
         $fragment = new HtmlFragment();
         
@@ -142,8 +142,8 @@ class CustomerPartnerTypeView
         if ($invoicesFragment) {
             $fragment->addChild($invoicesFragment);
         }
-        
-        return $fragment;
+
+        return $fragment->getHtml();
     }
     
     /**
@@ -281,6 +281,6 @@ class CustomerPartnerTypeView
      */
     public function display(): void
     {
-        $this->getHtml()->toHtml();
+        echo $this->getHtml();
     }
 }

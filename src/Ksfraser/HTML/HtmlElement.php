@@ -147,13 +147,15 @@ class HtmlElement implements HtmlElementInterface {
     
     /**
      * Get HTML attributes as string
-     * 
-     * @return string Formatted attribute string
+     *
+     * Empty attribute list renders nothing (no stray whitespace), so tags
+     * come out as <tr> rather than <tr   >.
+     *
+     * @return string Formatted attribute string with leading space, or empty
      */
     protected function getAttributes(): string
     {
-        $html = " ";
-        $html .= $this->attributeList->getHtml() . " ";
-        return $html;
+        $attributes = trim($this->attributeList->getHtml());
+        return $attributes !== '' ? ' ' . $attributes : '';
     }
 }
