@@ -31,6 +31,10 @@ class BiLineItemMatchingTest extends TestCase
         
         // Set a test ID
         $this->lineItem->id = 123;
+
+        // Constructor is disabled on this mock; initialize the form-data
+        // collaborator that getDisplayMatchingTrans() writes through.
+        $this->lineItem->formData = new \Ksfraser\PartnerFormData(123);
     }
 
     protected function tearDown(): void
@@ -298,16 +302,16 @@ class BiLineItemMatchingTest extends TestCase
                 // Already set above
             });
         
-        // Capture hidden() function calls
-        $GLOBALS['hidden_fields'] = [];
-        function hidden($name, $value) {
-            $GLOBALS['hidden_fields'][$name] = $value;
-        }
-        
+        // Refactored code renders via HtmlHidden elements (echoed), so
+        // capture output instead of trapping a legacy hidden() function.
+        ob_start();
         $this->lineItem->getDisplayMatchingTrans();
-        
-        // Verify hidden fields were set
-        $this->assertEquals(ST_SUPPAYMENT, $GLOBALS['hidden_fields']["trans_type_{$this->lineItem->id}"] ?? null);
-        $this->assertEquals(999, $GLOBALS['hidden_fields']["trans_no_{$this->lineItem->id}"] ?? null);
+        $output = ob_get_clean();
+
+        // Verify hidden fields were rendered
+        $this->assertStringContainsString('name="trans_type_' . $this->lineItem->id . '"', $output);
+        $this->assertStringContainsString('value="' . ST_SUPPAYMENT . '"', $output);
+        $this->assertStringContainsString('name="trans_no_' . $this->lineItem->id . '"', $output);
+        $this->assertStringContainsString('value="999"', $output);
     }
 }

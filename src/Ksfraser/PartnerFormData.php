@@ -289,13 +289,11 @@ class PartnerFormData
      */
     public function getPartnerType(): ?string
     {
-        $fieldName = "partnerType[{$this->lineItemId}]";
-        
-        if (!isset($_POST[$fieldName])) {
+        if (!isset($_POST['partnerType'][$this->lineItemId])) {
             return null;
         }
         
-        $value = $_POST[$fieldName];
+        $value = $_POST['partnerType'][$this->lineItemId];
         
         if ($value === '') {
             return null;
@@ -318,12 +316,10 @@ class PartnerFormData
      */
     public function setPartnerType(?string $partnerType): self
     {
-        $fieldName = "partnerType[{$this->lineItemId}]";
-        
         if ($partnerType === null) {
-            unset($_POST[$fieldName]);
+            unset($_POST['partnerType'][$this->lineItemId]);
         } else {
-            $_POST[$fieldName] = $partnerType;
+            $_POST['partnerType'][$this->lineItemId] = $partnerType;
         }
         
         return $this;
@@ -338,8 +334,7 @@ class PartnerFormData
      */
     public function hasPartnerType(): bool
     {
-        $fieldName = "partnerType[{$this->lineItemId}]";
-        
-        return isset($_POST[$fieldName]) && $_POST[$fieldName] !== '';
+        return isset($_POST['partnerType'][$this->lineItemId])
+            && $_POST['partnerType'][$this->lineItemId] !== '';
     }
 }
