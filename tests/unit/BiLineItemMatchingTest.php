@@ -15,10 +15,13 @@ class BiLineItemMatchingTest extends TestCase
 
     protected function setUp(): void
     {
-        // Mock $_POST to avoid undefined index warnings
+        // Mock $_POST to avoid undefined index warnings; also clear any
+        // partnerType state left behind by other tests in the same process
+        // (full-suite runs share the superglobal across test files).
         if (!isset($_POST)) {
             $_POST = [];
         }
+        unset($_POST['partnerType']);
         
         // Include the class file
         require_once __DIR__ . '/../../class.bi_lineitem.php';

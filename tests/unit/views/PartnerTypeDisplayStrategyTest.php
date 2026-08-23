@@ -82,13 +82,14 @@ class PartnerTypeDisplayStrategyTest extends TestCase
         $types = $strategy->getAvailablePartnerTypes();
         
         $this->assertIsArray($types);
-        $this->assertCount(6, $types);
+        $this->assertCount(7, $types);
         $this->assertContains('SP', $types);
         $this->assertContains('CU', $types);
         $this->assertContains('BT', $types);
         $this->assertContains('QE', $types);
         $this->assertContains('MA', $types);
         $this->assertContains('ZZ', $types);
+        $this->assertContains('UN', $types);
     }
     
     /**

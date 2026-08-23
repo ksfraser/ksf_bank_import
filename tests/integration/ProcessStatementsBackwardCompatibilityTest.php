@@ -282,7 +282,7 @@ class ProcessStatementsBackwardCompatibilityTest extends TestCase
             // Verify each partner type has a handler
             foreach ($partner_types as $type) {
                 // Check if handler exists by looking in Handlers directory
-                $handler_files = glob(__DIR__ . '/../../src/Ksfraser/FaBankImport/Handlers/*Handler.php');
+                $handler_files = glob(__DIR__ . '/../../src/Ksfraser/FaBankImport/handlers/*Handler.php');
                 $handler_names = array_map(function($f) { return basename($f, '.php'); }, $handler_files);
                 
                 // Map partner types to expected handler names

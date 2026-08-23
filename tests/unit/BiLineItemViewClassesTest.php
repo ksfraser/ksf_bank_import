@@ -18,6 +18,31 @@ use PHPUnit\Framework\TestCase;
 class BiLineItemViewClassesTest extends TestCase
 {
 	/**
+	 * Minimal transaction data required by bi_lineitem's constructor
+	 */
+	private function makeSampleTransaction(): array
+	{
+		return [
+			'transactionDC' => 'C',
+			'memo' => 'Test Transaction',
+			'our_account' => '12345',
+			'valueTimestamp' => '2025-12-19',
+			'entryTimestamp' => '2025-12-19 10:00:00',
+			'accountName' => 'Other Account',
+			'transactionTitle' => 'Test Transaction',
+			'transactionCode' => 'TC001',
+			'transactionCodeDesc' => 'Test Code',
+			'currency' => 'CAD',
+			'status' => 0,
+			'id' => 123,
+			'fa_trans_type' => 0,
+			'fa_trans_no' => 0,
+			'transactionAmount' => 100.00,
+			'transactionType' => 'TRN'
+		];
+	}
+
+	/**
 	 * Test that getLeftHtml() output contains expected View class content
 	 */
 	public function testGetLeftHtmlUsesViewClasses()
@@ -25,7 +50,7 @@ class BiLineItemViewClassesTest extends TestCase
 		require_once __DIR__ . '/../../class.bi_lineitem.php';
 		
 		// Create test instance with minimal data
-		$lineitem = new \bi_lineitem();
+		$lineitem = new \bi_lineitem($this->makeSampleTransaction());
 		$lineitem->valueTimestamp = '2025-12-19';
 		$lineitem->entryTimestamp = '2025-12-19 10:00:00';
 		$lineitem->transactionTypeLabel = 'Test Type';
@@ -48,25 +73,26 @@ class BiLineItemViewClassesTest extends TestCase
 		$this->assertStringContainsString($lineitem->valueTimestamp, $html,
 			'TransDate View class should render date value');
 		
-		$this->assertStringContainsString('Trans type:', $html,
+		$this->assertStringContainsString('Trans Type:', $html,
 			'TransType View class should render label');
-		$this->assertStringContainsString($lineitem->transactionTypeLabel, $html,
+		// TransType derives its label from transactionDC ('C' => Credit)
+		$this->assertStringContainsString('Credit', $html,
 			'TransType View class should render transaction type');
 		
 		$this->assertStringContainsString('Our Bank Account', $html,
 			'OurBankAccount View class should render label');
 		
-		$this->assertStringContainsString('Other account:', $html,
+		$this->assertStringContainsString('Other Bank Account:', $html,
 			'OtherBankAccount View class should render label');
 		$this->assertStringContainsString($lineitem->otherBankAccountName, $html,
 			'OtherBankAccount View class should render other account name');
 		
-		$this->assertStringContainsString('Amount/Charge(s):', $html,
+		$this->assertStringContainsString('Amount / Charge(s):', $html,
 			'AmountCharges View class should render label');
 		$this->assertStringContainsString((string)$lineitem->amount, $html,
 			'AmountCharges View class should render amount');
 		
-		$this->assertStringContainsString('Trans Title:', $html,
+		$this->assertStringContainsString('Transaction Title:', $html,
 			'TransTitle View class should render label');
 		$this->assertStringContainsString($lineitem->transactionTitle, $html,
 			'TransTitle View class should render title');
@@ -74,13 +100,15 @@ class BiLineItemViewClassesTest extends TestCase
 	
 	/**
 	 * Test that the refactored code doesn't call label_row directly
+	 *
+	 * View class instantiation now lives in getLeftTd(); getLeftHtml() delegates.
 	 */
 	public function testGetLeftHtmlMethodDoesNotCallLabelRowDirectly()
 	{
 		require_once __DIR__ . '/../../class.bi_lineitem.php';
 		
 		// Read the method source
-		$reflection = new \ReflectionMethod('bi_lineitem', 'getLeftHtml');
+		$reflection = new \ReflectionMethod('bi_lineitem', 'getLeftTd');
 		$fileName = $reflection->getFileName();
 		$startLine = $reflection->getStartLine();
 		$endLine = $reflection->getEndLine();
@@ -114,7 +142,7 @@ class BiLineItemViewClassesTest extends TestCase
 	{
 		require_once __DIR__ . '/../../class.bi_lineitem.php';
 		
-		$lineitem = new \bi_lineitem();
+		$lineitem = new \bi_lineitem($this->makeSampleTransaction());
 		$lineitem->valueTimestamp = '2025-12-19';
 		$lineitem->entryTimestamp = '2025-12-19 10:00:00';
 		$lineitem->transactionTypeLabel = 'Test';

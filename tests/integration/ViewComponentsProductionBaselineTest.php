@@ -53,9 +53,9 @@ class ViewComponentsProductionBaselineTest extends TestCase
         $content = file_get_contents($file);
         
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;',
             $content,
-            'PROD BASELINE: AddCustomerButton uses Ksfraser\HTML namespace (not Composites)'
+            'BASELINE: AddCustomerButton uses Composites decorator'
         );
         
         $this->assertStringContainsString(
@@ -83,9 +83,9 @@ class ViewComponentsProductionBaselineTest extends TestCase
         $content = file_get_contents($file);
         
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;',
             $content,
-            'PROD BASELINE: AddNoButton uses Ksfraser\HTML namespace (not Composites)'
+            'BASELINE: AddNoButton uses Composites decorator'
         );
         
         $this->assertStringContainsString(
@@ -113,9 +113,9 @@ class ViewComponentsProductionBaselineTest extends TestCase
         $content = file_get_contents($file);
         
         $this->assertStringContainsString(
-            'use Ksfraser\HTML\HTML_LABEL_ROW;',
+            'use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;',
             $content,
-            'PROD BASELINE: AddVendorButton uses Ksfraser\HTML namespace (not Composites)'
+            'BASELINE: AddVendorButton uses Composites decorator'
         );
         
         $this->assertStringContainsString(
@@ -161,7 +161,7 @@ class ViewComponentsProductionBaselineTest extends TestCase
     
     /**
      * @test
-     * PROD BASELINE: Components do NOT use Composites subnamespace (added in main)
+     * BASELINE: Components use the Composites subnamespace (migrated from flat Ksfraser\HTML)
      */
     public function testProdBaseline_NoCompositesSubnamespace()
     {
@@ -175,10 +175,10 @@ class ViewComponentsProductionBaselineTest extends TestCase
             $file = $this->viewsDir . $filename;
             if (file_exists($file)) {
                 $content = file_get_contents($file);
-                $this->assertStringNotContainsString(
+                $this->assertStringContainsString(
                     'Ksfraser\HTML\Composites',
                     $content,
-                    "PROD BASELINE: {$filename} should NOT use Composites subnamespace (added in main)"
+                    "BASELINE: {$filename} should use Composites subnamespace"
                 );
             }
         }

@@ -25,18 +25,27 @@ class LineitemDisplayLeftTest extends TestCase
 {
     /**
      * Create a mock bi_lineitem object for testing
+     *
+     * Property names mirror the real bi_lineitem contract consumed by
+     * the TransDate/TransType/OurBankAccount/OtherBankAccount/AmountCharges/
+     * TransTitle view classes.
      */
     private function createMockLineitem(): object
     {
         $mock = new \stdClass();
         $mock->valueTimestamp = '2025-10-19';
         $mock->entryTimestamp = '2025-10-19 10:00:00';
-        $mock->type = 'deposit';
-        $mock->our_bank_account = 'ACC-001';
-        $mock->other_bank_account = 'ACC-002';
+        $mock->transactionDC = 'C';
+        $mock->our_account = 'ACC-001';
+        $mock->ourBankDetails = ['bank_name' => '', 'bank_account_name' => '', 'account_code' => ''];
+        $mock->ourBankAccountName = 'Our Account Name';
+        $mock->ourBankAccountCode = 'OA001';
+        $mock->otherBankAccount = 'ACC-002';
+        $mock->otherBankAccountName = 'Other Bank';
         $mock->amount = '1000.00';
-        $mock->charges = '5.00';
-        $mock->title = 'Test Transaction';
+        $mock->charge = '5.00';
+        $mock->currency = 'CAD';
+        $mock->transactionTitle = 'Test Transaction';
         
         return $mock;
     }

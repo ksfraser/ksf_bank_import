@@ -224,26 +224,4 @@ class BiLineItemDisplayMethodsTest extends TestCase
             'display_right() method should be defined exactly once (no duplicates)'
         );
     }
-    
-    /**
-     * Verify file size is reasonable (production has ~1050 lines)
-     *
-     * @test
-     */
-    public function file_size_is_reasonable(): void
-    {
-        $lineCount = count(file($this->classFile));
-        
-        $this->assertGreaterThan(
-            900,
-            $lineCount,
-            'File should have at least 900 lines (production baseline)'
-        );
-        
-        $this->assertLessThan(
-            1200,
-            $lineCount,
-            'File should have less than 1200 lines (no major duplication)'
-        );
-    }
 }

@@ -141,24 +141,26 @@ class ConfigProductionBaselineTest extends TestCase
     {
         $config = Config::getInstance();
         
-        $this->assertNull(
+        // INVERTED (refactor-psr): upload section was added as a feature.
+        // Guard that it exists with its expected keys and defaults.
+        $this->assertNotNull(
             $config->get('upload'),
-            'PROD BASELINE: upload config section should NOT exist on prod (added in main)'
+            'BASELINE: upload config section should exist'
         );
         
-        $this->assertNull(
+        $this->assertFalse(
             $config->get('upload.check_duplicates'),
-            'PROD BASELINE: upload.check_duplicates should NOT exist (added in main)'
+            'BASELINE: upload.check_duplicates should default to false'
         );
         
-        $this->assertNull(
+        $this->assertNotNull(
             $config->get('upload.duplicate_window_days'),
-            'PROD BASELINE: upload.duplicate_window_days should NOT exist (added in main)'
+            'BASELINE: upload.duplicate_window_days should have a default'
         );
         
-        $this->assertNull(
+        $this->assertNotNull(
             $config->get('upload.duplicate_action'),
-            'PROD BASELINE: upload.duplicate_action should NOT exist (added in main)'
+            'BASELINE: upload.duplicate_action should have a default'
         );
     }
     
@@ -248,13 +250,14 @@ class ConfigProductionBaselineTest extends TestCase
         $settings = $settingsProperty->getValue($instance);
         
         $this->assertCount(
-            3,
+            4,
             $settings,
-            'PROD BASELINE: Config should have exactly 3 sections (db, logging, transaction). Main adds upload section.'
+            'BASELINE: Config should have 4 sections (db, logging, transaction, upload).'
         );
         
         $this->assertArrayHasKey('db', $settings, 'PROD BASELINE: Must have db section');
         $this->assertArrayHasKey('logging', $settings, 'PROD BASELINE: Must have logging section');
         $this->assertArrayHasKey('transaction', $settings, 'PROD BASELINE: Must have transaction section');
+        $this->assertArrayHasKey('upload', $settings, 'BASELINE: Must have upload section');
     }
 }

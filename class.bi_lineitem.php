@@ -340,6 +340,7 @@ class bi_lineitem extends generic_fa_interface_model
 				$this->ourBankDetails = array(
 					'account_code' => '',
 					'bank_account_name' => '',
+					'bank_name' => '',
 				);
 			}
 			$details = $this->ourBankDetails;
@@ -394,7 +395,7 @@ class bi_lineitem extends generic_fa_interface_model
 		// Populate bank details first
 		$this->getBankAccountDetails();
 		
-		// Build label rows using SRP View classes (replaces label_row() calls)
+		// Build label rows using SRP View classes
 		$rows = [];
 		$rows[] = new TransDate($this);
 		$rows[] = new TransType($this);

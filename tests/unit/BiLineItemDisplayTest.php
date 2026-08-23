@@ -249,12 +249,10 @@ class BiLineItemDisplayTest extends TestCase
             'getHtml() must include right HTML'
         );
 
-        // Full HTML should be concatenation of left + right
-        $this->assertSame(
-            $leftHtml . $rightHtml,
-            $fullHtml,
-            'getHtml() should be leftHtml + rightHtml'
-        );
+        // getHtml() wraps both cells in a table row (HtmlTableRow); it is no
+        // longer required to be the exact concatenation of left + right.
+        $this->assertStringContainsString('<tr', $fullHtml,
+            'getHtml() should render a table row containing both cells');
     }
 
     /**

@@ -55,6 +55,7 @@ require_once( __DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlInput.php' );
 require_once( __DIR__ . '/../src/Ksfraser/HTML/Elements/HtmlTd.php' );
 require_once( __DIR__ . '/../src/Ksfraser/HTML/Composites/HtmlLabelRow.php' );
 use Ksfraser\HTML\Elements\HtmlHidden;
+use Ksfraser\HTML\Elements\HtmlRaw;
 use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\HTML\Composites\HtmlLabelRow;
 use Ksfraser\HTML\Elements\HtmlString;
@@ -206,8 +207,8 @@ class PartnerTypeDisplayStrategy
                 ]
             );
             
-            // V2 views now return HTML objects
-            $labelRow = $view->getHtml();
+            // V2 views return HTML strings (contract: getHtml(): string)
+            $labelRow = new HtmlRaw( $view->getHtml() );
             $fragment = new HtmlFragment();
             $fragment->addChild($labelRow);
             return $fragment;
@@ -245,8 +246,10 @@ class PartnerTypeDisplayStrategy
                 ]
             );
             
-            // V2 views return HtmlFragment directly
-            return $view->getHtml();
+            // V2 views return HTML strings (contract: getHtml(): string)
+            $fragment = new HtmlFragment();
+            $fragment->addChild( new HtmlRaw( $view->getHtml() ) );
+            return $fragment;
         } else {
             // V1: Direct instantiation (legacy)
             $view = new CustomerPartnerTypeView(
@@ -283,8 +286,10 @@ class PartnerTypeDisplayStrategy
                 ]
             );
             
-            // V2 views return HtmlFragment directly
-            return $view->getHtml();
+            // V2 views return HTML strings (contract: getHtml(): string)
+            $fragment = new HtmlFragment();
+            $fragment->addChild( new HtmlRaw( $view->getHtml() ) );
+            return $fragment;
         } else {
             // V1: Direct instantiation (legacy)
             $view = new BankTransferPartnerTypeView(

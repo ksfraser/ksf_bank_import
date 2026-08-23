@@ -80,21 +80,22 @@ class BiStatementsProductionBaselineTest extends TestCase
         $modelFile = __DIR__ . '/../../class.bi_statements.php';
         $fileContents = file_get_contents($modelFile);
         
-        // In prod, there should be no @method annotations
-        $this->assertStringNotContainsString(
+        // INVERTED (refactor-psr): @method annotations were added in main
+        // for IDE support of the magic get()/set() accessors. Guard their presence.
+        $this->assertStringContainsString(
             '@method mixed get(string $property)',
             $fileContents,
-            'PROD BASELINE: Should NOT have @method get() annotation (added in main)'
+            'BASELINE: Should have @method get() annotation (added for IDE support)'
         );
-        $this->assertStringNotContainsString(
+        $this->assertStringContainsString(
             '@method void set(string $property',
             $fileContents,
-            'PROD BASELINE: Should NOT have @method set() annotation (added in main)'
+            'BASELINE: Should have @method set() annotation (added for IDE support)'
         );
-        $this->assertStringNotContainsString(
+        $this->assertStringContainsString(
             '@method bool insert()',
             $fileContents,
-            'PROD BASELINE: Should NOT have @method insert() annotation (added in main)'
+            'BASELINE: Should have @method insert() annotation (added in main)'
         );
     }
 

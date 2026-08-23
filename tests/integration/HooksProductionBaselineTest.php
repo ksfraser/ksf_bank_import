@@ -200,29 +200,30 @@ class HooksProductionBaselineTest extends TestCase
             'PROD BASELINE: Should install "Bank Statements Inquiry" menu'
         );
         
-        // Verify 6 additional menu items NOT present on prod (added in main)
-        $this->assertStringNotContainsString(
+        // INVERTED (refactor-psr): the additional menu items were added as features.
+        // Guard that they are present.
+        $this->assertStringContainsString(
             'Manage Uploaded Files',
             $content,
-            'PROD BASELINE: Should NOT have "Manage Uploaded Files" menu (added in main)'
+            'BASELINE: Should have "Manage Uploaded Files" menu'
         );
         
-        $this->assertStringNotContainsString(
+        $this->assertStringContainsString(
             'Validate GL Entries',
             $content,
-            'PROD BASELINE: Should NOT have "Validate GL Entries" menu (added in main)'
+            'BASELINE: Should have "Validate GL Entries" menu'
         );
         
-        $this->assertStringNotContainsString(
+        $this->assertStringContainsString(
             'Module Configuration',
             $content,
-            'PROD BASELINE: Should NOT have "Module Configuration" menu (added in main)'
+            'BASELINE: Should have "Module Configuration" menu'
         );
         
-        $this->assertStringNotContainsString(
+        $this->assertStringContainsString(
             'Bank Import Settings',
             $content,
-            'PROD BASELINE: Should NOT have "Bank Import Settings" menu (added in main)'
+            'BASELINE: Should have "Bank Import Settings" menu'
         );
     }
     
