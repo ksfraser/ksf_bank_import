@@ -95,7 +95,7 @@ class AbstractTransactionHandlerTest extends TestCase
     public function it_throws_exception_for_invalid_constant(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid partner type constant');
+        $this->expectExceptionMessage('Invalid partner type short code');
         
         new InvalidConstantHandler();
     }
@@ -325,5 +325,38 @@ class TestTransactionHandler extends AbstractTransactionHandler
     public function testCreateSuccessResult(int $transNo, int $transType, string $message, array $additionalData = []): \Ksfraser\FaBankImport\Results\TransactionResult
     {
         return $this->createSuccessResult($transNo, $transType, $message, $additionalData);
+    }
+}
+
+
+/**
+ * Fixture: handler whose partner type has an invalid short code.
+ */
+class InvalidConstantHandler extends AbstractTransactionHandler
+{
+    /**
+     * @inheritDoc
+     */
+    protected function getPartnerTypeInstance(): \Ksfraser\PartnerTypes\PartnerTypeInterface
+    {
+        return new class implements \Ksfraser\PartnerTypes\PartnerTypeInterface {
+            public function getShortCode(): string { return 'zz'; } // invalid: not uppercase
+            public function getLabel(): string { return 'Bad'; }
+            public function getConstantName(): string { return 'BAD'; }
+            public function getPriority(): int { return 999; }
+            public function getDescription(): ?string { return null; }
+            public function getViewClassName(): string { return ''; }
+            public function getStrategyMethodName(): string { return 'displayUnknown'; }
+        };
+    }
+
+    public function process(
+        array $transaction,
+        array $transactionPostData,
+        int $transactionId,
+        string $collectionIds,
+        array $ourAccount
+    ): \Ksfraser\FaBankImport\Results\TransactionResult {
+        throw new \LogicException('Not used in this fixture.');
     }
 }
