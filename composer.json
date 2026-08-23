@@ -27,7 +27,18 @@
             "Ksfraser\\FaBankImport\\Factories\\": "src/Ksfraser/FaBankImport/factories/",
             "Ksfraser\\Application\\Middleware\\": "src/Ksfraser/Application/middleware/",
             "Ksfraser\\HTML\\Elements\\Buttons\\": "src/Ksfraser/HTML/Elements/Buttons/",
-            "Ksfraser\\HTML\\Elements\\Form\\Input\\": "src/Ksfraser/HTML/Elements/Form/Input/"
+            "Ksfraser\\HTML\\Elements\\Form\\Input\\": "src/Ksfraser/HTML/Elements/Form/Input/",
+            "Ksfraser\\FaBankImport\\Models\\": "src/Ksfraser/FaBankImport/models/",
+            "Ksfraser\\FaBankImport\\Controller\\": "src/Ksfraser/FaBankImport/controller/",
+            "Ksfraser\\FaBankImport\\Contracts\\": "src/Ksfraser/FaBankImport/contracts/",
+            "Ksfraser\\FaBankImport\\Domain\\": "src/Ksfraser/FaBankImport/domain/",
+            "Ksfraser\\FaBankImport\\Entity\\": "src/Ksfraser/FaBankImport/entity/",
+            "Ksfraser\\FaBankImport\\Results\\": "src/Ksfraser/FaBankImport/results/",
+            "Ksfraser\\FaBankImport\\Strategy\\": "src/Ksfraser/FaBankImport/strategy/",
+            "Ksfraser\\FaBankImport\\Types\\": "src/Ksfraser/FaBankImport/types/",
+            "Ksfraser\\FaBankImport\\ValueObject\\": "src/Ksfraser/FaBankImport/valueobject/",
+            "Ksfraser\\FaBankImport\\Container\\": "src/Ksfraser/FaBankImport/container/",
+            "Ksfraser\\FaBankImport\\Interfaces\\": "src/Ksfraser/FaBankImport/interfaces/"
         }
     },
     "autoload-dev": {

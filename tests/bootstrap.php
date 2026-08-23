@@ -155,5 +155,10 @@ if (!class_exists('bi_lineitem') && file_exists(__DIR__ . '/../class.bi_lineitem
     require_once __DIR__ . '/../class.bi_lineitem.php';
 }
 
+// Legacy global view class (no namespace); loadable without FA context.
+if (!class_exists('ViewBiLineItems') && file_exists(__DIR__ . '/../src/Ksfraser/FaBankImport/class.ViewBiLineItems.php')) {
+    require_once __DIR__ . '/../src/Ksfraser/FaBankImport/class.ViewBiLineItems.php';
+}
+
 // Load test base classes (not autoloaded)
 require_once __DIR__ . '/integration/DatabaseTestCase.php';

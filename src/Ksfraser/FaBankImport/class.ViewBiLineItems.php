@@ -292,7 +292,12 @@ class ViewBILineItems
 */
 		$_GET['customer_id'] = $this->partnerId;
 		//if( ! @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
-		if(  @include_once( '../ksf_modules_common/class.fa_customer_payment.php' ) )
+		// Mantis 3018: legacy dependency is optional; skip under test-compat or
+		// when module-common is not installed beside the module (CWD-relative
+		// include replaced with explicit existence check).
+		$faCustomerPaymentAvailable = !defined( 'KSF_TEST_COMPAT' )
+			&& file_exists( dirname( __DIR__, 3 ) . '/ksf_modules_common/class.fa_customer_payment.php' );
+		if( $faCustomerPaymentAvailable && @include_once( dirname( __DIR__, 3 ) . '/ksf_modules_common/class.fa_customer_payment.php' ) )
 		{
 			$tr = 0;
 			$fcp = new fa_customer_payment();
