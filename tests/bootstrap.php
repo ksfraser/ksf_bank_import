@@ -10,6 +10,12 @@ ini_set('display_startup_errors', '1');
 // Initialize any test-specific configurations
 define('FA_ROOT', dirname(__DIR__));
 
+// Start the session BEFORE any test emits output; later session_start()
+// calls in tests see an active session instead of fataling on sent headers.
+if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+    @session_start();
+}
+
 /**
  * Legacy compat layer (refactor-psr).
  *
