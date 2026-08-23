@@ -70,6 +70,19 @@ branch only after their characterization/regression tests exist.
   extract a BankAccountResolver interface + FA-backed implementation so
   bi_lineitem stops requiring module-common files.
 
+### 2026-08-22 (session 2)
+- Decoupling slice: MatchingTransactionsFinderInterface (+Fake +FaMatchingJEsFinder
+  guarded wrapper). bi_lineitem::findMatchingExistingJE() no longer hard-requires
+  MatchingJEs; compat fallback = empty matches.
+- Full-row bi_lineitem::getHtml() now renders under PHPUnit (3 green tests).
+- PRODUCTION BUG FIXED: views/CustomerPartnerTypeView.v2.php included
+  ksf_modules_common via CWD-relative @include (fragile in prod, fatal chain
+  under test) — now explicit file-existence + compat guard; graceful-degradation
+  path (skip allocatable invoices) is what runs without the dependency.
+- Suite: 138E -> 128E, assertions 3200 -> 3239.
+- Next slices: same injection pattern for remaining legacy chains surfaced by
+  full render (fa_gl display paths); then categories 3-6.
+
 ## Plan
 
 1. Fix categories 1-7 above (test-infra first, then namespace moves WITH

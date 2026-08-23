@@ -603,10 +603,34 @@ class bi_lineitem extends generic_fa_interface_model
 	********************************************************************/
 	function findMatchingExistingJE()
 	{
-		require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
-		$match = new MatchingJEs( $this );
-		$this->matching_trans = $match->getMatchArr();
-	        return $this->matching_trans;
+		// Decoupled (refactor-psr): injected finder or guarded FA wrapper
+		// instead of hard-requiring ksf_modules_common MatchingJEs.
+		if ( isset( $this->matching_transactions_finder )
+			&& $this->matching_transactions_finder instanceof \Ksfraser\FaBankImport\Models\MatchingTransactionsFinderInterface )
+		{
+			$this->matching_trans = $this->matching_transactions_finder->findFor( $this );
+			return $this->matching_trans;
+		}
+		if ( \Ksfraser\FaBankImport\Models\FaMatchingJEsFinder::legacyAvailable() )
+		{
+			$finder = new \Ksfraser\FaBankImport\Models\FaMatchingJEsFinder();
+			$this->matching_trans = $finder->findFor( $this );
+			return $this->matching_trans;
+		}
+		$this->matching_trans = array();
+		return $this->matching_trans;
+	}
+
+	/**
+	 * Inject a matching-transactions finder (decouples from ksf_modules_common).
+	 *
+	 * @param \Ksfraser\FaBankImport\Models\MatchingTransactionsFinderInterface $finder Finder.
+	 * @return self Fluent interface.
+	 */
+	public function setMatchingTransactionsFinder( \Ksfraser\FaBankImport\Models\MatchingTransactionsFinderInterface $finder ): self
+	{
+		$this->matching_transactions_finder = $finder;
+		return $this;
 	}
 	/**//******************************************************************
 	* Create a URL link using HtmlA convenience class

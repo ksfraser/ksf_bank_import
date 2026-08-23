@@ -230,7 +230,12 @@ class CustomerPartnerTypeView
     {
         $_GET['customer_id'] = $this->partnerId;
         
-        if (@include_once('../ksf_modules_common/class.fa_customer_payment.php')) {
+        // Legacy dependency is optional: skipped in test-compat mode and when
+        // module-common is not installed beside the module.
+        $faCustomerPaymentAvailable = !defined('KSF_TEST_COMPAT')
+            && file_exists(dirname(__DIR__, 2) . '/ksf_modules_common/class.fa_customer_payment.php');
+
+        if ($faCustomerPaymentAvailable && @include_once(dirname(__DIR__, 2) . '/ksf_modules_common/class.fa_customer_payment.php')) {
             $fragment = new HtmlFragment();
             $tr = 0;
             $fcp = new \fa_customer_payment();
