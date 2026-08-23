@@ -39,7 +39,8 @@
             "Ksfraser\\FaBankImport\\ValueObject\\": "src/Ksfraser/FaBankImport/valueobject/",
             "Ksfraser\\FaBankImport\\Container\\": "src/Ksfraser/FaBankImport/container/",
             "Ksfraser\\FaBankImport\\Interfaces\\": "src/Ksfraser/FaBankImport/interfaces/",
-            "Ksfraser\\FaBankImport\\Middleware\\": "src/Ksfraser/FaBankImport/middleware/"
+            "Ksfraser\\FaBankImport\\Middleware\\": "src/Ksfraser/FaBankImport/middleware/",
+            "Ksfraser\\FaBankImport\\Controllers\\": "src/Ksfraser/FaBankImport/controllers/"
         }
     },
     "autoload-dev": {

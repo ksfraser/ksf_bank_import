@@ -71,10 +71,16 @@ class BankImportController extends AbstractController
 {
     private $container;
 
-    public function __construct()
+    /**
+     * Constructor.
+     *
+     * @param \Ksfraser\FaBankImport\Container|null $container Optional container
+     *        injection for tests; defaults to the shared instance.
+     */
+    public function __construct($container = null)
     {
         parent::__construct();
-        $this->container = Container::getInstance();
+        $this->container = $container ?? Container::getInstance();
     }
 
     protected function initializeMiddleware(): void

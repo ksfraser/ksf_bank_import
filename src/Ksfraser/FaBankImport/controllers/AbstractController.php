@@ -28,10 +28,27 @@ abstract class AbstractController
     protected function render(string $view, array $data = []): void
     {
         extract($data);
+        // Views live in the module-root views/ directory; support both the
+        // repo checkout layout and an installed modules/<name> layout.
+        $candidates = [
+            __DIR__ . "/../../views/$view.php",      // src/Ksfraser/FaBankImport/controllers -> repo views (legacy)
+            __DIR__ . "/../../../../views/$view.php", // -> module root views/
+        ];
+        $template = null;
+        foreach ($candidates as $candidate) {
+            if (file_exists($candidate)) {
+                $template = $candidate;
+                break;
+            }
+        }
+        if ($template === null) {
+            throw new \RuntimeException("View not found: {$view}");
+        }
+
         ob_start();
-        include __DIR__ . "/../../views/$view.php";
+        include $template;
         $content = ob_get_clean();
-        
+
         $this->response->setContent($content)->send();
     }
 
