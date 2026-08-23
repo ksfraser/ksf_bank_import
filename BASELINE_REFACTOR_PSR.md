@@ -104,6 +104,20 @@ branch only after their characterization/regression tests exist.
 - TransactionProcessor::getRegisteredHandlers() added (test-facing API drift).
 - Suite: 111E -> 106E.
 
+### 2026-08-22 (session 5)
+- symfony/http-foundation REMOVED (#44 option 2): local Http\\Response +
+  Http\\Request value objects (TDD, 13 tests); ResponseHandler/RequestHandler
+  refactored onto them; phantom dep (never declared in composer) gone.
+- Ksfraser\\FaBankImport\\Middleware alias added.
+- Class-not-found census now: Controllers\\BankImportController (stale test
+  contract), Monolog\\Logger (2), InvalidConstantHandler fixture (2).
+- Suite: 79E -> 67E / 89F. Remaining failures are ASSERTION drift:
+  - ~100x view-rendering tests asserting against PHP source ('<?php')
+  - HTML element attribute rendering (<tr   > vs <tr>, duplicated width attrs)
+  - Controllers\\BankImportControllerTest stale API
+Next: HTML renderers normalize attribute output; rewrite controller test to
+canonical API; then investigate source-leak assertions.
+
 ## Plan
 
 1. Fix categories 1-7 above (test-infra first, then namespace moves WITH
