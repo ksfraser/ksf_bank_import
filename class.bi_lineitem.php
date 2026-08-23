@@ -456,15 +456,8 @@ class bi_lineitem extends generic_fa_interface_model
 		{
 			$this-> selectAndDisplayButton();
 		}
-		finally
-		{
-			// Vendor short and long name hidden fields
-			$vendorShortHidden = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_short_$this->id", $this->otherBankAccount);
-			$vendorShortHidden->toHtml();
-			
-			$vendorLongHidden = new \Ksfraser\HTML\Elements\HtmlHidden("vendor_long_$this->id", $this->otherBankAccountName);
-			$vendorLongHidden->toHtml();
-		}
+		// Note: vendor_short/vendor_long hidden fields are emitted once by
+		// displayEditTransData(); do not duplicate them here.
 	}
 	function selectAndDisplayButton()
 	{

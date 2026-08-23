@@ -21,12 +21,23 @@ class HtmlAttributeList implements HtmlElementInterface
 	
 	/**
 	 * Add an attribute to the list
-	 * 
+	 *
+	 * If an attribute with the same name already exists it is replaced
+	 * (HTML last-wins semantics), preventing duplicate attributes in output.
+	 *
 	 * @param HtmlAttribute $attribute Attribute to add
 	 * @return void
 	 */
 	function addAttribute( HtmlAttribute $attribute ): void
 	{
+		foreach ( $this->attributeArray as $index => $existing )
+		{
+			if ( $existing->getName() === $attribute->getName() )
+			{
+				$this->attributeArray[ $index ] = $attribute;
+				return;
+			}
+		}
 		$this->attributeArray[] = $attribute;
 	}
 	
