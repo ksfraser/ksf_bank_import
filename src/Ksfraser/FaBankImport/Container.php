@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport;
 use Ksfraser\FaBankImport\Factories\TransactionTypeFactory;
 use Ksfraser\FaBankImport\Services\TransactionViewService;
 use Ksfraser\FaBankImport\Services\TransactionService;
+use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
 use Ksfraser\FaBankImport\Repositories\TransactionRepository;
 use Ksfraser\FaBankImport\Views\HtmlTransactionView;
 use Ksfraser\FaBankImport\Services\SimpleCommandBus;
@@ -38,8 +39,10 @@ class Container
 
     public function getTransactionRepository(): TransactionRepository
     {
-        return $this->services[TransactionRepository::class] 
-            ?? $this->services[TransactionRepository::class] = new TransactionRepository();
+        return $this->services[TransactionRepository::class]
+            ?? $this->services[TransactionRepository::class] = new TransactionRepository(
+                new TransactionQueryBuilder()
+            );
     }
 
     public function getTransactionTypeFactory(): TransactionTypeFactory

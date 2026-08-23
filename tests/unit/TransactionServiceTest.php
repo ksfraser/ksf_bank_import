@@ -1,6 +1,12 @@
 <?php
+/**
+ * Unit tests for TransactionService (refactor-psr contract).
+ *
+ * Aligned with TransactionRepositoryInterface: findByFilters + typed
+ * update(array $ids, int $status, ...).
+ */
 
-namespace Tests\Unit;
+namespace Ksfraser\FaBankImport\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Services\TransactionService;
@@ -23,39 +29,26 @@ class TransactionServiceTest extends TestCase
     public function testGetPendingTransactionsCallsRepository()
     {
         $this->repository->expects($this->once())
-            ->method('findByStatus')
-            ->with('pending')
-            ->willReturn([]);
+            ->method('findByFilters')
+            ->with(['status' => 'pending'])
+            ->willReturn([['id' => 1]]);
 
         $result = $this->service->getPendingTransactions();
-        $this->assertIsArray($result);
+        $this->assertCount(1, $result);
     }
 
-    public function testProcessTransactionThrowsExceptionWhenNotFound()
+    public function testProcessTransactionThrowsWhenNotFound()
     {
-        $this->repository->method('findById')
-            ->willReturn(null);
-
+        $this->repository->method('findById')->willReturn(null);
         $this->expectException(\InvalidArgumentException::class);
-        $this->service->processTransaction(1, 'C');
+        $this->service->processTransaction(999, 'SP');
     }
 
-    public function testToggleTransactionTypeSuccessfully()
+    public function testToggleTransactionTypeIsCommandOwned()
     {
-        $transaction = [
-            'id' => 1,
-            'transactionDC' => 'C'
-        ];
-
-        $this->repository->method('findById')
-            ->willReturn($transaction);
-
-        $this->repository->expects($this->once())
-            ->method('update')
-            ->with(1, ['transactionDC' => 'D'])
-            ->willReturn(true);
-
-        $result = $this->service->toggleTransactionType(1);
-        $this->assertTrue($result);
+        // Direction flips belong to ToggleDebitCreditCommand; the service
+        // must not perform partial repository updates for it.
+        $this->expectException(\LogicException::class);
+        $this->service->toggleTransactionType(1);
     }
 }

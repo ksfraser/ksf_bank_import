@@ -32,7 +32,7 @@ use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
  * @since 20251104
  * @version 20251104.1
  */
-class TransactionRepository
+class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface
 {
     /**
      * @var TransactionQueryBuilder Query builder for SQL generation
