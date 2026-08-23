@@ -118,6 +118,18 @@ branch only after their characterization/regression tests exist.
 Next: HTML renderers normalize attribute output; rewrite controller test to
 canonical API; then investigate source-leak assertions.
 
+### 2026-08-22 (session 6)
+- TransactionsTableProductionBaselineTest INVERTED into modern-architecture
+  guard (comment-aware legacy-call detection). It immediately caught:
+  - class.transactions_table.php committed UNPARSEABLE (catch(Exception
+    \$this->e) + stray brace) - repaired; file is unreferenced dead code,
+    keep/delete decision pending
+  - two live un-migrated label_row()/hidden() calls -> HtmlLabelRow/HtmlHidden
+- v2 partner views contract repair: getHtml() now returns string in
+  BankTransfer/Customer/Supplier v2 views; display() echoes instead of
+  calling toHtml() on string; bank option column fixed to bank_account_name.
+- Suite: 67E/72F -> 71E/62F.
+
 ## Plan
 
 1. Fix categories 1-7 above (test-infra first, then namespace moves WITH
