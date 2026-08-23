@@ -105,24 +105,17 @@ class HTML_TABLE implements HtmlElementInterface
      */
     public function toHtml(): void
     {
-        // Start table using FA function or plain HTML
-        if (function_exists('start_table')) {
-            start_table($this->style, "width='" . $this->width . "%'");
-        } else {
-            echo "<table class='tablestyle" . $this->style . "' width='" . $this->width . "%'>\n";
-        }
-        
+        // Always render our own tags: delegating to FA's start_table() made
+        // output depend on whether FA functions were loaded (and emitted
+        // nothing when only the test stubs were present).
+        echo "<table class='tablestyle" . $this->style . "' width='" . $this->width . "%'>\n";
+
         // Output each row (FIXED: was $rows, now $this->rows)
         foreach ($this->rows as $row) {
             $row->toHtml();
         }
-        
-        // End table using FA function or plain HTML
-        if (function_exists('end_table')) {
-            end_table();
-        } else {
-            echo "</table>\n";
-        }
+
+        echo "</table>\n";
     }
     
     /**
