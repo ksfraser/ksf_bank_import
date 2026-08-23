@@ -4,9 +4,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Http\ResponseHandler;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Ksfraser\FaBankImport\Http\Response;
 
 class ResponseHandlerTest extends TestCase
 {
@@ -21,7 +19,7 @@ class ResponseHandlerTest extends TestCase
     {
         $this->responseHandler->setHeader('Content-Type', 'text/html');
         $response = $this->responseHandler->getResponse();
-        $this->assertEquals('text/html', $response->headers->get('Content-Type'));
+        $this->assertEquals('text/html', $response->getHeaders()['Content-Type']);
     }
 
     public function testSetStatusCode()
