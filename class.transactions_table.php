@@ -87,9 +87,9 @@ class transaction_table_row
 			try {
 				$this->bankAccount = shorten_bankAccount_Names( $res_arr['accountName'] );
 			}
-			catch( Exception $this->e )
+			catch( Exception $e )
 			{
-				display_notification( __FILE__ . "::" . __LINE__ . ":" . $this->e->getMessage() );
+				display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
 				$this->bankAccount = $res_arr['accountName'];
 			}
 			$this->bankAccountName = $res_arr['accountName'];
@@ -173,7 +173,11 @@ class ttr_label_row
 	*****************************************************/
 	function display()
 	{
-		return label_row( $this->data );
+		// Refactored: render through the HTML abstraction instead of FA's
+		// hardcoded label_row().
+		$label = new \Ksfraser\HTML\Elements\HtmlString( (string) $this->data );
+		$row = new \Ksfraser\HTML\Composites\HtmlLabelRow( $label, new \Ksfraser\HTML\Elements\HtmlString('') );
+		$row->toHtml();
 	}
 }
 	
@@ -703,7 +707,9 @@ class ttr_label_row
 			$processRow->toHtml();
 	
 			//other common info
-			hidden("cids[$tid]",$cids);
+			// Refactored: HtmlHidden element instead of FA hidden()
+			$cidsHidden = new \Ksfraser\HTML\Elements\HtmlHidden("cids[$tid]", $cids);
+			$cidsHidden->toHtml();
 	
 			if( count( $arr_arr ) > 0 )
 			{
@@ -784,7 +790,10 @@ class ttr_label_row
 			}
 			else
 			{
-					label_row("Matching GLs", "No Matches found automatically" );
+				$noMatchLabel = new \Ksfraser\HTML\Elements\HtmlString("Matching GLs");
+				$noMatchContent = new \Ksfraser\HTML\Elements\HtmlString("No Matches found automatically");
+				$noMatchRow = new \Ksfraser\HTML\Composites\HtmlLabelRow($noMatchLabel, $noMatchContent);
+				$noMatchRow->toHtml();
 			}
 		}
 		echo $operationsTable->closeTable(); // Close tablestyle2 table
@@ -792,7 +801,6 @@ class ttr_label_row
 		echo $mainRow->closeRow();
 		}
 		// Main table closing handled by transaction_table class display() method
-	}
 	
 	
 	div_end();
