@@ -40,7 +40,8 @@
             "Ksfraser\\FaBankImport\\Container\\": "src/Ksfraser/FaBankImport/container/",
             "Ksfraser\\FaBankImport\\Interfaces\\": "src/Ksfraser/FaBankImport/interfaces/",
             "Ksfraser\\FaBankImport\\Middleware\\": "src/Ksfraser/FaBankImport/middleware/",
-            "Ksfraser\\FaBankImport\\Controllers\\": "src/Ksfraser/FaBankImport/controllers/"
+            "Ksfraser\\FaBankImport\\Controllers\\": "src/Ksfraser/FaBankImport/controllers/",
+            "Ksfraser\\Application\\Http\\": "src/Ksfraser/Application/http/"
         }
     },
     "autoload-dev": {
@@ -53,7 +54,8 @@
         "asgrim/ofxparser": "^1.2",
         "mimographix/qif-library": "^1.0",
         "nesbot/carbon": "^2.46",
-        "psr/container": "^1.0"
+        "psr/container": "^1.0",
+        "monolog/monolog": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.3",

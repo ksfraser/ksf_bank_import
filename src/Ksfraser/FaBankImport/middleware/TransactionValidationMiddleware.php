@@ -2,19 +2,11 @@
 
 namespace Ksfraser\FaBankImport\Middleware;
 
-use Ksfraser\Application\Http\RequestHandler;
-use Ksfraser\Application\Services\TransactionValidator;
+use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Exceptions\TransactionValidationException;
 
 class TransactionValidationMiddleware implements MiddlewareInterface
 {
-    private $validator;
-
-    public function __construct()
-    {
-        $this->validator = new TransactionValidator();
-    }
-
     public function process(RequestHandler $request, callable $next)
     {
         if ($request->isPost()) {

@@ -8,7 +8,7 @@ use Ksfraser\FaBankImport\Container;
 use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Commands\ProcessTransactionCommand;
 
-class TransactionProcessingTest extends TestCase
+class TransactionProcessingTest extends \Tests\Integration\DatabaseTestCase
 {
     private $app;
     private $container;
