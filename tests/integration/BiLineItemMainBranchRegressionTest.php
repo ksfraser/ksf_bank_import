@@ -18,11 +18,13 @@ class BiLineItemMainBranchRegressionTest extends TestCase
 {
     protected function setUp(): void
     {
-        // Ensure we're testing against main branch code
+        // Ensure we're testing against modern branch code
         $currentBranch = trim(shell_exec('git rev-parse --abbrev-ref HEAD'));
-        if ($currentBranch !== 'main') {
+        $modernBranches = ['main', 'refactor-psr'];
+        
+        if (!in_array($currentBranch, $modernBranches)) {
             $this->markTestSkipped(
-                'These main branch tests must be run on main branch. ' .
+                'These modern branch tests must be run on a modern branch (main or refactor-psr). ' .
                 'Current branch: ' . $currentBranch
             );
         }

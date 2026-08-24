@@ -329,7 +329,7 @@ class ProcessStatementsBackwardCompatibilityTest extends TestCase
         $bootstrap_file = __DIR__ . '/../../src/Ksfraser/FaBankImport/command_bootstrap.php';
         
         if (!file_exists($bootstrap_file)) {
-            $this->markTestSkipped('command_bootstrap.php not available (prod branch)');
+            $this->markTestSkipped('command_bootstrap.php not available: ' . $bootstrap_file);
         }
         
         // Mock REQUEST_METHOD to prevent bootstrap from executing POST handler
@@ -420,7 +420,7 @@ class ProcessStatementsBackwardCompatibilityTest extends TestCase
         $vendor_list_manager_file = __DIR__ . '/../../VendorListManager.php';
         
         if (!file_exists($vendor_list_manager_file)) {
-            $this->markTestSkipped('VendorListManager.php not available (prod branch or not implemented)');
+            $this->markTestSkipped('VendorListManager.php not available: ' . $vendor_list_manager_file);
         }
         
         // Include the file

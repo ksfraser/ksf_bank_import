@@ -42,14 +42,12 @@ class MatchingGLFactory
                                 //      [amount] => 432.41 [person_type_id] => [person_id] => [account_name] => Auto Loan Frontier (Nissan Finance) [reference] => 025/2023 [score] => 111 [is_invoice]
                                 if( isset( $matchgl['tran_date'] ) )
                                 {
-                                        /******************************************************************************************
-                                        * In Savings Account, Customer Payment is a DEBIT.
-                                        * NISSAN is a DEBIT out of Savings in the IMPORT file.  So amount in example should be -
-                                        *
-                                        *Customer Payment is a CREDIT from import file.  Amount should match exact the Bank trans.
-                                        *
-                                        * so if the bank account number matches and adjusted amount matches...
-                                        *****************************************************************************************/
+                                        // * In Savings Account, Customer Payment is a DEBIT.
+                                        // * NISSAN is a DEBIT out of Savings in the IMPORT file.  So amount in example should be -
+                                        //
+                                        // * Customer Payment is a CREDIT from import file.  Amount should match exact the Bank trans.
+                                        //
+                                        // * so if the bank account number matches and adjusted amount matches...
                                         $match_html .= "<b>$matchcount</b>: ";
                                         unset( $param );
                                         $param = array();
@@ -121,4 +119,5 @@ class MatchingGLFactory
                 {
                                 label_row("Matching GLs", "No Matches found automatically" );
                 }
+*/
 

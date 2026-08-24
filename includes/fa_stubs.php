@@ -788,3 +788,57 @@ if (!function_exists('add_days')) {
  * Do NOT commit files that require() this stub file!
  * Use it only for IDE configuration or testing scaffolds.
  */
+
+if (!class_exists('hooks')) {
+    class hooks {
+        function add_module_command($app, $menu, $label, $link, $id, $priority) {}
+    }
+}
+
+if (!function_exists('add_module_command')) {
+    function add_module_command($app, $menu, $label, $link, $id, $priority) {
+        if (isset($app->menu_items)) {
+            $app->menu_items[] = [
+                'label' => $label,
+                'link' => $link,
+                'menu' => $menu
+            ];
+        }
+    }
+}
+
+// Menu section constants used by hooks.php (only those NOT defined in hooks.php)
+if (!defined('MENU_MAINTENANCE')) {
+    define('MENU_MAINTENANCE', 'menu_maintenance');
+}
+if (!defined('MENU_INQUIRY')) {
+    define('MENU_INQUIRY', 'menu_inquiry');
+}
+
+if (!function_exists('add_lapp_function')) {
+    function add_lapp_function($app, $menu, $label, $link, $id, $priority) {
+        add_module_command($app, $menu, $label, $link, $id, $priority);
+    }
+}
+
+if (!function_exists('add_rapp_function')) {
+    function add_rapp_function($app, $menu, $label, $link, $id, $priority) {
+        add_module_command($app, $menu, $label, $link, $id, $priority);
+    }
+}
+
+// Mock App object for hooks tests that call $app->add_lapp_function()
+if (!class_exists('MockApp')) {
+    class MockApp {
+        public $id = '';
+        public $menu_items = [];
+        
+        public function add_lapp_function($menu, $label, $link, $id, $priority) {
+            add_lapp_function($this, $menu, $label, $link, $id, $priority);
+        }
+        
+        public function add_rapp_function($menu, $label, $link, $id, $priority) {
+            add_rapp_function($this, $menu, $label, $link, $id, $priority);
+        }
+    }
+}
