@@ -207,5 +207,19 @@ if (!class_exists('ViewBiLineItems') && file_exists(__DIR__ . '/../src/Ksfraser/
     require_once __DIR__ . '/../src/Ksfraser/FaBankImport/class.ViewBiLineItems.php';
 }
 
+// Mock App object for hooks tests (needed by HooksProductionBaselineTest)
+if (!class_exists('MockApp')) {
+    class MockApp {
+        public $id = '';
+        public $menu_items = [];
+        public function add_lapp_function($menu, $label, $link, $id, $priority) {
+            add_lapp_function($this, $menu, $label, $link, $id, $priority);
+        }
+        public function add_rapp_function($menu, $label, $link, $id, $priority) {
+            add_rapp_function($this, $menu, $label, $link, $id, $priority);
+        }
+    }
+}
+
 // Load test base classes (not autoloaded)
 require_once __DIR__ . '/integration/DatabaseTestCase.php';
