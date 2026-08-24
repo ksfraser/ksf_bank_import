@@ -366,8 +366,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	function getBankAccountDetails()
 	{
 		// require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
-		use Ksfraser\frontaccounting\FaBankAccounts;
-		$this->fa_bank_accounts = new FaBankAccounts( $this );
+		$this->fa_bank_accounts = new \Ksfraser\frontaccounting\FaBankAccounts( $this );
 		$this->ourBankDetails =	$this->fa_bank_accounts->getByBankAccountNumber( $this->our_account );
 		//$this->ourBankDetails = get_bank_account_by_number( $this->our_account );
 		$this->ourBankAccountName = $this->ourBankDetails['bank_account_name'];

@@ -602,14 +602,16 @@ class bi_lineitem extends generic_fa_interface_model
 		if ( isset( $this->matching_transactions_finder )
 			&& $this->matching_transactions_finder instanceof \Ksfraser\FaBankImport\Models\MatchingTransactionsFinderInterface )
 		{
-			$this->matching_trans = $this->matching_transactions_finder->findFor( $this );
-			return $this->matching_trans;
+		$this->matching_trans = $this->matching_transactions_finder->findFor( $this );
+		$this->matching_trans = ($this->matching_trans instanceof \ArrayIterator) ? iterator_to_array($this->matching_trans) : (array)$this->matching_trans;
+		return $this->matching_trans;
 		}
 		if ( \Ksfraser\FaBankImport\Models\FaMatchingJEsFinder::legacyAvailable() )
 		{
 			$finder = new \Ksfraser\FaBankImport\Models\FaMatchingJEsFinder();
-			$this->matching_trans = $finder->findFor( $this );
-			return $this->matching_trans;
+		$this->matching_trans = $finder->findFor( $this );
+		$this->matching_trans = ($this->matching_trans instanceof \ArrayIterator) ? iterator_to_array($this->matching_trans) : (array)$this->matching_trans;
+		return $this->matching_trans;
 		}
 		$this->matching_trans = array();
 		return $this->matching_trans;
