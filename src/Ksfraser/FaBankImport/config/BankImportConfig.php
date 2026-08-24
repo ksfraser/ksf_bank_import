@@ -67,8 +67,11 @@ class BankImportConfig
     {
         $account = get_company_pref(self::KEY_TRANS_REF_ACCOUNT);
         
-        // Default to '0000' if not set
-        return $account ?? self::DEFAULT_TRANS_REF_ACCOUNT;
+        // Default to '0000' if not set or empty
+        if ($account === null || $account === '') {
+            return self::DEFAULT_TRANS_REF_ACCOUNT;
+        }
+        return $account;
     }
 
     /**
