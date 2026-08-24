@@ -1,6 +1,12 @@
 <?php
 /**
- * FrontAccounting Function Stubs for IDE Support
+ * DEPRECATED: This file is deprecated. The ksfraser/famock package
+ * (vendor/ksfraser/famock/php/FaUIStubs.php etc.) provides the proper
+ * mock stubs for all FA functions. See package v0.10.4+.
+ * 
+ * All previous stub logic has been moved to the famock package.
+ * Remove this file (next step) after confirming package is installed.
+ */
  * 
  * This file provides stub declarations for FrontAccounting core functions
  * to eliminate IDE lint errors during development. These functions are
@@ -694,7 +700,7 @@ if (!function_exists('get_quick_entry')) {
     }
 }
 
-if (!function_exists('submit') || true) {
+if (!function_exists('submit')) {
     /**
      * Create a submit button
      * @param string $name Button name
