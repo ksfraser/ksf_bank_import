@@ -694,7 +694,7 @@ if (!function_exists('get_quick_entry')) {
     }
 }
 
-if (!function_exists('submit')) {
+if (!function_exists('submit') || true) {
     /**
      * Create a submit button
      * @param string $name Button name
