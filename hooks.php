@@ -1,6 +1,8 @@
 <?php
 
-define( 'MENU_IMPORT', 'menu_import' );
+if (!defined('MENU_IMPORT')) {
+    define('MENU_IMPORT', 'menu_import');
+}
 
 //Using the following security:
 //	SA_CUSTOMER
