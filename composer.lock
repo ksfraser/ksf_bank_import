@@ -1439,16 +1439,16 @@
         },
         {
             "name": "ksfraser/famock",
-            "version": "v0.10.3",
+            "version": "v0.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ksfraser/FAMock.git",
-                "reference": "6ba1ece204af849fa0b4170e63fa0ded7c9fc949"
+                "reference": "207d698e3feeb7b2cf8f807731c43a2117aecbf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ksfraser/FAMock/zipball/6ba1ece204af849fa0b4170e63fa0ded7c9fc949",
-                "reference": "6ba1ece204af849fa0b4170e63fa0ded7c9fc949",
+                "url": "https://api.github.com/repos/ksfraser/FAMock/zipball/207d698e3feeb7b2cf8f807731c43a2117aecbf0",
+                "reference": "207d698e3feeb7b2cf8f807731c43a2117aecbf0",
                 "shasum": ""
             },
             "require": {
@@ -1481,9 +1481,9 @@
             "description": "FrontAccounting function mocks for unit testing",
             "support": {
                 "issues": "https://github.com/ksfraser/FAMock/issues",
-                "source": "https://github.com/ksfraser/FAMock/tree/v0.10.3"
+                "source": "https://github.com/ksfraser/FAMock/tree/v0.10.4"
             },
-            "time": "2026-07-24T01:13:17+00:00"
+            "time": "2026-08-24T16:33:25+00:00"
         },
         {
             "name": "mikey179/vfsstream",
