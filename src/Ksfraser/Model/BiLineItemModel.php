@@ -300,6 +300,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 		$fa_gl->set("transactionCode", $this->transactionCode);
 
 		$this->matching_trans = $fa_gl->find_matching_transactions();
+		$this->matching_trans = ($this->matching_trans instanceof \ArrayIterator) ? iterator_to_array($this->matching_trans) : (array)$this->matching_trans;
 		
 		// Automatically determine partner type based on matches
 		$this->determinePartnerTypeFromMatches();
