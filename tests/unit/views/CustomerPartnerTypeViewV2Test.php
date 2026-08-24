@@ -23,7 +23,6 @@ use KsfBankImport\Views\CustomerPartnerTypeView;
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 
 // Load FrontAccounting stubs for testing
-require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 require_once __DIR__ . '/../../../views/CustomerPartnerTypeView.v2.php';
 require_once __DIR__ . '/../../../views/DataProviders/CustomerDataProvider.php';

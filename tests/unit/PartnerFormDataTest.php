@@ -15,7 +15,6 @@ use Ksfraser\PartnerFormData;
 use Ksfraser\FormFieldNameGenerator;
 
 // Load FA stubs for ANY_NUMERIC constant
-require_once __DIR__ . '/../../includes/fa_stubs.php';
 
 // Load the class
 require_once __DIR__ . '/../../src/Ksfraser/PartnerFormData.php';

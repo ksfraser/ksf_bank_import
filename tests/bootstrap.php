@@ -37,9 +37,8 @@ if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
  */
 define('KSF_TEST_COMPAT', true);
 
-if (!defined('KSF_TEST_COMPAT_SKIP_STUBS')) {
-    require_once __DIR__ . '/../includes/fa_stubs.php';
-}
+// Legacy workspace stub removed; famock package (vendor/ksfraser/famock)
+// provides all FA function mocks. Loaded via composer autoload / FAMock.php.
 
 // KSF module-common event/status constants (defines.inc.php equivalents).
 // Values mirror defines.inc.php's counter scheme; exact values don't matter,

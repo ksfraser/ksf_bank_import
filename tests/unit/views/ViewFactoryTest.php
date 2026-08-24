@@ -19,7 +19,6 @@ use KsfBankImport\Views\BankTransferPartnerTypeView;
 use KsfBankImport\Views\QuickEntryPartnerTypeView;
 
 // Load FA stubs
-require_once __DIR__ . '/../../../includes/fa_stubs.php';
 
 // Load the factory
 require_once __DIR__ . '/../../../views/ViewFactory.php';
