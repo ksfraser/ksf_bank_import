@@ -32,12 +32,12 @@ class ViewBILineItems
 		echo '<td width="50%">';
 		$table = new HTML_TABLE( null, 100 );
 
-		$table->appendRow( new TransDate( $bi_lineitem ) );
-		$table->appendRow( new TransType( $bi_lineitem ) );
-		$table->appendRow( new OurBankAccount( $bi_lineitem ) );
-		$table->appendRow( new OtherBankAccount( $bi_lineitem ) );
-		$table->appendRow( new AmountCharges( $bi_lineitem ) );
-		$table->appendRow( new TransTitle( $bi_lineitem ) );
+		$table->appendRow( new TransDate( $this->bi_lineitem ) );
+		$table->appendRow( new TransType( $this->bi_lineitem ) );
+		$table->appendRow( new OurBankAccount( $this->bi_lineitem ) );
+		$table->appendRow( new OtherBankAccount( $this->bi_lineitem ) );
+		$table->appendRow( new AmountCharges( $this->bi_lineitem ) );
+		$table->appendRow( new TransTitle( $this->bi_lineitem ) );
 
 		$this->displayAddVendorOrCustomer();
 		$this->displayEditTransData();
@@ -99,7 +99,7 @@ class ViewBILineItems
 		{
 			foreach( $param as $key=>$val )
 			{
-				$link->addAttribute( new HtmlAttribute( $key, $value ) );
+				$link->addAttribute( new HtmlAttribute( $key, $val ) );
 			}
 		}
 		$ret = $link->getHtml();
@@ -192,7 +192,7 @@ class ViewBILineItems
 					else
 					{
 						$match_html .= "MATCH BANK:: ";
-						$match_html .=  print_r( $our_account, true );
+						$match_html .=  print_r( $this->our_account, true );
 						$match_html .= "::" . print_r( $this->ourBankDetails['bank_account_name'], true );
 						$match_html .= " Matching " . print_r( $matchgl, true );
 						$match_html .= "Account " . $matchgl['account'] . "---";

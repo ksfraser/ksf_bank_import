@@ -252,9 +252,9 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 							display_notification('Supplier Payment Processed:' . $payment_id );
 
 							//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
-							//display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
+							//display_notification("<a href='http://" . $_SERVER["HTTP_HOST"] . "/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
 							//Display a link to the transaction
-							//	http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=22&trans_no=227
+							//	http://192.168.0.66/accounting/gl/view/gl_trans_view.php?type_id=22&trans_no=227
 							display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $payment_id . "'>View Payment</a>" );
 							//display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
 		                    		}
@@ -263,9 +263,9 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 		                    if( $trz['transactionDC'] == 'C' )
 		                    {
 					//FA Native creates this as a Supplier Credit Note -> BANK DEPOSIT
-					//http://fhsws002.ksfraser.com/infra/accounting/gl/view/gl_deposit_view.php?trans_no=4
+					//http://" . $_SERVER["HTTP_HOST"] . "/accounting/gl/view/gl_deposit_view.php?trans_no=4
 					//vs
-					//http://fhsws002.ksfraser.com/infra/accounting/purchasing/view/view_supp_payment.php?trans_no=183
+					//http://" . $_SERVER["HTTP_HOST"] . "/accounting/purchasing/view/view_supp_payment.php?trans_no=183
 					//Needs to be a BANK DEPOSIT in order for the payment to be recognized for allocation.
 					// gl/gl_bank.php?NewDeposit=Yes
 	
@@ -339,7 +339,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 						update_partner_data( $partnerId, $partner_type, $partner_detail_id, $account = $trz['account']);
 						display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
 						//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
-						//display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
+						//display_notification("<a href='http://" . $_SERVER["HTTP_HOST"] . "/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
 						display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $payment_id[1] . "'>View Entry</a>" );
 		                    	}
 					hook_db_postwrite($args, $trans_type );
@@ -379,7 +379,7 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 		Should we be setting trans_no?   It is currently NULL.
 		partnerId is being set right before the opening of this switch statement
 
-/var/www/html/infra/accounting/modules/bank_import/process_statements.php::376::
+/var/www/html/accounting/modules/bank_import/process_statements.php::376::
 	Array ( 
 		[TransAfterDate] => 10/02/2024 	
 		
@@ -559,9 +559,9 @@ if ( isset( $_POST['ProcessTransaction'] ) ) {
 					//ST_BANKPAYMENT or ST_BANKDEPOSIT
 					
 					//Let User attach a document
-					display_notification("<a href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $trans_type . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
+					display_notification("<a href='http://" . $_SERVER["HTTP_HOST"] . "/accounting/admin/attachments.php?filterType=" . $trans_type . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
 					//Let the user view the created transaction
-					//http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
+					//http://192.168.0.66/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
 					display_notification("<a href='../../gl/view/gl_trans_view.php?type_id=" . $trans_type . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
 
 	

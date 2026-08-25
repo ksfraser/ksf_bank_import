@@ -43,8 +43,8 @@ class BiLineItemView
 	**********************************************************************/
 	function display()
 	{
-		$this->display_left();
-		$this->display_right();
+		$this->display_left($this->lineItemModel);
+		$this->display_right($this->lineItemModel);
 	}
 	/**//*****************************************************************
 	* Display as a row
@@ -406,7 +406,7 @@ class BiLineItemView
 			$this->setPartnerType();
 			//display_notification( __FILE__ . "::" . __LINE__ . ": ->partnerType and _POST['partnerType']: "  . $this->id . "::" . $this->partnerType . "::" . $_POST['partnerType'][$this->id] );
 			//Leaving in process_statement
-			$this->getDisplayMatchingTrans();
+			$this->getDisplayMatchingTrans($this->lineItemModel);
 			//display_notification( __FILE__ . "::" . __LINE__ . ": ->partnerType and _POST['partnerType']: " . $this->id . "::"  . $this->partnerType . "::" . $_POST['partnerType'][$this->id] );
 			label_row("Operation:", $this->oplabel, "width='25%' class='label'");
 			////label_row("Operation:", (($transactionDC=='C') ? "Deposit" : "Payment"), "width='25%' class='label'");

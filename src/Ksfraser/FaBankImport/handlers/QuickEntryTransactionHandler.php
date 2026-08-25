@@ -284,7 +284,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
             $message,
             [
                 'view_gl_link' => "../../gl/view/gl_trans_view.php?type_id={$transType}&trans_no={$trans[1]}",
-                'attach_link' => "http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType={$transType}&trans_no={$trans[1]}"
+                'attach_link' => (isset($_SERVER['HTTP_HOST']) ? "http://{$_SERVER['HTTP_HOST']}" : '') . "/accounting/admin/attachments.php?filterType={$transType}&trans_no={$trans[1]}"
             ]
         );
     }

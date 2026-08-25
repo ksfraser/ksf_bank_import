@@ -16,7 +16,7 @@ $config['fa_root'] = '../..';
 $config['fa_paths'] = [
     '../..',                           // Default: up two levels
     '../../accounting',               // If FA is in accounting/ subdirectory
-    '/var/www/html/infra/accounting', // Production path from error logs
+    '/var/www/html/accounting', // Production path from error logs
     '/opt/frontaccounting',           // Common Linux installation
 ];
 

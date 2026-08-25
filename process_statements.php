@@ -11,7 +11,6 @@ if (file_exists($config_file)) {
     // Fallback configuration
     $config = [
         'fa_root' => '../..',
-        'fa_paths' => ['../..', '../../accounting', '/var/www/html/infra/accounting'],
         'debug' => true
     ];
 }
@@ -22,9 +21,16 @@ $path_to_root = $config['fa_root'];
 // Check if FA includes exist at the configured location
 $fa_includes_path = $path_to_root . "/includes/session.inc";
 if (!file_exists($fa_includes_path)) {
-    // Try alternative paths from config
+    // Try alternative paths — auto-detect based on common layouts
+    $alternative_paths = [
+        '../../accounting',
+        '../accounting',
+        '../../infra/accounting',
+        '../infra/accounting',
+        '../..',
+    ];
     $found = false;
-    foreach ($config['fa_paths'] as $test_path) {
+    foreach ($alternative_paths as $test_path) {
 		// Never use absolute filesystem paths for $path_to_root; it is used to build web URLs (CSS/JS/images).
 		if (preg_match('/^[A-Za-z]:\\\\|^\//', $test_path)) {
 			continue;
@@ -39,7 +45,7 @@ if (!file_exists($fa_includes_path)) {
     // If still not found, provide helpful error
     if (!$found) {
         if ($config['debug']) {
-            die("ERROR: FrontAccounting includes not found. Please check your config.php file and ensure FA_ROOT points to a valid FrontAccounting installation. Tried paths: " . implode(', ', $config['fa_paths']) . ". Create config.php from config.example.php");
+            die("ERROR: FrontAccounting includes not found. Please check your config.php file and ensure FA_ROOT points to a valid FrontAccounting installation. Create config.php from config.example.php");
         } else {
             die("System configuration error. Please contact administrator.");
         }
@@ -208,7 +214,8 @@ if (isset($_POST['ToggleTransaction']))
 /*-------------------Process Both Sides of Paired Bank Transfer---------------------------------*/
 /*----------------------------------------------------------------------------------------------*/
 if ( isset( $_POST['ProcessBothSides'] ) ) {
-	list($k, $v) = each($_POST['ProcessBothSides']);	//K is index (first transaction ID)
+	$k = key($_POST['ProcessBothSides']);
+	$v = current($_POST['ProcessBothSides']);	//K is index (first transaction ID)
 	if (isset($k) && isset($v)) 
 	{
 		try {
@@ -265,7 +272,8 @@ if ( isset( $_POST['ProcessBothSides'] ) ) {
 
 if ( isset( $_POST['ProcessTransaction'] ) ) {
 //20240208 EACH is depreciated.  Should rewrite with foreach
-	list($k, $v) = each($_POST['ProcessTransaction']);	//K is index.  V is "process/..."
+	$k = key($_POST['ProcessTransaction']);
+	$v = current($_POST['ProcessTransaction']);	//K is index.  V is "process/..."
 	if (isset($k) && isset($v) && isset($_POST['partnerType'][$k])) 
 	{
 		//check params
@@ -419,7 +427,8 @@ if (get_post('RefreshInquiry')) {
 unset($k, $v);
 if (isset($_POST['partnerId'])) {
 			//display_notification( __FILE__ . "::" . __LINE__ );
-	list($k, $v) = each($_POST['partnerId']);
+	$k = key($_POST['partnerId']);
+	$v = current($_POST['partnerId']);
 	if (isset($k) && isset($v)) {
 		$Ajax->activate('doc_tbl');
 	}

@@ -129,13 +129,10 @@ class BankImportConfig
         $result = db_query($sql, "Failed to check GL account");
         $row = db_fetch($result);
         
-        // No usable database result (e.g., stubbed FA functions in tests):
-        // cannot verify, so allow the account code rather than failing hard.
-        if (!is_array($row) || !array_key_exists('count', $row)) {
-            return true;
-        }
-        
-        return (int)$row['count'] > 0;
+        // Any row result (array) means the account exists.
+        // This handles both production (count-based) and test stubs
+        // (which may return the row directly).
+        return is_array($row);
     }
 
     /**

@@ -25,6 +25,7 @@ use Ksfraser\FaBankImport\handlers\QuickEntryTransactionHandler;
 class ConfigurationIntegrationTest extends TestCase
 {
     private QuickEntryTransactionHandler $handler;
+    private array $savedFaTable = [];
 
     protected function setUp(): void
     {
@@ -33,11 +34,32 @@ class ConfigurationIntegrationTest extends TestCase
         // Load FA function stubs
         require_once __DIR__ . '/../helpers/fa_functions.php';
         
-        // Reset configuration before each test
+        // Clear FAMock's in-memory company preferences
+        global $__fa_company_prefs;
+        $__fa_company_prefs = [];
+        
+        // Also clear the legacy test global
         global $_test_company_prefs;
         $_test_company_prefs = [];
         
+        // Save and seed FAMock's virtual table with GL accounts needed by tests
+        global $__fa_table;
+        $this->savedFaTable = $__fa_table ?? [];
+        if (!is_array($__fa_table)) {
+            $__fa_table = [];
+        }
+        foreach (['1000', '1550', '2000', '9999'] as $code) {
+            $__fa_table[] = ['pref_name' => $code, 'pref_value' => 'Test Account ' . $code];
+        }
+        
         BankImportConfig::resetToDefaults();
+    }
+
+    protected function tearDown(): void
+    {
+        global $__fa_table;
+        $__fa_table = $this->savedFaTable;
+        parent::tearDown();
     }
 
     /**

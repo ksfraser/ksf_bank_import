@@ -32,7 +32,11 @@ class BankImportConfigTest extends TestCase
     {
         parent::setUp();
         
-        // Clear test preferences
+        // Clear FAMock's in-memory company preferences
+        global $__fa_company_prefs;
+        $__fa_company_prefs = [];
+        
+        // Also clear the legacy test global for compatibility
         global $_test_company_prefs;
         $_test_company_prefs = [];
     }

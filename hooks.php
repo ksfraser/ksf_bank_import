@@ -11,7 +11,9 @@ if (!defined('MENU_IMPORT')) {
 //	SA_BANKTRANSVIEW
 //	SA_SETUPCOMPANY
 
-define('SS_BANKIMPORT', 113 << 8);
+if (!defined('SS_BANKIMPORT')) {
+    define('SS_BANKIMPORT', 113 << 8);
+}
 
 /**//************************************************************
 * Hooks class, called by FA on every page load

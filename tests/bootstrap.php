@@ -21,6 +21,23 @@ if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
     @session_start();
 }
 
+// CLI mode detection: set $_SERVER vars that browser code expects.
+// Tests run from CLI (phpunit) lack HTTP superglobals.
+if (php_sapi_name() === 'cli' || PHP_SAPI === 'cli') {
+    if (!isset($_SERVER['HTTP_HOST'])) {
+        $_SERVER['HTTP_HOST'] = 'localhost';
+    }
+    if (!isset($_SERVER['SERVER_NAME'])) {
+        $_SERVER['SERVER_NAME'] = 'localhost';
+    }
+    if (!isset($_SERVER['REQUEST_URI'])) {
+        $_SERVER['REQUEST_URI'] = '/';
+    }
+    if (!isset($_SERVER['SCRIPT_NAME'])) {
+        $_SERVER['SCRIPT_NAME'] = '/index.php';
+    }
+}
+
 /**
  * Legacy compat layer (refactor-psr).
  *

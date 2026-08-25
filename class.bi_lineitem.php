@@ -498,9 +498,9 @@ class bi_lineitem extends generic_fa_interface_model
 		{
 			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
 		}
-		if( ! isset( $this->otherBankAccountt ) )
+		if( ! isset( $this->otherBankAccount ) )
 		{
-			throw new Exception( "Field not set ->otherBankAccountt", KSF_FIELD_NOT_SET );
+			throw new Exception( "Field not set ->otherBankAccount", KSF_FIELD_NOT_SET );
 		}
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
 		return $matchedVendor;
@@ -719,9 +719,9 @@ class bi_lineitem extends generic_fa_interface_model
 					}
 					else
 					{
-						$match_html .= "MATCH BANK:: ";
-						$match_html .=  print_r( $our_account, true );
-						$match_html .= "::" . print_r( $this->ourBankDetails['bank_account_name'], true );
+					$match_html .= "MATCH BANK:: ";
+					$match_html .=  print_r( $this->our_account, true );
+					$match_html .= "::" . print_r( $this->ourBankDetails['bank_account_name'], true );
 						$match_html .= " Matching " . print_r( $matchgl, true );
 						$match_html .= "Account " . $matchgl['account'] . "---";
 					}

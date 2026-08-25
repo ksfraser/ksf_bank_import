@@ -85,7 +85,7 @@ class PartnerFormData
         $value = $_POST[$fieldName];
         
         // Handle empty string or ANY_NUMERIC constant
-        if ($value === '' || $value === ANY_NUMERIC) {
+        if ($value === '' || $value == ANY_NUMERIC) {
             return null;
         }
         
@@ -125,7 +125,7 @@ class PartnerFormData
     {
         $fieldName = $this->fieldGenerator->partnerIdField($this->lineItemId);
         
-        return isset($_POST[$fieldName]) && $_POST[$fieldName] !== '' && $_POST[$fieldName] !== ANY_NUMERIC;
+        return isset($_POST[$fieldName]) && $_POST[$fieldName] !== '' && $_POST[$fieldName] != ANY_NUMERIC;
     }
 
     /**
@@ -146,7 +146,7 @@ class PartnerFormData
         $value = $_POST[$fieldName];
         
         // Handle empty string or ANY_NUMERIC constant
-        if ($value === '' || $value === ANY_NUMERIC) {
+        if ($value === '' || $value == ANY_NUMERIC) {
             return null;
         }
         
@@ -186,7 +186,7 @@ class PartnerFormData
     {
         $fieldName = $this->fieldGenerator->partnerDetailIdField($this->lineItemId);
         
-        return isset($_POST[$fieldName]) && $_POST[$fieldName] !== '' && $_POST[$fieldName] !== ANY_NUMERIC;
+        return isset($_POST[$fieldName]) && $_POST[$fieldName] !== '' && $_POST[$fieldName] != ANY_NUMERIC;
     }
 
     /**

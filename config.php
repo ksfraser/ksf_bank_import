@@ -6,15 +6,21 @@
  */
 
 // FrontAccounting Installation Path
-// Based on error logs, your FA installation appears to be at:
-$config['fa_root'] = '/var/www/html/infra/accounting';
-
-// Alternative FA paths to try if the default doesn't work
-$config['fa_paths'] = [
-    '/var/www/html/infra/accounting',  // Production path from error logs
-    '../..',                           // Default relative path
-    '../../accounting',               // Alternative relative path
-];
+// Auto-detect: try common paths relative to this module directory.
+// New prod uses 'accounting', old prod uses 'infra/accounting'.
+$fa_paths_to_try = ['accounting', '../accounting', '../../accounting', 'infra/accounting', '../infra/accounting'];
+$config['fa_root'] = null;
+foreach ($fa_paths_to_try as $candidate) {
+    $resolved = realpath(__DIR__ . '/' . $candidate);
+    if ($resolved && file_exists($resolved . '/includes/session.inc')) {
+        $config['fa_root'] = $candidate;
+        break;
+    }
+}
+// Fallback to hardcoded if auto-detect fails (override in production)
+if ($config['fa_root'] === null) {
+    $config['fa_root'] = '../../accounting';
+}
 
 // Database settings (leave null to use FA settings)
 $config['db_host'] = null;

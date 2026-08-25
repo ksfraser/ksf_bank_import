@@ -427,7 +427,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$this->update_partner_data( null );	//Suppliers don't have branches
 				display_notification('Supplier Payment Processed:' . $payment_id );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
-				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
+				//display_notification("<a target=_blank href='http://" . $_SERVER["HTTP_HOST"] . "/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
 				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $payment_id . "'>View Payment</a>" );
 				display_notification("<a target=_blank href='../../purchasing/allocations/supplier_allocate.php?trans_type=" . $this->transType . "&trans_no=" . $payment_id . "&supplier_id=" . $this->partnerId . "'>Allocate Payment</a>" );
 			}
@@ -436,9 +436,9 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		{
 		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 			//FA Native creates this as a Supplier Credit Note -> BANK DEPOSIT
-			//http://fhsws002.ksfraser.com/infra/accounting/gl/view/gl_deposit_view.php?trans_no=4
+			//http://" . $_SERVER["HTTP_HOST"] . "/accounting/gl/view/gl_deposit_view.php?trans_no=4
 			//vs
-			//http://fhsws002.ksfraser.com/infra/purchasing/view/view_supp_payment.php?trans_no=183
+			//http://$_SERVER["HTTP_HOST"]/infra/purchasing/view/view_supp_payment.php?trans_no=183
 			//Needs to be a BANK DEPOSIT in order for the payment to be recognized for allocation.
 			// gl/gl_bank.php?NewDeposit=Yes
 		
@@ -511,7 +511,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$this->update_partner_data( null );
 				display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
-				//display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
+				//display_notification("<a target=_blank href='http://" . $_SERVER["HTTP_HOST"] . "/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
 				display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $payment_id[1] . "'>View Entry</a>" );
 			}
 		display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
@@ -541,7 +541,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				Should we be setting trans_no?   It is currently NULL.
 				partnerId is being set right before the opening of this switch statement
 		
-		/var/www/html/infra/accounting/modules/bank_import/process_statements.php::376::
+		/var/www/html/accounting/modules/bank_import/process_statements.php::376::
 			Array (
 				[vendor_short_33038] => WENDY'S MCKNIGHT
 				[vendor_long_33038] => WENDY'S MCKNIGHT
@@ -629,7 +629,8 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		//display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
 
 		//20240208 EACH is depreciated.  Should rewrite with foreach
-		list($this->tid, $v) = each($_POST['ProcessTransaction']);      //K is index.  V is "process/..."
+		$this->tid = key($_POST['ProcessTransaction']);
+		$v = current($_POST['ProcessTransaction']);      //K is index.  V is "process/..."
 		if(isset($this->tid) && isset($v) && isset($_POST['partnerType'][$this->tid]))
 		{
 			$error = 0;
@@ -734,9 +735,9 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							//ST_BANKPAYMENT or ST_BANKDEPOSIT
 		
 							//Let User attach a document
-							display_notification("<a target=_blank href='http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
+							display_notification("<a target=_blank href='http://" . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost') . "/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
 							//Let the user view the created transaction
-							//http://192.168.0.66/infra/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
+							//http://192.168.0.66/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
 							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
 		
 		

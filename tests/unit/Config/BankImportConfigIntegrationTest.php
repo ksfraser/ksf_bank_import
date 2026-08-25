@@ -25,6 +25,9 @@ use Ksfraser\FaBankImport\Config\BankImportConfig;
 
 class BankImportConfigIntegrationTest extends TestCase
 {
+    /** @var array Saved FAMock table state for restoration after each test */
+    private $savedFaTable = [];
+
     /**
      * Reset configuration before each test
      */
@@ -32,9 +35,36 @@ class BankImportConfigIntegrationTest extends TestCase
     {
         parent::setUp();
         
-        // Clear test preferences
+        // Clear FAMock's in-memory company preferences (used by get/set_company_pref)
+        global $__fa_company_prefs;
+        $__fa_company_prefs = [];
+        
+        // Also clear the legacy test global for compatibility
         global $_test_company_prefs;
         $_test_company_prefs = [];
+        
+        // Save and seed FAMock's virtual table with GL accounts needed by tests.
+        // glAccountExists() queries chart_master; FAMock's db_fetch searches
+        // __fa_table by pref_name, returning any matching row as evidence
+        // the account exists.
+        global $__fa_table;
+        $this->savedFaTable = $__fa_table ?? [];
+        if (!is_array($__fa_table)) {
+            $__fa_table = [];
+        }
+        foreach (['1060', '2100', '9999', '1234'] as $code) {
+            $__fa_table[] = ['pref_name' => $code, 'pref_value' => 'Test Account ' . $code];
+        }
+    }
+
+    /**
+     * Restore FAMock table state after each test to prevent leaking
+     */
+    protected function tearDown(): void
+    {
+        global $__fa_table;
+        $__fa_table = $this->savedFaTable;
+        parent::tearDown();
     }
 
     /**

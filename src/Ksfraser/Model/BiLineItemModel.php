@@ -437,7 +437,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 			if (!empty($matched_supplier))
 			{
 				$this->partnerId = $_POST["partnerId_$this->id"] = $matched_supplier['partner_id'];
-				$this->partnerDetailId = $_POST["partnerDetailId_$this->id"] = $match['partner_detail_id'];
+				$this->partnerDetailId = $_POST["partnerDetailId_$this->id"] = $matched_supplier['partner_detail_id'];
 			}
 /*
 		}
