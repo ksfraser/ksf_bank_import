@@ -625,7 +625,8 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		//display_notification( __LINE__ . "::" .  print_r( $_POST, true ));
 
 		//20240208 EACH is depreciated.  Should rewrite with foreach
-		list($this->tid, $v) = each($_POST['ProcessTransaction']);      //K is index.  V is "process/..."
+		$this->tid = key($_POST['ProcessTransaction']);
+		$v = current($_POST['ProcessTransaction']);      //K is index.  V is "process/..."
 		if(isset($this->tid) && isset($v) && isset($_POST['partnerType'][$this->tid]))
 		{
 			$error = 0;
@@ -730,7 +731,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							//ST_BANKPAYMENT or ST_BANKDEPOSIT
 		
 							//Let User attach a document
-							display_notification("<a target=_blank href='http://" . $_SERVER["HTTP_HOST"] . "/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
+							display_notification("<a target=_blank href='http://" . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost') . "/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
 							//Let the user view the created transaction
 							//http://192.168.0.66/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
 							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans[1] . "'>View Entry</a>" );

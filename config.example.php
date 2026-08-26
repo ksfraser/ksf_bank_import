@@ -7,20 +7,34 @@
  */
 
 // FrontAccounting Installation Path
-// This should point to the root directory of your FrontAccounting installation
-// Default assumes the module is installed at FA_ROOT/modules/bank_import/
-$config['fa_root'] = '../..';
+// Auto-detect: try common paths relative to this module directory.
+// If auto-detect fails, falls back to $config['fa_paths'], then to this value.
+// New prod uses 'accounting', old prod uses 'infra/accounting'.
+$fa_paths_to_try = ['accounting', '../accounting', '../../accounting', 'infra/accounting', '../infra/accounting'];
+$config['fa_root'] = null;
+foreach ($fa_paths_to_try as $candidate) {
+    $resolved = realpath(__DIR__ . '/' . $candidate);
+    if ($resolved && file_exists($resolved . '/includes/session.inc')) {
+        $config['fa_root'] = $candidate;
+        break;
+    }
+}
+// Fallback to hardcoded if auto-detect fails (override in production)
+if ($config['fa_root'] === null) {
+    $config['fa_root'] = '../../accounting';
+}
 
-// Alternative FA paths to try if the default doesn't work
-// Add your FA installation paths here
+// Alternative FA paths to try if the primary fa_root doesn't work.
+// These are checked in order if fa_root/includes/session.inc is missing.
 $config['fa_paths'] = [
-    '../..',                           // Default: up two levels
-    '../../accounting',               // If FA is in accounting/ subdirectory
-    '/var/www/html/accounting', // Production path from error logs
-    '/opt/frontaccounting',           // Common Linux installation
+    '../../accounting',
+    '../accounting',
+    '../../infra/accounting',
+    '../infra/accounting',
+    '../..',
 ];
 
-// Database settings (if different from FA)
+// Database settings (leave null to use FA settings)
 $config['db_host'] = null;  // null = use FA settings
 $config['db_name'] = null;
 $config['db_user'] = null;

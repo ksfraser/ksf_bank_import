@@ -21,20 +21,31 @@ $path_to_root = $config['fa_root'];
 // Check if FA includes exist at the configured location
 $fa_includes_path = $path_to_root . "/includes/session.inc";
 if (!file_exists($fa_includes_path)) {
-    // Try alternative paths — auto-detect based on common layouts
-    $alternative_paths = [
+    // Try alternative paths — config fa_paths first, then auto-detect
+    $alternative_paths = [];
+    if (!empty($config['fa_paths']) && is_array($config['fa_paths'])) {
+        $alternative_paths = $config['fa_paths'];
+    }
+    // Auto-detect fallbacks for common layouts
+    $auto_detect = [
         '../../accounting',
         '../accounting',
         '../../infra/accounting',
         '../infra/accounting',
         '../..',
     ];
+    $alternative_paths = array_merge($alternative_paths, $auto_detect);
+    // Deduplicate while preserving order
+    $alternative_paths = array_values(array_unique($alternative_paths));
+
+    $tried_paths = [$path_to_root];
     $found = false;
     foreach ($alternative_paths as $test_path) {
 		// Never use absolute filesystem paths for $path_to_root; it is used to build web URLs (CSS/JS/images).
 		if (preg_match('/^[A-Za-z]:\\\\|^\//', $test_path)) {
 			continue;
 		}
+		$tried_paths[] = $test_path;
 		if (file_exists($test_path . "/includes/session.inc")) {
 			$path_to_root = $test_path;
 			$found = true;
@@ -45,7 +56,7 @@ if (!file_exists($fa_includes_path)) {
     // If still not found, provide helpful error
     if (!$found) {
         if ($config['debug']) {
-            die("ERROR: FrontAccounting includes not found. Please check your config.php file and ensure FA_ROOT points to a valid FrontAccounting installation. Create config.php from config.example.php");
+            die("ERROR: FrontAccounting includes not found. Please check your config.php file and ensure FA_ROOT points to a valid FrontAccounting installation. Tried paths: " . implode(', ', $tried_paths) . ". Create config.php from config.example.php");
         } else {
             die("System configuration error. Please contact administrator.");
         }
