@@ -56,10 +56,6 @@ require_once( $viewsDir . '/TransTitle.php' );
 
 // SRP View classes for partner type displays
 require_once( $viewsDir . '/PartnerMatcher.php' );
-require_once( $viewsDir . '/SupplierPartnerTypeView.php' );
-require_once( $viewsDir . '/CustomerPartnerTypeView.php' );
-require_once( $viewsDir . '/BankTransferPartnerTypeView.php' );
-require_once( $viewsDir . '/QuickEntryPartnerTypeView.php' );
 
 // V2 Views with ViewFactory (feature flag controlled)
 require_once( $viewsDir . '/ViewFactory.php' );

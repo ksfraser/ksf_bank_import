@@ -35,12 +35,6 @@ use KsfBankImport\Views\ViewFactory;
 require_once( __DIR__ . '/../src/Ksfraser/PartnerTypes/PartnerTypeRegistry.php' );
 use Ksfraser\PartnerTypes\PartnerTypeRegistry;
 
-// Legacy Views (V1) - kept for backward compatibility
-require_once( __DIR__ . '/SupplierPartnerTypeView.php' );
-require_once( __DIR__ . '/CustomerPartnerTypeView.php' );
-require_once( __DIR__ . '/BankTransferPartnerTypeView.php' );
-require_once( __DIR__ . '/QuickEntryPartnerTypeView.php' );
-
 // HTML Library classes for type-safe HTML generation
 require_once( __DIR__ . '/../src/Ksfraser/HTML/HtmlElementInterface.php' );
 require_once( __DIR__ . '/../src/Ksfraser/HTML/HtmlAttribute.php' );
