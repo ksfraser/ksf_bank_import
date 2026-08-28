@@ -115,7 +115,7 @@ class QuickEntryPartnerTypeViewTest extends TestCase
      * Test uses data provider for quick entry checking
      * 
      * @covers ::getHtml
-     * @covers ::renderQuickEntryDescription
+     * @covers ::getQuickEntryDescription
      */
     public function testUsesDataProviderForQuickEntryChecking(): void
     {
@@ -181,7 +181,7 @@ class QuickEntryPartnerTypeViewTest extends TestCase
     /**
      * Test deposit transaction type uses QE_DEPOSIT
      * 
-     * @covers ::renderQuickEntrySelector
+     * @covers ::buildQuickEntrySelect
      */
     public function testDepositTransactionTypeUsesQeDeposit(): void
     {
@@ -201,7 +201,7 @@ class QuickEntryPartnerTypeViewTest extends TestCase
     /**
      * Test payment transaction type uses QE_PAYMENT
      * 
-     * @covers ::renderQuickEntrySelector
+     * @covers ::buildQuickEntrySelect
      */
     public function testPaymentTransactionTypeUsesQePayment(): void
     {
@@ -224,7 +224,7 @@ class QuickEntryPartnerTypeViewTest extends TestCase
     /**
      * Test renders base description when entry is selected
      * 
-     * @covers ::renderQuickEntryDescription
+     * @covers ::getQuickEntryDescription
      */
     public function testRendersBaseDescriptionWhenEntryIsSelected(): void
     {
@@ -247,7 +247,7 @@ class QuickEntryPartnerTypeViewTest extends TestCase
     /**
      * Test no description rendered when no entry selected
      * 
-     * @covers ::renderQuickEntryDescription
+     * @covers ::getQuickEntryDescription
      */
     public function testNoDescriptionRenderedWhenNoEntrySelected(): void
     {

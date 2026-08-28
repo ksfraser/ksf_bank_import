@@ -8,7 +8,7 @@ use Ksfraser\HTML\Elements\HtmlHidden;
 /**
  * Test HtmlHidden Class
  * 
- * @coversDefaultClass \Ksfraser\HTML\HtmlHidden
+ * @coversDefaultClass \Ksfraser\HTML\Elements\Form\Input\HtmlHidden
  */
 class HtmlHiddenTest extends TestCase
 {
