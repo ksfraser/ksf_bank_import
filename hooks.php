@@ -68,7 +68,7 @@ class hooks_bank_import extends hooks {
 
 	function activate_extension($company, $check_only=true) 
 	{
-		$updates = array( 'sql/update.sql' => array($this->module_name) );
+		$updates = array( 'sql/update.sql' => array('bi_statements') );
 		$ok = $this->update_databases($company, $updates, $check_only);
 		if ($check_only || !$ok) {
 			return $ok;
