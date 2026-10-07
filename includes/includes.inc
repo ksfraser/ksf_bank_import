@@ -227,6 +227,31 @@ function fa_get_bank_account_by_number($account_number)
 *		Bank Deposits can be allocated on the Allocation screen.
 *	Customer Payment DOES have the allocation table on the edit screen.
 *
+*	TODO (extraction, not yet applied here — do NOT refactor this module yet):
+*	The write + allocate sequence in this function and in
+*	handlers/CustomerTransactionHandler.php is now also provided generically by
+*	the ksf_FA_Payment module as the CREATE_PAYMENT responder:
+*	    ksf_FA_Payment/src/Ksfraser/FA/Payment/Service/PaymentCreationService.php
+*	It calls the CORE write_customer_payment (sales/includes/db/payment_db.inc)
+*	and then add_cust_allocation (sales/includes/db/custalloc_db.inc), with
+*	allocation delegated to ksf_FA_InvoiceAllocation's allocation_create when
+*	that module is active.
+*
+*	Why it was NOT changed here yet: my_write_customer_payment deliberately
+*	differs from core in two ways the generic service does not implement —
+*	(1) it accepts an explicit $trans_type (so the same routine serves
+*	ST_BANKDEPOSIT as well as ST_CUSTPAYMENT), and (2) when $trans_no != 0 it
+*	voids the existing bank transaction, its GL rows, its comments and its
+*	customer allocations before writing the replacement. Bank reconciliation
+*	depends on that replace-in-place behaviour; Import Staging only ever creates
+*	new payments, so the shared service is create-only.
+*
+*	Follow-up when this module is next revisited: decide whether
+*	handlers/CustomerTransactionHandler.php should call the ksf_FA_Payment
+*	service for the create path while keeping this function for the
+*	replace/void path, or whether the void behaviour should be parameterised
+*	into the shared service.
+*
 * @param int trans_no
 * @param int customer_id
 * @param int branch_id
