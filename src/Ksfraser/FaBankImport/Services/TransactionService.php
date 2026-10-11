@@ -5,6 +5,12 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface;
 use Ksfraser\FaBankImport\Factories\TransactionTypeFactory;
 
+/**
+ * Transaction Service — core processing
+ * @BABOK BR-001 (Automatic Transaction Matching) — FR-001, FR-002, FR-003
+ * @BABOK ARCH-001 (Service-Oriented Design for BR-001) — FR-014, FR-015
+ * @UML docs/ARCHITECTURE.md / docs/UAT_PLAN.md
+ */
 class TransactionService
 {
     private $repository;

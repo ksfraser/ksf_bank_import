@@ -10,6 +10,8 @@
  * @author     Kevin Fraser
  * @copyright  2025 KSF
  * @since      7.6 (2026-04-19)
+ * @BABOK BR-001 (Auto Pair Detection) — FR-003 (Amount Matching Tolerance) — AC-003.1/003.2
+ * @UML docs/FunctionalRequirements/FR-003.md
  * @version    1.0.0
  */
 
