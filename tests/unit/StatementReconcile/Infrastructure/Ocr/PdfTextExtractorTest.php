@@ -9,6 +9,8 @@ declare(strict_types=1);
 // PHP resolves unqualified function calls within a namespace by first looking for
 // a namespace-level definition before falling back to the global function.
 // ---------------------------------------------------------------------------
+ * Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr {
     if (!function_exists('Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\is_readable')) {

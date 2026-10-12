@@ -14,6 +14,8 @@ use PHPUnit\Framework\TestCase;
  * - Transaction type detection (Invoice, Quick Entry, Generic)
  * - Score thresholds
  * - Array size variations (0, 1, 2, 3+ matches)
+ * Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
  */
 class BiLineItemQERegressionTest extends TestCase
 {

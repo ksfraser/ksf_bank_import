@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+/** @BABOK See docs/Requirements/ for module coverage tracking - Referenced in RTM */
 namespace Ksfraser\FaBankImport\StatementReconcile\Application;
 
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\ReconciliationSession;

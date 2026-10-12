@@ -1,5 +1,6 @@
 <?php
 
+/** @BABOK See docs/Requirements/ for module coverage tracking - Referenced in RTM */
 namespace Ksfraser\FaBankImport\Controllers;
 
 use Ksfraser\FaBankImport\Services\PerformanceMonitor;

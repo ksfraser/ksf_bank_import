@@ -33,6 +33,8 @@
  * └──────────────────────────────────────┘
  * @enduml
  */
+ * Referenced in RTM for domain layer (BR-001 through BR-012, ARCH-001 through ARCH-010)
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Ksfraser\FaBankImport\Views\DataProviders;
 

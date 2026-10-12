@@ -1,5 +1,9 @@
 <?php
 
+/** @BABOK See docs/Requirements/ for module coverage tracking 
+ * Referenced in RTM for service layer (FR-001 through FR-018) 
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
@@ -11,6 +15,7 @@ class AlertService
     private static $instance = null;
 
     private function __construct()
+        /** @BABOK @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     {
         $this->config = Config::getInstance();
         $this->aggregator = new MetricsAggregator($this->config->get('logging.path'));
@@ -25,6 +30,7 @@ class AlertService
     }
 
     public function checkAndSendAlerts(): void
+        /** @BABOK @BABOK BR-012 / FR-012 (Alert monitoring) — method: checkAndSendAlerts */
     {
         if (!$this->config->get('alerts.enabled', false)) {
             return;
@@ -57,6 +63,7 @@ class AlertService
     }
 
     private function sendAnomalyAlert(array $anomalies): void
+        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: sendAnomalyAlert */
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' Performance Anomalies Detected';
         
@@ -75,6 +82,7 @@ class AlertService
     }
 
     private function sendSlowTransactionAlert(string $metricName, array $metric): void
+        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: sendSlowTransactionAlert */
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' Slow Transactions Detected';
         
@@ -89,6 +97,7 @@ class AlertService
     }
 
     private function sendHighMemoryAlert(string $metricName, array $metric): void
+        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: sendHighMemoryAlert */
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' High Memory Usage Detected';
         
@@ -103,6 +112,7 @@ class AlertService
     }
 
     private function sendEmail(string $subject, string $message): void
+        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: sendEmail */
     {
         $to = $this->config->get('alerts.email.to');
         $from = $this->config->get('alerts.email.from');

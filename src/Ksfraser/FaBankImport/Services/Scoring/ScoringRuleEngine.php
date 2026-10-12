@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+/** @BABOK See docs/Requirements/ for module coverage tracking 
+ * Referenced in RTM for service layer (FR-001 through FR-018) 
+ */
+
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;

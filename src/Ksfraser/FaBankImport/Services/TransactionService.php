@@ -7,8 +7,8 @@ use Ksfraser\FaBankImport\Factories\TransactionTypeFactory;
 
 /**
  * Transaction Service — core processing
- * @BABOK BR-001 (Automatic Transaction Matching) — FR-001, FR-002, FR-003
- * @BABOK ARCH-001 (Service-Oriented Design for BR-001) — FR-014, FR-015
+ * @BABOK BR-001 (Auto Pair Detection) / BR-003 (Bank Transfer Creation) / ARCH-001 (Service Design) / FR-001 (Pair Detection) / FR-015 (DI Injection)
+ * Consolidated from: getPendingTransactions (BR-001/FR-001), processTransaction (BR-001/FR-001/BR-003), __construct (ARCH-001/FR-015), toggleTransactionType (BR-001/FR-001)
  * @UML docs/ARCHITECTURE.md / docs/UAT_PLAN.md
  */
 class TransactionService
@@ -17,6 +17,7 @@ class TransactionService
     private $factory;
 
     public function __construct(
+            /** @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
         $repository,
         TransactionTypeFactory $factory
     ) {
@@ -25,11 +26,13 @@ class TransactionService
     }
 
     public function getPendingTransactions(): array
+            /** @BABOK BR-001 / FR-001 — method: getPendingTransactions */
     {
         return $this->repository->findByStatus('pending');
     }
 
     public function processTransaction(int $id, string $type): bool
+            /** @BABOK BR-001 / FR-001 / BR-003 — method: processTransaction */
     {
         $transaction = $this->repository->findById($id);
         
@@ -44,6 +47,7 @@ class TransactionService
     }
 
     public function toggleTransactionType(int $id): bool
+            /** @BABOK See docs/Requirements/ for module coverage — method: toggleTransactionType */
     {
         $transaction = $this->repository->findById($id);
         

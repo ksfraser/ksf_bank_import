@@ -1,5 +1,9 @@
 <?php
 
+/** @BABOK See docs/Requirements/ for module coverage tracking 
+ * Referenced in RTM for service layer (FR-001 through FR-018) 
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 class MetricsAggregator
@@ -8,11 +12,13 @@ class MetricsAggregator
     private $logPath;
 
     public function __construct(string $logPath)
+        /** @BABOK @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     {
         $this->logPath = $logPath;
     }
 
     public function aggregateMetrics(string $startDate, string $endDate): array
+        /** @BABOK @BABOK BR-012-002 / TC-012-A (Metrics aggregation) — method: aggregateMetrics */
     {
         $metrics = [];
         $files = glob($this->logPath . self::METRICS_FILE_PATTERN);
@@ -64,6 +70,7 @@ class MetricsAggregator
     }
 
     public function getHistoricalTrends(string $metricName, int $days = 7): array
+        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: getHistoricalTrends */
     {
         $endDate = date('Y-m-d');
         $startDate = date('Y-m-d', strtotime("-{$days} days"));
@@ -88,6 +95,7 @@ class MetricsAggregator
     }
 
     public function detectPerformanceAnomalies(array $metrics, float $threshold = 2.0): array
+        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: detectPerformanceAnomalies */
     {
         $anomalies = [];
         

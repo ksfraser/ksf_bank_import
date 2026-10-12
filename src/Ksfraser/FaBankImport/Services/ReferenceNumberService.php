@@ -19,6 +19,7 @@
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Services;
+/** @BABOK See docs/BusinessRequirements/BR-001-AutoMatch.md / docs/FunctionalRequirements/FR-001-AutoPairDetect.md / docs/Architecture/ARCH-001-ServiceDesign.md - Covered in RTM */
 
 /**
  * Reference Number Service
@@ -48,6 +49,7 @@ class ReferenceNumberService
      * @param object|null $referenceGenerator Optional reference generator for testing
      */
     public function __construct($referenceGenerator = null)
+        /** @BABOK @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     {
         // Allow dependency injection for testing, otherwise use FA global
         $this->referenceGenerator = $referenceGenerator;
@@ -68,6 +70,7 @@ class ReferenceNumberService
      * // Returns: "12345" or similar unique ref
      */
     public function getUniqueReference(int $transType): string
+        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: getUniqueReference */
     {
         // Use injected generator or FA global
         $generator = $this->referenceGenerator ?? $this->getGlobalRefsObject();
@@ -87,6 +90,7 @@ class ReferenceNumberService
      * @return object FA References object
      */
     protected function getGlobalRefsObject()
+        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: getGlobalRefsObject */
     {
         global $Refs;
         return $Refs;

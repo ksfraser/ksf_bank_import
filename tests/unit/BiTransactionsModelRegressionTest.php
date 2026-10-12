@@ -17,6 +17,8 @@ use PHPUnit\Framework\TestCase;
  * - update() - Transaction update with validation logic
  * - toggleDebitCredit() - Debit/Credit toggling
  * - set() - Field validation (limit field)
+ * Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
  */
 class BiTransactionsModelRegressionTest extends TestCase
 {
