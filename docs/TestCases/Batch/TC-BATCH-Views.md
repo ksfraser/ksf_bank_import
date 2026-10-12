@@ -1,0 +1,38 @@
+# TC-BATCH-Views: All Tagged View Files
+- Views/AddCustomerButton.php -> BR-009 / ARCH-009 / FR-009
+- Views/AddNoButton.php -> BR-009 / ARCH-009 / FR-009
+- Views/AddVendorButton.php -> BR-009 / ARCH-009 / FR-009
+- Views/AmountCharges.php -> BR-009 / ARCH-009 / FR-009
+- Views/BankTransferPartnerTypeView.php -> BR-009 / ARCH-009 / FR-009
+- Views/BiLineItemView.php -> ARCH-009 / FR-009 / BR-003
+- Views/Comment.php -> BR-009 / ARCH-009 / FR-009
+- Views/CustomerPartnerTypeView.php -> BR-009 / ARCH-009 / FR-009
+- Views/DisplaySettledTransactions.php -> ARCH-009 / UAT-001 / BR-009
+- Views/HTML_ROW_LABELDecorator.php -> ARCH-009 / BR-009 / FR-009
+- Views/HtmlTransactionView.php -> ARCH-009 / UAT-001 / BR-009
+- Views/ImportUploadForm.php -> ARCH-009 / BR-009 / FR-009
+- Views/LabelRowBase.php -> ARCH-009 / BR-009 / FR-009
+- Views/LineitemDisplayLeft.php -> ARCH-009 / BR-009 / FR-009
+- Views/LineitemDisplayRight.php -> ARCH-009 / BR-009 / FR-009
+- Views/MatchingGLS.php -> ARCH-009 / UAT-001 / BR-009 / FR-001
+- Views/ModuleMenuView.php -> ARCH-009 / BR-009 / FR-009
+- Views/Operation.php -> ARCH-009 / BR-009 / FR-010
+- Views/OtherBankAccount.php -> BR-009 / ARCH-009 / FR-009
+- Views/OurBankAccount.php -> BR-009 / ARCH-009 / FR-009
+- Views/PartnerSubSelect.php -> ARCH-009 / BR-009 / FR-009
+- Views/PartnerType.php -> ARCH-009 / BR-009 / FR-009
+- Views/PartnerTypeDisplayStrategy.php -> ARCH-009 / BR-009 / FR-009
+- Views/PartnerTypeViewInterface.php -> ARCH-009 / BR-009 / FR-009
+- Views/ProcessStatementsView.php -> ARCH-009 / UAT-001 / BR-009 / FR-009 / FR-011
+- Views/QuickEntryPartnerTypeView.php -> ARCH-009 / BR-009 / FR-009
+- Views/SubmitButton.php -> ARCH-009 / BR-009 / FR-009
+- Views/SupplierPartnerTypeView.php -> ARCH-009 / BR-009 / FR-009
+- Views/ToggleTransactionRow.php -> ARCH-009 / BR-009 / FR-009
+- Views/ToggleTransactionTypeButton.php -> ARCH-009 / BR-009 / FR-009
+- Views/TransDate.php -> ARCH-009 / BR-009 / FR-009
+- Views/TransTitle.php -> ARCH-009 / BR-009 / FR-009
+- Views/TransType.php -> ARCH-009 / BR-009 / FR-009
+- Views/TransactionCustomerDetails.php -> ARCH-009 / BR-009 / FR-009
+- Views/TransactionTypeLabel.php -> ARCH-009 / BR-009 / FR-009
+- Views/UnsetTransButtonRow.php -> ARCH-009 / BR-009 / FR-009
+- Views/ViewFactory.php -> ARCH-009 / BR-009 / FR-009 / ARCH-006
