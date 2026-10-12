@@ -56,3 +56,9 @@
 - DEPLOYMENT_GUIDE.md
 - SETUP.md
 - References: PACKAGIST.md, AGENTS.md (§ComposerDependencies, Container PHP mismatch)
+
+## ARCH-002: Design Target (BR-002 / FR-004 / FR-005 / Transfer Direction & Data Construction)
+- Services/TransferDirectionAnalyzer.php (FR-004: analyze(); FR-005: buildTransferData())
+- Services/TransactionService.php (FR-001 / BR-001 / BR-003 integration)
+- Services/TransactionMatcherIntegration.php (integration with matching engine)
+- References: docs/ARCHITECTURE.md (§Direction Analysis / Transfer Data Construction), docs/REQUIREMENTS_SPECIFICATION.md (FR-004, FR-005), docs/UAT/UAT-002-AutoPairUAT.md, docs/FunctionalRequirements/FR-004-DCIndicatorDirection.md, docs/FunctionalRequirements/FR-005-TransferDataConstruction.md
