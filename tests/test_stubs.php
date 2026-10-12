@@ -31,7 +31,7 @@ namespace {
     if (!function_exists('db_escape')) {
         function db_escape($value) { return addslashes((string)$value); }
     }
-    if (!class_exists('bi_transactions')) {
+    if (!class_exists('bi_transactions', false)) {
         class bi_transactions {
             public function get_transactions(...$args) {
                 $offset = 0;
@@ -60,7 +60,7 @@ namespace {
             public function delete(...$args) { return true; }
         }
     }
-    if (!class_exists('bi_lineitem')) {
+    if (!class_exists('bi_lineitem', false)) {
         class bi_lineitem {
             public function getValueTimestamp() { return '2025-10-19'; }
             public function getEntryTimestamp() { return '2025-10-19 10:00:00'; }
@@ -82,7 +82,7 @@ namespace {
             public function getBestMatchRecommendation(...$args) { return null; }
         }
     }
-    if (!class_exists('bank_import_controller')) {
+    if (!class_exists('bank_import_controller', false)) {
         class bank_import_controller extends origin {
             public $repository;
             public $tid;
@@ -127,14 +127,14 @@ namespace {
     }
 }
 namespace Views {
-    if (!class_exists('TransactionView')) {
+    if (!class_exists('TransactionView', false)) {
         class TransactionView {
             public function renderTransactionList($transactions) {}
         }
     }
 }
 namespace Ksfraser\FaBankImport\Models {
-    if (!class_exists('SquareTransaction')) {
+    if (!class_exists('SquareTransaction', false)) {
         class SquareTransaction {
             public function getAllTransactions() { return []; }
             public function unsetTransaction($id) {}
@@ -146,7 +146,7 @@ namespace Ksfraser\FaBankImport\Models {
     }
 }
 namespace Controllers {
-    if (!class_exists('ProcessStatementsController')) {
+    if (!class_exists('ProcessStatementsController', false)) {
         class ProcessStatementsController {
             public $transactionModel;
             public $view;
