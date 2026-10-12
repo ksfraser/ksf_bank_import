@@ -31,7 +31,7 @@ namespace {
     if (!function_exists('db_escape')) {
         function db_escape($value) { return addslashes((string)$value); }
     }
-    if (!class_exists('bi_transactions', false)) {
+    if (!class_exists('bi_transactions')) {
         class bi_transactions {
             public function get_transactions(...$args) {
                 $offset = 0;
@@ -82,7 +82,7 @@ namespace {
             public function getBestMatchRecommendation(...$args) { return null; }
         }
     }
-    if (!class_exists('bank_import_controller', false)) {
+    if (!class_exists('bank_import_controller')) {
         class bank_import_controller extends origin {
             public $repository;
             public $tid;
@@ -127,14 +127,14 @@ namespace {
     }
 }
 namespace Views {
-    if (!class_exists('TransactionView', false)) {
+    if (!class_exists('TransactionView')) {
         class TransactionView {
             public function renderTransactionList($transactions) {}
         }
     }
 }
 namespace Ksfraser\FaBankImport\Models {
-    if (!class_exists('SquareTransaction', false)) {
+    if (!class_exists('SquareTransaction')) {
         class SquareTransaction {
             public function getAllTransactions() { return []; }
             public function unsetTransaction($id) {}
@@ -146,7 +146,7 @@ namespace Ksfraser\FaBankImport\Models {
     }
 }
 namespace Controllers {
-    if (!class_exists('ProcessStatementsController', false)) {
+    if (!class_exists('ProcessStatementsController')) {
         class ProcessStatementsController {
             public $transactionModel;
             public $view;
