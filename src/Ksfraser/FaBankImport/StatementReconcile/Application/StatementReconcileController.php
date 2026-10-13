@@ -555,8 +555,8 @@ class StatementReconcileController
                    ABS(t.amount)     AS amount,
                    CASE WHEN t.amount >= 0 THEN 'debit' ELSE 'credit' END AS type
               FROM " . TB_PREF . "bank_trans t
-             WHERE t.bank_act = " . db_escape($bankAccountId) . "
-               AND t.trans_date <= " . db_escape($end) . "
+            WHERE t.bank_act = " . db_escape((string)$bankAccountId) . "
+              AND t.trans_date <= " . db_escape((string)$end) . "
                AND (t.reconciled = '0000-00-00' OR t.reconciled IS NULL)
              ORDER BY t.trans_date ASC, t.type ASC, t.trans_no ASC
         ";

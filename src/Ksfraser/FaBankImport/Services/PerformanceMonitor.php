@@ -1,7 +1,7 @@
 <?php
 
 /** @BABOK See docs/Requirements/ for module coverage tracking 
- * Referenced in RTM for service layer (FR-001 through FR-018) 
+// @BABOK Referenced in RTM for service layer (FR-001 through FR-018) 
  */
 
 namespace Ksfraser\FaBankImport\Services;

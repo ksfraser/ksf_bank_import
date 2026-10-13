@@ -23,9 +23,8 @@ use PHPUnit\Framework\TestCase;
  * - Invalid bank accounts
  * - Multiple transaction IDs in cids
  * - statusFilter boundary values
- * Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
 /** @BABOK See docs/Requirements/ for module coverage tracking */
- */
 class ProcessStatementsRegressionTest extends TestCase
 {
     protected function tearDown(): void

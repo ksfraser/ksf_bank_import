@@ -11,7 +11,7 @@ declare(strict_types=1);
 // namespace regardless of the calling namespace; therefore the function MUST
 // be defined here (not in a sub-namespace) to be detected by ReconcileView.
 // ---------------------------------------------------------------------------
- * Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
 /** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace {

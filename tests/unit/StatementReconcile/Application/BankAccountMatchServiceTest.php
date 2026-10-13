@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
- * Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK BR-001 / FR-001 / ARCH-001 - Referenced in RTM */
 /** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Ksfraser\FaBankImport\Tests\StatementReconcile\Application;

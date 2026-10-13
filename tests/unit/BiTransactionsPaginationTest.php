@@ -31,9 +31,8 @@ use PHPUnit\Framework\TestCase;
  * @group hotfix
  * @group performance
  * @since 20260405
- * Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
 /** @BABOK See docs/Requirements/ for module coverage tracking */
- */
 class BiTransactionsPaginationTest extends TestCase
 {
     /**

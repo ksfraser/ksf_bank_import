@@ -152,8 +152,8 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     ): void {
         $sql = 'UPDATE ' . TB_PREF . 'bank_accounts
                    SET last_reconciled_date    = ' . db_escape($statementEndDate) . ',
-                       ending_reconcile_balance = ' . db_escape($closingBalance) . '
-                 WHERE id = ' . db_escape($bankAccountId);
+                       ending_reconcile_balance = ' . db_escape((string)$closingBalance) . '
+                 WHERE id = ' . db_escape((string)$bankAccountId);
 
         db_query($sql, 'ReconciliationCommitService: could not update 0_bank_accounts');
     }
