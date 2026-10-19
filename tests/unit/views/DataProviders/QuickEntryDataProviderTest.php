@@ -311,20 +311,29 @@ class QuickEntryDataProviderTest extends TestCase
     }
     
     /**
-     * Test provider type filtering (manual test placeholder)
+     * Test provider type filtering
      * 
-     * This would require database fixtures or mocking db_fetch()
+     * The provider separates the deposit and the payment quick entries by
+     * asking FA for one type at a time. The loading itself is NOT implemented
+     * yet: QuickEntryDataProvider::loadQuickEntriesFromDatabase() is still a
+     * TODO (see src/Ksfraser/QuickEntryDataProvider.php) and returns an empty
+     * array, so there is nothing to filter until the database loading lands.
+     * 
+     * The cache handling around it IS covered by the other tests in this file.
      * 
      * @test
      * @group integration
-     * @covers ::loadEntries
+     * @covers ::loadQuickEntriesFromDatabase
      * 
      * @return void
      */
     public function testDepositProviderFiltersDepositEntries(): void
     {
-        $this->markTestIncomplete(
-            'Requires database fixtures or mocking of FrontAccounting functions'
+        $this->markTestSkipped(
+            'QuickEntryDataProvider::loadQuickEntriesFromDatabase() is not implemented yet '
+            . '(it returns an empty array - the database loading is still a TODO in '
+            . 'src/Ksfraser/QuickEntryDataProvider.php), so there are no quick entries to '
+            . 'filter by type. Re-enable this test when that loader is written.'
         );
     }
 }

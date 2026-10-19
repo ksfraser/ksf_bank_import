@@ -346,20 +346,46 @@ class SupplierDataProviderTest extends TestCase
     }
     
     /**
-     * Test supplier data structure (integration test placeholder)
+     * Test supplier data structure
      * 
-     * This would require database fixtures or mocking
+     * The supplier list is read through FA's get_supplier_details_all(),
+     * which the test double serves, so the structure the views rely on can be
+     * verified here.
      * 
      * @test
-     * @group integration
      * @covers ::loadSuppliers
      * 
      * @return void
      */
     public function testSupplierDataStructure(): void
     {
-        $this->markTestIncomplete(
-            'Requires database fixtures or mocking of FrontAccounting functions'
-        );
+        $provider = SupplierDataProvider::getInstance();
+        
+        $suppliers = $provider->getSuppliers();
+        $this->assertNotEmpty($suppliers, 'The supplier list should not be empty');
+        
+        $firstKey = array_key_first($suppliers);
+        $this->assertIsNumeric($firstKey, 'Suppliers are keyed by supplier id');
+        
+        $supplier = $suppliers[$firstKey];
+        $this->assertIsArray($supplier);
+        
+        foreach (['supplier_id', 'supp_name', 'supp_ref', 'address', 'email', 'inactive'] as $field) {
+            $this->assertArrayHasKey(
+                $field,
+                $supplier,
+                "The supplier row must carry the '\$field' field"
+            );
+        }
+        
+        $this->assertSame($firstKey, $supplier['supplier_id'], 'The key must be the supplier id');
+        $this->assertIsString($supplier['supp_name']);
+        $this->assertNotEmpty($supplier['supp_name']);
+        $this->assertSame(0, $supplier['inactive'], 'Only active suppliers are loaded');
+        
+        // The single-row accessors must agree with the list.
+        $this->assertSame($supplier, $provider->getSupplier((int) $firstKey));
+        $this->assertTrue($provider->hasSupplier((int) $firstKey));
+        $this->assertSame($supplier['supp_name'], $provider->getLabel((int) $firstKey));
     }
 }

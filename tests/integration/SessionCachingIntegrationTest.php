@@ -1,10 +1,19 @@
 <?php
 /**
- * Integration tests for session caching performance
- * 
- * Tests VendorListManager and OperationTypesRegistry session caching
- * to verify ~95% performance improvement.
- * 
+ * Tests for the session caching of VendorListManager and OperationTypesRegistry.
+ *
+ * These verify the caching contract itself:
+ *   - the first load calls the loader (the "database"),
+ *   - a cached load does NOT call it again,
+ *   - the cache expires after the configured duration,
+ *   - a forced reload bypasses the cache,
+ *   - clearCache() drops the cached copy,
+ *   - the cached payload stays small.
+ *
+ * The loader is a test double (tests/helpers/vendor_list_double.php) that
+ * counts its calls, so "the database was not queried again" is asserted
+ * directly instead of inferred from timings.
+ *
  * @package    KsfBankImport
  * @subpackage Tests\Integration
  * @category   Tests
@@ -18,282 +27,379 @@
 namespace KsfBankImport\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
+use KsfBankImport\VendorListManager;
+use KsfBankImport\OperationTypes\OperationTypesRegistry;
+
+require_once __DIR__ . '/../helpers/vendor_list_double.php';
+require_once __DIR__ . '/../../VendorListManager.php';
+require_once __DIR__ . '/../../OperationTypes/OperationTypesRegistry.php';
 
 /**
- * Integration test suite for session caching
- * 
+ * Test suite for the session caching of the vendor list and operation types.
+ *
  * @group integration
- * @group performance
+ * @group caching
  */
 class SessionCachingIntegrationTest extends TestCase
 {
     /**
-     * Set up test environment
-     * 
+     * Reset every cache before each test.
+     *
      * @return void
      */
     protected function setUp(): void
     {
         parent::setUp();
-        
-        // Start session if not started
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
+
+        if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+            @session_start();
         }
+
+        \KsfBankImport\VendorListDouble::reset();
+        $this->resetVendorListManager();
+        $this->resetOperationTypesRegistry();
+
+        unset(
+            $_SESSION['vendor_list'],
+            $_SESSION['vendor_list_loaded'],
+            $_SESSION['operation_types']
+        );
     }
-    
+
     /**
-     * Tear down - clear session
-     * 
+     * Drop the cached session entries after each test.
+     *
      * @return void
      */
     protected function tearDown(): void
     {
+        unset(
+            $_SESSION['vendor_list'],
+            $_SESSION['vendor_list_loaded'],
+            $_SESSION['operation_types']
+        );
+
+        $this->resetVendorListManager();
+        $this->resetOperationTypesRegistry();
+
         parent::tearDown();
-        
-        // Clear session data
-        if (isset($_SESSION['vendor_list'])) {
-            unset($_SESSION['vendor_list']);
-        }
-        if (isset($_SESSION['vendor_list_loaded'])) {
-            unset($_SESSION['vendor_list_loaded']);
-        }
-        if (isset($_SESSION['operation_types'])) {
-            unset($_SESSION['operation_types']);
-        }
     }
-    
+
     /**
-     * Test VendorListManager caching improves performance
-     * 
-     * Measures actual performance difference between:
-     * - First load (uncached) - queries database
-     * - Subsequent loads (cached) - reads from session
-     * 
-     * Expected: Cached loads are ~95% faster
-     * 
+     * The vendor list is cached: the second load must not hit the loader.
+     *
      * @return void
      */
     public function testVendorListCachingPerformance()
     {
-        $this->markTestIncomplete(
-            'VendorListManager caching performance test. ' .
-            'To implement: ' .
-            '1. Clear session cache ' .
-            '2. require_once VendorListManager.php ' .
-            '3. Time: $start = microtime(true); $list1 = VendorListManager::getInstance()->getVendorList(); $time1 = microtime(true) - $start; ' .
-            '4. Time: $start = microtime(true); $list2 = VendorListManager::getInstance()->getVendorList(); $time2 = microtime(true) - $start; ' .
-            '5. Assert: $time2 < $time1 * 0.05 (cached is <5% of uncached time) ' .
-            '6. Assert: $list1 === $list2 (same data returned)'
+        $manager = VendorListManager::getInstance();
+
+        $list1 = $manager->getVendorList();
+        $callsAfterFirstLoad = \KsfBankImport\VendorListDouble::$calls;
+        $list2 = $manager->getVendorList();
+
+        $this->assertSame(1, $callsAfterFirstLoad, 'First load must read the vendor list once');
+        $this->assertSame(
+            $callsAfterFirstLoad,
+            \KsfBankImport\VendorListDouble::$calls,
+            'Cached load must not read the vendor list again'
         );
+        $this->assertSame($list1, $list2, 'Cached load must return the same data');
     }
-    
+
     /**
-     * Test VendorListManager cache expiration
-     * 
-     * Verifies that cache expires after cacheDuration seconds
-     * and reloads from database
-     * 
+     * The cache expires once the configured duration has passed.
+     *
      * @return void
      */
     public function testVendorListCacheExpiration()
     {
-        $this->markTestIncomplete(
-            'Cache expiration test. ' .
-            'To implement: ' .
-            '1. require_once VendorListManager.php ' .
-            '2. $manager = VendorListManager::getInstance() ' .
-            '3. $manager->setCacheDuration(1); // 1 second ' .
-            '4. $list1 = $manager->getVendorList(); ' .
-            '5. sleep(2); // Wait for cache to expire ' .
-            '6. $list2 = $manager->getVendorList(); ' .
-            '7. Verify fresh data loaded (check lastLoaded timestamp)'
+        $manager = VendorListManager::getInstance();
+        $manager->setCacheDuration(1);
+
+        $manager->getVendorList();
+        $this->assertSame(1, \KsfBankImport\VendorListDouble::$calls, 'First load reads the vendor list');
+
+        // Age the cache past its duration.
+        sleep(2);
+
+        $manager->getVendorList();
+        $this->assertSame(
+            2,
+            \KsfBankImport\VendorListDouble::$calls,
+            'An expired cache must be reloaded from the loader'
         );
     }
-    
+
     /**
-     * Test VendorListManager force reload
-     * 
-     * Verifies that force reload bypasses cache and queries database
-     * 
+     * A forced reload bypasses the cache and picks up new data.
+     *
      * @return void
      */
     public function testVendorListForceReload()
     {
-        $this->markTestIncomplete(
-            'Force reload test. ' .
-            'To implement: ' .
-            '1. require_once VendorListManager.php ' .
-            '2. $manager = VendorListManager::getInstance() ' .
-            '3. $list1 = $manager->getVendorList(); // Cached ' .
-            '4. // Add new vendor to database ' .
-            '5. $list2 = $manager->getVendorList(); // Still cached, missing new vendor ' .
-            '6. $list3 = $manager->getVendorList(true); // Force reload, includes new vendor ' .
-            '7. Assert: count($list3) > count($list2)'
+        $manager = VendorListManager::getInstance();
+
+        $list1 = $manager->getVendorList();
+        $this->assertCount(2, $list1);
+
+        // A new vendor appears in the "database".
+        \KsfBankImport\VendorListDouble::$vendors[3] = 'Test Vendor 3';
+
+        $list2 = $manager->getVendorList();
+        $this->assertCount(
+            2,
+            $list2,
+            'A cached load must not see the new vendor'
+        );
+
+        $list3 = $manager->getVendorList(true);
+        $this->assertCount(
+            3,
+            $list3,
+            'A forced reload must include the new vendor'
+        );
+        $this->assertSame(
+            2,
+            \KsfBankImport\VendorListDouble::$calls,
+            'Only the first load and the forced reload may read the vendor list'
         );
     }
-    
+
     /**
-     * Test VendorListManager clearCache method
-     * 
-     * Verifies that clearCache() removes session data
-     * and next load queries database
-     * 
+     * clearCache() drops the cached copy so the next load reads again.
+     *
      * @return void
      */
     public function testVendorListClearCache()
     {
-        $this->markTestIncomplete(
-            'Clear cache test. ' .
-            'To implement: ' .
-            '1. require_once VendorListManager.php ' .
-            '2. $manager = VendorListManager::getInstance() ' .
-            '3. $list1 = $manager->getVendorList(); // Loads and caches ' .
-            '4. Assert: isset($_SESSION[\'vendor_list\']) ' .
-            '5. $manager->clearCache(); ' .
-            '6. Assert: !isset($_SESSION[\'vendor_list\']) ' .
-            '7. $list2 = $manager->getVendorList(); // Reloads from DB'
+        $manager = VendorListManager::getInstance();
+
+        $manager->getVendorList();
+        $this->assertArrayHasKey('vendor_list', $_SESSION, 'Vendor list should be cached in the session');
+        $this->assertArrayHasKey('vendor_list_loaded', $_SESSION, 'Cache timestamp should be stored');
+
+        $manager->clearCache();
+
+        $this->assertArrayNotHasKey('vendor_list', $_SESSION, 'clearCache() should drop the cached list');
+        $this->assertArrayNotHasKey('vendor_list_loaded', $_SESSION, 'clearCache() should drop the timestamp');
+
+        $manager->getVendorList();
+        $this->assertSame(
+            2,
+            \KsfBankImport\VendorListDouble::$calls,
+            'After clearCache() the list is read again'
         );
     }
-    
+
     /**
-     * Test OperationTypesRegistry caching
-     * 
-     * Verifies operation types are cached in session
-     * and not reloaded on subsequent requests
-     * 
+     * The operation types are cached in the session and reused.
+     *
      * @return void
      */
     public function testOperationTypesCaching()
     {
-        $this->markTestIncomplete(
-            'OperationTypesRegistry caching test. ' .
-            'To implement: ' .
-            '1. require_once OperationTypes/OperationTypesRegistry.php ' .
-            '2. $registry = OperationTypesRegistry::getInstance() ' .
-            '3. $types1 = $registry->getTypes(); // First load ' .
-            '4. Assert: isset($_SESSION[\'operation_types\']) ' .
-            '5. $types2 = $registry->getTypes(); // Cached load ' .
-            '6. Assert: $types1 === $types2 ' .
-            '7. Verify no database queries on cached load (mock/spy)'
+        $registry = OperationTypesRegistry::getInstance();
+
+        $types1 = $registry->getTypes();
+        $this->assertArrayHasKey('operation_types', $_SESSION, 'Operation types should be cached in the session');
+
+        $types2 = $registry->getTypes();
+        $this->assertSame($types1, $types2, 'Cached load must return the same types');
+
+        // The cached copy is what a fresh registry instance reads back.
+        $_SESSION['operation_types']['SP'] = 'Cached Supplier';
+        $this->resetOperationTypesRegistry();
+
+        $types3 = OperationTypesRegistry::getInstance()->getTypes();
+        $this->assertSame(
+            'Cached Supplier',
+            $types3['SP'],
+            'A new registry instance must read the operation types from the session'
         );
     }
-    
+
     /**
-     * Test OperationTypesRegistry plugin discovery
-     * 
-     * Verifies that custom operation type plugins are discovered
-     * and included in the registry
-     * 
+     * A plugin dropped into the types directory is discovered on reload.
+     *
      * @return void
      */
     public function testOperationTypesPluginDiscovery()
     {
-        $this->markTestIncomplete(
-            'Plugin discovery test. ' .
-            'To implement: ' .
-            '1. Create test plugin: OperationTypes/CustomType.php implementing OperationTypeInterface ' .
-            '2. require_once OperationTypes/OperationTypesRegistry.php ' .
-            '3. $registry = OperationTypesRegistry::getInstance() ' .
-            '4. $registry->reload(); // Force reload to discover plugin ' .
-            '5. $types = $registry->getTypes(); ' .
-            '6. Assert: $registry->hasType(\'CT\') // Custom type code ' .
-            '7. Delete test plugin file'
-        );
+        $typesDir = __DIR__ . '/../../OperationTypes/types';
+        $pluginFile = $typesDir . '/CustomType.php';
+
+        if (!is_dir($typesDir)) {
+            mkdir($typesDir, 0777, true);
+        }
+
+        file_put_contents($pluginFile, <<<'PHP'
+<?php
+
+namespace KsfBankImport\OperationTypes\Types;
+
+use KsfBankImport\OperationTypes\OperationTypeInterface;
+
+class CustomType implements OperationTypeInterface
+{
+    public function getCode(): string
+    {
+        return 'CT';
     }
-    
+
+    public function getLabel(): string
+    {
+        return 'Custom Type';
+    }
+
+    public function getProcessorClass(): string
+    {
+        return '';
+    }
+
+    public function canAutoMatch(): bool
+    {
+        return false;
+    }
+}
+PHP
+        );
+
+        try {
+            $registry = OperationTypesRegistry::getInstance();
+            $registry->reload();
+
+            $this->assertTrue($registry->hasType('CT'), 'The plugin type should be discovered');
+            $this->assertSame('Custom Type', $registry->getType('CT'));
+        } finally {
+            @unlink($pluginFile);
+            @rmdir($typesDir);
+        }
+    }
+
     /**
-     * Test OperationTypesRegistry reload method
-     * 
-     * Verifies that reload() clears cache and reloads types
-     * 
+     * reload() clears the cached copy and reloads the types.
+     *
      * @return void
      */
     public function testOperationTypesReload()
     {
-        $this->markTestIncomplete(
-            'Registry reload test. ' .
-            'To implement: ' .
-            '1. require_once OperationTypes/OperationTypesRegistry.php ' .
-            '2. $registry = OperationTypesRegistry::getInstance() ' .
-            '3. $types1 = $registry->getTypes(); // Cached ' .
-            '4. // Simulate adding new plugin ' .
-            '5. $registry->reload(); // Force reload ' .
-            '6. $types2 = $registry->getTypes(); ' .
-            '7. Verify new plugin discovered (if plugin added) or same data loaded'
-        );
+        $registry = OperationTypesRegistry::getInstance();
+
+        $types1 = $registry->getTypes();
+        $this->assertArrayHasKey('operation_types', $_SESSION);
+
+        $registry->reload();
+
+        $types2 = $registry->getTypes();
+        $this->assertSame($types1, $types2, 'Reloading the same registry returns the same types');
+        $this->assertArrayHasKey('operation_types', $_SESSION, 'Reloaded types are cached again');
     }
-    
+
     /**
-     * Test session caching across multiple page requests
-     * 
-     * Simulates multiple page requests to verify caching persists
-     * 
+     * The cache survives across page requests (same session).
+     *
      * @return void
      */
     public function testSessionCachingPersistence()
     {
-        $this->markTestIncomplete(
-            'Multi-request persistence test. ' .
-            'To implement: ' .
-            '1. require_once VendorListManager.php and OperationTypesRegistry.php ' .
-            '2. Simulate first page request: ' .
-            '   - Load vendor list (caches) ' .
-            '   - Load operation types (caches) ' .
-            '3. Simulate second page request (same session): ' .
-            '   - Load vendor list again (should be cached) ' .
-            '   - Load operation types again (should be cached) ' .
-            '4. Verify no database queries on second request ' .
-            '5. Measure total time improvement: second request should be ~95% faster'
+        $vendorManager = VendorListManager::getInstance();
+        $registry = OperationTypesRegistry::getInstance();
+
+        // First "request".
+        $vendorManager->getVendorList();
+        $registry->getTypes();
+        $callsAfterFirstRequest = \KsfBankImport\VendorListDouble::$calls;
+
+        // Second "request": the singletons are rebuilt (as a new PHP request
+        // would do) but the session survives.
+        $this->resetVendorListManager();
+        $this->resetOperationTypesRegistry();
+
+        $vendorManager = VendorListManager::getInstance();
+        $registry = OperationTypesRegistry::getInstance();
+
+        $vendorManager->getVendorList();
+        $registry->getTypes();
+
+        $this->assertSame(
+            $callsAfterFirstRequest,
+            \KsfBankImport\VendorListDouble::$calls,
+            'The second request must be served from the session cache'
         );
     }
-    
+
     /**
-     * Test memory usage improvement from caching
-     * 
-     * Verifies that session caching reduces memory usage by ~30%
-     * compared to loading fresh data each time
-     * 
+     * Cached loads do not allocate more memory than the cached data itself.
+     *
      * @return void
      */
     public function testMemoryUsageImprovement()
     {
-        $this->markTestIncomplete(
-            'Memory usage test. ' .
-            'To implement: ' .
-            '1. Clear session cache ' .
-            '2. $mem1 = memory_get_usage(); ' .
-            '3. Load vendor list and operation types 100 times (no cache) ' .
-            '4. $mem2 = memory_get_usage(); ' .
-            '5. $uncachedMemory = $mem2 - $mem1; ' .
-            '6. Clear memory, reload with caching enabled ' .
-            '7. $mem3 = memory_get_usage(); ' .
-            '8. Load vendor list and operation types 100 times (cached) ' .
-            '9. $mem4 = memory_get_usage(); ' .
-            '10. $cachedMemory = $mem4 - $mem3; ' .
-            '11. Assert: $cachedMemory < $uncachedMemory * 0.7 (30% reduction)'
+        $manager = VendorListManager::getInstance();
+
+        // Warm the cache.
+        $manager->getVendorList();
+
+        $before = memory_get_usage();
+        for ($i = 0; $i < 100; $i++) {
+            $manager->getVendorList();
+        }
+        $after = memory_get_usage();
+
+        $this->assertSame(
+            1,
+            \KsfBankImport\VendorListDouble::$calls,
+            '100 cached loads must not read the vendor list again'
+        );
+        $this->assertLessThanOrEqual(
+            1024,
+            $after - $before,
+            'Cached loads must not keep allocating memory'
         );
     }
-    
+
     /**
-     * Test cache size limits
-     * 
-     * Verifies that cached data doesn't grow excessively large
-     * 
+     * The cached payload stays small.
+     *
      * @return void
      */
     public function testCacheSizeLimits()
     {
-        $this->markTestIncomplete(
-            'Cache size test. ' .
-            'To implement: ' .
-            '1. require_once VendorListManager.php and OperationTypesRegistry.php ' .
-            '2. Load vendor list and operation types ' .
-            '3. $vendorListSize = strlen(serialize($_SESSION[\'vendor_list\'])); ' .
-            '4. $optypesSize = strlen(serialize($_SESSION[\'operation_types\'])); ' .
-            '5. Assert: $vendorListSize < 100000 (< 100KB) ' .
-            '6. Assert: $optypesSize < 10000 (< 10KB) ' .
-            '7. Verify reasonable memory footprint'
-        );
+        $manager = VendorListManager::getInstance();
+        $registry = OperationTypesRegistry::getInstance();
+
+        $manager->getVendorList();
+        $registry->getTypes();
+
+        $vendorListSize = strlen(serialize($_SESSION['vendor_list'] ?? []));
+        $optTypesSize = strlen(serialize($_SESSION['operation_types'] ?? []));
+
+        $this->assertLessThan(100000, $vendorListSize, 'The cached vendor list should stay under 100KB');
+        $this->assertLessThan(10000, $optTypesSize, 'The cached operation types should stay under 10KB');
+    }
+
+    /**
+     * Reset the VendorListManager singleton.
+     *
+     * @return void
+     */
+    private function resetVendorListManager(): void
+    {
+        $property = new \ReflectionProperty(VendorListManager::class, 'instance');
+        $property->setAccessible(true);
+        $property->setValue(null, null);
+    }
+
+    /**
+     * Reset the OperationTypesRegistry singleton.
+     *
+     * @return void
+     */
+    private function resetOperationTypesRegistry(): void
+    {
+        $property = new \ReflectionProperty(OperationTypesRegistry::class, 'instance');
+        $property->setAccessible(true);
+        $property->setValue(null, null);
     }
 }

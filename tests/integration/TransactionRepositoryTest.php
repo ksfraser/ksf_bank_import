@@ -15,12 +15,17 @@
 namespace Tests\Integration;
 
 use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
-use Ksfraser\FaBankImport\Database\TransactionRepository;
+use Ksfraser\FaBankImport\Repositories\TransactionRepository;
 use Tests\Integration\DatabaseTestCase;
 
 /**
  * Integration tests for TransactionRepository
  * 
+ * These tests talk to a real database (the bi_transactions / bi_statements
+ * tables), so they are in the integration suite (phpunit.integration.xml),
+ * not in the default run.
+ * 
+ * @group requires-db
  * @since 20251104
  * @version 20251104.1
  */
@@ -102,7 +107,7 @@ class TransactionRepositoryTest extends DatabaseTestCase
         $this->assertIsArray($transaction);
         $this->assertEquals($transactionId, $transaction['id']);
         $this->assertArrayHasKey('valueTimestamp', $transaction);
-        $this->assertArrayHasKey('amount', $transaction);
+        $this->assertArrayHasKey('transactionAmount', $transaction);
     }
     
     /**
@@ -176,7 +181,7 @@ class TransactionRepositoryTest extends DatabaseTestCase
         
         // Verify all transactions are within amount range
         foreach ($transactions as $transaction) {
-            $amount = abs((float)$transaction['amount']);
+            $amount = abs((float)$transaction['transactionAmount']);
             $this->assertGreaterThanOrEqual(100.00, $amount);
             $this->assertLessThanOrEqual(1000.00, $amount);
         }
@@ -194,7 +199,7 @@ class TransactionRepositoryTest extends DatabaseTestCase
         $allTransactions = $this->repository->findAll();
         $this->assertNotEmpty($allTransactions);
         
-        $searchTitle = $allTransactions[0]['title'];
+        $searchTitle = $allTransactions[0]['transactionTitle'];
         $searchWord = explode(' ', $searchTitle)[0]; // Get first word
         
         $transactions = $this->repository->findByFilters([

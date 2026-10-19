@@ -168,10 +168,11 @@ class PartnerTypeDisplayStrategyTest extends TestCase
      */
     public function testDisplaysQuickEntryPartnerType()
     {
-        if (!function_exists('quick_entries_list')) {
-            $this->markTestSkipped('FA functions not available (expected in unit test context)');
-        }
-        
+        // The V2 quick-entry view (ViewFactory -> QuickEntryPartnerTypeView)
+        // builds its own select from the cached quick-entry data and does NOT
+        // call FA's quick_entries_list(), so the presence of that FA function
+        // is not a precondition for this code path. The old guard made the
+        // test skip itself on every machine that does not load the whole of FA.
         $strategy = new PartnerTypeDisplayStrategy($this->testData);
         
         ob_start();

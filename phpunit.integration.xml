@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Integration suite: the tests that need a LIVE database or a LIVE
+  FrontAccounting install.
+
+  They are excluded from the default suite (phpunit.xml) so that a green
+  default run can never hide a test that quietly skipped itself.
+
+  Run with:
+    php vendor/bin/phpunit -c phpunit.integration.xml
+
+  The database is configured with DB_HOST / DB_NAME / DB_USER / DB_PASS
+  (default: localhost / fa_bank_import / root / no password). The schema
+  comes from sql/update.sql, e.g.:
+
+    mysql -e "CREATE DATABASE fa_bank_import"
+    mysql fa_bank_import < sql/update.sql
+
+  Without a database each test skips with a message naming the exact
+  blocker - it never silently passes.
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         testdox="true">
+    <testsuites>
+        <testsuite name="Integration (live database / live FA)">
+            <directory suffix="Test.php">./tests/integration</directory>
+            <directory suffix="Test.php">./tests/feature</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <include>
+            <group>requires-db</group>
+            <group>requires-fa</group>
+        </include>
+    </groups>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="DB_CONNECTION" value="testing"/>
+        <ini name="display_errors" value="true"/>
+        <ini name="error_reporting" value="-1"/>
+    </php>
+</phpunit>

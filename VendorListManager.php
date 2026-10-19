@@ -165,11 +165,24 @@ class VendorListManager
      */
     private function shouldReload()
     {
-        if ($this->lastLoaded === null) {
+        $lastLoaded = $this->lastLoaded;
+
+        // A fresh instance (a new page request) has no in-memory timestamp,
+        // but the session may still hold a valid cached copy. Without this the
+        // session cache was written but never read: every request re-read the
+        // vendor list from the database.
+        if ($lastLoaded === null
+            && session_status() == PHP_SESSION_ACTIVE
+            && isset($_SESSION['vendor_list_loaded'])
+        ) {
+            $lastLoaded = (int) $_SESSION['vendor_list_loaded'];
+        }
+
+        if ($lastLoaded === null) {
             return true;
         }
         
-        $elapsed = time() - $this->lastLoaded;
+        $elapsed = time() - $lastLoaded;
         return $elapsed > $this->cacheDuration;
     }
     

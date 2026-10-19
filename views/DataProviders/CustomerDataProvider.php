@@ -30,7 +30,7 @@
  * │ + getCustomers(): array                      │
  * │ + getCustomer(int): array|null               │
  * │ + getBranches(int): array                    │
- * │ + getBranch(int, int): array|null            │
+ * │ + getBranch(int, int|string): array|null      │
  * │ + hasBranches(int): bool                     │
  * │ + getLabel(int): string|null                 │
  * │ + hasCustomer(int): bool                     │
@@ -82,7 +82,7 @@ require_once(__DIR__ . '/PartnerDataProviderInterface.php');
  * }
  * 
  * // Get specific branch
- * $branch = $provider->getBranch(42, 1);
+ * $branch = $provider->getBranch(42, 'BR1');
  * 
  * // Use in View
  * $view = new CustomerPartnerTypeView($lineItemId, $bankAccount, $date, $custId, $branchId, $provider);
@@ -240,14 +240,18 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     /**
      * Get specific branch for a customer
      * 
-     * @param int $customerId Customer ID
-     * @param int $branchCode Branch code
+     * The branch code is FA's cust_branch.branch_code, a varchar (e.g. 'BR1'),
+     * so it is NOT type hinted as int: a string branch code raised a
+     * TypeError on every call, which made the method unusable.
+     * 
+     * @param int        $customerId Customer ID
+     * @param int|string $branchCode Branch code
      * 
      * @return array|null Branch data or null if not found
      * 
      * @since 1.0.0
      */
-    public function getBranch(int $customerId, int $branchCode): ?array
+    public function getBranch(int $customerId, $branchCode): ?array
     {
         if (!$this->loaded) {
             $this->loadCustomers();

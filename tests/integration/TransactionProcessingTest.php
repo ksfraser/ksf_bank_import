@@ -8,6 +8,14 @@ use Ksfraser\FaBankImport\Container;
 use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Commands\ProcessTransactionCommand;
 
+/**
+ * Integration tests for the transaction processing flow.
+ *
+ * They talk to a real database, so they are in the integration suite
+ * (phpunit.integration.xml), not in the default run.
+ *
+ * @group requires-db
+ */
 class TransactionProcessingTest extends \Tests\Integration\DatabaseTestCase
 {
     private $app;

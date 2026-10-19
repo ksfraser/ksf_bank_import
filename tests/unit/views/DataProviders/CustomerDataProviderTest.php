@@ -40,10 +40,39 @@ class CustomerDataProviderTest extends TestCase
      * 
      * @return void
      */
+    /** @var array Rows the FA database double returned before this test */
+    private $faTableBackup = [];
+
     protected function setUp(): void
     {
         parent::setUp();
         CustomerDataProvider::reset();
+
+        // The provider reads the branch table through FA's global db_query()
+        // double, which serves the rows held in $GLOBALS['__fa_table'].
+        // Seed a customer that owns two branches so the branch relationship
+        // can be verified without a live database.
+        $this->faTableBackup = $GLOBALS['__fa_table'] ?? [];
+        $GLOBALS['__fa_table'] = [
+            [
+                'branch_code' => 'BR1',
+                'debtor_no'   => 1,
+                'br_name'     => 'Test Customer 1 - Branch 1',
+                'br_address'  => '1 Branch Street',
+                'contact_name' => 'Branch Contact 1',
+                'email'       => 'branch1@example.com',
+                'inactive'    => 0,
+            ],
+            [
+                'branch_code' => 'BR2',
+                'debtor_no'   => 1,
+                'br_name'     => 'Test Customer 1 - Branch 2',
+                'br_address'  => '2 Branch Street',
+                'contact_name' => 'Branch Contact 2',
+                'email'       => 'branch2@example.com',
+                'inactive'    => 0,
+            ],
+        ];
     }
     
     /**
@@ -54,6 +83,7 @@ class CustomerDataProviderTest extends TestCase
     protected function tearDown(): void
     {
         CustomerDataProvider::reset();
+        $GLOBALS['__fa_table'] = $this->faTableBackup;
         parent::tearDown();
     }
     
@@ -341,28 +371,19 @@ class CustomerDataProviderTest extends TestCase
     public function testGetBranchReturnsCorrectBranch(): void
     {
         $provider = CustomerDataProvider::getInstance();
-        $customers = $provider->getCustomers();
         
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
+        // Customer 1 owns the two seeded branches.
+        $this->assertTrue($provider->hasBranches(1), 'Customer 1 should have branches');
         
-        // Find a customer with branches
-        foreach ($customers as $customerId => $customer) {
-            if ($provider->hasBranches($customerId)) {
-                $branches = $provider->getBranches($customerId);
-                $firstBranchCode = key($branches);
-                
-                $branch = $provider->getBranch($customerId, $firstBranchCode);
-                
-                $this->assertNotNull($branch, 'getBranch() should return branch data');
-                $this->assertEquals($firstBranchCode, $branch['branch_code'], 'getBranch() should return correct branch');
-                return;
-            }
-        }
+        $branches = $provider->getBranches(1);
+        $this->assertCount(2, $branches, 'Customer 1 should own two branches');
         
-        $this->markTestIncomplete('No multi-branch customers in database - needs fixtures');
+        $firstBranchCode = key($branches);
+        
+        $branch = $provider->getBranch(1, $firstBranchCode);
+        
+        $this->assertNotNull($branch, 'getBranch() should return branch data');
+        $this->assertEquals($firstBranchCode, $branch['branch_code'], 'getBranch() should return correct branch');
     }
     
     /**
@@ -374,28 +395,15 @@ class CustomerDataProviderTest extends TestCase
     public function testGetBranchReturnsNullForWrongCustomer(): void
     {
         $provider = CustomerDataProvider::getInstance();
-        $customers = $provider->getCustomers();
         
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
-        }
+        $branches = $provider->getBranches(1);
+        $this->assertNotEmpty($branches, 'Customer 1 should own branches');
+        $firstBranchCode = key($branches);
         
-        // Find a customer with branches
-        foreach ($customers as $customerId => $customer) {
-            if ($provider->hasBranches($customerId)) {
-                $branches = $provider->getBranches($customerId);
-                $firstBranchCode = key($branches);
-                
-                // Try to get branch with wrong customer ID
-                $branch = $provider->getBranch(999999, $firstBranchCode);
-                
-                $this->assertNull($branch, 'getBranch() should return null for wrong customer ID');
-                return;
-            }
-        }
+        // Try to get branch with wrong customer ID
+        $branch = $provider->getBranch(999999, $firstBranchCode);
         
-        $this->markTestIncomplete('No multi-branch customers in database - needs fixtures');
+        $this->assertNull($branch, 'getBranch() should return null for wrong customer ID');
     }
     
     /**
@@ -455,39 +463,26 @@ class CustomerDataProviderTest extends TestCase
     public function testBranchRelationshipIntegrity(): void
     {
         $provider = CustomerDataProvider::getInstance();
-        $customers = $provider->getCustomers();
         
-        if (empty($customers)) {
-            $this->markTestIncomplete('No customers in database - needs fixtures');
-            return;
+        $customerId = 1;
+        $branches = $provider->getBranches($customerId);
+        $this->assertNotEmpty($branches, 'Customer 1 should own branches');
+        
+        // Verify all branches belong to this customer
+        foreach ($branches as $branchCode => $branch) {
+            $this->assertEquals(
+                $customerId,
+                $branch['debtor_no'],
+                'Branch should belong to the correct customer'
+            );
+            
+            // Verify getBranch() returns same data
+            $branchData = $provider->getBranch($customerId, $branchCode);
+            $this->assertEquals(
+                $branch,
+                $branchData,
+                'getBranch() should return same data as getBranches()'
+            );
         }
-        
-        // Find a customer with branches
-        foreach ($customers as $customerId => $customer) {
-            if ($provider->hasBranches($customerId)) {
-                $branches = $provider->getBranches($customerId);
-                
-                // Verify all branches belong to this customer
-                foreach ($branches as $branchCode => $branch) {
-                    $this->assertEquals(
-                        $customerId,
-                        $branch['debtor_no'],
-                        'Branch should belong to the correct customer'
-                    );
-                    
-                    // Verify getBranch() returns same data
-                    $branchData = $provider->getBranch($customerId, $branchCode);
-                    $this->assertEquals(
-                        $branch,
-                        $branchData,
-                        'getBranch() should return same data as getBranches()'
-                    );
-                }
-                
-                return;
-            }
-        }
-        
-        $this->markTestIncomplete('No multi-branch customers in database - needs fixtures');
     }
 }

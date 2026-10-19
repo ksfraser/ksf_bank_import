@@ -16,19 +16,9 @@
  */
 
 namespace KsfBankImport {
-    if (!function_exists('get_vendor_list')) {
-        function get_vendor_list() {
-            // FA module — use FA's DB abstraction, not direct mysqli.
-            // In test environments with famock, fa_suppliers provides the list.
-            if (file_exists(__DIR__ . '/../../ksf_modules_common/class.fa_suppliers.php')) {
-                require_once __DIR__ . '/../../ksf_modules_common/class.fa_suppliers.php';
-                $sup = new \fa_suppliers();
-                return $sup->supplier_list(true);
-            }
-            // Fallback: empty array when FA not available
-            return [];
-        }
-    }
+    // The get_vendor_list() double lives in one place so that every test
+    // shares the same call counter (see VendorListDouble::$calls).
+    require_once __DIR__ . '/../helpers/vendor_list_double.php';
 }
 
 namespace KsfBankImport\Tests\Integration {
@@ -265,14 +255,18 @@ class ReadOnlyDatabaseTest extends TestCase
      * 
      * Verifies we can load actual transactions from database (read-only).
      * 
+     * @group requires-fa
      * @return void
      */
     public function testBiTransactionsModelReadsRealData()
     {
-        // Skip test - requires full FrontAccounting environment
+        // This one needs the real bi_transactions_model running inside a
+        // FrontAccounting request: the model reads the company's preferences
+        // and the FA session, none of which exist outside an FA install.
         $this->markTestSkipped(
-            'Skipped: Requires FrontAccounting database and includes. ' .
-            'Run manually in production environment to verify.'
+            'Needs a full FrontAccounting environment: bi_transactions_model reads the company '
+            . 'preferences and the FA session, which only exist inside a running FA request. '
+            . 'Run it manually against a production instance to verify.'
         );
         
         /* MANUAL TEST INSTRUCTIONS:

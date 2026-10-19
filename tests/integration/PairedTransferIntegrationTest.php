@@ -22,7 +22,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * Integration test suite for paired transfer processing
  * 
+ * These tests need a live FA database that holds imported bank statements:
+ * they are in the integration suite (phpunit.integration.xml), not in the
+ * default run.
+ * 
  * @group integration
+ * @group requires-db
  */
 class PairedTransferIntegrationTest extends TestCase
 {
@@ -56,14 +61,11 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testCompletePairedTransferWorkflow()
     {
-        $this->markTestIncomplete(
-            'Integration test requires live database and FA environment. ' .
-            'To implement: ' .
-            '1. Set up test database with sample transactions ' .
-            '2. Load Services/PairedTransferProcessor.php ' .
-            '3. Execute processPairedTransfer() with test transaction ID ' .
-            '4. Verify FA bank_trans record created ' .
-            '5. Verify imported_bank_transactions updated correctly'
+        $this->markTestSkipped(
+            'Needs a live FA database with imported statements: the paired transfer writes an '
+            . 'FA bank_trans row and updates the imported transactions, so it can only be verified '
+            . 'against a database that holds real imported statements. Run this file with '
+            . 'phpunit -c phpunit.integration.xml against a database that has them.'
         );
     }
     
@@ -82,14 +84,10 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testManulifeToCIBCHISATransfer()
     {
-        $this->markTestIncomplete(
-            'Test requires real Manulife/CIBC data in database. ' .
-            'To implement: ' .
-            '1. Import sample Manulife QFX with transfer OUT ' .
-            '2. Import sample CIBC QFX with transfer IN ' .
-            '3. Process paired transfer ' .
-            '4. Verify FROM=Manulife, TO=CIBC ' .
-            '5. Verify ±2 day matching window works'
+        $this->markTestSkipped(
+            'Needs real imported bank statements: the scenario is a Manulife QFX (transfer out) '
+            . 'paired with a CIBC QFX (transfer in), so the transactions have to exist in the '
+            . 'database before the pairing can be asserted.'
         );
     }
     
@@ -108,14 +106,9 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testCIBCInternalTransfer()
     {
-        $this->markTestIncomplete(
-            'Test requires CIBC HISA and Savings data in database. ' .
-            'To implement: ' .
-            '1. Import CIBC HISA QFX with internal transfer OUT ' .
-            '2. Import CIBC Savings QFX with internal transfer IN ' .
-            '3. Process paired transfer ' .
-            '4. Verify FROM=HISA, TO=Savings ' .
-            '5. Confirm visual indicators show correctly'
+        $this->markTestSkipped(
+            'Needs real imported bank statements: the scenario is an internal transfer between '
+            . 'the CIBC HISA and CIBC Savings accounts, so both sides have to be imported first.'
         );
     }
     
@@ -128,14 +121,11 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testVendorListCachingPerformance()
     {
-        $this->markTestIncomplete(
-            'Performance test requires timing measurements. ' .
-            'To implement: ' .
-            '1. Clear session cache ' .
-            '2. Time first vendor list load (uncached) ' .
-            '3. Time subsequent loads (cached) ' .
-            '4. Verify cached loads are ~95% faster ' .
-            '5. Test across multiple page requests'
+        $this->markTestSkipped(
+            'The vendor list caching contract is covered by '
+            . 'SessionCachingIntegrationTest (cached loads must not read the vendor list again). '
+            . 'What is left for this file is the timing measurement against a live FA database, '
+            . 'which is environment dependent and therefore not asserted here.'
         );
     }
     
@@ -148,14 +138,10 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testOperationTypesCaching()
     {
-        $this->markTestIncomplete(
-            'Caching test requires session management. ' .
-            'To implement: ' .
-            '1. Clear session cache ' .
-            '2. Load operation types registry ' .
-            '3. Verify types loaded from defaults + plugins ' .
-            '4. Reload registry ' .
-            '5. Verify no database queries made (session cached)'
+        $this->markTestSkipped(
+            'The operation types caching contract is covered by '
+            . 'SessionCachingIntegrationTest (the registry caches the types in the session and '
+            . 'reloads them from there).'
         );
     }
     
@@ -169,14 +155,10 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testDatabaseTransactionRollback()
     {
-        $this->markTestIncomplete(
-            'Transaction test requires error injection. ' .
-            'To implement: ' .
-            '1. Create test transactions in database ' .
-            '2. Mock BankTransferFactory to throw exception ' .
-            '3. Attempt to process paired transfer ' .
-            '4. Verify database transaction rolled back ' .
-            '5. Confirm transaction records unchanged'
+        $this->markTestSkipped(
+            'Needs a live FA database: the rollback is asserted by making the FA bank transfer '
+            . 'fail and then checking that the imported transactions were left untouched, which '
+            . 'requires a real transaction on a real database.'
         );
     }
     
@@ -192,14 +174,9 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testVisualIndicatorsDisplay()
     {
-        $this->markTestIncomplete(
-            'UI test requires rendering process_statements.php view. ' .
-            'To implement: ' .
-            '1. Process paired transfer successfully ' .
-            '2. Render transaction list view ' .
-            '3. Verify green checkmark displayed ' .
-            '4. Verify FA trans_no link present ' .
-            '5. Confirm partner account shown correctly'
+        $this->markTestSkipped(
+            'Needs a live FA database and a rendered process_statements.php page: the indicators '
+            . 'are only shown for a transaction that was actually settled into an FA transfer.'
         );
     }
     
@@ -212,14 +189,9 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testTwoDayMatchingWindow()
     {
-        $this->markTestIncomplete(
-            'Matching window test requires date manipulation. ' .
-            'To implement: ' .
-            '1. Create transaction on Day 0 ' .
-            '2. Create partner transaction on Day +2 ' .
-            '3. Verify transactions matched ' .
-            '4. Create partner transaction on Day +3 ' .
-            '5. Verify NOT matched (outside window)'
+        $this->markTestSkipped(
+            'Needs a live FA database: the matching window is asserted by importing transactions '
+            . 'on Day 0, Day +2 and Day +3 and checking which of them are paired.'
         );
     }
     
@@ -232,14 +204,9 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testMissingPartnerTransactionError()
     {
-        $this->markTestIncomplete(
-            'Error handling test requires isolated transaction. ' .
-            'To implement: ' .
-            '1. Create single transaction with no partner ' .
-            '2. Attempt to process paired transfer ' .
-            '3. Verify RuntimeException thrown ' .
-            '4. Verify error message indicates "Partner transaction not found" ' .
-            '5. Confirm no database changes made'
+        $this->markTestSkipped(
+            'Needs a live FA database: the assertion is that processing a transaction without a '
+            . 'partner leaves the database untouched, which needs a real transaction row.'
         );
     }
     
@@ -252,14 +219,9 @@ class PairedTransferIntegrationTest extends TestCase
      */
     public function testInvalidAccountError()
     {
-        $this->markTestIncomplete(
-            'Account validation test requires invalid account ID. ' .
-            'To implement: ' .
-            '1. Create transaction with invalid account ID (999) ' .
-            '2. Attempt to process paired transfer ' .
-            '3. Verify RuntimeException thrown ' .
-            '4. Verify error message indicates "not found in vendor list" ' .
-            '5. Confirm no FA records created'
+        $this->markTestSkipped(
+            'Needs a live FA database: the assertion is that a transfer to an unknown account is '
+            . 'rejected and creates no FA records, which needs a real transaction row.'
         );
     }
 }

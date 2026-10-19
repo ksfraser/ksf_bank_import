@@ -27,6 +27,15 @@
             <directory suffix="Test.php">./tests/integration</directory>
         </testsuite>
     </testsuites>
+    <!-- The tests that need a live database or a live FrontAccounting install
+         live in their own suite (phpunit.integration.xml) so that a green
+         default run can never hide a test that quietly skipped itself. -->
+    <groups>
+        <exclude>
+            <group>requires-db</group>
+            <group>requires-fa</group>
+        </exclude>
+    </groups>
     <coverage processUncoveredFiles="false">
         <include>
             <directory suffix=".php">./src</directory>

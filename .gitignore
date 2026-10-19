@@ -39,3 +39,6 @@ phpunit_no_coverage*.txt
 *.copilot.php
 *-old.php
 *.bak
+
+# Test-created plugin directory (OperationTypesRegistry plugin discovery test)
+/OperationTypes/types/
