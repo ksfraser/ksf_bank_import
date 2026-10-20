@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/RawOcrResult.php; coverage: docs/TestCases/ (file rollup)
  * Wraps the raw response from the Ollama/OCR model.
  *
  * Immutable value object. Stores:
@@ -30,6 +31,7 @@ final class RawOcrResult
     private $modelVersion;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
      * @param string      $rawJson     Must be a valid JSON string.
      * @param string      $modelName
      * @param string|null $modelVersion
@@ -56,12 +58,14 @@ final class RawOcrResult
         $this->modelVersion = $modelVersion;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getRawJson */
     public function getRawJson(): string
     {
         return $this->rawJson;
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: decode
      * Decode and return the JSON payload as a PHP array.
      *
      * @return array
@@ -71,11 +75,13 @@ final class RawOcrResult
         return (array) json_decode($this->rawJson, true);
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getModelName */
     public function getModelName(): string
     {
         return $this->modelName;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getModelVersion */
     public function getModelVersion(): ?string
     {
         return $this->modelVersion;

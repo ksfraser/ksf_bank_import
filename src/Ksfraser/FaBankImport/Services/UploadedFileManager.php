@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/UploadedFileManager.php; coverage: docs/TestCases/ (file rollup)
  * UploadedFileManager - Manage uploaded bank statement files
  * 
  * Mantis #2708: Store uploaded files for future reference
@@ -26,6 +27,7 @@ class UploadedFileManager
     protected $db;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      * 
      * @param string|null $upload_dir Custom upload directory (optional)
@@ -54,6 +56,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: protectDirectory
      * Create .htaccess to protect uploaded files
      */
     protected function protectDirectory()
@@ -71,6 +74,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: saveUploadedFile
      * Save an uploaded file
      * 
      * @param array $file_info $_FILES array entry
@@ -168,6 +172,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: linkFileToStatements
      * Link an uploaded file to statements
      * 
      * @param int $file_id Uploaded file ID
@@ -201,6 +206,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: updateStatementCount
      * Update statement count for a file
      * 
      * @param int $file_id File ID
@@ -219,6 +225,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: generateUniqueFilename
      * Generate unique filename
      * 
      * @param string $original_filename Original filename
@@ -240,6 +247,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: findDuplicate
      * Find duplicate file upload
      * 
      * Checks for existing file with same:
@@ -288,6 +296,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getUploadedFiles
      * Get all uploaded files
      * 
      * @param array $filters Optional filters (user, date_from, date_to, parser_type)
@@ -340,6 +349,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFileDetails
      * Get file details
      * 
      * @param int $file_id File ID
@@ -368,6 +378,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getLinkedStatements
      * Get statements linked to a file
      * 
      * @param int $file_id File ID
@@ -392,6 +403,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: downloadFile
      * Download a file
      * 
      * @param int $file_id File ID
@@ -423,6 +435,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: deleteFile
      * Delete an uploaded file
      * 
      * @param int $file_id File ID
@@ -449,6 +462,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTotalFileCount
      * Get total file count
      * 
      * @param array $filters Optional filters
@@ -484,6 +498,7 @@ class UploadedFileManager
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStorageStats
      * Get storage statistics
      * 
      * @return array Statistics

@@ -14,6 +14,7 @@ use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 use Ksfraser\FaBankImport\Strategy\DuplicateStrategyFactory;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/FileUploadService.php; coverage: docs/TestCases/ (file rollup)
  * File Upload Service
  * 
  * Main orchestrator for file upload process
@@ -42,6 +43,7 @@ class FileUploadService
     private ConfigRepositoryInterface $configRepository;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor - Dependency Injection
      * 
      * @param UploadedFileRepositoryInterface $fileRepository
@@ -62,6 +64,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: upload
      * Upload and process file
      * 
      * Process:
@@ -156,6 +159,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: linkToStatements
      * Link uploaded file to imported statements
      * 
      * Called after statements are successfully imported from file
@@ -170,6 +174,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: delete
      * Delete uploaded file (both disk and database)
      * 
      * @param int $fileId File ID
@@ -194,6 +199,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFile
      * Get uploaded file by ID
      * 
      * @param int $fileId File ID
@@ -205,6 +211,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFileContents
      * Get file contents for download
      * 
      * @param int $fileId File ID
@@ -226,6 +233,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: listFiles
      * List uploaded files with filters
      * 
      * @param array $filters Optional filters (user, date_from, date_to, parser_type)
@@ -239,6 +247,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: countFiles
      * Get total file count
      * 
      * @param array $filters Optional filters
@@ -250,6 +259,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStatistics
      * Get storage statistics
      * 
      * @return array Statistics
@@ -260,6 +270,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getCurrentUsername
      * Get current username from FrontAccounting session
      * 
      * @return string Username
@@ -275,6 +286,7 @@ class FileUploadService
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: create
      * Create service instance with dependencies (DI Factory Method)
      * 
      * @param UploadedFileRepositoryInterface|null $fileRepository

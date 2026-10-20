@@ -73,6 +73,9 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * 
  * @since 1.0.0
  */
+/**
+ * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/SupplierDataProvider.php; coverage: docs/TestCases/ (file rollup)
+ */
 class SupplierDataProvider implements PartnerDataProviderInterface
 {
     /**
@@ -97,6 +100,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     private $loaded = false;
     
     /**
+ * @BABOK FR-009 / IR-001 — method: __construct
      * Private constructor for singleton pattern
      */
     private function __construct()
@@ -105,6 +109,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getInstance
      * Get singleton instance
      * 
      * @return SupplierDataProvider The singleton instance
@@ -119,6 +124,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: reset
      * Reset singleton instance (for testing)
      * 
      * @return void
@@ -130,6 +136,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getPartners
      * Get all suppliers (implements PartnerDataProviderInterface)
      * 
      * @return array<int, array> Supplier data indexed by supplier ID
@@ -141,6 +148,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getSuppliers
      * Get all suppliers
      * 
      * @return array<int, array> Supplier data indexed by supplier ID
@@ -155,6 +163,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getSupplier
      * Get specific supplier
      * 
      * @param int $supplierId Supplier ID
@@ -172,6 +181,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getPartnerLabel
      * Get label for supplier (implements PartnerDataProviderInterface)
      * 
      * @param int $partnerId Supplier ID
@@ -186,6 +196,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getLabel
      * Get label for supplier
      * 
      * @param int $supplierId Supplier ID
@@ -201,6 +212,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: hasPartner
      * Check if supplier exists (implements PartnerDataProviderInterface)
      * 
      * @param int $partnerId Supplier ID to check
@@ -214,6 +226,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: hasSupplier
      * Check if supplier exists
      * 
      * @param int $supplierId Supplier ID to check
@@ -230,6 +243,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getCount
      * Get count of suppliers
      * 
      * @return int Number of suppliers
@@ -244,6 +258,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: loadSuppliers
      * Load suppliers from database
      * 
      * Queries FrontAccounting database for all active suppliers.

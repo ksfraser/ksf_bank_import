@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/StatementLine.php; coverage: docs/TestCases/ (file rollup)
  * Represents a single line item from a parsed credit-card statement.
  *
  * Immutable value object: identity is determined by all field values.
@@ -43,6 +44,7 @@ final class StatementLine
     private $rawText;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
      * @param string            $lineId
      * @param \DateTimeImmutable $date
      * @param string            $description
@@ -81,6 +83,7 @@ final class StatementLine
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: fromArray
      * Factory: create from an associative array (e.g. decoded JSON).
      *
      * Expected keys: line_id, date (YYYY-MM-DD), description, amount, type, raw_text
@@ -116,27 +119,32 @@ final class StatementLine
         );
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getLineId */
     public function getLineId(): string
     {
         return $this->lineId;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getDate */
     public function getDate(): \DateTimeImmutable
     {
         return $this->date;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getDescription */
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getAmount */
     public function getAmount(): string
     {
         return $this->amount;
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: getAmountFloat
      * Returns the amount as a float for arithmetic. Use getAmount() for persistence.
      */
     public function getAmountFloat(): float
@@ -144,21 +152,25 @@ final class StatementLine
         return (float) $this->amount;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getType */
     public function getType(): string
     {
         return $this->type;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: isCredit */
     public function isCredit(): bool
     {
         return $this->type === self::TYPE_CREDIT;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getRawText */
     public function getRawText(): string
     {
         return $this->rawText;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: toArray */
     public function toArray(): array
     {
         return [

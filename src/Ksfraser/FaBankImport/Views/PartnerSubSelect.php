@@ -9,6 +9,7 @@ use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**//******************
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/PartnerSubSelect.php; coverage: docs/TestCases/ (file rollup)
 * This subselect depends on Transaction Type.
 * TODO: Refactor so that the transaction provides this!!
 *
@@ -16,6 +17,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 class PartnerSubSelect implements HtmlElementInterface
 {
 	protected $row;
+	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
 	function __construct( $bi_lineitem )
 	{
 		$id = $bi_lineitem->id;
@@ -24,10 +26,12 @@ class PartnerSubSelect implements HtmlElementInterface
 		$label = "Partner Sub Select";
 		$this->row = new HTML_ROW_LABEL( $data, $label,  null, null );
 	}
+	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
 	function getHtml()
 	{
 		$this->row->getHtml();
 	}
+	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
 	function toHtml()
 	{
 		$this->row->toHtml();

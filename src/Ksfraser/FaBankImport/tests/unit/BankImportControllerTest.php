@@ -9,6 +9,7 @@ class BankImportControllerTest extends TestCase
     private $controller;
     private $transactionModelMock;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->transactionModelMock = $this->createMock(SquareTransaction::class);
@@ -16,6 +17,7 @@ class BankImportControllerTest extends TestCase
         $this->controller->transactionModel = $this->transactionModelMock;
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testIndexLoadsTransactions */
     public function testIndexLoadsTransactions()
     {
         $this->transactionModelMock->method('getAllTransactions')->willReturn([
@@ -32,6 +34,7 @@ class BankImportControllerTest extends TestCase
         $this->assertStringContainsString('Transaction 2', $output);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testProcessTransactionWithValidPartnerType */
     public function testProcessTransactionWithValidPartnerType()
     {
         $_POST['ProcessTransaction'] = [1 => 'Process'];
@@ -44,6 +47,7 @@ class BankImportControllerTest extends TestCase
         $this->controller->processTransaction();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testProcessTransactionWithInvalidPartnerType */
     public function testProcessTransactionWithInvalidPartnerType()
     {
         $_POST['ProcessTransaction'] = [1 => 'Process'];

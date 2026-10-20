@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Testing;
 use PDO;
 
 /**
+ * @BABOK RTM: NFR-016; file: Testing/SeederFactory.php; coverage: docs/TestCases/ (file rollup)
  * SeederFactory - Manage and execute seeders
  *
  * Provides a convenient way to:
@@ -29,11 +30,13 @@ final class SeederFactory
     /** @var Seeder[] */
     private array $seeders = [];
 
+    /** @BABOK NFR-016 — method: __construct */
     public function __construct(private readonly PDO $pdo)
     {
     }
 
     /**
+ * @BABOK NFR-016 — method: register
      * Register a seeder
      *
      * @param Seeder $seeder Seeder instance to register
@@ -46,6 +49,7 @@ final class SeederFactory
     }
 
     /**
+ * @BABOK NFR-016 — method: runAll
      * Run all registered seeders
      *
      * @return array<string, int> Array of seeder names to record counts
@@ -72,6 +76,7 @@ final class SeederFactory
     }
 
     /**
+ * @BABOK NFR-016 — method: run
      * Run a specific seeder by name
      *
      * @param string $seederName Name of seeder to run
@@ -101,6 +106,7 @@ final class SeederFactory
     }
 
     /**
+ * @BABOK NFR-016 — method: list
      * Get list of registered seeders
      *
      * @return array<string, string> Array of seeder names to descriptions
@@ -115,6 +121,7 @@ final class SeederFactory
     }
 
     /**
+ * @BABOK NFR-016 — method: totalRecordCount
      * Get total number of records that would be seeded
      *
      * @return int
@@ -129,6 +136,7 @@ final class SeederFactory
     }
 
     /**
+ * @BABOK NFR-016 — method: has
      * Check if seeder is registered
      *
      * @param string $seederName Name of seeder to check

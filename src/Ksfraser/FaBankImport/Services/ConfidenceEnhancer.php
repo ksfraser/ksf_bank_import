@@ -36,15 +36,20 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  * @author Kevin Fraser
  * @since 2.3.0
  */
+/**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/ConfidenceEnhancer.php; coverage: docs/TestCases/ (file rollup)
+ */
 class ConfidenceEnhancer
 {
     private const MIN_CONFIDENCE_FOR_AUTO_MATCH = 75.0;
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
     public function __construct(private readonly ScoringRuleEngine $engine)
     {
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: enhance
      * Enhance a single keyword match with context-aware confidence adjustment
      *
      * Applies all registered scoring rules to calculate a context boost,
@@ -90,6 +95,7 @@ class ConfidenceEnhancer
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: enhanceMultiple
      * Enhance multiple keyword matches
      *
      * Applies enhancement to each match and returns array of enhanced results.
@@ -115,6 +121,7 @@ class ConfidenceEnhancer
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getBestMatch
      * Get best enhanced match from a list
      *
      * Returns the highest confidence enhanced match, or null if empty.
@@ -134,6 +141,7 @@ class ConfidenceEnhancer
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getAutoMatchCandidates
      * Get all auto-match candidates
      *
      * Returns enhanced matches that exceed AUTO_MATCH threshold (75%+).
@@ -154,6 +162,7 @@ class ConfidenceEnhancer
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: applyConfidenceAdjustment
      * Apply confidence adjustment with clamping
      *
      * Ensures result stays within 0-100 range.

@@ -4,11 +4,15 @@ namespace Ksfraser\FaBankImport\Repositories;
 
 use Ksfraser\FaBankImport\Database\QueryBuilder;
 
+/**
+ * @BABOK RTM: FR-008 / ARCH-001; file: Repositories/AbstractRepository.php; coverage: docs/TestCases/ (file rollup)
+ */
 abstract class AbstractRepository
 {
     protected $table;
     protected $queryBuilder;
 
+    /** @BABOK FR-008 / ARCH-001 — method: __construct */
     public function __construct()
     {
         if (empty($this->table)) {
@@ -17,6 +21,7 @@ abstract class AbstractRepository
         $this->queryBuilder = new QueryBuilder($this->table);
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: find */
     public function find($id)
     {
         return $this->queryBuilder
@@ -24,6 +29,7 @@ abstract class AbstractRepository
             ->first();
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: findBy */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         foreach ($criteria as $key => $value) {
@@ -47,6 +53,7 @@ abstract class AbstractRepository
         return $this->queryBuilder->get();
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: findOneBy */
     public function findOneBy(array $criteria)
     {
         foreach ($criteria as $key => $value) {
@@ -56,6 +63,7 @@ abstract class AbstractRepository
         return $this->queryBuilder->first();
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: update */
     public function update($id, array $data): bool
     {
         return $this->queryBuilder

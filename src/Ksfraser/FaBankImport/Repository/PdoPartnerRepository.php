@@ -6,6 +6,7 @@ use PDO;
 use RuntimeException;
 
 /**
+ * @BABOK RTM: FR-008 / ARCH-001; file: Repository/PdoPartnerRepository.php; coverage: docs/TestCases/ (file rollup)
  * PDO-based implementation of PartnerRepository
  *
  * Provides CRUD operations for partner data using PDO prepared statements
@@ -18,12 +19,14 @@ final class PdoPartnerRepository implements PartnerRepository
     private readonly PDO $pdo;
     private readonly string $tableName;
 
+    /** @BABOK FR-008 / ARCH-001 — method: __construct */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
         $this->tableName = 'bi_partners_data';
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: create */
     public function create(array $data): int
     {
         $required = ['name', 'partner_type'];
@@ -52,6 +55,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return (int)$this->pdo->lastInsertId();
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: read */
     public function read(int $id): ?array
     {
         $sql = "SELECT * FROM {$this->tableName} WHERE id = :id LIMIT 1";
@@ -62,6 +66,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return $result ?: null;
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: update */
     public function update(int $id, array $data): bool
     {
         if (empty($data)) {
@@ -92,6 +97,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return $stmt->rowCount() > 0;
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: delete */
     public function delete(int $id): bool
     {
         $sql = "DELETE FROM {$this->tableName} WHERE id = :id";
@@ -101,6 +107,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return $stmt->rowCount() > 0;
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: findByName */
     public function findByName(string $name, ?string $partnerType = null): array
     {
         $sql = "SELECT * FROM {$this->tableName} WHERE name LIKE :name";
@@ -119,6 +126,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: findByType */
     public function findByType(string $partnerType): array
     {
         $sql = "SELECT * FROM {$this->tableName} 
@@ -131,6 +139,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: findAll */
     public function findAll(): array
     {
         $sql = "SELECT * FROM {$this->tableName} ORDER BY name ASC";
@@ -140,6 +149,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: count */
     public function count(): int
     {
         $sql = "SELECT COUNT(*) as cnt FROM {$this->tableName}";
@@ -150,6 +160,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return (int)($result['cnt'] ?? 0);
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: incrementOccurrenceCount */
     public function incrementOccurrenceCount(int $id): bool
     {
         $sql = "UPDATE {$this->tableName} 
@@ -163,6 +174,7 @@ final class PdoPartnerRepository implements PartnerRepository
         return $stmt->rowCount() > 0;
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: updateLastMatched */
     public function updateLastMatched(int $id, ?string $timestamp = null): bool
     {
         $timestamp = $timestamp ?? date('Y-m-d H:i:s');

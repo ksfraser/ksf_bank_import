@@ -53,6 +53,9 @@ namespace Ksfraser\FaBankImport\Results;
  * $array = $result->toArray();  // Returns ['success' => true, 'trans_no' => 42, ...]
  * ```
  */
+/**
+ * @BABOK RTM: FR-008 / FR-017; file: Results/TransactionResult.php; coverage: docs/TestCases/ (file rollup)
+ */
 class TransactionResult implements \ArrayAccess
 {
     /**
@@ -98,6 +101,7 @@ class TransactionResult implements \ArrayAccess
     private array $data;
 
     /**
+ * @BABOK FR-008 / FR-017 — method: __construct
      * Private constructor (use static factory methods)
      *
      * @param bool $success Success status
@@ -124,6 +128,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: success
      * Create a success result
      *
      * @param int $transNo Transaction number
@@ -149,6 +154,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: error
      * Create an error result
      *
      * @param string $message Error message
@@ -168,6 +174,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: warning
      * Create a warning result
      *
      * @param string $message Warning message
@@ -193,6 +200,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: isSuccess
      * Check if result is successful
      *
      * @return bool
@@ -203,6 +211,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: isError
      * Check if result is an error
      *
      * @return bool
@@ -213,6 +222,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: isWarning
      * Check if result is a warning
      *
      * @return bool
@@ -223,6 +233,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getTransNo
      * Get transaction number
      *
      * @return int
@@ -233,6 +244,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getTransType
      * Get transaction type
      *
      * @return int
@@ -243,6 +255,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getMessage
      * Get message
      *
      * @return string
@@ -253,6 +266,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getLevel
      * Get display level
      *
      * @return string
@@ -263,6 +277,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getData
      * Get additional data
      *
      * @param string|null $key Specific key to retrieve, or null for all data
@@ -278,6 +293,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: toArray
      * Convert to array (backward compatibility)
      *
      * @return array<string, mixed>
@@ -297,6 +313,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: display
      * Display result using FrontAccounting's notification system
      *
      * Calls display_notification() with appropriate level:
@@ -330,6 +347,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: toHtml
      * Get HTML representation of result
      *
      * Returns HTML div with appropriate Bootstrap alert class.
@@ -381,6 +399,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: __toString
      * Convert to string (returns message)
      *
      * @return string
@@ -391,6 +410,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: offsetExists
      * Check if an offset exists
      *
      * @param mixed $offset
@@ -403,6 +423,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: offsetGet
      * Get an offset value
      *
      * @param mixed $offset
@@ -421,6 +442,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: offsetSet
      * Set an offset value (immutable - not supported)
      *
      * @param mixed $offset
@@ -433,6 +455,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: offsetUnset
      * Unset an offset (immutable - not supported)
      *
      * @param mixed $offset
@@ -444,6 +467,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: fromArray
      * Create result from array (backward compatibility)
      *
      * Allows conversion from old array format to TransactionResult object.

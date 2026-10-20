@@ -9,6 +9,7 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/SubmitButtonRow.php; coverage: docs/TestCases/ (file rollup)
  * SubmitButtonRow - composes a SubmitButton into a HtmlLabelRow.
  * 
  * @package Views
@@ -22,6 +23,7 @@ class SubmitButtonRow implements HtmlElementInterface
     protected $row;
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Create submit button row with given name and label
      * 
      * @param string $name The button name
@@ -35,6 +37,7 @@ class SubmitButtonRow implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
      * Get HTML as string
      * 
      * @return string The HTML
@@ -45,6 +48,7 @@ class SubmitButtonRow implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
      * Output HTML directly to screen
      * 
      * @return void

@@ -24,6 +24,7 @@ namespace Ksfraser\FaBankImport\Repositories;
 use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
 
 /**
+ * @BABOK RTM: FR-008 / ARCH-001; file: Repositories/TransactionRepository.php; coverage: docs/TestCases/ (file rollup)
  * Repository for bi_transactions table
  * 
  * Provides data access methods using QueryBuilder for SQL generation.
@@ -40,6 +41,7 @@ class TransactionRepository
     private $queryBuilder;
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: __construct
      * Constructor with dependency injection
      * 
      * @param TransactionQueryBuilder $queryBuilder The query builder to use
@@ -52,6 +54,7 @@ class TransactionRepository
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findAll
      * Find all transactions
      * 
      * @return array Array of transaction records
@@ -72,6 +75,7 @@ class TransactionRepository
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findById
      * Find transaction by ID
      * 
      * @param int $id Transaction ID
@@ -90,6 +94,7 @@ class TransactionRepository
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findByFilters
      * Find transactions by filters
      * 
      * @param array $filters Associative array of filters (see QueryBuilder::buildGetTransactionsQuery)
@@ -134,6 +139,7 @@ class TransactionRepository
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: update
      * Update transactions with FA GL information
      * 
      * @param array  $transactionIds Array of transaction IDs to update
@@ -154,6 +160,7 @@ class TransactionRepository
         return true;
     }
 
+    /** @BABOK FR-008 / ARCH-001 — method: updateTransactions */
     public function updateTransactions(
         array $transactionIds,
         int $status,
@@ -198,6 +205,7 @@ class TransactionRepository
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: reset
      * Reset transactions (for void operations)
      * 
      * @param array $transactionIds Array of transaction IDs to reset
@@ -234,6 +242,7 @@ class TransactionRepository
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: prevoid
      * Prevoid hook - called when FA transaction is being voided
      * 
      * @param int $faTransNo   FA transaction number
@@ -262,6 +271,7 @@ class TransactionRepository
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findNormalPairing
      * Find normal pairing patterns
      * 
      * Groups transactions by account, g_option, and g_partner to find common patterns.
@@ -298,6 +308,7 @@ class TransactionRepository
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findByStatus
      * Find transactions by status
      *
      * @param string $status Status to filter by
@@ -309,6 +320,7 @@ class TransactionRepository
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: save
      * Save a transaction
      *
      * @param array $transaction Transaction data

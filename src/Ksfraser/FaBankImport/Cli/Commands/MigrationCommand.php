@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migrations\CreatePartnerTables
 use PDO;
 
 /**
+ * @BABOK RTM: FR-049 / ARCH-004; file: Cli/Commands/MigrationCommand.php; coverage: docs/TestCases/ (file rollup)
  * MigrationCommand - Manage database migrations
  *
  * Provides database migration management with support for:
@@ -36,6 +37,7 @@ final class MigrationCommand implements Command
     private MigrationRunner $runner;
     private array $migrations = [];
 
+    /** @BABOK FR-049 / ARCH-004 — method: __construct */
     public function __construct(private readonly Logger $logger)
     {
         $this->initializeDatabase();
@@ -43,6 +45,7 @@ final class MigrationCommand implements Command
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: initializeDatabase
      * Initialize database connection from environment config
      */
     private function initializeDatabase(): void
@@ -68,6 +71,7 @@ final class MigrationCommand implements Command
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: registerMigrations
      * Register all available migrations
      */
     private function registerMigrations(): void
@@ -77,16 +81,19 @@ final class MigrationCommand implements Command
         ];
     }
 
+    /** @BABOK FR-049 / ARCH-004 — method: name */
     public function name(): string
     {
         return 'migrate';
     }
 
+    /** @BABOK FR-049 / ARCH-004 — method: description */
     public function description(): string
     {
         return 'Manage database migrations';
     }
 
+    /** @BABOK FR-049 / ARCH-004 — method: execute */
     public function execute(array $arguments = []): int
     {
         try {
@@ -107,6 +114,7 @@ final class MigrationCommand implements Command
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: executeUp
      * Execute pending migrations (up)
      */
     private function executeUp(): int
@@ -137,6 +145,7 @@ final class MigrationCommand implements Command
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: executeDown
      * Rollback the last batch of migrations (down)
      */
     private function executeDown(): int
@@ -172,6 +181,7 @@ final class MigrationCommand implements Command
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: executeStatus
      * Show migration status
      */
     private function executeStatus(): int
@@ -230,6 +240,7 @@ final class MigrationCommand implements Command
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: executeRefresh
      * Refresh database (rollback all and re-run)
      */
     private function executeRefresh(): int
@@ -277,6 +288,7 @@ final class MigrationCommand implements Command
         }
     }
 
+    /** @BABOK FR-049 / ARCH-004 — method: help */
     public function help(): string
     {
         return <<<'HELP'
@@ -308,6 +320,7 @@ HELP;
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: outputSuccess
      * Output success message (green)
      */
     private function outputSuccess(string $message): void
@@ -316,6 +329,7 @@ HELP;
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: outputInfo
      * Output info message (white)
      */
     private function outputInfo(string $message): void
@@ -324,6 +338,7 @@ HELP;
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: outputWarning
      * Output warning message (yellow)
      */
     private function outputWarning(string $message): void
@@ -332,6 +347,7 @@ HELP;
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: outputError
      * Output error message (red)
      */
     private function outputError(string $message): void

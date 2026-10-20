@@ -6,6 +6,9 @@
 
 namespace Ksfraser\FaBankImport\Services;
 
+/**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/EventDispatcher.php; coverage: docs/TestCases/ (file rollup)
+ */
 class EventDispatcher
 {
     private $listeners = [];

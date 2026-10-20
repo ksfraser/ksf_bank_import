@@ -13,6 +13,7 @@ class TransactionViewServiceTest extends TestCase
     private $view;
     private $service;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->transaction = $this->createMock(BankTransactionInterface::class);
@@ -20,6 +21,7 @@ class TransactionViewServiceTest extends TestCase
         $this->service = new TransactionViewService($this->transaction, $this->view);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testDisplayCallsRenderOnView */
     public function testDisplayCallsRenderOnView()
     {
         $this->transaction->method('getTransactionType')->willReturn('C');
@@ -36,6 +38,7 @@ class TransactionViewServiceTest extends TestCase
         $this->assertEquals('<div>Transaction</div>', $result);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testSetupActionButtonsForCreditTransaction */
     public function testSetupActionButtonsForCreditTransaction()
     {
         $this->transaction->method('getTransactionType')->willReturn('C');
@@ -51,6 +54,7 @@ class TransactionViewServiceTest extends TestCase
         $this->service->display();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testSetupActionButtonsForDebitTransaction */
     public function testSetupActionButtonsForDebitTransaction()
     {
         $this->transaction->method('getTransactionType')->willReturn('D');

@@ -6,11 +6,13 @@ class BiTransactionsModelTest extends TestCase
 {
     protected $biTransactionsModel;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->biTransactionsModel = new bi_transactions_model();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testInsertTransaction */
     public function testInsertTransaction()
     {
         // Set up the necessary properties

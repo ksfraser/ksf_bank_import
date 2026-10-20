@@ -23,6 +23,7 @@ include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 
 page(_($help_context = "Import Bank Statement"));
 
+/** @BABOK FR-006 / ARCH-007 — method: import_statements */
 function import_statements()
 {
     start_table(TABLESTYLE);
@@ -50,6 +51,7 @@ function import_statements()
 }
 
 /**
+* @BABOK FR-006 / ARCH-007 — method: importStatement
  * Import the statements
  *
  * @param object $smt
@@ -99,6 +101,7 @@ function importStatement($smt)
     return $message;
 }
 
+/** @BABOK FR-006 / ARCH-007 — method: processTransaction */
 function processTransaction($transaction, $statementId)
 {
     display_notification("Processing transaction");
@@ -124,12 +127,14 @@ function processTransaction($transaction, $statementId)
     }
 }
 
+/** @BABOK FR-006 / ARCH-007 — method: logError */
 function logError($message)
 {
     // Implement logging functionality here
     error_log($message, 3, "/var/log/ksf_bank_import_errors.log");
 }
 
+/** @BABOK FR-006 / ARCH-007 — method: do_upload_form */
 function do_upload_form()
 {
     $parsers = array();
@@ -162,6 +167,7 @@ function do_upload_form()
     div_end();
 }
 
+/** @BABOK FR-006 / ARCH-007 — method: parse_uploaded_files */
 function parse_uploaded_files()
 {
     start_table(TABLESTYLE);

@@ -7,6 +7,9 @@ use \Exception;
 
 require_once( __DIR__ . "../../../../Views/TransactionTypeLabel.php" );
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Transaction.php; coverage: docs/TestCases/ (file rollup)
+ */
 abstract class Transaction
 {
 	public $transactionDC;       //| varchar(2)   | YES  |     | NULL    |		|
@@ -46,6 +49,7 @@ abstract class Transaction
 	protected $created;	//!<bool
 	protected $HasPair;	//!<bool
 
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
 	function __construct( array $trz )
 	{
 		$this->matched = 0;
@@ -105,6 +109,7 @@ abstract class Transaction
 		$_POST['partnerType'][ $this->id ] = $this->partnerType;
 	}
 	/**//*****************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: determineTransactionTypeLabel
 	* Determine which label to apply
 	*
 	*@since 20250409
@@ -119,10 +124,12 @@ abstract class Transaction
 		return;
 	}
 	/**//*******************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner
 	*
 	************************************************************/
 	abstract function displayPartner();
 	/**//******************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: retrieveBankAccountDetails
 	* Get OUR Bank Account Details
 	*
 	*	TODO: REFACTOR to use class fa_bank_accounts instead of an array
@@ -152,6 +159,7 @@ abstract class Transaction
 		$this->ourBankAccountCode = $this->ourBankDetails['account_code'];
 	}
 	/**//***************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: retrieveMatchingExistingJE
 	* Find any transactions that alraedy exist that look like this one
 	*
 	* @param NONE
@@ -225,6 +233,7 @@ abstract class Transaction
 	        return $this->matching_trans;
 	}
 	/**//****************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayAddVendorOrCustomer
 	* Add a display button to add a Customer or a Vendor
 	*
 	**********************************************************************/
@@ -246,7 +255,9 @@ abstract class Transaction
 			hidden( "vendor_long_$this->id", $this->otherBankAccountName );
 		}
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
 	abstract function selectAndDisplayButton();
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: matchedVendor */
 	function matchedVendor() 
 	{
 		if( ! isset( $this->vendor_list ) )
@@ -260,12 +271,14 @@ abstract class Transaction
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
 		return $matchedVendor;
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: ToggleTransactionTypeButton */
 	function ToggleTransactionTypeButton()
 	{
 		$b = new ToggleTransactionTypeButton( $this->id );
 		$b->toHtml();
 	}
 	/**//***************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: isPaired
 	* Check if the transaction has a pair.
 	*
 	*	Will set a flag so we can just check the flag
@@ -279,6 +292,7 @@ abstract class Transaction
 		$this->HasPair = false;
 		return $this->HasPair;
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: tellPartnerType */
 	function tellPartnerType()
 	{
 	}

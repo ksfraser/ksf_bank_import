@@ -25,6 +25,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionPartnerMatcher.php; coverage: docs/TestCases/ (file rollup)
  * Transaction Partner Matcher
  *
  * Orchestrates matching of incoming bank transactions against all available
@@ -63,6 +64,7 @@ class TransactionPartnerMatcher
     private int $partnerTypeBankTransfer = 4; // ST_BANKTRANSFER
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param ScoringRuleEngine $engine Scoring engine instance
@@ -77,6 +79,7 @@ class TransactionPartnerMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchTransaction
      * Match a transaction against all available partners
      *
      * Scores the transaction against suppliers, customers, and bank transfer
@@ -219,6 +222,7 @@ class TransactionPartnerMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setPartnerTypeConstants
      * Set partner type constants (for testability)
      *
      * @param int $supplier     PT_SUPPLIER constant value

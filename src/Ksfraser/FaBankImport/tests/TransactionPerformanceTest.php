@@ -12,6 +12,7 @@ class TransactionPerformanceTest extends DatabaseTestCase
     private $startMemory;
     private $startTime;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         parent::setUp();
@@ -20,6 +21,7 @@ class TransactionPerformanceTest extends DatabaseTestCase
         $this->startTime = microtime(true);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: tearDown */
     protected function tearDown(): void
     {
         $memoryUsed = memory_get_usage() - $this->startMemory;
@@ -34,6 +36,7 @@ class TransactionPerformanceTest extends DatabaseTestCase
         parent::tearDown();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testBulkTransactionProcessing */
     public function testBulkTransactionProcessing()
     {
         $transactionCount = 100;
@@ -78,6 +81,7 @@ class TransactionPerformanceTest extends DatabaseTestCase
         );
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testConcurrentTransactionProcessing */
     public function testConcurrentTransactionProcessing()
     {
         if (!extension_loaded('pcntl')) {

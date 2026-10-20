@@ -40,9 +40,13 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\MatchedPartnerType;
 
+/**
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/MatchedTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
+ */
 class MatchedTransactionHandler extends AbstractTransactionHandler
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * Get the partner type instance for Matched transactions
      * 
      * @return PartnerTypeInterface Returns MatchedPartnerType value object
@@ -53,6 +57,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * Process a Matched transaction
      * 
      * Links a bank transaction to an automatically matched FrontAccounting entry.
@@ -126,6 +131,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processMatchedTransaction
      * Process matched transaction by confirming link to existing FA entry
      * 
      * @param array $transaction Complete transaction data

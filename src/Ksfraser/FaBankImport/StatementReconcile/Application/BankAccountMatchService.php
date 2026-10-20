@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\StatementReconcile\Application;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/BankAccountMatchService.php; coverage: docs/TestCases/ (file rollup)
  * Scores FA bank accounts against an OCR-extracted account identifier.
  *
  * Scoring rules (applied additively):
@@ -41,6 +42,7 @@ class BankAccountMatchService
     private $minScore;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
      * @param array $config Module config (from config.php).
      */
     public function __construct(array $config)
@@ -49,6 +51,7 @@ class BankAccountMatchService
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: match
      * Score all active FA bank accounts against the given OCR account identifier.
      *
      * Requires FA bootstrap to have run (uses db_query / db_fetch / TB_PREF).
@@ -139,6 +142,7 @@ class BankAccountMatchService
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: loadFaBankAccounts
      * Load all non-inactive FA bank accounts.
      *
      * @return array[]
@@ -159,6 +163,7 @@ class BankAccountMatchService
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: loadHistoryMap
      * Return a set of bank_account_ids that were previously confirmed for the
      * given account_identifier in approved reconciliation sessions.
      *
@@ -188,6 +193,7 @@ class BankAccountMatchService
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: stripNonDigits
      * Strip everything but digits from a string (for account number comparison).
      *
      * @param string $value

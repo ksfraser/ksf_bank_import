@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Database\Migrations;
 use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 
 /**
+ * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migrations/Migration001AddOccurrenceCount.php; coverage: docs/TestCases/ (file rollup)
  * Migration 001: Add occurrence_count to bi_partners_data
  * 
  * Adds occurrence_count column to track frequency of partner matches.
@@ -17,21 +18,25 @@ final class Migration001AddOccurrenceCount implements Migration
     private const TABLE_PREFIX = '0_';
     private const TABLE = self::TABLE_PREFIX . 'bi_partners_data';
 
+    /** @BABOK FR-006 / ARCH-007 — method: name */
     public function name(): string
     {
         return '20260416_140000_add_occurrence_count';
     }
 
+    /** @BABOK FR-006 / ARCH-007 — method: version */
     public function version(): string
     {
         return '001';
     }
 
+    /** @BABOK FR-006 / ARCH-007 — method: description */
     public function description(): string
     {
         return 'Add occurrence_count to bi_partners_data for frequency-based scoring';
     }
 
+    /** @BABOK FR-006 / ARCH-007 — method: up */
     public function up(\PDO $pdo): void
     {
         $pdo->exec("
@@ -56,6 +61,7 @@ final class Migration001AddOccurrenceCount implements Migration
         ");
     }
 
+    /** @BABOK FR-006 / ARCH-007 — method: down */
     public function down(\PDO $pdo): void
     {
         $pdo->exec("

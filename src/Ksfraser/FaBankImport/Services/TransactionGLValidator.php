@@ -7,6 +7,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionGLValidator.php; coverage: docs/TestCases/ (file rollup)
  * TransactionGLValidator - Validate imported bank transactions against GL entries
  * 
  * Mantis #2713: Validate that bank transaction data matches GL entries
@@ -26,6 +27,7 @@ class TransactionGLValidator
     protected $suggestions = [];
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      */
     public function __construct()
@@ -36,6 +38,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateAllTransactions
      * Validate all imported transactions that have been matched to GL entries
      * 
      * @param int|null $smt_id Optional statement ID to validate specific statement
@@ -79,6 +82,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateTransaction
      * Validate a single transaction against its GL entry
      * 
      * @param array $transaction Transaction data from bi_transactions table
@@ -148,6 +152,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: checkGLTransactionExists
      * Check if a GL transaction exists
      * 
      * @param int $trans_type Transaction type
@@ -168,6 +173,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getGLTransactionDetails
      * Get GL transaction details
      * 
      * @param int $trans_type Transaction type
@@ -194,6 +200,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateAmounts
      * Validate amounts match between bank import and GL
      * 
      * @param array $transaction Bank transaction
@@ -246,6 +253,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateDates
      * Validate dates are within reasonable range
      * 
      * @param array $transaction Bank transaction
@@ -278,6 +286,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateBankAccount
      * Validate bank account matches
      * 
      * @param array $transaction Bank transaction
@@ -308,6 +317,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: findPossibleGLMatches
      * Find possible GL transaction matches
      * Uses the existing matching routine
      * 
@@ -344,6 +354,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: generateSummary
      * Generate summary of validation results
      * 
      * @param array $validationResults All validation results
@@ -384,6 +395,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: flagTransactionForReview
      * Flag a transaction for review
      * Updates the status field in bi_transactions
      * 
@@ -403,6 +415,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFlaggedTransactions
      * Get all flagged transactions
      * 
      * @return array Flagged transactions
@@ -426,6 +439,7 @@ class TransactionGLValidator
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: clearFlag
      * Clear flag from a transaction
      * 
      * @param int $trans_id Transaction ID

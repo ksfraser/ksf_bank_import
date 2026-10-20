@@ -39,6 +39,7 @@ use Ksfraser\FaBankImport\Services\Rules\AmountMatchRule;
 use Ksfraser\FaBankImport\Services\Rules\InvoiceDetectionRule;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
  * Factory for Creating Supplier-Configured Scoring Engine
  *
  * Single responsibility: Create and register supplier-specific rules
@@ -57,6 +58,7 @@ final class SupplierScoringEngineFactory
     private SupplierMatchingConfiguration $configuration;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param SupplierMatchingConfiguration $configuration Configuration for rules
@@ -68,6 +70,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
      * Get configuration reference
      *
      * @return SupplierMatchingConfiguration Current configuration
@@ -79,6 +82,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createBankAccountRule
      * Create bank account matching rule
      *
      * PROD REQUIREMENT: Bank account MUST match exactly
@@ -92,6 +96,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createVendorNameRule
      * Create vendor name matching rule
      *
      * Uses keyword scoring for vendor name matching.
@@ -105,6 +110,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createAmountRule
      * Create amount matching rule
      *
      * Matches amounts within configured tolerance.
@@ -118,6 +124,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createInvoiceRule
      * Create invoice detection rule
      *
      * Detects supplier invoice transactions.
@@ -131,6 +138,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createEngine
      * Create configured scoring engine with all supplier matching rules
      *
      * Returns a ScoringRuleEngine instance with all supplier-specific rules

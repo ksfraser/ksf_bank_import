@@ -161,6 +161,7 @@ class bi_transactions_model extends generic_fa_interface_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: set
      * Set the field if possible.
      *
      * Tries to set the field in this class as well as in table_interface,
@@ -182,6 +183,7 @@ class bi_transactions_model extends generic_fa_interface_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: insert_transaction
      * Insert a transaction record.
      *
      * @return void
@@ -192,6 +194,7 @@ class bi_transactions_model extends generic_fa_interface_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: summary_sql
      * Generate summary SQL query for transactions.
      *
      * @param string $TransAfterDate
@@ -211,6 +214,7 @@ class bi_transactions_model extends generic_fa_interface_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: build_summary_sql
      * Build summary SQL query for transactions.
      *
      * @param string $TransAfterDate
@@ -234,6 +238,7 @@ class bi_transactions_model extends generic_fa_interface_model
     // Other methods...
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: toggleDebitCredit
      * Toggle from D to C or C to D.
      *
      * Some banks don't send the data correctly. Toggle the direction.

@@ -46,6 +46,7 @@ class bi_transaction extends bi_transactions_model
     protected $invoiceNo;
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: __construct
      * Constructor for bi_transaction class.
      */
     public function __construct()
@@ -57,6 +58,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: set
      * Set the field if possible.
      *
      * @param string $field The field to set.
@@ -71,6 +73,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: extractPost
      * Extract the variables out of _POST for this id.
      *
      * @param int $id Post ID.
@@ -93,6 +96,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: setIfExists
      * Set the field if the value exists.
      *
      * @param string $field The field to set.
@@ -106,6 +110,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: insert_transaction
      * Placeholder for inserting a transaction.
      */
     public function insert_transaction()
@@ -114,6 +119,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: reset_transactions
      * Update bi_trans clearing status.
      *
      * @param int $tid BI transaction index.
@@ -127,6 +133,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: update_transactions
      * Update bi_trans with the related info to FA gl transactions.
      *
      * @param int $tid BI transaction index.
@@ -145,6 +152,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: update_transactions_account
      * Update bi_trans with the related info to FA gl transactions.
      *
      * @param int $tid BI transaction index.
@@ -157,6 +165,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: db_prevoid
      * Reset bi_trans data when the related FA gl transaction is voided.
      *
      * @param int|array $type The transaction type (JE/BP/SP/...).
@@ -168,6 +177,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: get_transactions
      * Get transactions details for display.
      *
      * @param int|null $status Status.
@@ -179,6 +189,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: get_transaction
      * Get a specific transaction's details.
      *
      * @param int|null $tid Transaction ID.
@@ -191,6 +202,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: get_normal_pairing
      * Get the normal actions for a counterparty.
      *
      * @since 20240729
@@ -203,6 +215,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: trz2obj
      * Convert Transaction array to this object.
      *
      * @param array $trz Transaction array.
@@ -214,6 +227,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: hand_insert_sql
      * Hand build the INSERT statement.
      *
      * @return string SQL statement.
@@ -224,6 +238,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: hand_update_sql
      * Hand build the UPDATE statement.
      *
      * @return string SQL statement.
@@ -234,6 +249,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: trans_exists
      * Determine if this particular transaction already exists in the staging table.
      *
      * @return bool Whether the transaction already exists.
@@ -244,6 +260,7 @@ class bi_transaction extends bi_transactions_model
     }
 
     /**
+ * @BABOK BR-002 / FR-005 / FR-006 — method: update
      * Update a transaction record.
      *
      * @param array $arr The transaction from bank_import's import.

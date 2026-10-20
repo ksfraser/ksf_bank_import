@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationExce
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\MatchedPair;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Entity/ReconciliationSession.php; coverage: docs/TestCases/ (file rollup)
  * Aggregate root representing a single reconciliation attempt for one statement.
  *
  * Lifecycle:
@@ -50,6 +51,7 @@ final class ReconciliationSession
     private $persistedAt;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
      * Private – use factory methods.
      *
      * @param int|null      $id
@@ -82,6 +84,7 @@ final class ReconciliationSession
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: createPending
      * Create a fresh pending session from matching engine output.
      *
      * @param int           $statementOcrId
@@ -109,6 +112,7 @@ final class ReconciliationSession
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: fromDatabase
      * Reconstitute from a database row + decoded JSON sub-arrays.
      *
      * @param array $row            DB row with id, statement_ocr_id, status, persisted_by_user_id, persisted_at
@@ -153,6 +157,7 @@ final class ReconciliationSession
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: addPair
      * Add or replace a matched pair for a given statement line.
      *
      * Also removes the line from unmatched statement lines if present.
@@ -188,6 +193,7 @@ final class ReconciliationSession
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: removePair
      * Remove a matched pair by statement line ID, placing the line back into unmatched.
      *
      * @param string $statementLineId
@@ -217,6 +223,7 @@ final class ReconciliationSession
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: approve
      * Approve the session, locking further changes.
      *
      * @param int $userId FA user ID performing the approval.
@@ -237,54 +244,67 @@ final class ReconciliationSession
     // Queries
     // -------------------------------------------------------------------------
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getId */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getStatementOcrId */
     public function getStatementOcrId(): int
     {
         return $this->statementOcrId;
     }
 
-    /** @return MatchedPair[] */
+    /** @return MatchedPair[] 
+     * @BABOK FR-007 / BR-004 / ARCH-010 — method: getMatchedPairs
+     */
     public function getMatchedPairs(): array
     {
         return $this->matchedPairs;
     }
 
-    /** @return string[] */
+    /** @return string[] 
+     * @BABOK FR-007 / BR-004 / ARCH-010 — method: getUnmatchedStatementLineIds
+     */
     public function getUnmatchedStatementLineIds(): array
     {
         return $this->unmatchedStatementLineIds;
     }
 
-    /** @return int[] */
+    /** @return int[] 
+     * @BABOK FR-007 / BR-004 / ARCH-010 — method: getUnmatchedBankTransactionIds
+     */
     public function getUnmatchedBankTransactionIds(): array
     {
         return $this->unmatchedBankTransactionIds;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getStatus */
     public function getStatus(): string
     {
         return $this->status;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: isPending */
     public function isPending(): bool
     {
         return $this->status === self::STATUS_PENDING;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: isApproved */
     public function isApproved(): bool
     {
         return $this->status === self::STATUS_APPROVED;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getPersistedByUserId */
     public function getPersistedByUserId(): ?int
     {
         return $this->persistedByUserId;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getPersistedAt */
     public function getPersistedAt(): ?\DateTimeImmutable
     {
         return $this->persistedAt;
@@ -294,6 +314,7 @@ final class ReconciliationSession
     // Persistence helpers
     // -------------------------------------------------------------------------
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: toStorageArray */
     public function toStorageArray(): array
     {
         $pairs = array_map(static function (MatchedPair $p): array {
@@ -318,6 +339,7 @@ final class ReconciliationSession
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: assertPending
      * @param string $operation
      */
     private function assertPending(string $operation): void

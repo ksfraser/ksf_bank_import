@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Repository;
 
 /**
+ * @BABOK RTM: FR-008 / ARCH-001; file: Repository/DatabaseConfigRepository.php; coverage: docs/TestCases/ (file rollup)
  * Database-backed Configuration Repository
  * 
  * Stores configuration in database table for production-safe management
@@ -23,6 +24,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     private bool $cacheLoaded = false;
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: get
      * Get configuration value by key
      * 
      * @param string $key Configuration key with dot notation (e.g., 'upload.check_duplicates')
@@ -41,6 +43,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: set
      * Set configuration value with audit trail
      * 
      * @param string $key Configuration key
@@ -89,6 +92,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getByCategory
      * Get all configuration values for a category
      * 
      * @param string $category Category name
@@ -117,6 +121,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getAll
      * Get all configuration values
      * 
      * @return array All configurations grouped by category
@@ -148,6 +153,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: has
      * Check if configuration key exists
      * 
      * @param string $key Configuration key
@@ -160,6 +166,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: delete
      * Delete configuration value (if not system config)
      * 
      * @param string $key Configuration key
@@ -187,6 +194,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getHistory
      * Get configuration change history with audit trail
      * 
      * @param string|null $key Specific key (null for all)
@@ -216,6 +224,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: loadCache
      * Load all configuration into memory cache
      * Auto-creates tables on first use
      */
@@ -244,6 +253,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: ensureTablesExist
      * Ensure database tables exist (auto-migration on first use)
      * 
      * @return void
@@ -262,6 +272,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: createTables
      * Create database tables for configuration
      * 
      * @return void
@@ -307,6 +318,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: insertDefaultValues
      * Insert default configuration values
      * 
      * @return void
@@ -356,6 +368,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: castValue
      * Cast string value to appropriate type
      * 
      * @param string $value String value from database
@@ -378,6 +391,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: valueToString
      * Convert typed value to string for storage
      * 
      * @param mixed $value Typed value
@@ -393,6 +407,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getConfigType
      * Get configuration type for a key
      * 
      * @param string $key Configuration key
@@ -413,6 +428,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: isSystemConfig
      * Check if configuration is system-only (cannot be modified)
      * 
      * @param string $key Configuration key
@@ -433,6 +449,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     }
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: recordHistory
      * Record configuration change in history table
      * 
      * @param string $key Configuration key

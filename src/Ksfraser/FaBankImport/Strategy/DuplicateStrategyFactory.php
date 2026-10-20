@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Strategy;
 
 /**
+ * @BABOK RTM: BR-002 / FR-005; file: Strategy/DuplicateStrategyFactory.php; coverage: docs/TestCases/ (file rollup)
  * Duplicate Strategy Factory
  * 
  * Creates appropriate duplicate handling strategy based on action type
@@ -14,6 +15,7 @@ namespace Ksfraser\FaBankImport\Strategy;
 class DuplicateStrategyFactory
 {
     /**
+ * @BABOK BR-002 / FR-005 — method: create
      * Create strategy based on action type
      * 
      * @param string $action Action type: 'allow', 'warn', or 'block'
@@ -41,6 +43,7 @@ class DuplicateStrategyFactory
     }
     
     /**
+ * @BABOK BR-002 / FR-005 — method: getAvailableStrategies
      * Get all available strategies
      * 
      * @return array Array of strategy names
@@ -51,6 +54,7 @@ class DuplicateStrategyFactory
     }
     
     /**
+ * @BABOK BR-002 / FR-005 — method: isValidAction
      * Validate action type
      * 
      * @param string $action Action to validate

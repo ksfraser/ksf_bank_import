@@ -30,9 +30,13 @@ use Ksfraser\FaBankImport\Config\BankImportConfig;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\QuickEntryPartnerType;
 
+/**
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/QuickEntryTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
+ */
 class QuickEntryTransactionHandler extends AbstractTransactionHandler
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * Get the partner type instance for Quick Entry transactions
      * 
      * @return PartnerTypeInterface Returns QuickEntryPartnerType value object
@@ -43,6 +47,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * Process a Quick Entry transaction
      * 
      * @param array $transaction Complete transaction record from bi_transactions
@@ -104,6 +109,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processQuickEntry
      * Process a Quick Entry transaction
      * 
      * Creates an items_cart, loads the Quick Entry template, adds transaction

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/RecencyRule.php; coverage: docs/TestCases/ (file rollup)
  * Recency Scoring Rule
  *
  * More recent transactions have more reliable patterns, so boost confidence
@@ -25,6 +26,7 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
  */
 final class RecencyRule implements ScoringRule
 {
+    /** @BABOK BR-011 / ARCH-011 — method: calculateScore */
     public function calculateScore(array $transaction, SupplierCandidate $match): float
     {
         if (!isset($transaction['date'])) {
@@ -46,16 +48,19 @@ final class RecencyRule implements ScoringRule
         return -2.0; // Older data (patterns may have changed)
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getName */
     public function getName(): string
     {
         return 'RecencyRule';
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getMaxBoost */
     public function getMaxBoost(): float
     {
         return 5.0;
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getMinReduction */
     public function getMinReduction(): float
     {
         return -2.0;

@@ -7,9 +7,13 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
+/**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/DisplaySettledTransactions.php; coverage: docs/TestCases/ (file rollup)
+ */
 class DisplaySettledTransactions implements HtmlElementInterface
 {
         protected $table;
+	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
 	function __construct( $transaction )
 	{
                 $this->table = $table = new HTML_TABLE( null, 100 );
@@ -33,10 +37,12 @@ class DisplaySettledTransactions implements HtmlElementInterface
 		$table->appendRow( new UnsetTransaction( $transaction ) );
                 //label_row( "Unset Transaction Association", submit( "UnsetTrans[$this->id]", _( "Unset Transaction $this->fa_trans_no"), false, '', 'default' ));
 	}
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
         function toHtml()
         {
                 $this->table->toHtml();
         }
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
         function getHtml()
         {
                 $this->table->getHtml();
@@ -46,6 +52,7 @@ class DisplaySettledTransactions implements HtmlElementInterface
 
 class StatusSettled extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct()
         {
                 $this->label = "Status:";
@@ -55,6 +62,7 @@ class StatusSettled extends LabelRowBase
 }
 class UnsetTransaction extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct( $transaction )
         {
                 $this->label = "Unset Transaction Association:";
@@ -64,6 +72,7 @@ class UnsetTransaction extends LabelRowBase
 }
 class SettledManual extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct()
         {
                 $this->label = "Operation:";
@@ -73,6 +82,7 @@ class SettledManual extends LabelRowBase
 }
 class SettledDefault extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct( $transaction )
         {
                 $this->label = "Status:";
@@ -83,15 +93,18 @@ class SettledDefault extends LabelRowBase
 abstract class SettledTable  implements HtmlElementInterface
 {
         protected $table;
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct( $transaction )
         {
                 $this->table = $table = new HTML_TABLE( null, 100 );
                 //$table->appendRow( new OperationPayment() );
         }
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
         function toHtml()
         {
                 $this->table->toHtml();
         }
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
         function getHtml()
         {
                 $this->table->getHtml();
@@ -101,6 +114,7 @@ abstract class SettledTable  implements HtmlElementInterface
 class SettledPaymentTable extends SettledTable
 {
         protected $table;
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct( $transaction )
         {
 //TODO data was passed in in an minfo array
@@ -113,6 +127,7 @@ class SettledPaymentTable extends SettledTable
 }
 class OperationPayment extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct()
         {
                 $this->label = "Operation:";
@@ -122,6 +137,7 @@ class OperationPayment extends LabelRowBase
 }
 class FromBankAccount extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct( $transaction )
         {
                 $this->label = "From Bank Account:";
@@ -131,6 +147,7 @@ class FromBankAccount extends LabelRowBase
 }
 class SettledSupplier extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct( $transaction )
         {
                 $this->label = "Supplier:";
@@ -141,6 +158,7 @@ class SettledSupplier extends LabelRowBase
 class SettledDepositTable extends SettledTable
 {
         protected $table;
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct( $transaction )
         {
 		parent::__construct();
@@ -152,6 +170,7 @@ class SettledDepositTable extends SettledTable
 }
 class OperationDeposit extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct()
         {
                 $this->label = "Operation:";
@@ -161,6 +180,7 @@ class OperationDeposit extends LabelRowBase
 }
 class CustomerBranch extends LabelRowBase
 {
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
         function __construct( $custArray )
         {
                 $this->label = "Customer/Branch:";

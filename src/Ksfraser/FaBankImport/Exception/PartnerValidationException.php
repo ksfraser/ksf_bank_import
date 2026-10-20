@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exception;
 
 /**
+ * @BABOK RTM: FR-050 / ARCH-003; file: Exception/PartnerValidationException.php; coverage: docs/TestCases/ (file rollup)
  * PartnerValidationException - Thrown when partner data validation fails
  * 
  * Used when partner data violates constraints or business rules.
@@ -14,11 +15,13 @@ namespace Ksfraser\FaBankImport\Exception;
  */
 class PartnerValidationException extends PartnerException
 {
+    /** @BABOK FR-050 / ARCH-003 — method: emptyName */
     public static function emptyName(): self
     {
         return new self('Partner name cannot be empty');
     }
 
+    /** @BABOK FR-050 / ARCH-003 — method: invalidOccurrenceCount */
     public static function invalidOccurrenceCount(int $count): self
     {
         return new self(
@@ -26,6 +29,7 @@ class PartnerValidationException extends PartnerException
         );
     }
 
+    /** @BABOK FR-050 / ARCH-003 — method: nameExceedsMaxLength */
     public static function nameExceedsMaxLength(int $length): self
     {
         return new self(

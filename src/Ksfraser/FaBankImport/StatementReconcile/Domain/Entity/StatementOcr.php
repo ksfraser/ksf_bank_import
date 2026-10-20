@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Entity/StatementOcr.php; coverage: docs/TestCases/ (file rollup)
  * Aggregate root representing one parsed CC statement PDF.
  *
  * Holds:
@@ -42,6 +43,7 @@ final class StatementOcr
     private $createdAt;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
      * Private constructor – use factory methods.
      *
      * @param int|null          $id
@@ -65,6 +67,7 @@ final class StatementOcr
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: create
      * Create a new (unpersisted) StatementOcr from parsed model output.
      *
      * @param StatementMetadata $metadata
@@ -83,6 +86,7 @@ final class StatementOcr
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: fromDatabase
      * Reconstitute a StatementOcr from a database row + decoded sub-arrays.
      *
      * Expected $row keys: id, created_at (YYYY-MM-DD HH:MM:SS)
@@ -131,17 +135,20 @@ final class StatementOcr
     // Queries
     // -------------------------------------------------------------------------
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getId */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getMetadata */
     public function getMetadata(): StatementMetadata
     {
         return $this->metadata;
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: getLines
      * @return StatementLine[]
      */
     public function getLines(): array
@@ -149,22 +156,26 @@ final class StatementOcr
         return $this->lines;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getLineCount */
     public function getLineCount(): int
     {
         return count($this->lines);
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getRawOcrResult */
     public function getRawOcrResult(): RawOcrResult
     {
         return $this->rawOcrResult;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getCreatedAt */
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: getLinesByType
      * Return lines filtered by type.
      *
      * @param string $type 'credit' | 'debit'
@@ -184,6 +195,7 @@ final class StatementOcr
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: assertValidLines
      * @param StatementLine[] $lines
      */
     private static function assertValidLines(array $lines): void
@@ -198,6 +210,7 @@ final class StatementOcr
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: toStorageArray
      * Serialise to a flat array suitable for PDO persistence.
      * Monetary/date fields are already strings; lines and rawOcr are JSON-encoded.
      *

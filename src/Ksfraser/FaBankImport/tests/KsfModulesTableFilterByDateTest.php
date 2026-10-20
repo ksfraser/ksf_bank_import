@@ -20,16 +20,19 @@ class KsfModulesTableFilterByDateTest extends TestCase
 {
     protected $tableFilter;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->tableFilter = new ksf_modules_table_filter_by_date();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testConstruct */
     public function testConstruct()
     {
         $this->assertInstanceOf(ksf_modules_table_filter_by_date::class, $this->tableFilter);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testDisplay */
     public function testDisplay()
     {
         // You will need to mock start_table, start_row, end_row, end_table functions
@@ -38,6 +41,7 @@ class KsfModulesTableFilterByDateTest extends TestCase
         $this->expectOutputString('');
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testBankImportHeader */
     public function testBankImportHeader()
     {
         // You will need to mock start_table, start_row, end_row, end_table functions

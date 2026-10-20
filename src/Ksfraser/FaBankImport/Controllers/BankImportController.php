@@ -10,16 +10,21 @@ use Ksfraser\FaBankImport\Commands\ProcessTransactionCommand;
 use Ksfraser\FaBankImport\Middleware\AuthMiddleware;
 
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controllers/BankImportController.php; coverage: docs/TestCases/ (file rollup)
+ */
 class BankImportController_MVC
 {
     private $container;
     private $transactions = [];
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     public function __construct()
     {
         $this->container = Container::getInstance();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: index */
     public function index(): void
     {
         /* Original code replaced by new MVC structure
@@ -39,6 +44,7 @@ class BankImportController_MVC
         }
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: loadTransactions */
     private function loadTransactions(): array
     {
         // Get transactions from database
@@ -46,6 +52,7 @@ class BankImportController_MVC
         return $result ? $result : [];
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: processTransaction */
     public function processTransaction(int $transactionId, string $type): void
     {
         $transaction = $this->findTransaction($transactionId);
@@ -61,6 +68,7 @@ class BankImportController_MVC
         $transactionObj->processTransaction();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: findTransaction */
     private function findTransaction(int $id): ?array
     {
         $result = db_query("SELECT * FROM bi_transactions WHERE id = ?", [$id]);
@@ -72,17 +80,20 @@ class BankImportController extends AbstractController
 {
     private $container;
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     public function __construct()
     {
         parent::__construct();
         $this->container = Container::getInstance();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: initializeMiddleware */
     protected function initializeMiddleware(): void
     {
         $this->pipeline->pipe(new AuthMiddleware());
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: index */
     public function index(): void
     {
         $transactionService = $this->container->getTransactionService();
@@ -93,6 +104,7 @@ class BankImportController extends AbstractController
         ]);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: process */
     public function process(): void
     {
         $command = $this->request->getTransactionCommand();

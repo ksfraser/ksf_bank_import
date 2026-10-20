@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
+ * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migrations/CreatePartnerTables.php; coverage: docs/TestCases/ (file rollup)
  * Initial Migration - Create Partner Tables
  * 
  * Creates the foundational tables for partner data management:
@@ -19,16 +20,19 @@ use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
  */
 final class CreatePartnerTables implements Migration
 {
+    /** @BABOK FR-006 / ARCH-007 — method: name */
     public function name(): string
     {
         return '20260416_140000_create_partner_tables';
     }
 
+    /** @BABOK FR-006 / ARCH-007 — method: description */
     public function description(): string
     {
         return 'Create bi_partners_data table for partner matching and training';
     }
 
+    /** @BABOK FR-006 / ARCH-007 — method: up */
     public function up(PDO $pdo): void
     {
         try {
@@ -57,6 +61,7 @@ final class CreatePartnerTables implements Migration
         }
     }
 
+    /** @BABOK FR-006 / ARCH-007 — method: down */
     public function down(PDO $pdo): void
     {
         try {

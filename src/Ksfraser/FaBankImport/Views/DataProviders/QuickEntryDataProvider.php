@@ -74,6 +74,9 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * 
  * @since 1.0.0
  */
+/**
+ * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/QuickEntryDataProvider.php; coverage: docs/TestCases/ (file rollup)
+ */
 class QuickEntryDataProvider
 {
     /**
@@ -112,6 +115,7 @@ class QuickEntryDataProvider
     private $type;
     
     /**
+ * @BABOK FR-009 / IR-001 — method: __construct
      * Private constructor for singleton pattern
      * 
      * @param int $type Quick entry type (QE_DEPOSIT or QE_PAYMENT)
@@ -122,6 +126,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: forDeposit
      * Get singleton instance for deposit entries
      * 
      * @return QuickEntryDataProvider Instance for QE_DEPOSIT entries
@@ -140,6 +145,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: forPayment
      * Get singleton instance for payment entries
      * 
      * @return QuickEntryDataProvider Instance for QE_PAYMENT entries
@@ -158,6 +164,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: reset
      * Reset singletons (for testing)
      * 
      * @return void
@@ -170,6 +177,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getEntries
      * Get all quick entries of this type
      * 
      * @return array<int, array> Quick entry data indexed by ID
@@ -184,6 +192,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getEntry
      * Get specific quick entry
      * 
      * @param int $entryId Quick entry ID
@@ -201,6 +210,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getLabel
      * Get label for quick entry
      * 
      * @param int $entryId Quick entry ID
@@ -216,6 +226,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: hasEntry
      * Check if entry exists
      * 
      * @param int $entryId Quick entry ID to check
@@ -232,6 +243,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getCount
      * Get count of entries
      * 
      * @return int Number of quick entries of this type
@@ -246,6 +258,7 @@ class QuickEntryDataProvider
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: loadEntries
      * Load quick entries from database
      * 
      * Queries FrontAccounting database for quick entries of this type.

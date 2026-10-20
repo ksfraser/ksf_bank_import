@@ -7,12 +7,16 @@ use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Http\ResponseHandler;
 use Ksfraser\FaBankImport\Middleware\MiddlewarePipeline;
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controllers/AbstractController.php; coverage: docs/TestCases/ (file rollup)
+ */
 abstract class AbstractController
 {
     protected $request;
     protected $response;
     protected $pipeline;
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     public function __construct()
     {
         $this->request = new RequestHandler();
@@ -21,11 +25,13 @@ abstract class AbstractController
         $this->initializeMiddleware();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: initializeMiddleware */
     protected function initializeMiddleware(): void
     {
         // Override in child controllers to add middleware
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: render */
     protected function render(string $view, array $data = []): void
     {
         extract($data);
@@ -36,16 +42,19 @@ abstract class AbstractController
         $this->response->setContent($content)->send();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: json */
     protected function json(array $data): void
     {
         $this->response->json($data);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: redirect */
     protected function redirect(string $url): void
     {
         $this->response->redirect($url);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: handle */
     public function handle(string $action, array $params = [])
     {
         return $this->pipeline->process(

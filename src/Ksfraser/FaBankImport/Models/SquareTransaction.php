@@ -2,8 +2,12 @@
 
 namespace Ksfraser\FaBankImport\Models;
 
+/**
+ * @BABOK RTM: FR-008 / BR-003; file: Models/SquareTransaction.php; coverage: docs/TestCases/ (file rollup)
+ */
 class SquareTransaction extends BankTransaction
 {
+    /** @BABOK FR-008 / BR-003 — method: addCustomerFromTransaction */
     public function addCustomerFromTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -17,6 +21,7 @@ class SquareTransaction extends BankTransaction
         ]);
     }
 
+    /** @BABOK FR-008 / BR-003 — method: addVendorFromTransaction */
     public function addVendorFromTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -29,6 +34,7 @@ class SquareTransaction extends BankTransaction
         ]);
     }
 
+    /** @BABOK FR-008 / BR-003 — method: unsetTransaction */
     public function unsetTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -37,6 +43,7 @@ class SquareTransaction extends BankTransaction
         return $stmt->execute([$this->getId()]);
     }
 
+    /** @BABOK FR-008 / BR-003 — method: toggleDebitCredit */
     public function toggleDebitCredit(): bool
     {
         $newType = $this->getTransactionType() === 'D' ? 'C' : 'D';

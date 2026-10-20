@@ -53,6 +53,9 @@ use Ksfraser\FaBankImport\Reporting\MatchingReport;
  * $summary = $api->getReportSummary();
  * ```
  */
+/**
+ * @BABOK RTM: FR-001 / ARCH-001; file: API/MatchingAPI.php; coverage: docs/TestCases/ (file rollup)
+ */
 class MatchingAPI
 {
     private TransactionMatchingService $transactionMatching;
@@ -61,6 +64,7 @@ class MatchingAPI
     private ReportingService $reporting;
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: __construct
      * @param TransactionMatchingService $transactionMatching Transaction matching service
      * @param KeywordMatchingService $keywordMatching Keyword matching service
      * @param ConfidenceEnhancer $confidenceEnhancer Confidence refinement
@@ -79,6 +83,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: matchTransaction
      * Match a transaction to partners
      *
      * POST /api/match/transaction
@@ -182,6 +187,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getReportSummary
      * Get aggregated report summary
      *
      * GET /api/report/summary
@@ -208,6 +214,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getPartnerStats
      * Get partner-specific statistics
      *
      * GET /api/partner/{partnerID}/stats
@@ -259,6 +266,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getLowestConfidenceTransactions
      * Get lowest confidence transactions
      *
      * GET /api/report/lowest-confidence
@@ -280,6 +288,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getHighestConfidenceTransactions
      * Get highest confidence transactions
      *
      * GET /api/report/highest-confidence
@@ -301,6 +310,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTopPartnersBySuccessRate
      * Get top performing partners by success rate
      *
      * GET /api/report/top-partners
@@ -323,6 +333,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getFailureReasonsSummary
      * Get failure reasons summary
      *
      * GET /api/report/failure-reasons
@@ -342,6 +353,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getKeywordFrequency
      * Get keyword usage summary
      *
      * GET /api/report/keywords
@@ -367,6 +379,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTransactionReports
      * Get detailed report for specific transaction
      *
      * GET /api/report/transaction/{transactionID}
@@ -382,6 +395,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getConfidenceLevel
      * Helper: Convert confidence score to level
      *
      * @param float $confidence Confidence (0-100)
@@ -399,6 +413,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: clearReports
      * Clear all recorded reports and reset session
      *
      * DELETE /api/admin/reports
@@ -412,6 +427,7 @@ class MatchingAPI
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getSessionMetrics
      * Get session metrics
      *
      * GET /api/admin/session

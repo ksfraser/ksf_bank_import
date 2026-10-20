@@ -11,6 +11,7 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 
 /**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringRule.php; coverage: docs/TestCases/ (file rollup)
  * ScoringRule Interface
  *
  * Contract for pluggable scoring strategies that calculate confidence adjustments
@@ -28,6 +29,7 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 interface ScoringRule
 {
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateScore
      * Calculate confidence adjustment for this rule
      *
      * @param array $transaction Transaction data with keys: account, amount, type, date, memo, etc.
@@ -37,6 +39,7 @@ interface ScoringRule
     public function calculateScore(array $transaction, SupplierCandidate $match): float;
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getName
      * Get human-readable name of this rule
      *
      * Used for logging and debugging to identify which rule contributed which score.
@@ -46,6 +49,7 @@ interface ScoringRule
     public function getName(): string;
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getMaxBoost
      * Get maximum possible boost this rule can apply
      *
      * ScoringRuleEngine uses this to validate that total adjustments remain reasonable.
@@ -56,6 +60,7 @@ interface ScoringRule
     public function getMaxBoost(): float;
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getMinReduction
      * Get minimum possible reduction this rule can apply
      *
      * Should match the minimum (most negative) value calculateScore() can return.

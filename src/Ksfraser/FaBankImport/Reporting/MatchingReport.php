@@ -18,6 +18,7 @@ namespace Ksfraser\FaBankImport\Reporting;
 use DateTime;
 
 /**
+ * @BABOK RTM: FR-012 / ARCH-007; file: Reporting/MatchingReport.php; coverage: docs/TestCases/ (file rollup)
  * MatchingReport - Immutable record of a match operation
  *
  * @example
@@ -51,6 +52,7 @@ class MatchingReport
     private int $candidatesEvaluated;
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: __construct
      * @param string $transactionId Transaction identifier
      * @param ?int $partnerId Matched partner ID (null if no match)
      * @param float $confidence Final confidence score (0-100)
@@ -87,6 +89,7 @@ class MatchingReport
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: success
      * Create a successful match report
      *
      * @param string $transactionId Transaction ID
@@ -122,6 +125,7 @@ class MatchingReport
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: failed
      * Create a failed match report
      *
      * @param string $transactionId Transaction ID
@@ -151,6 +155,7 @@ class MatchingReport
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: uncertain
      * Create a partial/uncertain match report
      *
      * @param string $transactionId Transaction ID
@@ -186,32 +191,38 @@ class MatchingReport
 
     // ====== Getters ======
 
+    /** @BABOK FR-012 / ARCH-007 — method: getTransactionId */
     public function getTransactionId(): string
     {
         return $this->transactionId;
     }
 
+    /** @BABOK FR-012 / ARCH-007 — method: getPartnerId */
     public function getPartnerId(): ?int
     {
         return $this->partnerId;
     }
 
+    /** @BABOK FR-012 / ARCH-007 — method: getConfidence */
     public function getConfidence(): float
     {
         return $this->confidence;
     }
 
+    /** @BABOK FR-012 / ARCH-007 — method: isSuccess */
     public function isSuccess(): bool
     {
         return $this->success;
     }
 
+    /** @BABOK FR-012 / ARCH-007 — method: getReason */
     public function getReason(): string
     {
         return $this->reason;
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: getConfidenceLevel
      * Get confidence level classification
      *
      * @return string 'HIGH' (≥70%), 'MEDIUM' (40-69%), 'LOW' (<40%)
@@ -228,6 +239,7 @@ class MatchingReport
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: getScoreBreakdown
      * Get score breakdown by rule
      *
      * @return array<string, float> Rule name => contribution
@@ -238,6 +250,7 @@ class MatchingReport
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: getKeywords
      * Get keywords extracted from transaction
      *
      * @return array<string>
@@ -247,22 +260,26 @@ class MatchingReport
         return $this->keywords;
     }
 
+    /** @BABOK FR-012 / ARCH-007 — method: getTimestamp */
     public function getTimestamp(): DateTime
     {
         return $this->timestamp;
     }
 
+    /** @BABOK FR-012 / ARCH-007 — method: getScoreFormula */
     public function getScoreFormula(): ?string
     {
         return $this->scoreFormula;
     }
 
+    /** @BABOK FR-012 / ARCH-007 — method: getCandidatesEvaluated */
     public function getCandidatesEvaluated(): int
     {
         return $this->candidatesEvaluated;
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: getSuccessValue
      * Get success as numeric value for averaging
      *
      * @return float 1.0 if successful, 0.0 if not
@@ -273,6 +290,7 @@ class MatchingReport
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: toArray
      * Convert to array for logging/serialization
      *
      * @return array<string, mixed>
@@ -295,6 +313,7 @@ class MatchingReport
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: getTotalScore
      * Get total contribution from score breakdown
      *
      * @return float Sum of all rule contributions
@@ -305,6 +324,7 @@ class MatchingReport
     }
 
     /**
+ * @BABOK FR-012 / ARCH-007 — method: getAverageRuleContribution
      * Get average score per rule
      *
      * @return float Average contribution per rule

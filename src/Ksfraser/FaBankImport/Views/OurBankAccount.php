@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/OurBankAccount.php; coverage: docs/TestCases/ (file rollup)
  * OurBankAccount - Display our bank account details row
  * 
  * Shows the account number, bank name, account name, and account code.
@@ -18,6 +19,7 @@ use Ksfraser\HTML\Composites\LabelRowBase;
 class OurBankAccount extends LabelRowBase
 {
 	/**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
 	 * Create our bank account row
 	 * 
 	 * @param object $bi_lineitem The bank import line item with account properties

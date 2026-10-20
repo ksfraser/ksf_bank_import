@@ -9,23 +9,29 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 
+/**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionViewService.php; coverage: docs/TestCases/ (file rollup)
+ */
 class TransactionViewService
 {
     private $transaction;
     private $view;
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
     public function __construct(BankTransactionInterface $transaction, TransactionViewInterface $view)
     {
         $this->transaction = $transaction;
         $this->view = $view;
     }
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: display */
     public function display(): string
     {
         $this->setupViewData();
         return $this->view->render();
     }
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setupViewData */
     private function setupViewData(): void
     {
         $accountDetails = $this->transaction->getAccountDetails();
@@ -35,6 +41,7 @@ class TransactionViewService
         $this->setupActionButtons();
     }
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setupActionButtons */
     private function setupActionButtons(): void
     {
         //TODO

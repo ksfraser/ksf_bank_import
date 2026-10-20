@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exceptions;
 
 /**
+ * @BABOK RTM: FR-050 / ARCH-003; file: Exceptions/HandlerDiscoveryException.php; coverage: docs/TestCases/ (file rollup)
  * Handler Discovery Exception
  *
  * Thrown when handler auto-discovery encounters an expected error
@@ -27,6 +28,7 @@ namespace Ksfraser\FaBankImport\Exceptions;
 class HandlerDiscoveryException extends \Exception
 {
     /**
+ * @BABOK FR-050 / ARCH-003 — method: cannotInstantiate
      * Create exception for handler that can't be instantiated
      *
      * @param string $handlerClass Handler class name
@@ -43,6 +45,7 @@ class HandlerDiscoveryException extends \Exception
     }
 
     /**
+ * @BABOK FR-050 / ARCH-003 — method: invalidConstructor
      * Create exception for handler with invalid constructor
      *
      * @param string $handlerClass Handler class name
@@ -63,6 +66,7 @@ class HandlerDiscoveryException extends \Exception
     }
 
     /**
+ * @BABOK FR-050 / ARCH-003 — method: missingDependency
      * Create exception for handler missing dependencies
      *
      * @param string $handlerClass Handler class name

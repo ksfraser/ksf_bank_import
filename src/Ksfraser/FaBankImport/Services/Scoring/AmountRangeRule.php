@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/AmountRangeRule.php; coverage: docs/TestCases/ (file rollup)
  * Amount Range Scoring Rule
  *
  * Recurring patterns (amounts) are more reliable for matching. Small amounts
@@ -26,6 +27,7 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
  */
 final class AmountRangeRule implements ScoringRule
 {
+    /** @BABOK BR-011 / ARCH-011 — method: calculateScore */
     public function calculateScore(array $transaction, SupplierCandidate $match): float
     {
         if (!isset($transaction['amount'])) {
@@ -53,16 +55,19 @@ final class AmountRangeRule implements ScoringRule
         return 2.0;
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getName */
     public function getName(): string
     {
         return 'AmountRangeRule';
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getMaxBoost */
     public function getMaxBoost(): float
     {
         return 3.0;
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getMinReduction */
     public function getMinReduction(): float
     {
         return -5.0;

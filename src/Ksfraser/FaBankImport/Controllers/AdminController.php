@@ -7,11 +7,15 @@ use Ksfraser\FaBankImport\Services\PerformanceMonitor;
 use Ksfraser\FaBankImport\Services\MetricsAggregator;
 use Ksfraser\FaBankImport\Config\Config;
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controllers/AdminController.php; coverage: docs/TestCases/ (file rollup)
+ */
 class AdminController extends AbstractController
 {
     private $monitor;
     private $aggregator;
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     public function __construct()
     {
         parent::__construct();
@@ -20,6 +24,7 @@ class AdminController extends AbstractController
         $this->aggregator = new MetricsAggregator($config->get('logging.path'));
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: dashboard */
     public function dashboard(): void
     {
         $metrics = [
@@ -36,6 +41,7 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: performanceReport */
     public function performanceReport(): void
     {
         $startDate = $this->request->getQuery('start_date', date('Y-m-d', strtotime('-7 days')));
@@ -61,6 +67,7 @@ class AdminController extends AbstractController
         $this->render('admin/performance_report', $data);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: exportMetrics */
     public function exportMetrics(): void
     {
         $startDate = $this->request->getQuery('start_date', date('Y-m-d', strtotime('-30 days')));
@@ -88,6 +95,7 @@ class AdminController extends AbstractController
         fclose($output);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: anomalyReport */
     public function anomalyReport(): void
     {
         $days = (int)$this->request->getQuery('days', '7');

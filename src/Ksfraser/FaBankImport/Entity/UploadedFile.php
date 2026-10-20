@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Entity;
 
 /**
+ * @BABOK RTM: FR-008 / DR-001 / ARCH-010; file: Entity/UploadedFile.php; coverage: docs/TestCases/ (file rollup)
  * Uploaded File Entity
  * 
  * Represents a file stored in the system
@@ -29,6 +30,7 @@ class UploadedFile
     private ?string $notes;
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: __construct
      * Constructor
      * 
      * @param int|null $id File ID (null for new files)
@@ -73,20 +75,33 @@ class UploadedFile
     }
     
     // Getters
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getId */
     public function getId(): ?int { return $this->id; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getFilename */
     public function getFilename(): string { return $this->filename; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getOriginalFilename */
     public function getOriginalFilename(): string { return $this->originalFilename; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getFilePath */
     public function getFilePath(): string { return $this->filePath; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getFileSize */
     public function getFileSize(): int { return $this->fileSize; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getFileType */
     public function getFileType(): string { return $this->fileType; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getUploadDate */
     public function getUploadDate(): \DateTime { return $this->uploadDate; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getUploadUser */
     public function getUploadUser(): string { return $this->uploadUser; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getParserType */
     public function getParserType(): string { return $this->parserType; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getBankAccountId */
     public function getBankAccountId(): ?int { return $this->bankAccountId; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getStatementCount */
     public function getStatementCount(): int { return $this->statementCount; }
+    /** @BABOK FR-008 / DR-001 / ARCH-010 — method: getNotes */
     public function getNotes(): ?string { return $this->notes; }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: setId
      * Set ID (after database insert)
      * 
      * @param int $id
@@ -97,6 +112,7 @@ class UploadedFile
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: setStatementCount
      * Update statement count
      * 
      * @param int $count
@@ -107,6 +123,7 @@ class UploadedFile
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: exists
      * Check if file exists on disk
      * 
      * @return bool
@@ -117,6 +134,7 @@ class UploadedFile
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: getFormattedSize
      * Get file size in human-readable format
      * 
      * @return string

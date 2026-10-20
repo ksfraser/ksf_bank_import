@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**
+ * @BABOK RTM: FR-008 / DR-001; file: ValueObject/FileInfo.php; coverage: docs/TestCases/ (file rollup)
  * File Information Value Object
  * 
  * Immutable object representing uploaded file information
@@ -21,6 +22,7 @@ class FileInfo
     private string $mimeType;
     
     /**
+ * @BABOK FR-008 / DR-001 — method: __construct
      * Constructor
      * 
      * @param string $originalFilename Original filename from upload
@@ -42,6 +44,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: fromUpload
      * Create from $_FILES array entry
      * 
      * @param array $fileData $_FILES array entry
@@ -74,6 +77,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getUploadErrorMessage
      * Get human-readable upload error message
      * 
      * @param int $errorCode PHP upload error code
@@ -101,6 +105,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getOriginalFilename
      * Get original filename
      * 
      * @return string
@@ -111,6 +116,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getTmpPath
      * Get temporary file path
      * 
      * @return string
@@ -121,6 +127,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getSize
      * Get file size in bytes
      * 
      * @return int
@@ -131,6 +138,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getMimeType
      * Get MIME type
      * 
      * @return string
@@ -141,6 +149,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getExtension
      * Get file extension
      * 
      * @return string
@@ -151,6 +160,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getBasename
      * Get base filename without extension
      * 
      * @return string
@@ -161,6 +171,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getMd5Hash
      * Calculate MD5 hash of file
      * 
      * @return string MD5 hash
@@ -177,6 +188,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: validateFilename
      * Validate filename
      * 
      * @param string $filename
@@ -194,6 +206,7 @@ class FileInfo
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: validateSize
      * Validate file size
      * 
      * @param int $size

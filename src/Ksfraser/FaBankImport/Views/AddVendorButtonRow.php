@@ -9,6 +9,7 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AddVendorButtonRow.php; coverage: docs/TestCases/ (file rollup)
  * AddVendorButtonRow - composes an AddVendorButton into a HtmlLabelRow.
  * 
  * @package Views
@@ -22,6 +23,7 @@ class AddVendorButtonRow implements HtmlElementInterface
     protected $row;
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Create add vendor button row for given index
      * 
      * @param int $index The transaction index
@@ -34,6 +36,7 @@ class AddVendorButtonRow implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
      * Get HTML as string
      * 
      * @return string The HTML
@@ -44,6 +47,7 @@ class AddVendorButtonRow implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
      * Output HTML directly to screen
      * 
      * @return void

@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AmountCharges.php; coverage: docs/TestCases/ (file rollup)
  * AmountCharges - Display transaction amount and charges row
  * 
  * Shows the transaction amount, charges, and currency.
@@ -18,6 +19,7 @@ use Ksfraser\HTML\Composites\LabelRowBase;
 class AmountCharges extends LabelRowBase
 {
 	/**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
 	 * Create amount/charges row
 	 * 
 	 * @param object $bi_lineitem The bank import line item with amount, charge, currency properties

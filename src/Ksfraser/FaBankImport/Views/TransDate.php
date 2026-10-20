@@ -8,6 +8,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/TransDate.php; coverage: docs/TestCases/ (file rollup)
  * TransDate - Display transaction date row
  * 
  * Shows the transaction value date and entry timestamp.
@@ -24,6 +25,7 @@ class TransDate implements HtmlElementInterface
 	protected $row;
 	
 	/**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
 	 * Create transaction date row
 	 * 
 	 * @param object $bi_lineitem The bank import line item with valueTimestamp and entryTimestamp properties
@@ -41,6 +43,7 @@ class TransDate implements HtmlElementInterface
 	}
 	
 	/**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
 	 * Get the HTML as a string
 	 * 
 	 * @return string The HTML
@@ -51,6 +54,7 @@ class TransDate implements HtmlElementInterface
 	}
 	
 	/**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
 	 * Output the HTML directly to screen
 	 * 
 	 * @return void

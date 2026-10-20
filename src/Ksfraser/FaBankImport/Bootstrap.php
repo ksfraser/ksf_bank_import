@@ -6,11 +6,15 @@ use Ksfraser\FaBankImport\Config\Config;
 use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;
 use Ksfraser\FaBankImport\Services\TransactionLogger;
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Bootstrap.php; coverage: docs/TestCases/ (file rollup)
+ */
 class Bootstrap
 {
     private $container;
     private $config;
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     public function __construct()
     {
         $this->container = Container::getInstance();
@@ -18,6 +22,7 @@ class Bootstrap
         $this->setupEventListeners();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupEventListeners */
     private function setupEventListeners(): void
     {
         $eventDispatcher = $this->container->getEventDispatcher();
@@ -30,6 +35,7 @@ class Bootstrap
         );
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: run */
     public function run(): void
     {
         // Initialize error handling
@@ -42,6 +48,7 @@ class Bootstrap
         $this->setupLogging();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupErrorHandling */
     private function setupErrorHandling(): void
     {
         error_reporting(E_ALL);
@@ -50,6 +57,7 @@ class Bootstrap
         });
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: verifyDatabaseConnection */
     private function verifyDatabaseConnection(): void
     {
         try {
@@ -65,6 +73,7 @@ class Bootstrap
         }
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupLogging */
     private function setupLogging(): void
     {
         $logPath = $this->config->get('logging.path');

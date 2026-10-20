@@ -4,42 +4,52 @@ namespace Ksfraser\FaBankImport\Models;
 
 use Ksfraser\FaBankImport\Database\DatabaseFactory;
 
+/**
+ * @BABOK RTM: FR-008 / BR-003; file: Models/BankTransaction.php; coverage: docs/TestCases/ (file rollup)
+ */
 class BankTransaction implements BankTransactionInterface
 {
     private $data;
     private $connection;
 
+    /** @BABOK FR-008 / BR-003 — method: __construct */
     public function __construct(array $data)
     {
         $this->data = $data;
         $this->connection = DatabaseFactory::getConnection();
     }
 
+    /** @BABOK FR-008 / BR-003 — method: getId */
     public function getId(): int
     {
         return (int)$this->data['id'];
     }
 
+    /** @BABOK FR-008 / BR-003 — method: getAmount */
     public function getAmount(): float
     {
         return (float)$this->data['amount'];
     }
 
+    /** @BABOK FR-008 / BR-003 — method: getDate */
     public function getDate(): string
     {
         return $this->data['valueTimestamp'];
     }
 
+    /** @BABOK FR-008 / BR-003 — method: getMemo */
     public function getMemo(): string
     {
         return $this->data['memo'] ?? '';
     }
 
+    /** @BABOK FR-008 / BR-003 — method: getTransactionType */
     public function getTransactionType(): string
     {
         return $this->data['transactionDC'];
     }
 
+    /** @BABOK FR-008 / BR-003 — method: getAccountDetails */
     public function getAccountDetails(): array
     {
         return [
@@ -48,6 +58,7 @@ class BankTransaction implements BankTransactionInterface
         ];
     }
 
+    /** @BABOK FR-008 / BR-003 — method: getOtherPartyDetails */
     public function getOtherPartyDetails(): array
     {
         $stmt = $this->connection->prepare(
@@ -62,6 +73,7 @@ class BankTransaction implements BankTransactionInterface
         ];
     }
 
+    /** @BABOK FR-008 / BR-003 — method: processTransaction */
     public function processTransaction(): bool
     {
         $stmt = $this->connection->prepare(

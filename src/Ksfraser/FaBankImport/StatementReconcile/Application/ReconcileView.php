@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionD
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/ReconcileView.php; coverage: docs/TestCases/ (file rollup)
  * Renders the reconciliation UI pages.
  *
  * Three screens:
@@ -36,6 +37,7 @@ class ReconcileView
     // ------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderUploadForm
      * Render the PDF-only upload form.
      *
      * Bank account is auto-detected after OCR; the user confirms on the next screen.
@@ -73,6 +75,7 @@ class ReconcileView
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderAccountConfirmation
      * Render the bank account confirmation screen (step 2 of 3).
      *
      * Shown after OCR so the user can confirm the auto-detected FA account before
@@ -150,6 +153,7 @@ class ReconcileView
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderReview
      * Render the interactive reconciliation review screen.
      *
      * The layout mirrors FA's native bank reconciliation screen:
@@ -516,6 +520,7 @@ class ReconcileView
     var openingBal = {$openingBalJs};
     var closingBal = {$closingBalJs};
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: srUpdateBalance */
     function srUpdateBalance() {
         var checks = document.querySelectorAll('.sr_tx_check');
         var cleared = openingBal;
@@ -533,6 +538,7 @@ class ReconcileView
         document.getElementById('sr_difference').style.color  = Math.abs(diff) < 0.005 ? '#2e7d32' : '#c62828';
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: srConfirmApprove */
     function srConfirmApprove() {
         var checks = document.querySelectorAll('.sr_tx_check');
         var cleared = openingBal;
@@ -576,6 +582,7 @@ JS;
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderSuccess
      * Render a success message after commit.
      *
      * @param int $sessionId Persisted session ID, for reference.
@@ -598,6 +605,7 @@ JS;
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderError
      * Render an error message.
      *
      * @param string $message Already-sanitised error text.
@@ -612,6 +620,7 @@ JS;
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderPrintSchedule
      * Render a printable reconciliation schedule (REQ-015).
      *
      * Shows matched transactions, unmatched lines, and balance summary in
@@ -772,6 +781,7 @@ JS;
     // ------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: csrfField
      * Render a CSRF token hidden field compatible with FA's check_token() mechanism.
      * Falls back to a no-op if FA's token functions are not loaded.
      *

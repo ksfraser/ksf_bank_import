@@ -13,6 +13,7 @@ class TransactionServiceTest extends TestCase
     private $repository;
     private $factory;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->repository = $this->createMock(TransactionRepositoryInterface::class);
@@ -20,6 +21,7 @@ class TransactionServiceTest extends TestCase
         $this->service = new TransactionService($this->repository, $this->factory);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testGetPendingTransactionsCallsRepository */
     public function testGetPendingTransactionsCallsRepository()
     {
         $this->repository->expects($this->once())
@@ -31,6 +33,7 @@ class TransactionServiceTest extends TestCase
         $this->assertIsArray($result);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testProcessTransactionThrowsExceptionWhenNotFound */
     public function testProcessTransactionThrowsExceptionWhenNotFound()
     {
         $this->repository->method('findById')
@@ -40,6 +43,7 @@ class TransactionServiceTest extends TestCase
         $this->service->processTransaction(1, 'C');
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testToggleTransactionTypeSuccessfully */
     public function testToggleTransactionTypeSuccessfully()
     {
         $transaction = [

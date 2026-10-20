@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
+ * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Database/Migrations/CreateStatementOcrTable.php; coverage: docs/TestCases/ (file rollup)
  * Creates the bi_statement_ocr table.
  *
  * Stores one row per uploaded CC statement PDF, including:
@@ -22,16 +23,19 @@ use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
  */
 final class CreateStatementOcrTable implements Migration
 {
+    /** @BABOK FR-008 / ARCH-010 — method: name */
     public function name(): string
     {
         return '20260420_100000_create_statement_ocr_table';
     }
 
+    /** @BABOK FR-008 / ARCH-010 — method: description */
     public function description(): string
     {
         return 'Create bi_statement_ocr table for PDF CC statement OCR results and metadata';
     }
 
+    /** @BABOK FR-008 / ARCH-010 — method: up */
     public function up(PDO $pdo): void
     {
         try {
@@ -65,6 +69,7 @@ final class CreateStatementOcrTable implements Migration
         }
     }
 
+    /** @BABOK FR-008 / ARCH-010 — method: down */
     public function down(PDO $pdo): void
     {
         try {

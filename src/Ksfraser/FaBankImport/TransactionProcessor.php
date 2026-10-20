@@ -27,6 +27,7 @@ use ReflectionClass;
 use ReflectionException;
 
 /**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: TransactionProcessor.php; coverage: docs/TestCases/ (file rollup)
  * Transaction Processor
  *
  * Single Responsibility: Route transactions to appropriate handlers
@@ -45,6 +46,7 @@ class TransactionProcessor
     private array $handlers = [];
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
      * Constructor - Auto-discovers and registers handlers
      *
      * Scans the Handlers/ directory for classes implementing TransactionHandlerInterface
@@ -66,6 +68,7 @@ class TransactionProcessor
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: discoverAndRegisterHandlers
      * Discover and register all handler classes
      *
      * Scans Handlers/ directory for PHP files and automatically discovers
@@ -202,6 +205,7 @@ class TransactionProcessor
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: registerHandler
      * Register a transaction handler for a specific partner type
      *
      * @param TransactionHandlerInterface $handler The handler to register
@@ -214,6 +218,7 @@ class TransactionProcessor
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: process
      * Process a transaction using the appropriate handler
      *
      * Orchestrates transaction processing with clear separation of concerns:
@@ -280,6 +285,7 @@ class TransactionProcessor
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: extractTransactionPostData
      * Extract transaction-specific user input from POST array
      *
      * IMPORTANT: This extracts FORM INPUTS ONLY, not database fields.
@@ -313,6 +319,7 @@ class TransactionProcessor
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: hasHandler
      * Check if a handler is registered for a partner type
      *
      * @param string $partnerType Partner type code
@@ -324,6 +331,7 @@ class TransactionProcessor
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getRegisteredTypes
      * Get all registered partner types
      *
      * @return array<string> Array of partner type codes
@@ -334,6 +342,7 @@ class TransactionProcessor
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getHandler
      * Get a specific handler by partner type
      *
      * @param string $partnerType Partner type code

@@ -6,21 +6,27 @@ use Ksfraser\Application\Container;
 use Ksfraser\Application\Commands\ProcessTransactionCommand;
 use Ksfraser\Application\Middleware\AuthMiddleware;
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: BankImportController.php; coverage: docs/TestCases/ (file rollup)
+ */
 class BankImportController extends AbstractController
 {
     private $container;
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     public function __construct()
     {
         parent::__construct();
         $this->container = Container::getInstance();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: initializeMiddleware */
     protected function initializeMiddleware(): void
     {
         $this->pipeline->pipe(new AuthMiddleware());
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: index */
     public function index(): void
     {
         $transactionService = $this->container->getTransactionService();
@@ -31,6 +37,7 @@ class BankImportController extends AbstractController
         ]);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: process */
     public function process(): void
     {
         $command = $this->request->getTransactionCommand();

@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Views;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ProcessStatementsView.php; coverage: docs/TestCases/ (file rollup)
  * View class for rendering the main process statements page.
  *
  * This class encapsulates all HTML generation for the bank import process statements page,
@@ -47,6 +48,7 @@ class ProcessStatementsView
     private $paginationRenderCount;
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Constructor.
      *
      * @param array $transactions Array of transaction data
@@ -62,6 +64,7 @@ class ProcessStatementsView
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: setPaginationData
      * Set pagination data from transaction query result
      *
      * @since 20260405
@@ -74,6 +77,7 @@ class ProcessStatementsView
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: render
      * Render the complete process statements page HTML.
      *
      * @return string Complete HTML for the page
@@ -86,6 +90,7 @@ class ProcessStatementsView
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderDocumentTableDiv
      * Render the document table div with filter and transaction tables.
      *
      * @return string HTML for the document table div
@@ -113,6 +118,7 @@ class ProcessStatementsView
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderFilterTable
      * Render the filter table using the existing header_table.php class.
 	*
 	* Currently being rendered in process_statements
@@ -131,6 +137,7 @@ class ProcessStatementsView
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionTable
      * Render the transaction display table.
      *
      * @return string HTML string for the transaction table
@@ -167,6 +174,7 @@ class ProcessStatementsView
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionTableHeader
      * Render the transaction table header.
      *
      * @return string HTML string for table header
@@ -178,6 +186,7 @@ class ProcessStatementsView
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionTableBody
      * Render the transaction table body with all transactions.
      *
      * @return string HTML string for table body
@@ -195,6 +204,7 @@ class ProcessStatementsView
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionRow
      * Render a single transaction row.
      *
      * @param string $transactionCode Transaction identifier
@@ -232,6 +242,7 @@ class ProcessStatementsView
 
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderPaginationControls
      * Render pagination navigation controls
      *
      * Displays page information and Previous/Next buttons for navigating through
@@ -314,6 +325,7 @@ class ProcessStatementsView
 /**/
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderFormEnd
      * Render the form end tag.
      *
      * @return string HTML for form end

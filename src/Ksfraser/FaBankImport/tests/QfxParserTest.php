@@ -6,11 +6,13 @@ class QfxParserTest extends TestCase
 {
     protected $parser;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->parser = new qfx_parser();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testCombineArray */
     public function testCombineArray()
     {
         $row = ['value1', 'value2', 'value3'];
@@ -26,6 +28,7 @@ class QfxParserTest extends TestCase
         $this->assertSame($expected, $row);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testParse */
     public function testParse()
     {
         $content = file_get_contents(__DIR__ . '/sample.qfx');

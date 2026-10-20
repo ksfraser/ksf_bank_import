@@ -7,6 +7,7 @@ use Ksfraser\frontaccounting\FaCustomerPayment;
 use Ksfraser\frontaccounting\FaGl;
 
 /**
+ * @BABOK RTM: FR-008 / BR-003; file: Models/BiLineItemModel.php; coverage: docs/TestCases/ (file rollup)
  * Model class for handling line item data.
  */
 class BiLineItemModel extends GenericFaInterface
@@ -108,6 +109,7 @@ class BiLineItemModel extends GenericFaInterface
     protected $fa_bank_accounts;
 
     /**
+ * @BABOK FR-008 / BR-003 — method: __construct
      * Constructor for BiLineItemModel.
      *
      * @param array $trz
@@ -121,6 +123,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
+ * @BABOK FR-008 / BR-003 — method: initialize
      * Initialize the model with transaction data.
      *
      * @param array $trz
@@ -151,6 +154,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
+ * @BABOK FR-008 / BR-003 — method: determineTransactionTypeLabel
      * Determine the transaction type label based on transactionDC.
      */
     public function determineTransactionTypeLabel(): void
@@ -169,6 +173,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
+ * @BABOK FR-008 / BR-003 — method: getBankAccountDetails
      * Retrieve bank account details.
      */
     public function getBankAccountDetails(): void
@@ -180,6 +185,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
+ * @BABOK FR-008 / BR-003 — method: setPartnerType
      * Set the partner type and operation label based on transactionDC.
      */
     public function setPartnerType(): void
@@ -205,6 +211,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
+ * @BABOK FR-008 / BR-003 — method: findMatchingExistingJE
      * Find matching existing journal entries.
      *
      * @return array

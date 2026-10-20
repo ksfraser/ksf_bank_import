@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.ViewBiLineItems.php; coverage: docs/TestCases/ (file rollup)
  * @author Kevin Fraser / ChatGPT
  * @since 20250409
  */
@@ -8,11 +9,13 @@
 class ViewBILineItems
 {
 	protected $bi_lineitem;
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
 	function __construct( $bi_lineitem )
 	{
 		$this->bi_lineitem = $bi_lineitem;
 	}
 	/**//*****************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display
 	* Display as a row
 	*
 	**********************************************************************/
@@ -22,6 +25,7 @@ class ViewBILineItems
 		$this->display_right();
 	}
 	/**//*****************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display_left
 	* Display as a row
 	*
 	**********************************************************************/
@@ -50,6 +54,7 @@ class ViewBILineItems
 
 	}
 	/**//****************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayAddVendorOrCustomer
 	* Add a display button to add a Customer or a Vendor
 	*
 	**********************************************************************/
@@ -71,12 +76,14 @@ class ViewBILineItems
 			hidden( "vendor_long_$this->id", $this->otherBankAccountName );
 		}
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: addCustomerButton */
 	function addCustomerButton()
 	{
 		$b = new AddCustomerButton( $this->id );
 		$b->toHtml();
 		//label_row("Add Customer", submit("AddCustomer[$this->id]",_("AddCustomer"),false, '', 'default'));
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: addVendorButton */
 	function addVendorButton()
 	{
 		$b = new AddVendorButton( $this->id );
@@ -84,12 +91,14 @@ class ViewBILineItems
 		//label_row("Add Vendor", submit("AddVendor[$this->id]",_("AddVendor"),false, '', 'default'));
 	}
 	/**//**************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayPaired
 	* Display our paired transaction
 	*
 	*******************************************************************/
 	function displayPaired()
 	{
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: makeURLLink */
 	function makeURLLink( string $URL, array $params, string $text, $target = "_blank" )
 	{
 		$link = HtmlLink( new HtmlString( $text ) );
@@ -136,6 +145,7 @@ class ViewBILineItems
 */
 	}
 	/**//***************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayMatchingTransArr
 	* Display the entries from the matching_trans array 
 	*
 	*	REFACTOR to move HTML code into a VIEW class
@@ -237,6 +247,7 @@ class ViewBILineItems
 		}
 	}
 	/**//*******************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displaySupplierPartnerType
 	* Display SUPPLIER partner type
 	*
 	************************************************************************/
@@ -256,6 +267,7 @@ class ViewBILineItems
 		label_row(_("Payment To:"), supplier_list("partnerId_$this->id", $matched_supplier, false, false));
 	}
 	/**//*******************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayCustomerPartnerType
 	* Display CUSTOMER partner type
 	*
 	************************************************************************/
@@ -317,6 +329,7 @@ class ViewBILineItems
 
 	}
 	/**//*******************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayBankTransferPartnerType
 	* Display Bank Transfer partner type
 	*
 	************************************************************************/
@@ -356,6 +369,7 @@ class ViewBILineItems
 		$this->partnerId = $_POST["partnerId_$this->id"];
 	}
 	/**//*******************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayQuickEntryPartnerType
 	* Display Quick Entry partner type
 	*
 	************************************************************************/
@@ -368,6 +382,7 @@ class ViewBILineItems
 		label_row("Quick Entry:", $qe_text);
 	}
 	/**//*******************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayMatchedPartnerType
 	* Display MATCHED partner type
 	*
 	************************************************************************/
@@ -402,6 +417,7 @@ class ViewBILineItems
 		);
 	}
 	/**//*******************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayPartnerType
 	* Select the right type of partner to display
 	*
 	************************************************************************/
@@ -462,6 +478,7 @@ class ViewBILineItems
  		label_row("", submit("ProcessTransaction[$this->id]",_("Process"),false, '', 'default'));
 	}
 	/**//*****************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display_right
 	* Display as a row
 	*
 	**********************************************************************/
@@ -522,6 +539,7 @@ class ViewBILineItems
 
 	}
 	/**//*****************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: displayEditTransData
 	* We want the ability to edit the raw trans data since some banks don't follow standards
 	*************************************************************************************/
 	function displayEditTransData()
@@ -535,6 +553,7 @@ class ViewBILineItems
 */
 	}
 	/**//*****************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display_settled
 	* Display a settled transaction
 	*
 	**********************************************************************/

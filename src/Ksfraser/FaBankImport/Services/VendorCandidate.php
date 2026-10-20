@@ -24,6 +24,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/VendorCandidate.php; coverage: docs/TestCases/ (file rollup)
  * Vendor Candidate Implementation
  *
  * Simple implementation of the SupplierCandidate interface for
@@ -60,6 +61,7 @@ final class VendorCandidate implements SupplierCandidate
     private int $partnerType;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param int    $partnerId      The partner/supplier ID
@@ -80,6 +82,7 @@ final class VendorCandidate implements SupplierCandidate
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId
      * {@inheritdoc}
      */
     public function getPartnerId(): int
@@ -88,6 +91,7 @@ final class VendorCandidate implements SupplierCandidate
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerName
      * {@inheritdoc}
      */
     public function getPartnerName(): string
@@ -96,6 +100,7 @@ final class VendorCandidate implements SupplierCandidate
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerType
      * {@inheritdoc}
      */
     public function getPartnerType(): int
@@ -104,6 +109,7 @@ final class VendorCandidate implements SupplierCandidate
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerAccount
      * Get partner account
      *
      * @return string

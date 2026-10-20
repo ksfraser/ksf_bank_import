@@ -4,11 +4,15 @@ namespace Ksfraser\FaBankImport\Database;
 
 use Ksfraser\FaBankImport\Config\Config;
 
+/**
+ * @BABOK RTM: FR-008 / DR-003; file: Database/DatabaseFactory.php; coverage: docs/TestCases/ (file rollup)
+ */
 class DatabaseFactory
 {
     private static $connection = null;
     private static $config;
 
+    /** @BABOK FR-008 / DR-003 — method: getConnection */
     public static function getConnection()
     {
         if (self::$connection === null) {
@@ -18,6 +22,7 @@ class DatabaseFactory
         return self::$connection;
     }
 
+    /** @BABOK FR-008 / DR-003 — method: createConnection */
     private static function createConnection()
     {
         $host = self::$config->get('db.host');
@@ -38,6 +43,7 @@ class DatabaseFactory
         }
     }
 
+    /** @BABOK FR-008 / DR-003 — method: closeConnection */
     public static function closeConnection(): void
     {
         self::$connection = null;

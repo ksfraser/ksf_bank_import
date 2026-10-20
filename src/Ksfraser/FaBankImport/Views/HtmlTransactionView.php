@@ -7,16 +7,21 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
+/**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/HtmlTransactionView.php; coverage: docs/TestCases/ (file rollup)
+ */
 class HtmlTransactionView implements TransactionViewInterface
 {
     private $transaction;
     private $buttons = [];
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
     public function __construct(BankTransactionInterface $transaction)
     {
         $this->transaction = $transaction;
     }
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: render */
     public function render(): string
     {
         $html = '<div class="transaction">';
@@ -26,6 +31,7 @@ class HtmlTransactionView implements TransactionViewInterface
         return $html;
     }
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionDetails */
     private function renderTransactionDetails(): string
     {
         $accountDetails = $this->transaction->getAccountDetails();
@@ -47,6 +53,7 @@ class HtmlTransactionView implements TransactionViewInterface
         );
     }
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: renderActions */
     public function renderActions(): string
     {
         $html = '<div class="actions">';
@@ -57,6 +64,7 @@ class HtmlTransactionView implements TransactionViewInterface
         return $html;
     }
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: addButton */
     public function addButton(string $type, array $params): void
     {
         $this->buttons[] = [
@@ -65,6 +73,7 @@ class HtmlTransactionView implements TransactionViewInterface
         ];
     }
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: renderButton */
     private function renderButton(array $button): string
     {
         $id = $button['params']['id'] ?? '';
@@ -76,6 +85,7 @@ class HtmlTransactionView implements TransactionViewInterface
         );
     }
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getButtonLabel */
     private function getButtonLabel(string $type): string
     {
         $labels = [

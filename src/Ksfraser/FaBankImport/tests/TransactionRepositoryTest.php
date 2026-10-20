@@ -9,17 +9,20 @@ class TransactionRepositoryTest extends TestCase
 {
     private $repository;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->repository = new TransactionRepository();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testFindByIdReturnsNullWhenNotFound */
     public function testFindByIdReturnsNullWhenNotFound()
     {
         $result = $this->repository->findById(999999);
         $this->assertNull($result);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testFindByStatusReturnsEmptyArrayWhenNoResults */
     public function testFindByStatusReturnsEmptyArrayWhenNoResults()
     {
         $result = $this->repository->findByStatus('nonexistent');
@@ -27,6 +30,7 @@ class TransactionRepositoryTest extends TestCase
         $this->assertEmpty($result);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testUpdateReturnsTrueOnSuccess */
     public function testUpdateReturnsTrueOnSuccess()
     {
         $data = [
@@ -38,6 +42,7 @@ class TransactionRepositoryTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testSaveReturnsTrueOnSuccess */
     public function testSaveReturnsTrueOnSuccess()
     {
         $transaction = [

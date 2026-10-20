@@ -7,6 +7,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionCounter.php; coverage: docs/TestCases/ (file rollup)
  * TransactionCounter
  *
  * Single Responsibility: Handle counting of transactions based on WHERE clause filters
@@ -15,6 +16,7 @@ namespace Ksfraser\FaBankImport\Services;
 class TransactionCounter
 {
 	/**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: count
 	 * Count transactions matching the given WHERE clause
 	 *
 	 * @param string $where_clause The WHERE clause to filter transactions (e.g., " WHERE t.valueTimestamp >= '2025-01-01'...")

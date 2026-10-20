@@ -27,6 +27,9 @@ try {
 
     // Check for and send alerts
     $alertService = AlertService::getInstance();
+/**
+ * @BABOK RTM: FR-012 / ARCH-007; file: cron/monitor_performance.php; coverage: docs/TestCases/ (file rollup)
+ */
     $alertService->checkAndSendAlerts();
 
     // Log successful execution

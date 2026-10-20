@@ -15,14 +15,17 @@ require_once (__DIR__ . '/vendor/autoload.php' );
 include_once( 'includes.inc' );
 
 /************************************************
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.AbstractQfxParser.php; coverage: docs/TestCases/ (file rollup)
 * Abstract class to parse a QFX/OFX file
 ************************************************/
 abstract class AbstractQfxParser {
     protected $bank_from_file;
     protected $bankid_from_file;
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: parse */
     abstract public function parse($content, $static_data = array(), $debug = true);
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: detectBank */
     protected function detectBank($institute, $static_data) {
         if (null !== $institute->name) {
             $this->bank_from_file = true;
@@ -36,6 +39,7 @@ abstract class AbstractQfxParser {
         }
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: detectBankId */
     protected function detectBankId($institute, $static_data) {
         if (null !== $institute->id) {
             $this->bankid_from_file = true;
@@ -51,6 +55,7 @@ abstract class AbstractQfxParser {
 }
 
 class CibcQfxParser extends AbstractQfxParser {
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: parse */
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement CIBC-specific parsing logic
         // Example: Handle CIBC-specific transaction types or formats
@@ -58,6 +63,7 @@ class CibcQfxParser extends AbstractQfxParser {
 }
 
 class PmcQfxParser extends AbstractQfxParser {
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: parse */
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement PMC-specific parsing logic
         // Example: Handle PMC-specific transaction types or formats
@@ -65,6 +71,7 @@ class PmcQfxParser extends AbstractQfxParser {
 }
 
 class ManuQfxParser extends AbstractQfxParser {
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: parse */
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement MANU-specific parsing logic
         // Example: Handle MANU-specific transaction types or formats
@@ -72,6 +79,7 @@ class ManuQfxParser extends AbstractQfxParser {
 }
 
 class QfxParserFactory {
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: createParser */
     public static function createParser($content) {
         // Detection logic to determine which parser to use
         if (strpos($content, 'CIBC') !== false) {

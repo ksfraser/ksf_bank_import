@@ -39,6 +39,9 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  * @author Kevin Fraser
  * @since 2.3.0
  */
+/**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringRuleEngine.php; coverage: docs/TestCases/ (file rollup)
+ */
 class ScoringRuleEngine
 {
     /** @var array<string, ScoringRule> Registered rules by name */
@@ -55,6 +58,7 @@ class ScoringRuleEngine
     private const DEFAULT_WEIGHT = 1.0;
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: register
      * Register a scoring rule with optional weight
      *
      * Weight allows adjusting rule importance (configurable in future):
@@ -81,6 +85,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateAdjustment
      * Calculate total confidence adjustment across all rules
      *
      * Applies all registered rules, multiplies each by its weight,
@@ -131,6 +136,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getScoreBreakdown
      * Get detailed breakdown of last calculated adjustment
      *
      * Returns comprehensive breakdown with:
@@ -148,6 +154,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getScoreDetails
      * Get detailed score information for logging
      *
      * Returns comprehensive data about the last calculation:
@@ -171,6 +178,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: formatScoreDetails
      * Format score details as human-readable calculation string
      *
      * Returns format like: "RecencyRule(5)+AmountRule(3)=8"
@@ -204,6 +212,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateAdjustmentWithBreakdown
      * Calculate adjustments with detailed results
      *
      * Returns array with both the clamped adjustment and full breakdown.
@@ -223,6 +232,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getRuleCount
      * Get count of registered rules
      *
      * @return int Number of rules
@@ -233,6 +243,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getRuleWeight
      * Get weight for a specific rule
      *
      * @param string $ruleName Rule name to get weight for
@@ -244,6 +255,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getRuleWeights
      * Get all rules with their weights
      *
      * @return array<string, float> Map of rule name => weight
@@ -254,6 +266,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getMaxPossibleBoost
      * Get total possible maximum boost
      *
      * Sum of all positive boosts from all registered rules, accounting for weights.
@@ -272,6 +285,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getMaxPossibleReduction
      * Get total possible maximum reduction
      *
      * Sum of all negative reductions from all registered rules, accounting for weights.
@@ -290,6 +304,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: reset
      * Reset all registered rules and weights
      *
      * Clears the rules and breakdown lists. Useful for testing.
@@ -305,6 +320,7 @@ class ScoringRuleEngine
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: formatScore
      * Format a score value (number) for display
      *
      * @param float $score Score to format

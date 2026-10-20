@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/SupplierCandidate.php; coverage: docs/TestCases/ (file rollup)
  * Interface for supplier/vendor candidates
  *
  * Defines the minimal methods required by ScoringRuleEngine
@@ -33,6 +34,7 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
 interface SupplierCandidate
 {
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getPartnerId
      * Get supplier/partner ID
      *
      * @return int
@@ -40,6 +42,7 @@ interface SupplierCandidate
     public function getPartnerId(): int;
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getPartnerName
      * Get supplier/partner name
      *
      * @return string
@@ -47,6 +50,7 @@ interface SupplierCandidate
     public function getPartnerName(): string;
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: getPartnerType
      * Get supplier/partner type
      *
      * @return int

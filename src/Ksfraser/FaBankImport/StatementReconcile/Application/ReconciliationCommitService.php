@@ -32,12 +32,16 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Service\ReconciliationCommit
  * @package Ksfraser\FaBankImport\StatementReconcile\Application
  * @author  Kevin Fraser
  */
+/**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/ReconciliationCommitService.php; coverage: docs/TestCases/ (file rollup)
+ */
 class ReconciliationCommitService implements ReconciliationCommitServiceInterface
 {
     /** @var ReconciliationSessionRepositoryInterface */
     private $sessionRepo;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
      * @param ReconciliationSessionRepositoryInterface $sessionRepo
      */
     public function __construct(ReconciliationSessionRepositoryInterface $sessionRepo)
@@ -46,6 +50,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: commit
      * {@inheritdoc}
      *
      * @throws ReconciliationException If the session is not found or already approved.
@@ -103,6 +108,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: isFaDbAvailable
      * Whether the FA db_query global is available.
      * Overridable in tests.
      *
@@ -114,6 +120,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: markFaBankTransactionReconciled
      * Replicate FA's reconciliation commit for a single 0_bank_trans row.
      *
      * Sets `reconciled` to the statement end date (FA's convention for marking
@@ -139,6 +146,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: updateBankAccount
      * Replicate FA's bank account update after reconciliation.
      *
      * @param int    $bankAccountId

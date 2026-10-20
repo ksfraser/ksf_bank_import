@@ -13,6 +13,7 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\FaBankImport\Services\PartnerMatcher;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/BankTransferPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
  * BankTransferPartnerTypeView - Display bank account selection UI for bank transfer transactions
  * 
  * Single Responsibility: Render bank account selection dropdown with direction-aware labels.
@@ -67,6 +68,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     private $partnerMatcher;
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Constructor
      * 
      * @param int $lineItemId The ID of the line item
@@ -96,6 +98,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getLineItemId
      * Get the line item ID
      * 
      * @return int
@@ -106,6 +109,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerId
      * Get the selected partner ID
      * 
      * @return int|null
@@ -116,6 +120,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerDetailId
      * Get the selected partner detail ID
      * 
      * @return int|null
@@ -126,6 +131,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
      * Get the HTML for this view
      * 
      * @return HtmlFragment HTML fragment containing bank account selection
@@ -145,6 +151,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
      * Output HTML directly
      * 
      * @return void
@@ -155,6 +162,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: autoMatchBankAccount
      * Auto-match bank account if no partner ID is set
      * 
      * @return void
@@ -174,6 +182,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildDirectionLabel
      * Build direction-aware label
      * 
      * @return string The label text
@@ -188,6 +197,7 @@ class BankTransferPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildBankAccountSelect
      * Build bank account select dropdown
      * 
      * @return HtmlSelect

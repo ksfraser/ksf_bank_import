@@ -6,6 +6,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerMatcher.php; coverage: docs/TestCases/ (file rollup)
  * PartnerMatcher - Service for matching partners by bank account
  * 
  * Encapsulates the logic for searching partners by bank account.
@@ -20,6 +21,7 @@ namespace Ksfraser\FaBankImport\Services;
 class PartnerMatcher
 {
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: searchByBankAccount
      * Search for a partner by bank account string (instance method for testability)
      * 
      * @param string $partnerType The type of partner (PT_SUPPLIER, PT_CUSTOMER, ST_BANKTRANSFER)
@@ -37,6 +39,7 @@ class PartnerMatcher
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: hasMatch
      * Check if a partner match exists (instance method for testability)
      * 
      * @param array $match The match result from searchByBankAccount
@@ -48,6 +51,7 @@ class PartnerMatcher
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId
      * Extract partner ID from match result (instance method for testability)
      * 
      * @param array $match The match result
@@ -59,6 +63,7 @@ class PartnerMatcher
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerDetailId
      * Extract partner detail ID from match result (instance method for testability)
      * 
      * @param array $match The match result
@@ -70,6 +75,7 @@ class PartnerMatcher
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: searchByBankAccountStatic
      * Static wrapper for backward compatibility
      * 
      * @param string $partnerType The type of partner
@@ -83,6 +89,7 @@ class PartnerMatcher
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: hasMatchStatic
      * Static wrapper for backward compatibility
      * 
      * @param array $match The match result
@@ -95,6 +102,7 @@ class PartnerMatcher
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerIdStatic
      * Static wrapper for backward compatibility
      * 
      * @param array $match The match result
@@ -107,6 +115,7 @@ class PartnerMatcher
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerDetailIdStatic
      * Static wrapper for backward compatibility
      * 
      * @param array $match The match result

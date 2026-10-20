@@ -44,6 +44,7 @@ try {
 
 handleRequest($bi_controller);
 
+/** @BABOK FR-006 / ARCH-007 — method: handleRequest */
 function handleRequest($controller)
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -60,6 +61,7 @@ function handleRequest($controller)
     }
 }
 
+/** @BABOK FR-006 / ARCH-007 — method: processTransaction */
 function processTransaction($controller)
 {
     list($k, $v) = each($_POST['ProcessTransaction']); // K is index. V is "process/..."
@@ -110,6 +112,7 @@ function processTransaction($controller)
     }
 }
 
+/** @BABOK FR-006 / ARCH-007 — method: processCustomerTransaction */
 function processCustomerTransaction($controller, $trz, $partnerId, $tid, $amount, $charge)
 {
     // Refactored code to process customer transaction

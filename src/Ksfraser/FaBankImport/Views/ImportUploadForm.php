@@ -12,6 +12,7 @@ require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
 
 
 /**//***********************
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ImportUploadForm.php; coverage: docs/TestCases/ (file rollup)
 * Class to return the list of parsers
 *
 * @todo alter parsers so that they register with this class so we don't have to hardcode the list
@@ -20,6 +21,7 @@ require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
 */
 class Parsers
 {
+	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: getParsers */
 	public static function getParsers():array
 	{
 		//TODO: Refactor to use namespaces and the FaBankImport directory
@@ -43,6 +45,7 @@ class Parsers
 		        );
 	}
 	/**//**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getParserArray
 	* Take array from getParsers and reformat!
 	*
 	* @since 20250716
@@ -93,6 +96,7 @@ class Parsers
 */
 class ImportUploadForm
 {
+	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: getImportUploadForm */
 	public static function getImportUploadForm()
 	{
     		div_start('doc_tbl');

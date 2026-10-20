@@ -8,6 +8,7 @@ use Smalot\PdfParser\Parser;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 
 /**
+ * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/PdfTextExtractor.php; coverage: docs/TestCases/ (file rollup)
  * Uses smalot/pdfparser to extract plain text from a PDF file.
  *
  * This works well for text-layer PDFs (e.g. digital bank statements).
@@ -26,6 +27,7 @@ final class PdfTextExtractor implements PdfTextExtractorInterface
     private $parser;
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: __construct
      * @param Parser $parser Injected smalot/pdfparser Parser instance.
      */
     public function __construct(Parser $parser)
@@ -34,6 +36,7 @@ final class PdfTextExtractor implements PdfTextExtractorInterface
     }
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: extractText
      * {@inheritdoc}
      */
     public function extractText(string $pdfPath): string
@@ -66,6 +69,7 @@ final class PdfTextExtractor implements PdfTextExtractorInterface
     }
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: isUsableText
      * Returns true when the extracted text is long enough to be useful for an
      * LLM extraction pass.  Short texts may indicate a scanned image-only PDF.
      *

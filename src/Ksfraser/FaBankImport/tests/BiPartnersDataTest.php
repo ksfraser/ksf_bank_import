@@ -6,17 +6,20 @@ class BiPartnersDataTest extends TestCase
 {
     protected $biPartnersData;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->biPartnersData = new bi_partners_data();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testConstructor */
     public function testConstructor()
     {
         $this->assertInstanceOf(bi_partners_data::class, $this->biPartnersData);
         $this->assertEquals('bi_partners_data', $this->biPartnersData->iam);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testDefineTable */
     public function testDefineTable()
     {
         $this->biPartnersData->define_table();
@@ -26,6 +29,7 @@ class BiPartnersDataTest extends TestCase
 
     // Add more tests for other methods in bi_partners_data
 
+    /** @BABOK NFR-016 / FR-018 — method: testGetPartnerData */
     public function testGetPartnerData()
     {
         // Assuming you have a way to mock database interactions
@@ -37,6 +41,7 @@ class BiPartnersDataTest extends TestCase
         $this->assertIsArray($result);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testSetBankPartnerData */
     public function testSetBankPartnerData()
     {
         // Assuming you have a way to mock database interactions
@@ -49,6 +54,7 @@ class BiPartnersDataTest extends TestCase
         $this->assertTrue(true); // Add proper assertions according to your database mock
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testSetPartnerData */
     public function testSetPartnerData()
     {
         // Assuming you have a way to mock database interactions

@@ -9,6 +9,7 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ToggleTransactionTypeButton.php; coverage: docs/TestCases/ (file rollup)
  * ToggleTransactionTypeButton - small adapter that builds a HtmlSubmit
  * element for toggling transaction debit/credit.
  * 
@@ -23,6 +24,7 @@ class ToggleTransactionTypeButton implements HtmlElementInterface
     protected $submit;
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Create toggle button for transaction at given index
      * 
      * @param int $index The transaction index
@@ -34,6 +36,7 @@ class ToggleTransactionTypeButton implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
      * Get HTML as string
      * 
      * @return string The HTML
@@ -44,6 +47,7 @@ class ToggleTransactionTypeButton implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
      * Output HTML directly to screen
      * 
      * @return void

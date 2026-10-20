@@ -35,6 +35,7 @@ use Ksfraser\FaBankImport\Services\Rules\AmountMatchRule;
 use Ksfraser\FaBankImport\Services\Rules\RefundDetectionRule;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/CustomerScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
  * Factory for Creating Customer-Configured Scoring Engine
  *
  * Demonstrates reusability of generic rules in different contexts.
@@ -59,6 +60,7 @@ final class CustomerScoringEngineFactory
     private CustomerMatchingConfiguration $configuration;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param CustomerMatchingConfiguration $configuration Configuration for rules
@@ -70,6 +72,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
      * Get configuration reference
      *
      * @return CustomerMatchingConfiguration Current configuration
@@ -81,6 +84,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createBankAccountRule
      * Create bank account matching rule
      *
      * PROD REQUIREMENT: Customer bank account MUST match exactly
@@ -95,6 +99,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createCustomerNameRule
      * Create customer name matching rule
      *
      * Reuses generic VendorNameMatchRule - identical logic applies
@@ -109,6 +114,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createAmountRule
      * Create amount matching rule
      *
      * Higher tolerance for customer refunds (may include processing fees).
@@ -124,6 +130,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createRefundRule
      * Create refund detection rule
      *
      * Detects customer refund transactions and provides scoring boost.
@@ -138,6 +145,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createEngine
      * Create configured scoring engine with all customer matching rules
      *
      * Returns a ScoringRuleEngine instance with all customer-specific rules

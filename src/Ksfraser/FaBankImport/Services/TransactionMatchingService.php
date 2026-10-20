@@ -11,6 +11,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionMatchingService.php; coverage: docs/TestCases/ (file rollup)
  * TransactionMatchingService - Context-aware transaction to partner matching
  *
  * Coordinates partner matching with transaction context for improved accuracy:
@@ -31,11 +32,13 @@ class TransactionMatchingService
 {
     private const MIN_CONFIDENCE_FOR_AUTO_MATCH = 75.0;
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
     public function __construct(private readonly KeywordMatchingService $matchingService)
     {
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchTransaction
      * Match a transaction to a partner
      *
      * Extracts searchable text from transaction, searches for partners,
@@ -94,6 +97,7 @@ class TransactionMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTransactionCandidates
      * Get all candidate matches for a transaction
      *
      * Returns ranked list of all potential matches for user review.
@@ -145,6 +149,7 @@ class TransactionMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: calculateContextBoost
      * Calculate confidence adjustment based on transaction context
      *
      * Returns a boost/reduction factor (negative = reduce, positive = increase)
@@ -181,6 +186,7 @@ class TransactionMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getRecencyBoost
      * Get recency boost factor
      *
      * More recent transactions have more reliable patterns
@@ -207,6 +213,7 @@ class TransactionMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getAmountRangeBoost
      * Get amount range boost
      *
      * Recurring patterns (same amount) are more reliable
@@ -238,6 +245,7 @@ class TransactionMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTypeConsistencyBoost
      * Get type consistency boost
      *
      * If transaction type aligns with partner type, increase confidence
@@ -269,6 +277,7 @@ class TransactionMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: applyConfidenceAdjustment
      * Apply confidence adjustment with clamping
      *
      * Prevents adjusted confidence from going below 0 or above 100
@@ -284,6 +293,7 @@ class TransactionMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: buildSearchText
      * Build searchable text from transaction
      *
      * Extracts and concatenates all text fields that should be used for matching.
@@ -314,6 +324,7 @@ class TransactionMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateTransaction
      * Validate transaction has required fields
      *
      * @param array $transaction Transaction to validate

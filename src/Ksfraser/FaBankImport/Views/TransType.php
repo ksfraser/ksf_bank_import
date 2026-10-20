@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/TransType.php; coverage: docs/TestCases/ (file rollup)
  * TransType - Display transaction type row
  * 
  * Shows the transaction type based on transactionDC field:
@@ -20,6 +21,7 @@ use Ksfraser\HTML\Composites\LabelRowBase;
 class TransType extends LabelRowBase
 {
 	/**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
 	 * Create transaction type row
 	 * 
 	 * @param object $bi_lineitem The bank import line item with transactionDC property

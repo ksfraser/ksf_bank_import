@@ -7,6 +7,7 @@ use Ksfraser\FaBankImport\Domain\Exceptions\PartnerDataNotFoundException;
 use RuntimeException;
 
 /**
+ * @BABOK RTM: FR-008 / ARCH-001; file: Repository/DatabasePartnerDataRepository.php; coverage: docs/TestCases/ (file rollup)
  * Database implementation of PartnerDataRepository
  *
  * Uses prepared statements for security and integrates with FrontAccounting's
@@ -24,6 +25,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     private string $tableName;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: __construct
      * Constructor
      */
     public function __construct()
@@ -35,6 +37,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: find
      * {@inheritdoc}
      */
     public function find(
@@ -60,6 +63,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findByPartner
      * {@inheritdoc}
      */
     public function findByPartner(int $partnerId, ?int $partnerType = null): array
@@ -86,6 +90,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findByKeyword
      * {@inheritdoc}
      */
     public function findByKeyword(string $keyword, ?int $partnerType = null): array
@@ -112,6 +117,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: searchByKeywords
      * {@inheritdoc}
      */
     public function searchByKeywords(
@@ -192,6 +198,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: save
      * {@inheritdoc}
      */
     public function save(PartnerData $partnerData): bool
@@ -215,6 +222,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: delete
      * {@inheritdoc}
      */
     public function delete(
@@ -236,6 +244,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: deleteByPartner
      * {@inheritdoc}
      */
     public function deleteByPartner(int $partnerId, ?int $partnerType = null): int
@@ -256,6 +265,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: incrementOccurrence
      * {@inheritdoc}
      */
     public function incrementOccurrence(
@@ -284,6 +294,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: count
      * {@inheritdoc}
      */
     public function count(?int $partnerType = null): int
@@ -303,6 +314,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: exists
      * {@inheritdoc}
      */
     public function exists(
@@ -315,6 +327,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getTopKeywords
      * {@inheritdoc}
      */
     public function getTopKeywords(int $limit = 20, ?int $partnerType = null): array
@@ -347,6 +360,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: escapeLike
      * Escape special characters in LIKE patterns
      *
      * Escapes %, _ and \ characters that have special meaning in LIKE clauses.

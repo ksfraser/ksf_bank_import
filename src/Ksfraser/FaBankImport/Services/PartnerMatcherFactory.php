@@ -24,6 +24,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerMatcherFactory.php; coverage: docs/TestCases/ (file rollup)
  * Partner Matcher Factory
  *
  * Factory for creating specialized matchers with different configurations:
@@ -37,6 +38,7 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 final class PartnerMatcherFactory
 {
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createUnifiedMatcher
      * Create unified transaction partner matcher
      *
      * Uses supplier configuration weights as baseline for all partner types.
@@ -54,6 +56,7 @@ final class PartnerMatcherFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createSupplierMatcher
      * Create supplier-specific matcher
      *
      * Uses SupplierMatchingConfiguration optimized for supplier transactions.
@@ -70,6 +73,7 @@ final class PartnerMatcherFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createCustomerMatcher
      * Create customer-specific matcher
      *
      * Uses CustomerMatchingConfiguration optimized for customer transactions
@@ -87,6 +91,7 @@ final class PartnerMatcherFactory
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createCustom
      * Create with custom configuration and engine
      *
      * For advanced use cases where custom configuration or engine is needed.

@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Strategy;
 use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
 
 /**
+ * @BABOK RTM: BR-002 / FR-005; file: Strategy/BlockDuplicateStrategy.php; coverage: docs/TestCases/ (file rollup)
  * Block Duplicate Strategy
  * 
  * Hard block - rejects duplicate uploads completely
@@ -19,6 +20,7 @@ use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
 class BlockDuplicateStrategy implements DuplicateStrategyInterface
 {
     /**
+ * @BABOK BR-002 / FR-005 — method: handle
      * Handle duplicate - block upload completely
      * 
      * @param DuplicateResult $duplicateResult
@@ -50,6 +52,7 @@ class BlockDuplicateStrategy implements DuplicateStrategyInterface
     }
     
     /**
+ * @BABOK BR-002 / FR-005 — method: getName
      * Get strategy name
      * 
      * @return string

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK RTM: FR-001 / ARCH-001; file: API/MatchTransactionRequest.php; coverage: docs/TestCases/ (file rollup)
  * MatchTransactionRequest
  *
  * Request object for matching a transaction to a partner.
@@ -23,6 +24,7 @@ namespace Ksfraser\FaBankImport\API;
 class MatchTransactionRequest
 {
     /**
+ * @BABOK FR-001 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param string $transactionId Transaction identifier
@@ -43,6 +45,7 @@ class MatchTransactionRequest
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: validate
      * Validate request data
      *
      * @throws \InvalidArgumentException
@@ -63,6 +66,7 @@ class MatchTransactionRequest
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: fromArray
      * Create request from array (typically JSON decoded)
      *
      * @param array $data
@@ -81,6 +85,7 @@ class MatchTransactionRequest
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTransactionId
      * Get transaction ID
      */
     public function getTransactionId(): string
@@ -89,6 +94,7 @@ class MatchTransactionRequest
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getAmount
      * Get transaction amount
      */
     public function getAmount(): float
@@ -97,6 +103,7 @@ class MatchTransactionRequest
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getDescription
      * Get transaction description
      */
     public function getDescription(): string
@@ -105,6 +112,7 @@ class MatchTransactionRequest
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTransactionType
      * Get transaction type
      */
     public function getTransactionType(): string
@@ -113,6 +121,7 @@ class MatchTransactionRequest
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getReferenceNumber
      * Get reference number
      */
     public function getReferenceNumber(): ?string
@@ -121,6 +130,7 @@ class MatchTransactionRequest
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: toArray
      * Convert to array for serialization
      */
     public function toArray(): array

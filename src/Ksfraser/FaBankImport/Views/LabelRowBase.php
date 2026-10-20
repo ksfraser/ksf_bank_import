@@ -8,6 +8,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/LabelRowBase.php; coverage: docs/TestCases/ (file rollup)
  * Label Row Base Class
  * 
  * Abstract base class for label-data row elements.
@@ -32,6 +33,7 @@ abstract class LabelRowBase implements HtmlElementInterface
     protected $data;
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Constructor
      * 
      * Validates that inheriting classes have set label and data.
@@ -57,6 +59,7 @@ abstract class LabelRowBase implements HtmlElementInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
      * Get HTML representation as string
      * 
      * @return string HTML string
@@ -67,6 +70,7 @@ abstract class LabelRowBase implements HtmlElementInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
      * Render HTML directly to output
      * 
      * @return void

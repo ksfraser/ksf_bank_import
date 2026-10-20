@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Database;
 use PDO;
 
 /**
+ * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/MigrationRunner.php; coverage: docs/TestCases/ (file rollup)
  * MigrationRunner - Executes migrations and tracks execution history
  * 
  * Manages database migrations by:
@@ -24,6 +25,7 @@ final class MigrationRunner
     private string $migrationsTable;
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: __construct
      * @param PDO $pdo Database connection
      * @param string $migrationsTable Name of table tracking executed migrations
      */
@@ -35,6 +37,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: initializeMigrationsTable
      * Initialize migrations tracking table
      */
     private function initializeMigrationsTable(): void
@@ -56,6 +59,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: runPending
      * Run all pending migrations
      * 
      * @param array<Migration> $migrations List of migrations to execute
@@ -87,6 +91,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: rollbackLast
      * Rollback the last batch of migrations
      * 
      * @param array<Migration> $migrations All available migrations (keyed by name)
@@ -124,6 +129,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: getExecuted
      * Get list of executed migrations
      * 
      * @return array<string>
@@ -141,6 +147,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: getStatus
      * Get status of all migrations
      * 
      * @param array<Migration> $migrations
@@ -159,6 +166,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: hasRun
      * Check if a migration has been executed
      */
     private function hasRun(string $migrationName): bool
@@ -175,6 +183,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: recordMigration
      * Record that a migration was executed
      */
     private function recordMigration(string $migrationName, int $batch): void
@@ -190,6 +199,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: forgetMigration
      * Remove migration record (on rollback)
      */
     private function forgetMigration(string $migrationName): void
@@ -205,6 +215,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: getNextBatch
      * Get next batch number
      */
     private function getNextBatch(): int
@@ -214,6 +225,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: getLastBatch
      * Get last executed batch number
      */
     private function getLastBatch(): ?int
@@ -230,6 +242,7 @@ final class MigrationRunner
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: getExecutedMigrations
      * Get migrations executed in a specific batch
      * 
      * @return array<string>

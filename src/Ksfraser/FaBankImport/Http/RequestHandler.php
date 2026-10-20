@@ -4,6 +4,9 @@ namespace Ksfraser\FaBankImport\Http;
 
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @BABOK RTM: FR-001 / IR-001; file: Http/RequestHandler.php; coverage: docs/TestCases/ (file rollup)
+ */
 class RequestHandler
 {
     private $request;
@@ -12,6 +15,7 @@ class RequestHandler
     private $middlewares = [];
     private $middlewareIndex = 0;
 
+    /** @BABOK FR-001 / IR-001 — method: __construct */
     public function __construct(array $params = [])
     {
         $this->request = Request::createFromGlobals();
@@ -25,22 +29,26 @@ class RequestHandler
         }
     }
 
+    /** @BABOK FR-001 / IR-001 — method: getRequest */
     public function getRequest(): Request
     {
         return $this->request;
     }
 
+    /** @BABOK FR-001 / IR-001 — method: addMiddleware */
     public function addMiddleware($middleware): self
     {
         $this->middlewares[] = $middleware;
         return $this;
     }
 
+    /** @BABOK FR-001 / IR-001 — method: handle */
     public function handle()
     {
         return $this->process();
     }
 
+    /** @BABOK FR-001 / IR-001 — method: process */
     public function process()
     {
         if ($this->middlewareIndex >= count($this->middlewares)) {
@@ -55,11 +63,13 @@ class RequestHandler
         });
     }
 
+    /** @BABOK FR-001 / IR-001 — method: getTransactionCommand */
     public function getTransactionCommand(): ?array
     {
         return $this->transactionCommand;
     }
 
+    /** @BABOK FR-001 / IR-001 — method: getParams */
     public function getParams(): array
     {
         return array_merge(
@@ -69,11 +79,13 @@ class RequestHandler
         );
     }
 
+    /** @BABOK FR-001 / IR-001 — method: isPost */
     public function isPost(): bool
     {
         return $this->request->isMethod('POST');
     }
 
+    /** @BABOK FR-001 / IR-001 — method: processRequest */
     private function processRequest()
     {
 // This would be implemented by specific request handlers

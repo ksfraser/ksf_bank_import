@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierMatchResult.php; coverage: docs/TestCases/ (file rollup)
  * Supplier Match Result
  *
  * Immutable value object representing supplier matching results.
@@ -59,6 +60,7 @@ class SupplierMatchResult
     private SupplierMatchingConfiguration $configuration;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param array $matches Sorted matches array
@@ -77,6 +79,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMatches
      * Get all matched suppliers ordered by confidence
      *
      * @return array<array> Matches with confidence scores
@@ -88,6 +91,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMatchCount
      * Get count of matches
      *
      * @return int Number of matches
@@ -99,6 +103,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getBestMatch
      * Get the best (highest confidence) match
      *
      * @return array|null Best match or null if no matches
@@ -110,6 +115,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getBestSupplierId
      * Get the best supplier ID
      *
      * @return int|null Best matching supplier ID or null
@@ -122,6 +128,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getDecision
      * Get auto-match decision
      *
      * @return string 'auto', 'manual', or 'no_match'
@@ -133,6 +140,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: isAutoMatch
      * Is this an auto-match decision?
      *
      * @return bool True if auto-match decision
@@ -144,6 +152,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: isManualSelection
      * Is this a manual selection decision?
      *
      * @return bool True if manual selection required
@@ -155,6 +164,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: isNoMatch
      * Is this a no-match result?
      *
      * @return bool True if no matches
@@ -166,6 +176,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
      * Get configuration used for matching
      *
      * @return SupplierMatchingConfiguration Configuration reference
@@ -177,6 +188,7 @@ class SupplierMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: toArray
      * Convert to array for serialization
      *
      * @return array{

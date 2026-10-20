@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\Repository\UploadedFileRepositoryInterface;
 use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/DuplicateDetector.php; coverage: docs/TestCases/ (file rollup)
  * Duplicate Detector Service
  * 
  * Detects duplicate file uploads using multiple verification methods:
@@ -39,6 +40,7 @@ class DuplicateDetector
     private FileStorageServiceInterface $storageService;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor - Dependency Injection
      * 
      * @param UploadedFileRepositoryInterface $fileRepository
@@ -56,6 +58,7 @@ class DuplicateDetector
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: detect
      * Detect if file is a duplicate
      * 
      * Process:
@@ -111,6 +114,7 @@ class DuplicateDetector
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: isDuplicateCheckingEnabled
      * Check if duplicate checking is enabled in config
      * 
      * @return bool
@@ -121,6 +125,7 @@ class DuplicateDetector
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getDuplicateWindowDays
      * Get duplicate detection time window in days
      * 
      * @return int Number of days
@@ -131,6 +136,7 @@ class DuplicateDetector
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getDuplicateAction
      * Get duplicate action from config
      * 
      * @return string 'allow', 'warn', or 'block'
@@ -148,6 +154,7 @@ class DuplicateDetector
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: verifyDuplicateByHash
      * Verify files are identical using MD5 hash
      * 
      * Compares MD5 hash of new upload with existing file on disk
@@ -181,6 +188,7 @@ class DuplicateDetector
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: isDuplicate
      * Check if specific file would be a duplicate
      * 
      * Convenience method for checking before actual upload
@@ -212,6 +220,7 @@ class DuplicateDetector
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStatistics
      * Get duplicate statistics
      * 
      * @return array Statistics about duplicate detection

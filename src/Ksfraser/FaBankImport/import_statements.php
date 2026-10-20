@@ -28,6 +28,9 @@ page(_($help_context = "Import Bank Statement"));
         $menu->renderMenu(); // Render the module menu
 
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: import_statements.php; coverage: docs/TestCases/ (file rollup)
+ */
 function import_statements() {
     start_table(TABLESTYLE);
     start_row();
@@ -59,6 +62,7 @@ function import_statements() {
 }
 
 /**//*******************************************************
+* @BABOK BR-002 / FR-008 / FR-018 — method: importStatement
 * Import the statements
 *
 * @param array statements
@@ -178,6 +182,7 @@ function importStatement($smt)
 }	//import_statement fc
 
 
+/** @BABOK FR-006 / BR-010 / ARCH-007 — method: do_upload_form */
 function do_upload_form() {
     $parsers = array();
     $_parsers = getParsers();
@@ -214,6 +219,7 @@ function do_upload_form() {
 }
 
 
+/** @BABOK BR-002 / FR-008 / FR-018 — method: parse_uploaded_files */
 function parse_uploaded_files() {
     start_table(TABLESTYLE);
     start_row();

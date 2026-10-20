@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Entity\PartnerEntity;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
+ * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/PartnerRepositoryPdoImpl.php; coverage: docs/TestCases/ (file rollup)
  * Partner Repository - PDO Implementation
  * 
  * Persists and retrieves partner entities using PDO with parameterized queries.
@@ -21,11 +22,13 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
 {
     private const TABLE = 'bi_partners_data';
     
+    /** @BABOK FR-006 / ARCH-007 — method: __construct */
     public function __construct(private readonly PDO $pdo)
     {
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: getById
      * Get partner by ID
      */
     public function getById(int $id): ?PartnerEntity
@@ -40,6 +43,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: getByName
      * Get partner by name and type
      */
     public function getByName(string $name, PartnerType $type): ?PartnerEntity
@@ -54,6 +58,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: searchByPattern
      * Search by pattern (LIKE)
      */
     public function searchByPattern(string $pattern, ?PartnerType $type = null): array
@@ -75,6 +80,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: getByType
      * Get all partners of a type
      */
     public function getByType(PartnerType $type): array
@@ -88,6 +94,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: create
      * Create new partner
      */
     public function create(PartnerEntity $partner): int
@@ -109,6 +116,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: update
      * Update existing partner
      */
     public function update(PartnerEntity $partner): void
@@ -135,6 +143,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: delete
      * Delete partner
      */
     public function delete(int $id): bool
@@ -148,6 +157,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: exists
      * Check existence
      */
     public function exists(int $id): bool
@@ -161,6 +171,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
+ * @BABOK FR-006 / ARCH-007 — method: rowToEntity
      * Convert database row to entity
      */
     private function rowToEntity(array $row): PartnerEntity

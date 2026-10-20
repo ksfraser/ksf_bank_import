@@ -40,6 +40,9 @@ use Ksfraser\FaBankImport\OperationTypes\OperationTypesRegistry;
  * @since 2025-10-25
  * @see Martin Fowler's "Refactoring: Improving the Design of Existing Code"
  */
+/**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/PartnerTypeDisplayStrategy.php; coverage: docs/TestCases/ (file rollup)
+ */
 class PartnerTypeDisplayStrategy
 {
     /**
@@ -54,6 +57,7 @@ class PartnerTypeDisplayStrategy
     private $strategies = [];
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Constructor
      * 
      * Dynamically builds strategy map from PartnerTypeRegistry instead of
@@ -78,6 +82,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildStrategyMap
      * Build strategy map dynamically from PartnerTypeRegistry
      * 
      * Instead of hardcoding the strategies array, we discover partner types
@@ -98,6 +103,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: display
      * Display the appropriate partner type view based on partner type code
      * 
      * DEPRECATED: Use render() instead. This method directly echoes output,
@@ -115,6 +121,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: render
      * Render the appropriate partner type view based on partner type code
      * 
      * Returns HtmlFragment containing the rendered HTML. Caller decides
@@ -136,6 +143,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: displaySupplier
      * Display Supplier partner type (SP)
      * 
      * @return HtmlFragment Rendered HTML
@@ -169,6 +177,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayCustomer
      * Display Customer partner type (CU)
      * 
      * @return HtmlFragment Rendered HTML
@@ -206,6 +215,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayBankTransfer
      * Display Bank Transfer partner type (BT)
      * 
      * @return HtmlFragment Rendered HTML
@@ -243,6 +253,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayQuickEntry
      * Display Quick Entry partner type (QE)
      * 
      * @return HtmlFragment Rendered HTML
@@ -274,6 +285,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayManualSettlement
      * Display Manual Settlement partner type (MA)
      * 
      * @return HtmlFragment Rendered HTML elements
@@ -311,6 +323,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayMatchedExisting
      * Display Matched Existing transaction partner type (ZZ)
      * 
      * @return HtmlFragment Rendered HTML elements (hidden fields)
@@ -340,6 +353,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getAvailablePartnerTypes
      * Get available partner type codes
      * 
      * @return array List of valid partner type codes
@@ -350,6 +364,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: isValidPartnerType
      * Check if a partner type code is valid
      * 
      * @param string $partnerType Partner type code to validate

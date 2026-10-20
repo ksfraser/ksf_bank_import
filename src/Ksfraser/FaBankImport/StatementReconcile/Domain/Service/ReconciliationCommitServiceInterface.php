@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\StatementReconcile\Domain\Service;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Service/ReconciliationCommitServiceInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for the commit service that posts reconciliation results back to FA.
  *
  * The concrete implementation replicates FA's bank reconciliation persistence
@@ -19,6 +20,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\Service;
 interface ReconciliationCommitServiceInterface
 {
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: commit
      * Commit an approved ReconciliationSession to FA.
      *
      * @param int    $sessionId        ID of the approved ReconciliationSession.

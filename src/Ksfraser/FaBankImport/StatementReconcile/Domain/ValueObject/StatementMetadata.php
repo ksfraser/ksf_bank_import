@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/StatementMetadata.php; coverage: docs/TestCases/ (file rollup)
  * Statement-level metadata extracted from a CC statement PDF.
  *
  * Immutable value object. All monetary amounts stored as decimal strings
@@ -38,6 +39,7 @@ final class StatementMetadata
     private $dueDate;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
      * @param string|null            $accountIdentifier Last-4 or account label, may be null.
      * @param \DateTimeImmutable      $statementStartDate
      * @param \DateTimeImmutable      $statementEndDate
@@ -78,6 +80,7 @@ final class StatementMetadata
     }
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: fromArray
      * Factory: build from an associative array with keys:
      *   account_identifier (nullable string)
      *   statement_start_date (YYYY-MM-DD)
@@ -128,46 +131,55 @@ final class StatementMetadata
         );
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getAccountIdentifier */
     public function getAccountIdentifier(): ?string
     {
         return $this->accountIdentifier;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getStatementStartDate */
     public function getStatementStartDate(): \DateTimeImmutable
     {
         return $this->statementStartDate;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getStatementEndDate */
     public function getStatementEndDate(): \DateTimeImmutable
     {
         return $this->statementEndDate;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getOpeningBalance */
     public function getOpeningBalance(): string
     {
         return $this->openingBalance;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getOpeningBalanceFloat */
     public function getOpeningBalanceFloat(): float
     {
         return (float) $this->openingBalance;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getClosingBalance */
     public function getClosingBalance(): string
     {
         return $this->closingBalance;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getClosingBalanceFloat */
     public function getClosingBalanceFloat(): float
     {
         return (float) $this->closingBalance;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getDueDate */
     public function getDueDate(): ?\DateTimeImmutable
     {
         return $this->dueDate;
     }
 
+    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: toArray */
     public function toArray(): array
     {
         return [

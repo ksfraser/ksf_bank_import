@@ -32,6 +32,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierMatchingConfiguration.php; coverage: docs/TestCases/ (file rollup)
  * Configuration for Supplier Matching Rules
  *
  * Manages configurable weights and thresholds used by the scoring engine
@@ -86,6 +87,7 @@ final class SupplierMatchingConfiguration
     private float $amountTolerance = 1.0;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeights
      * Get score weights for all matching criteria
      *
      * @return array<string, int> Score weights indexed by criterion name
@@ -97,6 +99,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setWeights
      * Set custom score weights for matching criteria
      *
      * @param array<string, int> $weights Score weights indexed by criterion name
@@ -110,6 +113,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeight
      * Get individual weight for a criterion
      *
      * @param string $criterion Criterion name (bank_account, vendor_name, etc.)
@@ -122,6 +126,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setWeight
      * Set weight for individual criterion
      *
      * @param string $criterion Criterion name
@@ -136,6 +141,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMinimumConfidenceThreshold
      * Get minimum confidence threshold for auto-match
      *
      * @return int Threshold percentage (0-100)
@@ -147,6 +153,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setMinimumConfidenceThreshold
      * Set minimum confidence threshold for auto-match
      *
      * @param int $threshold Threshold percentage (0-100)
@@ -160,6 +167,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMaximumAutoMatches
      * Get maximum number of matches for auto-selection
      *
      * @return int Maximum (3+ require manual selection)
@@ -171,6 +179,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setMaximumAutoMatches
      * Set maximum number of matches for auto-selection
      *
      * @param int $maximum Maximum count
@@ -184,6 +193,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getAmountTolerance
      * Get amount matching tolerance percentage
      *
      * @return float Tolerance as percentage (e.g., 1.0 = 1%)
@@ -195,6 +205,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setAmountTolerance
      * Set amount matching tolerance percentage
      *
      * @param float $tolerance Tolerance as percentage
@@ -208,6 +219,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setProdDefaults
      * Apply production defaults matching PROD behavior
      *
      * PROD BASELINE:

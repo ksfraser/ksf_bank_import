@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Database;
 use PDO;
 
 /**
+ * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migration.php; coverage: docs/TestCases/ (file rollup)
  * Migration Interface
  * 
  * Defines the contract for database migrations.
@@ -18,6 +19,7 @@ use PDO;
 interface Migration
 {
     /**
+ * @BABOK FR-006 / ARCH-007 — method: name
      * Get the migration name/identifier
      * Should be unique and follow format: YYYYMMDD_HHMMSS_description
      * Example: 20260416_140000_create_partner_tables
@@ -27,6 +29,7 @@ interface Migration
     public function name(): string;
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: description
      * Get a description of what this migration does
      * 
      * @return string
@@ -34,6 +37,7 @@ interface Migration
     public function description(): string;
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: up
      * Execute the migration (apply changes)
      * 
      * @param PDO $pdo Database connection
@@ -42,6 +46,7 @@ interface Migration
     public function up(PDO $pdo): void;
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: down
      * Rollback the migration (undo changes)
      * 
      * @param PDO $pdo Database connection

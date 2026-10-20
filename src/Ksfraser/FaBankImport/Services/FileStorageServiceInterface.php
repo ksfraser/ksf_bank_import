@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/FileStorageServiceInterface.php; coverage: docs/TestCases/ (file rollup)
  * File Storage Service Interface
  * 
  * Contract for file system operations
@@ -20,6 +21,7 @@ use Ksfraser\FaBankImport\ValueObject\FileInfo;
 interface FileStorageServiceInterface
 {
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: store
      * Store uploaded file to disk
      * 
      * Moves file from temporary location to permanent storage
@@ -35,6 +37,7 @@ interface FileStorageServiceInterface
     public function store(FileInfo $fileInfo, string $parserType): array;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: delete
      * Delete file from disk
      * 
      * @param string $filePath Full path to file
@@ -43,6 +46,7 @@ interface FileStorageServiceInterface
     public function delete(string $filePath): bool;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: exists
      * Check if file exists on disk
      * 
      * @param string $filePath Full path to file
@@ -51,6 +55,7 @@ interface FileStorageServiceInterface
     public function exists(string $filePath): bool;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getContents
      * Get file contents
      * 
      * @param string $filePath Full path to file
@@ -61,6 +66,7 @@ interface FileStorageServiceInterface
     public function getContents(string $filePath): string;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStorageDirectory
      * Get storage directory path
      * 
      * @return string Full path to upload storage directory
@@ -68,6 +74,7 @@ interface FileStorageServiceInterface
     public function getStorageDirectory(): string;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: ensureStorageDirectoryExists
      * Ensure storage directory exists with proper permissions
      * 
      * @return void

@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport;
 
 /**//**************************************************************
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: FaGLWrapper.php; coverage: docs/TestCases/ (file rollup)
 * fa_gl is a DAO so we shouldn't be putting business logic into it
 * This wraps it for that logic
 *
@@ -10,6 +11,7 @@ namespace Ksfraser\FaBankImport;
 class FaGLWrapper
 {
 	protected $fa_gl;
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
 	function __construct( $transaction )
 	{
 	        $inc = include_once( __DIR__ . '../../../../../ksf_modules_common/class.fa_gl.php' );
@@ -40,6 +42,7 @@ class FaGLWrapper
 			throw new Exception( "Couldn't open " . __DIR__ . "/../ksf_modules_common/class.fa_gl.php" );
 		}
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: retrieveMatchingTransactions */
 	function retrieveMatchingTransactions()
 	{
 		return $this->fa_gl->find_matching_transactions( $this->fa_gl->memo );

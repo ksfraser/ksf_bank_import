@@ -8,6 +8,9 @@ namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
 
+/**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/AlertService.php; coverage: docs/TestCases/ (file rollup)
+ */
 class AlertService
 {
     private $config;
@@ -21,6 +24,7 @@ class AlertService
         $this->aggregator = new MetricsAggregator($this->config->get('logging.path'));
     }
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getInstance */
     public static function getInstance(): self
     {
         if (self::$instance === null) {

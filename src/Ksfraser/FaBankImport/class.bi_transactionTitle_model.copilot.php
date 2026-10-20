@@ -35,11 +35,13 @@ class bi_transactionTitle_model extends generic_fa_interface_model
     protected $bi_transactionTitle9; // MT940
     protected $staging_id; // The ID of the staging table record that is the master for this record
 
+    /** @BABOK FR-008 / BR-002 — method: __construct */
     public function __construct()
     {
         // Initialize class properties or perform setup here
     }
 
+    /** @BABOK FR-008 / BR-002 — method: define_table */
     public function define_table(): void
     {
         $ind = "id_" . $this->iam;
@@ -66,6 +68,7 @@ class bi_transactionTitle_model extends generic_fa_interface_model
         $this->fields_array[] = array('name' => 'staging_id', 'label' => 'Master Record in Staging Table', 'type' => 'varchar(' . self::STOCK_ID_LENGTH . ')', 'null' => 'NOT NULL', 'readwrite' => 'readwrite', 'comment' => 'Master Record in Staging Table');
     }
 
+    /** @BABOK FR-008 / BR-002 — method: insert_transaction */
     public function insert_transaction(): void
     {
         $this->insert_data(get_object_vars($this));

@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/Keyword.php; coverage: docs/TestCases/ (file rollup)
  * Value Object representing a single keyword
  *
  * Encapsulates keyword text with validation rules for pattern matching.
@@ -31,6 +32,7 @@ class Keyword
     private const MAX_LENGTH = 100;
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
      * Create a new Keyword value object
      *
      * @param string $text The keyword text (will be normalized)
@@ -45,6 +47,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getText
      * Get keyword text
      *
      * @return string
@@ -55,6 +58,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getLength
      * Get keyword length
      *
      * @return int
@@ -65,6 +69,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: isValid
      * Check if keyword is valid (meets length requirements)
      *
      * @return bool
@@ -76,6 +81,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: contains
      * Check if this keyword contains another keyword
      *
      * @param Keyword $other
@@ -88,6 +94,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: equals
      * Check if this keyword equals another
      *
      * Case-insensitive comparison
@@ -102,6 +109,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: isStopword
      * Check if keyword matches a stopword pattern
      *
      * @param array<string> $stopwords List of stopwords
@@ -119,6 +127,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __toString
      * String representation
      *
      * @return string
@@ -129,6 +138,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: normalize
      * Normalize keyword text
      *
      * - Trim whitespace
@@ -155,6 +165,7 @@ class Keyword
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validate
      * Validate keyword
      *
      * @param string $text Normalized keyword text

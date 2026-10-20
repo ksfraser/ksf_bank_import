@@ -7,10 +7,14 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Elements\HtmlSubmit;
 use Ksfraser\HTML\Elements\HtmlString;
 
+/**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AddNoButton.php; coverage: docs/TestCases/ (file rollup)
+ */
 class AddNoButton implements \Ksfraser\HTML\HtmlElementInterface
 {
     protected $submit;
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
     public function __construct(int $index)
     {
         /**
@@ -22,11 +26,13 @@ class AddNoButton implements \Ksfraser\HTML\HtmlElementInterface
         $this->submit->setName("AddNo[$index]")->setClass('default');
     }
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
     public function getHtml(): string
     {
         return $this->submit->getHtml();
     }
 
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
     public function toHtml(): void
     {
         echo $this->getHtml();

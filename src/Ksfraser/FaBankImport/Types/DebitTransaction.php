@@ -6,13 +6,18 @@ namespace Ksfraser\FaBankImport\Types;
 
 use Ksfraser\FaBankImport\Models\AbstractTransaction;
 
+/**
+ * @BABOK RTM: FR-004 / DR-001; file: Types/DebitTransaction.php; coverage: docs/TestCases/ (file rollup)
+ */
 class DebitTransaction extends AbstractTransaction
 {
+    /** @BABOK FR-004 / DR-001 — method: getTransactionType */
     public function getTransactionType(): string
     {
         return 'D';
     }
 
+    /** @BABOK FR-004 / DR-001 — method: processTransaction */
     public function processTransaction(): void
     {
         // Specific debit transaction processing logic

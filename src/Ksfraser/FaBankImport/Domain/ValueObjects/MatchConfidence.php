@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/MatchConfidence.php; coverage: docs/TestCases/ (file rollup)
  * Value Object representing match confidence calculation
  *
  * Encapsulates the multi-factor confidence score calculation based on:
@@ -45,6 +46,7 @@ class MatchConfidence
     private const STRENGTH_WEIGHT = 0.4;
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
      * Create a new MatchConfidence value object
      *
      * @param float $keywordCoverage Percentage of search keywords matched (0-100)
@@ -63,6 +65,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getKeywordCoverage
      * Get keyword coverage percentage
      *
      * @return float
@@ -73,6 +76,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getScoreStrength
      * Get score strength percentage
      *
      * @return float
@@ -83,6 +87,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getPercentage
      * Get overall confidence percentage
      *
      * @return float
@@ -93,6 +98,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: meetsThreshold
      * Check if confidence meets threshold
      *
      * @param float $threshold Minimum confidence percentage (0-100)
@@ -105,6 +111,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: isHighConfidence
      * Check if this is a high confidence match
      *
      * Defined as >= 70% confidence
@@ -117,6 +124,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: isMediumConfidence
      * Check if this is a medium confidence match
      *
      * Defined as 40% - 69% confidence
@@ -129,6 +137,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: isLowConfidence
      * Check if this is a low confidence match
      *
      * Defined as < 40% confidence
@@ -141,6 +150,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getLevel
      * Get confidence level as string
      *
      * @return string "high", "medium", or "low"
@@ -157,6 +167,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: fromMatchStatistics
      * Create from match statistics
      *
      * @param int   $matchedKeywordCount Number of keywords that matched
@@ -205,6 +216,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: toArray
      * Convert to array representation
      *
      * @return array<string, mixed>
@@ -220,6 +232,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __toString
      * String representation
      *
      * @return string
@@ -236,6 +249,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: calculate
      * Calculate overall confidence percentage
      *
      * Formula: (keyword_coverage * 0.6) + (score_strength * 0.4)
@@ -249,6 +263,7 @@ class MatchConfidence
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validatePercentage
      * Validate percentage value
      *
      * @param float  $value Percentage value

@@ -90,6 +90,9 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * 
  * @since 1.0.0
  */
+/**
+ * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/CustomerDataProvider.php; coverage: docs/TestCases/ (file rollup)
+ */
 class CustomerDataProvider implements PartnerDataProviderInterface
 {
     /**
@@ -130,6 +133,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     private $loaded = false;
     
     /**
+ * @BABOK FR-009 / IR-001 — method: __construct
      * Private constructor for singleton pattern
      */
     private function __construct()
@@ -138,6 +142,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getInstance
      * Get singleton instance
      * 
      * @return CustomerDataProvider The singleton instance
@@ -152,6 +157,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: reset
      * Reset singleton instance (for testing)
      * 
      * @return void
@@ -163,6 +169,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getPartners
      * Get all customers (implements PartnerDataProviderInterface)
      * 
      * @return array<int, array> Customer data indexed by customer ID
@@ -174,6 +181,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getCustomers
      * Get all customers
      * 
      * @return array<int, array> Customer data indexed by customer ID
@@ -188,6 +196,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getCustomer
      * Get specific customer
      * 
      * @param int $customerId Customer ID (debtor_no)
@@ -205,6 +214,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getBranches
      * Get all branches for a customer
      * 
      * @param int $customerId Customer ID
@@ -233,6 +243,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getBranch
      * Get specific branch for a customer
      * 
      * @param int $customerId Customer ID
@@ -258,6 +269,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: hasBranches
      * Check if customer has branches
      * 
      * @param int $customerId Customer ID
@@ -276,6 +288,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getPartnerLabel
      * Get label for customer (implements PartnerDataProviderInterface)
      * 
      * @param int $partnerId Customer ID
@@ -290,6 +303,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getLabel
      * Get label for customer
      * 
      * @param int $customerId Customer ID
@@ -305,6 +319,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: hasPartner
      * Check if customer exists (implements PartnerDataProviderInterface)
      * 
      * @param int $partnerId Customer ID to check
@@ -318,6 +333,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: hasCustomer
      * Check if customer exists
      * 
      * @param int $customerId Customer ID to check
@@ -334,6 +350,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getCount
      * Get count of customers
      * 
      * @return int Number of customers
@@ -348,6 +365,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: loadCustomers
      * Load customers and branches from database
      * 
      * Queries FrontAccounting database for all active customers and their branches.
@@ -403,6 +421,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 — method: loadBranches
      * Load customer branches from database
      * 
      * Loads all branch data and creates customer-to-branches mapping.

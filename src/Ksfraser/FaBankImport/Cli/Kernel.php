@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Contracts\Logger;
 use InvalidArgumentException;
 
 /**
+ * @BABOK RTM: FR-049 / ARCH-004; file: Cli/Kernel.php; coverage: docs/TestCases/ (file rollup)
  * Cli Kernel - Dispatcher for CLI commands
  * 
  * Routes command line inputs to appropriate command handlers.
@@ -22,11 +23,13 @@ final class Kernel
     /** @var Command[] */
     private array $commands = [];
 
+    /** @BABOK FR-049 / ARCH-004 — method: __construct */
     public function __construct(private readonly Logger $logger)
     {
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: register
      * Register a command
      */
     public function register(Command $command): void
@@ -36,6 +39,7 @@ final class Kernel
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: runFromArgv
      * Run from argv array (typically $_SERVER['argv'])
      * 
      * @param array<string> $argv Command line arguments
@@ -66,6 +70,7 @@ final class Kernel
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: execute
      * Execute a specific command
      */
     public function execute(string $commandName, array $arguments = []): int
@@ -90,6 +95,7 @@ final class Kernel
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: showHelp
      * Show general help
      */
     private function showHelp(): int
@@ -120,6 +126,7 @@ final class Kernel
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: showCommandHelp
      * Show help for a specific command
      */
     private function showCommandHelp(string $commandName): int
@@ -134,6 +141,7 @@ final class Kernel
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: parseArguments
      * Parse command line arguments into key-value pairs
      * 
      * Converts:
@@ -170,6 +178,7 @@ final class Kernel
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: commands
      * Get registered commands
      * 
      * @return array<string, Command>

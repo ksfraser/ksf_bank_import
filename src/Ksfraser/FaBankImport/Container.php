@@ -17,17 +17,22 @@ use Ksfraser\FaBankImport\Controllers\AdminController;
 use Ksfraser\FaBankImport\Controllers\BankImportController;
 use Ksfraser\FaBankImport\Config\Config;
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Container.php; coverage: docs/TestCases/ (file rollup)
+ */
 class Container
 {
     private static $instance = null;
     private $services = [];
     private $config;
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     private function __construct()
     {
         $this->config = Config::getInstance();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getInstance */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -36,18 +41,21 @@ class Container
         return self::$instance;
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getTransactionRepository */
     public function getTransactionRepository(): TransactionRepository
     {
         return $this->services[TransactionRepository::class] 
             ?? $this->services[TransactionRepository::class] = new TransactionRepository();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getTransactionTypeFactory */
     public function getTransactionTypeFactory(): TransactionTypeFactory
     {
         return $this->services[TransactionTypeFactory::class] 
             ?? $this->services[TransactionTypeFactory::class] = new TransactionTypeFactory();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getTransactionService */
     public function getTransactionService(): TransactionService
     {
         return $this->services[TransactionService::class] 
@@ -57,6 +65,7 @@ class Container
             );
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getTransactionViewService */
     public function getTransactionViewService(array $transactionData): TransactionViewService
     {
         $factory = $this->getTransactionTypeFactory();
@@ -66,6 +75,7 @@ class Container
         return new TransactionViewService($transaction, $view);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getCommandBus */
     public function getCommandBus(): SimpleCommandBus
     {
         if (!isset($this->services[SimpleCommandBus::class])) {
@@ -79,12 +89,14 @@ class Container
         return $this->services[SimpleCommandBus::class];
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getEventDispatcher */
     public function getEventDispatcher(): EventDispatcher
     {
         return $this->services[EventDispatcher::class] 
             ?? $this->services[EventDispatcher::class] = new EventDispatcher();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getProcessTransactionCommandHandler */
     public function getProcessTransactionCommandHandler(): ProcessTransactionCommandHandler
     {
         return $this->services[ProcessTransactionCommandHandler::class] 
@@ -93,6 +105,7 @@ class Container
             );
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getPerformanceMonitor */
     public function getPerformanceMonitor(): PerformanceMonitor
     {
         return $this->getSingletonService(PerformanceMonitor::class, function() {
@@ -100,6 +113,7 @@ class Container
         });
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getMetricsAggregator */
     public function getMetricsAggregator(): MetricsAggregator
     {
         return $this->getSingletonService(MetricsAggregator::class, function() {
@@ -107,6 +121,7 @@ class Container
         });
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getAdminController */
     public function getAdminController(): AdminController
     {
         return $this->getSingletonService(AdminController::class, function() {
@@ -114,6 +129,7 @@ class Container
         });
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getBankImportController */
     public function getBankImportController(): BankImportController
     {
         return $this->getSingletonService(BankImportController::class, function() {
@@ -121,6 +137,7 @@ class Container
         });
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getSingletonService */
     private function getSingletonService(string $class, callable $factory)
     {
         if (!isset($this->services[$class])) {

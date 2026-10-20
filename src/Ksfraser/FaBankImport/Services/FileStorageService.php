@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/FileStorageService.php; coverage: docs/TestCases/ (file rollup)
  * File Storage Service
  * 
  * Handles physical file storage operations on disk
@@ -31,6 +32,7 @@ class FileStorageService implements FileStorageServiceInterface
     private const DIR_PERMISSIONS = 0750;
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      * 
      * @param string|null $storageDir Optional custom storage directory
@@ -46,6 +48,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: store
      * Store uploaded file to disk
      * 
      * @param FileInfo $fileInfo File information from upload
@@ -91,6 +94,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: delete
      * Delete file from disk
      * 
      * @param string $filePath Full path to file
@@ -106,6 +110,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: exists
      * Check if file exists on disk
      * 
      * @param string $filePath Full path to file
@@ -117,6 +122,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getContents
      * Get file contents
      * 
      * @param string $filePath Full path to file
@@ -140,6 +146,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStorageDirectory
      * Get storage directory path
      * 
      * @return string Full path to upload storage directory
@@ -150,6 +157,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: ensureStorageDirectoryExists
      * Ensure storage directory exists with proper permissions
      * 
      * @return void
@@ -173,6 +181,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: generateUniqueFilename
      * Generate unique filename to avoid collisions
      * 
      * Format: PARSER_YYYYMMDD_HHMMSS_RANDOM.ext
@@ -206,6 +215,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getDefaultStorageDirectory
      * Get default storage directory
      * 
      * @return string Full path to company/bank_imports/uploads
@@ -220,6 +230,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createHtaccessFile
      * Create .htaccess file to protect upload directory
      * 
      * Prevents direct web access to uploaded files
@@ -254,6 +265,7 @@ HTACCESS;
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFileSize
      * Get file size in bytes
      * 
      * @param string $filePath Full path to file
@@ -277,6 +289,7 @@ HTACCESS;
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getModificationTime
      * Get file modification time
      * 
      * @param string $filePath Full path to file
@@ -300,6 +313,7 @@ HTACCESS;
     }
     
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: copy
      * Copy file to new location
      * 
      * Useful for creating backups or archives

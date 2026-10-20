@@ -6,6 +6,9 @@
 
 namespace Ksfraser\FaBankImport\Services;
 
+/**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/MetricsAggregator.php; coverage: docs/TestCases/ (file rollup)
+ */
 class MetricsAggregator
 {
     private const METRICS_FILE_PATTERN = '/performance_*.log';

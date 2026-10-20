@@ -30,6 +30,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Config;
 
 /**
+ * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/BankImportConfig.php; coverage: docs/TestCases/ (file rollup)
  * Bank Import Configuration
  *
  * Provides type-safe access to module configuration settings.
@@ -73,6 +74,7 @@ class BankImportConfig
     private const DEFAULT_SCORING_WEIGHT = 1.0;
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getTransRefLoggingEnabled
      * Check if transaction reference logging is enabled
      *
      * @return bool True if enabled, false if disabled
@@ -90,6 +92,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getTransRefAccount
      * Get GL account code for transaction reference logging
      *
      * @return string GL account code (e.g., '0000')
@@ -103,6 +106,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setTransRefLoggingEnabled
      * Set transaction reference logging enabled/disabled
      *
      * @param bool $enabled True to enable, false to disable
@@ -114,6 +118,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setTransRefAccount
      * Set GL account code for transaction reference logging
      *
      * Validates that the account exists before saving.
@@ -135,6 +140,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringRecencyWeight
      * Get recency scoring rule weight
      *
      * Controls how much timestamp proximity affects matching confidence.
@@ -149,6 +155,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringAmountWeight
      * Get amount range scoring rule weight
      *
      * Controls how much transaction amount reliability affects matching.
@@ -163,6 +170,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringTypeWeight
      * Get type consistency scoring rule weight
      *
      * Controls how much transaction type matching affects confidence.
@@ -177,6 +185,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringRecencyWeight
      * Set recency scoring rule weight
      *
      * @param float $weight Weight multiplier (must be > 0)
@@ -192,6 +201,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringAmountWeight
      * Set amount range scoring rule weight
      *
      * @param float $weight Weight multiplier (must be > 0)
@@ -207,6 +217,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringTypeWeight
      * Set type consistency scoring rule weight
      *
      * @param float $weight Weight multiplier (must be > 0)
@@ -222,6 +233,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringWeights
      * Get all scoring weights as associative array
      *
      * Useful for applying weights to scoring engine or displaying in UI.
@@ -242,6 +254,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringWeights
      * Set all scoring weights at once
      *
      * @param float $recencyWeight Recency rule weight
@@ -258,6 +271,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: glAccountExists
      * Check if GL account exists in the chart of accounts
      *
      * @param string $accountCode GL account code to check
@@ -289,6 +303,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getAllSettings
      * Get all configuration settings as array
      *
      * Useful for debugging or exporting settings.
@@ -305,6 +320,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: resetToDefaults
      * Reset all settings to defaults
      *
      * Useful for testing or resetting module configuration.

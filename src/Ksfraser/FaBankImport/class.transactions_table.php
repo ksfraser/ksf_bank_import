@@ -22,11 +22,15 @@
 			display_notification( __FILE__ . "::" . __LINE__ . " " . $e->getMessage() );
 	}
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.transactions_table.php; coverage: docs/TestCases/ (file rollup)
+ */
 class transaction_table
 {
 	//The table is made up of a series of rows
 	protected $transaction_table_rows;	//!<array
 	/**//**************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
 	*
 	* @param mysql_res
 	* @returns none
@@ -37,6 +41,7 @@ class transaction_table
 		$this->res2arr( $mysql_res );
 	}
 	/**//************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: res2arr
 	* Take the query result and build classes
 	*
 	* @param mysql_res
@@ -50,6 +55,7 @@ class transaction_table
 		}
 	}
 	/**//************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display
 	* Convert our data into an output HTML
 	*
 	* @param none
@@ -69,6 +75,7 @@ class transaction_table
 class transaction_table_row
 {
 	/**//**************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
 	*
 	* @param mysql_row db_fetch'd row (array)
 	* @returns none
@@ -109,6 +116,7 @@ class transaction_table_row
 			}
 	}
 	/**//************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display
 	* Convert our data into an output HTML
 	*
 	* @param none
@@ -131,6 +139,7 @@ class ttr_table
 	protected $style;
 	protected $width;	//!<int percentage
 	/**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
 	* @param int the style definition
 	* @param int The percentage width
 	*/
@@ -140,6 +149,7 @@ class ttr_table
 		$this->width = $width;
 	}
 	/**//************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display
 	* Convert our data into an output HTML
 	*
 	* @param none
@@ -154,11 +164,13 @@ class ttr_table
 class ttr_label_row
 {
 	protected $data;	//!<string
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
 	function __construct( $data )
 	{
 		$this->data = $data;
 	}
 	/**//************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display
 	* Convert our data into an output HTML
 	*
 	* @param none

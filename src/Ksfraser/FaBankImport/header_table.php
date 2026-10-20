@@ -28,6 +28,9 @@
 *	See: class.bi_transactions.php for model integration
 *
 ******************************************************************************************/
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: header_table.php; coverage: docs/TestCases/ (file rollup)
+ */
 class ksf_modules_table_filter_by_date 
 {
 	protected $cell1;	//!<array "label", "var_name", "type" (callback), "options"
@@ -38,6 +41,7 @@ class ksf_modules_table_filter_by_date
 	protected $cell6;	//!<array "label", "var_name", "type" (callback), "options"
 
 	/**//*******************************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
 	*
 	***********************************************************************************/
 	function __construct()
@@ -46,6 +50,7 @@ class ksf_modules_table_filter_by_date
 		//parent::__construct();
 	}
 	/**//********************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: display
 	* Display the table
 	*
 	*************************************************************/
@@ -90,10 +95,12 @@ class ksf_modules_table_filter_by_date
 	        end_row();
 	        end_table();
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: getBankImportHeaderHtml */
 	function getBankImportHeaderHtml()
 	{
 		return $this->bank_import_header();
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: bank_import_header */
 	function bank_import_header( $tablestyle = TABLESTYLE_NOBORDER )
 	{
 //echo __FILE__ . "::" . __LINE__ . "::" . __METHOD__ . "<br />";

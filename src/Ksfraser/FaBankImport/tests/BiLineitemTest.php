@@ -7,6 +7,7 @@ class BiLineitemTest extends TestCase
 {
     protected $lineitem;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $trz = [
@@ -30,6 +31,7 @@ class BiLineitemTest extends TestCase
         $this->lineitem = new bi_lineitem($trz);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testConstruct */
     public function testConstruct()
     {
         $this->assertEquals('C', $this->lineitem->transactionDC);
@@ -49,6 +51,7 @@ class BiLineitemTest extends TestCase
         $this->assertEquals(100.0, $this->lineitem->amount);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testDisplay */
     public function testDisplay()
     {
         // Add your test for display method

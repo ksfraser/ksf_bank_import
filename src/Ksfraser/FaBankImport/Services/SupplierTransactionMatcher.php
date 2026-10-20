@@ -42,6 +42,7 @@ use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 use Ksfraser\FaBankImport\Services\VendorCandidate;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierTransactionMatcher.php; coverage: docs/TestCases/ (file rollup)
  * Supplier Transaction Matcher - Adapter for Legacy Vendor List
  *
  * Allows legacy code using vendor_list arrays to benefit from the new
@@ -80,6 +81,7 @@ class SupplierTransactionMatcher
     private array $matchResults = [];
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param array $vendorList Legacy vendor list format
@@ -101,6 +103,7 @@ class SupplierTransactionMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchTransaction
      * Match transaction to suppliers using legacy vendor_list format
      *
      * Converts legacy array format to SupplierMatcher format, performs matching,
@@ -143,6 +146,7 @@ class SupplierTransactionMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMatchDecision
      * Get match decision (auto/manual/no_match) for last matched transaction
      *
      * Returns the auto-match decision from the last matchTransaction call.
@@ -157,6 +161,7 @@ class SupplierTransactionMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMatchResults
      * Get all match candidates for last matched transaction
      *
      * Returns full match results from SupplierMatcher for UI decision-making.
@@ -176,6 +181,7 @@ class SupplierTransactionMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: convertVendorListToCandidates
      * Convert legacy vendor_list array to KeywordMatch candidates
      *
      * Transforms the legacy vendor list format into KeywordMatch objects
@@ -221,6 +227,7 @@ class SupplierTransactionMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: normalizeTransaction
      * Normalize transaction data for SupplierMatcher
      *
      * Converts whatever transaction format is provided into the format
@@ -242,6 +249,7 @@ class SupplierTransactionMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: findVendorIndexBySupplier
      * Find vendor list index by supplier ID
      *
      * Maps supplier ID back to the vendor_list array index for legacy compatibility.
@@ -268,6 +276,7 @@ class SupplierTransactionMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
      * Get configuration reference
      *
      * @return SupplierMatchingConfiguration Current configuration
@@ -279,6 +288,7 @@ class SupplierTransactionMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMatcher
      * Get SupplierMatcher service reference
      *
      * @return SupplierMatcher The underlying matcher service

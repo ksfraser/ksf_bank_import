@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/CustomerMatchingConfiguration.php; coverage: docs/TestCases/ (file rollup)
  * Configuration for Customer Matching Rules
  *
  * Stores weights, thresholds, and tolerances for customer matching.
@@ -74,6 +75,7 @@ class CustomerMatchingConfiguration
     private float $amountTolerance = 2.0;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeights
      * Get all weights
      *
      * @return array<string, int> Weight configuration
@@ -85,6 +87,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setWeights
      * Set all weights
      *
      * @param array<string, int> $weights New weights
@@ -98,6 +101,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeight
      * Get weight for specific rule
      *
      * @param string $rule Rule name
@@ -110,6 +114,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setWeight
      * Set weight for specific rule
      *
      * @param string $rule Rule name
@@ -124,6 +129,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMinimumConfidenceThreshold
      * Get minimum confidence threshold
      *
      * @return int Threshold percentage (0-100)
@@ -135,6 +141,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setMinimumConfidenceThreshold
      * Set minimum confidence threshold
      *
      * @param int $threshold Threshold percentage (0-100)
@@ -148,6 +155,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMaximumAutoMatches
      * Get maximum auto-matches
      *
      * @return int Maximum matches for auto-selection
@@ -159,6 +167,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setMaximumAutoMatches
      * Set maximum auto-matches
      *
      * @param int $max Maximum matches
@@ -172,6 +181,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getAmountTolerance
      * Get amount tolerance percentage
      *
      * @return float Tolerance percentage
@@ -183,6 +193,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setAmountTolerance
      * Set amount tolerance percentage
      *
      * @param float $tolerance Tolerance percentage
@@ -196,6 +207,7 @@ class CustomerMatchingConfiguration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setProdDefaults
      * Set PROD defaults for customer matching
      *
      * Explicitly configures PROD behavior for customer matching.

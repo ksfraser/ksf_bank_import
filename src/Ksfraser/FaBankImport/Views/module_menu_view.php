@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Views;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/module_menu_view.php; coverage: docs/TestCases/ (file rollup)
  * ModuleMenuView - Renders the module navigation menu
  * 
  * @package Views
@@ -13,6 +14,7 @@ namespace Ksfraser\FaBankImport\Views;
 class ModuleMenuView
 {
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderMenu
      * Render the module menu HTML
      * 
      * @return void

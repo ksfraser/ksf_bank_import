@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider;
 use Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ViewFactory.php; coverage: docs/TestCases/ (file rollup)
  * ViewFactory - Factory for creating PartnerType Views
  * 
  * Single Responsibility: Create and configure PartnerType Views with all dependencies
@@ -25,6 +26,7 @@ class ViewFactory
     const PARTNER_TYPE_QUICK_ENTRY = 'quick_entry';
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: createPartnerTypeView
      * Create a PartnerType View with all dependencies
      * 
      * @param string $partnerType The partner type
@@ -60,6 +62,7 @@ class ViewFactory
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: createSupplierView
      * Create Supplier View with dependencies
      * 
      * @param int $lineItemId Line item ID
@@ -79,6 +82,7 @@ class ViewFactory
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: createCustomerView
      * Create Customer View with dependencies
      * 
      * @param int $lineItemId Line item ID
@@ -100,6 +104,7 @@ class ViewFactory
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: createBankTransferView
      * Create Bank Transfer View with dependencies
      * 
      * @param int $lineItemId Line item ID
@@ -121,6 +126,7 @@ class ViewFactory
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: createQuickEntryView
      * Create Quick Entry View with dependencies
      * 
      * @param int $lineItemId Line item ID
@@ -143,6 +149,7 @@ class ViewFactory
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getValidPartnerTypes
      * Get all valid partner type constants
      * 
      * @return array Array of valid partner type strings

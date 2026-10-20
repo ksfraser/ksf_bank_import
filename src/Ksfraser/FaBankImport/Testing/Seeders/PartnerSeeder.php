@@ -8,6 +8,7 @@ use PDO;
 use Ksfraser\FaBankImport\Testing\Seeder;
 
 /**
+ * @BABOK RTM: NFR-016; file: Testing/Seeders/PartnerSeeder.php; coverage: docs/TestCases/ (file rollup)
  * PartnerSeeder - Generate realistic partner test data
  *
  * Creates partner records for testing with realistic names, types,
@@ -30,11 +31,13 @@ final class PartnerSeeder implements Seeder
     private const TABLE = 'bi_partners_data';
     private int $recordCount = 0;
 
+    /** @BABOK NFR-016 — method: __construct */
     public function __construct(private int $customerCount = 15, private int $supplierCount = 10)
     {
         $this->recordCount = $customerCount + $supplierCount + 5; // Plus 5 banks/transfers
     }
 
+    /** @BABOK NFR-016 — method: seed */
     public function seed(PDO $pdo): void
     {
         // Clear existing data to allow re-seeding
@@ -59,11 +62,13 @@ final class PartnerSeeder implements Seeder
         }
     }
 
+    /** @BABOK NFR-016 — method: name */
     public function name(): string
     {
         return 'PartnerSeeder';
     }
 
+    /** @BABOK NFR-016 — method: description */
     public function description(): string
     {
         return sprintf(
@@ -73,12 +78,14 @@ final class PartnerSeeder implements Seeder
         );
     }
 
+    /** @BABOK NFR-016 — method: recordCount */
     public function recordCount(): int
     {
         return $this->recordCount;
     }
 
     /**
+ * @BABOK NFR-016 — method: generateCustomers
      * Generate customer partner data
      *
      * @return array<array<string, mixed>>
@@ -105,6 +112,7 @@ final class PartnerSeeder implements Seeder
     }
 
     /**
+ * @BABOK NFR-016 — method: generateSuppliers
      * Generate supplier partner data
      *
      * @return array<array<string, mixed>>
@@ -132,6 +140,7 @@ final class PartnerSeeder implements Seeder
     }
 
     /**
+ * @BABOK NFR-016 — method: generateBanks
      * Generate bank/transfer partner data
      *
      * @return array<array<string, mixed>>
@@ -173,6 +182,7 @@ final class PartnerSeeder implements Seeder
     }
 
     /**
+ * @BABOK NFR-016 — method: insertPartner
      * Insert a partner into the database
      *
      * @param PDO $pdo Database connection
@@ -195,6 +205,7 @@ final class PartnerSeeder implements Seeder
     }
 
     /**
+ * @BABOK NFR-016 — method: randomRecentDate
      * Generate a random recent timestamp (within last 90 days)
      *
      * @return string|null

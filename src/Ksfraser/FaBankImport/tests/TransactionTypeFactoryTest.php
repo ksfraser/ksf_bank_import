@@ -13,6 +13,7 @@ class TransactionTypeFactoryTest extends TestCase
     private $factory;
     private $sampleData;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->factory = new TransactionTypeFactory();
@@ -24,6 +25,7 @@ class TransactionTypeFactoryTest extends TestCase
         ];
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testCreatesCreditTransaction */
     public function testCreatesCreditTransaction()
     {
         $transaction = $this->factory->createTransactionType('C', $this->sampleData);
@@ -31,6 +33,7 @@ class TransactionTypeFactoryTest extends TestCase
         $this->assertEquals('C', $transaction->getTransactionType());
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testCreatesDebitTransaction */
     public function testCreatesDebitTransaction()
     {
         $transaction = $this->factory->createTransactionType('D', $this->sampleData);
@@ -38,6 +41,7 @@ class TransactionTypeFactoryTest extends TestCase
         $this->assertEquals('D', $transaction->getTransactionType());
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testCreatesBankTransferTransaction */
     public function testCreatesBankTransferTransaction()
     {
         $transaction = $this->factory->createTransactionType('B', $this->sampleData);
@@ -45,6 +49,7 @@ class TransactionTypeFactoryTest extends TestCase
         $this->assertEquals('B', $transaction->getTransactionType());
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testThrowsExceptionForInvalidType */
     public function testThrowsExceptionForInvalidType()
     {
         $this->expectException(\InvalidArgumentException::class);

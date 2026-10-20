@@ -13,6 +13,7 @@ use Ksfraser\FaBankImport\Contracts\PartnerRepository;
 use PDO;
 
 /**
+ * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Factory/PartnerServiceFactory.php; coverage: docs/TestCases/ (file rollup)
  * PartnerServiceFactory
  * 
  * Centralized factory for creating partner-related services.
@@ -44,6 +45,7 @@ final class PartnerServiceFactory
     private static ?ScoringEngine $scoringEngine = null;
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: createPartnerRepository
      * Create a PartnerRepository instance
      * 
      * @param PDO $pdo PDO connection to use
@@ -55,6 +57,7 @@ final class PartnerServiceFactory
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: createKeywordExtractor
      * Create a KeywordExtractor instance
      * 
      * Returns singleton to avoid re-initializing phrase/stopword lists.
@@ -71,6 +74,7 @@ final class PartnerServiceFactory
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: createScoringEngine
      * Create a ScoringEngine instance
      * 
      * Returns singleton since it's stateless.
@@ -87,6 +91,7 @@ final class PartnerServiceFactory
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: createPartnerSearchService
      * Create a PartnerSearchService instance
      * 
      * Orchestrates:
@@ -107,6 +112,7 @@ final class PartnerServiceFactory
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: createPartnerDataService
      * Create a PartnerDataService instance
      * 
      * Wraps:
@@ -123,6 +129,7 @@ final class PartnerServiceFactory
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: reset
      * Reset singleton caches (useful for testing)
      */
     public static function reset(): void

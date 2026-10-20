@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata;
 
 /**
+ * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/StatementTextParser.php; coverage: docs/TestCases/ (file rollup)
  * Orchestrates the two-step PDF-to-StatementOcr pipeline:
  *
  *   Step 1 – Text extraction
@@ -54,6 +55,7 @@ final class StatementTextParser
     private $extractionModel;
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: __construct
      * @param PdfTextExtractorInterface $pdfExtractor
      * @param OllamaClientInterface     $ollama
      * @param string                    $ocrModel        Ollama model for OCR fallback (e.g. "glm-ocr").
@@ -72,6 +74,7 @@ final class StatementTextParser
     }
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: parse
      * Parse a PDF file into a StatementOcr aggregate.
      *
      * @param string $pdfPath Absolute path to the PDF file.
@@ -95,6 +98,7 @@ final class StatementTextParser
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: resolveText
      * Try pdfparser first; fall back to Ollama glm-ocr if needed.
      *
      * @param string $pdfPath
@@ -117,6 +121,7 @@ final class StatementTextParser
     }
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: runOcrFallback
      * Send a prompt to glm-ocr to perform OCR.
      * In a real deployment the caller should convert the PDF page to a base64
      * image and send it in the options['images'] array (Ollama LLaVA-style).
@@ -152,6 +157,7 @@ PROMPT;
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: extractStructured
      * Send extracted text to gemma4 for structured JSON extraction.
      *
      * @param string $rawText
@@ -184,6 +190,7 @@ PROMPT;
     }
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: buildExtractionPrompt
      * Build the structured extraction prompt with a JSON schema spec embedded.
      *
      * @param string $rawText
@@ -232,6 +239,7 @@ PROMPT;
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-007 / ARCH-010 — method: buildStatementOcr
      * Validate the LLM extraction result and construct the StatementOcr aggregate.
      *
      * @param array  $extraction Decoded LLM JSON.

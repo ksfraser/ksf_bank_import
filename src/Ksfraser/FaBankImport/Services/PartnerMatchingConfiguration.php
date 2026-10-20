@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerMatchingConfiguration.php; coverage: docs/TestCases/ (file rollup)
  * PartnerMatchingConfiguration
  * 
  * Provides configuration values for partner matching operations.

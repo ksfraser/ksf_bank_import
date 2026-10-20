@@ -11,6 +11,7 @@ class ProcessStatementsControllerTest extends TestCase
     private $transactionModelMock;
     private $viewMock;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->transactionModelMock = $this->createMock(SquareTransaction::class);
@@ -21,6 +22,7 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->view = $this->viewMock;
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testIndexRendersTransactionList */
     public function testIndexRendersTransactionList()
     {
         $transactions = [
@@ -36,6 +38,7 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->index();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testUnsetTransactionCallsModelMethod */
     public function testUnsetTransactionCallsModelMethod()
     {
         $_POST['UnsetTrans'] = [1, 2];
@@ -47,6 +50,7 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->unsetTransaction();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testAddCustomerCallsModelMethod */
     public function testAddCustomerCallsModelMethod()
     {
         $_POST['AddCustomer'] = [1, 2];
@@ -58,6 +62,7 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->addCustomer();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testAddVendorCallsModelMethod */
     public function testAddVendorCallsModelMethod()
     {
         $_POST['AddVendor'] = [1, 2];
@@ -69,6 +74,7 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->addVendor();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testToggleTransactionCallsModelMethod */
     public function testToggleTransactionCallsModelMethod()
     {
         $_POST['ToggleTransaction'] = [1, 2];
@@ -80,6 +86,7 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->toggleTransaction();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testProcessTransactionWithValidPartnerType */
     public function testProcessTransactionWithValidPartnerType()
     {
         $_POST['ProcessTransaction'] = [1 => 'Process'];
@@ -92,6 +99,7 @@ class ProcessStatementsControllerTest extends TestCase
         $this->controller->processTransaction();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testProcessTransactionWithInvalidPartnerType */
     public function testProcessTransactionWithInvalidPartnerType()
     {
         $_POST['ProcessTransaction'] = [1 => 'Process'];

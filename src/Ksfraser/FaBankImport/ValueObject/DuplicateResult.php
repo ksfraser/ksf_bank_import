@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\ValueObject;
 use Ksfraser\FaBankImport\Entity\UploadedFile;
 
 /**
+ * @BABOK RTM: FR-008 / DR-001; file: ValueObject/DuplicateResult.php; coverage: docs/TestCases/ (file rollup)
  * Duplicate Detection Result Value Object
  * 
  * Immutable result from duplicate detection
@@ -21,6 +22,7 @@ class DuplicateResult
     private string $action; // 'allow', 'warn', 'block'
     
     /**
+ * @BABOK FR-008 / DR-001 — method: __construct
      * Constructor
      * 
      * @param bool $isDuplicate
@@ -35,6 +37,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: notDuplicate
      * Create result for no duplicate found
      * 
      * @return self
@@ -45,6 +48,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: allowDuplicate
      * Create result for duplicate with allow action
      * 
      * @param UploadedFile $existingFile
@@ -56,6 +60,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: warnDuplicate
      * Create result for duplicate with warn action
      * 
      * @param UploadedFile $existingFile
@@ -67,6 +72,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: blockDuplicate
      * Create result for duplicate with block action
      * 
      * @param UploadedFile $existingFile
@@ -78,6 +84,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: isDuplicate
      * Check if duplicate was found
      * 
      * @return bool
@@ -88,6 +95,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getExistingFile
      * Get existing file (if duplicate)
      * 
      * @return UploadedFile|null
@@ -98,6 +106,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getAction
      * Get action to take
      * 
      * @return string 'allow', 'warn', or 'block'
@@ -108,6 +117,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: shouldBlock
      * Check if should block upload
      * 
      * @return bool
@@ -118,6 +128,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: shouldWarn
      * Check if should warn user
      * 
      * @return bool
@@ -128,6 +139,7 @@ class DuplicateResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: shouldAllow
      * Check if should silently allow (reuse existing or not duplicate)
      * 
      * @return bool

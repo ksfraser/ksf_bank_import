@@ -38,6 +38,7 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 use Ksfraser\FaBankImport\Services\ConfidenceEnhancer;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierMatcher.php; coverage: docs/TestCases/ (file rollup)
  * Supplier Matching Service
  *
  * Orchestrates matching transactions to suppliers using configurable,
@@ -70,6 +71,7 @@ class SupplierMatcher
     private ConfidenceEnhancer $confidenceEnhancer;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param SupplierMatchingConfiguration $configuration Matching configuration
@@ -86,6 +88,7 @@ class SupplierMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchSuppliers
      * Match a transaction to suppliers from a supplier list
      *
      * Scores the transaction against all suppliers, applies confidence
@@ -144,6 +147,7 @@ class SupplierMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: determineAutoMatchDecision
      * Determine auto-match decision based on PROD behavior
      *
      * PROD: 0-2 matches above threshold = auto. 3+ = manual selection required.
@@ -171,6 +175,7 @@ class SupplierMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: normalizeScore
      * Normalize raw score to 0-100 confidence percentage
      *
      * Clamps score to reasonable range and converts to percentage.
@@ -189,6 +194,7 @@ class SupplierMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: applyConfidenceAdjustment
      * Apply confidence adjustments to raw score
      *
      * Can incorporate context-aware enhancements or boosts.
@@ -206,6 +212,7 @@ class SupplierMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
      * Get configuration reference
      *
      * @return SupplierMatchingConfiguration Current configuration
@@ -217,6 +224,7 @@ class SupplierMatcher
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfidenceEnhancer
      * Get confidence enhancer reference
      *
      * @return ConfidenceEnhancer Confidence enhancer

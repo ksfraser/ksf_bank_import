@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**
+ * @BABOK RTM: FR-008 / DR-001; file: ValueObject/UploadResult.php; coverage: docs/TestCases/ (file rollup)
  * Upload Result Value Object
  * 
  * Immutable result from file upload operation
@@ -34,6 +35,7 @@ class UploadResult
     private bool $allowForce;
     
     /**
+ * @BABOK FR-008 / DR-001 — method: __construct
      * Private constructor - use static factory methods
      * 
      * @param bool $success
@@ -60,6 +62,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: success
      * Create success result
      * 
      * @param int $fileId File ID
@@ -73,6 +76,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: error
      * Create error result
      * 
      * @param string $message Error message
@@ -84,6 +88,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: duplicate
      * Create duplicate result (warn or block)
      * 
      * @param string $message Duplicate message
@@ -96,6 +101,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: reused
      * Create reused result (duplicate allowed, existing file reused)
      * 
      * @param int $fileId Existing file ID
@@ -108,6 +114,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: isSuccess
      * Check if upload was successful
      * 
      * @return bool
@@ -118,6 +125,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getMessage
      * Get result message
      * 
      * @return string
@@ -128,6 +136,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getFileId
      * Get file ID (if successful)
      * 
      * @return int|null
@@ -138,6 +147,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getFilename
      * Get unique filename (if successful)
      * 
      * @return string|null
@@ -148,6 +158,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: getType
      * Get result type
      * 
      * @return string success, error, duplicate, or reused
@@ -158,6 +169,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: isDuplicate
      * Check if this is a duplicate result
      * 
      * @return bool
@@ -168,6 +180,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: allowForce
      * Check if force upload is allowed
      * 
      * @return bool
@@ -178,6 +191,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: isReused
      * Check if file was reused (duplicate with allow strategy)
      * 
      * @return bool
@@ -188,6 +202,7 @@ class UploadResult
     }
     
     /**
+ * @BABOK FR-008 / DR-001 — method: toArray
      * Convert to array for JSON/API responses
      * 
      * @return array

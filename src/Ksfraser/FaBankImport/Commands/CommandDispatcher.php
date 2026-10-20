@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/CommandDispatcher.php; coverage: docs/TestCases/ (file rollup)
  * Command Dispatcher
  *
  * Front Controller implementation that routes POST actions to appropriate Command classes.
@@ -38,6 +39,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     private $container;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param object $container DI container that implements make() method
@@ -49,6 +51,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: registerDefaultCommands
      * Register default commands
      *
      * Auto-registers the core POST actions used in the application.
@@ -64,6 +67,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: register
      * {@inheritDoc}
      */
     public function register(string $actionName, string $commandClass): void
@@ -83,6 +87,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: dispatch
      * {@inheritDoc}
      */
     public function dispatch(string $actionName, array $postData): TransactionResult
@@ -126,6 +131,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: hasCommand
      * {@inheritDoc}
      */
     public function hasCommand(string $actionName): bool
@@ -134,6 +140,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getRegisteredActions
      * {@inheritDoc}
      */
     public function getRegisteredActions(): array

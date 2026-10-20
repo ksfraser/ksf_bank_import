@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 
 /**
+ * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/OllamaClientInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for calling an Ollama language model.
  *
  * Abstracts the HTTP transport so the parser can be unit-tested without
@@ -18,6 +19,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrExcept
 interface OllamaClientInterface
 {
     /**
+ * @BABOK FR-007 / ARCH-010 — method: generate
      * Submit a prompt to the specified Ollama model and return the
      * full response payload as an associative array.
      *

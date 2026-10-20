@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionMatchResult.php; coverage: docs/TestCases/ (file rollup)
  * Transaction Match Result
  *
  * Represents a single matched partner with confidence score and type.
@@ -61,6 +62,7 @@ final class TransactionMatchResult
     private string $partnerType;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param int    $partnerId    The partner ID
@@ -81,6 +83,7 @@ final class TransactionMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId
      * Get partner ID
      *
      * @return int
@@ -91,6 +94,7 @@ final class TransactionMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerName
      * Get partner name
      *
      * @return string
@@ -101,6 +105,7 @@ final class TransactionMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getScore
      * Get confidence score (0-100)
      *
      * @return float
@@ -111,6 +116,7 @@ final class TransactionMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerType
      * Get partner type
      *
      * @return string One of: 'supplier', 'customer', 'bank_transfer'
@@ -121,6 +127,7 @@ final class TransactionMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: meetsThreshold
      * Check if match meets minimum confidence threshold
      *
      * @param int $threshold Minimum score threshold
@@ -132,6 +139,7 @@ final class TransactionMatchResult
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: toArray
      * Convert to array for display/serialization
      *
      * @return array

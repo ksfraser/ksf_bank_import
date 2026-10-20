@@ -22,6 +22,7 @@ namespace Ksfraser\FaBankImport\Services;
 /** @BABOK See docs/BusinessRequirements/BR-001-AutoMatch.md / docs/FunctionalRequirements/FR-001-AutoPairDetect.md / docs/Architecture/ARCH-001-ServiceDesign.md - Covered in RTM */
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/ReferenceNumberService.php; coverage: docs/TestCases/ (file rollup)
  * Reference Number Service
  * 
  * Generates guaranteed unique reference numbers for FrontAccounting transactions.

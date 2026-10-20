@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrExcept
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Repository\StatementOcrRepositoryInterface;
 
 /**
+ * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Persistence/PdoStatementOcrRepository.php; coverage: docs/TestCases/ (file rollup)
  * PDO-backed implementation of StatementOcrRepositoryInterface.
  *
  * Table: bi_statement_ocr
@@ -26,6 +27,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     private $pdo;
 
     /**
+ * @BABOK FR-008 / ARCH-010 — method: __construct
      * @param PDO $pdo
      */
     public function __construct(PDO $pdo)
@@ -34,6 +36,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-010 — method: save
      * {@inheritdoc}
      */
     public function save(StatementOcr $entity): int
@@ -49,6 +52,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-010 — method: findById
      * {@inheritdoc}
      */
     public function findById(int $id): ?StatementOcr
@@ -67,6 +71,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-010 — method: findByAccountIdentifier
      * {@inheritdoc}
      */
     public function findByAccountIdentifier(string $accountIdentifier): array
@@ -87,6 +92,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     // -------------------------------------------------------------------------
 
     /**
+ * @BABOK FR-008 / ARCH-010 — method: insert
      * @param array $data
      * @return int New row ID.
      */
@@ -124,6 +130,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-010 — method: update
      * @param int   $id
      * @param array $data
      */
@@ -162,6 +169,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
+ * @BABOK FR-008 / ARCH-010 — method: hydrate
      * Reconstitute a StatementOcr from a raw DB row.
      *
      * @param array $row

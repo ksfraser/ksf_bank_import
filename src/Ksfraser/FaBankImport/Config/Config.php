@@ -2,11 +2,15 @@
 
 namespace Ksfraser\FaBankImport\Config;
 
+/**
+ * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/Config.php; coverage: docs/TestCases/ (file rollup)
+ */
 class Config
 {
     private $settings;
     private static $instance = null;
 
+    /** @BABOK FR-002 / FR-051 / ARCH-001 — method: __construct */
     private function __construct()
     {
         $this->settings = [
@@ -32,6 +36,7 @@ class Config
         ];
     }
 
+    /** @BABOK FR-002 / FR-051 / ARCH-001 — method: getInstance */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -40,6 +45,7 @@ class Config
         return self::$instance;
     }
 
+    /** @BABOK FR-002 / FR-051 / ARCH-001 — method: get */
     public function get(string $key, $default = null)
     {
         $parts = explode('.', $key);
@@ -55,6 +61,7 @@ class Config
         return $value;
     }
 
+    /** @BABOK FR-002 / FR-051 / ARCH-001 — method: set */
     public function set(string $key, $value): void
     {
         $parts = explode('.', $key);

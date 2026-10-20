@@ -8,15 +8,20 @@ namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;
 
+/**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionLogger.php; coverage: docs/TestCases/ (file rollup)
+ */
 class TransactionLogger
 {
     private $logFile;
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
     public function __construct(string $logFile = null)
     {
         $this->logFile = $logFile ?? __DIR__ . '/../../logs/transactions.log';
     }
 
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: logTransactionProcessed */
     public function logTransactionProcessed(TransactionProcessedEvent $event): void
     {
         $message = sprintf(

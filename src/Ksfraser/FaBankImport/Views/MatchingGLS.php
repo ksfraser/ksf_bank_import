@@ -8,6 +8,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/MatchingGLS.php; coverage: docs/TestCases/ (file rollup)
  * MatchingGLS - Display matching general ledger transactions
  * 
  * @package Views
@@ -21,6 +22,7 @@ class MatchingGLS implements HtmlElementInterface
     protected $row;
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Create matching GLs display
      * 
      * @param object $bi_lineitem The bank import line item
@@ -33,6 +35,7 @@ class MatchingGLS implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
      * Get HTML as string
      * 
      * @return string The HTML
@@ -43,6 +46,7 @@ class MatchingGLS implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
      * Output HTML directly to screen
      * 
      * @return void
@@ -62,6 +66,7 @@ class MatchingGLS implements HtmlElementInterface
 class MatchingGLFactory implements HtmlElementInterface
 {
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Create matching GL factory
      * 
      * @param object $bi_lineitem The bank import line item
@@ -71,6 +76,7 @@ class MatchingGLFactory implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
      * Get HTML as string
      * 
      * @return string Empty string for now
@@ -81,6 +87,7 @@ class MatchingGLFactory implements HtmlElementInterface
     }
 
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
      * Output HTML directly to screen
      * 
      * @return void

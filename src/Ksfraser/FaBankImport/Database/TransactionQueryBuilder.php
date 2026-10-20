@@ -28,6 +28,9 @@ namespace Ksfraser\FaBankImport\Database;
  * - Open/Closed: Can extend with new query types without modifying existing
  * - Dependency Inversion: Depends on abstractions (parameters) not concrete implementations
  */
+/**
+ * @BABOK RTM: FR-008 / DR-003; file: Database/TransactionQueryBuilder.php; coverage: docs/TestCases/ (file rollup)
+ */
 class TransactionQueryBuilder
 {
     /**
@@ -41,6 +44,7 @@ class TransactionQueryBuilder
     private string $statementsTable;
     
     /**
+ * @BABOK FR-008 / DR-003 — method: __construct
      * Constructor
      * 
      * Note: In FrontAccounting, each company has its own table prefix defined by TB_PREF constant.
@@ -62,6 +66,7 @@ class TransactionQueryBuilder
     }
     
     /**
+ * @BABOK FR-008 / DR-003 — method: buildGetTransactionsQuery
      * Build SELECT query for transactions with filters
      * 
      * Builds a parameterized query for fetching transactions based on various filters.
@@ -163,6 +168,7 @@ class TransactionQueryBuilder
     }
     
     /**
+ * @BABOK FR-008 / DR-003 — method: buildGetTransactionQuery
      * Build SELECT query for single transaction by ID
      * 
      * @param int $transactionId The transaction ID
@@ -185,6 +191,7 @@ class TransactionQueryBuilder
     }
     
     /**
+ * @BABOK FR-008 / DR-003 — method: buildResetTransactionsQuery
      * Build UPDATE query to reset transaction status
      * 
      * Used when voiding FA transactions - resets bi_transactions status.
@@ -218,6 +225,7 @@ class TransactionQueryBuilder
     }
     
     /**
+ * @BABOK FR-008 / DR-003 — method: buildUpdateTransactionsQuery
      * Build UPDATE query to update transaction with FA GL info
      * 
      * Links bi_transactions to FA general ledger transactions.
@@ -279,6 +287,7 @@ class TransactionQueryBuilder
     }
     
     /**
+ * @BABOK FR-008 / DR-003 — method: buildPrevoidQuery
      * Build UPDATE query for prevoid hook
      * 
      * Resets transactions when FA GL entry is being voided.
@@ -311,6 +320,7 @@ class TransactionQueryBuilder
     }
     
     /**
+ * @BABOK FR-008 / DR-003 — method: buildNormalPairingQuery
      * Build SELECT query for normal pairing patterns
      * 
      * Gets aggregated transaction patterns for counterparty matching.
@@ -342,6 +352,7 @@ class TransactionQueryBuilder
     }
     
     /**
+ * @BABOK FR-008 / DR-003 — method: getTableName
      * Get table name
      * 
      * @return string
@@ -354,6 +365,7 @@ class TransactionQueryBuilder
     }
     
     /**
+ * @BABOK FR-008 / DR-003 — method: getStatementsTableName
      * Get statements table name
      * 
      * @return string

@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Views\DataProviders;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/PartnerDataProviderInterface.php; coverage: docs/TestCases/ (file rollup)
  * Partner Data Provider Interface
  * 
  * Contract for classes that provide partner selection data.
@@ -17,6 +18,7 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
 interface PartnerDataProviderInterface
 {
     /**
+ * @BABOK FR-009 / IR-001 — method: getPartners
      * Get all partners
      * 
      * @return array<int, array> Associative array of partner data indexed by ID
@@ -24,6 +26,7 @@ interface PartnerDataProviderInterface
     public function getPartners(): array;
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getPartnerLabel
      * Get label for a specific partner
      * 
      * @param int $partnerId The partner ID
@@ -32,6 +35,7 @@ interface PartnerDataProviderInterface
     public function getPartnerLabel(int $partnerId): ?string;
     
     /**
+ * @BABOK FR-009 / IR-001 — method: hasPartner
      * Check if partner exists
      * 
      * @param int $partnerId The partner ID to check
@@ -40,6 +44,7 @@ interface PartnerDataProviderInterface
     public function hasPartner(int $partnerId): bool;
     
     /**
+ * @BABOK FR-009 / IR-001 — method: getCount
      * Get count of partners
      * 
      * @return int Number of partners available

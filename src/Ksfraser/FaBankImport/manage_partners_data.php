@@ -2,6 +2,7 @@
 /**
  * @author Kevin Fraser / ChatGPT
  * @since 20250409
+ * @BABOK RTM: BR-001 / BR-011 / ARCH-001; file: manage_partners_data.php; coverage: docs/TestCases/ (file rollup)
  */
 $path_to_root = "../..";
 include_once($path_to_root . "/includes/session.inc");

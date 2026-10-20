@@ -3,6 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 class TransactionTableTest extends TestCase
 {
+    /** @BABOK NFR-016 / FR-018 — method: testConstruct */
     public function testConstruct()
     {
         // Create a mock for the db_fetch function

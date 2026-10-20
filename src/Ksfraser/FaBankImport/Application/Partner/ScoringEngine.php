@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Application\Partner;
 
 /**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/ScoringEngine.php; coverage: docs/TestCases/ (file rollup)
  * Scoring Engine Service
  * 
  * Implements 6-factor partner matching score calculation:
@@ -31,6 +32,7 @@ class ScoringEngine
     private const RECENCY_HALF_LIFE_DAYS = 365;
     
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateSubstringScore
      * Calculate substring match score
      * 
      * Returns 100 if pattern appears (case-insensitive) anywhere in text, 0 otherwise
@@ -48,6 +50,7 @@ class ScoringEngine
     }
     
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateKeywordScore
      * Calculate keyword match score
      * 
      * Scores 10 points for each keyword overlap between transaction and pattern
@@ -63,6 +66,7 @@ class ScoringEngine
     }
     
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateAccountScore
      * Calculate account match score
      * 
      * Returns 80 if transaction account appears in pattern's known accounts
@@ -77,6 +81,7 @@ class ScoringEngine
     }
     
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateOccurrenceMultiplier
      * Calculate occurrence multiplier
      * 
      * Diminishing returns: first match=1.0, heavily-matched=0.5+
@@ -98,6 +103,7 @@ class ScoringEngine
     }
     
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateRecencyMultiplier
      * Calculate recency multiplier
      * 
      * Exponential decay: recent matches score higher, old matches score lower
@@ -125,6 +131,7 @@ class ScoringEngine
     }
     
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateClusteringBonus
      * Calculate clustering bonus
      * 
      * Accounts that appear in multiple transactions (clusters) should have
@@ -149,6 +156,7 @@ class ScoringEngine
     }
     
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateCombinedScore
      * Calculate combined score from all factors
      * 
      * Applies scoring formula:

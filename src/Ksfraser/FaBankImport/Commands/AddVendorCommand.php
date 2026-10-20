@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/AddVendorCommand.php; coverage: docs/TestCases/ (file rollup)
  * Add Vendor Command
  *
  * Creates new vendor (supplier) records from transaction counterparty information.
@@ -29,6 +30,7 @@ class AddVendorCommand implements CommandInterface
     private $transactionRepository;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param array $postData POST data with AddVendor key
@@ -46,6 +48,7 @@ class AddVendorCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: execute
      * {@inheritDoc}
      */
     public function execute(): TransactionResult
@@ -111,6 +114,7 @@ class AddVendorCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getName
      * {@inheritDoc}
      */
     public function getName(): string

@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/UnsetTransactionCommand.php; coverage: docs/TestCases/ (file rollup)
  * Unset Transaction Command
  *
  * Disassociates transactions from their counterparties (customers/vendors).
@@ -35,6 +36,7 @@ class UnsetTransactionCommand implements CommandInterface
     private $repository;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param array $postData POST data with UnsetTrans key
@@ -47,6 +49,7 @@ class UnsetTransactionCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: execute
      * {@inheritDoc}
      */
     public function execute(): TransactionResult
@@ -92,6 +95,7 @@ class UnsetTransactionCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getName
      * {@inheritDoc}
      */
     public function getName(): string

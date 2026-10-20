@@ -4,6 +4,9 @@ require_once( '../ksf_modules_common/class.origin.php' );
 require_once( 'class.bi_transaction.php' );
 //require_once( 'class.bi_transactions.php' );
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.bank_import_controller.php; coverage: docs/TestCases/ (file rollup)
+ */
 class bank_import_controller extends origin
 {
 	protected $trz;	//!< transaction
@@ -18,6 +21,7 @@ class bank_import_controller extends origin
 	protected $tid;
 	protected $cCart;
 
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
 	function __construct()
 	{
 		//display_notification( __FILE__ . "::" . __LINE__ );
@@ -65,6 +69,7 @@ class bank_import_controller extends origin
 		//$this->processTransactions();
 	}
 	/**//***********************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: set
 	*
 	* @param string field name to set
 	* @param string value to set
@@ -86,6 +91,7 @@ class bank_import_controller extends origin
 		}
 	}
 	/**//***********************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: extractPost
 	*
 	* @returns bool was there an error extracting from POST
 	*****************************************************/
@@ -112,6 +118,7 @@ class bank_import_controller extends origin
 	}
 	
 	/**//***********************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getTransaction
 	* Get transaction details.  Set ->set( "trz
 	*
 	* @param int transaction ID from within _POST
@@ -140,6 +147,7 @@ class bank_import_controller extends origin
 		return $this->trz;
 	}
 	/**//***********************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: unsetTrans
 	* Unset any transactions needing it
 	*
 	****************************************************/	
@@ -159,6 +167,7 @@ class bank_import_controller extends origin
 		}
 	}
 	/**//***********************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: toggleDebitCredit
 	* Toggle Debit/Credit for a transaction
 	*
 	****************************************************/
@@ -200,6 +209,7 @@ class bank_import_controller extends origin
 		display_notification( __FILE__ . "::" . __LINE__ . " Exit" );
 	}
 	/**//***********************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: addCustomer
 	* Create any new customer from a transaction
 	*
 	****************************************************/	
@@ -233,6 +243,7 @@ class bank_import_controller extends origin
 
 	}
 	/**//***********************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: addVendor
 	* Create a new vendor from a transaction
 	*
 	****************************************************/	
@@ -258,6 +269,7 @@ class bank_import_controller extends origin
 
 	}
 	/**//*********************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: sumCharges
 	* Sum up charges for the transaction
 	*
 	* @param int Transaction ID from _POST
@@ -283,6 +295,7 @@ class bank_import_controller extends origin
 		return $charge;
 	}
 	/**//**********************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getNewRef
 	* Get next New Ref
 	*
 	***************************************************************/
@@ -300,6 +313,7 @@ class bank_import_controller extends origin
 		return $reference;
 	}
 /**//*************************************************************************
+* @BABOK BR-002 / FR-008 / FR-018 — method: update_transactions
 * Update bi_trans with the related info to FA gl transactions
 *
 *       Hooks pre_voidDB does similar
@@ -321,6 +335,7 @@ function update_transactions($tid, $cids, $status, $trans_no, $transType, $match
         return $bit->update_transactions($tid, $cids, $status, $trans_no, $transType, $matched, $created, $g_partner, $g_option);
 }
 /**//*********************************************************************************
+* @BABOK BR-002 / FR-008 / FR-018 — method: update_partner_data
 * Update partner data
 *
 * @param int
@@ -333,6 +348,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 }
 
 	/**//**********************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: generateCart
 	* Create the CART class as needed by some routines
 	*
 	***************************************************************/	
@@ -352,6 +368,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 	}
 
 	/**//**********************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: processSupplierTransaction
 	* Process Supplier Transaction
 	*
 	**************************************************************/
@@ -519,6 +536,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		}
 	}
 	/**//********
+ * @BABOK BR-002 / FR-008 / FR-018 — method: processCustomerPayment
 	*
 	*************/
 	function processCustomerPayment()
@@ -593,6 +611,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		}
 	}
 	/**//**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: retrieveOurAccount
 	* search for bank account info
 	*
 	* @returns bool whether the info was in error
@@ -609,11 +628,13 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		}
 		return false;
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: ProcessTransaction */
 	function ProcessTransaction()
 	{
 		return $this->processTransactions();
 	}
 	/**//**********************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: processTransactions
 	* Process transactions
 	*
 	**************************************************************/

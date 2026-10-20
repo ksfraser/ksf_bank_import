@@ -22,6 +22,9 @@ include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 page(_($help_context = "Import Bank Statement"));
 
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: import_statements-old.php; coverage: docs/TestCases/ (file rollup)
+ */
 function importStatement($smt) {
 	//search for smtId
 	$sql = "SELECT id FROM ".TB_PREF."bi_statements WHERE bank=".db_escape($smt->bank)." AND statementId=".db_escape($smt->statementId);
@@ -71,6 +74,7 @@ function importStatement($smt) {
 }
 
 
+/** @BABOK BR-002 / FR-008 / FR-018 — method: doImport */
 function doImport() {
     $_parsers = getParsers();
     $parsers = array();

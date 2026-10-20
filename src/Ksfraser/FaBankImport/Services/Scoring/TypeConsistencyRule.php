@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/TypeConsistencyRule.php; coverage: docs/TestCases/ (file rollup)
  * Type Consistency Scoring Rule
  *
  * If transaction type aligns with partner type, increase confidence.
@@ -36,6 +37,7 @@ final class TypeConsistencyRule implements ScoringRule
     private const SUPPLIER_TYPES = ['CHECK', 'BANK_TRANSFER', 'WIRE', 'ACH'];
     private const CUSTOMER_TYPES = ['INVOICE', 'DEPOSIT', 'CHECK_DEPOSIT'];
 
+    /** @BABOK BR-011 / ARCH-011 — method: calculateScore */
     public function calculateScore(array $transaction, SupplierCandidate $match): float
     {
         if (!isset($transaction['type'])) {
@@ -62,16 +64,19 @@ final class TypeConsistencyRule implements ScoringRule
         return 0.0;
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getName */
     public function getName(): string
     {
         return 'TypeConsistencyRule';
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getMaxBoost */
     public function getMaxBoost(): float
     {
         return 3.0;
     }
 
+    /** @BABOK BR-011 / ARCH-011 — method: getMinReduction */
     public function getMinReduction(): float
     {
         return 0.0;

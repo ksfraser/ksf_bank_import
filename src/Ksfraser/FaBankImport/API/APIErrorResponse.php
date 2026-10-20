@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK RTM: FR-001 / ARCH-001; file: API/APIErrorResponse.php; coverage: docs/TestCases/ (file rollup)
  * APIErrorResponse
  *
  * Response object for API errors.
@@ -23,6 +24,7 @@ namespace Ksfraser\FaBankImport\API;
 class APIErrorResponse
 {
     /**
+ * @BABOK FR-001 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param int $statusCode HTTP status code
@@ -39,6 +41,7 @@ class APIErrorResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getStatusCode
      * Get status code
      */
     public function getStatusCode(): int
@@ -47,6 +50,7 @@ class APIErrorResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getMessage
      * Get message
      */
     public function getMessage(): string
@@ -55,6 +59,7 @@ class APIErrorResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getCode
      * Get error code
      */
     public function getCode(): ?string
@@ -63,6 +68,7 @@ class APIErrorResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getDetails
      * Get error details
      */
     public function getDetails(): ?array
@@ -71,6 +77,7 @@ class APIErrorResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: toArray
      * Convert to array for JSON serialization
      */
     public function toArray(): array

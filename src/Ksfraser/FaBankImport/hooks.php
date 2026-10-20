@@ -2,10 +2,14 @@
 
 define( 'MENU_IMPORT', 'menu_import' );
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: hooks.php; coverage: docs/TestCases/ (file rollup)
+ */
 class hooks_bank_import extends hooks {
     var $module_name = 'bank_import'; 
 
     /*
+ * @BABOK NFR-016 / FR-018 — method: install_options
     * Install additonal menu options provided by module
     */
 
@@ -39,6 +43,7 @@ class hooks_bank_import extends hooks {
     }
 
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: activate_extension */
     function activate_extension($company, $check_only=true) {
 	$updates = array( 'update.sql' => array($this->module_name) );
 	return $this->update_databases($company, $updates, $check_only);
@@ -47,6 +52,7 @@ class hooks_bank_import extends hooks {
 
     //this is required to cancel bank transactions when a voiding operation occurs
 	//@todo refactor to use my eventloop functions
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: db_prevoid */
     function db_prevoid($trans_type, $trans_no) {
 	    //SET status=0
 	$sql = "

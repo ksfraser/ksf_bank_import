@@ -1,4 +1,7 @@
 <?php
+/**
+ * @BABOK RTM: IR-001 / FR-009; file: view_statements.php; coverage: docs/TestCases/ (file rollup)
+ */
 /**********************************************************************
     Copyright (C) FrontAccounting, LLC.
 	Released under the terms of the GNU General Public License, GPL, 

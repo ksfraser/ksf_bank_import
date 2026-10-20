@@ -41,9 +41,13 @@ use SplFileInfo;
  * }
  * ```
  */
+/**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionMatcherIntegration.php; coverage: docs/TestCases/ (file rollup)
+ */
 final class TransactionMatcherIntegration
 {
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchTransaction
      * Match a transaction against all partner types (suppliers, customers, bank accounts)
      *
      * Loads all available partners from FA database and scores the transaction
@@ -96,6 +100,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createMatcher
      * Create matcher instance based on type
      *
      * @param string $matcherType 'supplier', 'customer', or 'unified'
@@ -115,6 +120,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllSuppliersAsArrays
      * Load all active suppliers from FA database as arrays (format expected by matcher)
      *
      * @return array Array of supplier arrays with:
@@ -148,6 +154,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllCustomersAsArrays
      * Load all active customers from FA database as arrays (format expected by matcher)
      *
      * @return array Array of customer arrays with:
@@ -181,6 +188,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllBankAccountsAsArrays
      * Load all bank accounts from FA database as arrays (format expected by matcher)
      *
      * @return array Array of bank account arrays with:
@@ -214,6 +222,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllSuppliers
      * Load all active suppliers from FA database
      *
      * @return array Array of supplier objects with:
@@ -243,6 +252,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllCustomers
      * Load all active customers from FA database
      *
      * @return array Array of customer objects with:
@@ -272,6 +282,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllBankAccounts
      * Load all bank accounts from FA database
      *
      * @return array Array of bank account objects with:
@@ -301,6 +312,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createSupplierCandidate
      * Create a supplier candidate from database row
      *
      * @param array $row Database row with supplier data
@@ -320,6 +332,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createCustomerCandidate
      * Create a customer candidate from database row
      *
      * Implementation uses duck typing - accepts any object with required methods.
@@ -340,22 +353,27 @@ final class TransactionMatcherIntegration
         return new class($row) {
             private array $data;
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
             public function __construct(array $data) {
                 $this->data = $data;
             }
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId */
             public function getPartnerId(): int {
                 return (int)$this->data['debtor_no'];
             }
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerName */
             public function getPartnerName(): string {
                 return (string)$this->data['name'];
             }
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerType */
             public function getPartnerType(): string {
                 return 'CU';
             }
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerAccount */
             public function getPartnerAccount(): string {
                 return (string)($this->data['address'] ?? '');
             }
@@ -363,6 +381,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createBankAccountCandidate
      * Create a bank account candidate from database row
      *
      * @param array $row Database row with bank account data
@@ -376,22 +395,27 @@ final class TransactionMatcherIntegration
         return new class($row) {
             private array $data;
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
             public function __construct(array $data) {
                 $this->data = $data;
             }
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId */
             public function getPartnerId(): int {
                 return (int)$this->data['id'];
             }
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerName */
             public function getPartnerName(): string {
                 return (string)$this->data['bank_name'];
             }
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerType */
             public function getPartnerType(): string {
                 return 'BT';
             }
 
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerAccount */
             public function getPartnerAccount(): string {
                 return (string)$this->data['bank_account_number'];
             }
@@ -399,6 +423,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: formatResultsForDisplay
      * Format match results for display in HTML
      *
      * @param array $results Results from matchTransaction()
@@ -425,6 +450,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: formatMatchesByType
      * Format individual matches for display
      *
      * @param array $matches Array of TransactionMatchResult objects
@@ -450,6 +476,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getBestMatchDisplayString
      * Get display string for best match recommendation
      *
      * @param TransactionMatchResult|null $bestMatch The best match result
@@ -477,6 +504,7 @@ final class TransactionMatcherIntegration
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerTypeLabel
      * Get user-friendly label for partner type code
      *
      * @param string $typeCode 'SP', 'CU', 'BT'

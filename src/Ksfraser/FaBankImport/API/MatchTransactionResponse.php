@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK RTM: FR-001 / ARCH-001; file: API/MatchTransactionResponse.php; coverage: docs/TestCases/ (file rollup)
  * MatchTransactionResponse
  *
  * Response object containing match results.
@@ -23,6 +24,7 @@ namespace Ksfraser\FaBankImport\API;
 class MatchTransactionResponse
 {
     /**
+ * @BABOK FR-001 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param string $transactionId Transaction identifier
@@ -51,6 +53,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: isSuccess
      * Check if match was successful
      */
     public function isSuccess(): bool
@@ -59,6 +62,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTransactionId
      * Get transaction ID
      */
     public function getTransactionId(): string
@@ -67,6 +71,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getPartnerId
      * Get matched partner ID
      */
     public function getPartnerId(): ?int
@@ -75,6 +80,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getPartnerName
      * Get matched partner name
      */
     public function getPartnerName(): ?string
@@ -83,6 +89,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getConfidence
      * Get confidence score (0-100)
      */
     public function getConfidence(): float
@@ -91,6 +98,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getConfidenceLevel
      * Get confidence level classification
      */
     public function getConfidenceLevel(): string
@@ -99,6 +107,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getScoreFormula
      * Get score formula
      */
     public function getScoreFormula(): ?string
@@ -107,6 +116,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getScoreBreakdown
      * Get score breakdown
      */
     public function getScoreBreakdown(): array
@@ -115,6 +125,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getKeywords
      * Get keywords used in matching
      */
     public function getKeywords(): array
@@ -123,6 +134,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getReason
      * Get reason/result message
      */
     public function getReason(): ?string
@@ -131,6 +143,7 @@ class MatchTransactionResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: toArray
      * Convert to array for JSON serialization
      */
     public function toArray(): array

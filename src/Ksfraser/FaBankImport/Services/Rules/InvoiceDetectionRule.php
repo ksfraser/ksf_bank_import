@@ -25,6 +25,7 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRule;
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 
 /**
+ * @BABOK RTM: BR-001 / ARCH-001; file: Services/Rules/InvoiceDetectionRule.php; coverage: docs/TestCases/ (file rollup)
  * Invoice Type Detection Rule
  *
  * @since 7.6
@@ -34,6 +35,7 @@ class InvoiceDetectionRule implements ScoringRule
     const ST_SUPPINVOICE = 20;
 
     /**
+ * @BABOK BR-001 / ARCH-001 — method: calculateScore
      * @inheritDoc
      */
     public function calculateScore(array $transaction, SupplierCandidate $match): float
@@ -50,6 +52,7 @@ class InvoiceDetectionRule implements ScoringRule
     }
 
     /**
+ * @BABOK BR-001 / ARCH-001 — method: getName
      * @inheritDoc
      */
     public function getName(): string
@@ -58,6 +61,7 @@ class InvoiceDetectionRule implements ScoringRule
     }
 
     /**
+ * @BABOK BR-001 / ARCH-001 — method: getMaxBoost
      * @inheritDoc
      */
     public function getMaxBoost(): float
@@ -66,6 +70,7 @@ class InvoiceDetectionRule implements ScoringRule
     }
 
     /**
+ * @BABOK BR-001 / ARCH-001 — method: getMinReduction
      * @inheritDoc
      */
     public function getMinReduction(): float

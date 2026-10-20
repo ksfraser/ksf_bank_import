@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK RTM: FR-001 / ARCH-001; file: API/PartnerStatsResponse.php; coverage: docs/TestCases/ (file rollup)
  * PartnerStatsResponse
  *
  * Response object containing partner-specific matching statistics.
@@ -22,6 +23,7 @@ namespace Ksfraser\FaBankImport\API;
 class PartnerStatsResponse
 {
     /**
+ * @BABOK FR-001 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param int $partnerId Partner ID
@@ -46,6 +48,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getPartnerId
      * Get partner ID
      */
     public function getPartnerId(): int
@@ -54,6 +57,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getPartnerName
      * Get partner name
      */
     public function getPartnerName(): string
@@ -62,6 +66,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTotalMatches
      * Get total matches
      */
     public function getTotalMatches(): int
@@ -70,6 +75,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getSuccessfulMatches
      * Get successful matches
      */
     public function getSuccessfulMatches(): int
@@ -78,6 +84,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getSuccessRate
      * Get success rate
      */
     public function getSuccessRate(): float
@@ -86,6 +93,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getAverageConfidence
      * Get average confidence
      */
     public function getAverageConfidence(): float
@@ -94,6 +102,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getConfidenceDistribution
      * Get confidence distribution
      */
     public function getConfidenceDistribution(): array
@@ -102,6 +111,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getLastMatchedAt
      * Get last matched at timestamp
      */
     public function getLastMatchedAt(): string
@@ -112,6 +122,7 @@ class PartnerStatsResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: toArray
      * Convert to array for JSON serialization
      */
     public function toArray(): array

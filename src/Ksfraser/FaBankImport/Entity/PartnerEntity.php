@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Entity;
 
 /**
+ * @BABOK RTM: FR-008 / DR-001 / ARCH-010; file: Entity/PartnerEntity.php; coverage: docs/TestCases/ (file rollup)
  * Partner Entity - Immutable value object representing a partner
  * 
  * Encapsulates partner data with immutability enforced through readonly properties.
@@ -43,6 +44,7 @@ final class PartnerEntity
     private readonly ?\DateTime $lastMatchedTs;
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: __construct
      * Construct a new partner entity
      * 
      * @param int $id Unique identifier (0 for new, >0 for existing)
@@ -66,6 +68,7 @@ final class PartnerEntity
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: id
      * Get unique identifier
      */
     public function id(): int
@@ -74,6 +77,7 @@ final class PartnerEntity
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: name
      * Get partner name
      */
     public function name(): string
@@ -82,6 +86,7 @@ final class PartnerEntity
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: type
      * Get partner type
      */
     public function type(): PartnerType
@@ -90,6 +95,7 @@ final class PartnerEntity
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: occurrenceCount
      * Get occurrence count (learning metric)
      */
     public function occurrenceCount(): int
@@ -98,6 +104,7 @@ final class PartnerEntity
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: lastMatchedTs
      * Get last matched timestamp (recency metric)
      */
     public function lastMatchedTs(): ?\DateTime
@@ -106,6 +113,7 @@ final class PartnerEntity
     }
     
     /**
+ * @BABOK FR-008 / DR-001 / ARCH-010 — method: __set
      * Prevent dynamic property assignment (enforce immutability)
      */
     public function __set(string $name, mixed $value): void

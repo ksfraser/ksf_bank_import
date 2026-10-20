@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Contracts\Logger;
 use Ksfraser\FaBankImport\Exception\PartnerException;
 
 /**
+ * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Error/ErrorHandler.php; coverage: docs/TestCases/ (file rollup)
  * ErrorHandler - Centralized error handling for Partner subsystem
  * 
  * Provides error wrapping, logging, and recovery strategies.
@@ -18,11 +19,13 @@ use Ksfraser\FaBankImport\Exception\PartnerException;
  */
 final class ErrorHandler
 {
+    /** @BABOK FR-006 / ARCH-007 — method: __construct */
     public function __construct(private readonly Logger $logger)
     {
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: handle
      * Execute callable with error handling and logging
      * 
      * @template T
@@ -57,6 +60,7 @@ final class ErrorHandler
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: handleWithRecovery
      * Execute callable with recovery strategy
      * 
      * If the callable throws an exception, the recovery callable is executed.
@@ -82,6 +86,7 @@ final class ErrorHandler
     }
 
     /**
+ * @BABOK FR-006 / ARCH-007 — method: logException
      * Log exception details
      */
     public function logException(\Throwable $exception, string $context = ''): void

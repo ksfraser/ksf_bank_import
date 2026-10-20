@@ -34,9 +34,13 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\ManualSettlementPartnerType;
 
+/**
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/ManualSettlementHandler.php; coverage: docs/TestCases/ (file rollup)
+ */
 class ManualSettlementHandler extends AbstractTransactionHandler
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * Get the partner type instance for Manual Settlement transactions
      * 
      * @return PartnerTypeInterface Returns ManualSettlementPartnerType value object
@@ -47,6 +51,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * Process a Manual Settlement transaction
      * 
      * Links a bank transaction to an existing FrontAccounting entry.
@@ -110,6 +115,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processManualSettlement
      * Process manual settlement by linking to existing FA entry
      * 
      * @param array $transaction Complete transaction data

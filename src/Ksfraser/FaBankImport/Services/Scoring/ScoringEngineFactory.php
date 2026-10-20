@@ -22,6 +22,7 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
 use Ksfraser\FaBankImport\Config\BankImportConfig;
 
 /**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
  * ScoringEngineFactory
  *
  * Builds ScoringRuleEngine instances with rules registered at weights from config.
@@ -40,6 +41,7 @@ use Ksfraser\FaBankImport\Config\BankImportConfig;
 class ScoringEngineFactory
 {
     /**
+ * @BABOK BR-011 / ARCH-011 — method: create
      * Create a ScoringRuleEngine with all rules registered at config-specified weights
      *
      * Reads scoring weights from BankImportConfig and registers:
@@ -73,6 +75,7 @@ class ScoringEngineFactory
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: createWithWeights
      * Create a ScoringRuleEngine with custom weights (for testing or advanced usage)
      *
      * @param float|null $recencyWeight Override recency weight (null = use config)

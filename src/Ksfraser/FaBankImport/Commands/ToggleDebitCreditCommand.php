@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/ToggleDebitCreditCommand.php; coverage: docs/TestCases/ (file rollup)
  * Toggle Debit/Credit Command
  *
  * Toggles the debit/credit indicator for bank transactions.
@@ -28,6 +29,7 @@ class ToggleDebitCreditCommand implements CommandInterface
     private $transactionService;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param array $postData POST data with ToggleTransaction key
@@ -42,6 +44,7 @@ class ToggleDebitCreditCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: execute
      * {@inheritDoc}
      */
     public function execute(): TransactionResult
@@ -104,6 +107,7 @@ class ToggleDebitCreditCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getName
      * {@inheritDoc}
      */
     public function getName(): string

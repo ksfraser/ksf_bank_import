@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionDto;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Service/MatchingEngineInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for matching engine implementations.
  *
  * Given a parsed statement and a list of bank transactions, produce a
@@ -21,6 +22,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionD
 interface MatchingEngineInterface
 {
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: match
      * @param StatementOcr         $statement
      * @param BankTransactionDto[] $bankTransactions
      * @return ReconciliationSession  Always in STATUS_PENDING.

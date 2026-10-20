@@ -14,6 +14,7 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\PartnerFormData;
 
 /**
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/QuickEntryPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
  * QuickEntryPartnerTypeView - Display quick entry selection UI
  * 
  * Single Responsibility: Render quick entry selection dropdown based on transaction direction.
@@ -51,6 +52,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     private $formData;
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
      * Constructor
      * 
      * @param int $lineItemId The ID of the line item
@@ -69,6 +71,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getLineItemId
      * Get the line item ID
      * 
      * @return int
@@ -79,6 +82,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerId
      * Get the selected partner ID
      * 
      * @return int|null
@@ -89,6 +93,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerDetailId
      * Get the selected partner detail ID
      * 
      * @return int|null
@@ -99,6 +104,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
      * Get the HTML for this view
      * 
      * @return string HTML output
@@ -126,6 +132,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
      * Output HTML directly
      * 
      * @return void
@@ -136,6 +143,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildQuickEntrySelect
      * Build quick entry select dropdown
      * 
      * @return HtmlSelect
@@ -171,6 +179,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getQuickEntryDescription
      * Get base description of selected quick entry
      * 
      * @return string Description text (empty string if none)

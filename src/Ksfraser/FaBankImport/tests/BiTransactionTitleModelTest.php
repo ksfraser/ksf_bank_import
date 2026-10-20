@@ -8,11 +8,13 @@ class BiTransactionTitleModelTest extends TestCase
 {
     private $biTransactionTitleModel;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->biTransactionTitleModel = new bi_transationTitle_model();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testDefineTable */
     public function testDefineTable()
     {
         $this->biTransactionTitleModel->define_table();
@@ -27,6 +29,7 @@ class BiTransactionTitleModelTest extends TestCase
         $this->assertArrayHasKey('orderby', $tableDetails, 'Table details should have orderby');
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testInsertTransaction */
     public function testInsertTransaction()
     {
         // Mock insert_data method to test insert_transaction

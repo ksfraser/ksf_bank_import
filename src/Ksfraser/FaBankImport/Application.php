@@ -10,12 +10,16 @@ use Ksfraser\FaBankImport\Middleware\TransactionValidationMiddleware;
 use Ksfraser\FaBankImport\Middleware\PerformanceMonitoringMiddleware;
 use Ksfraser\FaBankImport\Handlers\ErrorHandler;
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Application.php; coverage: docs/TestCases/ (file rollup)
+ */
 class Application
 {
     private $container;
     private $pipeline;
     private $errorHandler;
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     public function __construct()
     {
         $this->container = Container::getInstance();
@@ -26,6 +30,7 @@ class Application
         $this->setupErrorHandling();
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupMiddleware */
     private function setupMiddleware(): void
     {
         $this->pipeline
@@ -34,11 +39,13 @@ class Application
             ->pipe(new TransactionValidationMiddleware());
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupErrorHandling */
     private function setupErrorHandling(): void
     {
         set_exception_handler([$this->errorHandler, 'handleException']);
     }
 
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: run */
     public function run(): void
     {
         try {

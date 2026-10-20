@@ -11,11 +11,16 @@ use Ksfraser\FaBankImport\MatchedTransaction;
 use Ksfraser\FaBankImport\ManualTransaction;
 use Ksfraser\FaBankImport\SpecialCaseTransaction;
 
+/**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: TransactionFactoryImp.php; coverage: docs/TestCases/ (file rollup)
+ */
 class TransactionFactoryImp implements TransactionFactory
 {
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
 	function __construct()
 	{
 	}
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: makeTransaction */
 	function makeTransaction( array $transaction ): Transaction
 	{
 		if( ! isset( $_POST['partnerType'][ $transaction['id'] ] ) )

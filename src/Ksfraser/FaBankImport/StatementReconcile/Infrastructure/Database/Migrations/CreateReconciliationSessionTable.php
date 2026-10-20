@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
+ * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Database/Migrations/CreateReconciliationSessionTable.php; coverage: docs/TestCases/ (file rollup)
  * Creates the bi_reconciliation_session table.
  *
  * Each row represents one reconciliation pass for a parsed statement:
@@ -22,16 +23,19 @@ use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
  */
 final class CreateReconciliationSessionTable implements Migration
 {
+    /** @BABOK FR-008 / ARCH-010 — method: name */
     public function name(): string
     {
         return '20260420_100001_create_reconciliation_session_table';
     }
 
+    /** @BABOK FR-008 / ARCH-010 — method: description */
     public function description(): string
     {
         return 'Create bi_reconciliation_session table for statement reconciliation workflow';
     }
 
+    /** @BABOK FR-008 / ARCH-010 — method: up */
     public function up(PDO $pdo): void
     {
         try {
@@ -69,6 +73,7 @@ final class CreateReconciliationSessionTable implements Migration
         }
     }
 
+    /** @BABOK FR-008 / ARCH-010 — method: down */
     public function down(PDO $pdo): void
     {
         try {

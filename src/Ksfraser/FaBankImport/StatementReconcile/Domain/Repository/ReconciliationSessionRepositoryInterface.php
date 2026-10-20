@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\ReconciliationSession
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationException;
 
 /**
+ * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Repository/ReconciliationSessionRepositoryInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for persisting and retrieving ReconciliationSession aggregates.
  *
  * @package Ksfraser\FaBankImport\StatementReconcile\Domain\Repository
@@ -16,6 +17,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationExce
 interface ReconciliationSessionRepositoryInterface
 {
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: save
      * Persist a session (insert or update).
      *
      * @param ReconciliationSession $session
@@ -25,6 +27,7 @@ interface ReconciliationSessionRepositoryInterface
     public function save(ReconciliationSession $session): int;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: findById
      * Retrieve by primary key.
      *
      * @param int $id
@@ -33,6 +36,7 @@ interface ReconciliationSessionRepositoryInterface
     public function findById(int $id): ?ReconciliationSession;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: findLatestByStatementOcrId
      * Retrieve the most recent session for a given StatementOcr ID.
      *
      * @param int $statementOcrId
@@ -41,6 +45,7 @@ interface ReconciliationSessionRepositoryInterface
     public function findLatestByStatementOcrId(int $statementOcrId): ?ReconciliationSession;
 
     /**
+ * @BABOK FR-007 / BR-004 / ARCH-010 — method: approve
      * Shortcut: approve the session and persist in a single call.
      *
      * @param int $sessionId

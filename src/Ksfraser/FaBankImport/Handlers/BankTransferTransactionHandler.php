@@ -29,9 +29,13 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\BankTransferPartnerType;
 
+/**
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/BankTransferTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
+ */
 class BankTransferTransactionHandler extends AbstractTransactionHandler
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * Get the partner type instance for Bank Transfer transactions
      * 
      * @return PartnerTypeInterface Returns BankTransferPartnerType value object
@@ -42,6 +46,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * Process a Bank Transfer transaction
      * 
      * @param array $transaction Complete transaction record from bi_transactions
@@ -103,6 +108,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getFaBankTransferClassPath
      * Get the path to the fa_bank_transfer class file
      * 
      * @return string Path to the class file
@@ -114,6 +120,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processBankTransfer
      * Process a bank transfer transaction
      * 
      * Creates a fa_bank_transfer object, sets FROM/TO accounts based on direction,

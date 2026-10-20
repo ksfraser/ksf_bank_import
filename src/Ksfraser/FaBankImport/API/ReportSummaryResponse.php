@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK RTM: FR-001 / ARCH-001; file: API/ReportSummaryResponse.php; coverage: docs/TestCases/ (file rollup)
  * ReportSummaryResponse
  *
  * Response object containing aggregated matching statistics.
@@ -23,6 +24,7 @@ namespace Ksfraser\FaBankImport\API;
 class ReportSummaryResponse
 {
     /**
+ * @BABOK FR-001 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param int $totalAttempted Total matches attempted
@@ -51,6 +53,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTotalAttempted
      * Get total attempts
      */
     public function getTotalAttempted(): int
@@ -59,6 +62,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTotalSuccessful
      * Get total successful
      */
     public function getTotalSuccessful(): int
@@ -67,6 +71,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getTotalFailed
      * Get total failed
      */
     public function getTotalFailed(): int
@@ -75,6 +80,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getSuccessRate
      * Get success rate (0.0-1.0)
      */
     public function getSuccessRate(): float
@@ -83,6 +89,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getAverageConfidence
      * Get average confidence
      */
     public function getAverageConfidence(): float
@@ -91,6 +98,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getConfidenceDistribution
      * Get confidence distribution
      */
     public function getConfidenceDistribution(): array
@@ -99,6 +107,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getConfidencePercentiles
      * Get confidence percentiles
      */
     public function getConfidencePercentiles(): array
@@ -107,6 +116,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getRuleMetrics
      * Get rule metrics
      */
     public function getRuleMetrics(): array
@@ -115,6 +125,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getMostImpactfulRule
      * Get most impactful rule
      */
     public function getMostImpactfulRule(): string
@@ -123,6 +134,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getAverageKeywordsPerTransaction
      * Get average keywords per transaction
      */
     public function getAverageKeywordsPerTransaction(): float
@@ -131,6 +143,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getAverageCandidatesEvaluated
      * Get average candidates evaluated
      */
     public function getAverageCandidatesEvaluated(): float
@@ -139,6 +152,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: getFailureReasons
      * Get failure reasons
      */
     public function getFailureReasons(): array
@@ -147,6 +161,7 @@ class ReportSummaryResponse
     }
 
     /**
+ * @BABOK FR-001 / ARCH-001 — method: toArray
      * Convert to array for JSON serialization
      */
     public function toArray(): array

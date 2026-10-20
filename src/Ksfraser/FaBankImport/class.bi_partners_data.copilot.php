@@ -8,6 +8,7 @@ class BiPartnersData extends GenericFaInterfaceModel
     protected $data;            //!< string
     protected $updatedTs;       //!< date
 
+    /** @BABOK BR-011 / BR-001 — method: __construct */
     public function __construct()
     {
         parent::__construct(null, null, null, null, null);
@@ -15,6 +16,7 @@ class BiPartnersData extends GenericFaInterfaceModel
         $this->defineTable();
     }
 
+    /** @BABOK BR-011 / BR-001 — method: defineTable */
     public function defineTable()
     {
         $ind = 'id';
@@ -75,6 +77,7 @@ class BiPartnersData extends GenericFaInterfaceModel
     }
 
     /**
+ * @BABOK BR-011 / BR-001 — method: getPartnerData
      * Get the Partner Data
      *
      * @param int $partnerId Foreign key to Supplier/Customer/Bank tables (From bank)
@@ -95,6 +98,7 @@ class BiPartnersData extends GenericFaInterfaceModel
     }
 
     /**
+ * @BABOK BR-011 / BR-001 — method: setBankPartnerData
      * Insert BANK partner data. Wrapper on set_partner_data
      *
      * @param int $fromBankId From Bank key (Bank table)
@@ -109,6 +113,7 @@ class BiPartnersData extends GenericFaInterfaceModel
     }
 
     /**
+ * @BABOK BR-011 / BR-001 — method: setPartnerData
      * Insert partner data
      *
      * The key on this table is partner_id-partner_detail_id-partner_type
@@ -143,6 +148,7 @@ class BiPartnersData extends GenericFaInterfaceModel
     }
 
     /**
+ * @BABOK BR-011 / BR-001 — method: searchPartnerDataByNeedle
      * Search for partner data by needle
      *
      * @param string $needle
@@ -167,6 +173,7 @@ class BiPartnersData extends GenericFaInterfaceModel
     }
 
     /**
+ * @BABOK BR-011 / BR-001 — method: searchPartnerByBankAccount
      * Search for partner by bank account
      *
      * @param int $partnerType
@@ -187,6 +194,7 @@ class BiPartnersData extends GenericFaInterfaceModel
     }
 
     /**
+ * @BABOK BR-011 / BR-001 — method: updatePartnerData
      * Update partner data
      *
      * @param int $partnerId

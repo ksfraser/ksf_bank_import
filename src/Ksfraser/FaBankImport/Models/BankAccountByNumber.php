@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\models;
 
 /**
+ * @BABOK RTM: FR-008 / BR-003; file: Models/BankAccountByNumber.php; coverage: docs/TestCases/ (file rollup)
  * BankAccountByNumber - Retrieves bank account details by account number
  * 
  * This class encapsulates the logic for retrieving bank account information
@@ -19,6 +20,7 @@ class BankAccountByNumber
     protected $bankDetails;
     
     /**
+ * @BABOK FR-008 / BR-003 — method: __construct
      * Constructor
      * 
      * @param string $bankAccountNumber The bank account number to look up
@@ -30,6 +32,7 @@ class BankAccountByNumber
     }
     
     /**
+ * @BABOK FR-008 / BR-003 — method: loadBankDetails
      * Load bank account details from the database
      * 
      * Uses the fa_bank_accounts class to retrieve bank account information
@@ -69,6 +72,7 @@ class BankAccountByNumber
     }
     
     /**
+ * @BABOK FR-008 / BR-003 — method: getBankDetails
      * Get the loaded bank account details
      * 
      * @return array Associative array containing bank account details
@@ -79,6 +83,7 @@ class BankAccountByNumber
     }
     
     /**
+ * @BABOK FR-008 / BR-003 — method: getBankAccountName
      * Get the bank account name
      * 
      * @return string|null The bank account name
@@ -89,6 +94,7 @@ class BankAccountByNumber
     }
     
     /**
+ * @BABOK FR-008 / BR-003 — method: getBankAccountCode
      * Get the bank account code (GL account)
      * 
      * @return string|null The bank account code
@@ -99,6 +105,7 @@ class BankAccountByNumber
     }
     
     /**
+ * @BABOK FR-008 / BR-003 — method: __get
      * Magic getter to support fa_bank_accounts compatibility
      * 
      * The original fa_bank_accounts class expects a property to access,

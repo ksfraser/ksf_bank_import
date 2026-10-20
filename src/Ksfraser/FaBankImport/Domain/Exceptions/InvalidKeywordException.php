@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Domain\Exceptions;
 use InvalidArgumentException;
 
 /**
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/Exceptions/InvalidKeywordException.php; coverage: docs/TestCases/ (file rollup)
  * Exception thrown when a keyword is invalid
  *
  * @package Ksfraser\FaBankImport\Domain\Exceptions
@@ -14,6 +15,7 @@ use InvalidArgumentException;
 class InvalidKeywordException extends InvalidArgumentException
 {
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: empty
      * Create exception for empty keyword
      *
      * @return self
@@ -24,6 +26,7 @@ class InvalidKeywordException extends InvalidArgumentException
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: tooShort
      * Create exception for keyword too short
      *
      * @param string $keyword
@@ -43,6 +46,7 @@ class InvalidKeywordException extends InvalidArgumentException
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: tooLong
      * Create exception for keyword too long
      *
      * @param string $keyword
@@ -62,6 +66,7 @@ class InvalidKeywordException extends InvalidArgumentException
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: numericOnly
      * Create exception for numeric-only keyword
      *
      * @param string $keyword
@@ -76,6 +81,7 @@ class InvalidKeywordException extends InvalidArgumentException
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: isStopword
      * Create exception for stopword
      *
      * @param string $keyword

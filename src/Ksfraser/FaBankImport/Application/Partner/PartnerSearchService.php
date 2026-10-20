@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\Entity\PartnerMatchResult;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
+ * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/PartnerSearchService.php; coverage: docs/TestCases/ (file rollup)
  * PartnerSearchService
  * 
  * Orchestrator that coordinates partner matching across multiple domain services.
@@ -33,6 +34,7 @@ final class PartnerSearchService
 {
     private const CONFIDENCE_THRESHOLD = 0.75; // 75% for auto-select
 
+    /** @BABOK BR-011 / ARCH-011 — method: __construct */
     public function __construct(
         private readonly PartnerRepository $partnerRepository,
         private readonly KeywordExtractor $keywordExtractor,
@@ -40,6 +42,7 @@ final class PartnerSearchService
     ) {}
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: search
      * Search for partners matching the given text.
      * 
      * Process:
@@ -96,6 +99,7 @@ final class PartnerSearchService
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: autoSelect
      * Automatically select the best matching partner if confidence is high enough.
      * 
      * If the top match has confidence >= 75%, this method will:
@@ -140,6 +144,7 @@ final class PartnerSearchService
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateFactors
      * Calculate all 6 factors for a single candidate partner.
      * 
      * Factors:
@@ -177,6 +182,7 @@ final class PartnerSearchService
     }
 
     /**
+ * @BABOK BR-011 / ARCH-011 — method: calculateConfidence
      * Calculate final confidence from all 6 factors.
      * 
      * Formula (from ScoringEngine):
