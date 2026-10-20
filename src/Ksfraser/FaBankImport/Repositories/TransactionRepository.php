@@ -24,6 +24,7 @@ namespace Ksfraser\FaBankImport\Repositories;
 use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionRepository — 11 methods; FR-008 (11)
  * @BABOK RTM: FR-008 / ARCH-001; file: Repositories/TransactionRepository.php; coverage: docs/TestCases/ (file rollup)
  * Repository for bi_transactions table
  * 

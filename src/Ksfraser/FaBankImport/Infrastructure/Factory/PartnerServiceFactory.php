@@ -13,6 +13,7 @@ use Ksfraser\FaBankImport\Contracts\PartnerRepository;
 use PDO;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerServiceFactory — 6 methods; FR-006 (6)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Factory/PartnerServiceFactory.php; coverage: docs/TestCases/ (file rollup)
  * PartnerServiceFactory
  * 

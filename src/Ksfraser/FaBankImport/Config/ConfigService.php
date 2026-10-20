@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
 
 /**
+ * @BABOK CLASS ROLLUP: ConfigService — 10 methods; FR-002 (10); FR-051 (10)
  * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/ConfigService.php; coverage: docs/TestCases/ (file rollup)
  * Configuration Service (Refactored)
  * 

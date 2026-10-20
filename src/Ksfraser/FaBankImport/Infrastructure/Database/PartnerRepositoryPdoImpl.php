@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Entity\PartnerEntity;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerRepositoryPdoImpl — 10 methods; FR-006 (10)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/PartnerRepositoryPdoImpl.php; coverage: docs/TestCases/ (file rollup)
  * Partner Repository - PDO Implementation
  * 

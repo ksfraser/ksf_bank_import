@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerData — 17 methods; BR-002 (17); FR-008 (17); FR-018 (17)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/PartnerData.php; coverage: docs/TestCases/ (file rollup)
  * Value Object representing partner data entry
  *

@@ -20,6 +20,7 @@ namespace Ksfraser\FaBankImport\Views;
  * - Delegates table HTML to bi_lineitem->getHtml() 
  * - Maintains form-compatible HTML output for FrontAccounting integration
  */
+/** @BABOK CLASS ROLLUP: ProcessStatementsView — 11 methods; FR-009 (11); IR-001 (11) */
 class ProcessStatementsView
 {
     /**

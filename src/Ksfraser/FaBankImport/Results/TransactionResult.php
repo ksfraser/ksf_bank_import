@@ -54,6 +54,7 @@ namespace Ksfraser\FaBankImport\Results;
  * ```
  */
 /**
+ * @BABOK CLASS ROLLUP: TransactionResult — 21 methods; FR-008 (21); FR-017 (21)
  * @BABOK RTM: FR-008 / FR-017; file: Results/TransactionResult.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionResult implements \ArrayAccess

@@ -15,6 +15,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\HtmlAttribute;
 
 /**
+ * @BABOK CLASS ROLLUP: AllocatableInvoicesTable — 3 methods; FR-009 (3); IR-001 (3)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AllocatableInvoicesTable.php; coverage: docs/TestCases/ (file rollup)
  * AllocatableInvoicesTable - SRP class to render allocatable invoices as a self-contained table
  * 

@@ -8,6 +8,7 @@ use \Exception;
 require_once( __DIR__ . "../../../../Views/TransactionTypeLabel.php" );
 
 /**
+ * @BABOK CLASS ROLLUP: Transaction — 11 methods; BR-002 (11); FR-008 (11); FR-018 (11)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Transaction.php; coverage: docs/TestCases/ (file rollup)
  */
 abstract class Transaction

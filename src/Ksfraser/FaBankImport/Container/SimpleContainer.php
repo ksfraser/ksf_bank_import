@@ -41,6 +41,7 @@ use RuntimeException;
  * ```
  */
 /**
+ * @BABOK CLASS ROLLUP: SimpleContainer — 10 methods; FR-015 (10)
  * @BABOK RTM: FR-015 / ARCH-001; file: Container/SimpleContainer.php; coverage: docs/TestCases/ (file rollup)
  */
 class SimpleContainer

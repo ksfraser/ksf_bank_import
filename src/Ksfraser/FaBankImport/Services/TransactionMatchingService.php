@@ -11,6 +11,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionMatchingService — 10 methods; BR-001 (10); BR-002 (10); FR-008 (10)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionMatchingService.php; coverage: docs/TestCases/ (file rollup)
  * TransactionMatchingService - Context-aware transaction to partner matching
  *

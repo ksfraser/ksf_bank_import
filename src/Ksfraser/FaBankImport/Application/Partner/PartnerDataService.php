@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use DomainException;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerDataService — 7 methods; BR-011 (7)
  * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/PartnerDataService.php; coverage: docs/TestCases/ (file rollup)
  * PartnerDataService
  * 

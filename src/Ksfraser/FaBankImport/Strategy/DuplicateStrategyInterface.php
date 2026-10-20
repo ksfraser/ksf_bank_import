@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Strategy;
 use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
 
 /**
+ * @BABOK CLASS ROLLUP: DuplicateStrategyInterface — 2 methods; BR-002 (2); FR-005 (2)
  * @BABOK RTM: BR-002 / FR-005; file: Strategy/DuplicateStrategyInterface.php; coverage: docs/TestCases/ (file rollup)
  * Duplicate Handling Strategy Interface
  * 

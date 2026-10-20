@@ -91,6 +91,7 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * @since 1.0.0
  */
 /**
+ * @BABOK CLASS ROLLUP: CustomerDataProvider — 16 methods; FR-009 (16); IR-001 (16)
  * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/CustomerDataProvider.php; coverage: docs/TestCases/ (file rollup)
  */
 class CustomerDataProvider implements PartnerDataProviderInterface

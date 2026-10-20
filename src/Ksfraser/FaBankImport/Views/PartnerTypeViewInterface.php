@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerTypeViewInterface — 3 methods; FR-009 (3); IR-001 (3)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/PartnerTypeViewInterface.php; coverage: docs/TestCases/ (file rollup)
  * Partner Type View Interface
  * 

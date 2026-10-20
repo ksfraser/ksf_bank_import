@@ -9,6 +9,7 @@ use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**//******************
+ * @BABOK CLASS ROLLUP: PartnerSubSelect — 3 methods; FR-009 (3); IR-001 (3)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/PartnerSubSelect.php; coverage: docs/TestCases/ (file rollup)
 * This subselect depends on Transaction Type.
 * TODO: Refactor so that the transaction provides this!!

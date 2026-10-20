@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Models;
 
 /**
+ * @BABOK CLASS ROLLUP: BankTransactionInterface — 8 methods; FR-008 (8); BR-003 (8)
  * @BABOK RTM: FR-008 / BR-003; file: Models/BankTransactionInterface.php; coverage: docs/TestCases/ (file rollup)
  */
 interface BankTransactionInterface

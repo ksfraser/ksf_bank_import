@@ -7,6 +7,7 @@ use Ksfraser\FaBankImport\Services\TransactionViewService;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 
+/** @BABOK CLASS ROLLUP: TransactionViewServiceTest — 4 methods; NFR-016 (4); FR-018 (4) */
 class TransactionViewServiceTest extends TestCase
 {
     private $transaction;

@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 
 /**
+ * @BABOK CLASS ROLLUP: OllamaClientInterface — 1 methods; FR-007 (1)
  * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/OllamaClientInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for calling an Ollama language model.
  *

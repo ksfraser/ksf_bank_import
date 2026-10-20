@@ -7,6 +7,7 @@ use Ksfraser\FaBankImport\Types\DebitTransaction;
 use Ksfraser\FaBankImport\Types\BankTransferTransaction;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionTypeFactory — 1 methods; FR-015 (1)
  * @BABOK RTM: FR-015 / ARCH-001; file: Factories/TransactionTypeFactory.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionTypeFactory

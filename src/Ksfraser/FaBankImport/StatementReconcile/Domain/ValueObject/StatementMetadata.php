@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: StatementMetadata — 11 methods; FR-007 (11); BR-004 (11)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/StatementMetadata.php; coverage: docs/TestCases/ (file rollup)
  * Statement-level metadata extracted from a CC statement PDF.
  *

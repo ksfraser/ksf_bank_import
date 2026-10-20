@@ -25,6 +25,7 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRule;
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 
 /**
+ * @BABOK CLASS ROLLUP: BankAccountMatchRule — 4 methods; BR-001 (4)
  * @BABOK RTM: BR-001 / ARCH-001; file: Services/Rules/BankAccountMatchRule.php; coverage: docs/TestCases/ (file rollup)
  * Bank Account Exact Match Rule
  *

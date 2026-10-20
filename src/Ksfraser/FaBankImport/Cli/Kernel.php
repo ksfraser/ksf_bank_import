@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Contracts\Logger;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: Kernel — 8 methods; FR-049 (8)
  * @BABOK RTM: FR-049 / ARCH-004; file: Cli/Kernel.php; coverage: docs/TestCases/ (file rollup)
  * Cli Kernel - Dispatcher for CLI commands
  * 

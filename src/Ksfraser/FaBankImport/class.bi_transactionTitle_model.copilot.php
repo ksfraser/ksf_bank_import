@@ -12,6 +12,7 @@ require_once('../ksf_modules_commone/class.generic_fa_interface.php');
 require_once('../ksf_modules_commone/defines.inc.php');
 
 /**
+ * @BABOK CLASS ROLLUP: bi_transactionTitle_model — 3 methods; FR-008 (3); BR-002 (3)
  * A DATA class to handle the storage and retrieval of bank records. STAGE the records before processing into FA.
  *
  * ***** WARNING *** WARNING *** WARNING *****

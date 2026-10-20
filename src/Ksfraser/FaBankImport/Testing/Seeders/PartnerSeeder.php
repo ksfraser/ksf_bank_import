@@ -8,6 +8,7 @@ use PDO;
 use Ksfraser\FaBankImport\Testing\Seeder;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerSeeder — 10 methods; NFR-016 (10)
  * @BABOK RTM: NFR-016; file: Testing/Seeders/PartnerSeeder.php; coverage: docs/TestCases/ (file rollup)
  * PartnerSeeder - Generate realistic partner test data
  *

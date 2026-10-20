@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\Domain\Exceptions\InvalidKeywordException;
 use Ksfraser\FaBankImport\Config\ConfigService;
 
 /**
+ * @BABOK CLASS ROLLUP: KeywordExtractorService — 9 methods; BR-001 (9); BR-002 (9); FR-008 (9)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/KeywordExtractorService.php; coverage: docs/TestCases/ (file rollup)
  * Service for extracting and validating keywords from text
  *

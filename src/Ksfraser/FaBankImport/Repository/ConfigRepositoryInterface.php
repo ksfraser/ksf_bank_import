@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Repository;
 
 /**
+ * @BABOK CLASS ROLLUP: ConfigRepositoryInterface — 7 methods; FR-008 (7)
  * @BABOK RTM: FR-008 / ARCH-001; file: Repository/ConfigRepositoryInterface.php; coverage: docs/TestCases/ (file rollup)
  * Configuration Repository Interface
  * 

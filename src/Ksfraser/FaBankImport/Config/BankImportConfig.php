@@ -30,6 +30,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: BankImportConfig — 15 methods; FR-002 (15); FR-051 (15)
  * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/BankImportConfig.php; coverage: docs/TestCases/ (file rollup)
  * Bank Import Configuration
  *

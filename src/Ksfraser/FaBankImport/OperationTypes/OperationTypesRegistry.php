@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\OperationTypes;
 
 /**
+ * @BABOK CLASS ROLLUP: OperationTypesRegistry — 5 methods; FR-013 (5)
  * @BABOK RTM: FR-013; file: OperationTypes/OperationTypesRegistry.php; coverage: docs/TestCases/ (file rollup)
  */
 class OperationTypesRegistry

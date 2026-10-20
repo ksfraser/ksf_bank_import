@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Http\ResponseHandler;
 use Ksfraser\FaBankImport\Middleware\MiddlewarePipeline;
 
 /**
+ * @BABOK CLASS ROLLUP: AbstractController — 6 methods; BR-002 (6); FR-008 (6); FR-018 (6)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controllers/AbstractController.php; coverage: docs/TestCases/ (file rollup)
  */
 abstract class AbstractController

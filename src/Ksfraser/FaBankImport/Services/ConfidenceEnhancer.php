@@ -37,6 +37,7 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  * @since 2.3.0
  */
 /**
+ * @BABOK CLASS ROLLUP: ConfidenceEnhancer — 6 methods; BR-001 (6); BR-002 (6); FR-008 (6)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/ConfidenceEnhancer.php; coverage: docs/TestCases/ (file rollup)
  */
 class ConfidenceEnhancer

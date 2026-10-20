@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Testing;
 use PDO;
 
 /**
+ * @BABOK CLASS ROLLUP: SeederFactory — 7 methods; NFR-016 (7)
  * @BABOK RTM: NFR-016; file: Testing/SeederFactory.php; coverage: docs/TestCases/ (file rollup)
  * SeederFactory - Manage and execute seeders
  *

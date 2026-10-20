@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Commands;
 
 /**
+ * @BABOK CLASS ROLLUP: ProcessTransactionCommand — 4 methods; FR-014 (4)
  * @BABOK RTM: FR-014 / ARCH-004; file: Commands/ProcessTransactionCommand.php; coverage: docs/TestCases/ (file rollup)
  */
 class ProcessTransactionCommand

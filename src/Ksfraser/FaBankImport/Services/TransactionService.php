@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface;
 use Ksfraser\FaBankImport\Factories\TransactionTypeFactory;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionService — 4 methods; BR-001 (2); FR-001 (2); BR-003 (1)
  * Transaction Service — core processing
  * @BABOK BR-001 (Auto Pair Detection) / BR-003 (Bank Transfer Creation) / ARCH-001 (Service Design) / FR-001 (Pair Detection) / FR-015 (DI Injection)
  * Consolidated from: getPendingTransactions (BR-001/FR-001), processTransaction (BR-001/FR-001/BR-003), __construct (ARCH-001/FR-015), toggleTransactionType (BR-001/FR-001)

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
+ * @BABOK CLASS ROLLUP: RecencyRule — 4 methods; BR-011 (4)
  * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/RecencyRule.php; coverage: docs/TestCases/ (file rollup)
  * Recency Scoring Rule
  *

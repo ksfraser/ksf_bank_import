@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: UploadedFileManager — 14 methods; BR-001 (14); BR-002 (14); FR-008 (14)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/UploadedFileManager.php; coverage: docs/TestCases/ (file rollup)
  * UploadedFileManager - Manage uploaded bank statement files
  * 

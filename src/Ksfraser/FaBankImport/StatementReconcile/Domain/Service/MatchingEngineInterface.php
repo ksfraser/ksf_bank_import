@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionDto;
 
 /**
+ * @BABOK CLASS ROLLUP: MatchingEngineInterface — 1 methods; FR-007 (1); BR-004 (1)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Service/MatchingEngineInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for matching engine implementations.
  *

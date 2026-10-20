@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Views;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionTypeLabel — 2 methods; FR-009 (2); IR-001 (2)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/TransactionTypeLabel.php; coverage: docs/TestCases/ (file rollup)
  * TransactionTypeLabel - Return the appropriate Transaction Type Label
  * 

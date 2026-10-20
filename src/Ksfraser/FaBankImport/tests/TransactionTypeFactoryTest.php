@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Types\CreditTransaction;
 use Ksfraser\FaBankImport\Types\DebitTransaction;
 use Ksfraser\FaBankImport\Types\BankTransferTransaction;
 
+/** @BABOK CLASS ROLLUP: TransactionTypeFactoryTest — 5 methods; NFR-016 (5); FR-018 (5) */
 class TransactionTypeFactoryTest extends TestCase
 {
     private $factory;

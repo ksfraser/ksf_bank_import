@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: HtmlTransactionView — 7 methods; FR-009 (7); IR-001 (7)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/HtmlTransactionView.php; coverage: docs/TestCases/ (file rollup)
  */
 class HtmlTransactionView implements TransactionViewInterface

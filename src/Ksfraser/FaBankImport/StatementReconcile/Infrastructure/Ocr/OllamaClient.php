@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 
 /**
+ * @BABOK CLASS ROLLUP: OllamaClient — 2 methods; FR-007 (2)
  * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/OllamaClient.php; coverage: docs/TestCases/ (file rollup)
  * Guzzle-backed Ollama REST client.
  *

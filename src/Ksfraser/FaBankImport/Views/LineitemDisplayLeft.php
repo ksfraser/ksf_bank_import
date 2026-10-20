@@ -8,6 +8,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_TABLE;
 
 /**
+ * @BABOK CLASS ROLLUP: LineitemDisplayLeft — 3 methods; FR-009 (3); IR-001 (3)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/LineitemDisplayLeft.php; coverage: docs/TestCases/ (file rollup)
  * LineitemDisplayLeft - Left side display for line items
  * 

@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Views\DataProviders;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerDataProviderInterface — 4 methods; FR-009 (4); IR-001 (4)
  * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/PartnerDataProviderInterface.php; coverage: docs/TestCases/ (file rollup)
  * Partner Data Provider Interface
  * 

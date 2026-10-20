@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationExce
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\MatchedPair;
 
 /**
+ * @BABOK CLASS ROLLUP: ReconciliationSession — 18 methods; FR-007 (18); BR-004 (18)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Entity/ReconciliationSession.php; coverage: docs/TestCases/ (file rollup)
  * Aggregate root representing a single reconciliation attempt for one statement.
  *

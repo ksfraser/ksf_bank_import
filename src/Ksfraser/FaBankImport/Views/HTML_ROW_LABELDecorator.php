@@ -8,6 +8,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 /**
+ * @BABOK CLASS ROLLUP: HTML_ROW_LABELDecorator — 3 methods; FR-009 (3); IR-001 (3)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/HTML_ROW_LABELDecorator.php; coverage: docs/TestCases/ (file rollup)
  * HTML_ROW_LABELDecorator - Decorator for HTML_ROW_LABEL
  * 

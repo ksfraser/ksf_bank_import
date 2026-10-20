@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
+ * @BABOK CLASS ROLLUP: FileStorageServiceInterface — 6 methods; BR-001 (6); BR-002 (6); FR-008 (6)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/FileStorageServiceInterface.php; coverage: docs/TestCases/ (file rollup)
  * File Storage Service Interface
  * 

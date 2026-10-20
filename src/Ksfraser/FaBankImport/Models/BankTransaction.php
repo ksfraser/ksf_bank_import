@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Models;
 use Ksfraser\FaBankImport\Database\DatabaseFactory;
 
 /**
+ * @BABOK CLASS ROLLUP: BankTransaction — 9 methods; FR-008 (9); BR-003 (9)
  * @BABOK RTM: FR-008 / BR-003; file: Models/BankTransaction.php; coverage: docs/TestCases/ (file rollup)
  */
 class BankTransaction implements BankTransactionInterface

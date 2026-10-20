@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK CLASS ROLLUP: APIErrorResponse — 6 methods; FR-001 (6)
  * @BABOK RTM: FR-001 / ARCH-001; file: API/APIErrorResponse.php; coverage: docs/TestCases/ (file rollup)
  * APIErrorResponse
  *

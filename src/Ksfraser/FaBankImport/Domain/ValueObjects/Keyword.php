@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: Keyword — 10 methods; BR-002 (10); FR-008 (10); FR-018 (10)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/Keyword.php; coverage: docs/TestCases/ (file rollup)
  * Value Object representing a single keyword
  *

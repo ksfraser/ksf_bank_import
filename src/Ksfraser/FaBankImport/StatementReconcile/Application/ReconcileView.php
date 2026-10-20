@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionD
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
 
 /**
+ * @BABOK CLASS ROLLUP: ReconcileView — 9 methods; FR-007 (9); BR-004 (9)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/ReconcileView.php; coverage: docs/TestCases/ (file rollup)
  * Renders the reconciliation UI pages.
  *

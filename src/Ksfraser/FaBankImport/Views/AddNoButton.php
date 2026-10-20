@@ -8,6 +8,7 @@ use Ksfraser\HTML\Elements\HtmlSubmit;
 use Ksfraser\HTML\Elements\HtmlString;
 
 /**
+ * @BABOK CLASS ROLLUP: AddNoButton — 3 methods; FR-009 (3); IR-001 (3)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AddNoButton.php; coverage: docs/TestCases/ (file rollup)
  */
 class AddNoButton implements \Ksfraser\HTML\HtmlElementInterface

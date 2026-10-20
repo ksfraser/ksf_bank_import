@@ -7,6 +7,7 @@ use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Http\ResponseHandler;
 
 /**
+ * @BABOK CLASS ROLLUP: AuthMiddleware — 2 methods; FR-014 (2)
  * @BABOK RTM: FR-014 / ARCH-004; file: Middleware/AuthMiddleware.php; coverage: docs/TestCases/ (file rollup)
  */
 class AuthMiddleware implements MiddlewareInterface

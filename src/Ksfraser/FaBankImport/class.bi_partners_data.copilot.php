@@ -1,5 +1,6 @@
 <?php
 
+/** @BABOK CLASS ROLLUP: BiPartnersData — 8 methods; BR-011 (8); BR-001 (8) */
 class BiPartnersData extends GenericFaInterfaceModel
 {
     protected $partnerId;       //!< int

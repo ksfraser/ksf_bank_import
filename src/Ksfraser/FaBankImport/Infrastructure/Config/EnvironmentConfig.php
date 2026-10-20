@@ -27,6 +27,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Config;
  * @since 2.2.0
  */
 /**
+ * @BABOK CLASS ROLLUP: EnvironmentConfig — 14 methods; FR-006 (14)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Config/EnvironmentConfig.php; coverage: docs/TestCases/ (file rollup)
  */
 final class EnvironmentConfig

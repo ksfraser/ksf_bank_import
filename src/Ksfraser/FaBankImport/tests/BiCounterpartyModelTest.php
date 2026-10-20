@@ -5,6 +5,7 @@ require_once '../ksf_modules_commone/class.generic_fa_interface.php';
 require_once '../ksf_modules_commone/defines.inc.php';
 require_once 'class.bi_counterparty_model.php';
 
+/** @BABOK CLASS ROLLUP: BiCounterpartyModelTest — 3 methods; NFR-016 (3); FR-018 (3) */
 class BiCounterpartyModelTest extends TestCase
 {
     protected $biCounterpartyModel;

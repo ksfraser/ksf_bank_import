@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
+ * @BABOK CLASS ROLLUP: CommandDispatcher — 6 methods; FR-014 (6)
  * @BABOK RTM: FR-014 / ARCH-004; file: Commands/CommandDispatcher.php; coverage: docs/TestCases/ (file rollup)
  * Command Dispatcher
  *

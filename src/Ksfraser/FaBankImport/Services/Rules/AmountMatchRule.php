@@ -23,6 +23,7 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRule;
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 
 /**
+ * @BABOK CLASS ROLLUP: AmountMatchRule — 5 methods; BR-001 (5)
  * @BABOK RTM: BR-001 / ARCH-001; file: Services/Rules/AmountMatchRule.php; coverage: docs/TestCases/ (file rollup)
  * Amount Range Matching Rule
  *

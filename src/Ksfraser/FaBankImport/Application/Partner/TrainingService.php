@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Contracts\TrainingService as TrainingServiceInterface;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: TrainingService — 2 methods; BR-011 (2)
  * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/TrainingService.php; coverage: docs/TestCases/ (file rollup)
  * TrainingService - Build training data from historical partner transactions
  *

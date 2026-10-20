@@ -6,6 +6,7 @@ use Tests\Integration\DatabaseTestCase;
 use Ksfraser\FaBankImport\Container;
 use Ksfraser\FaBankImport\Commands\ProcessTransactionCommand;
 
+/** @BABOK CLASS ROLLUP: TransactionPerformanceTest — 4 methods; NFR-016 (4); FR-018 (4) */
 class TransactionPerformanceTest extends DatabaseTestCase
 {
     private $container;

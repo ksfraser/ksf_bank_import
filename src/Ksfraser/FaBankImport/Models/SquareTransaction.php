@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Models;
 
 /**
+ * @BABOK CLASS ROLLUP: SquareTransaction — 4 methods; FR-008 (4); BR-003 (4)
  * @BABOK RTM: FR-008 / BR-003; file: Models/SquareTransaction.php; coverage: docs/TestCases/ (file rollup)
  */
 class SquareTransaction extends BankTransaction

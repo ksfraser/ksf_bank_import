@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Repository;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerRepository — 10 methods; FR-008 (10)
  * @BABOK RTM: FR-008 / ARCH-001; file: Repository/PartnerRepository.php; coverage: docs/TestCases/ (file rollup)
  * Interface for partner data repository operations
  *

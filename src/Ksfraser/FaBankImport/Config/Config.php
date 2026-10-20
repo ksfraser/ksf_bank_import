@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: Config — 4 methods; FR-002 (4); FR-051 (4)
  * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/Config.php; coverage: docs/TestCases/ (file rollup)
  */
 class Config

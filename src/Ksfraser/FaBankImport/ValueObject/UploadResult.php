@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**
+ * @BABOK CLASS ROLLUP: UploadResult — 14 methods; FR-008 (14); DR-001 (14)
  * @BABOK RTM: FR-008 / DR-001; file: ValueObject/UploadResult.php; coverage: docs/TestCases/ (file rollup)
  * Upload Result Value Object
  * 

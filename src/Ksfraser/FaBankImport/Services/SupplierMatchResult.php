@@ -22,6 +22,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierMatchResult — 11 methods; BR-001 (11); BR-002 (11); FR-008 (11)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierMatchResult.php; coverage: docs/TestCases/ (file rollup)
  * Supplier Match Result
  *

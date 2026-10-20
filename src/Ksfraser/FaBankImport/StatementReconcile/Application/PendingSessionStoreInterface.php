@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\StatementReconcile\Application;
 
 /**
+ * @BABOK CLASS ROLLUP: PendingSessionStoreInterface — 3 methods; FR-007 (3); BR-004 (3)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/PendingSessionStoreInterface.php; coverage: docs/TestCases/ (file rollup)
  * Persists the in-progress reconciliation state across HTTP requests.
  *

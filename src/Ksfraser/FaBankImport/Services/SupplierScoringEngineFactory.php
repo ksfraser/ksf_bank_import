@@ -39,6 +39,7 @@ use Ksfraser\FaBankImport\Services\Rules\AmountMatchRule;
 use Ksfraser\FaBankImport\Services\Rules\InvoiceDetectionRule;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierScoringEngineFactory — 7 methods; BR-001 (7); BR-002 (7); FR-008 (7)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
  * Factory for Creating Supplier-Configured Scoring Engine
  *

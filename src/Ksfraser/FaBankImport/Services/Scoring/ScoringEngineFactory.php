@@ -22,6 +22,7 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
 use Ksfraser\FaBankImport\Config\BankImportConfig;
 
 /**
+ * @BABOK CLASS ROLLUP: ScoringEngineFactory — 2 methods; BR-011 (2)
  * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
  * ScoringEngineFactory
  *

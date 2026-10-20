@@ -14,6 +14,7 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\FaBankImport\Services\PartnerMatcher;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierPartnerTypeView — 8 methods; FR-009 (8); IR-001 (8)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/SupplierPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
  * SupplierPartnerTypeView - Display supplier selection UI
  * 

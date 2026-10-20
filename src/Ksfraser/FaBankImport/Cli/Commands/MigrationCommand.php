@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migrations\CreatePartnerTables
 use PDO;
 
 /**
+ * @BABOK CLASS ROLLUP: MigrationCommand — 15 methods; FR-049 (15)
  * @BABOK RTM: FR-049 / ARCH-004; file: Cli/Commands/MigrationCommand.php; coverage: docs/TestCases/ (file rollup)
  * MigrationCommand - Manage database migrations
  *

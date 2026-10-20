@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Entity;
 
 /**
+ * @BABOK CLASS ROLLUP: UploadedFile — 17 methods; FR-008 (17); DR-001 (17)
  * @BABOK RTM: FR-008 / DR-001 / ARCH-010; file: Entity/UploadedFile.php; coverage: docs/TestCases/ (file rollup)
  * Uploaded File Entity
  * 

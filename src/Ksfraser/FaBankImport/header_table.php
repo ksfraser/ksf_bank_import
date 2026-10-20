@@ -29,6 +29,7 @@
 *
 ******************************************************************************************/
 /**
+ * @BABOK CLASS ROLLUP: ksf_modules_table_filter_by_date — 4 methods; BR-002 (4); FR-008 (4); FR-018 (4)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: header_table.php; coverage: docs/TestCases/ (file rollup)
  */
 class ksf_modules_table_filter_by_date 

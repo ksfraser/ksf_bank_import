@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: MatchConfidence — 14 methods; BR-002 (14); FR-008 (14); FR-018 (14)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/MatchConfidence.php; coverage: docs/TestCases/ (file rollup)
  * Value Object representing match confidence calculation
  *

@@ -18,6 +18,7 @@ namespace Ksfraser\FaBankImport\Reporting;
 use DateTime;
 
 /**
+ * @BABOK CLASS ROLLUP: MatchingReport — 19 methods; FR-012 (19)
  * @BABOK RTM: FR-012 / ARCH-007; file: Reporting/MatchingReport.php; coverage: docs/TestCases/ (file rollup)
  * MatchingReport - Immutable record of a match operation
  *

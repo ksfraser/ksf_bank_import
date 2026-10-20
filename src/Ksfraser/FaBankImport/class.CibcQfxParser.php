@@ -15,6 +15,7 @@ require_once (__DIR__ . '/vendor/autoload.php' );
 include_once( 'includes.inc' );
 
 /************************************************
+ * @BABOK CLASS ROLLUP: AbstractQfxParser — 7 methods; BR-002 (7); FR-008 (7); FR-018 (7)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.CibcQfxParser.php; coverage: docs/TestCases/ (file rollup)
 * Abstract class to parse a QFX/OFX file
 ************************************************/

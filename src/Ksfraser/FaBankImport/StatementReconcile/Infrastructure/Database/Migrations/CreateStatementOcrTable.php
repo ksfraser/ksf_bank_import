@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
+ * @BABOK CLASS ROLLUP: CreateStatementOcrTable — 4 methods; FR-008 (4)
  * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Database/Migrations/CreateStatementOcrTable.php; coverage: docs/TestCases/ (file rollup)
  * Creates the bi_statement_ocr table.
  *

@@ -7,6 +7,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK CLASS ROLLUP: MetricsAggregator — 4 methods; BR-012-002 (2); TC-012-A (1); BR-012-003 (1)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/MetricsAggregator.php; coverage: docs/TestCases/ (file rollup)
  */
 class MetricsAggregator

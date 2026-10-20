@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Results;
 
 /**
+ * @BABOK CLASS ROLLUP: PaginatedTransactionResult — 3 methods; FR-008 (3); FR-017 (3)
  * @BABOK RTM: FR-008 / FR-017; file: Results/PaginatedTransactionResult.php; coverage: docs/TestCases/ (file rollup)
  * PaginatedTransactionResult
  *

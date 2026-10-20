@@ -3,6 +3,7 @@
 define( 'MENU_IMPORT', 'menu_import' );
 
 /**
+ * @BABOK CLASS ROLLUP: hooks_bank_import — 3 methods; NFR-016 (1); FR-018 (3); BR-002 (2); FR-008 (2)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: hooks.php; coverage: docs/TestCases/ (file rollup)
  */
 class hooks_bank_import extends hooks {

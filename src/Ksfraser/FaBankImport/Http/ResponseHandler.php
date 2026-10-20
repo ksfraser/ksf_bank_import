@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
+ * @BABOK CLASS ROLLUP: ResponseHandler — 8 methods; FR-001 (8); IR-001 (8)
  * @BABOK RTM: FR-001 / IR-001; file: Http/ResponseHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class ResponseHandler

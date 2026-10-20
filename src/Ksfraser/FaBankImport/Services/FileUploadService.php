@@ -14,6 +14,7 @@ use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 use Ksfraser\FaBankImport\Strategy\DuplicateStrategyFactory;
 
 /**
+ * @BABOK CLASS ROLLUP: FileUploadService — 11 methods; BR-001 (11); BR-002 (11); FR-008 (11)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/FileUploadService.php; coverage: docs/TestCases/ (file rollup)
  * File Upload Service
  * 

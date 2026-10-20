@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Events;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionProcessedEvent — 4 methods; BR-003 (4)
  * @BABOK RTM: BR-003 / ARCH-004; file: Events/TransactionProcessedEvent.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionProcessedEvent

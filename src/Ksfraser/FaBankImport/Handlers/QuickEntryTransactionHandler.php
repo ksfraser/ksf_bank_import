@@ -31,6 +31,7 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\QuickEntryPartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: QuickEntryTransactionHandler — 3 methods; FR-049 (3)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/QuickEntryTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class QuickEntryTransactionHandler extends AbstractTransactionHandler

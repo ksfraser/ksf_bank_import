@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: bi_statements_modelTest — 6 methods; NFR-016 (6); FR-018 (6) */
 class bi_statements_modelTest extends TestCase
 {
     protected $bi_statements;

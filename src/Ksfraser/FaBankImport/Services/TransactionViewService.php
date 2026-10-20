@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionViewService — 4 methods; BR-001 (4); BR-002 (4); FR-008 (4)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionViewService.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionViewService

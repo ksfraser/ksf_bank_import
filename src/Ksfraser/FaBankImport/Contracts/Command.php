@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Contracts;
 
 /**
+ * @BABOK CLASS ROLLUP: Command — 4 methods; FR-015 (4)
  * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/Command.php; coverage: docs/TestCases/ (file rollup)
  * Command Contract - CLI Command Interface
  * 

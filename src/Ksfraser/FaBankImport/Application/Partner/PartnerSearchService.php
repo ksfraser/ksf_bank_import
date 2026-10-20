@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\Entity\PartnerMatchResult;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerSearchService — 5 methods; BR-011 (5)
  * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/PartnerSearchService.php; coverage: docs/TestCases/ (file rollup)
  * PartnerSearchService
  * 

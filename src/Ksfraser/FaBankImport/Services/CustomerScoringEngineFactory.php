@@ -35,6 +35,7 @@ use Ksfraser\FaBankImport\Services\Rules\AmountMatchRule;
 use Ksfraser\FaBankImport\Services\Rules\RefundDetectionRule;
 
 /**
+ * @BABOK CLASS ROLLUP: CustomerScoringEngineFactory — 7 methods; BR-001 (7); BR-002 (7); FR-008 (7)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/CustomerScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
  * Factory for Creating Customer-Configured Scoring Engine
  *

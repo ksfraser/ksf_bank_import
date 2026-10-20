@@ -9,6 +9,7 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
+ * @BABOK CLASS ROLLUP: CreatePartnerTables — 4 methods; FR-006 (4)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migrations/CreatePartnerTables.php; coverage: docs/TestCases/ (file rollup)
  * Initial Migration - Create Partner Tables
  * 

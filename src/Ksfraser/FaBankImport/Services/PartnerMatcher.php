@@ -6,6 +6,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerMatcher — 8 methods; BR-001 (8); BR-002 (8); FR-008 (8)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerMatcher.php; coverage: docs/TestCases/ (file rollup)
  * PartnerMatcher - Service for matching partners by bank account
  * 

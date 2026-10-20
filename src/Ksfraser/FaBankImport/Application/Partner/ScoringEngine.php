@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Application\Partner;
 
 /**
+ * @BABOK CLASS ROLLUP: ScoringEngine — 7 methods; BR-011 (7)
  * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/ScoringEngine.php; coverage: docs/TestCases/ (file rollup)
  * Scoring Engine Service
  * 

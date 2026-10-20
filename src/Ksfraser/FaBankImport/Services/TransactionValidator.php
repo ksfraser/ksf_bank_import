@@ -10,6 +10,7 @@ use Ksfraser\Application\Config\Config;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionValidator — 6 methods; BR-001 (6); BR-002 (6); FR-008 (6)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionValidator.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionValidator

@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**
+ * @BABOK CLASS ROLLUP: FileInfo — 12 methods; FR-008 (12); DR-001 (12)
  * @BABOK RTM: FR-008 / DR-001; file: ValueObject/FileInfo.php; coverage: docs/TestCases/ (file rollup)
  * File Information Value Object
  * 

@@ -7,6 +7,7 @@ use Ksfraser\Application\Commands\ProcessTransactionCommand;
 use Ksfraser\Application\Middleware\AuthMiddleware;
 
 /**
+ * @BABOK CLASS ROLLUP: BankImportController — 4 methods; BR-002 (4); FR-008 (4); FR-018 (4)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: BankImportController.php; coverage: docs/TestCases/ (file rollup)
  */
 class BankImportController extends AbstractController

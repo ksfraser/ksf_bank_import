@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Repositories;
 use Ksfraser\FaBankImport\Database\QueryBuilder;
 
 /**
+ * @BABOK CLASS ROLLUP: AbstractRepository — 5 methods; FR-008 (5)
  * @BABOK RTM: FR-008 / ARCH-001; file: Repositories/AbstractRepository.php; coverage: docs/TestCases/ (file rollup)
  */
 abstract class AbstractRepository

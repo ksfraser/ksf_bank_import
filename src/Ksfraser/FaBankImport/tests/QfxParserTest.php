@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: QfxParserTest — 3 methods; NFR-016 (3); FR-018 (3) */
 class QfxParserTest extends TestCase
 {
     protected $parser;

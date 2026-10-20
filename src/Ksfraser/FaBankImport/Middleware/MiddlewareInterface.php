@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Middleware;
 use Ksfraser\FaBankImport\Http\RequestHandler;
 
 /**
+ * @BABOK CLASS ROLLUP: MiddlewareInterface — 1 methods; FR-014 (1)
  * @BABOK RTM: FR-014 / ARCH-004; file: Middleware/MiddlewareInterface.php; coverage: docs/TestCases/ (file rollup)
  */
 interface MiddlewareInterface

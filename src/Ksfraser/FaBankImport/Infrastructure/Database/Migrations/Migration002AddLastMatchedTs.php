@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Database\Migrations;
 use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 
 /**
+ * @BABOK CLASS ROLLUP: Migration002AddLastMatchedTs — 5 methods; FR-006 (5)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migrations/Migration002AddLastMatchedTs.php; coverage: docs/TestCases/ (file rollup)
  * Migration 002: Add last_matched_ts to bi_partners_data
  * 

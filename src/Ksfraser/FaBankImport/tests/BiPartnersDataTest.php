@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: BiPartnersDataTest — 6 methods; NFR-016 (6); FR-018 (6) */
 class BiPartnersDataTest extends TestCase
 {
     protected $biPartnersData;

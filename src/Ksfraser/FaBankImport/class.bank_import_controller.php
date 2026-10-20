@@ -5,6 +5,7 @@ require_once( 'class.bi_transaction.php' );
 //require_once( 'class.bi_transactions.php' );
 
 /**
+ * @BABOK CLASS ROLLUP: bank_import_controller — 18 methods; BR-002 (18); FR-008 (18); FR-018 (18)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.bank_import_controller.php; coverage: docs/TestCases/ (file rollup)
  */
 class bank_import_controller extends origin

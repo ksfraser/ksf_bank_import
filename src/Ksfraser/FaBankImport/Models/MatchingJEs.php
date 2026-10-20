@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\models;
 
 /**
+ * @BABOK CLASS ROLLUP: MatchingJEs — 3 methods; FR-008 (3); BR-003 (3)
  * @BABOK RTM: FR-008 / BR-003; file: Models/MatchingJEs.php; coverage: docs/TestCases/ (file rollup)
  * MatchingJEs - Find matching Journal Entries for imported transactions
  * 

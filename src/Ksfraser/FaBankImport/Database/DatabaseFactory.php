@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Database;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: DatabaseFactory — 3 methods; FR-008 (3); DR-003 (3)
  * @BABOK RTM: FR-008 / DR-003; file: Database/DatabaseFactory.php; coverage: docs/TestCases/ (file rollup)
  */
 class DatabaseFactory

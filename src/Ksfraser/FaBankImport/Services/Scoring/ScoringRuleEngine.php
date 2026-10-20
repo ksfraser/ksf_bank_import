@@ -40,6 +40,7 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  * @since 2.3.0
  */
 /**
+ * @BABOK CLASS ROLLUP: ScoringRuleEngine — 13 methods; BR-011 (13)
  * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringRuleEngine.php; coverage: docs/TestCases/ (file rollup)
  */
 class ScoringRuleEngine

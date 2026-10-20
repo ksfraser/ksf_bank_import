@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata;
 
 /**
+ * @BABOK CLASS ROLLUP: StatementTextParser — 7 methods; FR-007 (7)
  * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/StatementTextParser.php; coverage: docs/TestCases/ (file rollup)
  * Orchestrates the two-step PDF-to-StatementOcr pipeline:
  *

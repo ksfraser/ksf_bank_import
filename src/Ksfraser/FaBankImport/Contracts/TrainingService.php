@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Contracts;
 
 /**
+ * @BABOK CLASS ROLLUP: TrainingService — 1 methods; FR-015 (1)
  * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/TrainingService.php; coverage: docs/TestCases/ (file rollup)
  * TrainingService Contract
  * 

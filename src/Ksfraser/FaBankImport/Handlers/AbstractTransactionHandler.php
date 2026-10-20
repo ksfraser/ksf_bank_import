@@ -56,6 +56,7 @@ use Ksfraser\FaBankImport\Services\ReferenceNumberService;
  * ```
  */
 /**
+ * @BABOK CLASS ROLLUP: AbstractTransactionHandler — 11 methods; FR-049 (11)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/AbstractTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 abstract class AbstractTransactionHandler implements TransactionHandlerInterface

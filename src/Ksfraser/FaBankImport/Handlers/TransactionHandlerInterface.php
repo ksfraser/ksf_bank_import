@@ -21,6 +21,7 @@ namespace Ksfraser\FaBankImport\Handlers;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionHandlerInterface — 3 methods; FR-049 (3)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/TransactionHandlerInterface.php; coverage: docs/TestCases/ (file rollup)
  * Transaction Handler Interface
  *

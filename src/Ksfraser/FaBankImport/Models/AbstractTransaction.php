@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Models;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: AbstractTransaction — 10 methods; FR-008 (10); BR-003 (10)
  * @BABOK RTM: FR-008 / BR-003; file: Models/AbstractTransaction.php; coverage: docs/TestCases/ (file rollup)
  */
 abstract class AbstractTransaction implements BankTransactionInterface

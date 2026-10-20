@@ -24,6 +24,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerMatcherFactory — 4 methods; BR-001 (4); BR-002 (4); FR-008 (4)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerMatcherFactory.php; coverage: docs/TestCases/ (file rollup)
  * Partner Matcher Factory
  *

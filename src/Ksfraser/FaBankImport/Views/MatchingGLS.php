@@ -8,6 +8,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 /**
+ * @BABOK CLASS ROLLUP: MatchingGLS — 6 methods; FR-009 (6); IR-001 (6)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/MatchingGLS.php; coverage: docs/TestCases/ (file rollup)
  * MatchingGLS - Display matching general ledger transactions
  * 

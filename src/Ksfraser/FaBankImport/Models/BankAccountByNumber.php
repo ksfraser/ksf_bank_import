@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\models;
 
 /**
+ * @BABOK CLASS ROLLUP: BankAccountByNumber — 6 methods; FR-008 (6); BR-003 (6)
  * @BABOK RTM: FR-008 / BR-003; file: Models/BankAccountByNumber.php; coverage: docs/TestCases/ (file rollup)
  * BankAccountByNumber - Retrieves bank account details by account number
  * 

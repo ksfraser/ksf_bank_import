@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrExcept
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Repository\StatementOcrRepositoryInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: PdoStatementOcrRepository — 7 methods; FR-008 (7)
  * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Persistence/PdoStatementOcrRepository.php; coverage: docs/TestCases/ (file rollup)
  * PDO-backed implementation of StatementOcrRepositoryInterface.
  *

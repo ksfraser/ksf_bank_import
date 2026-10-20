@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../ksf_modules_common/defines.inc.php');
 require_once('class.bi_transactions.php');
 
 /**
+ * @BABOK CLASS ROLLUP: bi_transaction — 17 methods; BR-002 (17); FR-005 (17); FR-006 (17)
  * Class bi_transaction
  *
  * Handles the processing of a single transaction.

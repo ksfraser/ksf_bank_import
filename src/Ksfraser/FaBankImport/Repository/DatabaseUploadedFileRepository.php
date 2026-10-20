@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Entity\UploadedFile;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
+ * @BABOK CLASS ROLLUP: DatabaseUploadedFileRepository — 13 methods; FR-008 (13)
  * @BABOK RTM: FR-008 / ARCH-001; file: Repository/DatabaseUploadedFileRepository.php; coverage: docs/TestCases/ (file rollup)
  * Database Implementation of Uploaded File Repository
  * 

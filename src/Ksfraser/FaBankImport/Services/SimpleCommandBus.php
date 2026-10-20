@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Interfaces\CommandBusInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: SimpleCommandBus — 2 methods; BR-001 (2); BR-002 (2); FR-008 (2)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SimpleCommandBus.php; coverage: docs/TestCases/ (file rollup)
  */
 class SimpleCommandBus implements CommandBusInterface

@@ -3,6 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../class.bi_lineitem.php';
 
+/** @BABOK CLASS ROLLUP: BiLineitemTest — 3 methods; NFR-016 (3); FR-018 (3) */
 class BiLineitemTest extends TestCase
 {
     protected $lineitem;

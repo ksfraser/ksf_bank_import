@@ -6,6 +6,7 @@
  * @since 20250409
  */
 
+/** @BABOK CLASS ROLLUP: ViewBILineItems — 18 methods; BR-002 (18); FR-008 (18); FR-018 (18) */
 class ViewBILineItems
 {
 	protected $bi_lineitem;

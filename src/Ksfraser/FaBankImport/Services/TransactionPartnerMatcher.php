@@ -25,6 +25,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionPartnerMatcher — 3 methods; BR-001 (3); BR-002 (3); FR-008 (3)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionPartnerMatcher.php; coverage: docs/TestCases/ (file rollup)
  * Transaction Partner Matcher
  *

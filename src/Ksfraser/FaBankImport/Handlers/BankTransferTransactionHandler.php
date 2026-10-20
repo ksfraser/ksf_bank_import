@@ -30,6 +30,7 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\BankTransferPartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: BankTransferTransactionHandler — 4 methods; FR-049 (4)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/BankTransferTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class BankTransferTransactionHandler extends AbstractTransactionHandler

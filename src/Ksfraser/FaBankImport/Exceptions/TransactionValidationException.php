@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Exceptions;
 //TODO:  flesh out specific validations and their resulting exceptions
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionValidationException — 2 methods; FR-050 (2)
  * @BABOK RTM: FR-050 / ARCH-003; file: Exceptions/TransactionValidationException.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionValidationException extends \Exception

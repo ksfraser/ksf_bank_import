@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Reporting;
 
 /**
+ * @BABOK CLASS ROLLUP: OperationReport — 19 methods; FR-012 (19)
  * @BABOK RTM: FR-012 / ARCH-007; file: Reporting/OperationReport.php; coverage: docs/TestCases/ (file rollup)
  * OperationReport - Summary of matching operation batch
  *

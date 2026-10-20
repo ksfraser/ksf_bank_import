@@ -75,6 +75,7 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * @since 1.0.0
  */
 /**
+ * @BABOK CLASS ROLLUP: QuickEntryDataProvider — 10 methods; FR-009 (10); IR-001 (10)
  * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/QuickEntryDataProvider.php; coverage: docs/TestCases/ (file rollup)
  */
 class QuickEntryDataProvider

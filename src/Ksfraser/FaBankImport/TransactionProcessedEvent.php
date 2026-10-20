@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Events;
 //TODO: Replace.  This looks like a DAO
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionProcessedEvent — 4 methods; BR-002 (4); FR-008 (4); FR-018 (4)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: TransactionProcessedEvent.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionProcessedEvent

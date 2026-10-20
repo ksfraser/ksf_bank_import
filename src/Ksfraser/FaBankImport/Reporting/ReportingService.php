@@ -43,6 +43,7 @@ use DateTime;
  * ```
  */
 /**
+ * @BABOK CLASS ROLLUP: ReportingService — 23 methods; FR-012 (23)
  * @BABOK RTM: FR-012 / ARCH-007; file: Reporting/ReportingService.php; coverage: docs/TestCases/ (file rollup)
  */
 class ReportingService

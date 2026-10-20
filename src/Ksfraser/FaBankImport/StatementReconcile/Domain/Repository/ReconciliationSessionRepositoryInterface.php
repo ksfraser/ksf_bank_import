@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\ReconciliationSession
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationException;
 
 /**
+ * @BABOK CLASS ROLLUP: ReconciliationSessionRepositoryInterface — 4 methods; FR-007 (4); BR-004 (4)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Repository/ReconciliationSessionRepositoryInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for persisting and retrieving ReconciliationSession aggregates.
  *

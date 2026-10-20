@@ -24,6 +24,7 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\CustomerPartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: CustomerTransactionHandler — 3 methods; FR-049 (3)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/CustomerTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  * Customer Transaction Handler
  *

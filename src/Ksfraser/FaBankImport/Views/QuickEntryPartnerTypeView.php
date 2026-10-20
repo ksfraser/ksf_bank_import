@@ -14,6 +14,7 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\PartnerFormData;
 
 /**
+ * @BABOK CLASS ROLLUP: QuickEntryPartnerTypeView — 8 methods; FR-009 (8); IR-001 (8)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/QuickEntryPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
  * QuickEntryPartnerTypeView - Display quick entry selection UI
  * 

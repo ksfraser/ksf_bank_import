@@ -4,6 +4,7 @@ namespace Tests\Integration;
 
 use Ksfraser\FaBankImport\Repositories\TransactionRepository;
 
+/** @BABOK CLASS ROLLUP: TransactionRepositoryIntegrationTest — 6 methods; NFR-016 (6); FR-018 (6) */
 class TransactionRepositoryIntegrationTest extends DatabaseTestCase
 {
     private $repository;

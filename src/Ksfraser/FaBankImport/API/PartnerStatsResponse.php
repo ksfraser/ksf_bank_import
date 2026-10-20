@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerStatsResponse — 10 methods; FR-001 (10)
  * @BABOK RTM: FR-001 / ARCH-001; file: API/PartnerStatsResponse.php; coverage: docs/TestCases/ (file rollup)
  * PartnerStatsResponse
  *

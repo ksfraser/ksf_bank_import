@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: BankImportControllerTest — 17 methods; NFR-016 (17); FR-018 (17) */
 class BankImportControllerTest extends TestCase
 {
     protected $controller;

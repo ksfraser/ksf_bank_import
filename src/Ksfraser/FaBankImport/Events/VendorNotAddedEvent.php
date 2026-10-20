@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Events;
 
 /**
+ * @BABOK CLASS ROLLUP: VendorNotAddedEvent — 3 methods; BR-003 (3)
  * @BABOK RTM: BR-003 / ARCH-004; file: Events/VendorNotAddedEvent.php; coverage: docs/TestCases/ (file rollup)
  */
 class VendorNotAddedEvent

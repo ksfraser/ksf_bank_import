@@ -8,6 +8,7 @@
 namespace Models;
 
 /**
+ * @BABOK CLASS ROLLUP: ThirdPartyTransactionInterface — 18 methods; BR-002 (18); FR-008 (18); FR-018 (18)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.bi_transaction.php; coverage: docs/TestCases/ (file rollup)
  */
 interface ThirdPartyTransactionInterface

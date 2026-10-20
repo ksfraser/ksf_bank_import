@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: RawOcrResult — 5 methods; FR-007 (5); BR-004 (5)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/RawOcrResult.php; coverage: docs/TestCases/ (file rollup)
  * Wraps the raw response from the Ollama/OCR model.
  *

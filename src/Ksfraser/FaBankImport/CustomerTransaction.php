@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Transaction;
 use Ksfraser\FaBankImport\AddCustomerButton;
 
 /**
+ * @BABOK CLASS ROLLUP: CustomerTransaction — 3 methods; BR-002 (3); FR-008 (3); FR-018 (3)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: CustomerTransaction.php; coverage: docs/TestCases/ (file rollup)
  */
 class CustomerTransaction extends Transaction

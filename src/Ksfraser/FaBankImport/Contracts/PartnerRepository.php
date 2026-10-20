@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Entity\PartnerEntity;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerRepository — 8 methods; FR-015 (8)
  * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/PartnerRepository.php; coverage: docs/TestCases/ (file rollup)
  * Partner Repository Contract
  * 

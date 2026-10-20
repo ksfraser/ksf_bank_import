@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
+ * @BABOK CLASS ROLLUP: AmountCharges — 1 methods; FR-009 (1); IR-001 (1)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AmountCharges.php; coverage: docs/TestCases/ (file rollup)
  * AmountCharges - Display transaction amount and charges row
  * 

@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\StatementReconcile\Application;
 
 /**
+ * @BABOK CLASS ROLLUP: BankAccountMatchService — 5 methods; FR-007 (5); BR-004 (5)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/BankAccountMatchService.php; coverage: docs/TestCases/ (file rollup)
  * Scores FA bank accounts against an OCR-extracted account identifier.
  *

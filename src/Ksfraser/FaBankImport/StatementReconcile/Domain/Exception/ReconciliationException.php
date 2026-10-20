@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\Exception;
 use RuntimeException;
 
 /**
+ * @BABOK CLASS ROLLUP: ReconciliationException — 3 methods; FR-007 (3); BR-004 (3)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Exception/ReconciliationException.php; coverage: docs/TestCases/ (file rollup)
  * Thrown when a reconciliation session is in an invalid state or operation fails.
  *

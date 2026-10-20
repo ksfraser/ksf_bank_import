@@ -33,6 +33,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Service\ReconciliationCommit
  * @author  Kevin Fraser
  */
 /**
+ * @BABOK CLASS ROLLUP: ReconciliationCommitService — 5 methods; FR-007 (5); BR-004 (5)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/ReconciliationCommitService.php; coverage: docs/TestCases/ (file rollup)
  */
 class ReconciliationCommitService implements ReconciliationCommitServiceInterface

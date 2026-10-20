@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Strategy;
 use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
 
 /**
+ * @BABOK CLASS ROLLUP: AllowDuplicateStrategy — 2 methods; BR-002 (2); FR-005 (2)
  * @BABOK RTM: BR-002 / FR-005; file: Strategy/AllowDuplicateStrategy.php; coverage: docs/TestCases/ (file rollup)
  * Allow Duplicate Strategy
  * 

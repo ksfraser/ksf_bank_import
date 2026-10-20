@@ -11,6 +11,7 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 
 /**
+ * @BABOK CLASS ROLLUP: ScoringRule — 4 methods; BR-011 (4)
  * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringRule.php; coverage: docs/TestCases/ (file rollup)
  * ScoringRule Interface
  *

@@ -18,6 +18,7 @@ use Ksfraser\FaBankImport\Controllers\BankImportController;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: Container — 14 methods; BR-002 (14); FR-008 (14); FR-018 (14)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Container.php; coverage: docs/TestCases/ (file rollup)
  */
 class Container

@@ -37,6 +37,7 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRule;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierMatchingRules — 23 methods; BR-001 (23); BR-002 (23); FR-008 (23)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierMatchingRules.php; coverage: docs/TestCases/ (file rollup)
  * Factory for Creating Supplier-Specific Matching Rules
  *

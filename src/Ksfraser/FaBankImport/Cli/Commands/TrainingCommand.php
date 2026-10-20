@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\Infrastructure\Error\ErrorHandler;
 use Ksfraser\FaBankImport\Exception\TrainingException;
 
 /**
+ * @BABOK CLASS ROLLUP: TrainingCommand — 9 methods; FR-049 (9)
  * @BABOK RTM: FR-049 / ARCH-004; file: Cli/Commands/TrainingCommand.php; coverage: docs/TestCases/ (file rollup)
  * TrainingCommand - CLI command to execute partner matching training
  * 

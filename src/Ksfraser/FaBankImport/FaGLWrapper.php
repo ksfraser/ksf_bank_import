@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport;
 
 /**//**************************************************************
+ * @BABOK CLASS ROLLUP: FaGLWrapper — 2 methods; BR-002 (2); FR-008 (2); FR-018 (2)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: FaGLWrapper.php; coverage: docs/TestCases/ (file rollup)
 * fa_gl is a DAO so we shouldn't be putting business logic into it
 * This wraps it for that logic

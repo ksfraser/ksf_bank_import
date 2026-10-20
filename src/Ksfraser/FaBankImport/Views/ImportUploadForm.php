@@ -12,6 +12,7 @@ require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
 
 
 /**//***********************
+ * @BABOK CLASS ROLLUP: Parsers — 3 methods; FR-009 (3); IR-001 (3)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ImportUploadForm.php; coverage: docs/TestCases/ (file rollup)
 * Class to return the list of parsers
 *

@@ -1,6 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: ImportStatementsTest — 2 methods; NFR-016 (2); FR-018 (2) */
 class ImportStatementsTest extends TestCase
 {
     /** @BABOK NFR-016 / FR-018 — method: testImportStatement */

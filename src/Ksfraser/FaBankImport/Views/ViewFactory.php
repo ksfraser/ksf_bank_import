@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider;
 use Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider;
 
 /**
+ * @BABOK CLASS ROLLUP: ViewFactory — 6 methods; FR-009 (6); IR-001 (6)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ViewFactory.php; coverage: docs/TestCases/ (file rollup)
  * ViewFactory - Factory for creating PartnerType Views
  * 

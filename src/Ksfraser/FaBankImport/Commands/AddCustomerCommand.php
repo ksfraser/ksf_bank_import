@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK CLASS ROLLUP: AddCustomerCommand — 3 methods; FR-014 (3)
  * @BABOK RTM: FR-014 / ARCH-004; file: Commands/AddCustomerCommand.php; coverage: docs/TestCases/ (file rollup)
  * Add Customer Command
  *

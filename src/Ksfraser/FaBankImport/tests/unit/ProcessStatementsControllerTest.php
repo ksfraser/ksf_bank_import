@@ -5,6 +5,7 @@ use Controllers\ProcessStatementsController;
 use Ksfraser\FaBankImport\Models\SquareTransaction;
 use Views\TransactionView;
 
+/** @BABOK CLASS ROLLUP: ProcessStatementsControllerTest — 8 methods; NFR-016 (8); FR-018 (8) */
 class ProcessStatementsControllerTest extends TestCase
 {
     private $controller;

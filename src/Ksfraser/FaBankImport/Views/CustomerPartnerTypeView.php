@@ -14,6 +14,7 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\FaBankImport\Services\PartnerMatcher;
 
 /**
+ * @BABOK CLASS ROLLUP: CustomerPartnerTypeView — 11 methods; FR-009 (11); IR-001 (11)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/CustomerPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
  * CustomerPartnerTypeView - Display customer/branch selection UI
  * 

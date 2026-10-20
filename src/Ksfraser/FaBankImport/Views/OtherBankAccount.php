@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
+ * @BABOK CLASS ROLLUP: OtherBankAccount — 1 methods; FR-009 (1); IR-001 (1)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/OtherBankAccount.php; coverage: docs/TestCases/ (file rollup)
  * OtherBankAccount - Display other party's bank account row
  * 

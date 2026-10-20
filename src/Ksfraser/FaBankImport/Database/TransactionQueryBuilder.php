@@ -29,6 +29,7 @@ namespace Ksfraser\FaBankImport\Database;
  * - Dependency Inversion: Depends on abstractions (parameters) not concrete implementations
  */
 /**
+ * @BABOK CLASS ROLLUP: TransactionQueryBuilder — 9 methods; FR-008 (9); DR-003 (9)
  * @BABOK RTM: FR-008 / DR-003; file: Database/TransactionQueryBuilder.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionQueryBuilder

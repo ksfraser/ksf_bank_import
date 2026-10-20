@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Services\PerformanceMonitor;
 
 /**
+ * @BABOK CLASS ROLLUP: PerformanceMonitoringMiddleware — 6 methods; FR-014 (6)
  * @BABOK RTM: FR-014 / ARCH-004; file: Middleware/PerformanceMonitoringMiddleware.php; coverage: docs/TestCases/ (file rollup)
  */
 class PerformanceMonitoringMiddleware implements MiddlewareInterface

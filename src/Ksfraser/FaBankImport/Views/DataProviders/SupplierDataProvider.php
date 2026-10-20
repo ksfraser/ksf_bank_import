@@ -74,6 +74,7 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * @since 1.0.0
  */
 /**
+ * @BABOK CLASS ROLLUP: SupplierDataProvider — 12 methods; FR-009 (12); IR-001 (12)
  * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/SupplierDataProvider.php; coverage: docs/TestCases/ (file rollup)
  */
 class SupplierDataProvider implements PartnerDataProviderInterface

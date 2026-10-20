@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Contracts\Logger;
 use Ksfraser\FaBankImport\Exception\PartnerException;
 
 /**
+ * @BABOK CLASS ROLLUP: ErrorHandler — 4 methods; FR-006 (4)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Error/ErrorHandler.php; coverage: docs/TestCases/ (file rollup)
  * ErrorHandler - Centralized error handling for Partner subsystem
  * 

@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: KeywordMatch — 19 methods; BR-002 (19); FR-008 (19); FR-018 (19)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/KeywordMatch.php; coverage: docs/TestCases/ (file rollup)
  * Value Object representing a keyword match result
  *

@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: StatementLine — 11 methods; FR-007 (11); BR-004 (11)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/StatementLine.php; coverage: docs/TestCases/ (file rollup)
  * Represents a single line item from a parsed credit-card statement.
  *

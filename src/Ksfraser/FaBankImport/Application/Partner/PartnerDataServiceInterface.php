@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Entity\PartnerEntity;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerDataServiceInterface — 6 methods; BR-011 (6)
  * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/PartnerDataServiceInterface.php; coverage: docs/TestCases/ (file rollup)
  * PartnerDataServiceInterface
  *

@@ -7,6 +7,7 @@ use Ksfraser\FaBankImport\Domain\Exceptions\PartnerDataNotFoundException;
 use RuntimeException;
 
 /**
+ * @BABOK CLASS ROLLUP: DatabasePartnerDataRepository — 13 methods; FR-008 (13)
  * @BABOK RTM: FR-008 / ARCH-001; file: Repository/DatabasePartnerDataRepository.php; coverage: docs/TestCases/ (file rollup)
  * Database implementation of PartnerDataRepository
  *

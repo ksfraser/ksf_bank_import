@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Http;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * @BABOK CLASS ROLLUP: RequestHandler — 9 methods; FR-001 (9); IR-001 (9)
  * @BABOK RTM: FR-001 / IR-001; file: Http/RequestHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class RequestHandler

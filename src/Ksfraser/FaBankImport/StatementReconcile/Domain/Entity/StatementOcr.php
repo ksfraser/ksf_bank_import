@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata;
 
 /**
+ * @BABOK CLASS ROLLUP: StatementOcr — 12 methods; FR-007 (12); BR-004 (12)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Entity/StatementOcr.php; coverage: docs/TestCases/ (file rollup)
  * Aggregate root representing one parsed CC statement PDF.
  *

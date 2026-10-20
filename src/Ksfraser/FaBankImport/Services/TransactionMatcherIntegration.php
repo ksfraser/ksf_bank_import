@@ -42,6 +42,7 @@ use SplFileInfo;
  * ```
  */
 /**
+ * @BABOK CLASS ROLLUP: TransactionMatcherIntegration — 25 methods; BR-001 (25); BR-002 (25); FR-008 (25)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionMatcherIntegration.php; coverage: docs/TestCases/ (file rollup)
  */
 final class TransactionMatcherIntegration

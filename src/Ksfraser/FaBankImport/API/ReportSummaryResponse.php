@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK CLASS ROLLUP: ReportSummaryResponse — 14 methods; FR-001 (14)
  * @BABOK RTM: FR-001 / ARCH-001; file: API/ReportSummaryResponse.php; coverage: docs/TestCases/ (file rollup)
  * ReportSummaryResponse
  *

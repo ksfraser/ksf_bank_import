@@ -42,6 +42,7 @@ use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 use Ksfraser\FaBankImport\Services\VendorCandidate;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierTransactionMatcher — 9 methods; BR-001 (9); BR-002 (9); FR-008 (9)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierTransactionMatcher.php; coverage: docs/TestCases/ (file rollup)
  * Supplier Transaction Matcher - Adapter for Legacy Vendor List
  *

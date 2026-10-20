@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Middleware\MiddlewareInterface;
 use Ksfraser\FaBankImport\Http\RequestHandler;
 
 /**
+ * @BABOK CLASS ROLLUP: MiddlewarePipeline — 2 methods; FR-014 (2)
  * @BABOK RTM: FR-014 / ARCH-004; file: Middleware/MiddlewarePipeline.php; coverage: docs/TestCases/ (file rollup)
  */
 class MiddlewarePipeline

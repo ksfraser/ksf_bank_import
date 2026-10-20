@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: AlertService — 7 methods; BR-001 (1); BR-002 (1); FR-008 (1); BR-012 (2); FR-012 (4); BR-012-003 (2)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/AlertService.php; coverage: docs/TestCases/ (file rollup)
  */
 class AlertService

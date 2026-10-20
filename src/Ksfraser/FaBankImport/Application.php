@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\Middleware\PerformanceMonitoringMiddleware;
 use Ksfraser\FaBankImport\Handlers\ErrorHandler;
 
 /**
+ * @BABOK CLASS ROLLUP: Application — 4 methods; BR-002 (4); FR-008 (4); FR-018 (4)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Application.php; coverage: docs/TestCases/ (file rollup)
  */
 class Application

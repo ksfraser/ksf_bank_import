@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exception;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerNotFoundException — 2 methods; FR-050 (2)
  * @BABOK RTM: FR-050 / ARCH-003; file: Exception/PartnerNotFoundException.php; coverage: docs/TestCases/ (file rollup)
  * PartnerNotFoundException - Thrown when a partner cannot be found
  * 

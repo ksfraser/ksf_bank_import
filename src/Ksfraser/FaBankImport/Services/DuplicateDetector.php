@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\Repository\UploadedFileRepositoryInterface;
 use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: DuplicateDetector — 8 methods; BR-001 (8); BR-002 (8); FR-008 (8)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/DuplicateDetector.php; coverage: docs/TestCases/ (file rollup)
  * Duplicate Detector Service
  * 

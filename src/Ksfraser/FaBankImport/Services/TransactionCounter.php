@@ -7,6 +7,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionCounter — 1 methods; BR-001 (1); BR-002 (1); FR-008 (1)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionCounter.php; coverage: docs/TestCases/ (file rollup)
  * TransactionCounter
  *

@@ -7,6 +7,7 @@ use Ksfraser\FaBankImport\Services\TransactionService;
 use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;
 
 /**
+ * @BABOK CLASS ROLLUP: ProcessTransactionCommandHandler — 2 methods; FR-049 (2)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/ProcessTransactionCommandHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class ProcessTransactionCommandHandler

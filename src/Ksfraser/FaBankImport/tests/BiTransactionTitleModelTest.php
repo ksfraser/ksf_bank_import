@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 require_once 'path/to/your/class.bi_transactionTitle_model.php';
 
+/** @BABOK CLASS ROLLUP: BiTransactionTitleModelTest — 3 methods; NFR-016 (3); FR-018 (3) */
 class BiTransactionTitleModelTest extends TestCase
 {
     private $biTransactionTitleModel;

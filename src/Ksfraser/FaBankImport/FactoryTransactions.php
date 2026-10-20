@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport;
 use Ksfraser\FaBankImport\Transaction;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierTransaction — 18 methods; BR-002 (18); FR-008 (18); FR-018 (18)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: FactoryTransactions.php; coverage: docs/TestCases/ (file rollup)
  */
 class SupplierTransaction extends Transaction

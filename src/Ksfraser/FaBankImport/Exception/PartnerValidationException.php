@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exception;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerValidationException — 3 methods; FR-050 (3)
  * @BABOK RTM: FR-050 / ARCH-003; file: Exception/PartnerValidationException.php; coverage: docs/TestCases/ (file rollup)
  * PartnerValidationException - Thrown when partner data validation fails
  * 

@@ -4,6 +4,7 @@ use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Controllers\BankImportController;
 use Ksfraser\FaBankImport\Models\SquareTransaction;
 
+/** @BABOK CLASS ROLLUP: BankImportControllerTest — 4 methods; NFR-016 (4); FR-018 (4) */
 class BankImportControllerTest extends TestCase
 {
     private $controller;

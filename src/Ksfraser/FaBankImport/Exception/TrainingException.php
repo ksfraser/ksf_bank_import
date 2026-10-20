@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exception;
 
 /**
+ * @BABOK CLASS ROLLUP: TrainingException — 3 methods; FR-050 (3)
  * @BABOK RTM: FR-050 / ARCH-003; file: Exception/TrainingException.php; coverage: docs/TestCases/ (file rollup)
  * TrainingException - Thrown when training operations fail
  * 

@@ -13,6 +13,7 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\FaBankImport\Services\PartnerMatcher;
 
 /**
+ * @BABOK CLASS ROLLUP: BankTransferPartnerTypeView — 9 methods; FR-009 (9); IR-001 (9)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/BankTransferPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
  * BankTransferPartnerTypeView - Display bank account selection UI for bank transfer transactions
  * 

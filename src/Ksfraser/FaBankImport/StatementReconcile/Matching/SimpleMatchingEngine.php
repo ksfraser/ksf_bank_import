@@ -36,6 +36,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
  * @author  Kevin Fraser
  */
 /**
+ * @BABOK CLASS ROLLUP: SimpleMatchingEngine — 6 methods; FR-007 (6)
  * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Matching/SimpleMatchingEngine.php; coverage: docs/TestCases/ (file rollup)
  */
 final class SimpleMatchingEngine implements MatchingEngineInterface

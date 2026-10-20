@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: bi_transactionTest — 4 methods; NFR-016 (4); FR-018 (4) */
 class bi_transactionTest extends TestCase
 {
     protected $biTransaction;

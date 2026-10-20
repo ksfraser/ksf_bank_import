@@ -6,6 +6,7 @@ use PDO;
 use RuntimeException;
 
 /**
+ * @BABOK CLASS ROLLUP: PdoPartnerRepository — 11 methods; FR-008 (11)
  * @BABOK RTM: FR-008 / ARCH-001; file: Repository/PdoPartnerRepository.php; coverage: docs/TestCases/ (file rollup)
  * PDO-based implementation of PartnerRepository
  *

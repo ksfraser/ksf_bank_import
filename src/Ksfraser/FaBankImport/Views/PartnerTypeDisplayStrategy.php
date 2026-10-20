@@ -41,6 +41,7 @@ use Ksfraser\FaBankImport\OperationTypes\OperationTypesRegistry;
  * @see Martin Fowler's "Refactoring: Improving the Design of Existing Code"
  */
 /**
+ * @BABOK CLASS ROLLUP: PartnerTypeDisplayStrategy — 12 methods; FR-009 (12); IR-001 (12)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/PartnerTypeDisplayStrategy.php; coverage: docs/TestCases/ (file rollup)
  */
 class PartnerTypeDisplayStrategy

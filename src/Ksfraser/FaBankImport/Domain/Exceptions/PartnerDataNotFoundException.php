@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Domain\Exceptions;
 use Exception;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerDataNotFoundException — 3 methods; BR-002 (3); FR-008 (3); FR-018 (3)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/Exceptions/PartnerDataNotFoundException.php; coverage: docs/TestCases/ (file rollup)
  * Exception thrown when partner data is not found
  *

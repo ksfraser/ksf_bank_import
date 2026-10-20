@@ -24,6 +24,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Matching\SimpleMatchingEngine;
 use Smalot\PdfParser\Parser as PdfParser;
 
 /**
+ * @BABOK CLASS ROLLUP: StatementReconcileController — 18 methods; FR-007 (18); BR-004 (18)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/StatementReconcileController.php; coverage: docs/TestCases/ (file rollup)
  * Application-layer controller for the PDF CC statement reconciliation workflow.
  *

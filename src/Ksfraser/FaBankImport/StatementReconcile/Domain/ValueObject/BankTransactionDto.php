@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: BankTransactionDto — 10 methods; FR-007 (10); BR-004 (10)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/BankTransactionDto.php; coverage: docs/TestCases/ (file rollup)
  * DTO representing a single FA bank transaction for matching purposes.
  *

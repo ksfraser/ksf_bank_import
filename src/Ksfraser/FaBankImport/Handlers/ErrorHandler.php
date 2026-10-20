@@ -7,6 +7,7 @@ use Monolog\Handler\StreamHandler;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: ErrorHandler — 4 methods; FR-049 (4)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/ErrorHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class ErrorHandler

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
+ * @BABOK CLASS ROLLUP: MatchTransactionRequest — 9 methods; FR-001 (9)
  * @BABOK RTM: FR-001 / ARCH-001; file: API/MatchTransactionRequest.php; coverage: docs/TestCases/ (file rollup)
  * MatchTransactionRequest
  *

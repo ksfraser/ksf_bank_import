@@ -5,6 +5,7 @@
 namespace Ksfraser\FaBankImport\Entity;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerEntity — 7 methods; FR-008 (7); DR-001 (7)
  * @BABOK RTM: FR-008 / DR-001 / ARCH-010; file: Entity/PartnerEntity.php; coverage: docs/TestCases/ (file rollup)
  * Partner Entity - Immutable value object representing a partner
  * 

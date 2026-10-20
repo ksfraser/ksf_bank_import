@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\StatementReconcile\Application;
 
 /**
+ * @BABOK CLASS ROLLUP: PhpSessionPendingSessionStore — 5 methods; FR-007 (5); BR-004 (5)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/PhpSessionPendingSessionStore.php; coverage: docs/TestCases/ (file rollup)
  * PHP $_SESSION-backed implementation of PendingSessionStoreInterface.
  *

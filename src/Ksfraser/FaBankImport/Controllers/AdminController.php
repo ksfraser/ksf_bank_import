@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Services\MetricsAggregator;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: AdminController — 5 methods; BR-002 (5); FR-008 (5); FR-018 (5)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controllers/AdminController.php; coverage: docs/TestCases/ (file rollup)
  */
 class AdminController extends AbstractController

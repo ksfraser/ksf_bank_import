@@ -24,6 +24,7 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 
 /**
+ * @BABOK CLASS ROLLUP: VendorCandidate — 5 methods; BR-001 (5); BR-002 (5); FR-008 (5)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/VendorCandidate.php; coverage: docs/TestCases/ (file rollup)
  * Vendor Candidate Implementation
  *

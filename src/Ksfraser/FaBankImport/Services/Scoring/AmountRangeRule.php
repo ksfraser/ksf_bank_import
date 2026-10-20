@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
+ * @BABOK CLASS ROLLUP: AmountRangeRule — 4 methods; BR-011 (4)
  * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/AmountRangeRule.php; coverage: docs/TestCases/ (file rollup)
  * Amount Range Scoring Rule
  *

@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Logger;
 use Ksfraser\FaBankImport\Contracts\Logger;
 
 /**
+ * @BABOK CLASS ROLLUP: NullLogger — 9 methods; FR-006 (9)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Logger/NullLogger.php; coverage: docs/TestCases/ (file rollup)
  * NullLogger - Discards all log messages
  * 

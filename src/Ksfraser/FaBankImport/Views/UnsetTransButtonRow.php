@@ -9,6 +9,7 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: UnsetTransButtonRow — 3 methods; FR-009 (3); IR-001 (3)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/UnsetTransButtonRow.php; coverage: docs/TestCases/ (file rollup)
  * UnsetTransButtonRow - wraps an UnsetTrans submit into a HtmlLabelRow
  * 

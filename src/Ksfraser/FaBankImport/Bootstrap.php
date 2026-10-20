@@ -7,6 +7,7 @@ use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;
 use Ksfraser\FaBankImport\Services\TransactionLogger;
 
 /**
+ * @BABOK CLASS ROLLUP: Bootstrap — 6 methods; BR-002 (6); FR-008 (6); FR-018 (6)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Bootstrap.php; coverage: docs/TestCases/ (file rollup)
  */
 class Bootstrap

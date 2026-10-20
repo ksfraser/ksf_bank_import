@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Container;
 use Ksfraser\FaBankImport\Services\TransactionViewService;
 
 /**
+ * @BABOK CLASS ROLLUP: BankImportController — 5 methods; BR-002 (5); FR-008 (5); FR-018 (5)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controller/BankImportController.php; coverage: docs/TestCases/ (file rollup)
  */
 class BankImportController

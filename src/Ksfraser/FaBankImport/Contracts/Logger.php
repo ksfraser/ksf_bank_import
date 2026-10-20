@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Contracts;
 
 /**
+ * @BABOK CLASS ROLLUP: Logger — 9 methods; FR-015 (9)
  * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/Logger.php; coverage: docs/TestCases/ (file rollup)
  * Logger Contract
  * 

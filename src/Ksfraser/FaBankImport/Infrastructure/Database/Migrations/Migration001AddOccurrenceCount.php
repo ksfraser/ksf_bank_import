@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Database\Migrations;
 use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 
 /**
+ * @BABOK CLASS ROLLUP: Migration001AddOccurrenceCount — 5 methods; FR-006 (5)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migrations/Migration001AddOccurrenceCount.php; coverage: docs/TestCases/ (file rollup)
  * Migration 001: Add occurrence_count to bi_partners_data
  * 

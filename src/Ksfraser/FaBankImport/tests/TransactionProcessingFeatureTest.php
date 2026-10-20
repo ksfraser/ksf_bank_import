@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\Integration\DatabaseTestCase;
 use Ksfraser\FaBankImport\Application;
 
+/** @BABOK CLASS ROLLUP: TransactionProcessingFeatureTest — 6 methods; NFR-016 (6); FR-018 (6) */
 class TransactionProcessingFeatureTest extends DatabaseTestCase
 {
     private $app;

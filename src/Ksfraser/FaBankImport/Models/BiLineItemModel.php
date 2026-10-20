@@ -7,6 +7,7 @@ use Ksfraser\frontaccounting\FaCustomerPayment;
 use Ksfraser\frontaccounting\FaGl;
 
 /**
+ * @BABOK CLASS ROLLUP: BiLineItemModel — 6 methods; FR-008 (6); BR-003 (6)
  * @BABOK RTM: FR-008 / BR-003; file: Models/BiLineItemModel.php; coverage: docs/TestCases/ (file rollup)
  * Model class for handling line item data.
  */

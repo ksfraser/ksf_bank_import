@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\Http\ResponseHandler;
 use Ksfraser\FaBankImport\Exceptions\UnauthorizedException;
 
 /**
+ * @BABOK CLASS ROLLUP: AdminMiddleware — 2 methods; FR-014 (2)
  * @BABOK RTM: FR-014 / ARCH-004; file: Middleware/AdminMiddleware.php; coverage: docs/TestCases/ (file rollup)
  */
 class AdminMiddleware implements MiddlewareInterface

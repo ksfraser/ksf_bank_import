@@ -8,6 +8,7 @@ use Ksfraser\Application\Services\TransactionValidator;
 use Ksfraser\FaBankImport\Exceptions\TransactionValidationException;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionValidationMiddleware — 2 methods; FR-014 (2)
  * @BABOK RTM: FR-014 / ARCH-004; file: Middleware/TransactionValidationMiddleware.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionValidationMiddleware implements MiddlewareInterface

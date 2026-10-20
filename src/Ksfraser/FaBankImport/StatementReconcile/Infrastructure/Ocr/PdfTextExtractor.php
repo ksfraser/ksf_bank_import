@@ -8,6 +8,7 @@ use Smalot\PdfParser\Parser;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 
 /**
+ * @BABOK CLASS ROLLUP: PdfTextExtractor — 3 methods; FR-007 (3)
  * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/PdfTextExtractor.php; coverage: docs/TestCases/ (file rollup)
  * Uses smalot/pdfparser to extract plain text from a PDF file.
  *

@@ -25,6 +25,7 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\SupplierPartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierTransactionHandler — 4 methods; FR-049 (4)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/SupplierTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  * Supplier Transaction Handler
  *

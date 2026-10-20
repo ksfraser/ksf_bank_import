@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\ValueObject;
 use Ksfraser\FaBankImport\Entity\UploadedFile;
 
 /**
+ * @BABOK CLASS ROLLUP: DuplicateResult — 11 methods; FR-008 (11); DR-001 (11)
  * @BABOK RTM: FR-008 / DR-001; file: ValueObject/DuplicateResult.php; coverage: docs/TestCases/ (file rollup)
  * Duplicate Detection Result Value Object
  * 

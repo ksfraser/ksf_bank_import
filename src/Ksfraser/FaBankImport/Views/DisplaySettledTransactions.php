@@ -8,6 +8,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
+ * @BABOK CLASS ROLLUP: DisplaySettledTransactions — 17 methods; FR-009 (17); IR-001 (17)
  * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/DisplaySettledTransactions.php; coverage: docs/TestCases/ (file rollup)
  */
 class DisplaySettledTransactions implements HtmlElementInterface

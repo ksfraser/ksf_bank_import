@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\Exception;
 use RuntimeException;
 
 /**
+ * @BABOK CLASS ROLLUP: StatementOcrException — 2 methods; FR-007 (2); BR-004 (2)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Exception/StatementOcrException.php; coverage: docs/TestCases/ (file rollup)
  * Thrown when an OCR operation on a statement fails or returns invalid data.
  *

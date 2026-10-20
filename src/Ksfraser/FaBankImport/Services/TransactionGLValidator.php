@@ -7,6 +7,7 @@
 namespace Ksfraser\FaBankImport\Services;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionGLValidator — 13 methods; BR-001 (13); BR-002 (13); FR-008 (13)
  * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionGLValidator.php; coverage: docs/TestCases/ (file rollup)
  * TransactionGLValidator - Validate imported bank transactions against GL entries
  * 

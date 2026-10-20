@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\StatementReconcile\Domain\Service;
 
 /**
+ * @BABOK CLASS ROLLUP: ReconciliationCommitServiceInterface — 1 methods; FR-007 (1); BR-004 (1)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Service/ReconciliationCommitServiceInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for the commit service that posts reconciliation results back to FA.
  *

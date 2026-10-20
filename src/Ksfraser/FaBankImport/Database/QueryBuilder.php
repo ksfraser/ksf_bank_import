@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Database;
 
 /**
+ * @BABOK CLASS ROLLUP: QueryBuilder — 10 methods; FR-008 (10); DR-003 (10)
  * @BABOK RTM: FR-008 / DR-003; file: Database/QueryBuilder.php; coverage: docs/TestCases/ (file rollup)
  */
 class QueryBuilder

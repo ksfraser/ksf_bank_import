@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Logger;
 use Ksfraser\FaBankImport\Contracts\Logger;
 
 /**
+ * @BABOK CLASS ROLLUP: FileLogger — 11 methods; FR-006 (11)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Logger/FileLogger.php; coverage: docs/TestCases/ (file rollup)
  * FileLogger - Logs messages to a file
  * 

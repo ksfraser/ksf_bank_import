@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\ManualTransaction;
 use Ksfraser\FaBankImport\SpecialCaseTransaction;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionFactoryImp — 2 methods; BR-002 (2); FR-008 (2); FR-018 (2)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: TransactionFactoryImp.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionFactoryImp implements TransactionFactory

@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationExce
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Repository\ReconciliationSessionRepositoryInterface;
 
 /**
+ * @BABOK CLASS ROLLUP: PdoReconciliationSessionRepository — 8 methods; FR-008 (8)
  * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Persistence/PdoReconciliationSessionRepository.php; coverage: docs/TestCases/ (file rollup)
  * PDO-backed implementation of ReconciliationSessionRepositoryInterface.
  *

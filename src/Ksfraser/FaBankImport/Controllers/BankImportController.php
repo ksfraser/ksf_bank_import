@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\Middleware\AuthMiddleware;
 
 
 /**
+ * @BABOK CLASS ROLLUP: BankImportController_MVC — 9 methods; BR-002 (9); FR-008 (9); FR-018 (9)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controllers/BankImportController.php; coverage: docs/TestCases/ (file rollup)
  */
 class BankImportController_MVC

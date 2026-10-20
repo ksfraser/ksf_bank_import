@@ -31,6 +31,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * ```
  */
 /**
+ * @BABOK CLASS ROLLUP: CommandDispatcherInterface — 4 methods; FR-015 (4)
  * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/CommandDispatcherInterface.php; coverage: docs/TestCases/ (file rollup)
  */
 interface CommandDispatcherInterface

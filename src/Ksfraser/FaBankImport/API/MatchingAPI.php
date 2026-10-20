@@ -54,6 +54,7 @@ use Ksfraser\FaBankImport\Reporting\MatchingReport;
  * ```
  */
 /**
+ * @BABOK CLASS ROLLUP: MatchingAPI — 13 methods; FR-001 (13)
  * @BABOK RTM: FR-001 / ARCH-001; file: API/MatchingAPI.php; coverage: docs/TestCases/ (file rollup)
  */
 class MatchingAPI

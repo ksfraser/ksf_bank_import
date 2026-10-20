@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Infrastructure\Database;
 use PDO;
 
 /**
+ * @BABOK CLASS ROLLUP: Migration — 4 methods; FR-006 (4)
  * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migration.php; coverage: docs/TestCases/ (file rollup)
  * Migration Interface
  * 

@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Exceptions;
 
 /**
+ * @BABOK CLASS ROLLUP: UnauthorizedException — 1 methods; FR-050 (1)
  * @BABOK RTM: FR-050 / ARCH-003; file: Exceptions/UnauthorizedException.php; coverage: docs/TestCases/ (file rollup)
  */
 class UnauthorizedException extends \Exception

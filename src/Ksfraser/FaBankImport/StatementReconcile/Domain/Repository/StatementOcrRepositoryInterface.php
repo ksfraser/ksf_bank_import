@@ -8,6 +8,7 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 
 /**
+ * @BABOK CLASS ROLLUP: StatementOcrRepositoryInterface — 3 methods; FR-007 (3); BR-004 (3)
  * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Repository/StatementOcrRepositoryInterface.php; coverage: docs/TestCases/ (file rollup)
  * Contract for persisting and retrieving StatementOcr aggregates.
  *

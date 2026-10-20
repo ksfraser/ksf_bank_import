@@ -35,6 +35,7 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\ManualSettlementPartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: ManualSettlementHandler — 3 methods; FR-049 (3)
  * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/ManualSettlementHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class ManualSettlementHandler extends AbstractTransactionHandler

@@ -27,6 +27,7 @@ use ReflectionClass;
 use ReflectionException;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionProcessor — 8 methods; BR-002 (8); FR-008 (8); FR-018 (8)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: TransactionProcessor.php; coverage: docs/TestCases/ (file rollup)
  * Transaction Processor
  *

@@ -16,6 +16,7 @@ require_once __DIR__ . '/../header_table.php';
 	Adjust the paths in the require_once statements according to your directory structure.
 */
 
+/** @BABOK CLASS ROLLUP: KsfModulesTableFilterByDateTest — 4 methods; NFR-016 (4); FR-018 (4) */
 class KsfModulesTableFilterByDateTest extends TestCase
 {
     protected $tableFilter;

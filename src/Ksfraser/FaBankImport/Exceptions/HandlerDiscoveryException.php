@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exceptions;
 
 /**
+ * @BABOK CLASS ROLLUP: HandlerDiscoveryException — 3 methods; FR-050 (3)
  * @BABOK RTM: FR-050 / ARCH-003; file: Exceptions/HandlerDiscoveryException.php; coverage: docs/TestCases/ (file rollup)
  * Handler Discovery Exception
  *

@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Application\Partner;
 
 /**
+ * @BABOK CLASS ROLLUP: KeywordExtractor — 3 methods; BR-011 (3)
  * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/KeywordExtractor.php; coverage: docs/TestCases/ (file rollup)
  * Keyword Extractor Service
  * 

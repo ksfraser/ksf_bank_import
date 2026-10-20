@@ -3,6 +3,7 @@
 namespace Ksfraser\FaBankImport\Strategy;
 
 /**
+ * @BABOK CLASS ROLLUP: DuplicateStrategyFactory — 3 methods; BR-002 (3); FR-005 (3)
  * @BABOK RTM: BR-002 / FR-005; file: Strategy/DuplicateStrategyFactory.php; coverage: docs/TestCases/ (file rollup)
  * Duplicate Strategy Factory
  * 

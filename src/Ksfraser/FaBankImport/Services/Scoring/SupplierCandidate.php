@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierCandidate — 3 methods; BR-011 (3)
  * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/SupplierCandidate.php; coverage: docs/TestCases/ (file rollup)
  * Interface for supplier/vendor candidates
  *

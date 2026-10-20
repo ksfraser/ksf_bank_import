@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Repositories\TransactionRepository;
 
+/** @BABOK CLASS ROLLUP: TransactionRepositoryTest — 5 methods; NFR-016 (5); FR-018 (5) */
 class TransactionRepositoryTest extends TestCase
 {
     private $repository;
