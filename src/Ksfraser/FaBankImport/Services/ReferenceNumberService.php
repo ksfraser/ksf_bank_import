@@ -48,8 +48,8 @@ class ReferenceNumberService
      * 
      * @param object|null $referenceGenerator Optional reference generator for testing
      */
+        /** @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     public function __construct($referenceGenerator = null)
-        /** @BABOK @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     {
         // Allow dependency injection for testing, otherwise use FA global
         $this->referenceGenerator = $referenceGenerator;
@@ -69,8 +69,8 @@ class ReferenceNumberService
      * $reference = $service->getUniqueReference(ST_CUSTPAYMENT);
      * // Returns: "12345" or similar unique ref
      */
+        /** @BABOK See docs/Requirements/ for module coverage — method: getUniqueReference */
     public function getUniqueReference(int $transType): string
-        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: getUniqueReference */
     {
         // Use injected generator or FA global
         $generator = $this->referenceGenerator ?? $this->getGlobalRefsObject();
@@ -89,8 +89,8 @@ class ReferenceNumberService
      * 
      * @return object FA References object
      */
+        /** @BABOK See docs/Requirements/ for module coverage — method: getGlobalRefsObject */
     protected function getGlobalRefsObject()
-        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: getGlobalRefsObject */
     {
         global $Refs;
         return $Refs;

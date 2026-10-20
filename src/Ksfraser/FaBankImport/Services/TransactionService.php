@@ -16,8 +16,8 @@ class TransactionService
     private $repository;
     private $factory;
 
-    public function __construct(
             /** @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
+    public function __construct(
         $repository,
         TransactionTypeFactory $factory
     ) {
@@ -25,14 +25,14 @@ class TransactionService
         $this->factory = $factory;
     }
 
-    public function getPendingTransactions(): array
             /** @BABOK BR-001 / FR-001 — method: getPendingTransactions */
+    public function getPendingTransactions(): array
     {
         return $this->repository->findByStatus('pending');
     }
 
-    public function processTransaction(int $id, string $type): bool
             /** @BABOK BR-001 / FR-001 / BR-003 — method: processTransaction */
+    public function processTransaction(int $id, string $type): bool
     {
         $transaction = $this->repository->findById($id);
         
@@ -46,8 +46,8 @@ class TransactionService
         return $this->repository->update($id, ['status' => 'processed']);
     }
 
-    public function toggleTransactionType(int $id): bool
             /** @BABOK See docs/Requirements/ for module coverage — method: toggleTransactionType */
+    public function toggleTransactionType(int $id): bool
     {
         $transaction = $this->repository->findById($id);
         

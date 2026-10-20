@@ -1,7 +1,7 @@
 <?php
 
-/** @BABOK See docs/Requirements/ for module coverage tracking 
-// @BABOK Referenced in RTM for service layer (FR-001 through FR-018) 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -14,8 +14,8 @@ class AlertService
     private $aggregator;
     private static $instance = null;
 
+        /** @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     private function __construct()
-        /** @BABOK @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     {
         $this->config = Config::getInstance();
         $this->aggregator = new MetricsAggregator($this->config->get('logging.path'));
@@ -29,8 +29,8 @@ class AlertService
         return self::$instance;
     }
 
+        /** @BABOK BR-012 / FR-012 (Alert monitoring) — method: checkAndSendAlerts */
     public function checkAndSendAlerts(): void
-        /** @BABOK @BABOK BR-012 / FR-012 (Alert monitoring) — method: checkAndSendAlerts */
     {
         if (!$this->config->get('alerts.enabled', false)) {
             return;
@@ -62,8 +62,8 @@ class AlertService
         }
     }
 
+        /** @BABOK BR-012 / FR-012 — method: sendAnomalyAlert */
     private function sendAnomalyAlert(array $anomalies): void
-        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: sendAnomalyAlert */
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' Performance Anomalies Detected';
         
@@ -81,8 +81,8 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
+        /** @BABOK BR-012-003 / FR-012 — method: sendSlowTransactionAlert */
     private function sendSlowTransactionAlert(string $metricName, array $metric): void
-        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: sendSlowTransactionAlert */
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' Slow Transactions Detected';
         
@@ -96,8 +96,8 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
+        /** @BABOK BR-012-003 / FR-012 — method: sendHighMemoryAlert */
     private function sendHighMemoryAlert(string $metricName, array $metric): void
-        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: sendHighMemoryAlert */
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' High Memory Usage Detected';
         
@@ -111,8 +111,8 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
+        /** @BABOK ARCH-007 / FR-012 — method: sendEmail */
     private function sendEmail(string $subject, string $message): void
-        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: sendEmail */
     {
         $to = $this->config->get('alerts.email.to');
         $from = $this->config->get('alerts.email.from');

@@ -1,7 +1,7 @@
 <?php
 
-/** @BABOK See docs/Requirements/ for module coverage tracking 
-// @BABOK Referenced in RTM for service layer (FR-001 through FR-018) 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -11,14 +11,14 @@ class MetricsAggregator
     private const METRICS_FILE_PATTERN = '/performance_*.log';
     private $logPath;
 
+        /** @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     public function __construct(string $logPath)
-        /** @BABOK @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     {
         $this->logPath = $logPath;
     }
 
+        /** @BABOK BR-012-002 / TC-012-A (Metrics aggregation) — method: aggregateMetrics */
     public function aggregateMetrics(string $startDate, string $endDate): array
-        /** @BABOK @BABOK BR-012-002 / TC-012-A (Metrics aggregation) — method: aggregateMetrics */
     {
         $metrics = [];
         $files = glob($this->logPath . self::METRICS_FILE_PATTERN);
@@ -69,8 +69,8 @@ class MetricsAggregator
         return $metrics;
     }
 
+        /** @BABOK BR-012-002 / ARCH-007 — method: getHistoricalTrends */
     public function getHistoricalTrends(string $metricName, int $days = 7): array
-        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: getHistoricalTrends */
     {
         $endDate = date('Y-m-d');
         $startDate = date('Y-m-d', strtotime("-{$days} days"));
@@ -94,8 +94,8 @@ class MetricsAggregator
         return $dailyMetrics;
     }
 
+        /** @BABOK BR-012-003 / ARCH-007 — method: detectPerformanceAnomalies */
     public function detectPerformanceAnomalies(array $metrics, float $threshold = 2.0): array
-        /** @BABOK @BABOK See docs/Requirements/ for module coverage — method: detectPerformanceAnomalies */
     {
         $anomalies = [];
         

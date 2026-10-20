@@ -33,20 +33,16 @@
             <directory suffix="Test.php">./tests/integration</directory>
         </testsuite>
     </testsuites>
-    <coverage processUncoveredFiles="true">
+    <coverage processUncoveredFiles="false">
         <include>
-            <directory suffix=".php">./src</directory>
+            <directory suffix=".php">./src/Ksfraser/FaBankImport</directory>
         </include>
         <exclude>
-            <directory>./src/Ksfraser/Application/tests</directory>
             <directory>./src/Ksfraser/FaBankImport/tests</directory>
             <file>./src/Ksfraser/FaBankImport/Views/Operation.php</file>
             <file>./src/Ksfraser/FaBankImport/Controllers/BiLineItemController.php</file>
             <file>./src/Ksfraser/FaBankImport/Controller/BiLineItemController.php</file>
             <file>./src/Ksfraser/FaBankImport/class.bi_transactions.copilot.php</file>
-            <file>./src/Ksfraser/Model/BiLineItemModel.php</file>
-            <file>./src/Ksfraser/FaBankImport/BankImportController.php</file>
-            <file>./src/Ksfraser/FaBankImport/Controller/BankImportController.php</file>
         </exclude>
         <report>
             <html outputDirectory="coverage"/>
