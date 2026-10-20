@@ -169,7 +169,7 @@ HRM (`ksf_FA_HRM`) is an orchestrator. These sub-modules answer hooks:
 | Module | Version | Purpose | Tables |
 |--------|---------|---------|--------|
 | **ksf_FA_Documents** | 1.0.0 | Document versioning, linking, GPG integration | `fa_documents*` (5 tables) |
-| **ksf_FA_Attachments** | — | Cross-module file attachments | `0_fa_attachments`, `0_fa_attachment_audit` |
+| **ksf_FA_Attachments** | — | Cross-module file attachments | `0_ksf_attachments`, `0_ksf_attachments_audit` |
 | **ksf_FA_Notes** | 1.0.0 | Notes/comments on transactions/contacts | `0_fa_crm_notes`, `0_fa_note_links` |
 | **ksf_FA_KnowledgeBase** | 1.0.0 | Articles, categories, FAQ | `fa_kb_*` (3 tables) |
 | **ksf_FA_Forms** | 1.0.0 | Custom form builder | `fa_forms`, `fa_form_submissions` |

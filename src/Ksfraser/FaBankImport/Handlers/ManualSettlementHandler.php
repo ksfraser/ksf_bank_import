@@ -171,8 +171,13 @@ class ManualSettlementHandler extends AbstractTransactionHandler
         // Update partner data with transaction memo
         try {
             $memo = $transaction['memo'] ?? '';
-            $personType = $counterpartyArr['person_type'] ?? '';
-            $personTypeId = $counterpartyArr['person_type_id'] ?? 0;
+
+            // get_trans_counterparty returns the FA result set: a list of
+            // person rows (one per counterparty; a transaction has at most
+            // one). Fall back to keyed company access for legacy results.
+            $counterpartyRow = $counterpartyArr[0] ?? $counterpartyArr;
+            $personType = $counterpartyRow['person_type'] ?? '';
+            $personTypeId = (int) ($counterpartyRow['person_type_id'] ?? 0);
             
             if (!empty($personType) && $personTypeId > 0) {
                 set_partner_data($personType, $existingType, $personTypeId, $memo);

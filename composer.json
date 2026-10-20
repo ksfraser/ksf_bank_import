@@ -3,6 +3,9 @@
     "description": "A FrontAccounting module for bank import functionality with paired transfer processing.",
     "type": "library",
     "autoload": {
+        "files": [
+            "includes/fa_stubs.php"
+        ],
         "psr-4": {
             "Ksfraser\\": "src/Ksfraser/",
             "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
@@ -56,7 +59,8 @@
     "require-dev": {
         "phpunit/phpunit": "^9.6",
         "codeception/codeception": "^4.1",
-        "mikey179/vfsstream": "^1.6"
+        "mikey179/vfsstream": "^1.6",
+        "ksfraser/famock": "dev-main"
     },
     "scripts": {
         "test": "phpunit",

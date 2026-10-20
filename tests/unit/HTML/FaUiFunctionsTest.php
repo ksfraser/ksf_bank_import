@@ -43,6 +43,8 @@ class FaUiFunctionsTest extends TestCase
 
     public function testTableStyle2Constant(): void
     {
-        $this->assertEquals(2, FaUiFunctions::TABLESTYLE2);
+        // FA's real TABLESTYLE2 is the string 'tablestyle2'
+        // (includes/ui/ui_lists.inc).
+        $this->assertEquals('tablestyle2', FaUiFunctions::TABLESTYLE2);
     }
 }

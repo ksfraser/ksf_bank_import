@@ -87,14 +87,18 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             );
         }
 
-        // Load external fa_bank_transfer class
-        $faClassPath = $this->getFaBankTransferClassPath();
-        $inc = require_once($faClassPath);
-        
-        if (!$inc || !class_exists('fa_bank_transfer')) {
-            return $this->createErrorResult(
-                'Failed to load fa_bank_transfer class'
-            );
+        // Load external fa_bank_transfer class.
+        // Skip the file require when the class is already available
+        // (test environments stub it via ksfraser/famock).
+        if (!class_exists('fa_bank_transfer')) {
+            $faClassPath = $this->getFaBankTransferClassPath();
+            $inc = require_once($faClassPath);
+
+            if (!$inc || !class_exists('fa_bank_transfer')) {
+                return $this->createErrorResult(
+                    'Failed to load fa_bank_transfer class'
+                );
+            }
         }
 
         // Process the bank transfer

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ec4d6d57d233f3ea5a9f9f3a8c9bc58",
+    "content-hash": "4305a41f9a5442bb52a077021edd94f4",
     "packages": [
         {
             "name": "asgrim/ofxparser",
@@ -2232,6 +2232,59 @@
                 }
             ],
             "time": "2022-12-30T00:15:36+00:00"
+        },
+        {
+            "name": "ksfraser/famock",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/FAMock.git",
+                "reference": "12b4d7d80da82de5bb334b7d6a549d87b296debe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/FAMock/zipball/12b4d7d80da82de5bb334b7d6a549d87b296debe",
+                "reference": "12b4d7d80da82de5bb334b7d6a549d87b296debe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "php/FAMock.php",
+                    "php/TestDbResult.php"
+                ],
+                "psr-4": {
+                    "Ksfraser\\FAMock\\": "php/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Fraser",
+                    "email": "kevin@ksfraser.com"
+                }
+            ],
+            "description": "FrontAccounting function mocks for unit testing",
+            "support": {
+                "issues": "https://github.com/ksfraser/FAMock/issues",
+                "source": "https://github.com/ksfraser/FAMock/tree/main"
+            },
+            "time": "2026-10-20T07:57:53+00:00"
         },
         {
             "name": "mikey179/vfsstream",
@@ -5009,7 +5062,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ksfraser/ksf-cache": 20
+        "ksfraser/ksf-cache": 20,
+        "ksfraser/famock": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

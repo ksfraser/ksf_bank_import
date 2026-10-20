@@ -23,7 +23,11 @@ foreach ($faUiFiles as $faFile) {
  * This allows us to decouple our HTML components from FA's UI functions
  */
 class FaUiFunctions {
-    const TABLESTYLE2 = 2; // Matching FA's constant
+    // FA's real constant is a string: define("TABLESTYLE2", "tablestyle2")
+    // in includes/ui/ui_lists.inc. The old numeric 2 let the fallback
+    // synthesize "tablestyle2" from the digits, but passing it to the real
+    // start_table() produced class="2", which no FA stylesheet styles.
+    const TABLESTYLE2 = 'tablestyle2';
 
     public static function label_row($label, $content, $params="")
     {

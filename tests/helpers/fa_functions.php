@@ -1,10 +1,20 @@
 <?php
 
 /**
- * FrontAccounting Function Stubs for Testing
+ * FrontAccounting Test Environment Setup
  *
- * Provides stub implementations of FrontAccounting global functions
- * for unit testing in isolation from the FrontAccounting environment.
+ * The FA runtime for unit tests is provided by ksfraser/famock (composer
+ * dev dependency, loaded through composer's files autoloader before this
+ * file runs), so the historical stub definitions here are no longer the
+ * active implementations (famock's function_exists() guards keep ours
+ * dormant).
+ *
+ * This file keeps two responsibilities under the new order:
+ *  - re-declared-but-dormant stubs stay harmless for bootstraps that still
+ *    require this file by name;
+ *  - seed famock's fixture chart of accounts so BankImportConfig's GL
+ *    account validation behaves like production (db_query() answers
+ *    chart_master COUNT(*) lookups from $__fa_chart_accounts).
  *
  * @package    Tests\Helpers
  * @author     Kevin Fraser
@@ -17,6 +27,25 @@
 // In-memory storage for company preferences during tests
 global $_test_company_prefs;
 $_test_company_prefs = [];
+
+// Fixture chart of accounts for chart_master lookups (famock) -- mirrors
+// the accounts used by FA's default chart so setters accept production-
+// shaped codes (9999 stays present because the config reset tests reuse
+// it as a valid mutated value).
+$GLOBALS['__fa_chart_accounts'] = [
+    '0000',
+    '1000',
+    '1060',
+    '1100',
+    '1200',
+    '1234',
+    '1400',
+    '1550',
+    '2000',
+    '2100',
+    '2130',
+    '9999',
+];
 
 /**
  * Get company preference (test stub)

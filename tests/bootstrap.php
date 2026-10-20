@@ -1,7 +1,11 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+// Project stubs loaded FIRST so they stay authoritative: composer autoload
+// files (ksfraser/famock) run inside require autoload and supplement the
+// functions fa_stubs.php does not define (function_exists guards decide).
 require_once __DIR__ . '/../includes/fa_stubs.php';
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Load environment variables from .env file
 $envPath = __DIR__ . '/../.env';
@@ -37,13 +41,11 @@ define('FA_ROOT', dirname(__DIR__));
 // Load test base classes (not autoloaded)
 require_once __DIR__ . '/integration/DatabaseTestCase.php';
 
-// Load famock package for FA function mocks (db_*, end_page, etc.)
-if (file_exists(__DIR__ . "/../vendor/autoload.php")) {
-    // famock loaded via vendor if installed
-}
-if (file_exists("/home/kevin/Documents/famock/php/FAMock.php")) {
-    require_once "/home/kevin/Documents/famock/php/FAMock.php";
-}
+// fa function mocks come from ksfraser/famock (composer dev dependency,
+// autoload.files): includes/fa_stubs.php above supplements the UI/render side
+// only. Write-side FA stubs (write_bank_transaction, items_cart, $Refs, ...)
+// ship inside famock's FaWriteStubs.php.
+//
 // Load test stubs for missing classes
 require_once __DIR__ . '/test_stubs.php';
 // FA Mock package: ksfraser/famock (reference: /home/kevin/Documents/famock/)
