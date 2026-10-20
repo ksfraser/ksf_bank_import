@@ -2,10 +2,21 @@
 
 namespace Ksfraser\FaBankImport;
 
+// Historically defaulted in the (removed) include stubs; the transaction row
+// treats a +/- of this many days as one statement cycle when matching GL.
+if (!defined('DEFAULT_DAYS_SPREAD')) {
+	define('DEFAULT_DAYS_SPREAD', 10);
+}
+if (!defined('KSF_FIELD_NOT_SET')) {
+	define('KSF_FIELD_NOT_SET', 1001);
+}
+
 //use Ksfraser\FaBankImport\TransactionTypeLabel.php;
 use \Exception;
+use Ksfraser\FaBankImport\Views\TransactionTypeLabel;
+use Ksfraser\FaBankImport\Views\ToggleTransactionTypeButton;
 
-require_once( __DIR__ . "../../../../Views/TransactionTypeLabel.php" );
+// Views shim (require) replaced by PSR-4 autoloading of the namespaced class.
 
 /**
  * @BABOK CLASS ROLLUP: Transaction — 11 methods; BR-002 (11); FR-008 (11); FR-018 (11)
@@ -120,7 +131,7 @@ abstract class Transaction
 	**********************************************************************/
 	function determineTransactionTypeLabel(): void
 	{
-		$tTL = new \TransactionTypeLabel( $this->transactionDC );
+		$tTL = new TransactionTypeLabel( $this->transactionDC );
 		$this->transactionTypeLabel = $tTL->getTransactionTypeLabel();
 		return;
 	}
@@ -271,6 +282,21 @@ abstract class Transaction
 		}
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
 		return $matchedVendor;
+	}
+	/**//*************************************************************************
+ * @BABOK BR-002 / FR-008 / FR-018 — method: matchedSupplierId
+	* Id of the supplier matching the bank's shortname
+	*
+	*	Ported from legacy class.bi_lineitem (method had dropped from
+	*	Transaction.php but displayAddVendorOrCustomer still calls it).
+	**************************************************************************/
+	function matchedSupplierId( $matchedVendor ): int
+	{
+		if( ! isset( $this->vendor_list ) )
+		{
+			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
+		}
+		return $this->vendor_list[$matchedVendor]['supplier_id'];
 	}
 	/** @BABOK BR-002 / FR-008 / FR-018 — method: ToggleTransactionTypeButton */
 	function ToggleTransactionTypeButton()

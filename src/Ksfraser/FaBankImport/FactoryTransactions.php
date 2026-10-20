@@ -3,6 +3,8 @@
 namespace Ksfraser\FaBankImport;
 
 use Ksfraser\FaBankImport\Transaction;
+use Ksfraser\FaBankImport\Views\AddNoButton;
+use Ksfraser\FaBankImport\Views\AddVendorButton;
 
 /**
  * @BABOK CLASS ROLLUP: SupplierTransaction — 18 methods; BR-002 (18); FR-008 (18); FR-018 (18)

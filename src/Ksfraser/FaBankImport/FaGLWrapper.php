@@ -2,6 +2,8 @@
 
 namespace Ksfraser\FaBankImport;
 
+use Exception;
+
 /**//**************************************************************
  * @BABOK CLASS ROLLUP: FaGLWrapper — 2 methods; BR-002 (2); FR-008 (2); FR-018 (2)
  * @BABOK RTM: BR-002 / FR-008 / FR-018; file: FaGLWrapper.php; coverage: docs/TestCases/ (file rollup)

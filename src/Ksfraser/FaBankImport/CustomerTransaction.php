@@ -3,7 +3,7 @@
 namespace Ksfraser\FaBankImport;
 
 use Ksfraser\FaBankImport\Transaction;
-use Ksfraser\FaBankImport\AddCustomerButton;
+use Ksfraser\FaBankImport\Views\AddCustomerButton;
 
 /**
  * @BABOK CLASS ROLLUP: CustomerTransaction — 3 methods; BR-002 (3); FR-008 (3); FR-018 (3)
