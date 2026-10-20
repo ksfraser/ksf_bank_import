@@ -1,5 +1,5 @@
 <?php
-/** @BABOK See docs/Requirements/ for module coverage tracking - Views layer (FR-009 / ARCH-009 / BR-009) */
+/** @BABOK RTM: ARCH-009 / BR-009 / FR-009*/
 namespace Ksfraser\FaBankImport\Views;
 
 

@@ -47,7 +47,7 @@ class TransactionService
         return $this->repository->update($id, ['status' => 'processed']);
     }
 
-            /** @BABOK See docs/Requirements/ for module coverage — method: toggleTransactionType */
+            /** @BABOK RTM: BR-001 / ARCH-001 / FR-001 / FR-015 / TC-011-A / TC-011-B / TC-011-C*/
     public function toggleTransactionType(int $id): bool
     {
         $transaction = $this->repository->findById($id);

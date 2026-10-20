@@ -47,4 +47,4 @@ Verified with the 2026-10-20 tag-integrity scan (a 100% pass across 1990 method 
 | Application/Partner | `tests/unit/Services/*` (matcher/scoring pipes) | PASS |
 | Contracts | implicit (interface contracts satisfied by concrete classes) | PASS |
 
-Coverage %: measured with xdebug coverage on FaBankImport scope. Baseline is checked into `coverage_full.txt` and the `coverage/` HTML report (see `docs/ProjectDocuments/…`).
+Coverage %: measured with xdebug coverage on FaBankImport scope. Baseline is checked into `coverage_full.txt` and the `coverage/` HTML report (see `ProjectDocuments/…`).

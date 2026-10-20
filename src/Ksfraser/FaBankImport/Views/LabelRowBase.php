@@ -1,6 +1,6 @@
 <?php
-// @BABOK Referenced in RTM for domain layer (BR-001 through BR-012, ARCH-001 through ARCH-010)
-/** @BABOK See docs/Requirements/ for module coverage tracking */
+// @BABOK RTM: FR-009 / IR-001 / ARCH-008 (domain layer)
+/** @BABOK RTM: ARCH-009 / BR-009 / FR-009*/
 
 namespace Ksfraser\HTML;
 

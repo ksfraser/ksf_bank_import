@@ -70,7 +70,7 @@ class ReferenceNumberService
      * $reference = $service->getUniqueReference(ST_CUSTPAYMENT);
      * // Returns: "12345" or similar unique ref
      */
-        /** @BABOK See docs/Requirements/ for module coverage — method: getUniqueReference */
+        /** @BABOK RTM: ARCH-001 / FR-015*/
     public function getUniqueReference(int $transType): string
     {
         // Use injected generator or FA global
@@ -90,7 +90,7 @@ class ReferenceNumberService
      * 
      * @return object FA References object
      */
-        /** @BABOK See docs/Requirements/ for module coverage — method: getGlobalRefsObject */
+        /** @BABOK RTM: ARCH-001 / FR-015*/
     protected function getGlobalRefsObject()
     {
         global $Refs;

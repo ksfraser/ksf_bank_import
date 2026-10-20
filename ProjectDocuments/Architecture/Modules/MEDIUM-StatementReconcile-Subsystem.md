@@ -47,6 +47,6 @@ All 30 files carry file-level RTM rollups, per-method tags (66 tags in this subt
 ## BABOK Coverage notes
 
 - `StatementReconcile/Application/*` ↔ **SR-REQ-001..018** rows in RTM (status = IMPLEMENTED, PASS per `docs/RTM ST-001` from UAT-011 pass)
-- `StatementReconcile/Domain/*` ↔ **DB-driven domain objects** on `docs/ProjectDocuments/Architecture/ARCH-010-*`
-- `StatementReconcile/Infrastructure/*` ↔ **ARCH-010 staged** per `docs/ProjectDocuments/Architecture/ARCH-010-*`
-- `StatementReconcile/Matching/*` ↔ **FR-007** on `docs/ProjectDocuments/Architecture/ARCH-010-*`
+- `StatementReconcile/Domain/*` ↔ **DB-driven domain objects** on `ProjectDocuments/Architecture/ARCH-010-*`
+- `StatementReconcile/Infrastructure/*` ↔ **ARCH-010 staged** per `ProjectDocuments/Architecture/ARCH-010-*`
+- `StatementReconcile/Matching/*` ↔ **FR-007** on `ProjectDocuments/Architecture/ARCH-010-*`

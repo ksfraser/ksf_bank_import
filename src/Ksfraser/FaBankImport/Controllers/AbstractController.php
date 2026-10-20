@@ -1,6 +1,6 @@
 <?php
 
-/** @BABOK See docs/Requirements/ for module coverage tracking - Referenced in RTM */
+/** @BABOK RTM: ARCH-004 / FR-014 / ARCH-001*/
 namespace Ksfraser\FaBankImport\Controllers;
 
 use Ksfraser\FaBankImport\Http\RequestHandler;

@@ -1,8 +1,8 @@
 <?php
 
 declare(strict_types=1);
-// @BABOK Referenced in RTM for domain layer (BR-001 through BR-012, ARCH-001 through ARCH-010)
-/** @BABOK See docs/Requirements/ for module coverage tracking */
+// @BABOK RTM: FR-007 / BR-004 / ARCH-010 (domain layer)
+/** @BABOK RTM: FR-007 / BR-004 / ARCH-010*/
 
 namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 

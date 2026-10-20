@@ -1,6 +1,6 @@
 <?php
 
-/** @BABOK See docs/Requirements/ for module coverage tracking - Referenced in RTM */
+/** @BABOK RTM: ARCH-009 / BR-009 / FR-009 / UAT-001*/
 namespace Ksfraser\FaBankImport\Controllers;
 
 use Ksfraser\Application\Container;

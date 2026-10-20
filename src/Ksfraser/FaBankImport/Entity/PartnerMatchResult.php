@@ -1,6 +1,6 @@
 <?php
-// @BABOK Referenced in RTM for domain layer (BR-001 through BR-012, ARCH-001 through ARCH-010)
-/** @BABOK See docs/Requirements/ for module coverage tracking */
+// @BABOK RTM: FR-008 / DR-001 / ARCH-010 (domain layer)
+/** @BABOK RTM: BR-001 / ARCH-001*/
 
 namespace Ksfraser\FaBankImport\Entity;
 
