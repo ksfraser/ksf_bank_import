@@ -12,6 +12,7 @@ use InvalidArgumentException;
  * @package Ksfraser\FaBankImport\Domain\ValueObjects
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class Keyword
 {
@@ -36,6 +37,7 @@ class Keyword
      * @param string $text The keyword text (will be normalized)
      *
      * @throws InvalidArgumentException If keyword is invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(string $text)
     {
@@ -48,6 +50,7 @@ class Keyword
      * Get keyword text
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getText(): string
     {
@@ -58,6 +61,7 @@ class Keyword
      * Get keyword length
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLength(): int
     {
@@ -68,6 +72,7 @@ class Keyword
      * Check if keyword is valid (meets length requirements)
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isValid(): bool
     {
@@ -81,6 +86,7 @@ class Keyword
      * @param Keyword $other
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function contains(Keyword $other): bool
     {
@@ -95,6 +101,7 @@ class Keyword
      * @param Keyword $other
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function equals(Keyword $other): bool
     {
@@ -107,6 +114,7 @@ class Keyword
      * @param array<string> $stopwords List of stopwords
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isStopword(array $stopwords): bool
     {
@@ -122,6 +130,7 @@ class Keyword
      * String representation
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __toString(): string
     {
@@ -139,6 +148,7 @@ class Keyword
      * @param string $text
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function normalize(string $text): string
     {
@@ -160,6 +170,7 @@ class Keyword
      * @param string $text Normalized keyword text
      *
      * @throws InvalidArgumentException If keyword is invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validate(string $text): void
     {

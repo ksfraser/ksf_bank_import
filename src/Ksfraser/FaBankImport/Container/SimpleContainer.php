@@ -39,6 +39,7 @@ use RuntimeException;
  *     'postData' => $_POST
  * ]);
  * ```
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
 class SimpleContainer
 {
@@ -60,6 +61,7 @@ class SimpleContainer
      * @param bool $singleton Whether to treat as singleton
      *
      * @return void
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function bind(string $abstract, $concrete, bool $singleton = true): void
     {
@@ -76,6 +78,7 @@ class SimpleContainer
      * @param object $instance Singleton instance
      *
      * @return void
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function instance(string $abstract, object $instance): void
     {
@@ -92,6 +95,7 @@ class SimpleContainer
      *
      * @throws InvalidArgumentException If class doesn't exist
      * @throws RuntimeException If dependency cannot be resolved
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function make(string $abstract, array $parameters = []): object
     {
@@ -138,6 +142,7 @@ class SimpleContainer
      *
      * @param string $abstract Abstract class/interface name
      * @return mixed Concrete implementation
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     private function getConcrete(string $abstract)
     {
@@ -153,6 +158,7 @@ class SimpleContainer
      *
      * @param string $abstract Abstract class/interface name
      * @return bool
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     private function isSingleton(string $abstract): bool
     {
@@ -173,6 +179,7 @@ class SimpleContainer
      *
      * @throws InvalidArgumentException If class doesn't exist
      * @throws RuntimeException If dependency cannot be resolved
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     private function build(string $class, array $parameters = []): object
     {
@@ -210,6 +217,7 @@ class SimpleContainer
      * @return array Resolved dependencies
      *
      * @throws RuntimeException If dependency cannot be resolved
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     private function resolveDependencies(array $parameters, array $overrides = []): array
     {
@@ -280,6 +288,7 @@ class SimpleContainer
      *
      * @param string $abstract Abstract class/interface name
      * @return bool
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function has(string $abstract): bool
     {
@@ -290,6 +299,7 @@ class SimpleContainer
      * Get all registered bindings
      *
      * @return array<string, mixed>
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function getBindings(): array
     {
@@ -300,6 +310,7 @@ class SimpleContainer
      * Flush all bindings and instances (for testing)
      *
      * @return void
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function flush(): void
     {

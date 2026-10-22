@@ -8,6 +8,7 @@ use Ksfraser\frontaccounting\FaGl;
 
 /**
  * Model class for handling line item data.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
  */
 class BiLineItemModel extends GenericFaInterfaceModel
 {
@@ -113,6 +114,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	 * @param array $trz
 	 * @param array $vendor_list
 	 * @param array $optypes
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function __construct(array $trz, array $vendor_list = [], array $optypes = [])
 	{
@@ -130,6 +132,7 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	 * @param array $trz
 	 * @param array $vendor_list
 	 * @param array $optypes
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
 	 */
 	private function initialize(array $trz, array $vendor_list, array $optypes): void
 	{
@@ -195,7 +198,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	* @param mixed value to set
 	* @param bool should we allow the class to only set __construct time fields
 	* @return nothing. (parent) throws exceptions
-	**********************************************************************/
+	*********************************************************************	* @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+	*/
 	function set( $field, $value = null, $enforce = true )
 	{
 		$ret = parent::set( $field, $value, $enforce );
@@ -210,6 +215,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	* @param class
 	* @returns int how many fields did we copy
 	**************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function trz2obj( $trz ) : int
 	{
 		return $this->obj2obj( $trz );
@@ -221,6 +229,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	* @since 20250409
 	*
 	* This could probably be merged with setPartnerType
+	 */
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function determineTransactionTypeLabel(): void
 	{
@@ -240,6 +251,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	/**//********************************************************************
 	 * Retrieve bank account details.
 	 */
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+	 */
 	public function getBankAccountDetails(): void
 	{
 		$this->fa_bank_accounts = new FaBankAccounts($this);
@@ -252,6 +266,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	 * Set the partner type and operation label based on transactionDC.
 	*
 	* This could probably be merged with determineTransactionTypeLabel
+	 */
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setPartnerType(): void
 	{
@@ -287,6 +304,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	 *
 	 * @return array
 	 */
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+	 */
 	public function findMatchingExistingJE(): array
 	{
 		$fa_gl = new FaGl();
@@ -318,6 +338,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	 * - Otherwise -> ZZ (Matched existing transaction)
 	 *
 	 * @return void
+	 */
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
 	 */
 	protected function determinePartnerTypeFromMatches(): void
 	{
@@ -377,6 +400,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	* @param none
 	* @return array matching transactions
 	*********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function findPaired()
 	{
 		return [];
@@ -410,6 +436,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	*	in the matching GLs.
 	*
 	*********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function isPaired()
 	{
 		return false;
@@ -423,6 +452,9 @@ class BiLineItemModel extends GenericFaInterfaceModel
 	* @param int Partner Type (PT_SUPPLIER or PT_CUSTOMER)
 	* @returns array bi_partners_data
 	************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function seekPartnerByBankAccount( int $parterType = PT_SUPPLIER )
 	{
 		$matched_supplier = array();

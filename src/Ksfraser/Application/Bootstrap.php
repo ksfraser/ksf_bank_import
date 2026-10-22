@@ -6,11 +6,17 @@ use Ksfraser\Application\Config\Config;
 use Ksfraser\Application\Events\TransactionProcessedEvent;
 use Ksfraser\Application\Services\TransactionLogger;
 
+/**
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ */
 class Bootstrap
 {
     private $container;
     private $config;
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     public function __construct()
     {
         $this->container = Container::getInstance();
@@ -18,6 +24,9 @@ class Bootstrap
         $this->setupEventListeners();
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     private function setupEventListeners(): void
     {
         $eventDispatcher = $this->container->getEventDispatcher();
@@ -30,6 +39,9 @@ class Bootstrap
         );
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     public function run(): void
     {
         // Initialize error handling
@@ -42,6 +54,9 @@ class Bootstrap
         $this->setupLogging();
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     private function setupErrorHandling(): void
     {
         error_reporting(E_ALL);
@@ -50,6 +65,9 @@ class Bootstrap
         });
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     private function verifyDatabaseConnection(): void
     {
         try {
@@ -65,6 +83,9 @@ class Bootstrap
         }
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     private function setupLogging(): void
     {
         $logPath = $this->config->get('logging.path');

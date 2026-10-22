@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\ValueObject;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
  */
 class FileInfo
 {
@@ -31,6 +32,7 @@ class FileInfo
      * @param string $mimeType MIME type
      * 
      * @throws \InvalidArgumentException If validation fails
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(string $originalFilename, string $tmpPath, int $size, string $mimeType)
     {
@@ -56,6 +58,7 @@ class FileInfo
      * ```php
      * $fileInfo = FileInfo::fromUpload($_FILES['file']);
      * ```
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public static function fromUpload(array $fileData): self
     {
@@ -80,6 +83,7 @@ class FileInfo
      * 
      * @param int $errorCode PHP upload error code
      * @return string Error message
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     private static function getUploadErrorMessage(int $errorCode): string
     {
@@ -106,6 +110,7 @@ class FileInfo
      * Get original filename
      * 
      * @return string
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public function getOriginalFilename(): string
     {
@@ -116,6 +121,7 @@ class FileInfo
      * Get temporary file path
      * 
      * @return string
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public function getTmpPath(): string
     {
@@ -126,6 +132,7 @@ class FileInfo
      * Get file size in bytes
      * 
      * @return int
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public function getSize(): int
     {
@@ -136,6 +143,7 @@ class FileInfo
      * Get MIME type
      * 
      * @return string
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public function getMimeType(): string
     {
@@ -146,6 +154,7 @@ class FileInfo
      * Get file extension
      * 
      * @return string
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public function getExtension(): string
     {
@@ -156,6 +165,7 @@ class FileInfo
      * Get base filename without extension
      * 
      * @return string
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public function getBasename(): string
     {
@@ -167,6 +177,7 @@ class FileInfo
      * 
      * @return string MD5 hash
      * @throws \RuntimeException If file cannot be read
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     public function getMd5Hash(): string
     {
@@ -183,6 +194,7 @@ class FileInfo
      * 
      * @param string $filename
      * @throws \InvalidArgumentException
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     private function validateFilename(string $filename): void
     {
@@ -200,6 +212,7 @@ class FileInfo
      * 
      * @param int $size
      * @throws \InvalidArgumentException
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      */
     private function validateSize(int $size): void
     {

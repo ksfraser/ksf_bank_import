@@ -13,6 +13,7 @@ namespace Ksfraser\FaBankImport\Services;
  * 
  * @author Kevin Fraser / ChatGPT
  * @since 20251018
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
  */
 class TransactionGLValidator
 {
@@ -23,6 +24,7 @@ class TransactionGLValidator
     
     /**
      * Constructor
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     public function __construct()
     {
@@ -36,6 +38,7 @@ class TransactionGLValidator
      * 
      * @param int|null $smt_id Optional statement ID to validate specific statement
      * @return array Validation results with errors, warnings, and suggestions
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     public function validateAllTransactions($smt_id = null)
     {
@@ -79,6 +82,7 @@ class TransactionGLValidator
      * 
      * @param array $transaction Transaction data from bi_transactions table
      * @return array Validation result with status, errors, and suggestions
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     public function validateTransaction($transaction)
     {
@@ -149,6 +153,7 @@ class TransactionGLValidator
      * @param int $trans_type Transaction type
      * @param int $trans_no Transaction number
      * @return bool True if transaction exists
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     protected function checkGLTransactionExists($trans_type, $trans_no)
     {
@@ -169,6 +174,7 @@ class TransactionGLValidator
      * @param int $trans_type Transaction type
      * @param int $trans_no Transaction number
      * @return array GL transaction details
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     protected function getGLTransactionDetails($trans_type, $trans_no)
     {
@@ -195,6 +201,7 @@ class TransactionGLValidator
      * @param array $transaction Bank transaction
      * @param array $glTrans GL transaction details
      * @return array Validation result
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     protected function validateAmounts($transaction, $glTrans)
     {
@@ -247,6 +254,7 @@ class TransactionGLValidator
      * @param array $transaction Bank transaction
      * @param array $glTrans GL transaction details
      * @return array Validation result
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     protected function validateDates($transaction, $glTrans)
     {
@@ -279,6 +287,7 @@ class TransactionGLValidator
      * @param array $transaction Bank transaction
      * @param array $glTrans GL transaction details
      * @return array Validation result
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     protected function validateBankAccount($transaction, $glTrans)
     {
@@ -309,6 +318,7 @@ class TransactionGLValidator
      * 
      * @param array $transaction Bank transaction
      * @return array Suggested GL transactions
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     protected function findPossibleGLMatches($transaction)
     {
@@ -344,6 +354,7 @@ class TransactionGLValidator
      * 
      * @param array $validationResults All validation results
      * @return array Summary statistics
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     protected function generateSummary($validationResults)
     {
@@ -386,6 +397,7 @@ class TransactionGLValidator
      * @param int $trans_id Transaction ID
      * @param string $reason Reason for flagging
      * @return bool Success
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     public function flagTransactionForReview($trans_id, $reason)
     {
@@ -402,6 +414,7 @@ class TransactionGLValidator
      * Get all flagged transactions
      * 
      * @return array Flagged transactions
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     public function getFlaggedTransactions()
     {
@@ -426,6 +439,7 @@ class TransactionGLValidator
      * 
      * @param int $trans_id Transaction ID
      * @return bool Success
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
     public function clearFlag($trans_id)
     {

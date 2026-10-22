@@ -23,6 +23,7 @@ namespace Ksfraser\FaBankImport\Config;
  *
  * Provides type-safe access to module configuration settings.
  * All settings are stored in FrontAccounting's company preferences table.
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
  */
 class BankImportConfig
 {
@@ -45,6 +46,7 @@ class BankImportConfig
      * Check if transaction reference logging is enabled
      *
      * @return bool True if enabled, false if disabled
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getTransRefLoggingEnabled(): bool
     {
@@ -62,6 +64,7 @@ class BankImportConfig
      * Get GL account code for transaction reference logging
      *
      * @return string GL account code (e.g., '0000')
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getTransRefAccount(): string
     {
@@ -79,6 +82,7 @@ class BankImportConfig
      *
      * @param bool $enabled True to enable, false to disable
      * @return void
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function setTransRefLoggingEnabled(bool $enabled): void
     {
@@ -93,6 +97,7 @@ class BankImportConfig
      * @param string $accountCode GL account code
      * @return void
      * @throws \InvalidArgumentException if account doesn't exist
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function setTransRefAccount(string $accountCode): void
     {
@@ -111,6 +116,7 @@ class BankImportConfig
      *
      * @param string $accountCode GL account code to check
      * @return bool True if account exists, false otherwise
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     private static function glAccountExists(string $accountCode): bool
     {
@@ -141,6 +147,7 @@ class BankImportConfig
      * Useful for debugging or exporting settings.
      *
      * @return array<string, mixed> Configuration settings
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getAllSettings(): array
     {
@@ -156,6 +163,7 @@ class BankImportConfig
      * Useful for testing or resetting module configuration.
      *
      * @return void
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function resetToDefaults(): void
     {

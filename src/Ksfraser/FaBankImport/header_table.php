@@ -12,6 +12,9 @@ require_once( '../ksf_modules_common/class.origin.php' );
 *	Also, this code could be used for other modules that need to filter on dates.
 *
 ******************************************************************************************/
+/**
+ * @BABOK FR-PROC-001, FR-INQ-001 | BR-PROC-001 | UAT-PROC-001
+ */
 class ksf_modules_table_filter_by_date extends origin
 {
 	protected $cell1;	//!<array "label", "var_name", "type" (callback), "options"
@@ -24,6 +27,9 @@ class ksf_modules_table_filter_by_date extends origin
 	/**//*******************************************************************************
 	*
 	***********************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-INQ-001 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct()
 	{
 		parent::__construct();
@@ -32,6 +38,9 @@ class ksf_modules_table_filter_by_date extends origin
 	* Display the table
 	*
 	*************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-INQ-001 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display( $tablestype = TABLESTYLE_NOBORDER )
 	{
  		// this is filter table
@@ -72,6 +81,9 @@ class ksf_modules_table_filter_by_date extends origin
 	        end_row();
 	        end_table();
 	}
+	/**
+ * @BABOK FR-PROC-001, FR-INQ-001 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function bank_import_header( $tablestype = TABLESTYLE_NOBORDER )
 	{
  		// this is filter table

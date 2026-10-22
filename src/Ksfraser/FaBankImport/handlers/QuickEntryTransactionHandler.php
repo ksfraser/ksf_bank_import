@@ -30,12 +30,16 @@ use Ksfraser\FaBankImport\Config\BankImportConfig;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\QuickEntryPartnerType;
 
+/**
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+ */
 class QuickEntryTransactionHandler extends AbstractTransactionHandler
 {
     /**
      * Get the partner type instance for Quick Entry transactions
      * 
      * @return PartnerTypeInterface Returns QuickEntryPartnerType value object
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
@@ -52,6 +56,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
      * @param array $ourAccount Bank account information
      * 
      * @return TransactionResult Success result with links, or error result
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function process(
         array $transaction,
@@ -119,6 +124,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
      * @param int $transType ST_BANKPAYMENT or ST_BANKDEPOSIT
      * 
      * @return TransactionResult Success with links or error
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     private function processQuickEntry(
         array $transaction,

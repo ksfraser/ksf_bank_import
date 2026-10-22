@@ -50,6 +50,9 @@ use Ksfraser\HTML\HtmlElementInterface;
 *   By default, email addresses are validated using PHP's filter_var().
 *   Set $validateEmail = false to disable validation for custom formats.
 */
+/**
+ * @BABOK FR-PROC-013 | BR-PROC-006
+ */
 class HtmlEmail extends HtmlA
 {
 	/**
@@ -62,6 +65,7 @@ class HtmlEmail extends HtmlA
 	 *        - null: email address will be used as link text
 	 * @param bool $validateEmail Whether to validate the email format (default: true)
 	 * @throws \Exception if email is invalid or content type is invalid
+ * @BABOK FR-PROC-013 | BR-PROC-006
 	 */
 	function __construct( string $emailAddress, $linkContent = null, bool $validateEmail = true )
 	{

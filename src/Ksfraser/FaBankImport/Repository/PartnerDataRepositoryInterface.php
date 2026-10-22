@@ -14,6 +14,7 @@ use Ksfraser\FaBankImport\Domain\Exceptions\PartnerDataNotFoundException;
  * @package Ksfraser\FaBankImport\Repository
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 interface PartnerDataRepositoryInterface
 {
@@ -26,6 +27,7 @@ interface PartnerDataRepositoryInterface
      * @param string $data         The keyword/pattern data
      *
      * @return PartnerData|null Partner data or null if not found
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function find(
         int $partnerId,
@@ -41,6 +43,7 @@ interface PartnerDataRepositoryInterface
      * @param int|null $partnerType Optional partner type filter
      *
      * @return array<PartnerData> Array of PartnerData objects
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function findByPartner(int $partnerId, ?int $partnerType = null): array;
 
@@ -53,6 +56,7 @@ interface PartnerDataRepositoryInterface
      * @param int|null $partnerType Optional partner type filter
      *
      * @return array<PartnerData> Array of PartnerData objects
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function findByKeyword(string $keyword, ?int $partnerType = null): array;
 
@@ -73,6 +77,7 @@ interface PartnerDataRepositoryInterface
      *  - partner_name: string
      *  - matched_keywords: array<string>
      *  - total_score: int (sum of occurrence counts)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function searchByKeywords(
         array $keywords,
@@ -90,6 +95,7 @@ interface PartnerDataRepositoryInterface
      *
      * @return bool True on success
      * @throws \RuntimeException If save operation fails
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function save(PartnerData $partnerData): bool;
 
@@ -102,6 +108,7 @@ interface PartnerDataRepositoryInterface
      * @param string $data            The keyword/pattern data
      *
      * @return bool True on success
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function delete(
         int $partnerId,
@@ -117,6 +124,7 @@ interface PartnerDataRepositoryInterface
      * @param int|null $partnerType Optional partner type filter
      *
      * @return int Number of records deleted
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function deleteByPartner(int $partnerId, ?int $partnerType = null): int;
 
@@ -132,6 +140,7 @@ interface PartnerDataRepositoryInterface
      * @param int    $increment       Amount to increment by (default 1)
      *
      * @return bool True on success
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function incrementOccurrence(
         int $partnerId,
@@ -147,6 +156,7 @@ interface PartnerDataRepositoryInterface
      * @param int|null $partnerType Optional partner type filter
      *
      * @return int Total number of entries
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function count(?int $partnerType = null): int;
 
@@ -159,6 +169,7 @@ interface PartnerDataRepositoryInterface
      * @param string $data            The keyword/pattern data
      *
      * @return bool True if exists
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function exists(
         int $partnerId,
@@ -178,6 +189,7 @@ interface PartnerDataRepositoryInterface
      * @return array<array> Array of keyword data with:
      *  - data: string (the keyword)
      *  - total_occurrences: int (sum across all partners)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTopKeywords(int $limit = 20, ?int $partnerType = null): array;
 }

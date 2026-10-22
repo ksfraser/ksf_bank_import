@@ -7,8 +7,14 @@ use Ksfraser\HTML\HtmlElementInterface;
 
 require_once( 'LabelRowBase.php' );
 
+/**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+ */
 class OurBankAccount extends LabelRowBase
 {
+	/**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct( $bi_lineitem )
 	{
 		$this->label = "Our Bank Account - (Account Name)(Number):";

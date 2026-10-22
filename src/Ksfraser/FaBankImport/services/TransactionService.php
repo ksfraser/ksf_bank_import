@@ -13,12 +13,16 @@ use Ksfraser\FaBankImport\Factories\TransactionTypeFactory;
  * filter-based reads and typed update(array $ids, int $status, ...) calls.
  *
  * @since 20260822
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
  */
 class TransactionService
 {
     private $repository;
     private $factory;
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+     */
     public function __construct(
         TransactionRepositoryInterface $repository,
         TransactionTypeFactory $factory
@@ -31,6 +35,7 @@ class TransactionService
      * Fetch transactions still pending processing.
      *
      * @return array
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPendingTransactions(): array
     {
@@ -44,6 +49,7 @@ class TransactionService
      * @param string $type Transaction type code.
      * @return bool True when the update affected rows.
      * @throws \InvalidArgumentException When transaction not found.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function processTransaction(int $id, string $type): bool
     {
@@ -70,6 +76,7 @@ class TransactionService
      * @param int $id Transaction id.
      * @return bool True on success.
      * @throws \InvalidArgumentException When transaction not found.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function toggleTransactionType(int $id): bool
     {

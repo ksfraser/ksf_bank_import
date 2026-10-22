@@ -29,12 +29,16 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\BankTransferPartnerType;
 
+/**
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ */
 class BankTransferTransactionHandler extends AbstractTransactionHandler
 {
     /**
      * Get the partner type instance for Bank Transfer transactions
      * 
      * @return PartnerTypeInterface Returns BankTransferPartnerType value object
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
@@ -51,6 +55,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
      * @param array $ourAccount Bank account information
      * 
      * @return TransactionResult Success result with links, or error result
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function process(
         array $transaction,
@@ -106,11 +111,19 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
      * Get the path to the fa_bank_transfer class file
      * 
      * @return string Path to the class file
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
-    private function getFaBankTransferClassPath(): string
+    protected function getFaBankTransferClassPath(): string
     {
-        // Path relative to this file's location
-        return dirname(__DIR__, 2) . '/../ksf_modules_common/class.fa_bank_transfer.php';
+        /*
+         * ksf_modules_common lives next to this module:
+         *   dev  : <repo>/src/Ksfraser/FaBankImport/handlers -> ../../../.. -> <repo>, then ../ksf_modules_common
+         *   prod : <fa_root>/modules/ksf_bank_import/src/Ksfraser/FaBankImport/handlers -> ../../../.. -> <fa_root>/modules/ksf_bank_import,
+         *          then ../ksf_modules_common
+         * The previous path (dirname(__DIR__, 2) . '/../ksf_modules_common') resolved to
+         * src/Ksfraser/ksf_modules_common, which does not exist, so the require failed.
+         */
+        return dirname(__DIR__, 4) . '/../ksf_modules_common/class.fa_bank_transfer.php';
     }
 
     /**
@@ -127,6 +140,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
      * @param string $collectionIds Collection IDs
      * 
      * @return TransactionResult Success with link or error
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     private function processBankTransfer(
         array $transaction,

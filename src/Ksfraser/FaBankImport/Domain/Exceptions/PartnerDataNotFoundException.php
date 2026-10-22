@@ -10,6 +10,7 @@ use Exception;
  * @package Ksfraser\FaBankImport\Domain\Exceptions
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class PartnerDataNotFoundException extends Exception
 {
@@ -21,6 +22,7 @@ class PartnerDataNotFoundException extends Exception
      * @param int $partnerDetailId
      *
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function forPartner(
         int $partnerId,
@@ -44,6 +46,7 @@ class PartnerDataNotFoundException extends Exception
      * @param int|null $partnerType
      *
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function forKeyword(string $keyword, ?int $partnerType = null): self
     {
@@ -63,6 +66,7 @@ class PartnerDataNotFoundException extends Exception
      * @param int|null $partnerType
      *
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function forKeywords(array $keywords, ?int $partnerType = null): self
     {

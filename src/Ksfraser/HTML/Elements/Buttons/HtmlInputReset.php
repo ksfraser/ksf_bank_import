@@ -35,6 +35,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * $reset->setName('reset_btn')->setClass('btn btn-secondary');
  * echo $reset->getHtml(); // <input type="reset" value="Reset Form" name="reset_btn" class="btn btn-secondary" />
  * ```
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
  */
 class HtmlInputReset extends HtmlInputButton
 {
@@ -42,6 +43,7 @@ class HtmlInputReset extends HtmlInputButton
      * Constructor
      * 
      * @param HtmlElementInterface $label The button label (will be value attribute)
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(HtmlElementInterface $label)
     {

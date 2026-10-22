@@ -2,6 +2,9 @@
 
 namespace Ksfraser\Application\Config;
 
+/**
+ * @BABOK FR-LOG-001, FR-IMP-007 | BR-LOG-001 | UAT-LOG-001
+ */
 class Config
 {
     private $settings;
@@ -9,6 +12,9 @@ class Config
 
 //TODO:  Figure out how to add an array of params and merge them together!
 //	Because this is a static instance, may not be able to add to it!
+    /**
+ * @BABOK FR-LOG-001, FR-IMP-007 | BR-LOG-001 | UAT-LOG-001
+     */
     private function __construct()
     {
         $this->settings = [
@@ -25,6 +31,9 @@ class Config
         ];
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-IMP-007 | BR-LOG-001 | UAT-LOG-001
+     */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -33,16 +42,25 @@ class Config
         return self::$instance;
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-IMP-007 | BR-LOG-001 | UAT-LOG-001
+     */
     public static function setInstance(?self $instance): void
     {
         self::$instance = $instance;
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-IMP-007 | BR-LOG-001 | UAT-LOG-001
+     */
     public static function resetInstance(): void
     {
         self::$instance = null;
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-IMP-007 | BR-LOG-001 | UAT-LOG-001
+     */
     public function get(string $key, $default = null)
     {
         $parts = explode('.', $key);
@@ -58,6 +76,9 @@ class Config
         return $value;
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-IMP-007 | BR-LOG-001 | UAT-LOG-001
+     */
     public function set(string $key, $value): void
     {
         $parts = explode('.', $key);

@@ -6,12 +6,18 @@ use Ksfraser\FaBankImport\Config\Config;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
+/**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ */
 class PerformanceMonitor
 {
     private $logger;
     private $measurements = [];
     private static $instance = null;
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     private function __construct()
     {
         $config = Config::getInstance();
@@ -24,6 +30,9 @@ class PerformanceMonitor
         );
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -32,6 +41,9 @@ class PerformanceMonitor
         return self::$instance;
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function startMeasurement(string $name): void
     {
         $this->measurements[$name] = [
@@ -40,6 +52,9 @@ class PerformanceMonitor
         ];
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function endMeasurement(string $name): array
     {
         if (!isset($this->measurements[$name])) {
@@ -58,11 +73,17 @@ class PerformanceMonitor
         return $metrics;
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function recordMetric(string $name, array $data): void
     {
         $this->logger->info("Metric: {$name}", $data);
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function getAverageMetrics(string $name, int $minutes = 5): array
     {
         // Implementation to calculate average metrics from log file

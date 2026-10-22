@@ -18,6 +18,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * 
  * @package Ksfraser\HTML
  * @since 20251019 - Converted to wrapper
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
  */
 class HTML_ROW implements HtmlElementInterface
 {
@@ -31,6 +32,7 @@ class HTML_ROW implements HtmlElementInterface
 	 * Constructor
 	 * 
 	 * @param string|HtmlElementInterface $data The row content
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function __construct( $data )
 	{
@@ -42,6 +44,7 @@ class HTML_ROW implements HtmlElementInterface
 	 * Render the row to HTML output
 	 * 
 	 * @return void
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function toHTML(): void
 	{
@@ -52,6 +55,7 @@ class HTML_ROW implements HtmlElementInterface
 	 * Get the HTML string representation
 	 * 
 	 * @return string The HTML
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getHtml(): string
 	{

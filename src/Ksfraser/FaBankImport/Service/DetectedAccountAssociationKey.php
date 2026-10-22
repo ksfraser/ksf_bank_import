@@ -8,6 +8,7 @@ namespace Ksfraser\FaBankImport\Service;
  * DetectedAccountAssociationKey
  *
  * Generates safe, bounded-length config keys for persisting associations.
+ * @BABOK FR-005, FR-006 | BR-ACCT-003 | UAT-ACCT-003
  */
 final class DetectedAccountAssociationKey
 {
@@ -19,6 +20,7 @@ final class DetectedAccountAssociationKey
      * - Bounded length (<= 100 chars, matching bi_config.config_key)
      * - Human-readable prefix + sanitized fragment
      * - Low collision risk via hash suffix
+ * @BABOK FR-005, FR-006 | BR-ACCT-003 | UAT-ACCT-003
      */
     public static function forDetectedAccount(string $detectedAccount): string
     {

@@ -8,11 +8,17 @@ use Ksfraser\Application\Config\Config;
 
 //TODO: Convert HTML below into classes
 
+/**
+ * @BABOK FR-LOG-002, FR-LOG-005 | BR-LOG-001 | UAT-LOG-001
+ */
 class ErrorHandler
 {
     private $logger;
     private $displayErrors;
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-005 | BR-LOG-001 | UAT-LOG-001
+     */
     public function __construct()
     {
         $config = Config::getInstance();
@@ -27,12 +33,18 @@ class ErrorHandler
         );
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-005 | BR-LOG-001 | UAT-LOG-001
+     */
     public function handleException(\Throwable $e): void
     {
         $this->logException($e);
         $this->displayError($e);
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-005 | BR-LOG-001 | UAT-LOG-001
+     */
     private function logException(\Throwable $e): void
     {
         $this->logger->error($e->getMessage(), [
@@ -42,6 +54,9 @@ class ErrorHandler
         ]);
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-LOG-005 | BR-LOG-001 | UAT-LOG-001
+     */
     private function displayError(\Throwable $e): void
     {
         if ($this->displayErrors) {

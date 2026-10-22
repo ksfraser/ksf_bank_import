@@ -48,6 +48,7 @@ namespace Ksfraser\FrontAccounting\TransactionTypes;
  * </code>
  * 
  * @since 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 interface TransactionTypeInterface
 {
@@ -57,6 +58,7 @@ interface TransactionTypeInterface
      * @return int Transaction type code (e.g., 0 for ST_JOURNAL, 1 for ST_BANKPAYMENT)
      * 
      * @since 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getCode(): int;
     
@@ -68,6 +70,7 @@ interface TransactionTypeInterface
      * @return string Human-readable label (e.g., "Bank Payment")
      * 
      * @since 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(): string;
     
@@ -80,6 +83,7 @@ interface TransactionTypeInterface
      * @return bool True if money moves
      * 
      * @since 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function hasMoneyMoved(): bool;
     
@@ -92,6 +96,7 @@ interface TransactionTypeInterface
      * @return bool True if goods move
      * 
      * @since 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function hasGoodsMoved(): bool;
     
@@ -103,6 +108,7 @@ interface TransactionTypeInterface
      * @return bool True if affects AR
      * 
      * @since 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function affectsAR(): bool;
     
@@ -114,6 +120,7 @@ interface TransactionTypeInterface
      * @return bool True if affects AP
      * 
      * @since 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function affectsAP(): bool;
 }

@@ -38,6 +38,7 @@ use Ksfraser\HTML\Composites\HtmlLabelRow;
  *     'label' => string,                     // Label text (localized)
  *     'select_submit' => bool                // Whether to auto-submit on change
  * ]
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class PartnerTypeSelectorView
 {
@@ -50,6 +51,7 @@ class PartnerTypeSelectorView
      * Constructor
      * 
      * @param array $data Component data (see class docblock for structure)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(array $data)
     {
@@ -62,6 +64,7 @@ class PartnerTypeSelectorView
      * Returns an HtmlFragment containing a label row with the select element.
      * 
      * @return HtmlFragment The rendered HTML fragment
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function render(): HtmlFragment
     {
@@ -76,6 +79,7 @@ class PartnerTypeSelectorView
      * Outputs the rendered HTML directly to output buffer.
      * 
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function display(): void
     {
@@ -86,6 +90,7 @@ class PartnerTypeSelectorView
      * Render the selector row with label
      * 
      * @return HtmlLabelRow The selector row with label and select element
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderSelectorRow(): HtmlLabelRow
     {
@@ -99,6 +104,7 @@ class PartnerTypeSelectorView
      * Create the select element with options
      * 
      * @return HtmlSelect The configured select element
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function createSelectElement(): HtmlSelect
     {

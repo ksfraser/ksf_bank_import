@@ -61,6 +61,7 @@ use Ksfraser\HTML\Elements\HtmlOption;
  *
  * @see PAGE_LEVEL_DATA_LOADING_STRATEGY.md
  * @see CustomerDataProvider (two-level caching pattern reference)
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
  */
 class QuickEntryDataProvider
 {
@@ -82,6 +83,7 @@ class QuickEntryDataProvider
      * Constructor
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct()
     {
@@ -105,6 +107,7 @@ class QuickEntryDataProvider
      * @return array<int, array<string, mixed>> Array of quick entry records
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getQuickEntries(string $type): array
     {
@@ -143,6 +146,7 @@ class QuickEntryDataProvider
      * @return void
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function setQuickEntries(string $type, array $entries): void
     {
@@ -169,6 +173,7 @@ class QuickEntryDataProvider
      * @return string HTML select element
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function generateSelectHtml(string $fieldName, string $type, ?string $selectedId): string
     {
@@ -196,6 +201,7 @@ class QuickEntryDataProvider
      * @return string|null Quick entry description or null if not found
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getQuickEntryDescriptionById(string $type, string $entryId): ?string
     {
@@ -219,6 +225,7 @@ class QuickEntryDataProvider
      * @return array<string, mixed>|null Quick entry record or null if not found
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getQuickEntryById(string $type, string $entryId): ?array
     {
@@ -241,6 +248,7 @@ class QuickEntryDataProvider
      * @return int Number of quick entries in cache for this type
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getQuickEntryCount(string $type): int
     {
@@ -256,6 +264,7 @@ class QuickEntryDataProvider
      * @return bool True if data is loaded for this type, false otherwise
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function isLoaded(string $type): bool
     {
@@ -270,6 +279,7 @@ class QuickEntryDataProvider
      * @return void
      *
      * @since 20251020
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function resetCache(): void
     {
@@ -295,6 +305,7 @@ class QuickEntryDataProvider
      * @since 20251020
      *
      * @codeCoverageIgnore
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadQuickEntriesFromDatabase(string $type): array
     {

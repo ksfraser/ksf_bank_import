@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\Entity;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
  */
 class UploadedFile
 {
@@ -53,6 +54,7 @@ class UploadedFile
      * @param int|null $bankAccountId Bank account ID
      * @param int $statementCount Number of linked statements
      * @param string|null $notes Optional notes
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function __construct(
         ?int $id,
@@ -83,23 +85,60 @@ class UploadedFile
     }
     
     // Getters
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getId(): ?int { return $this->id; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getFilename(): string { return $this->filename; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getOriginalFilename(): string { return $this->originalFilename; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getFilePath(): string { return $this->filePath; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getFileSize(): int { return $this->fileSize; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getFileType(): string { return $this->fileType; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getUploadDate(): \DateTime { return $this->uploadDate; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getUploadUser(): string { return $this->uploadUser; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getParserType(): string { return $this->parserType; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getBankAccountId(): ?int { return $this->bankAccountId; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getStatementCount(): int { return $this->statementCount; }
+    /**
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+     */
     public function getNotes(): ?string { return $this->notes; }
     
     /**
      * Set ID (after database insert)
      * 
      * @param int $id
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function setId(int $id): void
     {
@@ -110,6 +149,7 @@ class UploadedFile
      * Update statement count
      * 
      * @param int $count
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function setStatementCount(int $count): void
     {
@@ -120,6 +160,7 @@ class UploadedFile
      * Check if file exists on disk
      * 
      * @return bool
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function exists(): bool
     {
@@ -130,6 +171,7 @@ class UploadedFile
      * Get file size in human-readable format
      * 
      * @return string
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getFormattedSize(): string
     {

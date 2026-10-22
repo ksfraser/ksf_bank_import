@@ -21,11 +21,13 @@ namespace Ksfraser\PartnerTypes;
  * Matched Partner Type
  *
  * Used for transactions that have been matched.
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
  */
 class MatchedPartnerType extends AbstractPartnerType
 {
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getShortCode(): string
     {
@@ -34,6 +36,7 @@ class MatchedPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(): string
     {
@@ -43,6 +46,7 @@ class MatchedPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getConstantName(): string
     {
@@ -51,6 +55,7 @@ class MatchedPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPriority(): int
     {
@@ -59,6 +64,7 @@ class MatchedPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getDescription(): ?string
     {
@@ -69,6 +75,7 @@ class MatchedPartnerType extends AbstractPartnerType
      * @inheritDoc
      * 
      * Override to use 'displayMatchedExisting' instead of default 'displayMatched'
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getStrategyMethodName(): string
     {

@@ -15,6 +15,7 @@ use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
  */
 class BlockDuplicateStrategy implements DuplicateStrategyInterface
 {
@@ -25,6 +26,7 @@ class BlockDuplicateStrategy implements DuplicateStrategyInterface
      * @return array Error message with existing file details
      * 
      * @throws \RuntimeException Always throws to block upload
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function handle(DuplicateResult $duplicateResult): array
     {
@@ -53,6 +55,7 @@ class BlockDuplicateStrategy implements DuplicateStrategyInterface
      * Get strategy name
      * 
      * @return string
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function getName(): string
     {

@@ -4,15 +4,24 @@ namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;
 
+/**
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ */
 class TransactionLogger
 {
     private $logFile;
 
+    /**
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     public function __construct(string $logFile = null)
     {
         $this->logFile = $logFile ?? __DIR__ . '/../../logs/transactions.log';
     }
 
+    /**
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     public function logTransactionProcessed(TransactionProcessedEvent $event): void
     {
         $message = sprintf(

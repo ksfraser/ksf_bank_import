@@ -21,6 +21,9 @@ if (!class_exists(__NAMESPACE__ . '\\TransactionTypeLabel', false)) {
 	}
 }
 
+/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+ */
 abstract class Transaction
 {
 	public $transactionDC;       //| varchar(2)   | YES  |     | NULL    |		|
@@ -60,6 +63,9 @@ abstract class Transaction
 	protected $created;	//!<bool
 	protected $HasPair;	//!<bool
 
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct( array $trz )
 	{
 		$this->matched = 0;
@@ -126,6 +132,9 @@ abstract class Transaction
 	* @param none uses internal
 	* @returns none sets internal
 	**********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function determineTransactionTypeLabel(): void
 	{
 		$tTL = new \TransactionTypeLabel( $this->transactionDC );
@@ -135,6 +144,9 @@ abstract class Transaction
 	/**//*******************************************************
 	*
 	************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	abstract function displayPartner();
 	/**//******************************************************************
 	* Get OUR Bank Account Details
@@ -142,6 +154,9 @@ abstract class Transaction
 	*	TODO: REFACTOR to use class fa_bank_accounts instead of an array
 	*
 	**********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function retrieveBankAccountDetails()
 	{
 		require_once( '../ksf_modules_common/class.fa_bank_accounts.php' );
@@ -171,6 +186,9 @@ abstract class Transaction
 	* @param NONE
 	* @returns array GL record(s) that match
 	********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function retrieveMatchingExistingJE()
 	{
 		if( ! isset( $this->matching_trans ) )
@@ -242,6 +260,9 @@ abstract class Transaction
 	* Add a display button to add a Customer or a Vendor
 	*
 	**********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayAddVendorOrCustomer()
 	{
 		try {
@@ -260,7 +281,13 @@ abstract class Transaction
 			hidden( "vendor_long_$this->id", $this->otherBankAccountName );
 		}
 	}
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	abstract function selectAndDisplayButton();
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function matchedVendor() 
 	{
 		if( ! isset( $this->vendor_list ) )
@@ -274,6 +301,9 @@ abstract class Transaction
 		$matchedVendor = array_search( trim($this->otherBankAccount), $this->vendor_list['shortnames'], true );
 		return $matchedVendor;
 	}
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function ToggleTransactionTypeButton()
 	{
 		$b = new ToggleTransactionTypeButton( $this->id );
@@ -288,11 +318,17 @@ abstract class Transaction
 	*	in the matching GLs.
 	*
 	*********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function isPaired()
 	{
 		$this->HasPair = false;
 		return $this->HasPair;
 	}
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function tellPartnerType()
 	{
 	}

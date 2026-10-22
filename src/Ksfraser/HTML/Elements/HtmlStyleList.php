@@ -15,22 +15,35 @@ use Ksfraser\HTML\HtmlElementInterface;
 *		font-family
 *		font-size
 *		text-align
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 */
 class HtmlStyleList implements HtmlElementInterface
 {
 	protected $styleArray;
+        /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+         */
         function __constructor( HtmlStyle $style )
         {
                 $this->addStyle( $style );
         }
+        /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+         */
         function addStyle( HtmlStyle $style )
         {
                 $this->styleArray[] = $style;
         }
+        /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+         */
         public function toHtml() {
                 echo $this->getHtml();
         }
  
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function getHtml()
 	{
 		if( count( $this->styleArray ) > 0 )

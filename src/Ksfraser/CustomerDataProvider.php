@@ -59,6 +59,7 @@ use Ksfraser\HTML\Elements\HtmlOption;
  *
  * @see PAGE_LEVEL_DATA_LOADING_STRATEGY.md
  * @see SupplierDataProvider (simpler single-level pattern reference)
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
  */
 class CustomerDataProvider
 {
@@ -82,6 +83,7 @@ class CustomerDataProvider
      * Constructor
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct()
     {
@@ -97,6 +99,7 @@ class CustomerDataProvider
      * @return array<int, array<string, mixed>> Array of customer records
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function getCustomers(): array
     {
@@ -124,6 +127,7 @@ class CustomerDataProvider
      * @return void
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function setCustomers(array $customers): void
     {
@@ -141,6 +145,7 @@ class CustomerDataProvider
      * @return array<int, array<string, mixed>> Array of branch records for the customer
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBranches(string $customerId): array
     {
@@ -162,6 +167,7 @@ class CustomerDataProvider
      * @return void
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function setBranches(array $branches): void
     {
@@ -180,6 +186,7 @@ class CustomerDataProvider
      *
      * @since 20251019
      * @version 1.1.0 Now uses HtmlSelect and HtmlOption classes
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function generateCustomerSelectHtml(string $fieldName, ?string $selectedId): string
     {
@@ -211,6 +218,7 @@ class CustomerDataProvider
      *
      * @since 20251019
      * @version 1.1.0 Now uses HtmlSelect and HtmlOption classes
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function generateBranchSelectHtml(string $customerId, string $fieldName, ?string $selectedBranch): string
     {
@@ -237,6 +245,7 @@ class CustomerDataProvider
      * @return string|null Customer name or null if not found
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function getCustomerNameById(string $customerId): ?string
     {
@@ -259,6 +268,7 @@ class CustomerDataProvider
      * @return array<string, mixed>|null Customer record or null if not found
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function getCustomerById(string $customerId): ?array
     {
@@ -282,6 +292,7 @@ class CustomerDataProvider
      * @return string|null Branch name or null if not found
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBranchNameById(string $customerId, string $branchCode): ?string
     {
@@ -305,6 +316,7 @@ class CustomerDataProvider
      * @return array<string, mixed>|null Branch record or null if not found
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBranchById(string $customerId, string $branchCode): ?array
     {
@@ -325,6 +337,7 @@ class CustomerDataProvider
      * @return int Number of customers in cache
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function getCustomerCount(): int
     {
@@ -340,6 +353,7 @@ class CustomerDataProvider
      * @return int Number of branches for this customer
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBranchCount(string $customerId): int
     {
@@ -353,6 +367,7 @@ class CustomerDataProvider
      * @return bool True if data is loaded, false otherwise
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function isLoaded(): bool
     {
@@ -367,6 +382,7 @@ class CustomerDataProvider
      * @return void
      *
      * @since 20251019
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public static function resetCache(): void
     {
@@ -388,6 +404,7 @@ class CustomerDataProvider
      * @since 20251019
      *
      * @codeCoverageIgnore
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadCustomersFromDatabase(): array
     {
@@ -417,6 +434,7 @@ class CustomerDataProvider
      * @since 20251019
      *
      * @codeCoverageIgnore
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadBranchesFromDatabase(): array
     {

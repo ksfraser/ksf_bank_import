@@ -21,11 +21,13 @@ namespace Ksfraser\PartnerTypes;
  * Manual Settlement Partner Type
  *
  * Used for manually settling transactions to existing GL entries.
+ * @BABOK FR-PROC-002, FR-PROC-008 | BR-PROC-001 | UAT-PROC-001
  */
 class ManualSettlementPartnerType extends AbstractPartnerType
 {
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-008 | BR-PROC-001 | UAT-PROC-001
      */
     public function getShortCode(): string
     {
@@ -34,6 +36,7 @@ class ManualSettlementPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-008 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(): string
     {
@@ -43,6 +46,7 @@ class ManualSettlementPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-008 | BR-PROC-001 | UAT-PROC-001
      */
     public function getConstantName(): string
     {
@@ -51,6 +55,7 @@ class ManualSettlementPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-008 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPriority(): int
     {
@@ -59,6 +64,7 @@ class ManualSettlementPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-008 | BR-PROC-001 | UAT-PROC-001
      */
     public function getDescription(): ?string
     {
@@ -69,6 +75,7 @@ class ManualSettlementPartnerType extends AbstractPartnerType
      * @inheritDoc
      * 
      * Manual Settlement uses displayManualSettlement method
+ * @BABOK FR-PROC-002, FR-PROC-008 | BR-PROC-001 | UAT-PROC-001
      */
     public function getStrategyMethodName(): string
     {

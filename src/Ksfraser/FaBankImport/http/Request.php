@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\Http;
  * query/post params and the request method.
  *
  * @since 20260822
+ * @BABOK FR-IMP-001, FR-PROC-011 | BR-IMP-001 | UAT-IMP-001
  */
 class Request
 {
@@ -26,6 +27,7 @@ class Request
      * Build from PHP superglobals.
      *
      * @return self
+ * @BABOK FR-IMP-001, FR-PROC-011 | BR-IMP-001 | UAT-IMP-001
      */
     public static function createFromGlobals(): self
     {
@@ -42,6 +44,7 @@ class Request
      * @param array  $queryParams $_GET equivalent.
      * @param array  $postParams  $_POST equivalent.
      * @param string $method      HTTP method.
+ * @BABOK FR-IMP-001, FR-PROC-011 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(
         array $queryParams = array(),
@@ -57,6 +60,7 @@ class Request
      * Query (GET) params.
      *
      * @return array
+ * @BABOK FR-IMP-001, FR-PROC-011 | BR-IMP-001 | UAT-IMP-001
      */
     public function getQueryParams(): array
     {
@@ -67,6 +71,7 @@ class Request
      * Post params.
      *
      * @return array
+ * @BABOK FR-IMP-001, FR-PROC-011 | BR-IMP-001 | UAT-IMP-001
      */
     public function getPostParams(): array
     {
@@ -78,6 +83,7 @@ class Request
      *
      * @param string $key Param name.
      * @return bool
+ * @BABOK FR-IMP-001, FR-PROC-011 | BR-IMP-001 | UAT-IMP-001
      */
     public function hasPost(string $key): bool
     {
@@ -89,6 +95,7 @@ class Request
      *
      * @param string $key Param name.
      * @return mixed|null
+ * @BABOK FR-IMP-001, FR-PROC-011 | BR-IMP-001 | UAT-IMP-001
      */
     public function getPost(string $key)
     {
@@ -100,6 +107,7 @@ class Request
      *
      * @param string $method Method to compare.
      * @return bool
+ * @BABOK FR-IMP-001, FR-PROC-011 | BR-IMP-001 | UAT-IMP-001
      */
     public function isMethod(string $method): bool
     {

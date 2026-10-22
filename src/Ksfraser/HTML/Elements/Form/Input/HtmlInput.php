@@ -35,6 +35,7 @@ use Ksfraser\HTML\HtmlAttribute;
  * - value
  *
  * @package Ksfraser\HTML
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
  */
 class HtmlInput extends HtmlEmptyElement
 {
@@ -54,6 +55,7 @@ class HtmlInput extends HtmlEmptyElement
 	 * Constructor for HtmlInput
 	 *
 	 * @param string $type The input type (text, password, email, etc.)
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
 	 */
 	function __construct( string $type = "text" )
 	{
@@ -68,6 +70,7 @@ class HtmlInput extends HtmlEmptyElement
 	 *
 	 * @param string $name The name attribute value
 	 * @return self Fluent interface
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
 	 */
 	public function setName( string $name ): self
 	{
@@ -80,6 +83,7 @@ class HtmlInput extends HtmlEmptyElement
 	 *
 	 * @param string $value The value attribute
 	 * @return self Fluent interface
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
 	 */
 	public function setValue( string $value ): self
 	{
@@ -92,6 +96,7 @@ class HtmlInput extends HtmlEmptyElement
 	 *
 	 * @param string $placeholder The placeholder text
 	 * @return self Fluent interface
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
 	 */
 	public function setPlaceholder( string $placeholder ): self
 	{
@@ -104,6 +109,7 @@ class HtmlInput extends HtmlEmptyElement
 	 *
 	 * @param bool $checked True to render as checked.
 	 * @return self Fluent interface
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
 	 */
 	public function setChecked( bool $checked = true ): self
 	{

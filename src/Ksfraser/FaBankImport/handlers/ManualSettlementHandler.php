@@ -34,12 +34,16 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\ManualSettlementPartnerType;
 
+/**
+ * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
+ */
 class ManualSettlementHandler extends AbstractTransactionHandler
 {
     /**
      * Get the partner type instance for Manual Settlement transactions
      * 
      * @return PartnerTypeInterface Returns ManualSettlementPartnerType value object
+ * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
@@ -59,6 +63,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
      * @param array $ourAccount Bank account information
      * 
      * @return TransactionResult Success result with links, or error result
+ * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
      */
     public function process(
         array $transaction,
@@ -119,6 +124,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
      * @param string $collectionIds Collection IDs
      * 
      * @return TransactionResult Success with links or error
+ * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
      */
     private function processManualSettlement(
         array $transaction,

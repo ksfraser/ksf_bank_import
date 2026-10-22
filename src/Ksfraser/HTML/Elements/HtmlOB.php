@@ -34,6 +34,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * 
  * @package HTML
  * @since 20251021
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class HtmlOB extends HtmlRaw
 {
@@ -42,6 +43,7 @@ class HtmlOB extends HtmlRaw
 	 * 
 	 * @param callable $callback The function that echoes HTML
 	 * @return HtmlOB Instance containing the captured output
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public static function capture(callable $callback): HtmlOB
 	{
@@ -52,6 +54,7 @@ class HtmlOB extends HtmlRaw
 	 * Constructor - captures output from callable or accepts pre-captured string
 	 * 
 	 * @param callable|string|null $input Callable to capture, pre-captured string, or null for manual start/end
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function __construct($input = null)
 	{
@@ -75,6 +78,7 @@ class HtmlOB extends HtmlRaw
 	 * Call this, then do your echoes, then call end()
 	 * 
 	 * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function start(): void
 	{
@@ -85,6 +89,7 @@ class HtmlOB extends HtmlRaw
 	 * End output buffering and capture the output
 	 * 
 	 * @return string The captured HTML
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function end(): string
 	{

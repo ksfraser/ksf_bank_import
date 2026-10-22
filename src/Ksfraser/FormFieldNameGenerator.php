@@ -27,6 +27,7 @@ namespace Ksfraser;
  * $custom = new FormFieldNameGenerator('-');
  * echo $custom->generate('field', 789);        // "field-789"
  * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class FormFieldNameGenerator
 {
@@ -41,6 +42,7 @@ class FormFieldNameGenerator
      * @param string $separator The separator character (default: '_')
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(string $separator = '_')
     {
@@ -62,6 +64,7 @@ class FormFieldNameGenerator
      * $generator->generate('vendor_id');       // "vendor_id"
      * $generator->generate('vendor_id', 123);  // "vendor_id_123"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function generate(string $field, ?int $id = null): string
     {
@@ -88,6 +91,7 @@ class FormFieldNameGenerator
      * ```php
      * $generator->generateWithPrefix('vendor_id', 123);  // "123_vendor_id"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function generateWithPrefix(string $field, int $id): string
     {
@@ -108,6 +112,7 @@ class FormFieldNameGenerator
      * ```php
      * $generator->partnerIdField(456);  // "partnerId_456"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function partnerIdField(int $id): string
     {
@@ -127,6 +132,7 @@ class FormFieldNameGenerator
      * ```php
      * $generator->partnerDetailIdField(789);  // "partnerDetailId_789"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function partnerDetailIdField(int $id): string
     {
@@ -146,6 +152,7 @@ class FormFieldNameGenerator
      * ```php
      * $generator->partnerTypeField(123);  // "partnerType_123"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function partnerTypeField(int $id): string
     {
@@ -165,6 +172,7 @@ class FormFieldNameGenerator
      * ```php
      * $generator->vendorShortField(100);  // "vendor_short_100"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function vendorShortField(int $id): string
     {
@@ -184,6 +192,7 @@ class FormFieldNameGenerator
      * ```php
      * $generator->vendorLongField(200);  // "vendor_long_200"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function vendorLongField(int $id): string
     {
@@ -203,6 +212,7 @@ class FormFieldNameGenerator
      * ```php
      * $generator->transactionNumberField(50);  // "trans_no_50"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function transactionNumberField(int $id): string
     {
@@ -222,6 +232,7 @@ class FormFieldNameGenerator
      * ```php
      * $generator->transactionTypeField(75);  // "trans_type_75"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function transactionTypeField(int $id): string
     {
@@ -243,6 +254,7 @@ class FormFieldNameGenerator
      * $generator->sanitize('my-field');     // "my_field"
      * $generator->sanitize('my field-name'); // "my_field_name"
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function sanitize(string $field): string
     {
@@ -264,6 +276,7 @@ class FormFieldNameGenerator
      * $generator->generateMultiple(['vendor_id', 'customer_id'], 100);
      * // ["vendor_id_100", "customer_id_100"]
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function generateMultiple(array $fields, int $id): array
     {
@@ -281,6 +294,7 @@ class FormFieldNameGenerator
      * @return string The separator character
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getSeparator(): string
     {

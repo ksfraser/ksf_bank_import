@@ -16,6 +16,7 @@ use InvalidArgumentException;
  * @package Ksfraser\FaBankImport\Domain\ValueObjects
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class MatchConfidence
 {
@@ -51,6 +52,7 @@ class MatchConfidence
      * @param float $scoreStrength   Percentage of top score achieved (0-100)
      *
      * @throws InvalidArgumentException If percentages are invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(float $keywordCoverage, float $scoreStrength)
     {
@@ -66,6 +68,7 @@ class MatchConfidence
      * Get keyword coverage percentage
      *
      * @return float
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getKeywordCoverage(): float
     {
@@ -76,6 +79,7 @@ class MatchConfidence
      * Get score strength percentage
      *
      * @return float
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getScoreStrength(): float
     {
@@ -86,6 +90,7 @@ class MatchConfidence
      * Get overall confidence percentage
      *
      * @return float
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPercentage(): float
     {
@@ -98,6 +103,7 @@ class MatchConfidence
      * @param float $threshold Minimum confidence percentage (0-100)
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function meetsThreshold(float $threshold): bool
     {
@@ -110,6 +116,7 @@ class MatchConfidence
      * Defined as >= 70% confidence
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isHighConfidence(): bool
     {
@@ -122,6 +129,7 @@ class MatchConfidence
      * Defined as 40% - 69% confidence
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isMediumConfidence(): bool
     {
@@ -134,6 +142,7 @@ class MatchConfidence
      * Defined as < 40% confidence
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isLowConfidence(): bool
     {
@@ -144,6 +153,7 @@ class MatchConfidence
      * Get confidence level as string
      *
      * @return string "high", "medium", or "low"
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLevel(): string
     {
@@ -166,6 +176,7 @@ class MatchConfidence
      *
      * @return self
      * @throws InvalidArgumentException If statistics are invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function fromMatchStatistics(
         int $matchedKeywordCount,
@@ -208,6 +219,7 @@ class MatchConfidence
      * Convert to array representation
      *
      * @return array<string, mixed>
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function toArray(): array
     {
@@ -223,6 +235,7 @@ class MatchConfidence
      * String representation
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __toString(): string
     {
@@ -241,6 +254,7 @@ class MatchConfidence
      * Formula: (keyword_coverage * 0.6) + (score_strength * 0.4)
      *
      * @return float
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function calculate(): float
     {
@@ -255,6 +269,7 @@ class MatchConfidence
      * @param string $name  Name for error message
      *
      * @throws InvalidArgumentException If percentage is invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validatePercentage(float $value, string $name): void
     {

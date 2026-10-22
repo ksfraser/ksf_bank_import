@@ -43,6 +43,9 @@ use Ksfraser\HTML\HtmlElementInterface;
 *   ✗ HtmlA, HtmlEmail, HtmlLink - Cannot nest links
 *   ✗ Arrays, integers, objects - Must be string or HtmlElementInterface
 */
+/**
+ * @BABOK FR-PROC-010, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+ */
 class HtmlA extends HtmlLink
 {
 	/**
@@ -62,6 +65,7 @@ class HtmlA extends HtmlLink
 	 * Invalid: HtmlA, HtmlEmail, HtmlLink (direct nesting only)
 	 * 
 	 * @throws \Exception if content type is invalid or is a direct nested link
+ * @BABOK FR-PROC-010, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function __construct( string $url, $linkContent = null )
 	{

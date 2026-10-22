@@ -5,6 +5,9 @@ namespace Ksfraser\Application\Database;
 //TODO: Determine if this came from a framework.  
 //TODO: Enhance/replace with my existing classes/code
 
+/**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ */
 class QueryBuilder
 {
     private $connection;
@@ -15,36 +18,54 @@ class QueryBuilder
     private $limit;
     private $offset;
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function __construct(string $table)
     {
         $this->connection = DatabaseFactory::getConnection();
         $this->table = $table;
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function where(string $column, $value, string $operator = '='): self
     {
         $this->where[] = [$column, $operator, $value];
         return $this;
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function orderBy(string $column, string $direction = 'ASC'): self
     {
         $this->orderBy[] = [$column, strtoupper($direction)];
         return $this;
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function limit(int $limit): self
     {
         $this->limit = $limit;
         return $this;
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function offset(int $offset): self
     {
         $this->offset = $offset;
         return $this;
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function get(): array
     {
         $query = $this->buildSelectQuery();
@@ -53,6 +74,9 @@ class QueryBuilder
         return $stmt->fetchAll();
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function first()
     {
         $this->limit(1);
@@ -60,6 +84,9 @@ class QueryBuilder
         return $results[0] ?? null;
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     private function buildSelectQuery(): string
     {
         $query = "SELECT * FROM {$this->table}";
@@ -93,6 +120,9 @@ class QueryBuilder
         return $query;
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function update(array $data): bool
     {
         if (empty($this->where)) {
@@ -113,6 +143,9 @@ class QueryBuilder
         return $stmt->execute($this->params);
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     private function buildWhereClause(): string
     {
         $whereConditions = [];

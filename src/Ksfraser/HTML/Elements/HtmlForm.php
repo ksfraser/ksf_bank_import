@@ -47,11 +47,17 @@ use Ksfraser\HTML\HtmlElementInterface;
 *		_parent
 *		_top
 *******************************************************/
+/**
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
+ */
 class HtmlForm extends HtmlElement
 {
 	//can have styles
 	protected $action;	//URL
 	protected $method;	//get or post
+	/**
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
+	 */
 	function __construct( HtmlElementInterface $data )
 	{
 		parent::__construct( $data );

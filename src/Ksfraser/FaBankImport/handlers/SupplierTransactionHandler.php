@@ -37,6 +37,7 @@ use Ksfraser\PartnerTypes\SupplierPartnerType;
  * - Uses SupplierPartnerType value object for type safety
  * - Receives filtered transaction-specific POST data (not entire $_POST)
  * - Constructor validates partner type on instantiation (fail-fast)
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
  */
 class SupplierTransactionHandler extends AbstractTransactionHandler
 {
@@ -48,6 +49,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
      * - Label: 'Supplier'
      * - Description: 'Vendor or supplier transactions (accounts payable)'
      * - Priority: 10 (high priority - common type)
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
@@ -56,6 +58,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function process(
         array $transaction,
@@ -114,6 +117,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
      * @param float $charge Bank charge amount
      * @return TransactionResult Processing result
      * @throws Exception if processing fails
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     private function processSupplierPayment(
         array $transaction,
@@ -186,6 +190,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
      * @param float $charge Bank charge amount
      * @return TransactionResult Processing result
      * @throws Exception if processing fails
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     private function processSupplierRefund(
         array $transaction,

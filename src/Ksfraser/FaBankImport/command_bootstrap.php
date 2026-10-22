@@ -68,6 +68,7 @@ if (!isset($commandDispatcher)) {
  * @param CommandDispatcher $dispatcher
  * @param array $postData
  * @return \Ksfraser\FaBankImport\Results\TransactionResult|null
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
 function handleCommandAction(CommandDispatcher $dispatcher, array $postData): ?\Ksfraser\FaBankImport\Results\TransactionResult
 {
@@ -88,6 +89,7 @@ function handleCommandAction(CommandDispatcher $dispatcher, array $postData): ?\
  * @param object $bi_controller
  * @param object|null $Ajax
  * @return void
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
 function handleLegacyAction($bi_controller, $Ajax = null): void
 {

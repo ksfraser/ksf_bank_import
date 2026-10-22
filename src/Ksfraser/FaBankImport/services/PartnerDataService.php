@@ -16,6 +16,7 @@ use InvalidArgumentException;
  * @package Ksfraser\FaBankImport\Services
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class PartnerDataService
 {
@@ -34,6 +35,7 @@ class PartnerDataService
      *
      * @param PartnerDataRepositoryInterface $repository Partner data repository
      * @param KeywordExtractorService        $extractor  Keyword extraction service
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(
         PartnerDataRepositoryInterface $repository,
@@ -53,6 +55,7 @@ class PartnerDataService
      *
      * @return bool True on success
      * @throws \RuntimeException If save fails
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function save(PartnerData $partnerData): bool
     {
@@ -72,6 +75,7 @@ class PartnerDataService
      *
      * @return bool True on success
      * @throws InvalidArgumentException If keyword is invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function saveKeyword(
         int $partnerId,
@@ -108,6 +112,7 @@ class PartnerDataService
      * @param string $text            Text to extract keywords from
      *
      * @return int Number of keywords saved
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function saveKeywordsFromText(
         int $partnerId,
@@ -145,6 +150,7 @@ class PartnerDataService
      * @param int    $increment       Amount to increment by (default 1)
      *
      * @return bool True on success
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function incrementKeywordOccurrence(
         int $partnerId,
@@ -171,6 +177,7 @@ class PartnerDataService
      * @param string $keyword         Keyword data
      *
      * @return PartnerData|null Partner data or null if not found
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function find(
         int $partnerId,
@@ -188,6 +195,7 @@ class PartnerDataService
      * @param int|null $partnerType Optional partner type filter
      *
      * @return array<PartnerData> Array of PartnerData objects
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerKeywords(int $partnerId, ?int $partnerType = null): array
     {
@@ -203,6 +211,7 @@ class PartnerDataService
      * @param string $keyword         Keyword to delete
      *
      * @return bool True on success
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function delete(
         int $partnerId,
@@ -220,6 +229,7 @@ class PartnerDataService
      * @param int|null $partnerType Optional partner type filter
      *
      * @return int Number of entries deleted
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function deletePartnerKeywords(int $partnerId, ?int $partnerType = null): int
     {
@@ -235,6 +245,7 @@ class PartnerDataService
      * @param string $keyword         Keyword to check
      *
      * @return bool True if exists
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function exists(
         int $partnerId,
@@ -251,6 +262,7 @@ class PartnerDataService
      * @param int|null $partnerType Optional partner type filter
      *
      * @return int Total number of entries
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function count(?int $partnerType = null): int
     {
@@ -266,6 +278,7 @@ class PartnerDataService
      * @param int|null $partnerType Optional partner type filter
      *
      * @return array<array> Array of keyword data with 'data' and 'total_occurrences'
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTopKeywords(int $limit = 20, ?int $partnerType = null): array
     {
@@ -283,6 +296,7 @@ class PartnerDataService
      *
      * @return int Number of keywords rebuilt
      * @todo Implement when transaction access is available
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function rebuildPartnerKeywords(int $partnerId, ?int $partnerType = null): int
     {

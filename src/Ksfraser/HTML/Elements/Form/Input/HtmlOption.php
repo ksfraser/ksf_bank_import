@@ -46,6 +46,7 @@ use Ksfraser\HTML\HtmlAttributeList;
  * @author     Claude AI Assistant
  * @since      20251020
  * @version    1.0.0
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
  */
 class HtmlOption implements HtmlElementInterface
 {
@@ -77,6 +78,7 @@ class HtmlOption implements HtmlElementInterface
      * @param bool   $selected Whether this option is selected (default: false)
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(string $value, string $label, bool $selected = false)
     {
@@ -95,6 +97,7 @@ class HtmlOption implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setAttribute(string $name, string $value): self
     {
@@ -108,6 +111,7 @@ class HtmlOption implements HtmlElementInterface
      * @return string The option value
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getValue(): string
     {
@@ -120,6 +124,7 @@ class HtmlOption implements HtmlElementInterface
      * @return string The option label
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getLabel(): string
     {
@@ -132,6 +137,7 @@ class HtmlOption implements HtmlElementInterface
      * @return bool True if selected, false otherwise
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function isSelected(): bool
     {
@@ -146,6 +152,7 @@ class HtmlOption implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setSelected(bool $selected): self
     {
@@ -159,6 +166,7 @@ class HtmlOption implements HtmlElementInterface
      * @return string The HTML <option> element
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getHtml(): string
     {
@@ -189,6 +197,7 @@ class HtmlOption implements HtmlElementInterface
      * @return void
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function toHtml(): void
     {

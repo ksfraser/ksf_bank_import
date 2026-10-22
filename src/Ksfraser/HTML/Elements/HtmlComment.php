@@ -43,6 +43,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * $comment = new HtmlComment('supplier_list("partnerId_123", null)');
  * echo $comment->getHtml(); // <!-- supplier_list("partnerId_123", null) -->
  * ```
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
  */
 class HtmlComment implements HtmlElementInterface
 {
@@ -55,6 +56,7 @@ class HtmlComment implements HtmlElementInterface
      * Constructor
      * 
      * @param string $text The comment text (will be placed between <!-- and -->)
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(string $text)
     {
@@ -65,6 +67,7 @@ class HtmlComment implements HtmlElementInterface
      * Render the HTML comment to output
      * 
      * @return void
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      */
     public function toHtml(): void
     {
@@ -78,6 +81,7 @@ class HtmlComment implements HtmlElementInterface
      * trusted content (developer-written text, not user input).
      * 
      * @return string The HTML comment
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      */
     public function getHtml(): string
     {
@@ -88,6 +92,7 @@ class HtmlComment implements HtmlElementInterface
      * Get the comment text
      * 
      * @return string The raw comment text (without <!-- -->)
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      */
     public function getText(): string
     {
@@ -99,6 +104,7 @@ class HtmlComment implements HtmlElementInterface
      * 
      * @param string $text The new comment text
      * @return self Fluent interface
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      */
     public function setText(string $text): self
     {

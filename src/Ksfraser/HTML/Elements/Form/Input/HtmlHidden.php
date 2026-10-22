@@ -40,6 +40,7 @@ use Ksfraser\HTML\Elements\Form\Input\HtmlInput;
  * echo $hidden->getHtml();
  * // Output: <input type="hidden" name="customer_id" value="42">
  * ```
+ * @BABOK FR-PROC-002, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
  */
 class HtmlHidden extends HtmlInput
 {
@@ -48,6 +49,7 @@ class HtmlHidden extends HtmlInput
      * 
      * @param string|null $name  Optional field name
      * @param string|null $value Optional field value
+ * @BABOK FR-PROC-002, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(?string $name = null, ?string $value = null)
     {

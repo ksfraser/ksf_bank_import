@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Service;
 
+/**
+ * @BABOK FR-LOG-001, FR-LOG-002, FR-LOG-003, FR-LOG-004 | BR-LOG-001 | UAT-LOG-001
+ */
 final class ImportRunLogger
 {
     /** @var string */
@@ -12,12 +15,18 @@ final class ImportRunLogger
     /** @var string */
     private $runId;
 
+    /**
+ * @BABOK FR-LOG-001, FR-LOG-002, FR-LOG-003, FR-LOG-004 | BR-LOG-001 | UAT-LOG-001
+     */
     private function __construct(string $logPath, string $runId)
     {
         $this->logPath = $logPath;
         $this->runId = $runId;
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-LOG-002, FR-LOG-003, FR-LOG-004 | BR-LOG-001 | UAT-LOG-001
+     */
     public static function start(string $logDir): self
     {
         if ($logDir === '') {
@@ -43,6 +52,9 @@ final class ImportRunLogger
         return new self($logPath, $runId);
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-LOG-002, FR-LOG-003, FR-LOG-004 | BR-LOG-001 | UAT-LOG-001
+     */
     public static function resume(string $logPath): self
     {
         if ($logPath === '') {
@@ -65,11 +77,17 @@ final class ImportRunLogger
         return new self($logPath, $runId);
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-LOG-002, FR-LOG-003, FR-LOG-004 | BR-LOG-001 | UAT-LOG-001
+     */
     public function getLogPath(): string
     {
         return $this->logPath;
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-LOG-002, FR-LOG-003, FR-LOG-004 | BR-LOG-001 | UAT-LOG-001
+     */
     public function getRunId(): string
     {
         return $this->runId;
@@ -77,6 +95,7 @@ final class ImportRunLogger
 
     /**
      * @param array<string,mixed> $context
+ * @BABOK FR-LOG-001, FR-LOG-002, FR-LOG-003, FR-LOG-004 | BR-LOG-001 | UAT-LOG-001
      */
     public function event(string $eventName, array $context = []): void
     {
@@ -110,6 +129,9 @@ final class ImportRunLogger
         }
     }
 
+    /**
+ * @BABOK FR-LOG-001, FR-LOG-002, FR-LOG-003, FR-LOG-004 | BR-LOG-001 | UAT-LOG-001
+     */
     private static function generateRunId(): string
     {
         // Sortable and collision-resistant.

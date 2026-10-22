@@ -16,6 +16,7 @@ use Ksfraser\FaBankImport\Service\BankImportPathResolver;
  * 
  * @author Kevin Fraser / ChatGPT
  * @since 20251018
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
  */
 class UploadedFileManager
 {
@@ -26,6 +27,7 @@ class UploadedFileManager
      * Constructor
      * 
      * @param string|null $upload_dir Custom upload directory (optional)
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function __construct($upload_dir = null)
     {
@@ -52,6 +54,7 @@ class UploadedFileManager
     
     /**
      * Create .htaccess to protect uploaded files
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     protected function protectDirectory()
     {
@@ -76,6 +79,7 @@ class UploadedFileManager
      * @param string|null $notes Additional notes (optional)
      * @param bool $force_upload Force upload even if duplicate (bypass duplicate check)
      * @return int|false File ID on success, false on failure, negative ID if duplicate, -999 if blocked
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function saveUploadedFile($file_info, $parser_type, $bank_account_id = null, $notes = null, $force_upload = false)
     {
@@ -170,6 +174,7 @@ class UploadedFileManager
      * @param int $file_id Uploaded file ID
      * @param array $statement_ids Array of statement IDs
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function linkFileToStatements($file_id, $statement_ids)
     {
@@ -201,6 +206,7 @@ class UploadedFileManager
      * Update statement count for a file
      * 
      * @param int $file_id File ID
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     protected function updateStatementCount($file_id)
     {
@@ -220,6 +226,7 @@ class UploadedFileManager
      * 
      * @param string $original_filename Original filename
      * @return string Unique filename
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     protected function generateUniqueFilename($original_filename)
     {
@@ -248,6 +255,7 @@ class UploadedFileManager
      * @param int $file_size File size in bytes
      * @param string|null $tmp_path Temporary file path for hash check
      * @return array|null Duplicate file record or null
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     protected function findDuplicate($original_filename, $file_size, $tmp_path = null)
     {
@@ -291,6 +299,7 @@ class UploadedFileManager
      * @param int $limit Limit results
      * @param int $offset Offset for pagination
      * @return array Uploaded files
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getUploadedFiles($filters = [], $limit = 100, $offset = 0)
     {
@@ -341,6 +350,7 @@ class UploadedFileManager
      * 
      * @param int $file_id File ID
      * @return array|null File details
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getFileDetails($file_id)
     {
@@ -369,6 +379,7 @@ class UploadedFileManager
      * 
      * @param int $file_id File ID
      * @return array Statements
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getLinkedStatements($file_id)
     {
@@ -393,6 +404,7 @@ class UploadedFileManager
      * 
      * @param int $file_id File ID
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function downloadFile($file_id)
     {
@@ -424,6 +436,7 @@ class UploadedFileManager
      * 
      * @param int $file_id File ID
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function deleteFile($file_id)
     {
@@ -450,6 +463,7 @@ class UploadedFileManager
      * 
      * @param array $filters Optional filters
      * @return int Total count
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getTotalFileCount($filters = [])
     {
@@ -484,6 +498,7 @@ class UploadedFileManager
      * Get storage statistics
      * 
      * @return array Statistics
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getStorageStats()
     {

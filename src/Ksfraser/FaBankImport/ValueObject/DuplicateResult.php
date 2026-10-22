@@ -11,6 +11,7 @@ use Ksfraser\FaBankImport\Entity\UploadedFile;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
  */
 class DuplicateResult
 {
@@ -27,6 +28,7 @@ class DuplicateResult
      * @param bool $isDuplicate
      * @param UploadedFile|null $existingFile
      * @param string $action
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     private function __construct(bool $isDuplicate, ?UploadedFile $existingFile, string $action)
     {
@@ -39,6 +41,7 @@ class DuplicateResult
      * Create result for no duplicate found
      * 
      * @return self
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public static function notDuplicate(): self
     {
@@ -50,6 +53,7 @@ class DuplicateResult
      * 
      * @param UploadedFile $existingFile
      * @return self
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public static function allowDuplicate(UploadedFile $existingFile): self
     {
@@ -61,6 +65,7 @@ class DuplicateResult
      * 
      * @param UploadedFile $existingFile
      * @return self
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public static function warnDuplicate(UploadedFile $existingFile): self
     {
@@ -72,6 +77,7 @@ class DuplicateResult
      * 
      * @param UploadedFile $existingFile
      * @return self
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public static function blockDuplicate(UploadedFile $existingFile): self
     {
@@ -82,6 +88,7 @@ class DuplicateResult
      * Check if duplicate was found
      * 
      * @return bool
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function isDuplicate(): bool
     {
@@ -92,6 +99,7 @@ class DuplicateResult
      * Get existing file (if duplicate)
      * 
      * @return UploadedFile|null
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function getExistingFile(): ?UploadedFile
     {
@@ -102,6 +110,7 @@ class DuplicateResult
      * Get action to take
      * 
      * @return string 'allow', 'warn', or 'block'
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function getAction(): string
     {
@@ -112,6 +121,7 @@ class DuplicateResult
      * Check if should block upload
      * 
      * @return bool
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function shouldBlock(): bool
     {
@@ -122,6 +132,7 @@ class DuplicateResult
      * Check if should warn user
      * 
      * @return bool
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function shouldWarn(): bool
     {
@@ -132,6 +143,7 @@ class DuplicateResult
      * Check if should silently allow (reuse existing or not duplicate)
      * 
      * @return bool
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function shouldAllow(): bool
     {

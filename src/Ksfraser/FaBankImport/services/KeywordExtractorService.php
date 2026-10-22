@@ -15,6 +15,7 @@ use Ksfraser\FaBankImport\Config\ConfigService;
  * @package Ksfraser\FaBankImport\Services
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class KeywordExtractorService
 {
@@ -50,6 +51,7 @@ class KeywordExtractorService
      * @param array<string>|null $stopwords Custom stopwords list (optional)
      * @param int|null           $minKeywordLength Minimum keyword length (optional)
      * @param ConfigService|null $configService Configuration service (optional)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(
         ?array $stopwords = null,
@@ -80,6 +82,7 @@ class KeywordExtractorService
      * @param string $text Text to extract keywords from
      *
      * @return array<Keyword> Array of valid Keyword value objects
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function extract(string $text): array
     {
@@ -132,6 +135,7 @@ class KeywordExtractorService
      * @param string $text Text to extract keywords from
      *
      * @return array<string> Array of keyword strings
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function extractAsStrings(string $text): array
     {
@@ -147,6 +151,7 @@ class KeywordExtractorService
      * @param string $keyword Keyword to validate
      *
      * @return bool True if valid, false otherwise
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isValid(string $keyword): bool
     {
@@ -174,6 +179,7 @@ class KeywordExtractorService
      * @param string $stopword Stopword to add
      *
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function addStopword(string $stopword): void
     {
@@ -187,6 +193,7 @@ class KeywordExtractorService
      * Get current stopwords list
      *
      * @return array<string>
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getStopwords(): array
     {
@@ -197,6 +204,7 @@ class KeywordExtractorService
      * Get minimum keyword length
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getMinKeywordLength(): int
     {
@@ -210,6 +218,7 @@ class KeywordExtractorService
      *
      * @return void
      * @throws InvalidKeywordException If length is invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setMinKeywordLength(int $length): void
     {
@@ -227,6 +236,7 @@ class KeywordExtractorService
      * @param string $text Text to tokenize
      *
      * @return array<string> Array of tokens
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function tokenize(string $text): array
     {

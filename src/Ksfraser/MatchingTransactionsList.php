@@ -34,6 +34,7 @@ use Ksfraser\HTML\Elements\HtmlRaw;
  *
  * @since 20251019
  * @version 1.1.0
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
  */
 class MatchingTransactionsList
 {
@@ -58,6 +59,7 @@ class MatchingTransactionsList
      * @param array $matchingTransactions Array of matching GL transactions from FA
      * @param array $bankTransactionData  Bank transaction data for comparison
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     public function __construct(array $matchingTransactions, array $bankTransactionData)
     {
@@ -70,6 +72,7 @@ class MatchingTransactionsList
      *
      * @return array
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     public function getMatchingTransactions(): array
     {
@@ -81,6 +84,7 @@ class MatchingTransactionsList
      *
      * @return array
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     public function getBankTransactionData(): array
     {
@@ -93,6 +97,7 @@ class MatchingTransactionsList
      * @param UrlBuilder $urlBuilder
      * @return self
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     public function setUrlBuilder(UrlBuilder $urlBuilder): self
     {
@@ -105,6 +110,7 @@ class MatchingTransactionsList
      *
      * @return UrlBuilder|null
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     public function getUrlBuilder(): ?UrlBuilder
     {
@@ -116,6 +122,7 @@ class MatchingTransactionsList
      *
      * @return int
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     public function getMatchCount(): int
     {
@@ -133,6 +140,7 @@ class MatchingTransactionsList
      *
      * @return string HTML output
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     public function render(): string
     {
@@ -161,6 +169,7 @@ class MatchingTransactionsList
      *
      * @return string HTML output
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     private function renderEmptyState(): string
     {
@@ -178,6 +187,7 @@ class MatchingTransactionsList
      * @param string $content HTML content (contains HTML markup like <b>, <br />)
      * @return string HTML output
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     private function renderLabelRow(string $content): string
     {
@@ -196,6 +206,7 @@ class MatchingTransactionsList
      * @param int   $matchcount  Transaction number
      * @return string HTML output
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     private function renderMatchingTransaction(array $matchgl, int $matchcount): string
     {
@@ -235,6 +246,7 @@ class MatchingTransactionsList
      * @param array $matchgl GL transaction data
      * @return string HTML output
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     private function renderTransactionLink(array $matchgl): string
     {
@@ -251,6 +263,7 @@ class MatchingTransactionsList
      * @param array $matchgl GL transaction data
      * @return string HTML output
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     private function renderAccountComparison(array $matchgl): string
     {
@@ -273,6 +286,7 @@ class MatchingTransactionsList
      * @param array $matchgl GL transaction data
      * @return string HTML output
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     private function renderAmount(array $matchgl): string
     {
@@ -293,6 +307,7 @@ class MatchingTransactionsList
      *
      * @return float
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     private function calculateScoreAmount(): float
     {
@@ -312,6 +327,7 @@ class MatchingTransactionsList
      * @param array $matchgl GL transaction data
      * @return string HTML output
      * @since 20251019
+ * @BABOK FR-VAL-004, FR-PROC-009, FR-PROC-010 | BR-VAL-004 | UAT-PROC-008
      */
     private function renderPersonDetails(array $matchgl): string
     {

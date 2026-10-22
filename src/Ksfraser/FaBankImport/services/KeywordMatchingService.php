@@ -18,6 +18,7 @@ use Ksfraser\FaBankImport\Config\ConfigService;
  * @package Ksfraser\FaBankImport\Services
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
  */
 class KeywordMatchingService
 {
@@ -57,6 +58,7 @@ class KeywordMatchingService
      * @param PartnerDataRepositoryInterface $repository Partner data repository
      * @param KeywordExtractorService        $extractor  Keyword extraction service
      * @param ConfigService|null             $configService Configuration service (optional)
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(
         PartnerDataRepositoryInterface $repository,
@@ -79,6 +81,7 @@ class KeywordMatchingService
      * @param int|null $limit       Maximum results (uses config default if null)
      *
      * @return array<KeywordMatch> Array of KeywordMatch objects, sorted by relevance
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function search(string $searchText, ?int $partnerType = null, ?int $limit = null): array
     {
@@ -131,6 +134,7 @@ class KeywordMatchingService
      * @param int|null $partnerType Optional partner type filter
      *
      * @return KeywordMatch|null Top match or null if no qualifying match
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTopMatch(string $searchText, ?int $partnerType = null): ?KeywordMatch
     {
@@ -148,6 +152,7 @@ class KeywordMatchingService
      * @param int $keywordCount  Number of keywords that matched
      *
      * @return float Final score with clustering bonus applied
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function calculateScore(int $rawScore, int $keywordCount): float
     {
@@ -168,6 +173,7 @@ class KeywordMatchingService
      * @param array<Keyword>   $searchKeywords Search keywords
      *
      * @return array<KeywordMatch> Array of KeywordMatch objects
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     private function buildKeywordMatches(array $partnerMatches, array $searchKeywords): array
     {
@@ -230,6 +236,7 @@ class KeywordMatchingService
      * Load configuration from ConfigService
      *
      * @return void
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadConfiguration(): void
     {
@@ -261,6 +268,7 @@ class KeywordMatchingService
      * Get current clustering factor
      *
      * @return float
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function getClusteringFactor(): float
     {
@@ -271,6 +279,7 @@ class KeywordMatchingService
      * Get minimum confidence threshold
      *
      * @return float
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function getMinConfidenceThreshold(): float
     {
@@ -281,6 +290,7 @@ class KeywordMatchingService
      * Get maximum suggestions
      *
      * @return int
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function getMaxSuggestions(): int
     {

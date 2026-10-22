@@ -22,6 +22,7 @@ use Ksfraser\FaBankImport\Strategy\DuplicateStrategyFactory;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
  */
 class FileUploadService
 {
@@ -48,6 +49,7 @@ class FileUploadService
      * @param FileStorageServiceInterface $storageService
      * @param DuplicateDetector $duplicateDetector
      * @param ConfigRepositoryInterface $configRepository
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(
         UploadedFileRepositoryInterface $fileRepository,
@@ -76,6 +78,7 @@ class FileUploadService
      * @param bool $forceUpload Force upload even if duplicate (override warn mode)
      * @param string|null $notes Optional notes about the upload
      * @return UploadResult Result of upload operation
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function upload(
         FileInfo $fileInfo,
@@ -163,6 +166,7 @@ class FileUploadService
      * @param int $fileId Uploaded file ID
      * @param array $statementIds Array of statement IDs
      * @return bool Success
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function linkToStatements(int $fileId, array $statementIds): bool
     {
@@ -174,6 +178,7 @@ class FileUploadService
      * 
      * @param int $fileId File ID
      * @return bool Success
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function delete(int $fileId): bool
     {
@@ -198,6 +203,7 @@ class FileUploadService
      * 
      * @param int $fileId File ID
      * @return UploadedFile|null
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function getFile(int $fileId): ?UploadedFile
     {
@@ -209,6 +215,7 @@ class FileUploadService
      * 
      * @param int $fileId File ID
      * @return string|null File contents or null if not found
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function getFileContents(int $fileId): ?string
     {
@@ -232,6 +239,7 @@ class FileUploadService
      * @param int $limit Limit results
      * @param int $offset Offset for pagination
      * @return array Array of UploadedFile entities
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function listFiles(array $filters = [], int $limit = 100, int $offset = 0): array
     {
@@ -243,6 +251,7 @@ class FileUploadService
      * 
      * @param array $filters Optional filters
      * @return int Total count
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function countFiles(array $filters = []): int
     {
@@ -253,6 +262,7 @@ class FileUploadService
      * Get storage statistics
      * 
      * @return array Statistics
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public function getStatistics(): array
     {
@@ -263,6 +273,7 @@ class FileUploadService
      * Get current username from FrontAccounting session
      * 
      * @return string Username
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     private function getCurrentUsername(): string
     {
@@ -282,6 +293,7 @@ class FileUploadService
      * @param DuplicateDetector|null $duplicateDetector
      * @param ConfigRepositoryInterface|null $configRepository
      * @return self
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-004, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-004, FR-UPL-005 | BR-IMP-001 | UAT-IMP-001
      */
     public static function create(
         ?UploadedFileRepositoryInterface $fileRepository = null,

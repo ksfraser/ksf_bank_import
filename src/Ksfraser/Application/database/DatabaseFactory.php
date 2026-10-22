@@ -4,11 +4,17 @@ namespace Ksfraser\Application\Database;
 
 use Ksfraser\Application\Config\Config;
 
+/**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ */
 class DatabaseFactory
 {
     private static $connection = null;
     private static $config;
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public static function getConnection()
     {
         if (self::$connection === null) {
@@ -18,6 +24,9 @@ class DatabaseFactory
         return self::$connection;
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     private static function createConnection()
     {
         $host = self::$config->get('db.host');
@@ -38,6 +47,9 @@ class DatabaseFactory
         }
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public static function closeConnection(): void
     {
         self::$connection = null;

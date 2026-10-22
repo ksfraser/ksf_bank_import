@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\Strategy;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
  */
 class DuplicateStrategyFactory
 {
@@ -20,6 +21,7 @@ class DuplicateStrategyFactory
      * @return DuplicateStrategyInterface
      * 
      * @throws \InvalidArgumentException If action is invalid
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public static function create(string $action): DuplicateStrategyInterface
     {
@@ -44,6 +46,7 @@ class DuplicateStrategyFactory
      * Get all available strategies
      * 
      * @return array Array of strategy names
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public static function getAvailableStrategies(): array
     {
@@ -55,6 +58,7 @@ class DuplicateStrategyFactory
      * 
      * @param string $action Action to validate
      * @return bool True if valid
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public static function isValidAction(string $action): bool
     {

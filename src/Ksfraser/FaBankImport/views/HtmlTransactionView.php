@@ -5,16 +5,25 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
+/**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ */
 class HtmlTransactionView implements TransactionViewInterface
 {
     private $transaction;
     private $buttons = [];
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function __construct(BankTransactionInterface $transaction)
     {
         $this->transaction = $transaction;
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function render(): string
     {
         $html = '<div class="transaction">';
@@ -24,6 +33,9 @@ class HtmlTransactionView implements TransactionViewInterface
         return $html;
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     private function renderTransactionDetails(): string
     {
         $accountDetails = $this->transaction->getAccountDetails();
@@ -45,6 +57,9 @@ class HtmlTransactionView implements TransactionViewInterface
         );
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function renderActions(): string
     {
         $html = '<div class="actions">';
@@ -55,6 +70,9 @@ class HtmlTransactionView implements TransactionViewInterface
         return $html;
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function addButton(string $type, array $params): void
     {
         $this->buttons[] = [
@@ -63,6 +81,9 @@ class HtmlTransactionView implements TransactionViewInterface
         ];
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     private function renderButton(array $button): string
     {
         $id = $button['params']['id'] ?? '';
@@ -74,6 +95,9 @@ class HtmlTransactionView implements TransactionViewInterface
         );
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     private function getButtonLabel(string $type): string
     {
         $labels = [

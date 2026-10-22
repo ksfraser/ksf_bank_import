@@ -12,6 +12,7 @@ namespace Ksfraser\FaBankImport\models;
  * 
  * @author Kevin Fraser / ChatGPT
  * @since 20251018
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
  */
 class MatchingJEs
 {
@@ -22,6 +23,7 @@ class MatchingJEs
      * Constructor
      * 
      * @param object $bi_lineitem The bi_lineitem object containing transaction details
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
      */
     public function __construct($bi_lineitem)
     {
@@ -38,6 +40,7 @@ class MatchingJEs
      * 
      * Check for matching into the accounts
      * JE# / Date / Account / (Credit/Debit) / Memo in the GL Account (gl/inquiry/gl_account_inquiry.php)
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
      */
     protected function findMatches()
     {
@@ -89,6 +92,7 @@ class MatchingJEs
      * Get the array of matching transactions
      * 
      * @return array Array of matching transactions with their scores
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
      */
     public function getMatchArr()
     {

@@ -4,11 +4,17 @@ namespace Ksfraser\HTML\Elements;
 
 use Ksfraser\HTML\HtmlElementInterface;
 
+/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
 class HtmlString implements HtmlElementInterface
 {
 
         protected $string;
 
+        /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+         */
         public function __construct( $string )
         {
                 $this->string = $string;
@@ -18,6 +24,7 @@ class HtmlString implements HtmlElementInterface
          * The Html is echoed directly into the output.
          * 
          * @return void
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
          */
         public function toHtml(): void {
                 echo $this->getHtml();
@@ -27,6 +34,7 @@ class HtmlString implements HtmlElementInterface
          * Get HTML representation as string
          * 
          * @return string HTML-escaped string
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
          */
         public function getHtml(): string
         {

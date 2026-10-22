@@ -8,6 +8,7 @@ use Ksfraser\frontaccounting\FaGl;
 
 /**
  * Model class for handling line item data.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
  */
 class BiLineItemModel extends GenericFaInterface
 {
@@ -113,6 +114,7 @@ class BiLineItemModel extends GenericFaInterface
      * @param array $trz
      * @param array $vendor_list
      * @param array $optypes
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(array $trz, array $vendor_list = [], array $optypes = [])
     {
@@ -126,6 +128,7 @@ class BiLineItemModel extends GenericFaInterface
      * @param array $trz
      * @param array $vendor_list
      * @param array $optypes
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     private function initialize(array $trz, array $vendor_list, array $optypes): void
     {
@@ -152,6 +155,7 @@ class BiLineItemModel extends GenericFaInterface
 
     /**
      * Determine the transaction type label based on transactionDC.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function determineTransactionTypeLabel(): void
     {
@@ -170,6 +174,7 @@ class BiLineItemModel extends GenericFaInterface
 
     /**
      * Retrieve bank account details.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBankAccountDetails(): void
     {
@@ -181,6 +186,7 @@ class BiLineItemModel extends GenericFaInterface
 
     /**
      * Set the partner type and operation label based on transactionDC.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function setPartnerType(): void
     {
@@ -208,6 +214,7 @@ class BiLineItemModel extends GenericFaInterface
      * Find matching existing journal entries.
      *
      * @return array
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function findMatchingExistingJE(): array
     {

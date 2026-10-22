@@ -14,6 +14,7 @@ use Ksfraser\FaBankImport\ValueObject\FileInfo;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
  */
 class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
 {
@@ -24,6 +25,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * Ensure database tables exist (auto-migration on first use)
      * 
      * @return void
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     private function ensureTablesExist(): void
     {
@@ -41,6 +43,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * Create database tables for file metadata
      * 
      * @return void
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     private function createTables(): void
     {
@@ -91,6 +94,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * @return int File ID
      * 
      * @throws \RuntimeException If save fails
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function save(UploadedFile $file): int
     {
@@ -127,6 +131,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * 
      * @param int $id File ID
      * @return UploadedFile|null File entity or null if not found
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function findById(int $id): ?UploadedFile
     {
@@ -153,6 +158,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * @param FileInfo $fileInfo File information
      * @param int $windowDays How many days back to check
      * @return UploadedFile|null Duplicate file or null
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function findDuplicate(FileInfo $fileInfo, int $windowDays): ?UploadedFile
     {
@@ -180,6 +186,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * @param int $fileId File ID
      * @param array $statementIds Array of statement IDs
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function linkToStatements(int $fileId, array $statementIds): bool
     {
@@ -214,6 +221,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * 
      * @param int $fileId File ID
      * @return array Array of statement data
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getLinkedStatements(int $fileId): array
     {
@@ -240,6 +248,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * 
      * @param int $fileId File ID
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function updateStatementCount(int $fileId): bool
     {
@@ -263,6 +272,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * 
      * @param int $fileId File ID
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function delete(int $fileId): bool
     {
@@ -287,6 +297,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * @param int $limit Limit results
      * @param int $offset Offset for pagination
      * @return array Array of UploadedFile entities
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function findAll(array $filters = [], int $limit = 100, int $offset = 0): array
     {
@@ -329,6 +340,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * 
      * @param array $filters Optional filters
      * @return int Total count
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function count(array $filters = []): int
     {
@@ -363,6 +375,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * Get storage statistics
      * 
      * @return array Statistics (total_files, total_size, etc.)
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getStatistics(): array
     {
@@ -391,6 +404,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
      * 
      * @param array $row Database row
      * @return UploadedFile
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     private function hydrateEntity(array $row): UploadedFile
     {

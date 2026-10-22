@@ -2,16 +2,25 @@
 
 namespace Ksfraser\FaBankImport\Services;
 
+/**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ */
 class MetricsAggregator
 {
     private const METRICS_FILE_GLOB = '/performance_*.log';
     private $logPath;
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function __construct(string $logPath)
     {
         $this->logPath = $logPath;
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function aggregateMetrics(string $startDate, string $endDate): array
     {
         $metrics = [];
@@ -63,6 +72,9 @@ class MetricsAggregator
         return $metrics;
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     private function findMetricsFiles(): array
     {
         // glob() does not reliably work with stream wrappers (e.g., vfsStream).
@@ -90,6 +102,9 @@ class MetricsAggregator
         return glob($this->logPath . self::METRICS_FILE_GLOB) ?: [];
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function getHistoricalTrends(string $metricName, int $days = 7): array
     {
         $endDate = date('Y-m-d');
@@ -114,6 +129,9 @@ class MetricsAggregator
         return $dailyMetrics;
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function detectPerformanceAnomalies(array $metrics, float $threshold = 2.0): array
     {
         $anomalies = [];

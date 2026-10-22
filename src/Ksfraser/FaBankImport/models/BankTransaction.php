@@ -4,42 +4,66 @@ namespace Ksfraser\FaBankImport\Models;
 
 use Ksfraser\FaBankImport\Database\DatabaseFactory;
 
+/**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ */
 class BankTransaction implements BankTransactionInterface
 {
     private $data;
     private $connection;
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function __construct(array $data)
     {
         $this->data = $data;
         $this->connection = DatabaseFactory::getConnection();
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getId(): int
     {
         return (int)$this->data['id'];
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getAmount(): float
     {
         return (float)$this->data['amount'];
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getDate(): string
     {
         return $this->data['valueTimestamp'];
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getMemo(): string
     {
         return $this->data['memo'] ?? '';
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getTransactionType(): string
     {
         return $this->data['transactionDC'];
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getAccountDetails(): array
     {
         return [
@@ -48,6 +72,9 @@ class BankTransaction implements BankTransactionInterface
         ];
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getOtherPartyDetails(): array
     {
         $stmt = $this->connection->prepare(
@@ -62,6 +89,9 @@ class BankTransaction implements BankTransactionInterface
         ];
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function processTransaction(): bool
     {
         $stmt = $this->connection->prepare(

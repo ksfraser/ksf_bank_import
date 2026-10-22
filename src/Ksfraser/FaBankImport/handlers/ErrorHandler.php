@@ -6,11 +6,17 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Ksfraser\FaBankImport\Config\Config;
 
+/**
+ * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
+ */
 class ErrorHandler
 {
     private $logger;
     private $displayErrors;
 
+    /**
+ * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
+     */
     public function __construct()
     {
         $config = Config::getInstance();
@@ -25,12 +31,18 @@ class ErrorHandler
         );
     }
 
+    /**
+ * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
+     */
     public function handleException(\Throwable $e): void
     {
         $this->logException($e);
         $this->displayError($e);
     }
 
+    /**
+ * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
+     */
     private function logException(\Throwable $e): void
     {
         $this->logger->error($e->getMessage(), [
@@ -40,6 +52,9 @@ class ErrorHandler
         ]);
     }
 
+    /**
+ * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
+     */
     private function displayError(\Throwable $e): void
     {
         if ($this->displayErrors) {

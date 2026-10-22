@@ -22,6 +22,8 @@
 namespace Ksfraser\FaBankImport\Repositories;
 
 use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
+use Ksfraser\FaBankImport\Repository\ParameterBinder;
+use ksfraser\CommonDb\Contract\DbConnectionInterface;
 
 /**
  * Repository for bi_transactions table
@@ -31,6 +33,7 @@ use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
  * 
  * @since 20251104
  * @version 20251104.1
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
  */
 class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface
 {
@@ -38,17 +41,25 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      * @var TransactionQueryBuilder Query builder for SQL generation
      */
     private $queryBuilder;
-    
+
+    /**
+     * @var ParameterBinder Resolves the "?" placeholders to escaped literals
+     */
+    private $binder;
+
     /**
      * Constructor with dependency injection
-     * 
-     * @param TransactionQueryBuilder $queryBuilder The query builder to use
-     * 
+     *
+     * @param TransactionQueryBuilder      $queryBuilder The query builder to use
+     * @param DbConnectionInterface|null   $db           Optional connection used for quoting
+     *
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
-    public function __construct(TransactionQueryBuilder $queryBuilder)
+    public function __construct(TransactionQueryBuilder $queryBuilder, ?DbConnectionInterface $db = null)
     {
         $this->queryBuilder = $queryBuilder;
+        $this->binder = new ParameterBinder($db);
     }
     
     /**
@@ -57,6 +68,7 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      * @return array Array of transaction records
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function findAll(): array
     {
@@ -79,12 +91,16 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      * @return array|null Transaction record or null if not found
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function findById(int $id): ?array
     {
         $query = $this->queryBuilder->buildGetTransactionQuery($id);
-        $result = db_query($query['sql'], 'unable to get transaction');
-        
+        // The query builder emits a "?" placeholder: FA has no prepared
+        // statements, so it has to be resolved to an escaped literal.
+        $sql = $this->binder->bind($query['sql'], $query['params'] ?? [$id]);
+        $result = db_query($sql, 'unable to get transaction');
+
         $row = db_fetch($result);
         return $row ? $row : null;
     }
@@ -107,6 +123,7 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      *     'limit' => 100
      * ]);
      * ```
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function findByFilters(array $filters): array
     {
@@ -116,12 +133,8 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
         $sql = $query['sql'];
         $params = $query['params'];
         
-        // Replace placeholders with actual values for FA's db_query
-        // Note: FA uses a different parameter binding approach
-        foreach ($params as $param) {
-            $escapedParam = is_numeric($param) ? $param : "'" . db_escape($param) . "'";
-            $sql = preg_replace('/\?/', $escapedParam, $sql, 1);
-        }
+        // FA has no prepared statements: resolve the placeholders to escaped literals.
+        $sql = $this->binder->bind($sql, $params);
         
         $result = db_query($sql, 'unable to get transactions');
         
@@ -148,6 +161,7 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      * @return int Number of rows affected
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function update(
         array $transactionIds,
@@ -174,18 +188,8 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
         $sql = $query['sql'];
         $params = $query['params'];
         
-        foreach ($params as $param) {
-            if (is_null($param)) {
-                $escapedParam = 'NULL';
-            } elseif (is_bool($param)) {
-                $escapedParam = $param ? '1' : '0';
-            } elseif (is_numeric($param)) {
-                $escapedParam = $param;
-            } else {
-                $escapedParam = "'" . db_escape($param) . "'";
-            }
-            $sql = preg_replace('/\?/', $escapedParam, $sql, 1);
-        }
+        // FA has no prepared statements: resolve the placeholders to escaped literals.
+        $sql = $this->binder->bind($sql, $params);
         
         db_query($sql, 'unable to update transactions');
         
@@ -202,6 +206,7 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      * @return int Number of rows affected
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function reset(
         array $transactionIds,
@@ -218,10 +223,8 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
         $sql = $query['sql'];
         $params = $query['params'];
         
-        foreach ($params as $param) {
-            $escapedParam = is_numeric($param) ? $param : "'" . db_escape($param) . "'";
-            $sql = preg_replace('/\?/', $escapedParam, $sql, 1);
-        }
+        // FA has no prepared statements: resolve the placeholders to escaped literals.
+        $sql = $this->binder->bind($sql, $params);
         
         db_query($sql, 'unable to reset transactions');
         
@@ -237,6 +240,7 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      * @return int Number of rows affected
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function prevoid(int $faTransNo, int $faTransType): int
     {
@@ -246,10 +250,8 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
         $sql = $query['sql'];
         $params = $query['params'];
         
-        foreach ($params as $param) {
-            $escapedParam = is_numeric($param) ? $param : "'" . db_escape($param) . "'";
-            $sql = preg_replace('/\?/', $escapedParam, $sql, 1);
-        }
+        // FA has no prepared statements: resolve the placeholders to escaped literals.
+        $sql = $this->binder->bind($sql, $params);
         
         db_query($sql, 'unable to prevoid transaction');
         
@@ -268,6 +270,7 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      * 
      * @since 20240729 (original function date)
      * @version 20251104.1 (moved to repository)
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function findNormalPairing(?string $account = null): array
     {
@@ -277,10 +280,8 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
         $sql = $query['sql'];
         $params = $query['params'];
         
-        foreach ($params as $param) {
-            $escapedParam = is_numeric($param) ? $param : "'" . db_escape($param) . "'";
-            $sql = preg_replace('/\?/', $escapedParam, $sql, 1);
-        }
+        // FA has no prepared statements: resolve the placeholders to escaped literals.
+        $sql = $this->binder->bind($sql, $params);
         
         $result = db_query($sql, 'unable to get normal pairing patterns');
         

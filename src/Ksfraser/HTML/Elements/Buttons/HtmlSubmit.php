@@ -35,6 +35,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * $submit->setName('save_btn')->setClass('btn btn-primary');
  * echo $submit->getHtml(); // <input type="submit" value="Save" name="save_btn" class="btn btn-primary" />
  * ```
+ * @BABOK FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
  */
 class HtmlSubmit extends HtmlInputButton
 {
@@ -42,6 +43,7 @@ class HtmlSubmit extends HtmlInputButton
      * Constructor
      * 
      * @param HtmlElementInterface $label The button label (will be value attribute)
+ * @BABOK FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(HtmlElementInterface $label)
     {

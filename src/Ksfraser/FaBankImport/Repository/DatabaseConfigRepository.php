@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\Repository;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
  */
 class DatabaseConfigRepository implements ConfigRepositoryInterface
 {
@@ -30,6 +31,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * @param string $key Configuration key with dot notation (e.g., 'upload.check_duplicates')
      * @param mixed $default Default value if not found
      * @return mixed Configuration value (typed according to config_type)
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function get(string $key, $default = null)
     {
@@ -52,6 +54,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * @return bool Success
      * 
      * @throws \InvalidArgumentException If trying to modify system configuration
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function set(string $key, $value, ?string $username = null, ?string $reason = null): bool
     {
@@ -95,6 +98,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * 
      * @param string $category Category name
      * @return array Configuration values
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getByCategory(string $category): array
     {
@@ -122,6 +126,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * Get all configuration values
      * 
      * @return array All configurations grouped by category
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getAll(): array
     {
@@ -154,6 +159,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * 
      * @param string $key Configuration key
      * @return bool True if exists
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function has(string $key): bool
     {
@@ -168,6 +174,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * @return bool Success
      * 
      * @throws \InvalidArgumentException If trying to delete system configuration
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function delete(string $key): bool
     {
@@ -194,6 +201,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * @param string|null $key Specific key (null for all)
      * @param int $limit Number of records
      * @return array History records
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getHistory(?string $key = null, int $limit = 50): array
     {
@@ -220,6 +228,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
     /**
      * Load all configuration into memory cache
      * Auto-creates tables on first use
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function loadCache(): void
     {
@@ -249,6 +258,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * Ensure database tables exist (auto-migration on first use)
      * 
      * @return void
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function ensureTablesExist(): void
     {
@@ -267,6 +277,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * Create database tables for configuration
      * 
      * @return void
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function createTables(): void
     {
@@ -312,6 +323,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * Insert default configuration values
      * 
      * @return void
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function insertDefaultValues(): void
     {
@@ -363,6 +375,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * @param string $value String value from database
      * @param string $type Data type (string, integer, boolean, float)
      * @return mixed Typed value
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function castValue(string $value, string $type)
     {
@@ -384,6 +397,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * 
      * @param mixed $value Typed value
      * @return string String representation
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function valueToString($value): string
     {
@@ -399,6 +413,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * 
      * @param string $key Configuration key
      * @return string Type (string, integer, boolean, float)
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function getConfigType(string $key): string
     {
@@ -419,6 +434,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * 
      * @param string $key Configuration key
      * @return bool True if system config
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function isSystemConfig(string $key): bool
     {
@@ -442,6 +458,7 @@ class DatabaseConfigRepository implements ConfigRepositoryInterface
      * @param mixed $newValue New value
      * @param string|null $username User making change
      * @param string|null $reason Reason for change
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function recordHistory(string $key, $oldValue, $newValue, ?string $username, ?string $reason): void
     {

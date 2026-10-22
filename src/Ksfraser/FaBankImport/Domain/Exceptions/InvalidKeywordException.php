@@ -10,6 +10,7 @@ use InvalidArgumentException;
  * @package Ksfraser\FaBankImport\Domain\Exceptions
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class InvalidKeywordException extends InvalidArgumentException
 {
@@ -30,6 +31,7 @@ class InvalidKeywordException extends InvalidArgumentException
      * @param int    $minLength
      *
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function tooShort(string $keyword, int $minLength): self
     {
@@ -49,6 +51,7 @@ class InvalidKeywordException extends InvalidArgumentException
      * @param int    $maxLength
      *
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function tooLong(string $keyword, int $maxLength): self
     {
@@ -67,6 +70,7 @@ class InvalidKeywordException extends InvalidArgumentException
      * @param string $keyword
      *
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function numericOnly(string $keyword): self
     {
@@ -81,6 +85,7 @@ class InvalidKeywordException extends InvalidArgumentException
      * @param string $keyword
      *
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function isStopword(string $keyword): self
     {

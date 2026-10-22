@@ -23,6 +23,7 @@ namespace Ksfraser\FaBankImport\Exceptions;
  *
  * Thrown when handler auto-discovery encounters an expected error
  * that should be handled gracefully (e.g., missing dependencies).
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class HandlerDiscoveryException extends \Exception
 {
@@ -32,6 +33,7 @@ class HandlerDiscoveryException extends \Exception
      * @param string $handlerClass Handler class name
      * @param \Throwable|null $previous Previous exception
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function cannotInstantiate(string $handlerClass, ?\Throwable $previous = null): self
     {
@@ -49,6 +51,7 @@ class HandlerDiscoveryException extends \Exception
      * @param string $reason Reason why constructor is invalid
      * @param \Throwable|null $previous Previous exception
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function invalidConstructor(
         string $handlerClass,
@@ -69,6 +72,7 @@ class HandlerDiscoveryException extends \Exception
      * @param string $missingClass Missing dependency class name
      * @param \Throwable|null $previous Previous exception
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function missingDependency(
         string $handlerClass,

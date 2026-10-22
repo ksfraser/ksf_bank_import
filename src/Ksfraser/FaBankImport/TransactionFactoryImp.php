@@ -11,11 +11,20 @@ use Ksfraser\FaBankImport\MatchedTransaction;
 use Ksfraser\FaBankImport\ManualTransaction;
 use Ksfraser\FaBankImport\SpecialCaseTransaction;
 
+/**
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ */
 class TransactionFactoryImp implements TransactionFactory
 {
+	/**
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct()
 	{
 	}
+	/**
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function makeTransaction( array $transaction ): Transaction
 	{
 		if( ! isset( $_POST['partnerType'][ $transaction['id'] ] ) )

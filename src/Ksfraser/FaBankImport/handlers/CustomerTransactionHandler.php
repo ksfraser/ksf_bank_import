@@ -38,6 +38,7 @@ use Ksfraser\PartnerTypes\CustomerPartnerType;
  * - Receives filtered transaction-specific POST data (not entire $_POST)
  * - Constructor validates partner type on instantiation (fail-fast)
  * - Only processes Credit transactions (customer payments)
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
  */
 class CustomerTransactionHandler extends AbstractTransactionHandler
 {
@@ -49,6 +50,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
      * - Label: 'Customer'
      * - Description: 'Customer transactions (accounts receivable)'
      * - Priority: 20 (high priority - common type)
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
@@ -57,6 +59,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     public function process(
         array $transaction,
@@ -111,6 +114,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
      * @param float $charge Bank charge amount
      * @return TransactionResult Processing result
      * @throws Exception if processing fails
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
     private function processCustomerPayment(
         array $transaction,

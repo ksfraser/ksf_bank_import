@@ -13,6 +13,7 @@ use InvalidArgumentException;
  * @package Ksfraser\FaBankImport\Domain\ValueObjects
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class PartnerData
 {
@@ -51,6 +52,7 @@ class PartnerData
      * @param int    $occurrenceCount Occurrence count (non-negative, default 1)
      *
      * @throws InvalidArgumentException If any parameter is invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(
         int $partnerId,
@@ -76,6 +78,7 @@ class PartnerData
      * Get partner ID
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerId(): int
     {
@@ -86,6 +89,7 @@ class PartnerData
      * Get partner type
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerType(): int
     {
@@ -96,6 +100,7 @@ class PartnerData
      * Get partner detail ID
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerDetailId(): int
     {
@@ -106,6 +111,7 @@ class PartnerData
      * Get keyword/pattern data
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getData(): string
     {
@@ -116,6 +122,7 @@ class PartnerData
      * Get occurrence count
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getOccurrenceCount(): int
     {
@@ -132,6 +139,7 @@ class PartnerData
      *
      * @return self New instance with updated count
      * @throws InvalidArgumentException If increment is negative
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function withIncrementedCount(int $increment = 1): self
     {
@@ -154,6 +162,7 @@ class PartnerData
      * @param PartnerData $other
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function equals(PartnerData $other): bool
     {
@@ -169,6 +178,7 @@ class PartnerData
      * Used for checking uniqueness constraint
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getUniqueKey(): string
     {
@@ -187,6 +197,7 @@ class PartnerData
      * Useful for database storage or serialization
      *
      * @return array<string, mixed>
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function toArray(): array
     {
@@ -206,6 +217,7 @@ class PartnerData
      *
      * @return self
      * @throws InvalidArgumentException If required fields are missing or invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function fromArray(array $data): self
     {
@@ -229,6 +241,7 @@ class PartnerData
      * String representation
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __toString(): string
     {
@@ -248,6 +261,7 @@ class PartnerData
      * @param int $partnerId
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validatePartnerId(int $partnerId): void
     {
@@ -264,6 +278,7 @@ class PartnerData
      * @param int $partnerType
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validatePartnerType(int $partnerType): void
     {
@@ -278,6 +293,7 @@ class PartnerData
      * @param int $partnerDetailId
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validatePartnerDetailId(int $partnerDetailId): void
     {
@@ -294,6 +310,7 @@ class PartnerData
      * @param string $data
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validateData(string $data): void
     {
@@ -315,6 +332,7 @@ class PartnerData
      * @param int $occurrenceCount
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validateOccurrenceCount(int $occurrenceCount): void
     {

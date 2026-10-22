@@ -6,6 +6,9 @@ use Ksfraser\FaBankImport\Config\Config;
 use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Services\PerformanceMonitor;
 
+/**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ */
 class PerformanceMonitoringMiddleware implements MiddlewareInterface
 {
     private $config;
@@ -14,6 +17,9 @@ class PerformanceMonitoringMiddleware implements MiddlewareInterface
     private $startMemory;
     private $logPath;
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function __construct()
     {
         $this->config = Config::getInstance();
@@ -25,6 +31,9 @@ class PerformanceMonitoringMiddleware implements MiddlewareInterface
         }
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function process(RequestHandler $request, callable $next)
     {
         $command = $request->getTransactionCommand();
@@ -54,6 +63,9 @@ class PerformanceMonitoringMiddleware implements MiddlewareInterface
         }
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function before(): void
     {
         if (!$this->shouldSample()) {
@@ -64,6 +76,9 @@ class PerformanceMonitoringMiddleware implements MiddlewareInterface
         $this->startMemory = memory_get_usage();
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function after(string $operationName): void
     {
         if (!$this->shouldSample() || !$this->startTime) {
@@ -86,6 +101,9 @@ class PerformanceMonitoringMiddleware implements MiddlewareInterface
         $this->logMetrics($metrics);
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     private function shouldSample(): bool
     {
         if (!$this->config->get('monitoring.enabled', false)) {
@@ -96,6 +114,9 @@ class PerformanceMonitoringMiddleware implements MiddlewareInterface
         return (mt_rand() / mt_getrandmax()) <= $samplingRate;
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     private function logMetrics(array $metrics): void
     {
         $filename = $this->logPath . '/performance_' . date('Ymd') . '.log';

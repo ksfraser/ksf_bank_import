@@ -8,8 +8,14 @@ if ( !class_exists( LabelRowBase::class ) && file_exists( __DIR__ . '/../../../H
 	require_once( __DIR__ . '/../../../HTML/Composites/LabelRowBase.php' );
 }
 
+/**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ */
 class TransType extends LabelRowBase
 {
+	/**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct( $bi_lineitem )
 	{
 		switch( $bi_lineitem->transactionDC )

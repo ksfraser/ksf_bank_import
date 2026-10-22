@@ -17,12 +17,21 @@ if ( !defined( 'KSF_TEST_COMPAT' ) ) { include_once( 'includes.inc' ); }
 /************************************************
 * Abstract class to parse a QFX/OFX file
 ************************************************/
+/**
+ * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+ */
 abstract class AbstractQfxParser {
     protected $bank_from_file;
     protected $bankid_from_file;
 
+    /**
+ * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+     */
     abstract public function parse($content, $static_data = array(), $debug = true);
 
+    /**
+ * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+     */
     protected function detectBank($institute, $static_data) {
         if (null !== $institute->name) {
             $this->bank_from_file = true;
@@ -36,6 +45,9 @@ abstract class AbstractQfxParser {
         }
     }
 
+    /**
+ * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+     */
     protected function detectBankId($institute, $static_data) {
         if (null !== $institute->id) {
             $this->bankid_from_file = true;
@@ -50,28 +62,52 @@ abstract class AbstractQfxParser {
     }
 }
 
+/**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ */
 class CibcQfxParser extends AbstractQfxParser {
+    /**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+     */
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement CIBC-specific parsing logic
         // Example: Handle CIBC-specific transaction types or formats
     }
 }
 
+/**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ */
 class PmcQfxParser extends AbstractQfxParser {
+    /**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+     */
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement PMC-specific parsing logic
         // Example: Handle PMC-specific transaction types or formats
     }
 }
 
+/**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ */
 class ManuQfxParser extends AbstractQfxParser {
+    /**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+     */
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement MANU-specific parsing logic
         // Example: Handle MANU-specific transaction types or formats
     }
 }
 
+/**
+ * @BABOK FR-IMP-002, FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ */
 class QfxParserFactory {
+    /**
+ * @BABOK FR-IMP-002, FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+     */
     public static function createParser($content) {
         // Detection logic to determine which parser to use
         if (strpos($content, 'CIBC') !== false) {

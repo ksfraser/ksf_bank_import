@@ -31,6 +31,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * - Fields include: partnerId, invoice, comment, partnerDetailId, etc.
  * - This decouples handlers from the full POST array structure
  * - Returns TransactionResult for type safety and display integration
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 interface TransactionHandlerInterface
 {
@@ -44,6 +45,7 @@ interface TransactionHandlerInterface
      * @param string $collectionIds Collection IDs
      * @param array $ourAccount Our bank account information
      * @return TransactionResult Processing result (success/error/warning with display integration)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function process(
         array $transaction,
@@ -57,6 +59,7 @@ interface TransactionHandlerInterface
      * Get the partner type short code this handler processes
      *
      * @return string Partner type code (SP, CU, QE, BT, MA, ZZ)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerType(): string;
 
@@ -67,6 +70,7 @@ interface TransactionHandlerInterface
      *
      * @param string $partnerType The partner type code for this transaction
      * @return bool True if can process, false otherwise
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function canProcess(string $partnerType): bool;
 }

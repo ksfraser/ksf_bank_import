@@ -28,6 +28,9 @@ page(_($help_context = "Import Bank Statement"));
         $menu->renderMenu(); // Render the module menu
 
 
+/**
+ * @BABOK FR-IMP-001, FR-IMP-002, FR-IMP-005, FR-IMP-007, FR-IMP-008, FR-IMP-010 | BR-IMP-001 | UAT-IMP-001
+ */
 function import_statements() {
     start_table(TABLESTYLE);
     start_row();
@@ -64,6 +67,9 @@ function import_statements() {
 * @param array statements
 * @return string summary of import (errors, imports, updates)
 *************************************************************/
+/**
+ * @BABOK FR-IMP-007, FR-IMP-008, FR-IMP-010 | BR-IMP-001 | UAT-IMP-001
+ */
 function importStatement($smt) 
 {
 		//display_notification( __FILE__ . "::" . __LINE__ . ":" . print_r( $smt, true ) );
@@ -178,6 +184,9 @@ function importStatement($smt)
 }	//import_statement fc
 
 
+/**
+ * @BABOK FR-IMP-001, FR-IMP-002, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
+ */
 function do_upload_form() {
     $parsers = array();
     $_parsers = getParsers();
@@ -214,6 +223,9 @@ function do_upload_form() {
 }
 
 
+/**
+ * @BABOK FR-IMP-005, FR-IMP-006 | BR-IMP-001 | UAT-IMP-001
+ */
 function parse_uploaded_files() {
     start_table(TABLESTYLE);
     start_row();

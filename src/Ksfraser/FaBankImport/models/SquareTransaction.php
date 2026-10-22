@@ -2,8 +2,14 @@
 
 namespace Ksfraser\FaBankImport\Models;
 
+/**
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+ */
 class SquareTransaction extends BankTransaction
 {
+    /**
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+     */
     public function addCustomerFromTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -17,6 +23,9 @@ class SquareTransaction extends BankTransaction
         ]);
     }
 
+    /**
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+     */
     public function addVendorFromTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -29,6 +38,9 @@ class SquareTransaction extends BankTransaction
         ]);
     }
 
+    /**
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+     */
     public function unsetTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -37,6 +49,9 @@ class SquareTransaction extends BankTransaction
         return $stmt->execute([$this->getId()]);
     }
 
+    /**
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+     */
     public function toggleDebitCredit(): bool
     {
         $newType = $this->getTransactionType() === 'D' ? 'C' : 'D';

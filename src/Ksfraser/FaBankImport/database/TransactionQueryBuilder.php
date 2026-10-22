@@ -27,6 +27,7 @@ namespace Ksfraser\FaBankImport\Database;
  * - Single Responsibility: Only builds SQL queries
  * - Open/Closed: Can extend with new query types without modifying existing
  * - Dependency Inversion: Depends on abstractions (parameters) not concrete implementations
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
  */
 class TransactionQueryBuilder
 {
@@ -51,6 +52,7 @@ class TransactionQueryBuilder
      * 
      * @since 20251104
      * @version 20251104.2
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(?string $tableName = null, ?string $statementsTable = null)
     {
@@ -92,6 +94,7 @@ class TransactionQueryBuilder
      * ]);
      * // Returns: ['sql' => '...', 'params' => [...]]
      * ```
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function buildGetTransactionsQuery(array $filters = []): array
     {
@@ -170,6 +173,7 @@ class TransactionQueryBuilder
      * @return array ['sql' => string, 'params' => array]
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function buildGetTransactionQuery(int $transactionId): array
     {
@@ -196,6 +200,7 @@ class TransactionQueryBuilder
      * @return array ['sql' => string, 'params' => array]
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function buildResetTransactionsQuery(array $transactionIds, int $faTransNo, int $faTransType): array
     {
@@ -235,6 +240,7 @@ class TransactionQueryBuilder
      * 
      * @since 20251104
      * @version 20251104.1
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function buildUpdateTransactionsQuery(
         array $transactionIds,
@@ -289,6 +295,7 @@ class TransactionQueryBuilder
      * @return array ['sql' => string, 'params' => array]
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function buildPrevoidQuery(int $faTransNo, int $faTransType): array
     {
@@ -321,6 +328,7 @@ class TransactionQueryBuilder
      * 
      * @since 20240729 (original function date)
      * @version 20251104.1 (refactored into QueryBuilder)
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function buildNormalPairingQuery(?string $account = null): array
     {
@@ -347,6 +355,7 @@ class TransactionQueryBuilder
      * @return string
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTableName(): string
     {
@@ -359,6 +368,7 @@ class TransactionQueryBuilder
      * @return string
      * 
      * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      */
     public function getStatementsTableName(): string
     {

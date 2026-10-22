@@ -5,6 +5,9 @@ namespace Ksfraser\HTML;
 use Ksfraser\HTML\HtmlElementInterface;
 
 
+/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
 class HtmlAttribute implements HtmlElementInterface
 {
 	/**********
@@ -17,6 +20,9 @@ class HtmlAttribute implements HtmlElementInterface
 	*/
 	protected $attribute;	//Key
 	protected $value;	//Value
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct( $attribute, $value )
 	{
 		$this->attribute = $attribute;
@@ -25,6 +31,7 @@ class HtmlAttribute implements HtmlElementInterface
 	/**
 	 * Output the HTML string directly
 	 * @return void
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function toHtml(): void {
 		echo $this->getHtml();
@@ -32,6 +39,7 @@ class HtmlAttribute implements HtmlElementInterface
 	/**
 	 * Get the HTML string for this attribute
 	 * @return string The attribute in format: name="value"
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getHtml(): string {
 		if( strlen( $this->attribute ) > 0 )
@@ -42,11 +50,17 @@ class HtmlAttribute implements HtmlElementInterface
 		return "";
 	}
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getName(): string
     {
         return $this->attribute;
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getValue(): string
     {
         return $this->value;

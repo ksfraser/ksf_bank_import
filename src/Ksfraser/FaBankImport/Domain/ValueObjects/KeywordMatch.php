@@ -13,6 +13,7 @@ use InvalidArgumentException;
  * @package Ksfraser\FaBankImport\Domain\ValueObjects
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class KeywordMatch
 {
@@ -69,6 +70,7 @@ class KeywordMatch
      * @param MatchConfidence $confidence      Confidence calculation
      *
      * @throws InvalidArgumentException If any parameter is invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(
         int $partnerId,
@@ -99,6 +101,7 @@ class KeywordMatch
      * Get partner ID
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerId(): int
     {
@@ -109,6 +112,7 @@ class KeywordMatch
      * Get partner type
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerType(): int
     {
@@ -119,6 +123,7 @@ class KeywordMatch
      * Get partner detail ID
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerDetailId(): int
     {
@@ -129,6 +134,7 @@ class KeywordMatch
      * Get partner name
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerName(): string
     {
@@ -139,6 +145,7 @@ class KeywordMatch
      * Get matched keywords
      *
      * @return array<Keyword>
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getMatchedKeywords(): array
     {
@@ -149,6 +156,7 @@ class KeywordMatch
      * Get number of matched keywords
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getMatchedKeywordCount(): int
     {
@@ -159,6 +167,7 @@ class KeywordMatch
      * Get raw score (before clustering bonus)
      *
      * @return int
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getRawScore(): int
     {
@@ -169,6 +178,7 @@ class KeywordMatch
      * Get final score (with clustering bonus)
      *
      * @return float
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getFinalScore(): float
     {
@@ -179,6 +189,7 @@ class KeywordMatch
      * Get confidence object
      *
      * @return MatchConfidence
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getConfidence(): MatchConfidence
     {
@@ -189,6 +200,7 @@ class KeywordMatch
      * Get confidence percentage
      *
      * @return float
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getConfidencePercentage(): float
     {
@@ -201,6 +213,7 @@ class KeywordMatch
      * @param float $threshold Minimum confidence percentage
      *
      * @return bool
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function meetsConfidenceThreshold(float $threshold): bool
     {
@@ -211,6 +224,7 @@ class KeywordMatch
      * Get clustering bonus that was applied
      *
      * @return float
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getClusteringBonus(): float
     {
@@ -224,6 +238,7 @@ class KeywordMatch
      * Convert to array representation
      *
      * @return array<string, mixed>
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function toArray(): array
     {
@@ -250,6 +265,7 @@ class KeywordMatch
      * String representation
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __toString(): string
     {
@@ -269,6 +285,7 @@ class KeywordMatch
      * @param int $partnerId
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validatePartnerId(int $partnerId): void
     {
@@ -285,6 +302,7 @@ class KeywordMatch
      * @param string $name
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validatePartnerName(string $name): void
     {
@@ -299,6 +317,7 @@ class KeywordMatch
      * @param array<Keyword> $keywords
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validateMatchedKeywords(array $keywords): void
     {
@@ -322,6 +341,7 @@ class KeywordMatch
      * @param float $finalScore
      *
      * @throws InvalidArgumentException
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function validateScores(int $rawScore, float $finalScore): void
     {

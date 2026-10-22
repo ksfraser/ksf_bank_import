@@ -87,6 +87,7 @@ use Ksfraser\FrontAccounting\TransactionTypes\TransactionTypeInterface;
  * </code>
  * 
  * @since 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class TransactionTypesRegistry
 {
@@ -123,6 +124,7 @@ class TransactionTypesRegistry
     
     /**
      * Private constructor for singleton pattern
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function __construct()
     {
@@ -133,6 +135,7 @@ class TransactionTypesRegistry
      * Get singleton instance
      * 
      * @return TransactionTypesRegistry The singleton instance
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getInstance(): self
     {
@@ -148,6 +151,7 @@ class TransactionTypesRegistry
      * @param array $filters Optional filters: ['moneyMoved' => true, 'goodsMoved' => false, etc.]
      * 
      * @return array Filtered transaction types [code => data]
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTypes(array $filters = []): array
     {
@@ -184,6 +188,7 @@ class TransactionTypesRegistry
      * @param int $code Transaction type code (ST_ constant)
      * 
      * @return array|null Type data or null if not found
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getType(int $code): ?array
     {
@@ -199,6 +204,7 @@ class TransactionTypesRegistry
      * @param int $code Transaction type code
      * 
      * @return string|null Label or null if not found
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(int $code): ?string
     {
@@ -212,6 +218,7 @@ class TransactionTypesRegistry
      * @param int $code Transaction type code
      * 
      * @return bool True if type exists
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function hasType(int $code): bool
     {
@@ -228,6 +235,7 @@ class TransactionTypesRegistry
      * that affect bank accounts.
      * 
      * @return array Types with moneyMoved=true [code => data]
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getMoneyMovedTypes(): array
     {
@@ -241,6 +249,7 @@ class TransactionTypesRegistry
      * that affect stock levels.
      * 
      * @return array Types with goodsMoved=true [code => data]
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getGoodsMovedTypes(): array
     {
@@ -253,6 +262,7 @@ class TransactionTypesRegistry
      * @param array $filters Optional filters
      * 
      * @return array [code => label] pairs
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabelsArray(array $filters = []): array
     {
@@ -268,6 +278,7 @@ class TransactionTypesRegistry
      * Load transaction types from cache or discover
      * 
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadTypes(): void
     {
@@ -294,6 +305,7 @@ class TransactionTypesRegistry
      * Loads default types first, then scans types/ directory for plugins.
      * 
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function discoverTypes(): void
     {
@@ -317,6 +329,7 @@ class TransactionTypesRegistry
      * Commented types have goodsMoved=true (inventory-related).
      * 
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadDefaultTypes(): void
     {
@@ -400,6 +413,7 @@ class TransactionTypesRegistry
      * @param string $file Full path to PHP file
      * 
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadTypeFromFile(string $file): void
     {
@@ -428,6 +442,7 @@ class TransactionTypesRegistry
      * @param TransactionTypeInterface $type Type instance
      * 
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function registerType(TransactionTypeInterface $type): void
     {
@@ -446,6 +461,7 @@ class TransactionTypesRegistry
      * Clears cache and reloads. Useful for testing or after plugin changes.
      * 
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function reload(): void
     {

@@ -9,6 +9,7 @@ namespace Ksfraser\FaBankImport\Models;
  * Decouples bi_lineitem (and other legacy consumers) from ksf_modules_common.
  *
  * @since 20260822
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
  */
 interface BankAccountDetailsProviderInterface
 {
@@ -17,6 +18,7 @@ interface BankAccountDetailsProviderInterface
      *
      * @param string $accountNumber Bank account number.
      * @return array|null Details row (0_bank_accounts shape) or null when unknown.
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function getByNumber(string $accountNumber): ?array;
 }

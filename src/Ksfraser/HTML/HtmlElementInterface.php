@@ -10,10 +10,12 @@ namespace Ksfraser\HTML;
 /**
  * Interface for HTML elements
  * Provides methods for both direct output and string return of HTML
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
  */
 interface HtmlElementInterface {
     /**
      * Returns HTML string representation
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getHtml(): string;
 
@@ -28,6 +30,7 @@ interface HtmlElementInterface {
      * rather than returning it.
      *
      * @return void
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function toHtml(): void;
 }

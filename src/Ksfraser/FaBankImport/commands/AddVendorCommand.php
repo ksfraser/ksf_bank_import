@@ -21,6 +21,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * @author  Ksfraser
  * @version 1.2.0
  * @since   2025-10-21
+ * @BABOK FR-PROC-013 | BR-PROC-006
  */
 class AddVendorCommand implements CommandInterface
 {
@@ -34,6 +35,7 @@ class AddVendorCommand implements CommandInterface
      * @param array $postData POST data with AddVendor key
      * @param object $vendorService Service for vendor creation
      * @param object $transactionRepository Repository to fetch transaction data
+ * @BABOK FR-PROC-013 | BR-PROC-006
      */
     public function __construct(
         array $postData,
@@ -47,6 +49,7 @@ class AddVendorCommand implements CommandInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-013 | BR-PROC-006
      */
     public function execute(): TransactionResult
     {
@@ -112,6 +115,7 @@ class AddVendorCommand implements CommandInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-013 | BR-PROC-006
      */
     public function getName(): string
     {

@@ -4,17 +4,21 @@ namespace Ksfraser\FaBankImport\Repository;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\PartnerData;
 use Ksfraser\FaBankImport\Domain\Exceptions\PartnerDataNotFoundException;
+use ksfraser\CommonDb\Contract\DbConnectionInterface;
 use RuntimeException;
 
 /**
  * Database implementation of PartnerDataRepository
  *
- * Uses prepared statements for security and integrates with FrontAccounting's
- * database abstraction layer.
+ * FrontAccounting has no prepared statements, so the "?" placeholders are
+ * resolved to escaped literals by the ParameterBinder (which delegates the
+ * quoting to the FaDbAdapter of ksfraser/ksf-common-db) before the statement
+ * is handed to FA's db_query().
  *
  * @package Ksfraser\FaBankImport\Repository
  * @author  Kevin Fraser
  * @version 1.0.0
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 {
@@ -24,18 +28,28 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
     private string $tableName;
 
     /**
-     * Constructor
+     * @var ParameterBinder Resolves the "?" placeholders to escaped literals
      */
-    public function __construct()
+    private $binder;
+
+    /**
+     * Constructor
+     *
+     * @param DbConnectionInterface|null $db Optional connection used for quoting
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
+    public function __construct(?DbConnectionInterface $db = null)
     {
         if (!defined('TB_PREF')) {
             throw new RuntimeException('TB_PREF constant not defined');
         }
         $this->tableName = TB_PREF . 'bi_partners_data';
+        $this->binder = new ParameterBinder($db);
     }
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function find(
         int $partnerId,
@@ -50,7 +64,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
                 AND data = ?
                 LIMIT 1";
 
-        $result = db_query($sql, [$partnerId, $partnerType, $partnerDetailId, $data]);
+        $result = db_query($this->binder->bind($sql, [$partnerId, $partnerType, $partnerDetailId, $data]));
 
         if ($row = db_fetch($result)) {
             return PartnerData::fromArray($row);
@@ -61,6 +75,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function findByPartner(int $partnerId, ?int $partnerType = null): array
     {
@@ -75,7 +90,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
         $sql .= " ORDER BY occurrence_count DESC, data ASC";
 
-        $result = db_query($sql, $params);
+        $result = db_query($this->binder->bind($sql, $params));
 
         $partnerDataList = [];
         while ($row = db_fetch($result)) {
@@ -87,6 +102,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function findByKeyword(string $keyword, ?int $partnerType = null): array
     {
@@ -101,7 +117,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
         $sql .= " ORDER BY occurrence_count DESC, data ASC";
 
-        $result = db_query($sql, $params);
+        $result = db_query($this->binder->bind($sql, $params));
 
         $partnerDataList = [];
         while ($row = db_fetch($result)) {
@@ -113,6 +129,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function searchByKeywords(
         array $keywords,
@@ -145,7 +162,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
             $params[] = $partnerType;
         }
 
-        $result = db_query($sql, $params);
+        $result = db_query($this->binder->bind($sql, $params));
 
         // Group results by partner and calculate scores
         $partnerMatches = [];
@@ -193,6 +210,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function save(PartnerData $partnerData): bool
     {
@@ -202,20 +220,21 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
                 VALUES (?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE occurrence_count = ?";
 
-        $result = db_query($sql, [
+        $result = db_query($this->binder->bind($sql, [
             $partnerData->getPartnerId(),
             $partnerData->getPartnerType(),
             $partnerData->getPartnerDetailId(),
             $partnerData->getData(),
             $partnerData->getOccurrenceCount(),
             $partnerData->getOccurrenceCount()
-        ]);
+        ]));
 
         return $result !== false;
     }
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function delete(
         int $partnerId,
@@ -230,13 +249,14 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
                 AND data = ?
                 LIMIT 1";
 
-        $result = db_query($sql, [$partnerId, $partnerType, $partnerDetailId, $data]);
+        $result = db_query($this->binder->bind($sql, [$partnerId, $partnerType, $partnerDetailId, $data]));
 
         return $result !== false;
     }
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function deleteByPartner(int $partnerId, ?int $partnerType = null): int
     {
@@ -249,7 +269,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
             $params[] = $partnerType;
         }
 
-        $result = db_query($sql, $params);
+        $result = db_query($this->binder->bind($sql, $params));
 
         // Since we don't have db_num_affected_rows, return 1 for success, 0 for failure
         return $result !== false ? 1 : 0;
@@ -257,6 +277,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function incrementOccurrence(
         int $partnerId,
@@ -271,20 +292,21 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
                 VALUES (?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE occurrence_count = occurrence_count + ?";
 
-        $result = db_query($sql, [
+        $result = db_query($this->binder->bind($sql, [
             $partnerId,
             $partnerType,
             $partnerDetailId,
             $keyword,
             $increment,
             $increment
-        ]);
+        ]));
 
         return $result !== false;
     }
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function count(?int $partnerType = null): int
     {
@@ -296,7 +318,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
             $params[] = $partnerType;
         }
 
-        $result = db_query($sql, $params);
+        $result = db_query($this->binder->bind($sql, $params));
         $row = db_fetch($result);
 
         return (int)$row['total'];
@@ -304,6 +326,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function exists(
         int $partnerId,
@@ -316,6 +339,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
 
     /**
      * {@inheritdoc}
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTopKeywords(int $limit = 20, ?int $partnerType = null): array
     {
@@ -333,7 +357,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
                   LIMIT ?";
         $params[] = $limit;
 
-        $result = db_query($sql, $params);
+        $result = db_query($this->binder->bind($sql, $params));
 
         $keywords = [];
         while ($row = db_fetch($result)) {
@@ -354,6 +378,7 @@ class DatabasePartnerDataRepository implements PartnerDataRepositoryInterface
      * @param string $value Value to escape
      *
      * @return string Escaped value
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function escapeLike(string $value): string
     {

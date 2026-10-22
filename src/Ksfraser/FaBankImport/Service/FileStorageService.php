@@ -15,6 +15,7 @@ use Ksfraser\FaBankImport\Service\BankImportPathResolver;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
  */
 class FileStorageService implements FileStorageServiceInterface
 {
@@ -33,6 +34,7 @@ class FileStorageService implements FileStorageServiceInterface
      * Constructor
      * 
      * @param string|null $storageDir Optional custom storage directory
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function __construct(?string $storageDir = null)
     {
@@ -52,6 +54,7 @@ class FileStorageService implements FileStorageServiceInterface
      * @return array ['filename' => unique name, 'path' => full path]
      * 
      * @throws \RuntimeException If storage fails
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function store(FileInfo $fileInfo, string $parserType): array
     {
@@ -94,6 +97,7 @@ class FileStorageService implements FileStorageServiceInterface
      * 
      * @param string $filePath Full path to file
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function delete(string $filePath): bool
     {
@@ -109,6 +113,7 @@ class FileStorageService implements FileStorageServiceInterface
      * 
      * @param string $filePath Full path to file
      * @return bool True if exists
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function exists(string $filePath): bool
     {
@@ -122,6 +127,7 @@ class FileStorageService implements FileStorageServiceInterface
      * @return string File contents
      * 
      * @throws \RuntimeException If file doesn't exist or can't be read
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getContents(string $filePath): string
     {
@@ -142,6 +148,7 @@ class FileStorageService implements FileStorageServiceInterface
      * Get storage directory path
      * 
      * @return string Full path to upload storage directory
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getStorageDirectory(): string
     {
@@ -153,6 +160,7 @@ class FileStorageService implements FileStorageServiceInterface
      * 
      * @return void
      * @throws \RuntimeException If directory can't be created
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function ensureStorageDirectoryExists(): void
     {
@@ -181,6 +189,7 @@ class FileStorageService implements FileStorageServiceInterface
      * @param string $extension File extension
      * @param string $parserType Parser type (qfx, mt940, csv)
      * @return string Unique filename
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     private function generateUniqueFilename(
         string $basename,
@@ -208,6 +217,7 @@ class FileStorageService implements FileStorageServiceInterface
      * Get default storage directory
      * 
      * @return string Full path to company/bank_imports/uploads
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     private function getDefaultStorageDirectory(): string
     {
@@ -221,6 +231,7 @@ class FileStorageService implements FileStorageServiceInterface
      * Files must be served through PHP with permission checks
      * 
      * @return void
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     private function createHtaccessFile(): void
     {
@@ -255,6 +266,7 @@ HTACCESS;
      * @return int File size in bytes
      * 
      * @throws \RuntimeException If file doesn't exist
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getFileSize(string $filePath): int
     {
@@ -278,6 +290,7 @@ HTACCESS;
      * @return int Unix timestamp
      * 
      * @throws \RuntimeException If file doesn't exist
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getModificationTime(string $filePath): int
     {
@@ -302,6 +315,7 @@ HTACCESS;
      * @param string $sourcePath Source file path
      * @param string $destinationPath Destination file path
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function copy(string $sourcePath, string $destinationPath): bool
     {

@@ -52,6 +52,7 @@ namespace Ksfraser\FaBankImport\Results;
  * // Backward compatibility
  * $array = $result->toArray();  // Returns ['success' => true, 'trans_no' => 42, ...]
  * ```
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
  */
 class TransactionResult
 {
@@ -106,6 +107,7 @@ class TransactionResult
      * @param string $message Result message
      * @param string $level Display level
      * @param array<string, mixed> $data Additional data
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     private function __construct(
         bool $success,
@@ -131,6 +133,7 @@ class TransactionResult
      * @param string $message Success message
      * @param array<string, mixed> $data Additional data
      * @return self
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public static function success(
         int $transNo,
@@ -154,6 +157,7 @@ class TransactionResult
      * @param string $message Error message
      * @param array<string, mixed> $data Additional data
      * @return self
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public static function error(string $message, array $data = []): self
     {
@@ -175,6 +179,7 @@ class TransactionResult
      * @param int $transType Transaction type (if applicable)
      * @param array<string, mixed> $data Additional data
      * @return self
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public static function warning(
         string $message,
@@ -196,6 +201,7 @@ class TransactionResult
      * Check if result is successful
      *
      * @return bool
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function isSuccess(): bool
     {
@@ -206,6 +212,7 @@ class TransactionResult
      * Check if result is an error
      *
      * @return bool
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function isError(): bool
     {
@@ -216,6 +223,7 @@ class TransactionResult
      * Check if result is a warning
      *
      * @return bool
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function isWarning(): bool
     {
@@ -226,6 +234,7 @@ class TransactionResult
      * Get transaction number
      *
      * @return int
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTransNo(): int
     {
@@ -236,6 +245,7 @@ class TransactionResult
      * Get transaction type
      *
      * @return int
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTransType(): int
     {
@@ -246,6 +256,7 @@ class TransactionResult
      * Get message
      *
      * @return string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function getMessage(): string
     {
@@ -256,6 +267,7 @@ class TransactionResult
      * Get display level
      *
      * @return string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLevel(): string
     {
@@ -267,6 +279,7 @@ class TransactionResult
      *
      * @param string|null $key Specific key to retrieve, or null for all data
      * @return array|mixed
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function getData(?string $key = null)
     {
@@ -281,6 +294,7 @@ class TransactionResult
      * Convert to array (backward compatibility)
      *
      * @return array<string, mixed>
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function toArray(): array
     {
@@ -305,6 +319,7 @@ class TransactionResult
      * - error: Red banner at top of screen (via display_error)
      *
      * @return void
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function display(): void
     {
@@ -336,6 +351,7 @@ class TransactionResult
      * Useful for AJAX responses or non-FA contexts.
      *
      * @return string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function toHtml(): string
     {
@@ -384,6 +400,7 @@ class TransactionResult
      * Convert to string (returns message)
      *
      * @return string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function __toString(): string
     {
@@ -397,6 +414,7 @@ class TransactionResult
      *
      * @param array<string, mixed> $array Result array
      * @return self
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public static function fromArray(array $array): self
     {

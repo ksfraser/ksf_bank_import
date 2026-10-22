@@ -52,6 +52,7 @@ use Ksfraser\HTML\HtmlAttributeList;
  * @author     Claude AI Assistant
  * @since      20251020
  * @version    1.0.0
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
  */
 class HtmlSelect implements HtmlElementInterface
 {
@@ -76,6 +77,7 @@ class HtmlSelect implements HtmlElementInterface
      * @param string $name The select element name
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(string $name)
     {
@@ -90,6 +92,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return string The select name
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getName(): string
     {
@@ -104,6 +107,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function addOption(HtmlOption $option): self
     {
@@ -120,6 +124,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function addOptionsFromArray(array $data, ?string $selectedValue = null): self
     {
@@ -136,6 +141,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return HtmlOption[] Array of options
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getOptions(): array
     {
@@ -148,6 +154,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return int Number of options
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getOptionCount(): int
     {
@@ -162,6 +169,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setId(string $id): self
     {
@@ -177,6 +185,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setClass(string $class): self
     {
@@ -192,6 +201,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setMultiple(bool $multiple): self
     {
@@ -209,6 +219,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setSize(int $size): self
     {
@@ -224,6 +235,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setDisabled(bool $disabled): self
     {
@@ -241,6 +253,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setRequired(bool $required): self
     {
@@ -259,6 +272,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return self For fluent interface
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function setAttribute(string $name, string $value): self
     {
@@ -272,6 +286,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return string The HTML <select> element with all options
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getHtml(): string
     {
@@ -303,6 +318,7 @@ class HtmlSelect implements HtmlElementInterface
      * @return void
      *
      * @since 20251020
+ * @BABOK FR-IMP-002, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function toHtml(): void
     {

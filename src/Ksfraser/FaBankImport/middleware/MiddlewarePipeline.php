@@ -4,16 +4,25 @@ namespace Ksfraser\FaBankImport\Middleware;
 
 use Ksfraser\FaBankImport\Http\RequestHandler;
 
+/**
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+ */
 class MiddlewarePipeline
 {
     private $middlewares = [];
 
+    /**
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+     */
     public function pipe(MiddlewareInterface $middleware): self
     {
         $this->middlewares[] = $middleware;
         return $this;
     }
 
+    /**
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+     */
     public function process(RequestHandler $request, callable $handler)
     {
         $next = $handler;

@@ -27,6 +27,7 @@ use Exception;
  * @package Ksfraser\HTML
  * @since 20251019 - Converted to wrapper
  * @version 20251019.1 - Fixed $rows bug from original (line 127 used $rows instead of $this->rows)
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
  */
 class HTML_TABLE implements HtmlElementInterface
 {
@@ -53,6 +54,7 @@ class HTML_TABLE implements HtmlElementInterface
      * 
      * @param int|null $style FrontAccounting table style (default TABLESTYLE2 = 2, null = 2)
      * @param int $width Width percentage (default 100)
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(?int $style = null, int $width = 100)
     {
@@ -70,6 +72,7 @@ class HTML_TABLE implements HtmlElementInterface
      * @param HTML_ROW|HtmlElementInterface|string $row The row to append
      * @throws Exception If parameter is neither HTML_ROW, HtmlElementInterface, nor string
      * @return void
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function appendRow($row): void
     {
@@ -102,6 +105,7 @@ class HTML_TABLE implements HtmlElementInterface
      *       This has been fixed here.
      * 
      * @return void
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function toHtml(): void
     {
@@ -125,6 +129,7 @@ class HTML_TABLE implements HtmlElementInterface
      * This allows for better testability and composition.
      * 
      * @return string The table HTML
+ * @BABOK FR-PROC-001, FR-UPL-001, FR-INQ-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function getHtml(): string
     {

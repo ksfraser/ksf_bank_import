@@ -17,9 +17,13 @@ use Ksfraser\HTML\HtmlElementInterface;
 *		text-align
 *
 *	This is INLINE CSS.  There is also Internial CSS
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 */
 class HtmlStyle extends HtmlAttribute
 {
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function getHtml()
 	{
 		$html = $this->attribute . ':' . $this->value . ';';

@@ -6,6 +6,7 @@ use Mouf\Utils\Value\ValueUtils;
  * A trait that defines basic HTML attributes 
  * 
  * @author David Négrier <david@mouf-php.com>
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 trait AttributesTrait {
 	
@@ -24,6 +25,7 @@ trait AttributesTrait {
 	 * Renders HTML attributes.
 	 * 
 	 * @return string
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	protected function getAttributes() {
 		$attrStrs = array();
@@ -61,6 +63,7 @@ trait AttributesTrait {
 	 * Key and values both contain the class.
 	 * 
 	 * @return array<string, string>
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getClasses() {
 		return isset($this->attributes['class'])?$this->attributes['class']:null;
@@ -71,6 +74,7 @@ trait AttributesTrait {
 	 *
 	 * @param string[] $classes
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setClasses(array $classes) {
 		$classList = array();
@@ -87,6 +91,7 @@ trait AttributesTrait {
 	 * 
 	 * @param string $class
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function addClass($class) {
 		$this->attributes['class'][$class] = $class;
@@ -98,6 +103,7 @@ trait AttributesTrait {
 	 *
 	 * @param string[] $classes
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function addClasses($classes) {
 		foreach ($classes as $class) {
@@ -111,6 +117,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $class
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function removeClass($class) {
 		unset($this->attributes['class'][$class]);
@@ -121,6 +128,7 @@ trait AttributesTrait {
 	 * Specifies a unique id for an element
 	 *
 	 * @return string
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getId() {
 		return isset($this->attributes['id'])?$this->attributes['id']:null;
@@ -131,6 +139,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $id
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setId($id) {
 		$this->attributes['id'] = $id;
@@ -140,6 +149,7 @@ trait AttributesTrait {
 	/**
 	 * Specifies whether the content of an element is editable or not
 	 * @return boolean
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function isContenteditable() {
 		return isset($this->attributes['contenteditable'])?$this->attributes['contenteditable']:null;
@@ -149,6 +159,7 @@ trait AttributesTrait {
 	 * Specifies whether the content of an element is editable or not
 	 * @param bool $contenteditable
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setContenteditable($contenteditable) {
 		$this->attributes['contenteditable'] = $contenteditable;
@@ -159,6 +170,7 @@ trait AttributesTrait {
 	 * Get the array of data-* attributes.
 	 *
 	 * @return array<string, string>
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getDataAttributes() {
 		return isset($this->attributes['data'])?$this->attributes['data']:null;
@@ -169,6 +181,7 @@ trait AttributesTrait {
 	 *
 	 * @param array $dataAttributes
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setDataAttributes(array $dataAttributes) {
 		$this->attributes['data'] = $dataAttributes;
@@ -181,6 +194,7 @@ trait AttributesTrait {
 	 * @param string $dataKey
 	 * @param string $dataAttribute
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function addDataAttribute($dataKey, $dataAttribute) {
 		$this->attributes['data'][$dataKey] = $dataAttribute;
@@ -192,6 +206,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $dataKey
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function removeDataAttribute($dataKey) {
 		unset($this->attributes['data'][$dataKey]);
@@ -202,6 +217,7 @@ trait AttributesTrait {
 	 * Specifies a shortcut key to activate/focus an element.
 	 *
 	 * @return string
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getAccesskey() {
 		return isset($this->attributes['accesskey'])?$this->attributes['accesskey']:null;
@@ -212,6 +228,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $accesskey
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setAccesskey($accesskey) {
 		$this->attributes['accesskey'] = $accesskey;
@@ -223,6 +240,7 @@ trait AttributesTrait {
 	 * Specifies the text direction for the content in an element
 	 *
 	 * @return string
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getDir() {
 		return isset($this->attributes['dir'])?$this->attributes['dir']:null;
@@ -233,6 +251,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $dir
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setDir($dir) {
 		$this->attributes['dir'] = $dir;
@@ -242,6 +261,7 @@ trait AttributesTrait {
 	/**
 	 * Specifies whether an element is draggable or not (HTML 5 attribute)
 	 * @return boolean
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function isDraggable() {
 		return isset($this->attributes['draggable'])?$this->attributes['draggable']:null;
@@ -251,6 +271,7 @@ trait AttributesTrait {
 	 * Specifies whether an element is draggable or not (HTML 5 attribute)
 	 * @param bool $draggable
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setDraggable($draggable) {
 		$this->attributes['draggable'] = $draggable;
@@ -261,6 +282,7 @@ trait AttributesTrait {
 	 * Specifies the kind of marker to use in the list.
 	 *
 	 * @return string the kind of marker
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getType() {
 		return isset($this->attributes['type'])?$this->attributes['type']:null;
@@ -271,6 +293,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $type the kind of marker
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setType($type) {
 		$this->attributes['type'] = $type;
@@ -280,6 +303,7 @@ trait AttributesTrait {
 	/**
 	 * Specifies that an element is not yet, or is no longer, relevant (HTML 5 attribute, not supported in IE)
 	 * @return boolean
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function isHidden() {
 		return isset($this->attributes['hidden'])?$this->attributes['hidden']:null;
@@ -289,6 +313,7 @@ trait AttributesTrait {
 	 * Specifies that an element is not yet, or is no longer, relevant (HTML 5 attribute, not supported in IE)
 	 * @param bool $hidden
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setHidden($hidden) {
 		$this->attributes['hidden'] = $hidden;
@@ -299,6 +324,7 @@ trait AttributesTrait {
 	 * Specifies the language of the element's content
 	 *
 	 * @return string
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getLang() {
 		return isset($this->attributes['lang'])?$this->attributes['lang']:null;
@@ -309,6 +335,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $lang
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setLang($lang) {
 		$this->attributes['lang'] = $lang;
@@ -318,6 +345,7 @@ trait AttributesTrait {
 	/**
 	 * Specifies whether the element is to have its spelling and grammar checked or not
 	 * @return boolean
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function isSpellcheck() {
 		return isset($this->attributes['spellcheck'])?$this->attributes['spellcheck']:null;
@@ -327,6 +355,7 @@ trait AttributesTrait {
 	 * Specifies whether the element is to have its spelling and grammar checked or not
 	 * @param bool $spellcheck
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setSpellcheck($spellcheck) {
 		$this->attributes['spellcheck'] = $spellcheck;
@@ -337,6 +366,7 @@ trait AttributesTrait {
 	 * Returns all inline CSS style for the element
 	 *
 	 * @return array<string, string>
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getStyles() {
 		return isset($this->attributes['style'])?$this->attributes['style']:null;
@@ -347,6 +377,7 @@ trait AttributesTrait {
 	 *
 	 * @param array $styles
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setStyles(array $styles) {
 		$this->attributes['style'] = $styles;
@@ -359,6 +390,7 @@ trait AttributesTrait {
 	 * @param string $styleKey
 	 * @param string $styleValue
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function addStyle($styleKey, $styleValue) {
 		$this->attributes['style'][$styleKey] = $styleValue;
@@ -370,6 +402,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $styleKey
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function removeStyle($styleKey) {
 		unset($this->attributes['style'][$styleKey]);
@@ -380,6 +413,7 @@ trait AttributesTrait {
 	 * Specifies extra information about an element
 	 *
 	 * @return string
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getTitle() {
 		return isset($this->attributes['title'])?$this->attributes['title']:null;
@@ -390,6 +424,7 @@ trait AttributesTrait {
 	 *
 	 * @param string $title
 	 * @return static
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setTitle($title) {
 		$this->attributes['title'] = $title;

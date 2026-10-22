@@ -36,6 +36,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * // Safe - user input escaped
  * $content = new HtmlString($_POST['comment']); // ✅ Escaped
  * ```
+ * @BABOK FR-PROC-013, FR-PROC-002 | BR-PROC-006 | UAT-PROC-001
  */
 class HtmlRaw implements HtmlElementInterface
 {
@@ -48,6 +49,7 @@ class HtmlRaw implements HtmlElementInterface
      * Constructor
      * 
      * @param string $html Raw HTML content (will NOT be escaped)
+ * @BABOK FR-PROC-013, FR-PROC-002 | BR-PROC-006 | UAT-PROC-001
      */
     public function __construct(string $html)
     {
@@ -58,6 +60,7 @@ class HtmlRaw implements HtmlElementInterface
      * Render the HTML to output
      * 
      * @return void
+ * @BABOK FR-PROC-013, FR-PROC-002 | BR-PROC-006 | UAT-PROC-001
      */
     public function toHtml(): void
     {
@@ -70,6 +73,7 @@ class HtmlRaw implements HtmlElementInterface
      * Returns the raw HTML without any escaping.
      * 
      * @return string Raw HTML (unescaped)
+ * @BABOK FR-PROC-013, FR-PROC-002 | BR-PROC-006 | UAT-PROC-001
      */
     public function getHtml(): string
     {

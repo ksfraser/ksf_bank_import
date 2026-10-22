@@ -6,11 +6,17 @@ use Ksfraser\Application\Services\PerformanceMonitor;
 use Ksfraser\Application\Services\MetricsAggregator;
 use Ksfraser\Application\Config\Config;
 
+/**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ */
 class AdminController extends AbstractController
 {
     private $monitor;
     private $aggregator;
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function __construct()
     {
         parent::__construct();
@@ -19,6 +25,9 @@ class AdminController extends AbstractController
         $this->aggregator = new MetricsAggregator($config->get('logging.path'));
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function dashboard(): void
     {
         $metrics = [
@@ -35,6 +44,9 @@ class AdminController extends AbstractController
         ]);
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function performanceReport(): void
     {
         $startDate = $this->request->getQuery('start_date', date('Y-m-d', strtotime('-7 days')));
@@ -60,6 +72,9 @@ class AdminController extends AbstractController
         $this->render('admin/performance_report', $data);
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function exportMetrics(): void
     {
         $startDate = $this->request->getQuery('start_date', date('Y-m-d', strtotime('-30 days')));
@@ -87,6 +102,9 @@ class AdminController extends AbstractController
         fclose($output);
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function anomalyReport(): void
     {
         $days = (int)$this->request->getQuery('days', '7');

@@ -20,6 +20,7 @@ namespace Ksfraser\PartnerTypes;
  * Unknown Partner Type
  *
  * Fallback for transactions that could not be classified.
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class UnknownPartnerType extends AbstractPartnerType
 {
@@ -29,6 +30,7 @@ class UnknownPartnerType extends AbstractPartnerType
      * 'UN' - distinct from the two live dispatch codes (MA = manual
      * settlement, ZZ = matched). No production switch handles this yet;
      * see PartnerTypeConstants::UNKNOWN.
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getShortCode(): string
     {
@@ -37,6 +39,7 @@ class UnknownPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(): string
     {
@@ -45,6 +48,7 @@ class UnknownPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getConstantName(): string
     {
@@ -55,6 +59,7 @@ class UnknownPartnerType extends AbstractPartnerType
      * @inheritDoc
      *
      * Unknown sorts after every classified type so it never wins a match.
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPriority(): int
     {
@@ -63,6 +68,7 @@ class UnknownPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getDescription(): ?string
     {
@@ -74,6 +80,7 @@ class UnknownPartnerType extends AbstractPartnerType
      *
      * UNKNOWN is classification-only: no production case/switch dispatches
      * on it, so it must not appear in optype dropdowns.
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isDispatchable(): bool
     {

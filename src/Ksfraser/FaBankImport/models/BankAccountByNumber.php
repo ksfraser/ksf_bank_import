@@ -12,6 +12,7 @@ namespace Ksfraser\FaBankImport\models;
  * 
  * @author Kevin Fraser / ChatGPT
  * @since 20251018
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
  */
 class BankAccountByNumber
 {
@@ -22,6 +23,7 @@ class BankAccountByNumber
      * Constructor
      * 
      * @param string $bankAccountNumber The bank account number to look up
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct($bankAccountNumber)
     {
@@ -34,6 +36,7 @@ class BankAccountByNumber
      * 
      * Uses the fa_bank_accounts class to retrieve bank account information
      * including account code, name, currency, GL account, etc.
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     protected function loadBankDetails()
     {
@@ -72,6 +75,7 @@ class BankAccountByNumber
      * Get the loaded bank account details
      * 
      * @return array Associative array containing bank account details
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBankDetails()
     {
@@ -82,6 +86,7 @@ class BankAccountByNumber
      * Get the bank account name
      * 
      * @return string|null The bank account name
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBankAccountName()
     {
@@ -92,6 +97,7 @@ class BankAccountByNumber
      * Get the bank account code (GL account)
      * 
      * @return string|null The bank account code
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBankAccountCode()
     {
@@ -106,6 +112,7 @@ class BankAccountByNumber
      * 
      * @param string $name Property name
      * @return mixed Property value
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function __get($name)
     {

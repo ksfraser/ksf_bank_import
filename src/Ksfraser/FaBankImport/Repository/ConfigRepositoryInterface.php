@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\Repository;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
  */
 interface ConfigRepositoryInterface
 {
@@ -19,6 +20,7 @@ interface ConfigRepositoryInterface
      * @param string $key Configuration key (e.g., 'upload.check_duplicates')
      * @param mixed $default Default value if not found
      * @return mixed Configuration value
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function get(string $key, $default = null);
     
@@ -30,6 +32,7 @@ interface ConfigRepositoryInterface
      * @param string|null $username User making the change
      * @param string|null $reason Reason for change (audit trail)
      * @return bool Success
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function set(string $key, $value, ?string $username = null, ?string $reason = null): bool;
     
@@ -38,6 +41,7 @@ interface ConfigRepositoryInterface
      * 
      * @param string $category Category name (e.g., 'upload', 'security')
      * @return array Associative array of config key => value
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getByCategory(string $category): array;
     
@@ -45,6 +49,7 @@ interface ConfigRepositoryInterface
      * Get all configuration values
      * 
      * @return array All configuration values
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getAll(): array;
     
@@ -53,6 +58,7 @@ interface ConfigRepositoryInterface
      * 
      * @param string $key Configuration key
      * @return bool True if exists
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function has(string $key): bool;
     
@@ -61,6 +67,7 @@ interface ConfigRepositoryInterface
      * 
      * @param string $key Configuration key
      * @return bool Success
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function delete(string $key): bool;
     
@@ -70,6 +77,7 @@ interface ConfigRepositoryInterface
      * @param string|null $key Specific key (null for all)
      * @param int $limit Number of records to return
      * @return array Configuration history
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getHistory(?string $key = null, int $limit = 50): array;
 }

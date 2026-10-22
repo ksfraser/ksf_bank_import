@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
  */
 interface DuplicateStrategyInterface
 {
@@ -22,6 +23,7 @@ interface DuplicateStrategyInterface
      * @return array ['success' => bool, 'message' => string, 'existingFileId' => int|null]
      * 
      * @throws \RuntimeException If upload should be blocked
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function handle(DuplicateResult $duplicateResult): array;
     
@@ -29,6 +31,7 @@ interface DuplicateStrategyInterface
      * Get strategy name
      * 
      * @return string Strategy name (allow, warn, block)
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function getName(): string;
 }

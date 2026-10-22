@@ -7,12 +7,25 @@ namespace Ksfraser\FaBankImport;
 * This wraps it for that logic
 *
 ******************************************************************/
+/**
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
+ */
 class FaGLWrapper
 {
 	protected $fa_gl;
+	/**
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
+	 */
 	function __construct( $transaction )
 	{
-	        $inc = include_once( __DIR__ . '../../../../../ksf_modules_common/class.fa_gl.php' );
+		/*
+		 * ksf_modules_common lives next to this module:
+		 *   dev  : <repo>/src/Ksfraser/FaBankImport -> ../../../.. -> <Documents>/ksf_modules_common
+		 *   prod : <fa_root>/modules/ksf_bank_import/src/Ksfraser/FaBankImport -> ../../../.. -> <fa_root>/modules/ksf_modules_common
+		 * The previous path was missing the directory separator, so the include
+		 * always failed and the wrapper threw.
+		 */
+		$inc = include_once( __DIR__ . '/../../../../ksf_modules_common/class.fa_gl.php' );
 	        if( $inc )
 	        {
 		/** Namespace *
@@ -35,11 +48,14 @@ class FaGLWrapper
 		                //      function add_days($date, $days) // accepts negative values as well
 			$this->fa_gl = $fa_gl;
 	        }
-		else
-		{
-			throw new Exception( "Couldn't open " . __DIR__ . "/../ksf_modules_common/class.fa_gl.php" );
-		}
+	        else
+	        {
+		        throw new Exception( "Couldn't open " . __DIR__ . "/../../../../ksf_modules_common/class.fa_gl.php" );
+	        }
 	}
+	/**
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
+	 */
 	function retrieveMatchingTransactions()
 	{
 		return $this->fa_gl->find_matching_transactions( $this->fa_gl->memo );

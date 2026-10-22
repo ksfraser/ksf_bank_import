@@ -40,6 +40,7 @@ use Ksfraser\PartnerTypes\PartnerTypeRegistry;
  *     echo $panel->getHtml();
  * }
  * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class PartnerSelectionPanel
 {
@@ -89,6 +90,7 @@ class PartnerSelectionPanel
      * @throws \InvalidArgumentException If selected type is invalid
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(
         int $id,
@@ -116,6 +118,7 @@ class PartnerSelectionPanel
      * @return string The generated field name
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getFieldName(): string
     {
@@ -131,6 +134,7 @@ class PartnerSelectionPanel
      * @return array<string, string> Partner type codes and labels
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerTypes(): array
     {
@@ -161,6 +165,7 @@ class PartnerSelectionPanel
      *     // Uses cached array internally
      * }
      * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getPartnerTypesArray(?PartnerTypeRegistry $registry = null): array
     {
@@ -194,6 +199,7 @@ class PartnerSelectionPanel
      * @return void
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function clearCache(): void
     {
@@ -206,6 +212,7 @@ class PartnerSelectionPanel
      * @return string The selected partner type code
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getSelectedType(): string
     {
@@ -222,6 +229,7 @@ class PartnerSelectionPanel
      * @throws \InvalidArgumentException If code is invalid
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setSelectedType(string $code): self
     {
@@ -241,6 +249,7 @@ class PartnerSelectionPanel
      * @return array<string, mixed> Options for array_selector
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getArraySelectorOptions(): array
     {
@@ -257,6 +266,7 @@ class PartnerSelectionPanel
      * @return self Fluent interface
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setSelectSubmit(bool $enabled): self
     {
@@ -270,6 +280,7 @@ class PartnerSelectionPanel
      * @return string The label text
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(): string
     {
@@ -284,6 +295,7 @@ class PartnerSelectionPanel
      * @return self Fluent interface
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setLabel(string $label): self
     {
@@ -300,6 +312,7 @@ class PartnerSelectionPanel
      * @return string HTML for array_selector
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getHtml(): string
     {
@@ -326,6 +339,7 @@ class PartnerSelectionPanel
      * @return string String representation of types array
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function buildTypesArray(array $types): string
     {
@@ -345,6 +359,7 @@ class PartnerSelectionPanel
      * @return array{label: string, content: string} Label and content for label_row
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabelRowOutput(): array
     {
@@ -360,6 +375,7 @@ class PartnerSelectionPanel
      * @return PartnerTypeRegistry The registry instance
      *
      * @since 20251019
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getRegistry(): PartnerTypeRegistry
     {

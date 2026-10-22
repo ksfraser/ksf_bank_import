@@ -10,9 +10,15 @@ namespace Ksfraser\FaBankImport;
 *
 *@since 20250515
 **********************************************************************/
+/**
+ * @BABOK FR-PROC-001, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+ */
 class TransactionTypeLabel
 {
 	private $transactionTypeLabel;
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct( $transactionDC )
 	{
 		//This could probably be moved to a getTransactionTypeLabel function
@@ -31,6 +37,9 @@ class TransactionTypeLabel
 		}
 		//return $transactionTypeLabel;
 	}
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function getTransactionTypeLabel()
 	{
 		return $this->transactionTypeLabel;

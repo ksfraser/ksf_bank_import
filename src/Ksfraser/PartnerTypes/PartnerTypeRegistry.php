@@ -40,6 +40,7 @@ namespace Ksfraser\PartnerTypes;
  * // Validate code
  * if ($registry->isValid('SP')) { ... }
  * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class PartnerTypeRegistry
 {
@@ -65,6 +66,7 @@ class PartnerTypeRegistry
 
     /**
      * Private constructor for singleton
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function __construct()
     {
@@ -74,6 +76,7 @@ class PartnerTypeRegistry
      * Get singleton instance
      *
      * @return self
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getInstance(): self
     {
@@ -87,6 +90,7 @@ class PartnerTypeRegistry
      * Reset singleton instance (primarily for testing)
      *
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function reset(): void
     {
@@ -100,6 +104,7 @@ class PartnerTypeRegistry
      * that implement PartnerTypeInterface, and registers them.
      *
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadTypes(): void
     {
@@ -170,6 +175,7 @@ class PartnerTypeRegistry
      * @param PartnerTypeInterface $type The partner type to register
      * @return void
      * @throws \InvalidArgumentException If short code already registered
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function register(PartnerTypeInterface $type): void
     {
@@ -194,6 +200,7 @@ class PartnerTypeRegistry
      *
      * @param string $code Two-character short code
      * @return PartnerTypeInterface|null Partner type or null if not found
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getByCode(string $code): ?PartnerTypeInterface
     {
@@ -206,6 +213,7 @@ class PartnerTypeRegistry
      *
      * @param string $constantName Constant name (e.g., 'SUPPLIER')
      * @return PartnerTypeInterface|null Partner type or null if not found
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getByConstant(string $constantName): ?PartnerTypeInterface
     {
@@ -219,6 +227,7 @@ class PartnerTypeRegistry
      * Returns types sorted by priority (lowest first).
      *
      * @return array<string, PartnerTypeInterface> Partner types indexed by short code
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getAll(): array
     {
@@ -231,6 +240,7 @@ class PartnerTypeRegistry
      *
      * @param string $code Short code to validate
      * @return bool True if valid, false otherwise
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isValid(string $code): bool
     {
@@ -243,6 +253,7 @@ class PartnerTypeRegistry
      *
      * @param string $code Short code
      * @return string Label or 'Unknown' if not found
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(string $code): string
     {
@@ -254,6 +265,7 @@ class PartnerTypeRegistry
      * Get all short codes
      *
      * @return array<string> Array of short codes
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getCodes(): array
     {
@@ -265,6 +277,7 @@ class PartnerTypeRegistry
      * Get count of registered types
      *
      * @return int Number of registered types
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function count(): int
     {

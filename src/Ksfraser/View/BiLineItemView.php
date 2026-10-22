@@ -6,6 +6,7 @@ use Ksfraser\FaBankImport\Model\BiLineItemModel;
 
 /**
  * View class for rendering line item data.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
  */
 class BiLineItemView
 {
@@ -18,6 +19,7 @@ class BiLineItemView
      * Constructor.
      *
      * @param BiLineItemModel $lineItemModel
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(BiLineItemModel $lineItemModel)
     {
@@ -28,6 +30,7 @@ class BiLineItemView
      * Render the line item as an array.
      *
      * @return array
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function render(): array
     {
@@ -41,6 +44,9 @@ class BiLineItemView
 	* Display as a row
 	*
 	**********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display()
 	{
 		$this->display_left($this->lineItemModel);
@@ -51,6 +57,9 @@ class BiLineItemView
 	*
 	* @param object BiLineItemModel
 	**********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display_left( BiLineItemModel $model )
 	{
 		start_row();
@@ -80,6 +89,9 @@ class BiLineItemView
 	* Add a display button to add a Customer or a Vendor
 	*
 	**********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayAddVendorOrCustomer()
 	{
 	      if( ! in_array(  trim($this->otherBankAccount), $this->vendor_list['shortnames'] ) )
@@ -113,6 +125,9 @@ class BiLineItemView
 	* Display our paired transaction
 	*
 	*******************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayPaired()
 	{
 	}
@@ -126,6 +141,9 @@ class BiLineItemView
 	* @param array the Matching Transactions
 	* @param object the FaBankAccounts class 
 	********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayMatchingTransArr( array $matching_trans, FaBankAccounts $fa_bank_accounts )
 	{
 		if( count( $matching_trans ) > 0 )
@@ -221,6 +239,9 @@ class BiLineItemView
 	 * @param BiLineItemModel $model
 	 * @return void
 	 */
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function getDisplayMatchingTrans( BiLineItemModel $model )
 	{
 		// Model handles finding matches AND determining partner type
@@ -239,6 +260,9 @@ class BiLineItemView
 	* Display Bank Transfer partner type
 	*
 	************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayBankTransferPartnerType()
 	{
 		if (empty($_POST["partnerId_$this->id"]))
@@ -278,6 +302,9 @@ class BiLineItemView
 	* Display Quick Entry partner type
 	*
 	************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayQuickEntryPartnerType()
 	{
 		//label_row("Option:", "<b>Process via quick entry</b>");
@@ -290,6 +317,9 @@ class BiLineItemView
 	* Display MATCHED partner type
 	*
 	************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayMatchedPartnerType()
 	{
 		hidden("partnerId_$this->id", 'manual');
@@ -324,6 +354,9 @@ class BiLineItemView
 	* Select the right type of partner to display
 	*
 	************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayPartnerType()
 	{
 		switch( $_POST['partnerType'][$this->id] ) 
@@ -384,6 +417,9 @@ class BiLineItemView
 	* Display as a row
 	*
 	**********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display_right()
 	{
 	 	echo "</td><td width='50%' valign='top'>";
@@ -443,6 +479,9 @@ class BiLineItemView
 	/**//*****************************************************************
 	* We want the ability to edit the raw trans data since some banks don't follow standards
 	*************************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayEditTransData()
 	{
 		//label_row("Edit this Transaction Data", submit("EditTransaction[$this->id]",_("EditTransaction"),false, '', 'default'));
@@ -457,6 +496,9 @@ class BiLineItemView
 	* Display a settled transaction
 	*
 	**********************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display_settled()
 	{
 		// the transaction is settled, we can display full details
@@ -491,6 +533,9 @@ class BiLineItemView
 	* @param int Id
 	* @param array match data
         ************************************************************************/
+        /**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+         */
         function displaySupplierPartnerType( int  $id, array $matched_supplier  )
         {
                 //                     supplier_list($name, $selected_id=null, $spec_option=false, $submit_on_change=false, $all=false, $editkey = false)
@@ -504,6 +549,9 @@ class BiLineItemView
 	* @param int Id
 	* @param array match data
 	************************************************************************/
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function displayCustomerPartnerType( BiLineItemModel $model, int  $id, array $matched_supplier )
 	{
 		$partnerId_string = "partnerId_" . $model->id;

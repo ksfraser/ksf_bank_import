@@ -9,16 +9,25 @@ use Ksfraser\FaBankImport\Commands\ProcessTransactionCommand;
 use Ksfraser\FaBankImport\Middleware\AuthMiddleware;
 
 
+/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
 class BankImportController_MVC
 {
     private $container;
     private $transactions = [];
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     public function __construct()
     {
         $this->container = Container::getInstance();
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     public function index(): void
     {
         /* Original code replaced by new MVC structure
@@ -38,6 +47,9 @@ class BankImportController_MVC
         }
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     private function loadTransactions(): array
     {
         // Get transactions from database
@@ -45,6 +57,9 @@ class BankImportController_MVC
         return $result ? $result : [];
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     public function processTransaction(int $transactionId, string $type): void
     {
         $transaction = $this->findTransaction($transactionId);
@@ -60,6 +75,9 @@ class BankImportController_MVC
         $transactionObj->processTransaction();
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     private function findTransaction(int $id): ?array
     {
         $result = db_query("SELECT * FROM bi_transactions WHERE id = ?", [$id]);
@@ -67,6 +85,9 @@ class BankImportController_MVC
     }
 }
 
+/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
 class BankImportController extends AbstractController
 {
     private $container;
@@ -76,6 +97,7 @@ class BankImportController extends AbstractController
      *
      * @param \Ksfraser\FaBankImport\Container|null $container Optional container
      *        injection for tests; defaults to the shared instance.
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct($container = null)
     {
@@ -83,11 +105,17 @@ class BankImportController extends AbstractController
         $this->container = $container ?? Container::getInstance();
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     protected function initializeMiddleware(): void
     {
         $this->pipeline->pipe(new AuthMiddleware());
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     public function index(): void
     {
         $transactionService = $this->container->getTransactionService();
@@ -98,6 +126,9 @@ class BankImportController extends AbstractController
         ]);
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     public function process(): void
     {
         $command = $this->request->getTransactionCommand();

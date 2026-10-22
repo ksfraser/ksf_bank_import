@@ -34,6 +34,7 @@ use ReflectionException;
  * Dependency Inversion: Depends on TransactionHandlerInterface abstraction
  *
  * Auto-discovers handlers in the Handlers/ directory on instantiation.
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
  */
 class TransactionProcessor
 {
@@ -51,6 +52,7 @@ class TransactionProcessor
      * and automatically registers them. This eliminates manual registration in client code.
      *
      * @param array<TransactionHandlerInterface>|null $customHandlers Optional custom handlers for testing/override
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(?array $customHandlers = null)
     {
@@ -85,6 +87,7 @@ class TransactionProcessor
      *
      * @return void
      * @throws \RuntimeException If unexpected error occurs during discovery
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     private function discoverAndRegisterHandlers(): void
     {
@@ -206,6 +209,7 @@ class TransactionProcessor
      *
      * @param TransactionHandlerInterface $handler The handler to register
      * @return self For method chaining
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function registerHandler(TransactionHandlerInterface $handler): self
     {
@@ -242,6 +246,7 @@ class TransactionProcessor
      * @param array $ourAccount Our bank account information ['id', 'bank_account_name', ...]
      * @return TransactionResult Processing result (success/error/warning)
      * @throws InvalidArgumentException If no handler registered for partner type
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function process(
         string $partnerType,
@@ -301,6 +306,7 @@ class TransactionProcessor
      * @param array $postData Full POST data array from form submission
      * @param int $transactionId Transaction ID (used to build field names like 'partnerId_123')
      * @return array Transaction-specific form inputs (not database fields)
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     private function extractTransactionPostData(array $postData, int $transactionId): array
     {
@@ -317,6 +323,7 @@ class TransactionProcessor
      *
      * @param string $partnerType Partner type code
      * @return bool True if handler exists, false otherwise
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function hasHandler(string $partnerType): bool
     {
@@ -327,6 +334,7 @@ class TransactionProcessor
      * Get all registered partner types
      *
      * @return array<string> Array of partner type codes
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getRegisteredTypes(): array
     {
@@ -337,6 +345,7 @@ class TransactionProcessor
      * Get all registered handler instances
      *
      * @return array<string, TransactionHandlerInterface> Handlers keyed by partner type code.
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getRegisteredHandlers(): array
     {
@@ -348,6 +357,7 @@ class TransactionProcessor
      *
      * @param string $partnerType Partner type code
      * @return TransactionHandlerInterface|null Handler or null if not found
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getHandler(string $partnerType): ?TransactionHandlerInterface
     {

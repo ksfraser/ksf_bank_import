@@ -33,6 +33,7 @@ namespace Ksfraser\PartnerTypes;
  *     public function getConstantName(): string { return 'SUPPLIER'; }
  * }
  * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 abstract class AbstractPartnerType implements PartnerTypeInterface
 {
@@ -43,6 +44,7 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
      * Override in subclass to customize ordering.
      *
      * @return int Priority value (default: 100)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPriority(): int
     {
@@ -57,6 +59,7 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
      * fallbacks override this to false.
      *
      * @return bool True by default.
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function isDispatchable(): bool
     {
@@ -70,6 +73,7 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
      * Override in subclass to provide description.
      *
      * @return string|null Description or null if not available
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getDescription(): ?string
     {
@@ -85,6 +89,7 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
      * Override in subclass if view class name doesn't follow convention.
      *
      * @return string View class name (without namespace)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getViewClassName(): string
     {
@@ -104,6 +109,7 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
      * Override in subclass if method name doesn't follow convention.
      *
      * @return string Method name for strategy dispatch
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getStrategyMethodName(): string
     {
@@ -121,6 +127,7 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
      *
      * @throws \InvalidArgumentException If short code is invalid
      * @return void
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     protected function validateShortCode(): void
     {
@@ -152,6 +159,7 @@ abstract class AbstractPartnerType implements PartnerTypeInterface
      * String representation returns label
      *
      * @return string
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __toString(): string
     {

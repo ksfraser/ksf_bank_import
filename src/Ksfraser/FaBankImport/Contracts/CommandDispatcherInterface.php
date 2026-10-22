@@ -29,6 +29,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * $result = $dispatcher->dispatch('UnsetTrans', $_POST);
  * $result->display();
  * ```
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
 interface CommandDispatcherInterface
 {
@@ -44,6 +45,7 @@ interface CommandDispatcherInterface
      * @return void
      *
      * @throws \InvalidArgumentException If command class doesn't implement CommandInterface
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function register(string $actionName, string $commandClass): void;
 
@@ -59,6 +61,7 @@ interface CommandDispatcherInterface
      * @return TransactionResult Result of command execution
      *
      * @throws \RuntimeException If command execution fails
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function dispatch(string $actionName, array $postData): TransactionResult;
 
@@ -68,6 +71,7 @@ interface CommandDispatcherInterface
      * @param string $actionName Action identifier to check
      *
      * @return bool True if command registered, false otherwise
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function hasCommand(string $actionName): bool;
 
@@ -75,6 +79,7 @@ interface CommandDispatcherInterface
      * Get all registered action names
      *
      * @return string[] Array of registered action names
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function getRegisteredActions(): array;
 }

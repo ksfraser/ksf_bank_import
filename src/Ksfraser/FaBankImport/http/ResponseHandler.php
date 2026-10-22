@@ -10,12 +10,16 @@ namespace Ksfraser\FaBankImport\Http;
  * compatible with prior consumers (setContent/send/json/redirect).
  *
  * @since 20260822
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
  */
 class ResponseHandler
 {
     /** @var Response */
     private $response;
 
+    /**
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
+     */
     public function __construct()
     {
         $this->response = new Response();
@@ -27,6 +31,7 @@ class ResponseHandler
      * @param string $name  Header name.
      * @param string $value Header value.
      * @return self
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function setHeader(string $name, string $value): self
     {
@@ -39,6 +44,7 @@ class ResponseHandler
      *
      * @param int $code HTTP status.
      * @return self
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function setStatusCode(int $code): self
     {
@@ -51,6 +57,7 @@ class ResponseHandler
      *
      * @param string $content Content.
      * @return self
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function setContent(string $content): self
     {
@@ -67,6 +74,7 @@ class ResponseHandler
      * @param string $url        Target URL.
      * @param int    $statusCode Redirect status (default 302).
      * @return void
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function redirect(string $url, int $statusCode = 302): void
     {
@@ -78,6 +86,7 @@ class ResponseHandler
      *
      * @param array $data Payload.
      * @return void
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function json(array $data): void
     {
@@ -88,6 +97,7 @@ class ResponseHandler
      * Emit status, headers and content.
      *
      * @return void
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function send(): void
     {
@@ -98,6 +108,7 @@ class ResponseHandler
      * Current response value object.
      *
      * @return Response
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function getResponse(): Response
     {

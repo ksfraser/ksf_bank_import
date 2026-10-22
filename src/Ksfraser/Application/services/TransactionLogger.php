@@ -4,10 +4,16 @@ namespace Ksfraser\Application\Services;
 
 use Ksfraser\Application\Config\Config;
 
+/**
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ */
 class TransactionLogger
 {
     private $logFile;
 
+    /**
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     public function __construct(?string $logFile = null)
     {
         $config = Config::getInstance();
@@ -20,6 +26,9 @@ class TransactionLogger
         $this->logFile = $logFile ?? rtrim($logDir, "\\/\\") . DIRECTORY_SEPARATOR . 'transactions.log';
     }
 
+    /**
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+     */
     public function logTransactionProcessed($event): void
     {
         $timestamp = null;

@@ -32,6 +32,7 @@ namespace Ksfraser;
  *     ->addClass('btn btn-view')
  *     ->toHtml();
  * ```
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
  */
 class UrlBuilder
 {
@@ -64,6 +65,7 @@ class UrlBuilder
      * Constructor
      *
      * @param string $url Base URL path
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(string $url)
     {
@@ -76,6 +78,7 @@ class UrlBuilder
      * @param string $name Parameter name
      * @param mixed $value Parameter value (will be converted to string)
      * @return self For fluent interface
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function addParam(string $name, $value): self
     {
@@ -93,6 +96,7 @@ class UrlBuilder
      *
      * @param array<string, mixed> $params Associative array of parameters
      * @return self For fluent interface
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function addParams(array $params): self
     {
@@ -107,6 +111,7 @@ class UrlBuilder
      *
      * @param string $text The text to display in the anchor tag
      * @return self For fluent interface
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function setText(string $text): self
     {
@@ -119,6 +124,7 @@ class UrlBuilder
      *
      * @param string $class CSS class name(s)
      * @return self For fluent interface
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function addClass(string $class): self
     {
@@ -131,6 +137,7 @@ class UrlBuilder
      *
      * @param string $target Target value (_blank, _self, _parent, _top)
      * @return self For fluent interface
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function setTarget(string $target): self
     {
@@ -142,6 +149,7 @@ class UrlBuilder
      * Build the complete URL with parameters
      *
      * @return string The complete URL
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function getUrl(): string
     {
@@ -159,6 +167,7 @@ class UrlBuilder
      * Generate HTML anchor tag
      *
      * @return string Complete HTML anchor tag
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function toHtml(): string
     {
@@ -189,6 +198,7 @@ class UrlBuilder
      * Convert to string (alias for toHtml())
      *
      * @return string HTML anchor tag
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function __toString(): string
     {

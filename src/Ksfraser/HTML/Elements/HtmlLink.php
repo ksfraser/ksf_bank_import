@@ -11,6 +11,9 @@ use Ksfraser\HTML\HtmlAttribute;
 *
 * <a href="URL">TEXT</a>
 */
+/**
+ * @BABOK FR-PROC-010, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+ */
 class HtmlLink extends HtmlElement
 {
 	/**
@@ -27,6 +30,7 @@ class HtmlLink extends HtmlElement
 	 * Constructor - creates an <a> link element
 	 * 
 	 * @param HtmlElementInterface $data Initial nested content
+ * @BABOK FR-PROC-010, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function __construct(HtmlElementInterface $data)
 	{
@@ -40,6 +44,7 @@ class HtmlLink extends HtmlElement
 	 * @param string $url The URL for the link
 	 * @param string|HtmlElementInterface $text Optional link text or element
 	 * @return void
+ * @BABOK FR-PROC-010, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function addHref( $url, $text = "" )
 	{
@@ -68,6 +73,7 @@ class HtmlLink extends HtmlElement
 	 * @param string $key Parameter name
 	 * @param string $value Parameter value
 	 * @return self For method chaining
+ * @BABOK FR-PROC-010, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function addParam( string $key, string $value ): self
 	{
@@ -80,6 +86,7 @@ class HtmlLink extends HtmlElement
 	 * Update the href attribute with base URL + query params
 	 * 
 	 * @return void
+ * @BABOK FR-PROC-010, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
 	 */
 	protected function updateHref(): void
 	{
@@ -98,6 +105,7 @@ class HtmlLink extends HtmlElement
 	 * @param string $target Target type (_self, _blank, _parent, _top)
 	 * @return void
 	 * @throws \Exception If target type is not recognized
+ * @BABOK FR-PROC-010, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function setTarget( $target )
 	{

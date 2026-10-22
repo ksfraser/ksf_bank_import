@@ -1,8 +1,14 @@
 <?php
 namespace Views;
 
+/**
+ * @BABOK FR-PROC-001, FR-IMP-001, FR-INQ-002, FR-UPL-001, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+ */
 class ModuleMenuView
 {
+    /**
+ * @BABOK FR-PROC-001, FR-IMP-001, FR-INQ-002, FR-UPL-001, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public function renderMenu()
     {
         echo '<nav class="module-menu">';

@@ -32,6 +32,7 @@ namespace Ksfraser\FaBankImport\Services;
  * $reference = $service->getUniqueReference(ST_CUSTPAYMENT);
  * // Returns: "12345" or similar unique ref
  * ```
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
  */
 class ReferenceNumberService
 {
@@ -46,6 +47,7 @@ class ReferenceNumberService
      * Constructor
      * 
      * @param object|null $referenceGenerator Optional reference generator for testing
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct($referenceGenerator = null)
     {
@@ -66,6 +68,7 @@ class ReferenceNumberService
      * $service = new ReferenceNumberService();
      * $reference = $service->getUniqueReference(ST_CUSTPAYMENT);
      * // Returns: "12345" or similar unique ref
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function getUniqueReference(int $transType): string
     {
@@ -85,6 +88,7 @@ class ReferenceNumberService
      * Separated for testability - can be mocked in tests
      * 
      * @return object FA References object
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     protected function getGlobalRefsObject()
     {

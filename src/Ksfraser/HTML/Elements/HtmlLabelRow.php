@@ -43,6 +43,7 @@ use Ksfraser\HTML\HtmlAttribute;
  * echo $row->getHtml();
  * // Output: <tr><td class="form-label" width="30%">Username:</td><td>jdoe</td></tr>
  * ```
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
  */
 class HtmlLabelRow implements HtmlElementInterface
 {
@@ -63,6 +64,7 @@ class HtmlLabelRow implements HtmlElementInterface
      * 
      * @param HtmlElementInterface $label The label content (left cell)
      * @param HtmlElementInterface $content The content (right cell)
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(HtmlElementInterface $label, HtmlElementInterface $content)
     {
@@ -80,6 +82,7 @@ class HtmlLabelRow implements HtmlElementInterface
      * 
      * @param int $width Width as percentage (e.g., 25 for 25%)
      * @return self Fluent interface
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setLabelWidth(int $width): self
     {
@@ -93,6 +96,7 @@ class HtmlLabelRow implements HtmlElementInterface
      * 
      * @param string $class The CSS class name
      * @return self Fluent interface
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setLabelClass(string $class): self
     {
@@ -107,6 +111,7 @@ class HtmlLabelRow implements HtmlElementInterface
      * @param string $attributes HTML attributes (e.g., 'colspan="2" class="value"')
      * @return self Fluent interface
      * @deprecated This method parses string attributes. Better to use addContentCellAttribute()
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setContentCellAttributes(string $attributes): self
     {
@@ -126,6 +131,7 @@ class HtmlLabelRow implements HtmlElementInterface
      * @param string $name Attribute name
      * @param string $value Attribute value
      * @return self Fluent interface
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function addContentCellAttribute(string $name, string $value): self
     {
@@ -140,6 +146,7 @@ class HtmlLabelRow implements HtmlElementInterface
      * No hardcoded HTML tags - each component renders itself!
      * 
      * @return string The complete HTML table row
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getHtml(): string
     {
@@ -156,6 +163,7 @@ class HtmlLabelRow implements HtmlElementInterface
      * Render the HTML to output
      * 
      * @return void
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function toHtml(): void
     {

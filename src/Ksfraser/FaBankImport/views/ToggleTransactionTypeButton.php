@@ -10,9 +10,15 @@ use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
 
 //TODO: Refactor to replace the Submit button with our own class.
 
+/**
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
+ */
 class ToggleTransactionTypeButton implements \Ksfraser\HTML\HtmlElementInterface
 {
 	protected $HTML_LABEL_ROW;
+	/**
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
+	 */
 	function __construct( int $index )
 	{
 		$buttonLabel = new \Ksfraser\HTML\Elements\HtmlString(_("ToggleTransaction"));
@@ -22,10 +28,16 @@ class ToggleTransactionTypeButton implements \Ksfraser\HTML\HtmlElementInterface
 		$label =  "Toggle Transaction Type Debit/Credit" ;
 		$this->HTML_LABEL_ROW = new HTML_ROW_LABELDecorator(  $submitButton, $label );
 	}
+	/**
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
+	 */
 	function toHtml(): void
 	{
 		$this->HTML_LABEL_ROW->toHtml();
 	}
+	/**
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
+	 */
 	function getHtml(): string
 	{
 		return $this->HTML_LABEL_ROW->getHtml();

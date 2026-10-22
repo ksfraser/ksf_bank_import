@@ -40,12 +40,16 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\MatchedPartnerType;
 
+/**
+ * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+ */
 class MatchedTransactionHandler extends AbstractTransactionHandler
 {
     /**
      * Get the partner type instance for Matched transactions
      * 
      * @return PartnerTypeInterface Returns MatchedPartnerType value object
+ * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
@@ -65,6 +69,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
      * @param array $ourAccount Bank account information
      * 
      * @return TransactionResult Success result with links, or error result
+ * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
      */
     public function process(
         array $transaction,
@@ -137,6 +142,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
      * @param array $transactionPostData POST data containing memo/title
      * 
      * @return TransactionResult Success with links or error
+ * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
      */
     private function processMatchedTransaction(
         array $transaction,

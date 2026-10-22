@@ -54,6 +54,7 @@ use Ksfraser\FaBankImport\Services\ReferenceNumberService;
  *     }
  * }
  * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 abstract class AbstractTransactionHandler implements TransactionHandlerInterface
 {
@@ -79,6 +80,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      *
      * @param ReferenceNumberService|null $referenceService Optional service for testing
      * @throws \InvalidArgumentException If partner type is invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(?ReferenceNumberService $referenceService = null)
     {
@@ -105,6 +107,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     final public function getPartnerType(): string
     {
@@ -121,6 +124,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      * - getPriority(): Sort priority for display
      *
      * @return PartnerTypeInterface The partner type value object
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     final public function getPartnerTypeObject(): PartnerTypeInterface
     {
@@ -134,6 +138,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      * This provides access to short code, label, description, priority, etc.
      *
      * @return PartnerTypeInterface The partner type value object
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     abstract protected function getPartnerTypeInstance(): PartnerTypeInterface;
 
@@ -141,6 +146,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      * @inheritDoc
      * 
      * Standard implementation that checks if the partner type matches this handler.
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     final public function canProcess(string $partnerType): bool
     {
@@ -155,6 +161,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      * @param array $transaction Transaction data
      * @param array $requiredFields Array of required field names
      * @throws \Exception if validation fails
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     protected function validateTransaction(array $transaction, array $requiredFields = []): void
     {
@@ -179,6 +186,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      * @param array $transactionPostData Transaction-specific POST data
      * @return int Partner ID
      * @throws \Exception if partner ID not found or invalid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     protected function extractPartnerId(array $transactionPostData): int
     {
@@ -202,6 +210,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      *
      * @param int $transactionId Transaction ID
      * @return float Charge amount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     protected function calculateCharge(int $transactionId): float
     {
@@ -222,6 +231,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      * @param string $message Error message
      * @param array $data Additional error data
      * @return TransactionResult Error result
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     protected function createErrorResult(string $message, array $data = []): TransactionResult
     {
@@ -239,6 +249,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      * @param string $message Success message
      * @param array $data Additional result data (charge, reference, view links, etc.)
      * @return TransactionResult Success result
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     protected function createSuccessResult(
         int $transNo, 
@@ -260,6 +271,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
      * @param int $transType Transaction type (if applicable)
      * @param array $data Additional warning data
      * @return TransactionResult Warning result
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     protected function createWarningResult(
         string $message,

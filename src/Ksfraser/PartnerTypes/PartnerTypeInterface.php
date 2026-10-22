@@ -33,6 +33,7 @@ namespace Ksfraser\PartnerTypes;
  *     public function getPriority(): int { return 100; }
  * }
  * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 interface PartnerTypeInterface
 {
@@ -42,6 +43,7 @@ interface PartnerTypeInterface
      * Must be exactly 2 uppercase characters.
      *
      * @return string Two-character code (e.g., 'SP', 'CU', 'BT')
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getShortCode(): string;
 
@@ -51,6 +53,7 @@ interface PartnerTypeInterface
      * Used for display in UI elements (dropdowns, labels, etc.)
      *
      * @return string Human-readable label (e.g., 'Supplier', 'Customer')
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(): string;
 
@@ -60,6 +63,7 @@ interface PartnerTypeInterface
      * Used for code clarity and IDE autocomplete.
      *
      * @return string Constant name (e.g., 'SUPPLIER', 'CUSTOMER')
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getConstantName(): string;
 
@@ -69,6 +73,7 @@ interface PartnerTypeInterface
      * Lower numbers appear first in lists. Use 100 for standard priority.
      *
      * @return int Priority value (default: 100)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPriority(): int;
 
@@ -78,6 +83,7 @@ interface PartnerTypeInterface
      * Provides additional context about when to use this partner type.
      *
      * @return string|null Description or null if not available
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getDescription(): ?string;
     
@@ -90,6 +96,7 @@ interface PartnerTypeInterface
      * Example: 'SupplierPartnerTypeView' for Supplier partner type
      *
      * @return string View class name (without namespace)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getViewClassName(): string;
     
@@ -100,6 +107,7 @@ interface PartnerTypeInterface
      * to display this partner type (e.g., 'displaySupplier').
      *
      * @return string Method name for strategy dispatch
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getStrategyMethodName(): string;
 }

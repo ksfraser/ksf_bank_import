@@ -9,8 +9,14 @@ use Ksfraser\HTML\HtmlElementInterface;
 *
 * @since 20250517
 */
+/**
+ * @BABOK FR-IMP-010, FR-UPL-001 | BR-IMP-001 | UAT-IMP-001
+ */
 class HtmlHeading4 extends HtmlHeading
 {
+	/**
+ * @BABOK FR-IMP-010, FR-UPL-001 | BR-IMP-001 | UAT-IMP-001
+	 */
 	function __construct( HtmlElementInterface $data )
 	{
 		parent::__construct( $data );

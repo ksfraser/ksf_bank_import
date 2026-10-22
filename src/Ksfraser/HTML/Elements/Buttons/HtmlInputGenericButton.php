@@ -40,6 +40,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * echo $button->getHtml(); 
  * // Output: <input type="button" value="Click Me" name="my_btn" onclick="alert('Hello!')" class="btn btn-primary" />
  * ```
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
  */
 class HtmlInputGenericButton extends HtmlInputButton
 {
@@ -47,6 +48,7 @@ class HtmlInputGenericButton extends HtmlInputButton
      * Constructor
      * 
      * @param HtmlElementInterface $label The button label (will be value attribute)
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function __construct(HtmlElementInterface $label)
     {
@@ -59,6 +61,7 @@ class HtmlInputGenericButton extends HtmlInputButton
      * 
      * @param string $javascript The JavaScript code to execute on click
      * @return self Fluent interface
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function setOnclick(string $javascript): self
     {

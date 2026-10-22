@@ -5,16 +5,25 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\Application\Config\Config;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
+/**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+ */
 class TransactionValidator
 {
     private $config;
     private $errors = [];
 
+    /**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+     */
     public function __construct()
     {
         $this->config = Config::getInstance();
     }
 
+    /**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+     */
     public function validate(BankTransactionInterface $transaction): bool
     {
         $this->errors = [];
@@ -26,6 +35,9 @@ class TransactionValidator
         return empty($this->errors);
     }
 
+    /**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+     */
     private function validateType(BankTransactionInterface $transaction): self
     {
         $allowedTypes = $this->config->get('transaction.allowed_types');
@@ -37,6 +49,9 @@ class TransactionValidator
         return $this;
     }
 
+    /**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+     */
     private function validateAmount(BankTransactionInterface $transaction): self
     {
         $maxAmount = $this->config->get('transaction.max_amount');
@@ -52,6 +67,9 @@ class TransactionValidator
         return $this;
     }
 
+    /**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+     */
     private function validateDate(BankTransactionInterface $transaction): self
     {
         $date = \DateTime::createFromFormat('Y-m-d', $transaction->getDate());
@@ -63,6 +81,9 @@ class TransactionValidator
         return $this;
     }
 
+    /**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+     */
     public function getErrors(): array
     {
         return $this->errors;

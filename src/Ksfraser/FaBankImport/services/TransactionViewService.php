@@ -5,23 +5,35 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 
+/**
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ */
 class TransactionViewService
 {
     private $transaction;
     private $view;
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+     */
     public function __construct(BankTransactionInterface $transaction, TransactionViewInterface $view)
     {
         $this->transaction = $transaction;
         $this->view = $view;
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+     */
     public function display(): string
     {
         $this->setupViewData();
         return $this->view->render();
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+     */
     private function setupViewData(): void
     {
         $accountDetails = $this->transaction->getAccountDetails();
@@ -31,6 +43,9 @@ class TransactionViewService
         $this->setupActionButtons();
     }
 
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+     */
     private function setupActionButtons(): void
     {
         //TODO

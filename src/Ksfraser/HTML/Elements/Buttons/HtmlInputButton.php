@@ -34,6 +34,7 @@ use Ksfraser\HTML\HtmlAttribute;
  * - **Liskov Substitution**: Can be used anywhere HtmlEmptyElement is expected
  * - **Interface Segregation**: Implements HtmlElementInterface appropriately
  * - **Dependency Inversion**: Depends on HtmlElementInterface abstraction
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class HtmlInputButton extends HtmlEmptyElement
 {
@@ -54,6 +55,7 @@ class HtmlInputButton extends HtmlEmptyElement
 	 *
 	 * @param string $type The input type (submit, reset, button)
 	 * @param HtmlElementInterface $label The button label/text
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function __construct( string $type, HtmlElementInterface $label )
 	{
@@ -72,6 +74,7 @@ class HtmlInputButton extends HtmlEmptyElement
 	 *
 	 * @param string $name The name for form submission
 	 * @return self Fluent interface
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setName( string $name ): self
 	{
@@ -84,6 +87,7 @@ class HtmlInputButton extends HtmlEmptyElement
 	 *
 	 * @param string $id The unique element identifier
 	 * @return self Fluent interface
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setId( string $id ): self
 	{
@@ -96,6 +100,7 @@ class HtmlInputButton extends HtmlEmptyElement
 	 *
 	 * @param string $class CSS class name(s)
 	 * @return self Fluent interface
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setClass( string $class ): self
 	{
@@ -107,6 +112,7 @@ class HtmlInputButton extends HtmlEmptyElement
 	 * Set the button as disabled
 	 *
 	 * @return self Fluent interface
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function setDisabled(): self
 	{
@@ -118,6 +124,7 @@ class HtmlInputButton extends HtmlEmptyElement
 	 * Get the HTML string representation
 	 *
 	 * @return string The complete HTML input tag
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getHtml(): string
 	{

@@ -13,12 +13,16 @@ namespace Ksfraser\FaBankImport\Service;
  *   company/#/bank_imports/{uploads,logs,pending,...}
  *
  * Note: This is a good candidate to extract into ksfraser/FILE later.
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
  */
 final class BankImportPathResolver
 {
     /** @var string */
     private $companyPath;
 
+    /**
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
+     */
     private function __construct(string $companyPath)
     {
         $companyPath = rtrim($companyPath, "/\\");
@@ -28,6 +32,9 @@ final class BankImportPathResolver
         $this->companyPath = $companyPath;
     }
 
+    /**
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
+     */
     public static function forCompanyPath(string $companyPath): self
     {
         return new self($companyPath);
@@ -38,6 +45,7 @@ final class BankImportPathResolver
      *
      * For library extraction: prefer forCompanyPath() and inject the company path from your host app.
      * This method exists to keep the module wiring terse.
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
      */
     public static function forCurrentCompany(?int $companyId = null, ?callable $companyPathProvider = null): self
     {
@@ -55,31 +63,49 @@ final class BankImportPathResolver
         return new self($path);
     }
 
+    /**
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
+     */
     public function companyPath(): string
     {
         return $this->companyPath;
     }
 
+    /**
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
+     */
     public function baseDir(): string
     {
         return $this->join('bank_imports');
     }
 
+    /**
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
+     */
     public function uploadsDir(): string
     {
         return $this->join('bank_imports', 'uploads');
     }
 
+    /**
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
+     */
     public function logsDir(): string
     {
         return $this->join('bank_imports', 'logs');
     }
 
+    /**
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
+     */
     public function pendingDir(): string
     {
         return $this->join('bank_imports', 'pending');
     }
 
+    /**
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
+     */
     public function dir(string $name): string
     {
         $name = trim($name);
@@ -91,6 +117,7 @@ final class BankImportPathResolver
 
     /**
      * @param string ...$parts
+ * @BABOK FR-IMP-003, FR-LOG-001, FR-UPL-004 | BR-IMP-003 | UAT-IMP-006
      */
     private function join(string ...$parts): string
     {

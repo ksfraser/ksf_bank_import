@@ -27,6 +27,7 @@ use Exception;
  * @since 20251019 - Fixed namespace (Html→HTML), fixed missing return, added return type hints
  * @version 20251019.1 - Fixed HtmlRowLabel→HTML_ROW_LABEL, added PHPDoc
  * @version 20251019.2 - Made class abstract (cannot be instantiated directly)
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
  */
 abstract class LabelRowBase implements HtmlElementInterface
 {
@@ -55,6 +56,7 @@ abstract class LabelRowBase implements HtmlElementInterface
 	 * 
 	 * @param mixed $bi_lineitem The line item data (parameter kept for backward compatibility)
 	 * @throws Exception If label or data not set by subclass
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function __construct( $bi_lineitem )
 	{
@@ -75,6 +77,7 @@ abstract class LabelRowBase implements HtmlElementInterface
 	 * Get the HTML as a string
 	 * 
 	 * @return string The HTML
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function getHtml(): string
 	{
@@ -85,6 +88,7 @@ abstract class LabelRowBase implements HtmlElementInterface
 	 * Output the HTML directly to screen
 	 * 
 	 * @return void
+ * @BABOK FR-PROC-002, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function toHtml(): void
 	{

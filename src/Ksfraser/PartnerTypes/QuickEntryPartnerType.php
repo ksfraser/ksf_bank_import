@@ -21,11 +21,13 @@ namespace Ksfraser\PartnerTypes;
  * Quick Entry Partner Type
  *
  * Used for quick entry journal transactions.
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
  */
 class QuickEntryPartnerType extends AbstractPartnerType
 {
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getShortCode(): string
     {
@@ -34,6 +36,7 @@ class QuickEntryPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLabel(): string
     {
@@ -42,6 +45,7 @@ class QuickEntryPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getConstantName(): string
     {
@@ -50,6 +54,7 @@ class QuickEntryPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPriority(): int
     {
@@ -58,6 +63,7 @@ class QuickEntryPartnerType extends AbstractPartnerType
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function getDescription(): ?string
     {

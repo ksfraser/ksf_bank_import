@@ -14,6 +14,7 @@ use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
  */
 class AllowDuplicateStrategy implements DuplicateStrategyInterface
 {
@@ -22,6 +23,7 @@ class AllowDuplicateStrategy implements DuplicateStrategyInterface
      * 
      * @param DuplicateResult $duplicateResult
      * @return array Success with existing file ID
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function handle(DuplicateResult $duplicateResult): array
     {
@@ -40,6 +42,7 @@ class AllowDuplicateStrategy implements DuplicateStrategyInterface
      * Get strategy name
      * 
      * @return string
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function getName(): string
     {

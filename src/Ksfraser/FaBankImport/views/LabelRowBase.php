@@ -17,6 +17,7 @@ use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
  * @author Kevin Fraser
  * @since 20250119
  * @version 20250119
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
  */
 abstract class LabelRowBase implements HtmlElementInterface
 {
@@ -37,6 +38,7 @@ abstract class LabelRowBase implements HtmlElementInterface
      * 
      * @param mixed $bi_lineitem Line item data object
      * @throws \RuntimeException If label or data not set by child class
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     function __construct($bi_lineitem)
     {
@@ -58,6 +60,7 @@ abstract class LabelRowBase implements HtmlElementInterface
      * Get HTML representation as string
      * 
      * @return string HTML string
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     function getHtml(): string
     {
@@ -68,6 +71,7 @@ abstract class LabelRowBase implements HtmlElementInterface
      * Render HTML directly to output
      * 
      * @return void
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     function toHtml(): void
     {

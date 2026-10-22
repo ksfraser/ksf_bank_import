@@ -4,18 +4,27 @@ namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
 
+/**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+ */
 class AlertService
 {
     private $config;
     private $aggregator;
     private static $instance = null;
 
+    /**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+     */
     private function __construct()
     {
         $this->config = Config::getInstance();
         $this->aggregator = new MetricsAggregator($this->config->get('logging.path'));
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+     */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -24,11 +33,17 @@ class AlertService
         return self::$instance;
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+     */
     public static function resetInstance(): void
     {
         self::$instance = null;
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+     */
     public function checkAndSendAlerts(): void
     {
         if (!$this->config->get('alerts.enabled', false)) {
@@ -61,6 +76,9 @@ class AlertService
         }
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+     */
     private function sendAnomalyAlert(array $anomalies): void
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' Performance Anomalies Detected';
@@ -79,6 +97,9 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+     */
     private function sendSlowTransactionAlert(string $metricName, array $metric): void
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' Slow Transactions Detected';
@@ -93,6 +114,9 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+     */
     private function sendHighMemoryAlert(string $metricName, array $metric): void
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' High Memory Usage Detected';
@@ -107,6 +131,9 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
+    /**
+ * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+     */
     private function sendEmail(string $subject, string $message): void
     {
         $to = $this->config->get('alerts.email.to');

@@ -39,6 +39,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  *     }
  * }
  * ```
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
 interface CommandInterface
 {
@@ -60,6 +61,7 @@ interface CommandInterface
      *
      * @throws \RuntimeException If command cannot be executed
      * @throws \InvalidArgumentException If command receives invalid data
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function execute(): TransactionResult;
 
@@ -70,6 +72,7 @@ interface CommandInterface
      * Used for logging, debugging, and error messages.
      *
      * @return string Command name (e.g., 'UnsetTransaction', 'AddCustomer')
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function getName(): string;
 }

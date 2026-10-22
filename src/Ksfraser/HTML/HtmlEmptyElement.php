@@ -14,6 +14,7 @@ use Ksfraser\HTML\Elements\HtmlString;
  * 
  * @package Ksfraser\HTML
  * @since 20251019
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
  */
 class HtmlEmptyElement extends HtmlElement
 {
@@ -23,6 +24,7 @@ class HtmlEmptyElement extends HtmlElement
 	 * Empty elements don't have children, so we pass an empty HtmlString
 	 * 
 	 * @param HtmlElementInterface|null $data Optional data (ignored for empty elements)
+ * @BABOK FR-IMP-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
 	 */
 	function __construct( $data = null )
 	{

@@ -4,11 +4,17 @@ namespace Ksfraser\Application\Repositories;
 
 use Ksfraser\Application\Database\QueryBuilder;
 
+/**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ */
 abstract class AbstractRepository
 {
     protected $table;
     protected $queryBuilder;
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function __construct()
     {
         if (empty($this->table)) {
@@ -17,6 +23,9 @@ abstract class AbstractRepository
         $this->queryBuilder = new QueryBuilder($this->table);
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function find($id)
     {
         return $this->queryBuilder
@@ -24,6 +33,9 @@ abstract class AbstractRepository
             ->first();
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function findBy(array $criteria, ?array $orderBy = null, ?int $limit = null, ?int $offset = null)
     {
         foreach ($criteria as $key => $value) {
@@ -47,6 +59,9 @@ abstract class AbstractRepository
         return $this->queryBuilder->get();
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function findOneBy(array $criteria)
     {
         foreach ($criteria as $key => $value) {
@@ -56,6 +71,9 @@ abstract class AbstractRepository
         return $this->queryBuilder->first();
     }
 
+    /**
+ * @BABOK FR-IMP-007, FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+     */
     public function update($id, array $data): bool
     {
         return $this->queryBuilder

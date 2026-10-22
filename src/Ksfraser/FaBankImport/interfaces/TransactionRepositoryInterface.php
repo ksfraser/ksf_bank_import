@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\Interfaces;
  * filter-based reads and explicit, typed update operations.
  *
  * @since 20260822
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
  */
 interface TransactionRepositoryInterface
 {
@@ -17,6 +18,7 @@ interface TransactionRepositoryInterface
      * Fetch all transactions.
      *
      * @return array
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function findAll(): array;
 
@@ -25,6 +27,7 @@ interface TransactionRepositoryInterface
      *
      * @param int $id Transaction id.
      * @return array|null
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function findById(int $id): ?array;
 
@@ -33,6 +36,7 @@ interface TransactionRepositoryInterface
      *
      * @param array $filters Column => value pairs.
      * @return array
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function findByFilters(array $filters): array;
 
@@ -48,6 +52,7 @@ interface TransactionRepositoryInterface
      * @param string|null $partnerType Partner type code.
      * @param string $partnerOption  Partner option/classification.
      * @return int Number of rows affected.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function update(
         array $transactionIds,
@@ -67,6 +72,7 @@ interface TransactionRepositoryInterface
      * @param int   $faTransNo      FA transaction number that was voided.
      * @param int   $faTransType    FA transaction type that was voided.
      * @return int Rows affected.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function reset(
         array $transactionIds,
@@ -80,6 +86,7 @@ interface TransactionRepositoryInterface
      * @param int $faTransNo   FA transaction number.
      * @param int $faTransType FA transaction type.
      * @return int Rows affected.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function prevoid(int $faTransNo, int $faTransType): int;
 
@@ -88,6 +95,7 @@ interface TransactionRepositoryInterface
      *
      * @param string|null $account Account code filter.
      * @return array
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function findNormalPairing(?string $account = null): array;
 }

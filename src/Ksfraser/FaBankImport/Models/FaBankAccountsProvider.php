@@ -11,6 +11,7 @@ namespace Ksfraser\FaBankImport\Models;
  * FrontAccounting + module-common environment; use the interface elsewhere.
  *
  * @since 20260822
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
  */
 class FaBankAccountsProvider implements BankAccountDetailsProviderInterface
 {
@@ -21,6 +22,7 @@ class FaBankAccountsProvider implements BankAccountDetailsProviderInterface
      * Whether the legacy \fa_bank_accounts dependency is loadable here.
      *
      * @return bool
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public static function legacyAvailable(): bool
     {
@@ -41,6 +43,7 @@ class FaBankAccountsProvider implements BankAccountDetailsProviderInterface
      *
      * @return void
      * @throws \RuntimeException When unavailable (compat mode / clean checkout).
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     protected function ensureLegacyLoaded(): void
     {
@@ -59,6 +62,7 @@ class FaBankAccountsProvider implements BankAccountDetailsProviderInterface
      * Resolved path of the legacy class file.
      *
      * @return string
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     protected static function legacyPath(): string
     {
@@ -69,6 +73,7 @@ class FaBankAccountsProvider implements BankAccountDetailsProviderInterface
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function getByNumber(string $accountNumber): ?array
     {
@@ -78,6 +83,9 @@ class FaBankAccountsProvider implements BankAccountDetailsProviderInterface
         $probe = new class($accountNumber) {
             /** @var string */
             public $our_account;
+            /**
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+             */
             public function __construct(string $n)
             {
                 $this->our_account = $n;

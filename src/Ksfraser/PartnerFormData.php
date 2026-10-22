@@ -38,6 +38,7 @@ namespace Ksfraser;
  *     // Process...
  * }
  * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 class PartnerFormData
 {
@@ -58,6 +59,7 @@ class PartnerFormData
      * @param FormFieldNameGenerator|null $fieldGenerator Optional field name generator
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(
         int $lineItemId,
@@ -73,6 +75,7 @@ class PartnerFormData
      * @return int|null The partner ID or null if not set
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerId(): ?int
     {
@@ -100,6 +103,7 @@ class PartnerFormData
      * @return self For method chaining
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setPartnerId(?int $partnerId): self
     {
@@ -120,6 +124,7 @@ class PartnerFormData
      * @return bool True if partner ID is set and not empty
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function hasPartnerId(): bool
     {
@@ -134,6 +139,7 @@ class PartnerFormData
      * @return int|null The partner detail ID or null if not set
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerDetailId(): ?int
     {
@@ -161,6 +167,7 @@ class PartnerFormData
      * @return self For method chaining
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setPartnerDetailId(?int $partnerDetailId): self
     {
@@ -181,6 +188,7 @@ class PartnerFormData
      * @return bool True if partner detail ID is set and not empty
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function hasPartnerDetailId(): bool
     {
@@ -197,6 +205,7 @@ class PartnerFormData
      * @return mixed The raw partner ID value from POST
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getRawPartnerId()
     {
@@ -213,6 +222,7 @@ class PartnerFormData
      * @return mixed The raw partner detail ID value from POST
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getRawPartnerDetailId()
     {
@@ -227,6 +237,7 @@ class PartnerFormData
      * @return self For method chaining
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function clearPartnerId(): self
     {
@@ -243,6 +254,7 @@ class PartnerFormData
      * @return self For method chaining
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function clearPartnerDetailId(): self
     {
@@ -259,6 +271,7 @@ class PartnerFormData
      * @return int The line item ID
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLineItemId(): int
     {
@@ -271,6 +284,7 @@ class PartnerFormData
      * @return FormFieldNameGenerator The field name generator
      *
      * @since 2025-01-07
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getFieldGenerator(): FormFieldNameGenerator
     {
@@ -286,6 +300,7 @@ class PartnerFormData
      * @return string|null The partner type code or null if not set
      *
      * @since 2025-01-24
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPartnerType(): ?string
     {
@@ -313,6 +328,7 @@ class PartnerFormData
      * @return self For method chaining
      *
      * @since 2025-01-24
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function setPartnerType(?string $partnerType): self
     {
@@ -331,6 +347,7 @@ class PartnerFormData
      * @return bool True if partner type is set and not empty
      *
      * @since 2025-01-24
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function hasPartnerType(): bool
     {

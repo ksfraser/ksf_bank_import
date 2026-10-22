@@ -52,6 +52,7 @@ use Ksfraser\HTML\Elements\HtmlOption;
  *
  * @see PAGE_LEVEL_DATA_LOADING_STRATEGY.md
  * @see PartnerSelectionPanel (static caching pattern reference)
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
  */
 class SupplierDataProvider
 {
@@ -69,6 +70,7 @@ class SupplierDataProvider
      * Constructor
      *
      * @since 20251019
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct()
     {
@@ -84,6 +86,7 @@ class SupplierDataProvider
      * @return array<int, array<string, mixed>> Array of supplier records
      *
      * @since 20251019
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function getSuppliers(): array
     {
@@ -111,6 +114,7 @@ class SupplierDataProvider
      * @return void
      *
      * @since 20251019
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function setSuppliers(array $suppliers): void
     {
@@ -130,6 +134,7 @@ class SupplierDataProvider
      *
      * @since 20251019
      * @version 1.1.0 Now uses HtmlSelect and HtmlOption classes
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function generateSelectHtml(string $fieldName, ?string $selectedId): string
     {
@@ -156,6 +161,7 @@ class SupplierDataProvider
      * @return string|null Supplier name or null if not found
      *
      * @since 20251019
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function getSupplierNameById(string $supplierId): ?string
     {
@@ -178,6 +184,7 @@ class SupplierDataProvider
      * @return array<string, mixed>|null Supplier record or null if not found
      *
      * @since 20251019
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function getSupplierById(string $supplierId): ?array
     {
@@ -198,6 +205,7 @@ class SupplierDataProvider
      * @return int Number of suppliers in cache
      *
      * @since 20251019
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function getSupplierCount(): int
     {
@@ -211,6 +219,7 @@ class SupplierDataProvider
      * @return bool True if data is loaded, false otherwise
      *
      * @since 20251019
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public function isLoaded(): bool
     {
@@ -223,6 +232,7 @@ class SupplierDataProvider
      * @return void
      *
      * @since 20251019
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     public static function resetCache(): void
     {
@@ -243,6 +253,7 @@ class SupplierDataProvider
      * @since 20251019
      *
      * @codeCoverageIgnore
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadSuppliersFromDatabase(): array
     {

@@ -4,6 +4,9 @@ namespace Ksfraser\HTML;
 
 use Ksfraser\HTML\HtmlElementInterface;
 
+/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
 class HtmlAttributeList implements HtmlElementInterface
 {
 	protected $attributeArray;
@@ -12,6 +15,7 @@ class HtmlAttributeList implements HtmlElementInterface
 	 * Constructor
 	 * 
 	 * @param HtmlAttribute $attribute Initial attribute
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function __construct( HtmlAttribute $attribute )
 	{
@@ -27,6 +31,7 @@ class HtmlAttributeList implements HtmlElementInterface
 	 *
 	 * @param HtmlAttribute $attribute Attribute to add
 	 * @return void
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function addAttribute( HtmlAttribute $attribute ): void
 	{
@@ -45,6 +50,7 @@ class HtmlAttributeList implements HtmlElementInterface
 	 * Output HTML representation
 	 * 
 	 * @return void
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function toHtml(): void {
 		echo $this->getHtml();
@@ -54,6 +60,7 @@ class HtmlAttributeList implements HtmlElementInterface
 	 * Get HTML representation as string
 	 * 
 	 * @return string HTML string of all attributes
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
 	public function getHtml(): string {
 		$html = "";

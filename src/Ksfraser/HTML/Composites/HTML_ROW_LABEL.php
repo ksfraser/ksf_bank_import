@@ -21,6 +21,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * 
  * @package Ksfraser\HTML
  * @since 20251019 - Converted to wrapper
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
  */
 class HTML_ROW_LABEL implements HtmlElementInterface
 {
@@ -39,6 +40,7 @@ class HTML_ROW_LABEL implements HtmlElementInterface
      * @param string $label The label text (left cell)
      * @param int|null $width The width percentage (default 25, null = 25)
      * @param string|null $class The CSS class (default 'label', null = 'label')
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct($data, string $label, ?int $width = null, ?string $class = null)
     {
@@ -66,6 +68,7 @@ class HTML_ROW_LABEL implements HtmlElementInterface
      * This maintains backward compatibility without needing two methods.
      * 
      * @return void
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function toHtml(): void
     {
@@ -76,6 +79,7 @@ class HTML_ROW_LABEL implements HtmlElementInterface
      * Get the HTML string representation
      * 
      * @return string The HTML
+ * @BABOK FR-PROC-002, FR-IMP-002 | BR-PROC-001 | UAT-PROC-001
      */
     public function getHtml(): string
     {

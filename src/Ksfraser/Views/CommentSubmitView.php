@@ -39,6 +39,7 @@ use Ksfraser\HTML\Composites\HtmlLabelRow;
  *     'button_name' => string,        // Submit button name attribute
  *     'button_label' => string        // Submit button label (localized)
  * ]
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
  */
 class CommentSubmitView
 {
@@ -51,6 +52,7 @@ class CommentSubmitView
      * Constructor
      * 
      * @param array $data Component data (see class docblock for structure)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(array $data)
     {
@@ -65,6 +67,7 @@ class CommentSubmitView
      * - Label row with submit button (empty label)
      * 
      * @return HtmlFragment The rendered HTML fragment
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function render(): HtmlFragment
     {
@@ -85,6 +88,7 @@ class CommentSubmitView
      * Outputs the rendered HTML directly to output buffer.
      * 
      * @return void
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function display(): void
     {
@@ -95,6 +99,7 @@ class CommentSubmitView
      * Render the comment input row
      * 
      * @return HtmlLabelRow The comment row with label and input field
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderCommentRow(): HtmlLabelRow
     {
@@ -119,6 +124,7 @@ class CommentSubmitView
      * Render the submit button row
      * 
      * @return HtmlLabelRow The submit button row with empty label
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderSubmitRow(): HtmlLabelRow
     {

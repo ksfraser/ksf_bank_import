@@ -12,6 +12,7 @@ use Ksfraser\FaBankImport\ValueObject\FileInfo;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
  */
 interface FileStorageServiceInterface
 {
@@ -27,6 +28,7 @@ interface FileStorageServiceInterface
      * @return array ['filename' => unique name, 'path' => full path]
      * 
      * @throws \RuntimeException If storage fails
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function store(FileInfo $fileInfo, string $parserType): array;
     
@@ -35,6 +37,7 @@ interface FileStorageServiceInterface
      * 
      * @param string $filePath Full path to file
      * @return bool Success
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function delete(string $filePath): bool;
     
@@ -43,6 +46,7 @@ interface FileStorageServiceInterface
      * 
      * @param string $filePath Full path to file
      * @return bool True if exists
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function exists(string $filePath): bool;
     
@@ -53,6 +57,7 @@ interface FileStorageServiceInterface
      * @return string File contents
      * 
      * @throws \RuntimeException If file doesn't exist or can't be read
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getContents(string $filePath): string;
     
@@ -60,6 +65,7 @@ interface FileStorageServiceInterface
      * Get storage directory path
      * 
      * @return string Full path to upload storage directory
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function getStorageDirectory(): string;
     
@@ -68,6 +74,7 @@ interface FileStorageServiceInterface
      * 
      * @return void
      * @throws \RuntimeException If directory can't be created
+ * @BABOK FR-IMP-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
     public function ensureStorageDirectoryExists(): void;
 }

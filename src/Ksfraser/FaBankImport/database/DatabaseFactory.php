@@ -4,11 +4,17 @@ namespace Ksfraser\FaBankImport\Database;
 
 use Ksfraser\FaBankImport\Config\Config;
 
+/**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ */
 class DatabaseFactory
 {
     private static $connection = null;
     private static $config;
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public static function getConnection()
     {
         if (self::$connection === null) {
@@ -18,6 +24,9 @@ class DatabaseFactory
         return self::$connection;
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     private static function createConnection()
     {
         $host = self::$config->get('db.host');
@@ -38,6 +47,9 @@ class DatabaseFactory
         }
     }
 
+    /**
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+     */
     public static function closeConnection(): void
     {
         self::$connection = null;

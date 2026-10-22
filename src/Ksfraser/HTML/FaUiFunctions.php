@@ -23,10 +23,14 @@ if (KSF_FA_UI_AVAILABLE) {
 /**
  * Facade for Front Accounting UI functions
  * This allows us to decouple our HTML components from FA's UI functions
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
  */
 class FaUiFunctions {
     const TABLESTYLE2 = 2; // Matching FA's constant
 
+    /**
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+     */
     public static function label_row($label, $content, $params="")
     {
         if (KSF_FA_UI_AVAILABLE) {
@@ -36,6 +40,9 @@ class FaUiFunctions {
         }
     }
 
+    /**
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+     */
     public static function start_table($type = self::TABLESTYLE2, $params="")
     {
         if (KSF_FA_UI_AVAILABLE) {
@@ -45,6 +52,9 @@ class FaUiFunctions {
         }
     }
 
+    /**
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+     */
     public static function end_table($breaks=0)
     {
         if (KSF_FA_UI_AVAILABLE) {

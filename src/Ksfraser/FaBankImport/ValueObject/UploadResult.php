@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\ValueObject;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
  */
 class UploadResult
 {
@@ -46,6 +47,7 @@ class UploadResult
      * @param int|null $fileId
      * @param string|null $filename
      * @param bool $allowForce
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     private function __construct(
         bool $success,
@@ -70,6 +72,7 @@ class UploadResult
      * @param string $filename Unique filename
      * @param string $message Success message
      * @return self
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public static function success(int $fileId, string $filename, string $message): self
     {
@@ -81,6 +84,7 @@ class UploadResult
      * 
      * @param string $message Error message
      * @return self
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public static function error(string $message): self
     {
@@ -93,6 +97,7 @@ class UploadResult
      * @param string $message Duplicate message
      * @param bool $allowForce Allow force override
      * @return self
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public static function duplicate(string $message, bool $allowForce = false): self
     {
@@ -105,6 +110,7 @@ class UploadResult
      * @param int $fileId Existing file ID
      * @param string $message Message
      * @return self
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public static function reused(int $fileId, string $message): self
     {
@@ -115,6 +121,7 @@ class UploadResult
      * Check if upload was successful
      * 
      * @return bool
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function isSuccess(): bool
     {
@@ -125,6 +132,7 @@ class UploadResult
      * Get result message
      * 
      * @return string
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function getMessage(): string
     {
@@ -135,6 +143,7 @@ class UploadResult
      * Get file ID (if successful)
      * 
      * @return int|null
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function getFileId(): ?int
     {
@@ -145,6 +154,7 @@ class UploadResult
      * Get unique filename (if successful)
      * 
      * @return string|null
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function getFilename(): ?string
     {
@@ -155,6 +165,7 @@ class UploadResult
      * Get result type
      * 
      * @return string success, error, duplicate, or reused
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function getType(): string
     {
@@ -165,6 +176,7 @@ class UploadResult
      * Check if this is a duplicate result
      * 
      * @return bool
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function isDuplicate(): bool
     {
@@ -175,6 +187,7 @@ class UploadResult
      * Check if force upload is allowed
      * 
      * @return bool
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function allowForce(): bool
     {
@@ -185,6 +198,7 @@ class UploadResult
      * Check if file was reused (duplicate with allow strategy)
      * 
      * @return bool
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function isReused(): bool
     {
@@ -195,6 +209,7 @@ class UploadResult
      * Convert to array for JSON/API responses
      * 
      * @return array
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      */
     public function toArray(): array
     {

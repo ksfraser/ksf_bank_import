@@ -11,6 +11,7 @@ namespace Ksfraser\FaBankImport\Service;
  *
  * This service is intentionally framework-agnostic so it can be unit-tested
  * without a FrontAccounting runtime.
+ * @BABOK FR-001, FR-004, FR-IMP-006 | BR-ACCT-001 | UAT-ACCT-001
  */
 class StatementAccountMappingService
 {
@@ -23,6 +24,7 @@ class StatementAccountMappingService
      *
      * @param array<int, array<int|string, object>> $multistatements
      * @return array<int, array<int, string>> fileIndex => list of detected account strings
+ * @BABOK FR-001, FR-004, FR-IMP-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function collectDetectedAccountsByFile(array $multistatements): array
     {
@@ -51,6 +53,7 @@ class StatementAccountMappingService
      * @param array<int, array<int|string, object>> $multistatements
      * @param array<string, string> $detectedToTargetAccountNumber detected => FA bank_account_number
      * @return array<int, array<int|string, object>> updated multistatements
+ * @BABOK FR-001, FR-004, FR-IMP-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function applyAccountNumberMapping(array $multistatements, array $detectedToTargetAccountNumber): array
     {
@@ -76,6 +79,7 @@ class StatementAccountMappingService
      *
      * @param object $statement
      * @return string|null
+ * @BABOK FR-001, FR-004, FR-IMP-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function getDetectedAccount(object $statement): ?string
     {

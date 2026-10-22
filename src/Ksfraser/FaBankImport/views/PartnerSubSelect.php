@@ -10,9 +10,15 @@ use Ksfraser\HTML\HtmlElementInterface;
 * TODO: Refactor so that the transaction provides this!!
 *
 */
+/**
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
 class PartnerSubSelect implements HtmlElementInterface
 {
 	protected $row;
+	/**
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct( $bi_lineitem )
 	{
 		$id = $bi_lineitem->id;
@@ -21,10 +27,16 @@ class PartnerSubSelect implements HtmlElementInterface
 		$label = "Partner Sub Select";
 		$this->row = new HTML_ROW_LABEL( $data, $label,  null, null );
 	}
+	/**
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function getHtml()
 	{
 		$this->row->getHtml();
 	}
+	/**
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function toHtml()
 	{
 		$this->row->toHtml();

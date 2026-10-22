@@ -2,11 +2,17 @@
 
 namespace Ksfraser\FaBankImport\Config;
 
+/**
+ * @BABOK FR-IMP-004, FR-LOG-001, FR-PROC-002 | BR-IMP-002 | UAT-IMP-003
+ */
 class Config
 {
     private $settings;
     private static $instance = null;
 
+    /**
+ * @BABOK FR-IMP-004, FR-LOG-001, FR-PROC-002 | BR-IMP-002 | UAT-IMP-003
+     */
     private function __construct()
     {
         $this->settings = [
@@ -32,6 +38,9 @@ class Config
         ];
     }
 
+    /**
+ * @BABOK FR-IMP-004, FR-LOG-001, FR-PROC-002 | BR-IMP-002 | UAT-IMP-003
+     */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -40,16 +49,25 @@ class Config
         return self::$instance;
     }
 
+    /**
+ * @BABOK FR-IMP-004, FR-LOG-001, FR-PROC-002 | BR-IMP-002 | UAT-IMP-003
+     */
     public static function setInstance(?self $instance): void
     {
         self::$instance = $instance;
     }
 
+    /**
+ * @BABOK FR-IMP-004, FR-LOG-001, FR-PROC-002 | BR-IMP-002 | UAT-IMP-003
+     */
     public static function resetInstance(): void
     {
         self::$instance = null;
     }
 
+    /**
+ * @BABOK FR-IMP-004, FR-LOG-001, FR-PROC-002 | BR-IMP-002 | UAT-IMP-003
+     */
     public function get(string $key, $default = null)
     {
         $parts = explode('.', $key);
@@ -65,6 +83,9 @@ class Config
         return $value;
     }
 
+    /**
+ * @BABOK FR-IMP-004, FR-LOG-001, FR-PROC-002 | BR-IMP-002 | UAT-IMP-003
+     */
     public function set(string $key, $value): void
     {
         $parts = explode('.', $key);

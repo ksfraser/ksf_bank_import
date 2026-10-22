@@ -36,6 +36,7 @@ use Ksfraser\PartnerTypes\PartnerTypeRegistry;
  * $registry = PartnerTypeRegistry::getInstance();
  * if ($registry->isValid($partnerType)) { ... }
  * ```
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 final class PartnerTypeConstants
 {
@@ -80,6 +81,7 @@ final class PartnerTypeConstants
 
     /**
      * Prevent instantiation of this constants class
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     private function __construct()
     {
@@ -94,6 +96,7 @@ final class PartnerTypeConstants
      * Delegates to PartnerTypeRegistry for dynamic discovery.
      *
      * @return array<string, string> Array of short codes and human-readable labels
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getAll(): array
     {
@@ -119,6 +122,7 @@ final class PartnerTypeConstants
      *
      * @param string $type The partner type to validate
      * @return bool True if valid, false otherwise
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function isValid(string $type): bool
     {
@@ -132,6 +136,7 @@ final class PartnerTypeConstants
      *
      * @param string $type The partner type constant
      * @return string Human-readable label
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getLabel(string $type): string
     {
@@ -144,6 +149,7 @@ final class PartnerTypeConstants
      * Provides access to the full registry API for advanced usage.
      *
      * @return PartnerTypeRegistry
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getRegistry(): PartnerTypeRegistry
     {
@@ -164,6 +170,7 @@ final class PartnerTypeConstants
      * @param string $constantName The constant name (e.g., 'SUPPLIER', 'CUSTOMER')
      * @return string The two-character short code
      * @throws \InvalidArgumentException If constant name not found
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getCodeByConstant(string $constantName): string
     {

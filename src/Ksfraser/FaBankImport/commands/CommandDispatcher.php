@@ -22,6 +22,7 @@ use RuntimeException;
  * @author  Ksfraser
  * @version 1.2.0
  * @since   2025-10-21
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
 class CommandDispatcher implements CommandDispatcherInterface
 {
@@ -39,6 +40,7 @@ class CommandDispatcher implements CommandDispatcherInterface
      * Constructor
      *
      * @param object $container DI container that implements make() method
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function __construct(object $container)
     {
@@ -52,6 +54,7 @@ class CommandDispatcher implements CommandDispatcherInterface
      * Auto-registers the core POST actions used in the application.
      *
      * @return void
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     private function registerDefaultCommands(): void
     {
@@ -63,6 +66,7 @@ class CommandDispatcher implements CommandDispatcherInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function register(string $actionName, string $commandClass): void
     {
@@ -82,6 +86,7 @@ class CommandDispatcher implements CommandDispatcherInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function dispatch(string $actionName, array $postData): TransactionResult
     {
@@ -121,6 +126,7 @@ class CommandDispatcher implements CommandDispatcherInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function hasCommand(string $actionName): bool
     {
@@ -129,6 +135,7 @@ class CommandDispatcher implements CommandDispatcherInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
     public function getRegisteredActions(): array
     {

@@ -46,6 +46,7 @@ require_once(__DIR__ . '/HTML/Elements/HtmlSubmit.php');
  *
  * @since 20251019
  * @version 2.0.0
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
  */
 class SettledTransactionDisplay
 {
@@ -73,6 +74,7 @@ class SettledTransactionDisplay
      *                               - customer_name: Customer name (for deposits)
      *                               - branch_name: Branch name (for deposits)
      * @since 20251019
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(array $transactionData)
     {
@@ -84,6 +86,7 @@ class SettledTransactionDisplay
      *
      * @return array
      * @since 20251019
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTransactionData(): array
     {
@@ -95,6 +98,7 @@ class SettledTransactionDisplay
      *
      * @return int
      * @since 20251019
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTransactionType(): int
     {
@@ -106,6 +110,7 @@ class SettledTransactionDisplay
      *
      * @return int
      * @since 20251019
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function getTransactionNumber(): int
     {
@@ -117,6 +122,7 @@ class SettledTransactionDisplay
      *
      * @return int
      * @since 20251019
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLineItemId(): int
     {
@@ -129,6 +135,7 @@ class SettledTransactionDisplay
      * @return HtmlFragment HTML fragment containing all settled transaction details
      * @since 20251019
      * @version 2.0.0 - Now returns HtmlFragment instead of string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function render(): HtmlFragment
     {
@@ -151,6 +158,7 @@ class SettledTransactionDisplay
      * 
      * @return void
      * @since 2.0.0
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     public function display(): void
     {
@@ -163,6 +171,7 @@ class SettledTransactionDisplay
      * @return HtmlLabelRow HTML label row element
      * @since 20251019
      * @version 2.0.0 - Returns HtmlLabelRow instead of string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderStatusLabel(): HtmlLabelRow
     {
@@ -178,6 +187,7 @@ class SettledTransactionDisplay
      * @return HtmlFragment HTML fragment containing operation details
      * @since 20251019
      * @version 2.0.0 - Returns HtmlFragment instead of string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderOperationDetails(): HtmlFragment
     {
@@ -204,6 +214,7 @@ class SettledTransactionDisplay
      * @return HtmlFragment HTML fragment with operation, supplier, and bank account rows
      * @since 20251019
      * @version 2.0.0 - Returns HtmlFragment instead of string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderSupplierPaymentDetails(): HtmlFragment
     {
@@ -241,6 +252,7 @@ class SettledTransactionDisplay
      * @return HtmlFragment HTML fragment with operation and customer/branch rows
      * @since 20251019
      * @version 2.0.0 - Returns HtmlFragment instead of string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderBankDepositDetails(): HtmlFragment
     {
@@ -273,6 +285,7 @@ class SettledTransactionDisplay
      * @return HtmlFragment HTML fragment with manual settlement row
      * @since 20251019
      * @version 2.0.0 - Returns HtmlFragment instead of string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderManualSettlementDetails(): HtmlFragment
     {
@@ -293,6 +306,7 @@ class SettledTransactionDisplay
      * @return HtmlFragment HTML fragment with unknown type message
      * @since 20251019
      * @version 2.0.0 - Returns HtmlFragment instead of string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderUnknownTransactionType(): HtmlFragment
     {
@@ -313,6 +327,7 @@ class SettledTransactionDisplay
      * @return HtmlLabelRow HTML label row with unset button
      * @since 20251019
      * @version 2.0.0 - Returns HtmlLabelRow instead of string
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderUnsetButton(): HtmlLabelRow
     {

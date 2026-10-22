@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\Http;
  * requires status + headers + content semantics. Immutable; fluent setters.
  *
  * @since 20260822
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
  */
 class Response
 {
@@ -28,6 +29,7 @@ class Response
      * @param string $content    Body content.
      * @param int    $statusCode HTTP status code.
      * @param array<string, string> $headers Headers.
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(
         string $content = '',
@@ -44,6 +46,7 @@ class Response
      *
      * @param string $content Content.
      * @return self
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function withContent(string $content): self
     {
@@ -57,6 +60,7 @@ class Response
      *
      * @param int $code HTTP status.
      * @return self
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function withStatusCode(int $code): self
     {
@@ -71,6 +75,7 @@ class Response
      * @param string $name  Header name.
      * @param string $value Header value.
      * @return self
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function withHeader(string $name, string $value): self
     {
@@ -85,6 +90,7 @@ class Response
      * @param array $data   Payload.
      * @param int   $status HTTP status.
      * @return self
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public static function json(array $data, int $status = 200): self
     {
@@ -99,6 +105,7 @@ class Response
      * @param string $url    Target URL.
      * @param int    $status Redirect status (default 302).
      * @return self
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public static function redirect(string $url, int $status = 302): self
     {
@@ -110,6 +117,7 @@ class Response
      * Status code.
      *
      * @return int
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function getStatusCode(): int
     {
@@ -120,6 +128,7 @@ class Response
      * Body content.
      *
      * @return string
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function getContent(): string
     {
@@ -130,6 +139,7 @@ class Response
      * All headers.
      *
      * @return array<string, string>
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function getHeaders(): array
     {
@@ -143,6 +153,7 @@ class Response
      * and CLI capture the body without SAPI headers).
      *
      * @return void
+ * @BABOK FR-IMP-010, FR-PROC-010 | BR-IMP-001 | UAT-IMP-001
      */
     public function send(): void
     {

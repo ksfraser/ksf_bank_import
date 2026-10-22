@@ -10,6 +10,7 @@ namespace Ksfraser\FaBankImport\Models;
  * resolve to empty strings so legacy renderers proceed safely.
  *
  * @since 20260822
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
  */
 class FakeBankAccountDetailsProvider implements BankAccountDetailsProviderInterface
 {
@@ -20,6 +21,7 @@ class FakeBankAccountDetailsProvider implements BankAccountDetailsProviderInterf
      * Constructor.
      *
      * @param array $details Details row to serve.
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(array $details = array())
     {
@@ -42,6 +44,7 @@ class FakeBankAccountDetailsProvider implements BankAccountDetailsProviderInterf
 
     /**
      * @inheritDoc
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      */
     public function getByNumber(string $accountNumber): ?array
     {

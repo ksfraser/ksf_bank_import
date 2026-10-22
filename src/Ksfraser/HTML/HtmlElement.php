@@ -20,6 +20,7 @@ require_once( 'HtmlAttributeList.php' );
  * @author Kevin Fraser
  * @since 20250119
  * @version 20250119
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
  */
 class HtmlElement implements HtmlElementInterface {
     /** @var string HTML tag name */
@@ -38,6 +39,7 @@ class HtmlElement implements HtmlElementInterface {
      * Constructor
      * 
      * @param HtmlElementInterface $data Initial nested element
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     function __construct(HtmlElementInterface $data)
     {
@@ -51,6 +53,7 @@ class HtmlElement implements HtmlElementInterface {
      * Initialize a new attribute list
      * 
      * @return void
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     function newAttributeList(): void
     {
@@ -62,6 +65,7 @@ class HtmlElement implements HtmlElementInterface {
      * 
      * @param HtmlElementInterface $element Element to nest
      * @return void
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     function addNested(HtmlElementInterface $element): void
     {
@@ -73,6 +77,7 @@ class HtmlElement implements HtmlElementInterface {
      * 
      * @param HtmlAttribute $attribute Attribute to add
      * @return void
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     function addAttribute(HtmlAttribute $attribute): void
     {
@@ -84,6 +89,7 @@ class HtmlElement implements HtmlElementInterface {
      * 
      * @param HtmlAttributeList $list New attribute list
      * @return void
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     function setAttributeList(HtmlAttributeList $list): void
     {
@@ -95,6 +101,7 @@ class HtmlElement implements HtmlElementInterface {
      * 
      * @param string $tag Tag name (lowercase for XHTML compliance)
      * @return void
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     function setTag(string $tag): void
     {
@@ -105,6 +112,7 @@ class HtmlElement implements HtmlElementInterface {
      * Render children elements to HTML
      * 
      * @return string HTML string of all nested children
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     protected function renderChildrenHtml(): string
     {
@@ -120,6 +128,7 @@ class HtmlElement implements HtmlElementInterface {
      * The HTML is echoed directly into the output.
      * 
      * @return void
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function toHtml(): void
     {
@@ -130,6 +139,7 @@ class HtmlElement implements HtmlElementInterface {
      * Get HTML representation as string
      * 
      * @return string Complete HTML element string
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     public function getHtml(): string
     {
@@ -152,6 +162,7 @@ class HtmlElement implements HtmlElementInterface {
      * come out as <tr> rather than <tr   >.
      *
      * @return string Formatted attribute string with leading space, or empty
+ * @BABOK FR-IMP-001, FR-PROC-001, FR-PROC-002 | BR-IMP-001 | UAT-IMP-001
      */
     protected function getAttributes(): string
     {

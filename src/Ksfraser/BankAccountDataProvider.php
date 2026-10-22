@@ -53,6 +53,7 @@ use Ksfraser\HTML\Elements\HtmlOption;
  * @see PAGE_LEVEL_DATA_LOADING_STRATEGY.md
  * @see SupplierDataProvider (similar single-level pattern reference)
  * @see CustomerDataProvider (more complex two-level pattern reference)
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
  */
 class BankAccountDataProvider
 {
@@ -70,6 +71,7 @@ class BankAccountDataProvider
      * Constructor
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct()
     {
@@ -85,6 +87,7 @@ class BankAccountDataProvider
      * @return array<int, array<string, mixed>> Array of bank account records
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBankAccounts(): array
     {
@@ -112,6 +115,7 @@ class BankAccountDataProvider
      * @return void
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function setBankAccounts(array $accounts): void
     {
@@ -130,6 +134,7 @@ class BankAccountDataProvider
      * @return string HTML select element
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function generateSelectHtml(string $fieldName, ?string $selectedId): string
     {
@@ -156,6 +161,7 @@ class BankAccountDataProvider
      * @return string|null Bank account name or null if not found
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBankAccountNameById(string $accountId): ?string
     {
@@ -178,6 +184,7 @@ class BankAccountDataProvider
      * @return array<string, mixed>|null Bank account record or null if not found
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBankAccountById(string $accountId): ?array
     {
@@ -198,6 +205,7 @@ class BankAccountDataProvider
      * @return int Number of bank accounts in cache
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function getBankAccountCount(): int
     {
@@ -211,6 +219,7 @@ class BankAccountDataProvider
      * @return bool True if data is loaded, false otherwise
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public function isLoaded(): bool
     {
@@ -223,6 +232,7 @@ class BankAccountDataProvider
      * @return void
      *
      * @since 20251020
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     public static function resetCache(): void
     {
@@ -243,6 +253,7 @@ class BankAccountDataProvider
      * @since 20251020
      *
      * @codeCoverageIgnore
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
     private function loadBankAccountsFromDatabase(): array
     {

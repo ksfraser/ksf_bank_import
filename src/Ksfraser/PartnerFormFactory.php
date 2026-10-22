@@ -57,6 +57,7 @@ use Ksfraser\QuickEntryDataProvider;
  * echo $factory->renderForm('SP', ['partnerId' => 'SUPP123']);
  * echo $factory->renderCompleteForm('SP', ['partnerId' => 'SUPP123']);
  * ```
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
  */
 class PartnerFormFactory
 {
@@ -118,6 +119,7 @@ class PartnerFormFactory
      *
      * @since 20251019
      * @version 2.0.0 Now requires DataProvider dependencies
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(
         int $lineItemId,
@@ -144,6 +146,7 @@ class PartnerFormFactory
      * @return int The line item ID
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLineItemId(): int
     {
@@ -156,6 +159,7 @@ class PartnerFormFactory
      * @return FormFieldNameGenerator The field name generator
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getFieldNameGenerator(): FormFieldNameGenerator
     {
@@ -170,6 +174,7 @@ class PartnerFormFactory
      * @return self Fluent interface
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function setMemo(string $memo): self
     {
@@ -188,6 +193,7 @@ class PartnerFormFactory
      * @throws \InvalidArgumentException If partner type is invalid
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function renderForm(string $partnerType, array $data): string
     {
@@ -226,6 +232,7 @@ class PartnerFormFactory
      *
      * @since 20251019
      * @version 2.0.0 Now uses SupplierDataProvider
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderSupplierDropdown(array $data): string
     {
@@ -250,6 +257,7 @@ class PartnerFormFactory
      *
      * @since 20251019
      * @version 2.0.0 Now uses CustomerDataProvider
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderCustomerDropdown(array $data): string
     {
@@ -278,6 +286,7 @@ class PartnerFormFactory
      *
      * @since 20251019
      * @version 2.0.0 Now uses BankAccountDataProvider
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderBankTransferDropdown(array $data): string
     {
@@ -308,6 +317,7 @@ class PartnerFormFactory
      *
      * @since 20251019
      * @version 2.0.0 Now uses QuickEntryDataProvider
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderQuickEntryDropdown(array $data): string
     {
@@ -331,6 +341,7 @@ class PartnerFormFactory
      * @return string HTML form content
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderMatchedForm(array $data): string
     {
@@ -353,6 +364,7 @@ class PartnerFormFactory
      * @return string HTML form content
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     private function renderUnknownForm(array $data): string
     {
@@ -381,6 +393,7 @@ class PartnerFormFactory
      * @return string HTML for comment field
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function renderCommentField(): string
     {
@@ -399,6 +412,7 @@ class PartnerFormFactory
      * @return string HTML for process button
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function renderProcessButton(): string
     {
@@ -418,6 +432,7 @@ class PartnerFormFactory
      * @return string Complete HTML form
      *
      * @since 20251019
+ * @BABOK FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function renderCompleteForm(string $partnerType, array $data): string
     {

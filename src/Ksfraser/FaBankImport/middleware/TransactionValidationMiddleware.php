@@ -5,8 +5,14 @@ namespace Ksfraser\FaBankImport\Middleware;
 use Ksfraser\FaBankImport\Http\RequestHandler;
 use Ksfraser\FaBankImport\Exceptions\TransactionValidationException;
 
+/**
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
 class TransactionValidationMiddleware implements MiddlewareInterface
 {
+    /**
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
     public function process(RequestHandler $request, callable $next)
     {
         if ($request->isPost()) {

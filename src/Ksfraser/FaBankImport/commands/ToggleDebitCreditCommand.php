@@ -21,6 +21,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * @author  Ksfraser
  * @version 1.2.0
  * @since   2025-10-21
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
  */
 class ToggleDebitCreditCommand implements CommandInterface
 {
@@ -32,6 +33,7 @@ class ToggleDebitCreditCommand implements CommandInterface
      *
      * @param array $postData POST data with ToggleTransaction key
      * @param object $transactionService Service for transaction operations
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function __construct(
         array $postData,
@@ -43,6 +45,7 @@ class ToggleDebitCreditCommand implements CommandInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function execute(): TransactionResult
     {
@@ -105,6 +108,7 @@ class ToggleDebitCreditCommand implements CommandInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function getName(): string
     {

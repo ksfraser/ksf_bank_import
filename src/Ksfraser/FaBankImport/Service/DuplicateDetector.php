@@ -22,6 +22,7 @@ use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
  * 
  * @author Kevin Fraser
  * @since 2.0.0
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
  */
 class DuplicateDetector
 {
@@ -43,6 +44,7 @@ class DuplicateDetector
      * @param UploadedFileRepositoryInterface $fileRepository
      * @param ConfigRepositoryInterface $configRepository
      * @param FileStorageServiceInterface $storageService
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function __construct(
         UploadedFileRepositoryInterface $fileRepository,
@@ -65,6 +67,7 @@ class DuplicateDetector
      * 
      * @param FileInfo $fileInfo File information
      * @return DuplicateResult Result indicating duplicate status and action
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function detect(FileInfo $fileInfo): DuplicateResult
     {
@@ -113,6 +116,7 @@ class DuplicateDetector
      * Check if duplicate checking is enabled in config
      * 
      * @return bool
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     private function isDuplicateCheckingEnabled(): bool
     {
@@ -123,6 +127,7 @@ class DuplicateDetector
      * Get duplicate detection time window in days
      * 
      * @return int Number of days
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     private function getDuplicateWindowDays(): int
     {
@@ -133,6 +138,7 @@ class DuplicateDetector
      * Get duplicate action from config
      * 
      * @return string 'allow', 'warn', or 'block'
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     private function getDuplicateAction(): string
     {
@@ -154,6 +160,7 @@ class DuplicateDetector
      * @param FileInfo $newFile New file being uploaded
      * @param string $existingFilePath Path to existing file on disk
      * @return bool True if files are identical
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     private function verifyDuplicateByHash(FileInfo $newFile, string $existingFilePath): bool
     {
@@ -187,6 +194,7 @@ class DuplicateDetector
      * @param string $filename Original filename
      * @param int $fileSize File size in bytes
      * @return bool True if duplicate exists
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function isDuplicate(string $filename, int $fileSize): bool
     {
@@ -214,6 +222,7 @@ class DuplicateDetector
      * Get duplicate statistics
      * 
      * @return array Statistics about duplicate detection
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      */
     public function getStatistics(): array
     {

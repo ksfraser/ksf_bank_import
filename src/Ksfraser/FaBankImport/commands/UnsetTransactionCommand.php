@@ -21,6 +21,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * @author  Ksfraser
  * @version 1.2.0
  * @since   2025-10-21
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
  */
 class UnsetTransactionCommand implements CommandInterface
 {
@@ -39,6 +40,7 @@ class UnsetTransactionCommand implements CommandInterface
      *
      * @param array $postData POST data with UnsetTrans key
      * @param object $repository Transaction repository with reset() method
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function __construct(array $postData, object $repository)
     {
@@ -48,6 +50,7 @@ class UnsetTransactionCommand implements CommandInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function execute(): TransactionResult
     {
@@ -93,6 +96,7 @@ class UnsetTransactionCommand implements CommandInterface
 
     /**
      * {@inheritDoc}
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function getName(): string
     {
