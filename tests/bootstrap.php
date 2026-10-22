@@ -11,6 +11,12 @@ ini_set('display_startup_errors', '1');
 define('FA_ROOT', dirname(__DIR__));
 
 // Load FrontAccounting function mocks
+//
+// The controllable fa_bank_transfer double is declared first: the mock package
+// only declares the class when it does not exist yet, and the double lets the
+// bank transfer handler exercise its failure paths.
+require_once __DIR__ . '/unit/Processing/Support/fa_bank_transfer_double.php';
+
 if (file_exists(__DIR__ . '/../vendor/ksfraser/famock/php/FAMock.php')) {
     require_once __DIR__ . '/../vendor/ksfraser/famock/php/FAMock.php';
 }
@@ -220,8 +226,8 @@ if (!class_exists('bi_lineitem') && file_exists(__DIR__ . '/../class.bi_lineitem
 }
 
 // Legacy global view class (no namespace); loadable without FA context.
-if (!class_exists('ViewBiLineItems') && file_exists(__DIR__ . '/../src/Ksfraser/FaBankImport/class.ViewBiLineItems.php')) {
-    require_once __DIR__ . '/../src/Ksfraser/FaBankImport/class.ViewBiLineItems.php';
+if (!class_exists('ViewBiLineItems') && file_exists(__DIR__ . '/../class.ViewBiLineItems.php')) {
+    require_once __DIR__ . '/../class.ViewBiLineItems.php';
 }
 
 // Mock App object for hooks tests (needed by HooksProductionBaselineTest)

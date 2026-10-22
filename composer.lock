@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd138003c95910c72a10dc9ddacda6d4",
+    "content-hash": "b3c5540f8341c4e9a1891d5976b93f1b",
     "packages": [
         {
             "name": "asgrim/ofxparser",
@@ -135,6 +135,44 @@
                 }
             ],
             "time": "2023-10-01T12:35:29+00:00"
+        },
+        {
+            "name": "ksfraser/ksf-common-db",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/ksf_common_db.git",
+                "reference": "14865577c828341d32c9a2b1d3caf14d40279519"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/ksf_common_db/zipball/14865577c828341d32c9a2b1d3caf14d40279519",
+                "reference": "14865577c828341d32c9a2b1d3caf14d40279519",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ksfraser\\CommonDb\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "description": "Generic, transport-agnostic data dictionary + SQL query builder with a MySQL/PDO adapter (standalone) and a FrontAccounting db_* adapter. DAOs/repositories code once against DbConnectionInterface; DI picks the runtime adapter.",
+            "support": {
+                "issues": "https://github.com/ksfraser/ksf_common_db/issues",
+                "source": "https://github.com/ksfraser/ksf_common_db/tree/v1.0.1"
+            },
+            "time": "2026-09-21T00:20:59+00:00"
         },
         {
             "name": "mimographix/qif-library",

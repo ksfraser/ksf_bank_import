@@ -312,28 +312,47 @@ class QuickEntryDataProviderTest extends TestCase
     
     /**
      * Test provider type filtering
-     * 
+     *
      * The provider separates the deposit and the payment quick entries by
-     * asking FA for one type at a time. The loading itself is NOT implemented
-     * yet: QuickEntryDataProvider::loadQuickEntriesFromDatabase() is still a
-     * TODO (see src/Ksfraser/QuickEntryDataProvider.php) and returns an empty
-     * array, so there is nothing to filter until the database loading lands.
-     * 
-     * The cache handling around it IS covered by the other tests in this file.
-     * 
+     * asking FrontAccounting for one type at a time: forDeposit() loads with
+     * QE_DEPOSIT, forPayment() loads with QE_PAYMENT, and each provider only
+     * ever exposes the entries of its own type.
+     *
      * @test
-     * @group integration
-     * @covers ::loadQuickEntriesFromDatabase
-     * 
+     * @covers ::getEntries
+     *
      * @return void
      */
     public function testDepositProviderFiltersDepositEntries(): void
     {
-        $this->markTestSkipped(
-            'QuickEntryDataProvider::loadQuickEntriesFromDatabase() is not implemented yet '
-            . '(it returns an empty array - the database loading is still a TODO in '
-            . 'src/Ksfraser/QuickEntryDataProvider.php), so there are no quick entries to '
-            . 'filter by type. Re-enable this test when that loader is written.'
+        $depositEntries = QuickEntryDataProvider::forDeposit()->getEntries();
+        $paymentEntries = QuickEntryDataProvider::forPayment()->getEntries();
+
+        $this->assertNotEmpty(
+            $depositEntries,
+            'The deposit provider must expose the quick entries FA returns for QE_DEPOSIT'
+        );
+
+        foreach ($depositEntries as $entryId => $entry) {
+            $this->assertSame(
+                QE_DEPOSIT,
+                $entry['type'],
+                'Deposit provider must not expose quick entries of another type (id ' . $entryId . ')'
+            );
+        }
+
+        foreach ($paymentEntries as $entryId => $entry) {
+            $this->assertSame(
+                QE_PAYMENT,
+                $entry['type'],
+                'Payment provider must not expose quick entries of another type (id ' . $entryId . ')'
+            );
+        }
+
+        $this->assertNotSame(
+            $depositEntries,
+            $paymentEntries,
+            'The deposit and the payment provider must load separate quick entries'
         );
     }
 }

@@ -13,7 +13,7 @@ class ViewBiLineItemsProductionBaselineTest extends TestCase
     protected function setUp(): void
     {
         if (!class_exists('ViewBILineItems')) {
-            $path = __DIR__ . '/../../src/Ksfraser/FaBankImport/class.ViewBiLineItems.php';
+            $path = __DIR__ . '/../../class.ViewBiLineItems.php';
             if (file_exists($path)) {
                 require_once $path;
             }

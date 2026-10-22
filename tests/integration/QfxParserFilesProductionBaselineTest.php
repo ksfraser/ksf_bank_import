@@ -41,6 +41,11 @@ class QfxParserFilesProductionBaselineTest extends TestCase
         if (!class_exists('AbstractQfxParser')) {
             require_once $this->srcDir . '/class.AbstractQfxParser.php';
         }
+        // The four remaining files are compatibility shims that load the
+        // canonical definition: loading them proves the shim still resolves.
+        foreach ($this->files as $file) {
+            require_once $this->srcDir . '/' . $file;
+        }
     }
 
     /**

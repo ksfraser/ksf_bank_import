@@ -114,7 +114,7 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
         );
 
         $this->assertMatchesRegularExpression(
-            '/public function __construct\(\s*TransactionQueryBuilder\s+\$queryBuilder\s*\)/',
+            '/public function __construct\(\s*TransactionQueryBuilder\s+\$queryBuilder\s*(,\s*\?DbConnectionInterface\s+\$db\s*=\s*null\s*)?\)/',
             $content,
             'BASELINE: Constructor must accept injected TransactionQueryBuilder'
         );
