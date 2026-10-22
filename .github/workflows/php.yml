@@ -32,8 +32,17 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
+    - name: Set up PHP coverage driver
+      run: |
+        sudo pecl install pcov
+        echo "extension=pcov" >> "$GITHUB_ENV"
 
-    # - name: Run test suite
-    #   run: composer run-script test
+    - name: Run test suite
+      run: vendor/bin/phpunit --no-coverage
+
+    - name: Requirements traceability and coverage gate
+      run: |
+        vendor/bin/phpunit --coverage-clover clover.xml
+        php tools/ci_gate.php --clover=clover.xml
+
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
