@@ -30,8 +30,8 @@ if ($use_date_picker)
 page(_($help_context = "View Bank Statements"), @$_GET['popup'], false, "", $js);
 
 
-        include_once "Views/module_menu_view.php"; // Include the ModuleMenuView class
-        $menu = new \Views\ModuleMenuView();
+        // The menu view of the module is autoloadable.
+        $menu = new \Ksfraser\FaBankImport\Views\ModuleMenuView();
         $menu->renderMenu(); // Render the module menu
 
 

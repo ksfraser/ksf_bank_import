@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * Scenario: the journal entry lookup in
- * src/Ksfraser/FaBankImport/models/MatchingJEs.php.
+ * src/Ksfraser/FaBankImport/Models/MatchingJEs.php.
  *
  * The class loads the legacy fa_gl helper from a path that is relative to
  * the file, so the helper is published next to the repository for the
@@ -39,7 +39,7 @@ register_shutdown_function(function () use ($fixture) {
     $fixture->cleanup();
 });
 
-require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php';
+require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/Models/MatchingJEs.php';
 
 $lineItem = new class {
     /** @var float */

@@ -2,8 +2,9 @@
 
 namespace Ksfraser\FaBankImport;
 
+use Ksfraser\FaBankImport\Views\AddCustomerButton;
+
 use Ksfraser\FaBankImport\Transaction;
-use Ksfraser\FaBankImport\AddCustomerButton;
 
 /**
  * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001

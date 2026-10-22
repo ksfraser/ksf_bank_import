@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Scenario: the settled transaction tables.
  *
- * The view in src/Ksfraser/FaBankImport/views/DisplaySettledTransactions.php
+ * The view in src/Ksfraser/FaBankImport/Views/DisplaySettledTransactions.php
  * cannot be loaded from the repository: it implements an HTML element
  * contract without the return types the current interface asks for and it
  * loads that interface itself, and it loads a label row base class that does
@@ -34,17 +34,17 @@ register_shutdown_function(static function () use ($tree): void {
 
 echo 'FIXTURE_SRC: ' . $srcDir . "\n";
 
-require_once $srcDir . '/Ksfraser/HTML/LabelRowBase.php';
+require_once $srcDir . '/Ksfraser/HTML/Composites/LabelRowBase.php';
 
-class_alias(\Ksfraser\HTML\LabelRowBase::class, 'Ksfraser\FaBankImport\LabelRowBase');
+class_alias(\Ksfraser\HTML\Composites\LabelRowBase::class, 'Ksfraser\FaBankImport\Views\LabelRowBase');
 class_alias(\Ksfraser\HTML\Composites\HTML_TABLE::class, 'Ksfraser\FaBankImport\HTML_TABLE');
 
-require_once $srcDir . '/Ksfraser/FaBankImport/views/DisplaySettledTransactions.php';
+require_once $srcDir . '/Ksfraser/FaBankImport/Views/DisplaySettledTransactions.php';
 
 /**
  * A settled table that hands the transaction to its base class.
  */
-class ProbeSettledTable extends \Ksfraser\FaBankImport\SettledTable
+class ProbeSettledTable extends \Ksfraser\FaBankImport\Views\SettledTable
 {
     /**
      * @param mixed $transaction The transaction of the table.
@@ -62,7 +62,7 @@ $table->getHtml();
 // The deposit table builds its rows without the arguments they need, so
 // the table itself is built here.
 try {
-    new \Ksfraser\FaBankImport\SettledDepositTable(null);
+    new \Ksfraser\FaBankImport\Views\SettledDepositTable(null);
 } catch (\Throwable $e) {
     echo 'CAUGHT: ' . get_class($e) . ': ' . $e->getMessage() . "\n";
 }

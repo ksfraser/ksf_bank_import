@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * Fixtures for the transaction handler auto-discovery.
  *
- * TransactionProcessor scans src/Ksfraser/FaBankImport/handlers for files
+ * TransactionProcessor scans src/Ksfraser/FaBankImport/Handlers for files
  * ending in "Handler.php" and registers every class it finds. The failure
  * branches of that scan (a handler that cannot be instantiated, a handler
  * with a broken constructor, a file without a class, ...) can only be
@@ -38,7 +38,7 @@ final class HandlerDiscoveryFixtures
      */
     public function __construct(string $root)
     {
-        $this->handlersDir = $root . '/src/Ksfraser/FaBankImport/handlers';
+        $this->handlersDir = $root . '/src/Ksfraser/FaBankImport/Handlers';
     }
 
     /**

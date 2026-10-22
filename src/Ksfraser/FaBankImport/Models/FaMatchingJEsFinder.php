@@ -26,7 +26,7 @@ class FaMatchingJEsFinder implements MatchingTransactionsFinderInterface
         }
 
         if (!class_exists('Ksfraser\\FaBankImport\\models\\MatchingJEs', false)) {
-            require_once __DIR__ . '/../models/MatchingJEs.php';
+            require_once __DIR__ . '/MatchingJEs.php';
         }
 
         $match = new \Ksfraser\FaBankImport\models\MatchingJEs($lineItem);

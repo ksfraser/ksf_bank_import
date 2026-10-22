@@ -10,14 +10,14 @@ use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 use Ksfraser\Application\Config\Config;
 
 /*
- * Ksfraser\Application\Config\Config lives in src/Ksfraser/Application/config/
+ * Ksfraser\Application\Config\Config lives in src/Ksfraser/Application/Config/
  * but composer's PSR-4 map points at src/Ksfraser/Application/Config/ - the
  * case mismatch makes the class unloadable through the autoloader on a
  * case-sensitive filesystem. The file is required explicitly here so the
  * validator can still be exercised.
  */
 if (!class_exists(Config::class, false)) {
-    require_once __DIR__ . '/../../../src/Ksfraser/Application/config/Config.php';
+    require_once __DIR__ . '/../../../src/Ksfraser/Application/Config/Config.php';
 }
 
 /**

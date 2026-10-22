@@ -24,7 +24,7 @@ class HtmlStyle extends HtmlAttribute
 	/**
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
-	function getHtml()
+	function getHtml(): string
 	{
 		$html = $this->attribute . ':' . $this->value . ';';
 		return $html;

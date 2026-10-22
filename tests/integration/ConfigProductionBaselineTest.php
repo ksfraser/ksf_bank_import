@@ -13,7 +13,7 @@ use Ksfraser\FaBankImport\Config\Config;
  * Purpose: Verify that the Config class on main branch maintains
  * backward compatibility with the production version.
  * 
- * File under test: src/Ksfraser/FaBankImport/config/Config.php
+ * File under test: src/Ksfraser/FaBankImport/Config/Config.php
  * 
  * Key behaviors documented:
  * 1. Singleton pattern implementation

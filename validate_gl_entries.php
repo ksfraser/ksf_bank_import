@@ -21,7 +21,7 @@ include_once($path_to_root . "/includes/date_functions.inc");
 include_once($path_to_root . "/gl/includes/db/gl_db_trans.inc");
 
 // Include the validator class
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/services/TransactionGLValidator.php');
+require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Services/TransactionGLValidator.php');
 
 use Ksfraser\FaBankImport\Services\TransactionGLValidator;
 

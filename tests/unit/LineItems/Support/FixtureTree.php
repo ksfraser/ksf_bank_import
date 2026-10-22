@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  * A patched copy of the tree the settled transaction view needs.
  *
- * The view in src/Ksfraser/FaBankImport/views/DisplaySettledTransactions.php
+ * The view in src/Ksfraser/FaBankImport/Views/DisplaySettledTransactions.php
  * cannot be loaded from the repository:
  *
  *  - it implements Ksfraser\HTML\HtmlElementInterface without the return
@@ -63,10 +63,10 @@ final class FixtureTree
         $this->writeFile('Ksfraser/HTML/HtmlElementInterface.php', $this->lenientInterfaceSource());
 
         // The label row base class the settled view expects.
-        $this->copyFile('Ksfraser/FaBankImport/views/LabelRowBase.php', 'Ksfraser/HTML/LabelRowBase.php');
+        $this->copyFile('Ksfraser/HTML/Composites/LabelRowBase.php', 'Ksfraser/HTML/Composites/LabelRowBase.php');
 
         // The settled view itself.
-        $this->copyFile('Ksfraser/FaBankImport/views/DisplaySettledTransactions.php');
+        $this->copyFile('Ksfraser/FaBankImport/Views/DisplaySettledTransactions.php');
 
         return $this->srcDir;
     }
@@ -185,7 +185,7 @@ final class FixtureTree
         return [
             'Ksfraser/HTML/HtmlElementInterface.php',
             'Ksfraser/HTML/LabelRowBase.php',
-            'Ksfraser/FaBankImport/views/HTML/HTML_ROW_LABELDecorator.php',
+            'Ksfraser/FaBankImport/Views/HTML/HTML_ROW_LABELDecorator.php',
         ];
     }
 

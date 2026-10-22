@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Scenario: the legacy line item view in src/Ksfraser/View/BiLineItemView.php.
+ * Scenario: the legacy line item view in src/Ksfraser/FaBankImport/View/BiLineItemView.php.
  *
  * The view reads the state of the line item from the view object itself,
  * although that state lives on the model, and it calls several of its own
@@ -90,8 +90,8 @@ if (!class_exists('Ksfraser\FaBankImport\View\FaBankAccounts', false)) {
     );
 }
 
-require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/Model/BiLineItemModel.php';
-require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/View/BiLineItemView.php';
+require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/Model/BiLineItemModel.php';
+require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/View/BiLineItemView.php';
 require_once __DIR__ . '/../PublicLineItemModel.php';
 
 /**

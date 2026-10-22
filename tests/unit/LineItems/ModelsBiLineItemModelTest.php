@@ -14,7 +14,7 @@ require_once __DIR__ . '/Support/legacy_base_stubs.php';
 /**
  * Coverage for the PSR-4 line item model.
  *
- * The model lives in src/Ksfraser/FaBankImport/models/BiLineItemModel.php
+ * The model lives in src/Ksfraser/FaBankImport/Models/BiLineItemModel.php
  * under the Ksfraser\FaBankImport\Models namespace and extends the legacy
  * Ksfraser\common\GenericFaInterface, which is provided as a test double.
  */

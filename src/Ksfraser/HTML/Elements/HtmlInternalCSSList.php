@@ -13,7 +13,7 @@ class HtmlInternalCSSList extends HtmlStyleList
 	/**
  * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
 	 */
-	function getHtml()
+	function getHtml(): string
 	{
 		if( count( $this->styleArray ) > 0 )
 		{

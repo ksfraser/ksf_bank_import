@@ -13,7 +13,7 @@
 require_once(__DIR__ . '/helpers/fa_functions.php');
 
 // Include the validator
-require_once(__DIR__ . '/src/Ksfraser/FaBankImport/services/TransactionGLValidator.php');
+require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Services/TransactionGLValidator.php');
 
 use Ksfraser\FaBankImport\Services\TransactionGLValidator;
 

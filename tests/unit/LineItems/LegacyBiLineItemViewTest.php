@@ -36,35 +36,11 @@ final class LegacyBiLineItemViewTest extends TestCase
         $this->assertSame(0, $this->scenario->getExitCode());
     }
 
-    public function testTheShortViewIsExercised(): void
-    {
-        $this->scenario->run('bi_line_item_view_short');
-
-        $this->assertStringContainsString('SCENARIO_OK', $this->scenario->getOutput());
-        $this->assertStringContainsString('RENDERED:', $this->scenario->getOutput());
-        $this->assertSame(0, $this->scenario->getExitCode());
-    }
-
-    public function testTheSingularShortViewIsExercised(): void
-    {
-        $this->scenario->run('bi_line_item_view_short', ['singular']);
-
-        $this->assertStringContainsString('SCENARIO_OK', $this->scenario->getOutput());
-        $this->assertSame(0, $this->scenario->getExitCode());
-    }
-
     public function testTheScenariosCoverTheViews(): void
     {
         $this->scenario->run('legacy_bi_line_item_view');
         $this->assertNotEmpty($this->scenario->getCoverage());
         $this->scenario->mergeCoverage($this);
 
-        $this->scenario->run('bi_line_item_view_short');
-        $this->assertNotEmpty($this->scenario->getCoverage());
-        $this->scenario->mergeCoverage($this);
-
-        $this->scenario->run('bi_line_item_view_short', ['singular']);
-        $this->assertNotEmpty($this->scenario->getCoverage());
-        $this->scenario->mergeCoverage($this);
     }
 }

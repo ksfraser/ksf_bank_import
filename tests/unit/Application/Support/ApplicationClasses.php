@@ -19,7 +19,7 @@ namespace Ksfraser\FaBankImport\Tests\Unit\Application\Support;
  *   src/Ksfraser/Application/services
  * are therefore NOT resolvable through the PSR-4 autoloader on a case
  * sensitive file system, and
- *   src/Ksfraser/Application/services/PerformanceMonitoring.php
+ *   src/Ksfraser/Application/Services/PerformanceMonitoring.php
  * additionally declares PerformanceMonitor, so its file name does not match
  * its class name either.
  *
@@ -35,20 +35,28 @@ final class ApplicationClasses
      * @var array
      */
     private const FILES = [
-        'config/Config.php',
-        'database/DatabaseFactory.php',
-        'database/QueryBuilder.php',
-        'exceptions/UnauthorizedException.php',
-        'handlers/ErrorHandler.php',
-        'services/EventDispatcher.php',
-        'services/SimpleCommandBus.php',
-        'services/MetricsAggregator.php',
-        'services/PerformanceMonitoring.php',
-        'services/TransactionLogger.php',
-        'services/AlertService.php',
-        'repositories/AbstractRepository.php',
-        'controllers/AbstractController.php',
-        'controllers/AdminController.php',
+        'Config/Config.php',
+        'Database/DatabaseFactory.php',
+        'Database/QueryBuilder.php',
+        'Exceptions/UnauthorizedException.php',
+        'Handlers/ErrorHandler.php',
+        'Http/RequestHandler.php',
+        'Http/ResponseHandler.php',
+        'Interfaces/CommandBusInterface.php',
+        'Middleware/AdminMiddleware.php',
+        'Middleware/AuthMiddleware.php',
+        'Middleware/MiddlewareInterface.php',
+        'Middleware/MiddlewarePipeline.php',
+        'Middleware/PerformanceMonitoringMiddleware.php',
+        'Repositories/AbstractRepository.php',
+        'Services/AlertService.php',
+        'Services/EventDispatcher.php',
+        'Services/MetricsAggregator.php',
+        'Services/PerformanceMonitor.php',
+        'Services/SimpleCommandBus.php',
+        'Services/TransactionLogger.php',
+        'Controllers/AbstractController.php',
+        'Controllers/AdminController.php',
     ];
 
     /**
@@ -65,8 +73,20 @@ final class ApplicationClasses
     {
         $base = self::basePath();
 
+        /*
+         * The shell used to be loaded file by file because the composer
+         * autoloader could not resolve it on a case sensitive file system.
+         * The PSR-4 map is fixed now, so the classes are loaded the way
+         * production loads them - and a directory name that drifts away from
+         * its namespace segment fails here instead of silently.
+         */
         foreach (self::FILES as $file) {
-            require_once $base . '/' . $file;
+            $class = 'Ksfraser\\Application\\' . str_replace('/', '\\', substr($file, 0, -4));
+            if (!class_exists($class) && !interface_exists($class)) {
+                throw new \RuntimeException(
+                    'Ksfraser\\Application class is not autoloadable: ' . $class
+                );
+            }
         }
 
         self::$loaded = true;

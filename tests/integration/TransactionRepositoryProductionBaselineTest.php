@@ -29,7 +29,7 @@ class TransactionRepositoryProductionBaselineTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->repoFile = __DIR__ . '/../../src/Ksfraser/FaBankImport/repositories/TransactionRepository.php';
+        $this->repoFile = __DIR__ . '/../../src/Ksfraser/FaBankImport/Repositories/TransactionRepository.php';
         $this->assertFileExists($this->repoFile, 'TransactionRepository.php must exist');
     }
 

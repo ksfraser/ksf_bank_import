@@ -32,7 +32,7 @@ class TestTransaction extends Transaction
      */
     function selectAndDisplayButton()
     {
-        $button = new \Ksfraser\FaBankImport\AddNoButton($this->id);
+        $button = new \Ksfraser\FaBankImport\Views\AddNoButton($this->id);
         $button->toHtml();
     }
 

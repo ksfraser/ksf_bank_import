@@ -36,14 +36,20 @@ final class TraceabilityAuditTest extends TestCase
         self::$frIndex = require self::REPO_ROOT . '/tools/lib/rtm_index.php';
 
         $files = [];
+        $srcRoot = realpath(self::REPO_ROOT . '/src');
         $it = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(self::REPO_ROOT . '/src', \FilesystemIterator::SKIP_DOTS)
+            new \RecursiveDirectoryIterator($srcRoot, \FilesystemIterator::SKIP_DOTS)
         );
         foreach ($it as $file) {
             if (!$file->isFile() || $file->getExtension() !== 'php') {
                 continue;
             }
-            if (strpos($file->getPathname(), '/tests/') !== false) {
+            // The test directories have to be compared against the path
+            // inside src/: the repository path itself contains "/tests/".
+            $relative = str_replace($srcRoot . DIRECTORY_SEPARATOR, '', $file->getPathname());
+            if (strpos($relative, 'tests' . DIRECTORY_SEPARATOR) === 0
+                || strpos($relative, DIRECTORY_SEPARATOR . 'tests' . DIRECTORY_SEPARATOR) !== false
+            ) {
                 continue; // test code is not production code
             }
             $files[] = $file->getPathname();
@@ -52,7 +58,7 @@ final class TraceabilityAuditTest extends TestCase
 
         foreach ($files as $file) {
             foreach (code_units($file) as $unit) {
-                $unit['file'] = str_replace(self::REPO_ROOT . '/', '', $file);
+                $unit['file'] = str_replace($srcRoot . DIRECTORY_SEPARATOR, '', $file);
                 self::$units[] = $unit;
             }
         }

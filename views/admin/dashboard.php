@@ -46,19 +46,27 @@
 <body>
     <?php include __DIR__ . '/../admin/_nav.php'; ?>
 
+    <?php
+    // The dashboard has to survive a controller that has no metrics yet.
+    $metrics = $metrics ?? [];
+    $trends = $trends ?? [];
+    $processing = $processing ?? ['avg_time' => 0.0, 'avg_memory' => 0, 'count' => 0];
+    $listView = $listView ?? ['avg_time' => 0.0, 'avg_memory' => 0, 'count' => 0];
+    ?>
+
     <div class="metrics-container">
         <div class="metric-card">
             <h3>Transaction Processing Performance</h3>
             <div>
                 <p>
-                    <span class="status-indicator <?= $metrics['transaction_processing']['avg_time'] < 0.1 ? 'status-good' : ($metrics['transaction_processing']['avg_time'] < 0.5 ? 'status-warning' : 'status-critical') ?>"></span>
-                    Average Processing Time: <?= number_format($metrics['transaction_processing']['avg_time'] * 1000, 2) ?> ms
+                    <span class="status-indicator <?= $processing['avg_time'] < 0.1 ? 'status-good' : ($processing['avg_time'] < 0.5 ? 'status-warning' : 'status-critical') ?>"></span>
+                    Average Processing Time: <?= number_format($processing['avg_time'] * 1000, 2) ?> ms
                 </p>
                 <p>
-                    <span class="status-indicator <?= $metrics['transaction_processing']['avg_memory'] < 5242880 ? 'status-good' : ($metrics['transaction_processing']['avg_memory'] < 10485760 ? 'status-warning' : 'status-critical') ?>"></span>
-                    Memory Usage: <?= number_format($metrics['transaction_processing']['avg_memory'] / 1024, 2) ?> KB
+                    <span class="status-indicator <?= $processing['avg_memory'] < 5242880 ? 'status-good' : ($processing['avg_memory'] < 10485760 ? 'status-warning' : 'status-critical') ?>"></span>
+                    Memory Usage: <?= number_format($processing['avg_memory'] / 1024, 2) ?> KB
                 </p>
-                <p>Transactions Processed: <?= $metrics['transaction_processing']['count'] ?></p>
+                <p>Transactions Processed: <?= $processing['count'] ?></p>
             </div>
         </div>
 
@@ -66,14 +74,14 @@
             <h3>List View Performance</h3>
             <div>
                 <p>
-                    <span class="status-indicator <?= $metrics['list_view']['avg_time'] < 0.1 ? 'status-good' : ($metrics['list_view']['avg_time'] < 0.5 ? 'status-warning' : 'status-critical') ?>"></span>
-                    Average Load Time: <?= number_format($metrics['list_view']['avg_time'] * 1000, 2) ?> ms
+                    <span class="status-indicator <?= $listView['avg_time'] < 0.1 ? 'status-good' : ($listView['avg_time'] < 0.5 ? 'status-warning' : 'status-critical') ?>"></span>
+                    Average Load Time: <?= number_format($listView['avg_time'] * 1000, 2) ?> ms
                 </p>
                 <p>
-                    <span class="status-indicator <?= $metrics['list_view']['avg_memory'] < 5242880 ? 'status-good' : ($metrics['list_view']['avg_memory'] < 10485760 ? 'status-warning' : 'status-critical') ?>"></span>
-                    Memory Usage: <?= number_format($metrics['list_view']['avg_memory'] / 1024, 2) ?> KB
+                    <span class="status-indicator <?= $listView['avg_memory'] < 5242880 ? 'status-good' : ($listView['avg_memory'] < 10485760 ? 'status-warning' : 'status-critical') ?>"></span>
+                    Memory Usage: <?= number_format($listView['avg_memory'] / 1024, 2) ?> KB
                 </p>
-                <p>Page Views: <?= $metrics['list_view']['count'] ?></p>
+                <p>Page Views: <?= $listView['count'] ?></p>
             </div>
         </div>
     </div>
@@ -84,13 +92,18 @@
             <h4>7-Day Performance Trend</h4>
             <?php
             $trendData = array_values($trends);
-            $latestAvg = end($trendData)['avg_time'];
-            $firstAvg = reset($trendData)['avg_time'];
-            $improvement = (($firstAvg - $latestAvg) / $firstAvg) * 100;
+            $latestAvg = $trendData === [] ? 0.0 : (float) end($trendData)['avg_time'];
+            $firstAvg = $trendData === [] ? 0.0 : (float) reset($trendData)['avg_time'];
+            // Without a sample the improvement is unknown, not infinite.
+            $improvement = $firstAvg > 0 ? (($firstAvg - $latestAvg) / $firstAvg) * 100 : 0.0;
             ?>
             <p>
-                Performance has <?= $improvement > 0 ? 'improved' : 'degraded' ?> by 
+                <?php if ($firstAvg > 0) { ?>
+                Performance has <?= $improvement > 0 ? 'improved' : 'degraded' ?> by
                 <?= number_format(abs($improvement), 1) ?>% over the last 7 days.
+                <?php } else { ?>
+                No performance samples for the last 7 days yet.
+                <?php } ?>
             </p>
         </div>
     </div>

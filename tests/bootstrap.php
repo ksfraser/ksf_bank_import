@@ -225,6 +225,15 @@ if (!class_exists('bi_lineitem') && file_exists(__DIR__ . '/../class.bi_lineitem
     require_once __DIR__ . '/../class.bi_lineitem.php';
 }
 
+/*
+ * The migrated line item model (src/Ksfraser/FaBankImport/Model/BiLineItemModel.php)
+ * extends the legacy generic_fa_interface base class, which lives in
+ * ksf_modules_common and is not part of this repository. Now that the model is
+ * autoloadable, the stand-in for that base class has to be declared before
+ * anything triggers the autoloader.
+ */
+require_once __DIR__ . '/unit/LineItems/Support/legacy_model_stubs.php';
+
 // Legacy global view class (no namespace); loadable without FA context.
 if (!class_exists('ViewBiLineItems') && file_exists(__DIR__ . '/../class.ViewBiLineItems.php')) {
     require_once __DIR__ . '/../class.ViewBiLineItems.php';

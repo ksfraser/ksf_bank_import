@@ -33,7 +33,13 @@ require_once __DIR__ . '/../Support/LegacyHelperFixtures.php';
 
 // The transaction classes of the module are not reachable through the
 // Composer autoloader, so they are loaded explicitly.
-require_once dirname(__DIR__, 4) . '/src/Ksfraser/FaBankImport/FactoryTransactions.php';
+// The six transaction types now live in one file each (PSR-4).
+require_once dirname(__DIR__, 4) . '/src/Ksfraser/FaBankImport/SupplierTransaction.php';
+require_once dirname(__DIR__, 4) . '/src/Ksfraser/FaBankImport/QuickEntryTransaction.php';
+require_once dirname(__DIR__, 4) . '/src/Ksfraser/FaBankImport/MatchedTransaction.php';
+require_once dirname(__DIR__, 4) . '/src/Ksfraser/FaBankImport/BankTransferTransaction.php';
+require_once dirname(__DIR__, 4) . '/src/Ksfraser/FaBankImport/ManualTransaction.php';
+require_once dirname(__DIR__, 4) . '/src/Ksfraser/FaBankImport/SpecialCaseTransaction.php';
 
 /**
  * Legacy transaction and factory coverage.
@@ -420,8 +426,9 @@ final class TransactionTest extends ProcessingTestCase
         $supplier->displayPartner();
         ob_start();
         $supplier->selectAndDisplayButton();
-        ob_end_clean();
-        $this->assertSame(1, FaStubRegistry::callCount('AddVendorButton::toHtml'));
+        $button = ob_get_clean();
+        // The migrated button renders the submit control itself.
+        $this->assertStringContainsString('AddVendor', $button);
 
         $quickEntry = new QuickEntryTransaction($this->row('D'));
         $this->assertSame('Quick Entry', $quickEntry->oplabel);

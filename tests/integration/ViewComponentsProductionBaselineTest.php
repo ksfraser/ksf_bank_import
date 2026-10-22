@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * Originally documented the PROD state of view component classes via
  * source-content pins. CONVERTED (refactor-psr): now verifies BEHAVIOR —
  *
- * - Component classes exist at runtime in src/Ksfraser/FaBankImport/views/
+ * - Component classes exist at runtime in src/Ksfraser/FaBankImport/Views/
  * - Each implements Ksfraser\HTML\HtmlElementInterface
  * - toHTML() renders a label row containing the component's content
  * - getHTML() returns the same markup as toHTML() outputs
@@ -31,7 +31,7 @@ class ViewComponentsProductionBaselineTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->viewsDir = __DIR__ . '/../../src/Ksfraser/FaBankImport/views/';
+        $this->viewsDir = __DIR__ . '/../../src/Ksfraser/FaBankImport/Views/';
         $this->assertDirectoryExists($this->viewsDir, 'Views directory must exist');
     }
 
@@ -53,14 +53,14 @@ class ViewComponentsProductionBaselineTest extends TestCase
     {
         $this->requireComponent('AddNoButton.php');
 
-        $this->assertTrue(class_exists('Ksfraser\FaBankImport\AddNoButton'));
+        $this->assertTrue(class_exists('Ksfraser\FaBankImport\Views\AddNoButton'));
         $this->assertContains(
             'Ksfraser\HTML\HtmlElementInterface',
-            class_implements('Ksfraser\FaBankImport\AddNoButton'),
+            class_implements('Ksfraser\FaBankImport\Views\AddNoButton'),
             'AddNoButton must implement HtmlElementInterface'
         );
 
-        $button = new \Ksfraser\FaBankImport\AddNoButton(1);
+        $button = new \Ksfraser\FaBankImport\Views\AddNoButton(1);
 
         ob_start();
         $button->toHTML();
@@ -80,14 +80,14 @@ class ViewComponentsProductionBaselineTest extends TestCase
     {
         $this->requireComponent('ToggleTransactionTypeButton.php');
 
-        $this->assertTrue(class_exists('Ksfraser\FaBankImport\ToggleTransactionTypeButton'));
+        $this->assertTrue(class_exists('Ksfraser\FaBankImport\Views\ToggleTransactionTypeButton'));
         $this->assertContains(
             'Ksfraser\HTML\HtmlElementInterface',
-            class_implements('Ksfraser\FaBankImport\ToggleTransactionTypeButton'),
+            class_implements('Ksfraser\FaBankImport\Views\ToggleTransactionTypeButton'),
             'ToggleTransactionTypeButton must implement HtmlElementInterface'
         );
 
-        $button = new \Ksfraser\FaBankImport\ToggleTransactionTypeButton(7);
+        $button = new \Ksfraser\FaBankImport\Views\ToggleTransactionTypeButton(7);
 
         ob_start();
         $button->toHTML();
@@ -107,7 +107,7 @@ class ViewComponentsProductionBaselineTest extends TestCase
     {
         $this->requireComponent('TransType.php');
 
-        $this->assertTrue(class_exists('Ksfraser\FaBankImport\TransType'));
+        $this->assertTrue(class_exists('Ksfraser\FaBankImport\Views\TransType'));
 
         $expectations = [
             'C' => 'Credit',
@@ -119,7 +119,7 @@ class ViewComponentsProductionBaselineTest extends TestCase
             $lineitem = new \stdClass();
             $lineitem->transactionDC = $dc;
 
-            $view = new \Ksfraser\FaBankImport\TransType($lineitem);
+            $view = new \Ksfraser\FaBankImport\Views\TransType($lineitem);
             $html = $view->getHtml();
 
             $this->assertStringContainsString($expectedLabel, $html,

@@ -13,7 +13,7 @@ require_once __DIR__ . '/Support/FixtureTree.php';
 
 /**
  * Coverage for the add vendor button in
- * src/Ksfraser/FaBankImport/views/AddVendorButton.php.
+ * src/Ksfraser/FaBankImport/Views/AddVendorButton.php.
  *
  * The button loads a decorator from a path that does not exist, so the file
  * cannot be loaded from the repository. It is therefore exercised against a
@@ -55,7 +55,7 @@ final class AddVendorButtonTest extends TestCase
         );
 
         $this->assertArrayHasKey(
-            FA_ROOT . '/src/Ksfraser/FaBankImport/views/AddVendorButton.php',
+            FA_ROOT . '/src/Ksfraser/FaBankImport/Views/AddVendorButton.php',
             $mapped
         );
 

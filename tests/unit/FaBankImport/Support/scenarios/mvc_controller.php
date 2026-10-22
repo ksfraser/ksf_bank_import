@@ -149,11 +149,11 @@ namespace {
 
     // The MVC controller shares its file with the MVC bank import
     // controller, so the autoloader cannot resolve it on its own.
-    require_once dirname(__DIR__, 5) . '/src/Ksfraser/FaBankImport/controllers/BankImportController.php';
+    require_once dirname(__DIR__, 5) . '/src/Ksfraser/FaBankImport/Controllers/BankImportController.php';
 
     // The configuration of the generic shell lives in a directory whose
     // case does not match its namespace, so it is loaded explicitly too.
-    require_once dirname(__DIR__, 5) . '/src/Ksfraser/Application/config/Config.php';
+    require_once dirname(__DIR__, 5) . '/src/Ksfraser/Application/Config/Config.php';
 
     if (!function_exists('db_query')) {
         /**

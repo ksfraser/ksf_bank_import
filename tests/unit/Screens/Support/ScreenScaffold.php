@@ -218,7 +218,7 @@ final class ScreenScaffold
         self::write($includes . 'pdata.inc', $this->pdataStub());
 
         // The module menu view and the legacy models.
-        self::link($repo . '/src/Ksfraser/FaBankImport/views/module_menu_view.php', $moduleDir . '/Views/module_menu_view.php');
+        self::link($repo . '/src/Ksfraser/FaBankImport/Views/module_menu_view.php', $moduleDir . '/Views/module_menu_view.php');
         self::link($repo . '/class.bi_statements.php', $moduleDir . '/class.bi_statements.php');
         self::write($moduleDir . '/class.bi_transactions.php', $this->transactionsModelStub($repo));
 

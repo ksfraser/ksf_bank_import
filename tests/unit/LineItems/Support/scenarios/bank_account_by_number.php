@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * Scenario: the bank account lookup in
- * src/Ksfraser/FaBankImport/models/BankAccountByNumber.php.
+ * src/Ksfraser/FaBankImport/Models/BankAccountByNumber.php.
  *
  * The class loads the legacy fa_bank_accounts helper from a path that is
  * relative to the file, so the helper is published next to the repository
@@ -29,7 +29,7 @@ register_shutdown_function(function () use ($fixture) {
     $fixture->cleanup();
 });
 
-require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php';
+require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/Models/BankAccountByNumber.php';
 
 $account = new BankAccountByNumber('000123');
 

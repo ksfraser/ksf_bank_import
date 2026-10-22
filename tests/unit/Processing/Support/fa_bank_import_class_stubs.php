@@ -15,7 +15,7 @@ declare(strict_types=1);
  *  - new AddCustomerButton($id)  -> the "add customer" button
  *  - new ToggleTransactionTypeButton($id)
  *
- * The button classes live in src/Ksfraser/FaBankImport/views/ but are
+ * The button classes live in src/Ksfraser/FaBankImport/Views/ but are
  * declared in the Ksfraser\FaBankImport namespace, so Composer's PSR-4 map
  * cannot reach them (the directory is "views", the namespace is not). The
  * files that can be loaded are loaded here, from their real location, so that
@@ -36,9 +36,9 @@ namespace Ksfraser\FaBankImport {
 
     use Ksfraser\FaBankImport\Tests\Unit\Processing\Support\FaStubRegistry;
 
-    require_once __DIR__ . '/../../../../src/Ksfraser/FaBankImport/views/AddNoButton.php';
-    require_once __DIR__ . '/../../../../src/Ksfraser/FaBankImport/views/AddCustomerButton.php';
-    require_once __DIR__ . '/../../../../src/Ksfraser/FaBankImport/views/ToggleTransactionTypeButton.php';
+    require_once __DIR__ . '/../../../../src/Ksfraser/FaBankImport/Views/AddNoButton.php';
+    require_once __DIR__ . '/../../../../src/Ksfraser/FaBankImport/Views/AddCustomerButton.php';
+    require_once __DIR__ . '/../../../../src/Ksfraser/FaBankImport/Views/ToggleTransactionTypeButton.php';
 
     if (!function_exists('Ksfraser\\FaBankImport\\shorten_bankAccount_Names')) {
         /**

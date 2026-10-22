@@ -3,14 +3,11 @@
 declare(strict_types=1);
 
 /**
- * Scenario: the settled transaction view in
- * src/Ksfraser/FaBankImport/views/DisplaySettledTransactions.php.
+ * Scenario: the settled transaction views of the module.
  *
- * The view cannot be loaded from the repository: it implements an HTML
- * element contract without the return types the current interface asks for
- * and it loads the interface itself, and it loads a label row base class
- * that does not exist. The scenario therefore runs against a patched copy
- * of the tree, which the coverage is mapped back onto.
+ * The views live in src/Ksfraser/FaBankImport/Views/ and are autoloadable
+ * now, so the scenario runs against the real classes. It executes every
+ * partner type the view supports and builds the rows it assembles.
  *
  * @package    Ksfraser\FaBankImport\Tests\Unit\LineItems\Support\scenarios
  * @license    MIT
@@ -18,26 +15,6 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../fa_stubs.php';
 require_once __DIR__ . '/../view_stubs.php';
-require_once __DIR__ . '/../FixtureTree.php';
-
-use Ksfraser\FaBankImport\Tests\Unit\LineItems\Support\FixtureTree;
-
-$tree = new FixtureTree(KSF_LINEITEMS_ROOT);
-$srcDir = $tree->create();
-
-register_shutdown_function(function () use ($tree) {
-    $tree->cleanup();
-});
-
-echo 'FIXTURE_SRC: ' . $srcDir . "\n";
-
-// The label row base class of the views declares Ksfraser\HTML\LabelRowBase.
-require_once $srcDir . '/Ksfraser/HTML/LabelRowBase.php';
-
-class_alias(\Ksfraser\HTML\LabelRowBase::class, 'Ksfraser\FaBankImport\LabelRowBase');
-class_alias(\Ksfraser\HTML\Composites\HTML_TABLE::class, 'Ksfraser\FaBankImport\HTML_TABLE');
-
-require_once $srcDir . '/Ksfraser/FaBankImport/views/DisplaySettledTransactions.php';
 
 /**
  * Run a callable and swallow whatever it throws.
@@ -69,7 +46,7 @@ $transaction = new class {
 
 // A supplier payment.
 run_settled(function () use ($transaction) {
-    $view = new \Ksfraser\FaBankImport\DisplaySettledTransactions($transaction);
+    $view = new \Ksfraser\FaBankImport\Views\DisplaySettledTransactions($transaction);
     $view->toHtml();
     $view->getHtml();
 });
@@ -77,7 +54,7 @@ run_settled(function () use ($transaction) {
 // A bank deposit.
 run_settled(function () use ($transaction) {
     $transaction->fa_trans_type = 12;
-    $view = new \Ksfraser\FaBankImport\DisplaySettledTransactions($transaction);
+    $view = new \Ksfraser\FaBankImport\Views\DisplaySettledTransactions($transaction);
     $view->toHtml();
     $view->getHtml();
 });
@@ -85,7 +62,7 @@ run_settled(function () use ($transaction) {
 // A manual settlement.
 run_settled(function () use ($transaction) {
     $transaction->fa_trans_type = 0;
-    $view = new \Ksfraser\FaBankImport\DisplaySettledTransactions($transaction);
+    $view = new \Ksfraser\FaBankImport\Views\DisplaySettledTransactions($transaction);
     $view->toHtml();
     $view->getHtml();
 });
@@ -93,7 +70,7 @@ run_settled(function () use ($transaction) {
 // A transaction of an unknown type.
 run_settled(function () use ($transaction) {
     $transaction->fa_trans_type = 99;
-    $view = new \Ksfraser\FaBankImport\DisplaySettledTransactions($transaction);
+    $view = new \Ksfraser\FaBankImport\Views\DisplaySettledTransactions($transaction);
     $view->toHtml();
     $view->getHtml();
 });
@@ -101,17 +78,17 @@ run_settled(function () use ($transaction) {
 // The rows of the settled views are built directly, because the view
 // itself constructs some of them without the arguments they need.
 run_settled(function () use ($transaction) {
-    new \Ksfraser\FaBankImport\StatusSettled();
-    new \Ksfraser\FaBankImport\SettledManual();
-    new \Ksfraser\FaBankImport\SettledDefault($transaction);
-    new \Ksfraser\FaBankImport\UnsetTransaction($transaction);
-    new \Ksfraser\FaBankImport\OperationPayment();
-    new \Ksfraser\FaBankImport\FromBankAccount($transaction);
-    new \Ksfraser\FaBankImport\SettledSupplier($transaction);
-    new \Ksfraser\FaBankImport\OperationDeposit();
-    new \Ksfraser\FaBankImport\CustomerBranch(['debtor_no' => 1, 'branch_code' => 2]);
-    new \Ksfraser\FaBankImport\SettledPaymentTable($transaction);
-    new \Ksfraser\FaBankImport\SettledDepositTable($transaction);
+    new \Ksfraser\FaBankImport\Views\StatusSettled();
+    new \Ksfraser\FaBankImport\Views\SettledManual();
+    new \Ksfraser\FaBankImport\Views\SettledDefault($transaction);
+    new \Ksfraser\FaBankImport\Views\UnsetTransaction($transaction);
+    new \Ksfraser\FaBankImport\Views\OperationPayment();
+    new \Ksfraser\FaBankImport\Views\FromBankAccount($transaction);
+    new \Ksfraser\FaBankImport\Views\SettledSupplier($transaction);
+    new \Ksfraser\FaBankImport\Views\OperationDeposit();
+    new \Ksfraser\FaBankImport\Views\CustomerBranch(['debtor_no' => 1, 'branch_code' => 2]);
+    new \Ksfraser\FaBankImport\Views\SettledPaymentTable($transaction);
+    new \Ksfraser\FaBankImport\Views\SettledDepositTable($transaction);
 });
 
 echo "SCENARIO_OK\n";

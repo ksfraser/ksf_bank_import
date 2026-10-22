@@ -15,7 +15,7 @@ use Ksfraser\FaBankImport\Controller\BankImportController;
 
 $root = dirname(__DIR__, 5);
 
-require_once $root . '/src/Ksfraser/FaBankImport/views/HtmlTransactionView.php';
+require_once $root . '/src/Ksfraser/FaBankImport/Views/HtmlTransactionView.php';
 
 $mode = isset($args[0]) ? (string) $args[0] : 'index';
 

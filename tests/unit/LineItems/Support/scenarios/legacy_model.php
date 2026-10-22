@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Scenario: the legacy line item model in src/Ksfraser/Model/BiLineItemModel.php.
+ * Scenario: the legacy line item model in src/Ksfraser/FaBankImport/Model/BiLineItemModel.php.
  *
  * The class declares Ksfraser\FaBankImport\Model\BiLineItemModel, the same
  * name the model in src/Ksfraser/FaBankImport/model/ uses, so it can only be
@@ -35,7 +35,7 @@ register_shutdown_function(function () use ($workDir) {
 
 chdir($workDir->getRunDir());
 
-require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/Model/BiLineItemModel.php';
+require_once KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/Model/BiLineItemModel.php';
 
 $data = [
     'transactionDC' => 'C',

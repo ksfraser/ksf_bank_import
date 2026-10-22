@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/Support/IsolatedScenario.php';
 
 /**
- * Coverage for the legacy views under src/Ksfraser/FaBankImport/views/.
+ * Coverage for the legacy views under src/Ksfraser/FaBankImport/Views/.
  *
  * The views cannot be loaded in the PHPUnit process: several of them declare
  * classes the test doubles of other test files also declare, and they all

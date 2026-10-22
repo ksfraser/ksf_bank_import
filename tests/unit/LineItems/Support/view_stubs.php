@@ -2,7 +2,7 @@
 
 /**
  * Doubles for the legacy view classes under
- * src/Ksfraser/FaBankImport/views/.
+ * src/Ksfraser/FaBankImport/Views/.
  *
  * The views were written against an older HTML element contract: they
  * implement Ksfraser\HTML\HtmlElementInterface without declaring the return

@@ -59,7 +59,7 @@ namespace {
 
     chdir($workDir->getRunDir());
 
-    require_once KSF_GAP_ROOT . '/src/Ksfraser/Model/BiLineItemModel.php';
+    require_once KSF_GAP_ROOT . '/src/Ksfraser/FaBankImport/Model/BiLineItemModel.php';
 
     $data = [
         'transactionDC' => 'C',

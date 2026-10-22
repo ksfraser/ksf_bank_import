@@ -103,10 +103,10 @@ require_once( __DIR__ . '/src/Ksfraser/FormFieldNameGenerator.php' );
 use Ksfraser\PartnerFormData;
 
 // Models
-require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Models/BankAccountByNumber.php' );
 use Ksfraser\FaBankImport\models\BankAccountByNumber;
 
-require_once( __DIR__ . '/src/Ksfraser/FaBankImport/models/MatchingJEs.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Models/MatchingJEs.php' );
 use Ksfraser\FaBankImport\models\MatchingJEs;
 
 require_once( $viewsDir . '/LineitemDisplayLeft.php' );

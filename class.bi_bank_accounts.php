@@ -113,7 +113,7 @@ class bi_bank_accounts_model
 		}
 
 		// Fall back to our refactored lookup helper.
-		require_once(__DIR__ . '/src/Ksfraser/FaBankImport/models/BankAccountByNumber.php');
+		require_once(__DIR__ . '/src/Ksfraser/FaBankImport/Models/BankAccountByNumber.php');
 		$lookup = new \Ksfraser\FaBankImport\models\BankAccountByNumber($bankAccountNumber);
 		$details = $lookup->getBankDetails();
 		if (is_array($details) && isset($details['id'])) {

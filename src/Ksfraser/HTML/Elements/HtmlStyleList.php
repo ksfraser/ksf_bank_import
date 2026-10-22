@@ -37,14 +37,14 @@ class HtmlStyleList implements HtmlElementInterface
         /**
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
          */
-        public function toHtml() {
+        public function toHtml(): void {
                 echo $this->getHtml();
         }
  
 	/**
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
-	function getHtml()
+	function getHtml(): string
 	{
 		if( count( $this->styleArray ) > 0 )
 		{

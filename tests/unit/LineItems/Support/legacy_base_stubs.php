@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Test doubles for the legacy base class and the FA DAO wrappers the
  * line-item models call.
  *
- * The models under src/Ksfraser/FaBankImport/models/ extend
+ * The models under src/Ksfraser/FaBankImport/Models/ extend
  * Ksfraser\common\GenericFaInterface and talk to
  * Ksfraser\frontaccounting\FaGl / FaBankAccounts. None of those classes live
  * in this repository - they belong to the legacy ksf_modules_common package -

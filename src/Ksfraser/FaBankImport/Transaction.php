@@ -2,6 +2,8 @@
 
 namespace Ksfraser\FaBankImport;
 
+use Ksfraser\FaBankImport\Views\ToggleTransactionTypeButton;
+
 //use Ksfraser\FaBankImport\TransactionTypeLabel.php;
 use \Exception;
 

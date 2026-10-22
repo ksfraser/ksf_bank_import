@@ -116,7 +116,7 @@ final class LegacyEnvironmentTest extends TestCase
         );
 
         $this->assertArrayHasKey(
-            FA_ROOT . '/src/Ksfraser/FaBankImport/views/DisplaySettledTransactions.php',
+            FA_ROOT . '/src/Ksfraser/FaBankImport/Views/DisplaySettledTransactions.php',
             $mapped
         );
 

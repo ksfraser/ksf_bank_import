@@ -42,7 +42,7 @@ class ParameterBinder
 
     /**
      * @param DbConnectionInterface|null $db Defaults to the FrontAccounting adapter.
-          * @BABOK FR-PROC-002, FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002, FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct(?DbConnectionInterface $db = null)
     {

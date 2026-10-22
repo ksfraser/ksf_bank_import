@@ -5,44 +5,15 @@
     "autoload": {
         "psr-4": {
             "Models\\": "Models/",
-            "Ksfraser\\": "src/Ksfraser/",
-            "Ksfraser\\FaBankImport\\": "src/Ksfraser/FaBankImport/",
-            "Ksfraser\\FaBankImport\\Events\\": "src/Ksfraser/FaBankImport/events/",
-            "Ksfraser\\Application\\": "src/Ksfraser/Application/",
-            "Ksfraser\\Application\\Models\\": "src/Ksfraser/Application/models/",
-            "Ksfraser\\Application\\Interfaces\\": "src/Ksfraser/Application/interfaces/",
-            "Ksfraser\\HTML\\": "src/Ksfraser/HTML/",
-            "Ksfraser\\Model\\": "src/Ksfraser/Model/",
-            "Ksfraser\\View\\": "src/Ksfraser/View/",
             "KsfBankImport\\Services\\": "Services/",
             "KsfBankImport\\OperationTypes\\": "OperationTypes/",
-            "Ksfraser\\FaBankImport\\Handlers\\": "src/Ksfraser/FaBankImport/handlers/",
-            "Ksfraser\\FaBankImport\\Services\\": "src/Ksfraser/FaBankImport/services/",
-            "Ksfraser\\FaBankImport\\Config\\": "src/Ksfraser/FaBankImport/config/",
-            "Ksfraser\\FaBankImport\\Database\\": "src/Ksfraser/FaBankImport/database/",
-            "Ksfraser\\FaBankImport\\Commands\\": "src/Ksfraser/FaBankImport/commands/",
-            "Ksfraser\\FaBankImport\\Http\\": "src/Ksfraser/FaBankImport/http/",
-            "Ksfraser\\FaBankImport\\Exceptions\\": "src/Ksfraser/FaBankImport/exceptions/",
-            "Ksfraser\\FaBankImport\\Repositories\\": "src/Ksfraser/FaBankImport/repositories/",
-            "Ksfraser\\FaBankImport\\Factories\\": "src/Ksfraser/FaBankImport/factories/",
-            "Ksfraser\\Application\\Middleware\\": "src/Ksfraser/Application/middleware/",
-            "Ksfraser\\HTML\\Elements\\Buttons\\": "src/Ksfraser/HTML/Elements/Buttons/",
-            "Ksfraser\\HTML\\Elements\\Form\\Input\\": "src/Ksfraser/HTML/Elements/Form/Input/",
-            "Ksfraser\\FaBankImport\\Models\\": "src/Ksfraser/FaBankImport/models/",
-            "Ksfraser\\FaBankImport\\Controller\\": "src/Ksfraser/FaBankImport/controller/",
-            "Ksfraser\\FaBankImport\\Contracts\\": "src/Ksfraser/FaBankImport/contracts/",
-            "Ksfraser\\FaBankImport\\Domain\\": "src/Ksfraser/FaBankImport/domain/",
-            "Ksfraser\\FaBankImport\\Entity\\": "src/Ksfraser/FaBankImport/entity/",
-            "Ksfraser\\FaBankImport\\Results\\": "src/Ksfraser/FaBankImport/results/",
-            "Ksfraser\\FaBankImport\\Strategy\\": "src/Ksfraser/FaBankImport/strategy/",
-            "Ksfraser\\FaBankImport\\Types\\": "src/Ksfraser/FaBankImport/types/",
-            "Ksfraser\\FaBankImport\\ValueObject\\": "src/Ksfraser/FaBankImport/valueobject/",
-            "Ksfraser\\FaBankImport\\Container\\": "src/Ksfraser/FaBankImport/container/",
-            "Ksfraser\\FaBankImport\\Interfaces\\": "src/Ksfraser/FaBankImport/interfaces/",
-            "Ksfraser\\FaBankImport\\Middleware\\": "src/Ksfraser/FaBankImport/middleware/",
-            "Ksfraser\\FaBankImport\\Controllers\\": "src/Ksfraser/FaBankImport/controllers/",
-            "Ksfraser\\Application\\Http\\": "src/Ksfraser/Application/http/"
-        }
+            "Ksfraser\\": "src/Ksfraser/"
+        },
+        "classmap": [
+            "src/Ksfraser/FaBankImport/class.AbstractQfxParser.php",
+            "src/Ksfraser/FaBankImport/header_table.php",
+            "src/Ksfraser/HTML/HtmlAttributesTrait.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

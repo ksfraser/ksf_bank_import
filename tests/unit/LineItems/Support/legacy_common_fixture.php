@@ -6,7 +6,7 @@ declare(strict_types=1);
  * Publishes the legacy ksf_modules_common helpers the legacy line-item
  * classes load.
  *
- * Several classes under src/Ksfraser/FaBankImport/models/ load their
+ * Several classes under src/Ksfraser/FaBankImport/Models/ load their
  * collaborators from a path that is relative to the file:
  *
  *     __DIR__ . '/../../../../ksf_modules_common/class.fa_bank_accounts.php'

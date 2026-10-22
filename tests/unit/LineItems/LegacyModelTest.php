@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/Support/IsolatedScenario.php';
 
 /**
- * Coverage for the legacy line item model in src/Ksfraser/Model/BiLineItemModel.php.
+ * Coverage for the legacy line item model in src/Ksfraser/FaBankImport/Model/BiLineItemModel.php.
  *
  * The class declares Ksfraser\FaBankImport\Model\BiLineItemModel, the same
  * name the model in src/Ksfraser/FaBankImport/model/ uses, so it can only be

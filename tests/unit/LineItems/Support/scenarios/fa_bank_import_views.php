@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Scenario: the legacy views under src/Ksfraser/FaBankImport/views/.
+ * Scenario: the legacy views under src/Ksfraser/FaBankImport/Views/.
  *
  * The views cannot be loaded in the PHPUnit process: several of them declare
  * classes the test doubles of other test files also declare, and they all
@@ -17,16 +17,11 @@ declare(strict_types=1);
 require_once __DIR__ . '/../fa_stubs.php';
 require_once __DIR__ . '/../view_stubs.php';
 
-$viewsDir = KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/views';
+$viewsDir = KSF_LINEITEMS_ROOT . '/src/Ksfraser/FaBankImport/Views';
 
-// The views load LabelRowBase.php relative to the working directory.
-chdir($viewsDir);
-
-// The label row base class of the views declares Ksfraser\HTML\LabelRowBase.
-require_once $viewsDir . '/LabelRowBase.php';
-
-class_alias(\Ksfraser\HTML\LabelRowBase::class, 'Ksfraser\FaBankImport\LabelRowBase');
-class_alias(\Ksfraser\HTML\Composites\HTML_TABLE::class, 'Ksfraser\FaBankImport\HTML_TABLE');
+// The views are autoloadable now, so the scenario only has to make sure the
+// autoloader is available.
+require_once KSF_LINEITEMS_ROOT . '/vendor/autoload.php';
 
 $files = [
     'AddCustomerButton.php',
@@ -47,9 +42,6 @@ $files = [
     'LineitemDisplayRight.php',
     'TransactionCustomerDetails.php',
     'TransactionTypeLabel.php',
-    'module_menu_view.php',
-    'HTML_ROW.php',
-    'HTML_ROW_LABELDecorator.php',
     'HtmlTransactionView.php',
 ];
 
@@ -122,7 +114,7 @@ function run_legacy(callable $callback): void
 
 // The label row views.
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\TransDate($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\TransDate($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
@@ -130,7 +122,7 @@ run_legacy(function () use ($lineItem) {
 foreach (['C' => 'Credit', 'B' => 'Bank Transfer', 'D' => 'Debit', 'X' => 'Debit'] as $dc => $expected) {
     run_legacy(function () use ($lineItem, $dc) {
         $lineItem->transactionDC = $dc;
-        $view = new \Ksfraser\FaBankImport\TransType($lineItem);
+        $view = new \Ksfraser\FaBankImport\Views\TransType($lineItem);
         $view->getHtml();
         $view->toHtml();
     });
@@ -138,84 +130,84 @@ foreach (['C' => 'Credit', 'B' => 'Bank Transfer', 'D' => 'Debit', 'X' => 'Debit
 $lineItem->transactionDC = 'C';
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\OurBankAccount($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\OurBankAccount($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\OtherBankAccount($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\OtherBankAccount($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\AmountCharges($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\AmountCharges($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\TransTitle($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\TransTitle($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\Operation($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\Operation($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\PartnerType($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\PartnerType($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\PartnerSubSelect($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\PartnerSubSelect($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\Comment($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\Comment($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\MatchingGLS($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\MatchingGLS($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\LineitemDisplayLeft($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\LineitemDisplayLeft($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () use ($lineItem) {
-    $view = new \Ksfraser\FaBankImport\LineitemDisplayRight($lineItem);
+    $view = new \Ksfraser\FaBankImport\Views\LineitemDisplayRight($lineItem);
     $view->getHtml();
     $view->toHtml();
 });
 
 run_legacy(function () {
-    $view = new \Ksfraser\FaBankImport\TransactionCustomerDetails(1, 42);
+    $view = new \Ksfraser\FaBankImport\Views\TransactionCustomerDetails(1, 42);
     $view->getLineitemMatchedCustomerDetails();
 });
 
 run_legacy(function () {
-    $label = new \Ksfraser\FaBankImport\TransactionTypeLabel('C');
+    $label = new \Ksfraser\FaBankImport\Views\TransactionTypeLabel('C');
     $label->getTransactionTypeLabel();
-    $label = new \Ksfraser\FaBankImport\TransactionTypeLabel('B');
+    $label = new \Ksfraser\FaBankImport\Views\TransactionTypeLabel('B');
     $label->getTransactionTypeLabel();
-    $label = new \Ksfraser\FaBankImport\TransactionTypeLabel('D');
+    $label = new \Ksfraser\FaBankImport\Views\TransactionTypeLabel('D');
     $label->getTransactionTypeLabel();
-    $label = new \Ksfraser\FaBankImport\TransactionTypeLabel('X');
+    $label = new \Ksfraser\FaBankImport\Views\TransactionTypeLabel('X');
     $label->getTransactionTypeLabel();
 });
 
@@ -236,18 +228,18 @@ run_legacy(function () {
 });
 
 run_legacy(function () {
-    $button = new \Ksfraser\FaBankImport\AddCustomerButton(11);
+    $button = new \Ksfraser\FaBankImport\Views\AddCustomerButton(11);
     $button->toHTML();
 });
 
 run_legacy(function () {
-    $button = new \Ksfraser\FaBankImport\AddNoButton(11);
+    $button = new \Ksfraser\FaBankImport\Views\AddNoButton(11);
     $button->getHtml();
     $button->toHtml();
 });
 
 run_legacy(function () {
-    $button = new \Ksfraser\FaBankImport\ToggleTransactionTypeButton(11);
+    $button = new \Ksfraser\FaBankImport\Views\ToggleTransactionTypeButton(11);
     $button->toHtml();
     $button->getHtml();
 });

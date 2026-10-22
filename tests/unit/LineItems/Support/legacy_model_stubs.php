@@ -159,6 +159,9 @@ namespace Ksfraser\frontaccounting {
             /** @var array */
             public $values = [];
 
+            /** @var array The criteria of the last search, for the assertions. */
+            public static $lastValues = [];
+
             /**
              * Store a search criterion.
              *
@@ -170,6 +173,7 @@ namespace Ksfraser\frontaccounting {
             public function set($field, $value = null, $enforce = true)
             {
                 $this->values[$field] = $value;
+                self::$lastValues[$field] = $value;
 
                 return true;
             }
@@ -221,6 +225,17 @@ namespace Ksfraser\frontaccounting {
             public function getByBankAccountNumber($number)
             {
                 return $this->details;
+            }
+
+            /**
+             * Read one field of the account row, like the FA DAO does.
+             *
+             * @param string $field Field name.
+             * @return mixed The field value, or null when the row has none.
+             */
+            public function get($field)
+            {
+                return $this->details[$field] ?? null;
             }
         }
     }

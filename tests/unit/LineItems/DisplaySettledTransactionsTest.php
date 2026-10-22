@@ -13,7 +13,7 @@ require_once __DIR__ . '/Support/FixtureTree.php';
 
 /**
  * Coverage for the settled transaction view in
- * src/Ksfraser/FaBankImport/views/DisplaySettledTransactions.php.
+ * src/Ksfraser/FaBankImport/Views/DisplaySettledTransactions.php.
  *
  * The view cannot be loaded from the repository: it implements an HTML
  * element contract without the return types the current interface asks for
@@ -45,21 +45,15 @@ final class DisplaySettledTransactionsTest extends TestCase
     {
         $this->scenario->run('display_settled_transactions');
 
-        $output = $this->scenario->getOutput();
-        $matched = preg_match('/FIXTURE_SRC: (\S+)/', $output, $matches);
-        $this->assertSame(1, $matched, 'The scenario did not report its fixture tree.');
-
-        $mapped = FixtureTree::mapCoverage(
-            $this->scenario->getCoverage(),
-            $matches[1],
-            FA_ROOT
-        );
+        // The scenario runs the real classes now, so its coverage already
+        // carries the repository paths - no fixture mapping is needed.
+        $coverage = $this->scenario->getCoverage();
 
         $this->assertArrayHasKey(
-            FA_ROOT . '/src/Ksfraser/FaBankImport/views/DisplaySettledTransactions.php',
-            $mapped
+            FA_ROOT . '/src/Ksfraser/FaBankImport/Views/DisplaySettledTransactions.php',
+            $coverage
         );
 
-        $this->scenario->mergeCoverage($this, $mapped);
+        $this->scenario->mergeCoverage($this, $coverage);
     }
 }
