@@ -116,6 +116,28 @@ Steps:
 Expected:
 - Both sides are recorded consistently.
 
+### UAT-PROC-013 — Add Customer from the processing screen
+Covers FR-PROC-013 (master data assist).
+Steps:
+1. Choose a staged customer transaction whose counterparty is not a customer yet.
+2. Click "Add Customer".
+3. Fill in the customer details and save.
+Expected:
+- An FA customer is created.
+- The staged transaction is linked to the new customer.
+- The processing screen offers the new customer for the transaction.
+
+### UAT-PROC-014 — Add Vendor from the processing screen
+Covers FR-PROC-013 (master data assist).
+Steps:
+1. Choose a staged supplier transaction whose counterparty is not a supplier yet.
+2. Click "Add Vendor".
+3. Fill in the supplier details and save.
+Expected:
+- An FA supplier is created.
+- The staged transaction is linked to the new supplier.
+- The processing screen offers the new supplier for the transaction.
+
 ## Exit Criteria
 - All UAT test cases pass.
 - No workflow requires DB edits to recover from common errors.

@@ -21,7 +21,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * @author  Ksfraser
  * @version 1.2.0
  * @since   2025-10-21
- * @BABOK FR-PROC-013 | BR-PROC-006
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
  */
 class AddCustomerCommand implements CommandInterface
 {
@@ -35,7 +35,7 @@ class AddCustomerCommand implements CommandInterface
      * @param array $postData POST data with AddCustomer key
      * @param object $customerService Service for customer creation
      * @param object $transactionRepository Repository to fetch transaction data
- * @BABOK FR-PROC-013 | BR-PROC-006
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */
     public function __construct(
         array $postData,
@@ -49,7 +49,7 @@ class AddCustomerCommand implements CommandInterface
 
     /**
      * {@inheritDoc}
- * @BABOK FR-PROC-013 | BR-PROC-006
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */
     public function execute(): TransactionResult
     {
@@ -115,7 +115,7 @@ class AddCustomerCommand implements CommandInterface
 
     /**
      * {@inheritDoc}
- * @BABOK FR-PROC-013 | BR-PROC-006
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */
     public function getName(): string
     {

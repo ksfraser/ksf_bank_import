@@ -44,7 +44,7 @@ class ksf_modules_table_filter_by_date extends origin
 	function display( $tablestype = TABLESTYLE_NOBORDER )
 	{
  		// this is filter table
-        	start_table( $tablestyle );
+        	start_table( $tablestype );
         	start_row();
         	if (!isset($_POST['statusFilter']))
         	        $_POST['statusFilter'] = 0;
@@ -56,27 +56,27 @@ class ksf_modules_table_filter_by_date extends origin
 
 		if( isset( $this->cell1 ) )
 		{
-			$this->cell1['type']( _( "$this->cell1['label']:" ), $this->cell1['var_name'], $this->cell1['options'] );
+			$this->cell1['type']( _( "{$this->cell1['label']}:" ), $this->cell1['var_name'], $this->cell1['options'] );
 		}
 		if( isset( $this->cell2 ) )
 		{
-			$this->cell2['type']( _( "$this->cell2['label']:" ), $this->cell2['var_name'], $this->cell2['options'] );
+			$this->cell2['type']( _( "{$this->cell2['label']}:" ), $this->cell2['var_name'], $this->cell2['options'] );
 		}
 		if( isset( $this->cell3 ) )
 		{
-			$this->cell3['type']( _( "$this->cell3['label']:" ), $this->cell3['var_name'], $this->cell3['options'] );
+			$this->cell3['type']( _( "{$this->cell3['label']}:" ), $this->cell3['var_name'], $this->cell3['options'] );
 		}
 		if( isset( $this->cell4 ) )
 		{
-			$this->cell4['type']( _( "$this->cell4['label']:" ), $this->cell4['var_name'], $this->cell4['options'] );
+			$this->cell4['type']( _( "{$this->cell4['label']}:" ), $this->cell4['var_name'], $this->cell4['options'] );
 		}
 		if( isset( $this->cell5 ) )
 		{
-			$this->cell5['type']( _( "$this->cell5['label']:" ), $this->cell5['var_name'], $this->cell5['options'] );
+			$this->cell5['type']( _( "{$this->cell5['label']}:" ), $this->cell5['var_name'], $this->cell5['options'] );
 		}
 		if( isset( $this->cell6 ) )
 		{
-			$this->cell6['type']( _( "$this->cell6['label']:" ), $this->cell6['var_name'], $this->cell6['options'] );
+			$this->cell6['type']( _( "{$this->cell6['label']}:" ), $this->cell6['var_name'], $this->cell6['options'] );
 		}
 	        end_row();
 	        end_table();
@@ -87,7 +87,7 @@ class ksf_modules_table_filter_by_date extends origin
 	function bank_import_header( $tablestype = TABLESTYLE_NOBORDER )
 	{
  		// this is filter table
-        	start_table( $tablestyle );
+        	start_table( $tablestype );
         	start_row();
         	if (!isset($_POST['statusFilter']))
         	        $_POST['statusFilter'] = 0;

@@ -65,11 +65,11 @@ class TransactionFactoryImp implements TransactionFactory
 			case 'QE':      //partnerType
 				return new QuickEntryTransaction( $transaction );
 				break;
-			case 'MA':
-				return new MatchedTransaction( $transaction );
-				break;
-			case 'ZZ':      //partnerType
+			case 'MA':      //partnerType - manual settlement
 				return new ManualTransaction( $transaction );
+				break;
+			case 'ZZ':      //partnerType - matched existing transaction
+				return new MatchedTransaction( $transaction );
 				break;
 			default:
 				return new SpecialCaseTransaction( $transaction );

@@ -9,7 +9,7 @@ namespace Ksfraser\FaBankImport\Models;
  * Serves a seeded match array regardless of the line item.
  *
  * @since 20260822
- * @BABOK FR-VAL-004 | BR-VAL-004
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
  */
 class FakeMatchingTransactionsFinder implements MatchingTransactionsFinderInterface
 {
@@ -20,7 +20,7 @@ class FakeMatchingTransactionsFinder implements MatchingTransactionsFinderInterf
      * Constructor.
      *
      * @param array $matches Match rows to serve.
- * @BABOK FR-VAL-004 | BR-VAL-004
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     public function __construct(array $matches = array())
     {
@@ -29,7 +29,7 @@ class FakeMatchingTransactionsFinder implements MatchingTransactionsFinderInterf
 
     /**
      * @inheritDoc
- * @BABOK FR-VAL-004 | BR-VAL-004
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     public function findFor(object $lineItem): array
     {

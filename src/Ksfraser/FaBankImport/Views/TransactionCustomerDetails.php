@@ -3,7 +3,7 @@
 namespace Ksfraser\FaBankImport\Views;
 
 /**
- * @BABOK FR-VAL-004, FR-PROC-010 | BR-VAL-004 | UAT-PROC-001
+ * @BABOK FR-VAL-004, FR-PROC-010 | BR-VAL-004 | UAT-VAL-006
  */
 class TransactionCustomerDetails 
 {
@@ -12,7 +12,7 @@ class TransactionCustomerDetails
 	protected $name;
 	protected $br_name;
         /**
- * @BABOK FR-VAL-004, FR-PROC-010 | BR-VAL-004 | UAT-PROC-001
+ * @BABOK FR-VAL-004, FR-PROC-010 | BR-VAL-004 | UAT-VAL-006
          */
         function __construct( $type, $type_no )
         {
@@ -21,7 +21,7 @@ class TransactionCustomerDetails
                 $this->get_customer_details();
 	}
 	/**
- * @BABOK FR-VAL-004, FR-PROC-010 | BR-VAL-004 | UAT-PROC-001
+ * @BABOK FR-VAL-004, FR-PROC-010 | BR-VAL-004 | UAT-VAL-006
 	 */
 	protected function get_customer_details()
 	{
@@ -31,7 +31,7 @@ class TransactionCustomerDetails
 		//...
 	}
 	/**
- * @BABOK FR-VAL-004, FR-PROC-010 | BR-VAL-004 | UAT-PROC-001
+ * @BABOK FR-VAL-004, FR-PROC-010 | BR-VAL-004 | UAT-VAL-006
 	 */
 	function getLineitemMatchedCustomerDetails()
 	{

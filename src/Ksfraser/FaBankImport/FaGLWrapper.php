@@ -8,13 +8,13 @@ namespace Ksfraser\FaBankImport;
 *
 ******************************************************************/
 /**
- * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-VAL-006
  */
 class FaGLWrapper
 {
 	protected $fa_gl;
 	/**
- * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-VAL-006
 	 */
 	function __construct( $transaction )
 	{
@@ -54,7 +54,7 @@ class FaGLWrapper
 	        }
 	}
 	/**
- * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-PROC-008
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-VAL-006
 	 */
 	function retrieveMatchingTransactions()
 	{

@@ -51,7 +51,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 *   Set $validateEmail = false to disable validation for custom formats.
 */
 /**
- * @BABOK FR-PROC-013 | BR-PROC-006
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
  */
 class HtmlEmail extends HtmlA
 {
@@ -65,7 +65,7 @@ class HtmlEmail extends HtmlA
 	 *        - null: email address will be used as link text
 	 * @param bool $validateEmail Whether to validate the email format (default: true)
 	 * @throws \Exception if email is invalid or content type is invalid
- * @BABOK FR-PROC-013 | BR-PROC-006
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
 	 */
 	function __construct( string $emailAddress, $linkContent = null, bool $validateEmail = true )
 	{

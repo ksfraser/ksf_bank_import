@@ -493,11 +493,13 @@ final class TransactionTest extends ProcessingTestCase
         $_POST['partnerType'][12] = 'QE';
         $this->assertInstanceOf(QuickEntryTransaction::class, $factory->makeTransaction($this->row('D')));
 
+        // MA is the manual settlement, ZZ the matched existing transaction
+        // (see PartnerTypeConstants and the partner type registry).
         $_POST['partnerType'][12] = 'MA';
-        $this->assertInstanceOf(MatchedTransaction::class, $factory->makeTransaction($this->row('D')));
+        $this->assertInstanceOf(ManualTransaction::class, $factory->makeTransaction($this->row('D')));
 
         $_POST['partnerType'][12] = 'ZZ';
-        $this->assertInstanceOf(ManualTransaction::class, $factory->makeTransaction($this->row('D')));
+        $this->assertInstanceOf(MatchedTransaction::class, $factory->makeTransaction($this->row('D')));
 
         $_POST['partnerType'][12] = 'XX';
         $this->assertInstanceOf(SpecialCaseTransaction::class, $factory->makeTransaction($this->row('D')));

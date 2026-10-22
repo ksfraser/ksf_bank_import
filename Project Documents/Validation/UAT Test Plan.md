@@ -43,5 +43,17 @@ Steps:
 Expected:
 - Flag removed.
 
+### UAT-VAL-006 — Suggested matches on a failed validation
+Covers FR-VAL-004 (suggested matches).
+Steps:
+1. Open the GL validation of a staged transaction whose amount does not match
+   the linked entry.
+2. Look at the suggested matches of the failing transaction.
+Expected:
+- At least one candidate GL entry is offered.
+- Selecting a candidate links the staged transaction to it.
+- A transaction without a candidate shows an empty suggestion list and can
+  still be flagged for review.
+
 ## Exit Criteria
 - All test cases pass.

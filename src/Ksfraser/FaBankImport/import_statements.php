@@ -130,7 +130,7 @@ function importStatement($smt)
 */
 			} catch( Exception $e )
 			{
-				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, tru ) );
+				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, true ) );
 			}
 		//var_dump( __FILE__ . "::" . __LINE__  );
 		//var_dump( $bit );

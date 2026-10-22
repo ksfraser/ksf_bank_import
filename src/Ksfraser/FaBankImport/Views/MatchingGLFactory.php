@@ -9,13 +9,13 @@ use Ksfraser\HTML\HtmlElementInterface;
  */
 
 /**
- * @BABOK FR-VAL-004 | BR-VAL-004
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
  */
 
 class MatchingGLFactory
 {
 	/**
- * @BABOK FR-VAL-004 | BR-VAL-004
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
 	 */
 	function __construct( $bi_lineitem )
 	{
