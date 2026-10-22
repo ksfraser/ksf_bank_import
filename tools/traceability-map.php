@@ -187,6 +187,10 @@ return [
     'Ksfraser\FaBankImport\Models\MatchingJEs' => ['FR-VAL-004', 'FR-PROC-009'],
     'Ksfraser\FaBankImport\Views\HTML_ROW_LABELDecorator' => ['FR-PROC-011', 'FR-PROC-013'],
 
+    'Ksfraser\FaBankImport\Contracts\BankAccountDirectoryInterface' => ['FR-003', 'FR-007'],
+    'Ksfraser\FaBankImport\Service\AccountResolutionService' => ['FR-002', 'FR-003', 'FR-004', 'FR-005', 'FR-006', 'FR-007', 'FR-008'],
+    'Ksfraser\FaBankImport\Service\ImportFlow' => ['FR-008', 'FR-IMP-004', 'FR-IMP-007', 'FR-IMP-008'],
+
     // ==================== FaBankImport: services (lowercase "services" tree) ====================
     'Ksfraser\FaBankImport\Services\AlertService' => ['FR-LOG-002', 'FR-PROC-001'],
     'Ksfraser\FaBankImport\Services\EventDispatcher' => ['FR-LOG-003'],

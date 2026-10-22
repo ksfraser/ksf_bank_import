@@ -64,6 +64,28 @@ final class TraceabilityAuditTest extends TestCase
         }
     }
 
+    /**
+     * The @BABOK tag of a unit, without the rest of its docblock.
+     *
+     * The requirement references have to come from the tag: the prose of a
+     * docblock may mention a requirement as well.
+     *
+     * @param array<string, mixed> $unit
+     * @return string|null The tag, or null when the unit has none
+     */
+    private static function babokTag(array $unit): ?string
+    {
+        $doc = $unit['doc'] === null ? '' : $unit['doc'][2];
+        if (stripos($doc, '@BABOK') === false) {
+            return null;
+        }
+        if (!preg_match('/@BABOK[^\r\n]*/i', $doc, $match)) {
+            return null;
+        }
+
+        return trim($match[0]);
+    }
+
     public function testEveryFunctionalRequirementIsTracedInItsRtm(): void
     {
         $missing = [];
@@ -108,11 +130,11 @@ final class TraceabilityAuditTest extends TestCase
         $unknown = [];
 
         foreach (self::$units as $unit) {
-            $doc = $unit['doc'] === null ? '' : $unit['doc'][2];
-            if (stripos($doc, '@BABOK') === false) {
+            $tag = self::babokTag($unit);
+            if ($tag === null) {
                 continue;
             }
-            if (!preg_match_all('/\bFR-[A-Z]*-?\d+\b/', $doc, $hits)) {
+            if (!preg_match_all('/\bFR-[A-Z]*-?\d+\b/', $tag, $hits)) {
                 $unknown[] = $unit['fqn'] . ' -> no FR reference in its @BABOK tag';
                 continue;
             }
@@ -135,24 +157,29 @@ final class TraceabilityAuditTest extends TestCase
         $mismatched = [];
 
         foreach (self::$units as $unit) {
-            $doc = $unit['doc'] === null ? '' : $unit['doc'][2];
-            if (stripos($doc, '@BABOK') === false) {
+            $tag = self::babokTag($unit);
+            if ($tag === null) {
                 continue;
             }
-            if (!preg_match('/\bFR-[A-Z]*-?\d+\b/', $doc, $frHit)) {
+            if (!preg_match_all('/\bFR-[A-Z]*-?\d+\b/', $tag, $frHits)) {
                 continue;
             }
-            $fr = $frHit[0];
-            if (!isset(self::$frIndex[$fr])) {
+            /*
+             * A unit can serve several requirements. The tag leads with the
+             * primary one, and that is the requirement whose BR / UAT chain
+             * the tag cites.
+             */
+            $primary = $frHits[0][0];
+            if (!isset(self::$frIndex[$primary])) {
                 continue;
             }
-            $meta = self::$frIndex[$fr];
+            $meta = self::$frIndex[$primary];
 
-            if ($meta['br'] !== null && strpos($doc, $meta['br']) === false) {
-                $mismatched[] = $unit['fqn'] . ' -> ' . $fr . ' should cite ' . $meta['br'];
+            if ($meta['br'] !== null && strpos($tag, $meta['br']) === false) {
+                $mismatched[] = $unit['fqn'] . ' -> ' . $primary . ' should cite ' . $meta['br'];
             }
-            if ($meta['uat'] !== null && strpos($doc, $meta['uat']) === false) {
-                $mismatched[] = $unit['fqn'] . ' -> ' . $fr . ' should cite ' . $meta['uat'];
+            if ($meta['uat'] !== null && strpos($tag, $meta['uat']) === false) {
+                $mismatched[] = $unit['fqn'] . ' -> ' . $primary . ' should cite ' . $meta['uat'];
             }
         }
 

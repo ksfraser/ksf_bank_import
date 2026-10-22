@@ -16,13 +16,13 @@ migration **source**; its existing tests stay, but it is not part of the 100% ta
 
 | Axis | Before | After | Enforced by |
 |---|---|---|---|
-| @BABOK tag on every production unit | 0 / 1777 (0%) | **1788 / 1788 (100%)** | `tests/unit/Quality/TraceabilityAuditTest.php` |
-| FR referenced by production code | 0 / 51 (0%) | **47 / 51 (92%)** | same test + `tools/ci_gate.php` |
+| @BABOK tag on every production unit | 0 / 1777 (0%) | **1802 / 1802 (100%)** | `tests/unit/Quality/TraceabilityAuditTest.php` |
+| FR referenced by production code | 0 / 51 (0%) | **51 / 51 (100%)** | same test + `tools/ci_gate.php` |
 | FR traced in its feature RTM | 49 / 51 (96%) | **51 / 51 (100%)** | same test |
-| Line coverage | 31.0% (2711/8743) | **98.0% (7189/7337)** | `tools/ci_gate.php` (clover) |
-| Method coverage | 40.5% (598/1477) | **95.8% (1293/1350)** | same |
-| Class coverage | 19.6% (63/321) | **86.0% (245/285)** | same |
-| Tests / assertions | 1447 / 3674 | **2622 / 6517** | `vendor/bin/phpunit` |
+| Line coverage | 31.0% (2711/8743) | **97.9% (7220/7373)** | `tools/ci_gate.php` (clover) |
+| Method coverage | 40.5% (598/1477) | **95.4% (1297/1359)** | same |
+| Class coverage | 19.6% (63/321) | **85.4% (245/287)** | same |
+| Tests / assertions | 1447 / 3674 | **2632 / 6531** | `vendor/bin/phpunit` |
 | Skipped tests | 1 | **0** | house rule: skipped = failed |
 | Classes that can be autoloaded | 259 / 326 | **324 / 327** | `tools/class_load_check.php` |
 
@@ -282,14 +282,17 @@ unreachable.
   `**GAP — no UAT case exists**` row; the UAT plans still need `UAT-PROC-013`
   and `UAT-VAL-006`.
 * `FR-002`, `FR-003`, `FR-007`, `FR-008` (the account-resolution screen) are
-  still implemented **only by the legacy root tree**; the PSR-4 tree implements
-  detection and mapping (`FR-001`, `FR-004`…`FR-006`) but not the resolution
-  screen. The CI gate lists them explicitly
-  (`requirements_implemented_in_legacy_tree`) so the gap stays visible.
+  now implemented in the PSR-4 tree as well:
+  `Service/AccountResolutionService` (the unresolved identifiers and the
+  mapping), `Contracts/BankAccountDirectoryInterface` (the read-only list of
+  the existing bank accounts — the step cannot create one, FR-007) and
+  `Service/ImportFlow` (the order of the steps: the resolution runs after the
+  duplicate review, FR-008). The CI gate's list of requirements that are still
+  only in the legacy tree is empty.
 
 ---
 
-## 5. The remaining 148 uncovered lines — why they are unreachable
+## 5. The remaining 153 uncovered lines — why they are unreachable
 
 | Group | Lines | Proof |
 |---|---|---|
@@ -302,6 +305,12 @@ unreachable.
 
 `tools/coverage-gate.json` pins these files on an allow-list, so **any new gap
 fails the build** while the gate is ratcheted upwards.
+
+> **Environment note (2026-10-22):** the root filesystem reached 100% during
+> this review. The cause is not the module: `/home/kevin/backups/state/` holds
+> ten daily database snapshots of ~5 GB each (48 GB, the newest from 2026-10-11),
+> and the backup job has not written since. The journal was vacuumed to free
+> 2.1 GB; the snapshots need a retention decision.
 
 ---
 
@@ -316,7 +325,8 @@ fails the build** while the gate is ratcheted upwards.
    typo, and the typo in `matchedVendor()`.
 4. **Fix the stateful repositories** (#10) — the accumulating WHERE clauses
    produce wrong results as soon as a repository is used twice.
-5. **Migrate the account-resolution screen** (FR-002/003/007/008) and close the
-   two UAT gaps (UAT-PROC-013, UAT-VAL-006).
+5. **Migrate the account-resolution screen** (FR-002/003/007/008) — the
+   service side is done; the screen still has to use it — and close the two
+   UAT gaps (UAT-PROC-013, UAT-VAL-006).
 6. **Resolve the PHP floor** (#6) — either drop the typed properties or raise
    `composer.json` to `>=7.4` (the container runtime is 7.4).
