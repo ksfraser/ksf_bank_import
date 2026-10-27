@@ -43,4 +43,25 @@ final class LegacyBiLineItemViewTest extends TestCase
         $this->scenario->mergeCoverage($this);
 
     }
+
+    public function testTheOpenBasedirFallbackIsExercised(): void
+    {
+        $iniFile = (string) tempnam(sys_get_temp_dir(), 'ksf_bi_basedir_');
+        // Restrict the child to the module tree and /tmp, so the include of
+        // the legacy ksf_modules_common fails cleanly and the guarded
+        // branch of the view runs.
+        $ini = 'open_basedir=' . realpath(__DIR__ . '/../../..') . PATH_SEPARATOR . sys_get_temp_dir() . "\n";
+        file_put_contents($iniFile, $ini);
+        putenv('PHPRC=' . $iniFile);
+        try {
+            $this->scenario->run('legacy_bi_line_item_view');
+        } finally {
+            putenv('PHPRC');
+            @unlink($iniFile);
+        }
+        $this->assertStringContainsString('SCENARIO_OK', $this->scenario->getOutput());
+        $this->assertSame(0, $this->scenario->getExitCode());
+        $this->assertNotEmpty($this->scenario->getCoverage());
+        $this->scenario->mergeCoverage($this);
+    }
 }

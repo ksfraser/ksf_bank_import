@@ -21,11 +21,11 @@ class SettledDepositTable extends SettledTable
          */
         function __construct( $transaction )
         {
-		parent::__construct();
-                $table->appendRow( new OperationDeposit() );
+		parent::__construct( $transaction );
+		$this->table->appendRow( new OperationDeposit() );
 //TODO: Refactor to use fa_customer
 		$custArray = get_customer_trans($transaction->fa_trans_no, $transaction->fa_trans_type);
-                $table->appendRow( new CustomerBranch( $custArray ) );
+		$this->table->appendRow( new CustomerBranch( $custArray ) );
         }
 }
 /**

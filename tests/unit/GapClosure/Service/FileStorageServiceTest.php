@@ -10,6 +10,7 @@ use Ksfraser\FaBankImport\ValueObject\FileInfo;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/Support/AlwaysExistingFileStorageService.php';
+require_once __DIR__ . '/Support/upload_functions.php';
 require_once __DIR__ . '/../../Services/Support/fa_company_path.php';
 
 /**
@@ -113,6 +114,64 @@ final class FileStorageServiceTest extends TestCase
             $this->baseDir . DIRECTORY_SEPARATOR . 'bank_imports' . DIRECTORY_SEPARATOR . 'uploads',
             $service->getStorageDirectory()
         );
+    }
+
+    /**
+     * A promotion confirmed by the upload check is moved with the upload
+     * mover, not renamed.
+     *
+     * The fake of the FA surface marks the statement as a real upload, so
+     * the ternary of the store takes the move_uploaded_file branch and the
+     * file ends up in the storage directory.
+     *
+     * @return void
+     */
+    public function testARealUploadIsMovedWithTheUploadMover(): void
+    {
+        require_once __DIR__ . '/Support/upload_functions.php';
+
+        $GLOBALS['__ksf_test_uploaded_paths'] = [
+            $this->baseDir . DIRECTORY_SEPARATOR . 'statement.qfx',
+        ];
+
+        try {
+            $storageDir = $this->baseDir . DIRECTORY_SEPARATOR . 'uploads';
+            $service = new FileStorageService($storageDir);
+
+            $source = $this->baseDir . DIRECTORY_SEPARATOR . 'statement.qfx';
+            file_put_contents($source, 'a statement');
+
+            $fileInfo = new FileInfo('statement.qfx', $source, 11, 'application/octet-stream');
+            $result = $service->store($fileInfo, 'qfx');
+
+            $this->assertFileExists($result['path']);
+            $this->assertStringStartsWith('QFX_statement_', $result['filename']);
+            $this->assertFileDoesNotExist($source);
+            $this->assertFileExists($storageDir . DIRECTORY_SEPARATOR . '.htaccess');
+        } finally {
+            unset($GLOBALS['__ksf_test_uploaded_paths']);
+        }
+    }
+
+    /**
+     * The protection file is left as it is when there already is one.
+     *
+     * @return void
+     */
+    public function testTheProtectionFileIsLeftAsItIsWhenThereAlreadyIsOne(): void
+    {
+        $storageDir = $this->baseDir . DIRECTORY_SEPARATOR . 'uploads';
+        mkdir($storageDir, 0777, true);
+        $htaccess = $storageDir . DIRECTORY_SEPARATOR . '.htaccess';
+        file_put_contents($htaccess, 'the rules this run must not touch');
+
+        $service = new FileStorageService($storageDir);
+
+        $method = new \ReflectionMethod(FileStorageService::class, 'createHtaccessFile');
+        $method->setAccessible(true);
+        $method->invoke($service);
+
+        $this->assertSame('the rules this run must not touch', file_get_contents($htaccess));
     }
 
     /**

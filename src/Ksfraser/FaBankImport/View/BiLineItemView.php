@@ -411,10 +411,10 @@ class BiLineItemView
 		switch( $_POST['partnerType'][$this->id] ) 
 		{
 			case 'SP':
-				$this->displaySupplierPartnerType();		
+				$this->displaySupplierPartnerType( $this->id, (array) $this->matching_trans );
 				break;
 			case 'CU':
-				$this->displayCustomerPartnerType();		
+				$this->displayCustomerPartnerType( $this->lineItemModel, $this->id, (array) $this->matching_trans );
 				break;
 			case 'BT':      //partnerType
 				$this->displayBankTransferPartnerType();		

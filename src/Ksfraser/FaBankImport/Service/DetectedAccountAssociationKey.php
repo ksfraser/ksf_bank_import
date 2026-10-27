@@ -41,10 +41,6 @@ final class DetectedAccountAssociationKey
         $prefix = 'acct_assoc.';
         $suffix = '.' . $hash;
         $maxSanitizedLen = 100 - strlen($prefix) - strlen($suffix);
-        if ($maxSanitizedLen < 1) {
-            // Defensive; should never happen with current constants.
-            $maxSanitizedLen = 1;
-        }
 
         if (strlen($sanitized) > $maxSanitizedLen) {
             $sanitized = substr($sanitized, 0, $maxSanitizedLen);

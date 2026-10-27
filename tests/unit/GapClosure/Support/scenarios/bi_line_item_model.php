@@ -84,5 +84,13 @@ namespace {
 
     echo 'OTHER_ACCOUNT: ' . $model->get('otherBankAccount') . "\n";
 
+    /*
+     * The read-only accessor: a value the model keeps protected reads
+     * through the magic getter, a name the model does not have reads null.
+     */
+    echo 'GET_LABEL: ' . $model->transactionTypeLabel . "\n";
+    $missing = $model->fieldTheModelDoesNotHave;
+    echo 'GET_MISSING: ' . var_export($missing === null, true) . "\n";
+
     echo "SCENARIO_OK\n";
 }

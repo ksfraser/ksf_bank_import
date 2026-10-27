@@ -52,6 +52,22 @@ final class LegacyEnvironmentTest extends TestCase
     }
 
     /**
+     * The read-only accessor serves the protected values, and answers null
+     * for names the model does not have.
+     *
+     * @return void
+     */
+    public function testTheReadonlyAccessorAnswersKnownAndUnknownNames(): void
+    {
+        $this->scenario->run('bi_line_item_model');
+
+        $output = $this->scenario->getOutput();
+
+        $this->assertStringContainsString('GET_LABEL: Credit', $output);
+        $this->assertStringContainsString('GET_MISSING: true', $output);
+    }
+
+    /**
      * @return void
      */
     public function testTheProviderLoadsTheLegacyHelper(): void

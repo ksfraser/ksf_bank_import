@@ -16,13 +16,13 @@ migration **source**; its existing tests stay, but it is not part of the 100% ta
 
 | Axis | Before | After | Enforced by |
 |---|---|---|---|
-| @BABOK tag on every production unit | 0 / 1777 (0%) | **1802 / 1802 (100%)** | `tests/unit/Quality/TraceabilityAuditTest.php` |
+| @BABOK tag on every production unit | 0 / 1777 (0%) | **1803 / 1803 (100%)** | `tests/unit/Quality/TraceabilityAuditTest.php` |
 | FR referenced by production code | 0 / 51 (0%) | **51 / 51 (100%)** | same test + `tools/ci_gate.php` |
 | FR traced in its feature RTM | 49 / 51 (96%) | **51 / 51 (100%)** | same test |
-| Line coverage | 31.0% (2711/8743) | **97.9% (7220/7373)** | `tools/ci_gate.php` (clover) |
-| Method coverage | 40.5% (598/1477) | **95.4% (1297/1359)** | same |
-| Class coverage | 19.6% (63/321) | **85.4% (245/287)** | same |
-| Tests / assertions | 1447 / 3674 | **2632 / 6531** | `vendor/bin/phpunit` |
+| Line coverage | 31.0% (2711/8743) | **100% (7375/7375)** | `tools/ci_gate.php` (clover) |
+| Method coverage | 40.5% (598/1477) | **100% (1360/1360)** | same |
+| Class coverage | 19.6% (63/321) | **100% (287/287)** | same |
+| Tests / assertions | 1447 / 3674 | **2676 / 6607** | `vendor/bin/phpunit` |
 | Skipped tests | 1 | **0** | house rule: skipped = failed |
 | Classes that can be autoloaded | 259 / 326 | **324 / 327** | `tools/class_load_check.php` |
 

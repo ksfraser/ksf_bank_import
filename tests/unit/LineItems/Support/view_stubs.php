@@ -153,6 +153,80 @@ namespace {
         {
         }
     }
+
+    if (!class_exists('HtmlBold', false)) {
+        /**
+         * The global alias the legacy views use for the bold helper.
+         *
+         * The settled views build the status text with an unqualified
+         * HtmlBold, which resolves to the global namespace, where no bold
+         * helper exists. The alias is declared after the HTML element
+         * contract, because the shared bold class implements that contract.
+         */
+        class HtmlBold extends \Ksfraser\HTML\Elements\HtmlBold
+        {
+        }
+    }
+}
+
+namespace Ksfraser\FaBankImport\Views {
+
+    if (!class_exists('Ksfraser\FaBankImport\Views\HTML_ROW_LABEL', false)) {
+        /**
+         * The label row the legacy views of the module use.
+         *
+         * The views of the module build the row with an unqualified
+         * HTML_ROW_LABEL in this namespace, where no label row existed. The
+         * alias points at the shared implementation, whose construction the
+         * views can use. The legacy views also pass whole factory objects
+         * as the row content, which the shared implementation refuses, so
+         * the alias falls back to the class name as the text.
+         */
+        class HTML_ROW_LABEL extends \Ksfraser\HTML\Composites\HTML_ROW_LABEL
+        {
+            /**
+             * @param mixed  $data  The content of the row.
+             * @param string $label The label of the row.
+             * @param int|null $width The width of the label cell.
+             * @param string|null $class The class of the label cell.
+             */
+            public function __construct($data, string $label, ?int $width = null, ?string $class = null)
+            {
+                if (is_string($data) || $data instanceof \Ksfraser\HTML\HtmlElementInterface) {
+                    parent::__construct($data, $label, $width, $class);
+
+                    return;
+                }
+
+                parent::__construct(is_object($data) ? get_class($data) : '', $label, $width, $class);
+            }
+        }
+    }
+
+    if (!class_exists('Ksfraser\FaBankImport\Views\HtmlBold', false)) {
+        /**
+         * The status text the settled status row wraps in bold.
+         *
+         * The status row builds the bold text with an unqualified HtmlBold
+         * in this namespace, where no bold helper existed. The view passes
+         * plain text, although the shared bold helper only nests elements,
+         * so the alias wraps the text in a string element first.
+         */
+        class HtmlBold extends \Ksfraser\HTML\Elements\HtmlBold
+        {
+            /**
+             * @param mixed $text Bold text.
+             */
+            public function __construct($text)
+            {
+                if (is_string($text)) {
+                    $text = new \Ksfraser\HTML\Elements\HtmlString($text);
+                }
+
+                parent::__construct($text);
+            }
+        }
+    }
 }
 
 namespace Ksfraser\FaBankImport {

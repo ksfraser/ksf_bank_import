@@ -11,6 +11,11 @@ declare(strict_types=1);
  * publishes the state as dynamic properties of the view and drives every
  * method on its own.
  *
+ * The scenario runs twice: once in the normal test environment, and once
+ * with an open_basedir that excludes the legacy ksf_modules_common
+ * directory, so the degenerate include of the view fails cleanly and its
+ * guarded branch runs.
+ *
  * @package    Ksfraser\FaBankImport\Tests\Unit\LineItems\Support\scenarios
  * @license    MIT
  */
@@ -266,9 +271,10 @@ run_view(function () use ($view) {
     );
 });
 
-// The matching journal entries, with a match on our own account.
+// The reading of the matched customer of the journal entries, with an
+// include guard that prevents the legacy ksf_modules_common defines from
+// loading, so the plain-readable type branch is driven.
 run_view(function () use ($view) {
-    $view->our_account = 'Chequing';
     $view->displayMatchingTransArr(
         [
             [
@@ -276,14 +282,13 @@ run_view(function () use ($view) {
                 'type' => ST_BANKPAYMENT,
                 'type_no' => 7,
                 'account' => 'Chequing',
-                'account_name' => 'Chequing',
                 'amount' => 25.5,
                 'score' => 90,
+                'person_type_id' => 1,
             ],
         ],
         new \Ksfraser\FaBankImport\View\FaBankAccounts(['bank_account_name' => 'Chequing'])
     );
-    $view->our_account = '000123';
 });
 
 // The matching journal entries of a debit, with an amount that differs.
@@ -395,5 +400,77 @@ run_view(function () use ($view, $model) {
     $view->displayCustomerPartnerType($model, 11, []);
     unset($GLOBALS['__customer_has_no_branches']);
 });
+
+// The matching journal entries, with a match on our own bank account:
+// the match that the view reports as an account match.
+$reflectedView = new \ReflectionClass(\Ksfraser\FaBankImport\View\BiLineItemView::class);
+$reflectedModel = $reflectedView->getProperty('lineItemModel');
+$reflectedModel->setAccessible(true);
+$reflectedModel->setValue($view, $model);
+run_view(function () use ($view) {
+    $view->our_account = 'Chequing';
+    $view->displayMatchingTransArr(
+        [
+            [
+                'tran_date' => '2026-01-31',
+                'type' => ST_BANKPAYMENT,
+                'type_no' => 7,
+                'account' => 'Chequing',
+                'account_name' => 'Chequing',
+                'amount' => 25.5,
+                'score' => 90,
+            ],
+        ],
+        new \Ksfraser\FaBankImport\View\FaBankAccounts(['bank_account_name' => 'Chequing'])
+    );
+    $view->our_account = '000123';
+});
+
+// The magic property reads fall back to the model.
+// A property the view itself carries: the model handle inside the view,
+// which the reads from the outside consult through the getter.
+run_view(function () use ($view) {
+    $model = $view->lineItemModel;
+    if (!$model instanceof \Ksfraser\FaBankImport\Model\BiLineItemModel) {
+        throw new \RuntimeException('Expected the line item model');
+    }
+});
+
+// A property the view does not carry, so the model is consulted.
+run_view(function () use ($view) {
+    $spread = $view->days_spread;
+});
+
+// A property neither the view nor the model carries, so null is returned.
+run_view(function () use ($view) {
+    $missing = $view->propertyNeitherHas;
+    if ($missing !== null) {
+        throw new \RuntimeException('Expected a null fallback');
+    }
+});
+
+// Method calls fall back to the model too: a known method is forwarded and
+// an unknown one is refused.
+run_view(function () use ($view) {
+    $view->determineTransactionTypeLabel();
+});
+
+run_view(function () use ($view) {
+    $view->certainlyNoSuchMethodAtAll();
+});
+
+// The magic reads of a view whose line item is gone: no model to consult,
+// so a plain null is returned.
+$reflectedView = new \ReflectionClass(\Ksfraser\FaBankImport\View\BiLineItemView::class);
+$reflectedModel = $reflectedView->getProperty('lineItemModel');
+$reflectedModel->setAccessible(true);
+$reflectedModel->setValue($view, null);
+run_view(function () use ($view) {
+    $missing = $view->propertyNeitherHas;
+    if ($missing !== null) {
+        throw new \RuntimeException('Expected a null fallback');
+    }
+});
+$reflectedModel->setValue($view, $model);
 
 echo "SCENARIO_OK\n";

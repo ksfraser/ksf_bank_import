@@ -23,7 +23,13 @@ class HtmlFormatting extends HtmlElement
 	 */
 	function __construct( $data )
 	{
-		parent::__construct( $data );
+		//HtmlElement::<init> dispatches newAttributeList(), which this family
+		// overrides to disallow Attributes.  Initialize the same state
+		// directly so construction succeeds.
+		$this->nested = array();
+		$this->addNested( $data );
+		$this->empty = false;
+		$this->attributeList = new HtmlAttributeList( new HtmlAttribute( "", "" ) );
 		$this->tag = "";
 	}
 	/**
@@ -31,20 +37,20 @@ class HtmlFormatting extends HtmlElement
 	 */
 	function addAttribute( HtmlAttribute $attribute ): void
 	{
-		throw new Exception( "Does HTML Formatting allow Attributes?" );
+		throw new \Exception( "Does HTML Formatting allow Attributes?" );
 	}
 	/**
  * @BABOK FR-IMP-010, FR-PROC-009 | BR-IMP-001 | UAT-IMP-001
 	 */
 	function setAttributeList( HtmlAttributeList $list ): void
 	{
-		throw new Exception( "Does HTML Formatting allow Attributes?" );
+		throw new \Exception( "Does HTML Formatting allow Attributes?" );
 	}
 	/**
  * @BABOK FR-IMP-010, FR-PROC-009 | BR-IMP-001 | UAT-IMP-001
 	 */
 	function newAttributeList(): void
 	{
-		throw new Exception( "Does HTML Formatting allow Attributes?" );
+		throw new \Exception( "Does HTML Formatting allow Attributes?" );
 	}
 }

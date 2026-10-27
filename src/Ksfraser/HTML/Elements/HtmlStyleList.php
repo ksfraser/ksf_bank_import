@@ -23,9 +23,13 @@ class HtmlStyleList implements HtmlElementInterface
         /**
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
          */
-        function __constructor( HtmlStyle $style )
+        function __construct( ?HtmlStyle $style = null )
         {
-                $this->addStyle( $style );
+                $this->styleArray = array();
+                if( $style !== null )
+                {
+                        $this->addStyle( $style );
+                }
         }
         /**
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
@@ -33,6 +37,20 @@ class HtmlStyleList implements HtmlElementInterface
         function addStyle( HtmlStyle $style )
         {
                 $this->styleArray[] = $style;
+        }
+        /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * Get the inner CSS declarations for the styles in the list,
+ * without the style=" " attribute wrapper.
+         */
+        function getStylesString(): string
+        {
+                $html = "";
+                foreach( $this->styleArray as $style )
+                {
+                        $html .= $style->getHtml();
+                }
+                return $html;
         }
         /**
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001

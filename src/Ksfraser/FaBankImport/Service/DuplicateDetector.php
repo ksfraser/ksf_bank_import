@@ -105,10 +105,6 @@ class DuplicateDetector
                 
             case 'block':
                 return DuplicateResult::blockDuplicate($existingFile);
-                
-            default:
-                // Default to warn if invalid config
-                return DuplicateResult::warnDuplicate($existingFile);
         }
     }
     

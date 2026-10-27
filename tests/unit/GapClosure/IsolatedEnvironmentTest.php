@@ -82,6 +82,8 @@ final class IsolatedEnvironmentTest extends \PHPUnit\Framework\TestCase
             'path_resolver_without_company_path',
             'fa_ui_functions_without_root',
             'deprecated_aliases',
+            'registry_unreadable_directory',
+            'discovery_unreadable_paths',
         ];
 
         foreach ($scenarios as $name) {
@@ -115,6 +117,49 @@ final class IsolatedEnvironmentTest extends \PHPUnit\Framework\TestCase
 
         $this->assertStringContainsString('SCENARIO_OK', $output);
         $this->assertStringContainsString('ALIAS Ksfraser\HTML\Elements\HtmlHidden: true', $output);
+        $this->assertSame(0, $this->scenario->getExitCode());
+    }
+
+    /**
+     * When the scanner is denied its directory, the registry keeps no type.
+     *
+     * The scenario denies the partner type directory with open_basedir, so
+     * glob() fails and loadTypes() returns without registering anything -
+     * and asking for a type twice still finds none.
+     *
+     * @return void
+     */
+    public function testTheRegistryScannerKeepsNoTypeWhenDenied(): void
+    {
+        $this->scenario->run('registry_unreadable_directory');
+
+        $output = $this->scenario->getOutput();
+
+        $this->assertStringContainsString('SCENARIO_OK', $output);
+        $this->assertStringContainsString('SCAN_DENIED: true', $output);
+        $this->assertStringContainsString('SCAN_STILL_DENIED: true', $output);
+        $this->assertSame(0, $this->scenario->getExitCode());
+    }
+
+    /**
+     * When the handlers directory is out of reach, the processor registers
+     * no handler and leaves the request as it came.
+     *
+     * A first construction runs while the stat cache still knows the
+     * directory (glob fails), a second one after the cache is cleared (the
+     * directory lookup itself fails).
+     *
+     * @return void
+     */
+    public function testHandlerDiscoveryRegistersNothingWhenDenied(): void
+    {
+        $this->scenario->run('discovery_unreadable_paths');
+
+        $output = $this->scenario->getOutput();
+
+        $this->assertStringContainsString('SCENARIO_OK', $output);
+        $this->assertStringContainsString('SCAN_DENIED: true', $output);
+        $this->assertStringContainsString('BAIL_OUT: true', $output);
         $this->assertSame(0, $this->scenario->getExitCode());
     }
 }

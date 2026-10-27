@@ -121,6 +121,18 @@ namespace {
             $controller->callRender('admin/dashboard', ['title' => 'Dashboard']);
             break;
 
+        case 'abstract_render_missing_view':
+            try {
+                $controller = new TestController();
+                $controller->callRender('admin/no_such_view', ['title' => 'Doomed']);
+            } catch (\Throwable $e) {
+                echo 'CAUGHT: ' . get_class($e) . ': ' . $e->getMessage() . "\n";
+                echo "SCENARIO_OK";
+                exit(0);
+            }
+            echo "NO_EXCEPTION";
+            break;
+
         case 'abstract_json':
             $controller = new TestController();
             $exposeResponse($controller);

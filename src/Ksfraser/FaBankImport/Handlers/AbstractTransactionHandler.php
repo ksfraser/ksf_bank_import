@@ -88,12 +88,6 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
         $this->referenceService = $referenceService ?? new ReferenceNumberService();
         
         $this->partnerType = $this->getPartnerTypeInstance();
-        
-        if (!$this->partnerType instanceof PartnerTypeInterface) {
-            throw new \InvalidArgumentException(
-                'Handler must provide valid PartnerType instance: ' . static::class
-            );
-        }
 
         // Validate short code format (2 uppercase letters)
         $shortCode = $this->partnerType->getShortCode();

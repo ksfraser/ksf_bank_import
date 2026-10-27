@@ -319,6 +319,21 @@ final class TransactionProcessorTest extends ProcessingTestCase
     }
 
     /**
+     * A handler that fails with a reflection error is skipped as well.
+     *
+     * @return void
+     */
+    public function test_a_handler_that_throws_a_reflection_error_is_skipped(): void
+    {
+        $GLOBALS['ksf_processing_handler_failure'] = 'reflection';
+
+        $processor = new TransactionProcessor();
+
+        $this->assertContains('SP', $processor->getRegisteredTypes());
+        $this->assertNotContains('TempFailing', $processor->getRegisteredTypes());
+    }
+
+    /**
      * A handler file without a class is skipped.
      *
      * @return void

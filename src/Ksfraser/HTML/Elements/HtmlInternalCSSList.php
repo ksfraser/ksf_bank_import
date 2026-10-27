@@ -7,9 +7,11 @@ use Ksfraser\HTML\HtmlElementInterface;
 /**
  * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
  */
-class HtmlInternalCSSList extends HtmlStyleList 
+class HtmlInternalCSSList extends HtmlStyleList
 {
- 
+	//Selector for the internal CSS block; empty until a selector is needed.
+	protected $tag = "";
+
 	/**
  * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
 	 */

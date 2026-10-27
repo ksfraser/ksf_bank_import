@@ -50,7 +50,7 @@ class FaGLWrapper
 	        }
 	        else
 	        {
-		        throw new Exception( "Couldn't open " . __DIR__ . "/../../../../ksf_modules_common/class.fa_gl.php" );
+		        throw new \Exception( "Couldn't open " . __DIR__ . "/../../../../ksf_modules_common/class.fa_gl.php" );
 	        }
 	}
 	/**

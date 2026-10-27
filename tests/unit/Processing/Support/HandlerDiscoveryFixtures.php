@@ -127,6 +127,8 @@ class TempFailingHandler
                 throw new \Error('simulated error');
             case 'discovery':
                 throw new HandlerDiscoveryException('simulated discovery error');
+            case 'reflection':
+                throw new \ReflectionException('simulated reflection error');
             case 'exception':
                 throw new \Exception('simulated exception');
         }

@@ -28,16 +28,16 @@ class DisplaySettledTransactions implements HtmlElementInterface
                 switch ($transaction->fa_trans_type)
                 {
                         case ST_SUPPAYMENT:
-				$table->appendRow( new SettledPaymentTable );
+				$table->appendRow( new SettledPaymentTable( $transaction ) );
                         break;
                         case ST_BANKDEPOSIT:
-				$table->appendRow( new SettledDepositTable );
+				$table->appendRow( new SettledDepositTable( $transaction ) );
                         break;
                         case 0:
 				$table->appendRow( new SettledManual() );
                         break;
                         default:
-				$table->appendRow( new SettledDefault() );
+				$table->appendRow( new SettledDefault( $transaction ) );
                         break;
                 }
 		$table->appendRow( new UnsetTransaction( $transaction ) );

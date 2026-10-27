@@ -11,6 +11,36 @@ use Ksfraser\FaBankImport\Service\StatementAccountMappingService;
 use PHPUnit\Framework\TestCase;
 
 /**
+ * A mapping service the tests prime with fixed detected identifiers.
+ *
+ * The production mapping never yields an identifier that is empty after
+ * trimming; this double can, so the skipping of such an identifier can be
+ * pinned.
+ */
+final class PrimedAccountMappingService extends StatementAccountMappingService
+{
+    /** @var array<int, array<int, string>> */
+    private $byFile;
+
+    /**
+     * @param array<int, array<int, string>> $byFile fileIndex => detected identifiers
+     */
+    public function __construct(array $byFile)
+    {
+        $this->byFile = $byFile;
+    }
+
+    /**
+     * @param array<int, array<int|string, object>> $multistatements
+     * @return array<int, array<int, string>>
+     */
+    public function collectDetectedAccountsByFile(array $multistatements): array
+    {
+        return $this->byFile;
+    }
+}
+
+/**
  * A bank account directory that only knows the accounts it was given.
  */
 final class FakeBankAccountDirectory implements BankAccountDirectoryInterface
@@ -120,6 +150,27 @@ final class AccountResolutionServiceTest extends TestCase
     }
 
     /**
+     * A detected identifier that is empty after trimming is not a question.
+     *
+     * The production mapping never hands one over; the skipping is pinned
+     * anyway so the resolution cannot start asking about blank identifiers.
+     *
+     * @return void
+     */
+    public function testABlankDetectedIdentifierIsSkipped(): void
+    {
+        $accounts = [['id' => 1, 'number' => '000123', 'name' => 'Chequing']];
+        $service = new AccountResolutionService(
+            new PrimedAccountMappingService([0 => ['   ', 'ACCT-1']]),
+            new FakeBankAccountDirectory($accounts)
+        );
+
+        $unresolved = $service->collectUnresolved([0 => [$this->statement('ACCT-1')]]);
+
+        $this->assertSame(['ACCT-1' => [0]], $unresolved);
+    }
+
+    /**
      * An identifier that is a bank account number already is resolved.
      *
      * @return void
@@ -190,6 +241,20 @@ final class AccountResolutionServiceTest extends TestCase
 
         $this->assertSame('000123', $updated[0][0]->account);
         $this->assertSame('ACCT-1', $updated[0][0]->acctid);
+    }
+
+    /**
+     * An empty list of saved associations changes nothing.
+     *
+     * @return void
+     */
+    public function testAnEmptySavedMapReturnsTheStatementsUntouched(): void
+    {
+        $statements = [0 => [$this->statement('ACCT-1', '000000')]];
+
+        $updated = $this->service()->applySavedAssociations($statements, []);
+
+        $this->assertSame($statements, $updated);
     }
 
     /**

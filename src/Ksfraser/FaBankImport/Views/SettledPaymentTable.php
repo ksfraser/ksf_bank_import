@@ -23,10 +23,10 @@ class SettledPaymentTable extends SettledTable
         {
 //TODO data was passed in in an minfo array
 //	Ensure the data is available in transaction.
-		parent::__construct();
-                $table->appendRow( new OperationPayment() );
-                $table->appendRow( new FromBankAccount( $transaction ) );
-                $table->appendRow( new SettledSupplier( $transaction ) );
+		parent::__construct( $transaction );
+		$this->table->appendRow( new OperationPayment() );
+		$this->table->appendRow( new FromBankAccount( $transaction ) );
+		$this->table->appendRow( new SettledSupplier( $transaction ) );
         }
 }
 /**

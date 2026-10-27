@@ -99,6 +99,17 @@ final class AbstractControllerTest extends TestCase
         $process->mergeCoverage($this);
     }
 
+    public function testRenderThrowsWhenNoViewFileMatches(): void
+    {
+        $process = (new IsolatedProcess())->run('controllers', ['abstract_render_missing_view']);
+
+        $this->assertSame(0, $process->getExitCode(), $process->getOutput());
+        $this->assertStringContainsString('CAUGHT: RuntimeException: View not found: admin/no_such_view', $process->getStdout());
+        $this->assertStringContainsString('SCENARIO_OK', $process->getStdout());
+
+        $process->mergeCoverage($this);
+    }
+
     public function testJsonEmitsTheEncodedPayload(): void
     {
         $process = (new IsolatedProcess())->run('controllers', ['abstract_json']);

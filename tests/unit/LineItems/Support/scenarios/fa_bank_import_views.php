@@ -195,6 +195,33 @@ run_legacy(function () use ($lineItem) {
     $view->toHtml();
 });
 
+// The right hand side of the row, built without its constructor: the
+// constructor aborts on the incompatible legacy row contract, so the render
+// is driven with an injected table instead.
+run_legacy(function () {
+    $view = (new \ReflectionClass(\Ksfraser\FaBankImport\Views\LineitemDisplayRight::class))->newInstanceWithoutConstructor();
+    $table = new \Ksfraser\HTML\Composites\HTML_TABLE(null, 100);
+    $table->appendRow(new \Ksfraser\FaBankImport\Views\Operation((object) ['id' => 11, 'oplabel' => 'Deposit']));
+    $property = new \ReflectionProperty(\Ksfraser\FaBankImport\Views\LineitemDisplayRight::class, 'table');
+    $property->setAccessible(true);
+    $property->setValue($view, $table);
+    $view->getHtml();
+    $view->toHtml();
+});
+
+// The matching GLs row, built without its constructor: the constructor
+// aborts on the incompatible legacy content contract, so the render is
+// driven with an injected label row instead.
+run_legacy(function () {
+    $view = (new \ReflectionClass(\Ksfraser\FaBankImport\Views\MatchingGLS::class))->newInstanceWithoutConstructor();
+    $row = new \Ksfraser\HTML\Composites\HTML_ROW_LABEL('No matches found', 'Matching GLs:');
+    $property = new \ReflectionProperty(\Ksfraser\FaBankImport\Views\MatchingGLS::class, 'row');
+    $property->setAccessible(true);
+    $property->setValue($view, $row);
+    $view->getHtml();
+    $view->toHtml();
+});
+
 run_legacy(function () {
     $view = new \Ksfraser\FaBankImport\Views\TransactionCustomerDetails(1, 42);
     $view->getLineitemMatchedCustomerDetails();
@@ -212,7 +239,7 @@ run_legacy(function () {
 });
 
 run_legacy(function () {
-    $menu = new \Views\ModuleMenuView();
+    $menu = new \Ksfraser\FaBankImport\Views\ModuleMenuView();
     $menu->renderMenu();
 });
 
@@ -255,6 +282,21 @@ run_legacy(function () {
         /** @var string */
         protected $data = 'The data';
     };
+});
+
+// The shared HTML_ROW_LABEL contract is authoritative in the current test
+// support (view_stubs.php), so the label-row delegates exercise it in the
+// context the legacy views use.
+run_legacy(function () {
+    $row = new \HTML_ROW_LABEL('content', 'Label', null, null);
+    $row->toHTML();
+    $row->getHTML();
+});
+
+run_legacy(function () {
+    $row = new \HTML_ROW_LABEL('content', 'Label', 50, 'custom');
+    $row->toHTML();
+    $row->getHTML();
 });
 
 // The transaction view renders a transaction and its action buttons.

@@ -5,6 +5,7 @@ namespace Ksfraser\HTML\Elements;
 use Ksfraser\HTML\HtmlElement;
 
 use Ksfraser\HTML\HtmlElementInterface;
+use Ksfraser\HTML\HtmlAttribute;
 
 /**
  * @BABOK FR-VAL-005, FR-PROC-009 | BR-VAL-003 | UAT-VAL-004
@@ -60,7 +61,7 @@ class HtmlImage extends HtmlElement
 		$w = new HtmlStyle( "width", $width . "px" );
 		$h = new HtmlStyle( "height", $height . "px" );
 		$s = new HtmlStyleList( $w );
-		$s->addAttribute( $h );
-		$this->addAttribute( 'style', $s );
+		$s->addStyle( $h );
+		$this->addAttribute( new HtmlAttribute( "style", $s->getStylesString() ) );
 	}
 }
