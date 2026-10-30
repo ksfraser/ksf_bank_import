@@ -84,6 +84,7 @@ return [
     'Ksfraser\FaBankImport\Repository\DatabaseConfigRepository' => ['FR-005', 'FR-IMP-004', 'FR-LOG-006', 'FR-UPL-004'],
     'Ksfraser\FaBankImport\Repository\DatabasePartnerDataRepository' => ['FR-PROC-002'],
     'Ksfraser\FaBankImport\Repository\DatabaseUploadedFileRepository' => ['FR-IMP-003', 'FR-IMP-009', 'FR-UPL-001', 'FR-UPL-002', 'FR-UPL-003', 'FR-UPL-004', 'FR-UPL-005'],
+    'Ksfraser\FaBankImport\Repository\FaBankAccountDirectory' => ['FR-003', 'FR-007'],
     'Ksfraser\FaBankImport\Repository\ParameterBinder' => ['FR-PROC-002', 'FR-PROC-001'],
     'Ksfraser\FaBankImport\Repository\PartnerDataRepositoryInterface' => ['FR-PROC-002'],
     'Ksfraser\FaBankImport\Repository\UploadedFileRepositoryInterface' => ['FR-IMP-003', 'FR-IMP-009', 'FR-UPL-001', 'FR-UPL-002', 'FR-UPL-003', 'FR-UPL-004', 'FR-UPL-005'],
