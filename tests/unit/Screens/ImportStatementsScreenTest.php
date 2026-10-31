@@ -77,7 +77,7 @@ final class ImportStatementsScreenTest extends TestCase
      *
      * @return string Absolute path of the written file.
      */
-    private function writeStatementFile(string $name, string $fitid = '23095000001', bool $withBom = false): string
+    private function writeStatementFile(string $name, string $fitid = '23095000001', bool $withBom = false, string $acctid = 'ACC-0001'): string
     {
         $header = [
             'OFXHEADER:100',
@@ -118,7 +118,7 @@ final class ImportStatementsScreenTest extends TestCase
             '<CURDEF>CAD</CURDEF>',
             '<BANKACCTFROM>',
             '<BANKID>1</BANKID>',
-            '<ACCTID>1518404</ACCTID>',
+            '<ACCTID>' . $acctid . '</ACCTID>',
             '<ACCTTYPE>CHECKING</ACCTTYPE>',
             '</BANKACCTFROM>',
             '<BANKTRANLIST>',
@@ -219,6 +219,7 @@ final class ImportStatementsScreenTest extends TestCase
         $process = $this->runScreen([
             'post' => ['parser' => 'QFX', 'upload' => 'Upload', 'bank_account' => 1],
             'files' => [
+                ['name' => '', 'tmp_name' => 'never-read', 'error' => 0],
                 ['name' => 'statement.qfx', 'tmp_name' => $file, 'error' => 0],
             ],
         ]);
@@ -366,5 +367,189 @@ final class ImportStatementsScreenTest extends TestCase
 
         $this->assertTrue($updated, 'An already imported statement is updated instead of inserted.');
         $this->assertSame(0, $transactionInserts, 'A duplicate transaction is not inserted again.');
+    }
+
+    /**
+     * Builds the pending-resolution session for the submit scenarios.
+     *
+     * @return string The serialised multistatements
+     */
+    private function pendingResolutionStatements(): string
+    {
+        $statement = new \stdClass();
+        $statement->statementId = 'STMT-9';
+        $statement->bank = 'Test Bank';
+        $statement->acctid = '1518404';
+        $statement->account = 'ACC-0001';
+        $statement->transactions = [];
+
+        return serialize([0 => [$statement]]);
+    }
+
+    /**
+     * The POST body of one resolution row.
+     *
+     * @param string|null $accountId The FA bank account the user chose
+     * @param bool        $remember  Whether the user flagged the mapping
+     *
+     * @return array
+     */
+    private function resolutionPost(?string $accountId, bool $remember = true): array
+    {
+        $fieldKey = \Ksfraser\FaBankImport\Views\AccountResolutionView::fieldKeyFor('1518404');
+        $post = [
+            'resolve_accounts' => '1',
+            'detected_account' => [$fieldKey => '1518404', 'empty_field_key' => ''],
+        ];
+        if ($accountId !== null) {
+            $post['resolved_bank_account'] = [$fieldKey => $accountId];
+        }
+        if ($remember) {
+            $post['remember_mapping'] = [$fieldKey => '1'];
+        }
+
+        return $post;
+    }
+
+    public function testAnUnmappedAccountRequiresResolutionBeforeTheImport(): void
+    {
+        $file = $this->writeStatementFile('statement.qfx', '23095000001', false, '1518404');
+
+        $process = $this->runScreen([
+            'post' => ['parser' => 'QFX', 'upload' => 'Upload', 'bank_account' => 1],
+            'files' => [
+                ['name' => 'statement.qfx', 'tmp_name' => $file, 'error' => 0],
+            ],
+        ]);
+
+        $output = $process->getStdout();
+
+        $this->assertStringContainsString('Bank Account Resolution Required', $output);
+        $this->assertStringContainsString('name="resolved_bank_account[', $output);
+        $this->assertStringContainsString('1518404', $output, 'The detected account is shown.');
+        $this->assertStringNotContainsString("name='import'", $output, 'The import waits for the resolution.');
+
+        $info = $process->getInfo();
+        $this->assertArrayHasKey('bank_import_account_resolution', $info['session'] ?? []);
+        $this->assertArrayNotHasKey('statements', $info['session'] ?? []);
+    }
+
+    public function testARememberedAssociationResolvesTheAccountAutomatically(): void
+    {
+        $file = $this->writeStatementFile('statement.qfx', '23095000001', false, '1518404');
+        $savedKey = \Ksfraser\FaBankImport\Service\DetectedAccountAssociationKey::forDetectedAccount('1518404');
+
+        $process = $this->runScreen([
+            'post' => ['parser' => 'QFX', 'upload' => 'Upload', 'bank_account' => 1],
+            'files' => [
+                ['name' => 'statement.qfx', 'tmp_name' => $file, 'error' => 0],
+            ],
+            'db_rows' => [
+                ['rows' => [['config_key' => $savedKey, 'config_value' => '1', 'config_type' => 'string']], 'match' => 'SELECT config_key, config_value, config_type'],
+            ],
+        ]);
+
+        $output = $process->getStdout();
+
+        $this->assertStringContainsString("name='import'", $output, 'A remembered association auto-resolves the account.');
+        $this->assertStringNotContainsString('Bank Account Resolution Required', $output);
+
+        $info = $process->getInfo();
+        $this->assertNotEmpty($info['session']['statements'] ?? null);
+    }
+
+    public function testTheResolutionDecisionAppliesAndOffersTheImport(): void
+    {
+        $process = $this->runScreen([
+            'post' => $this->resolutionPost('1'),
+            'session' => [
+                'bank_import_account_resolution' => $this->pendingResolutionStatements(),
+                'wa_current_user' => ['name' => 'ksf-test-user'],
+            ],
+            'files' => [
+                ['name' => '', 'tmp_name' => 'not-needed', 'error' => 0],
+            ],
+        ]);
+
+        $output = $process->getStdout();
+
+        $this->assertStringContainsString('Resolved detected accounts successfully.', $output);
+        $this->assertStringContainsString("name='import'", $output, 'After the resolution the import is offered.');
+
+        $info = $process->getInfo();
+        $this->assertNotEmpty($info['session']['statements'] ?? null, 'The resolved statements are kept for the import.');
+        $this->assertArrayNotHasKey('bank_import_account_resolution', $info['session'] ?? [], 'The pending resolution is dropped.');
+
+        $remembered = false;
+        foreach ($info['queries'] ?? [] as $query) {
+            if (strpos((string) $query, 'INSERT INTO 0_bi_config_history') !== false) {
+                $remembered = true;
+            }
+        }
+        $this->assertTrue($remembered, 'A remembered choice is stored in the audit trail.');
+    }
+
+    public function testTheResolutionDecisionWithoutSelectionIsRefused(): void
+    {
+        $process = $this->runScreen([
+            'post' => $this->resolutionPost(null),
+            'session' => ['bank_import_account_resolution' => $this->pendingResolutionStatements()],
+        ]);
+
+        $output = $process->getStdout();
+
+        $this->assertStringContainsString('Please select a FrontAccounting bank account for detected account', $output);
+        $this->assertStringNotContainsString("name='import'", $output);
+
+        $info = $process->getInfo();
+        $this->assertArrayHasKey('bank_import_account_resolution', $info['session'] ?? [], 'The pending resolution waits for a retry.');
+    }
+
+    public function testTheResolutionDecisionWithAnUnknownAccountIsRefused(): void
+    {
+        $process = $this->runScreen([
+            'post' => $this->resolutionPost('99'),
+            'session' => ['bank_import_account_resolution' => $this->pendingResolutionStatements()],
+        ]);
+
+        $output = $process->getStdout();
+
+        $this->assertStringContainsString('Invalid bank account selection for detected account', $output);
+        $this->assertStringNotContainsString("name='import'", $output);
+    }
+
+    public function testAnAbortedResolutionReturnsToTheUploadForm(): void
+    {
+        $post = $this->resolutionPost('1');
+        $post['resolve_accounts'] = '1';
+        unset($post['detected_account'], $post['resolved_bank_account'], $post['remember_mapping']);
+
+        $process = $this->runScreen([
+            'post' => ['cancel_account_resolution' => '1'],
+            'session' => ['bank_import_account_resolution' => $this->pendingResolutionStatements()],
+        ]);
+
+        $output = $process->getStdout();
+
+        $this->assertStringContainsString("name='upload'", $output, 'The user is back on the upload form.');
+
+        $info = $process->getInfo();
+        $this->assertArrayNotHasKey('bank_import_account_resolution', $info['session'] ?? []);
+    }
+
+    public function testAResolutionSubmitWithoutAPendingSessionIsReported(): void
+    {
+        $post = $this->resolutionPost('1');
+        unset($post['detected_account'], $post['resolved_bank_account'], $post['remember_mapping']);
+
+        $process = $this->runScreen([
+            'post' => ['resolve_accounts' => '1', 'detected_account' => ['bdfeb16caa61' => '1518404']],
+        ]);
+
+        $info = $process->getInfo();
+
+        $errors = $info['errors'] ?? [];
+        $this->assertNotEmpty($errors, 'The missing pending session is reported.');
+        $this->assertStringContainsString('No pending account resolution session found', $errors[0]);
     }
 }

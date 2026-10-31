@@ -264,8 +264,14 @@ function parse_uploaded_files() {
     $trz_ok = 0;
     $smt_err = 0;
     $trz_err = 0;
+    $multistatements = array();
+    $uploaded_filenames = array();
 
     foreach($_FILES['files']['name'] as $id=>$fname) {
+	if ($fname === '' || $fname === null) {
+	    continue;
+	}
+	$uploaded_filenames[$id] = $fname;
     	display_notification( __FILE__ . "::" . __LINE__ . "  Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`" );
     	//echo  __FILE__ . "::" . __LINE__ . "Processing file `$fname` with format `{$_parsers[$_POST['parser']]['name']}`...\n";
 
@@ -277,6 +283,7 @@ function parse_uploaded_files() {
         }
 
     	$statements = $parser->parse($content, $static_data, $debug=false); // false for no debug, true for debug
+	$multistatements[$id] = $statements;
 	if( $debug )
 	{
 		var_dump( __FILE__ . "::" . __LINE__ . ":: Statements post parsing"  );
@@ -308,17 +315,216 @@ function parse_uploaded_files() {
     start_row();
     echo '<td>';
 	submit_center_first('goback', 'Go back');
-	if ($smt_err == 0)
-	    submit_center_last('import', 'Import');
 
     echo '</td>';
     end_row();
-    
+
     end_table(1);
     hidden('parser', $_POST['parser']);
     if ($smt_err == 0) {
-	$_SESSION['statements'] = serialize($statements);
+	if (offer_account_resolution_step($multistatements, $uploaded_filenames) === false) {
+	    // Nothing is unresolved: the import is offered on the stored statements.
+	    flatten_statements_into_session($multistatements);
+	    submit_center_last('import', 'Import');
+	}
     }
+}
+
+/**
+ * The statements that remain after the whole upload flow, flattened for the import.
+ *
+ * @param array<int, array<int|string, object>> $multistatements File index => statements
+ * @return void
+ * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ */
+function flatten_statements_into_session(array $multistatements): void
+{
+    $statements = [];
+
+    foreach ($multistatements as $fileStatements) {
+        foreach ($fileStatements as $smt) {
+            $statements[] = $smt;
+        }
+    }
+
+    $_SESSION['statements'] = serialize($statements);
+}
+
+/**
+ * The saved detected-account => FA account associations the user remembered earlier.
+ *
+ * @param array<int, array<int|string, object>> $multistatements File index => statements
+ * @return array<string, string> The detected account id => FA bank account number
+ * @BABOK FR-002, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ */
+function load_saved_account_associations(array $multistatements): array
+{
+    $mapping = new \Ksfraser\FaBankImport\Service\StatementAccountMappingService();
+    $repo = new \Ksfraser\FaBankImport\Repository\DatabaseConfigRepository();
+
+    $detectedAll = [];
+    foreach ($mapping->collectDetectedAccountsByFile($multistatements) as $detectedList) {
+        foreach ($detectedList as $detected) {
+            $detectedAll[$detected] = true;
+        }
+    }
+
+    $resolved = [];
+    foreach (array_keys($detectedAll) as $detected) {
+        $key = \Ksfraser\FaBankImport\Service\DetectedAccountAssociationKey::forDetectedAccount((string) $detected);
+        $bankAccountId = $repo->get($key);
+        if ($bankAccountId === null || $bankAccountId === '' || (int) $bankAccountId <= 0) {
+            continue;
+        }
+        $ba = get_bank_account((int) $bankAccountId);
+        if (is_array($ba) && !empty($ba['bank_account_number'])) {
+            $resolved[$detected] = $ba['bank_account_number'];
+        }
+    }
+
+    return $resolved;
+}
+
+
+/**
+ * Run the account resolution step after the upload.
+ *
+ * Auto-applies the saved associations first; whatever is still unresolved
+ * gets the blocking resolution screen and no Import button (FR-002, FR-006).
+ *
+ * @param array<int, array<int|string, object>> $multistatements File index => statements
+ * @param array<int, string>                    $uploaded_filenames File index => uploaded file name
+ * @return bool True when the blocking screen was rendered
+ * @BABOK FR-002, FR-003, FR-005, FR-006, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ */
+function offer_account_resolution_step(array $multistatements, array $uploaded_filenames): bool
+{
+    $resolution = new \Ksfraser\FaBankImport\Service\AccountResolutionService(
+        new \Ksfraser\FaBankImport\Service\StatementAccountMappingService(),
+        new \Ksfraser\FaBankImport\Repository\FaBankAccountDirectory()
+    );
+
+    $savedMap = load_saved_account_associations($multistatements);
+    $multistatements = $resolution->applySavedAssociations($multistatements, $savedMap);
+
+    $unresolved = $resolution->collectUnresolved($multistatements, $savedMap);
+    if ($unresolved === []) {
+        return false;
+    }
+
+    $_SESSION[\Ksfraser\FaBankImport\Views\AccountResolutionView::SESSION_KEY] = serialize($multistatements);
+
+    $view = new \Ksfraser\FaBankImport\Views\AccountResolutionView();
+    $view->renderBlocking($unresolved, $resolution->availableBankAccounts(), $uploaded_filenames);
+
+    return true;
+}
+
+/**
+ * Handle the Proceed button of the resolution screen.
+ *
+ * @return void
+ * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ */
+function resolve_account_mappings(): void
+{
+    start_table(TABLESTYLE);
+    start_row();
+    echo "<td width=100%><pre>\n";
+
+    if (empty($_SESSION[\Ksfraser\FaBankImport\Views\AccountResolutionView::SESSION_KEY])) {
+        display_error(_("No pending account resolution session found. Please upload the file(s) again."));
+        echo "</pre></td>";
+        end_row();
+        end_table(1);
+        return;
+    }
+
+    $multistatements = unserialize($_SESSION[\Ksfraser\FaBankImport\Views\AccountResolutionView::SESSION_KEY]);
+    $decisions = \Ksfraser\FaBankImport\Views\AccountResolutionView::collectSubmittedMapping($_POST);
+
+    $accounts = (new \Ksfraser\FaBankImport\Service\AccountResolutionService(
+        new \Ksfraser\FaBankImport\Service\StatementAccountMappingService(),
+        new \Ksfraser\FaBankImport\Repository\FaBankAccountDirectory()
+    ))->availableBankAccounts();
+    $accountById = [];
+    foreach ($accounts as $account) {
+        $accountById[$account['id']] = $account;
+    }
+
+    $detectedToAccountNumber = [];
+    $remembered = [];
+
+    foreach ($decisions as $decision) {
+        if ($decision['detected'] === '') {
+            continue;
+        }
+        if ($decision['selected'] <= 0) {
+            display_error(_("Please select a FrontAccounting bank account for detected account") . ': ' . htmlspecialchars($decision['detected']));
+            continue;
+        }
+        if (!isset($accountById[$decision['selected']])) {
+            display_error(_("Invalid bank account selection for detected account") . ': ' . htmlspecialchars($decision['detected']));
+            continue;
+        }
+
+        $detectedToAccountNumber[$decision['detected']] = $accountById[$decision['selected']]['number'];
+
+        if ($decision['remember']) {
+            $remembered[$decision['detected']] = $decision['selected'];
+        }
+    }
+
+    if ($detectedToAccountNumber === []) {
+        echo "</pre></td>";
+        end_row();
+        end_table(1);
+        return;
+    }
+
+    $resolution = new \Ksfraser\FaBankImport\Service\AccountResolutionService(
+        new \Ksfraser\FaBankImport\Service\StatementAccountMappingService(),
+        new \Ksfraser\FaBankImport\Repository\FaBankAccountDirectory()
+    );
+    $multistatements = $resolution->applyResolution($multistatements, $detectedToAccountNumber);
+
+    $repo = new \Ksfraser\FaBankImport\Repository\DatabaseConfigRepository();
+    foreach ($remembered as $detected => $selectedId) {
+        $key = \Ksfraser\FaBankImport\Service\DetectedAccountAssociationKey::forDetectedAccount($detected);
+        $username = null;
+        $currentUser = isset($_SESSION['wa_current_user']) ? $_SESSION['wa_current_user'] : null;
+        if (is_object($currentUser) && property_exists($currentUser, 'name')) {
+            $username = $currentUser->name;
+        } elseif (is_array($currentUser) && isset($currentUser['name'])) {
+            $username = $currentUser['name'];
+        }
+        $repo->set($key, (string) $selectedId, $username, 'Associate detected account to FA bank account');
+    }
+
+    echo "Resolved detected accounts successfully.\n";
+    echo "</pre></td>";
+    end_row();
+    start_row();
+    echo '<td>';
+    submit_center_first('goback', 'Go back');
+    submit_center_last('import', 'Import');
+    echo '</td>';
+    end_row();
+    end_table(1);
+
+    flatten_statements_into_session($multistatements);
+    unset($_SESSION[\Ksfraser\FaBankImport\Views\AccountResolutionView::SESSION_KEY]);
+}
+
+/**
+ * Handle the Cancel button of the resolution screen.
+ *
+ * @return void
+ * @BABOK FR-002, FR-005 | BR-ACCT-001 | UAT-ACCT-001
+ */
+function cancel_account_resolution(): void
+{
+    unset($_SESSION[\Ksfraser\FaBankImport\Views\AccountResolutionView::SESSION_KEY]);
 }
 
 
@@ -334,7 +540,7 @@ if (get_post('_parser_update')) {
 
 start_form(true);
 
-if (empty($_POST['upload']) && empty($_POST['import'])) {
+if (empty($_POST['upload']) && empty($_POST['import']) && empty($_POST['resolve_accounts']) && empty($_POST['cancel_account_resolution'])) {
     do_upload_form();
 }
 
@@ -347,6 +553,17 @@ if (@$_POST['upload'] && ($_FILES['files']['error'][0] == 0)) {
 //if import is hit, perform the import
 if (@$_POST['import']) {
     import_statements();
+}
+
+//if the resolution Proceed button is hit, apply the chosen mappings
+if (@$_POST['resolve_accounts']) {
+    resolve_account_mappings();
+}
+
+//if the resolution Cancel button is hit, drop the pending resolution
+if (@$_POST['cancel_account_resolution']) {
+    cancel_account_resolution();
+    do_upload_form();
 }
 
 
