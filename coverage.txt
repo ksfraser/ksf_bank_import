@@ -1,10 +1,260 @@
 
 
-Code Coverage Report:      
-  2026-10-20 08:02:35      
-                           
- Summary:                  
-  Classes:  0.00% (0/290)  
-  Methods:  0.00% (0/1662) 
-  Lines:    0.00% (0/11789)
+Code Coverage Report:         
+  2026-10-20 08:05:59         
+                              
+ Summary:                     
+  Classes: 17.93% (52/290)    
+  Methods: 41.88% (696/1662)  
+  Lines:   41.93% (4927/11751)
 
+Ksfraser\FaBankImport\API\APIErrorResponse
+  Methods:  83.33% ( 5/ 6)   Lines:  93.75% ( 15/ 16)
+Ksfraser\FaBankImport\API\MatchTransactionRequest
+  Methods:  88.89% ( 8/ 9)   Lines:  76.00% ( 19/ 25)
+Ksfraser\FaBankImport\API\MatchTransactionResponse
+  Methods:  50.00% ( 6/12)   Lines:  76.92% ( 20/ 26)
+Ksfraser\FaBankImport\API\MatchingAPI
+  Methods:  84.62% (11/13)   Lines:  90.40% (160/177)
+Ksfraser\FaBankImport\API\PartnerStatsResponse
+  Methods:  60.00% ( 6/10)   Lines:  85.71% ( 24/ 28)
+Ksfraser\FaBankImport\API\ReportSummaryResponse
+  Methods:  35.71% ( 5/14)   Lines:  76.32% ( 29/ 38)
+Ksfraser\FaBankImport\Commands\AddCustomerCommand
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 46/ 46)
+Ksfraser\FaBankImport\Commands\AddVendorCommand
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 46/ 46)
+Ksfraser\FaBankImport\Commands\CommandDispatcher
+  Methods:  83.33% ( 5/ 6)   Lines:  87.50% ( 35/ 40)
+Ksfraser\FaBankImport\Commands\ToggleDebitCreditCommand
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 45/ 45)
+Ksfraser\FaBankImport\Commands\UnsetTransactionCommand
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 30/ 30)
+Ksfraser\FaBankImport\Config\BankImportConfig
+  Methods:  80.00% (12/15)   Lines:  89.29% ( 50/ 56)
+Ksfraser\FaBankImport\Config\Config
+  Methods:   0.00% ( 0/ 4)   Lines:   5.13% (  2/ 39)
+Ksfraser\FaBankImport\Container
+  Methods:  35.71% ( 5/14)   Lines:  28.26% ( 13/ 46)
+Ksfraser\FaBankImport\Database\TransactionQueryBuilder
+  Methods:  88.89% ( 8/ 9)   Lines:  98.91% ( 91/ 92)
+Ksfraser\FaBankImport\Domain\ValueObjects\Keyword
+  Methods:  90.00% ( 9/10)   Lines:  82.93% ( 34/ 41)
+Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch
+  Methods:  84.21% (16/19)   Lines:  93.75% ( 75/ 80)
+Ksfraser\FaBankImport\Domain\ValueObjects\MatchConfidence
+  Methods: 100.00% (14/14)   Lines: 100.00% ( 59/ 59)
+Ksfraser\FaBankImport\Domain\ValueObjects\PartnerData
+  Methods: 100.00% (17/17)   Lines: 100.00% ( 81/ 81)
+Ksfraser\FaBankImport\Entity\PartnerEntity
+  Methods: 100.00% ( 7/ 7)   Lines: 100.00% ( 13/ 13)
+Ksfraser\FaBankImport\Entity\PartnerMatchResult
+  Methods:  57.14% ( 4/ 7)   Lines:  76.19% ( 16/ 21)
+Ksfraser\FaBankImport\Entity\UploadedFile
+  Methods: 100.00% (17/17)   Lines: 100.00% ( 36/ 36)
+Ksfraser\FaBankImport\Exceptions\HandlerDiscoveryException
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 15/ 15)
+Ksfraser\FaBankImport\Factories\TransactionTypeFactory
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  7/  7)
+Ksfraser\FaBankImport\Handlers\AbstractTransactionHandler
+  Methods:  70.00% ( 7/10)   Lines:  71.88% ( 23/ 32)
+Ksfraser\FaBankImport\Handlers\BankTransferTransactionHandler
+  Methods:  25.00% ( 1/ 4)   Lines:  83.90% ( 99/118)
+Ksfraser\FaBankImport\Handlers\CustomerTransactionHandler
+  Methods:  66.67% ( 2/ 3)   Lines:  96.67% ( 87/ 90)
+Ksfraser\FaBankImport\Handlers\ManualSettlementHandler
+  Methods:  66.67% ( 2/ 3)   Lines:  89.33% ( 67/ 75)
+Ksfraser\FaBankImport\Handlers\MatchedTransactionHandler
+  Methods:  33.33% ( 1/ 3)   Lines:  81.11% ( 73/ 90)
+Ksfraser\FaBankImport\Handlers\QuickEntryTransactionHandler
+  Methods:  66.67% ( 2/ 3)   Lines:  88.19% (127/144)
+Ksfraser\FaBankImport\Handlers\SupplierTransactionHandler
+  Methods:  50.00% ( 2/ 4)   Lines:  96.77% (120/124)
+Ksfraser\FaBankImport\Http\ResponseHandler
+  Methods:  87.50% ( 7/ 8)   Lines:  92.31% ( 12/ 13)
+Ksfraser\FaBankImport\Models\AbstractTransaction
+  Methods:  22.22% ( 2/ 9)   Lines:  69.57% ( 16/ 23)
+Ksfraser\FaBankImport\OperationTypes\OperationTypesRegistry
+  Methods:  40.00% ( 2/ 5)   Lines:  57.14% (  4/  7)
+Ksfraser\FaBankImport\Reporting\MatchingReport
+  Methods: 100.00% (19/19)   Lines: 100.00% ( 78/ 78)
+Ksfraser\FaBankImport\Reporting\OperationReport
+  Methods:  89.47% (17/19)   Lines:  98.01% (148/151)
+Ksfraser\FaBankImport\Reporting\ReportingService
+  Methods:  95.65% (22/23)   Lines:  95.70% ( 89/ 93)
+Ksfraser\FaBankImport\Repositories\TransactionRepository
+  Methods:  27.27% ( 3/11)   Lines:   3.80% (  3/ 79)
+Ksfraser\FaBankImport\Results\TransactionResult
+  Methods:  80.95% (17/21)   Lines:  88.52% (108/122)
+Ksfraser\FaBankImport\Services\ConfidenceEnhancer
+  Methods:  16.67% ( 1/ 6)   Lines:   2.33% (  1/ 43)
+Ksfraser\FaBankImport\Services\CustomerMatchingConfiguration
+  Methods:   9.09% ( 1/11)   Lines:   4.00% (  1/ 25)
+Ksfraser\FaBankImport\Services\CustomerScoringEngineFactory
+  Methods:  85.71% ( 6/ 7)   Lines:  91.67% ( 11/ 12)
+Ksfraser\FaBankImport\Services\FileStorageService
+  Methods:  30.77% ( 4/13)   Lines:  77.63% ( 59/ 76)
+Ksfraser\FaBankImport\Services\KeywordExtractorService
+  Methods:  44.44% ( 4/ 9)   Lines:  80.39% ( 41/ 51)
+Ksfraser\FaBankImport\Services\KeywordMatchingService
+  Methods:  44.44% ( 4/ 9)   Lines:  81.18% ( 69/ 85)
+Ksfraser\FaBankImport\Services\MetricsAggregator
+  Methods:  75.00% ( 3/ 4)   Lines:  51.61% ( 32/ 62)
+Ksfraser\FaBankImport\Services\PartnerDataService
+  Methods: 100.00% (13/13)   Lines: 100.00% ( 36/ 36)
+Ksfraser\FaBankImport\Services\PartnerMatcherFactory
+  Methods:  75.00% ( 3/ 4)   Lines:  92.31% ( 12/ 13)
+Ksfraser\FaBankImport\Services\ReferenceNumberService
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  7/  7)
+Ksfraser\FaBankImport\Services\Rules\AmountMatchRule
+  Methods:  40.00% ( 2/ 5)   Lines:  80.00% ( 12/ 15)
+Ksfraser\FaBankImport\Services\Rules\BankAccountMatchRule
+  Methods:  25.00% ( 1/ 4)   Lines:  62.50% (  5/  8)
+Ksfraser\FaBankImport\Services\Rules\InvoiceDetectionRule
+  Methods:  50.00% ( 2/ 4)   Lines:  75.00% (  6/  8)
+Ksfraser\FaBankImport\Services\Rules\RefundDetectionRule
+  Methods:  25.00% ( 1/ 4)   Lines:  62.50% (  5/  8)
+Ksfraser\FaBankImport\Services\Rules\VendorNameMatchRule
+  Methods:  50.00% ( 2/ 4)   Lines:  88.24% ( 15/ 17)
+Ksfraser\FaBankImport\Services\Scoring\AmountRangeRule
+  Methods:  25.00% ( 1/ 4)   Lines:   7.69% (  1/ 13)
+Ksfraser\FaBankImport\Services\Scoring\RecencyRule
+  Methods:  25.00% ( 1/ 4)   Lines:   7.69% (  1/ 13)
+Ksfraser\FaBankImport\Services\Scoring\ScoringEngineFactory
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% ( 20/ 20)
+Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine
+  Methods:  23.08% ( 3/13)   Lines:  44.16% ( 34/ 77)
+Ksfraser\FaBankImport\Services\Scoring\TypeConsistencyRule
+  Methods:  25.00% ( 1/ 4)   Lines:   7.14% (  1/ 14)
+Ksfraser\FaBankImport\Services\SupplierMatchResult
+  Methods:  90.91% (10/11)   Lines:  95.45% ( 21/ 22)
+Ksfraser\FaBankImport\Services\SupplierMatcher
+  Methods:  85.71% ( 6/ 7)   Lines:  97.50% ( 39/ 40)
+Ksfraser\FaBankImport\Services\SupplierMatchingConfiguration
+  Methods:  72.73% ( 8/11)   Lines:  76.00% ( 19/ 25)
+Ksfraser\FaBankImport\Services\SupplierScoringEngineFactory
+  Methods: 100.00% ( 7/ 7)   Lines: 100.00% ( 12/ 12)
+Ksfraser\FaBankImport\Services\SupplierTransactionMatcher
+  Methods:  66.67% ( 6/ 9)   Lines:  90.91% ( 50/ 55)
+Ksfraser\FaBankImport\Services\TransactionPartnerMatcher
+  Methods:  33.33% ( 1/ 3)   Lines:  42.31% ( 33/ 78)
+Ksfraser\FaBankImport\Services\TransactionService
+  Methods:  50.00% ( 2/ 4)   Lines:  71.43% ( 10/ 14)
+Ksfraser\FaBankImport\Services\TransactionViewService
+  Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 15/ 15)
+Ksfraser\FaBankImport\Services\VendorCandidate
+  Methods:  80.00% ( 4/ 5)   Lines:  87.50% (  7/  8)
+Ksfraser\FaBankImport\StatementReconcile\Application\BankAccountMatchService
+  Methods: 100.00% ( 5/ 5)   Lines: 100.00% ( 66/ 66)
+Ksfraser\FaBankImport\StatementReconcile\Application\PhpSessionPendingSessionStore
+  Methods: 100.00% ( 5/ 5)   Lines: 100.00% (  9/  9)
+Ksfraser\FaBankImport\StatementReconcile\Application\ReconcileView
+  Methods: 100.00% ( 7/ 7)   Lines: 100.00% (465/465)
+Ksfraser\FaBankImport\StatementReconcile\Application\ReconciliationCommitService
+  Methods:  80.00% ( 4/ 5)   Lines:  82.86% ( 29/ 35)
+Ksfraser\FaBankImport\StatementReconcile\Application\StatementReconcileController
+  Methods:  77.78% (14/18)   Lines:  85.48% (259/303)
+Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\ReconciliationSession
+  Methods: 100.00% (18/18)   Lines: 100.00% (102/102)
+Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr
+  Methods: 100.00% (12/12)   Lines: 100.00% ( 58/ 58)
+Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationException
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  3/  3)
+Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  2/  2)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionDto
+  Methods: 100.00% (10/10)   Lines: 100.00% ( 39/ 39)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\MatchedPair
+  Methods: 100.00% (10/10)   Lines: 100.00% ( 39/ 39)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\RawOcrResult
+  Methods: 100.00% ( 5/ 5)   Lines: 100.00% ( 16/ 16)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine
+  Methods: 100.00% (11/11)   Lines: 100.00% ( 51/ 51)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata
+  Methods: 100.00% (11/11)   Lines: 100.00% ( 60/ 60)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Database\Migrations\CreateReconciliationSessionTable
+  Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 19/ 19)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Database\Migrations\CreateStatementOcrTable
+  Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 19/ 19)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Database\Migrations\CreateStatementUploadTable
+  Methods: 100.00% ( 4/ 4)   Lines: 100.00% ( 22/ 22)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\OllamaClient
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% ( 53/ 53)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\PdfTextExtractor
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 18/ 18)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\StatementTextParser
+  Methods: 100.00% ( 7/ 7)   Lines: 100.00% ( 63/ 63)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Persistence\PdoReconciliationSessionRepository
+  Methods: 100.00% ( 8/ 8)   Lines: 100.00% ( 61/ 61)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Persistence\PdoStatementOcrRepository
+  Methods: 100.00% ( 7/ 7)   Lines: 100.00% ( 70/ 70)
+Ksfraser\FaBankImport\StatementReconcile\Matching\SimpleMatchingEngine
+  Methods: 100.00% ( 6/ 6)   Lines: 100.00% ( 70/ 70)
+Ksfraser\FaBankImport\Strategy\AllowDuplicateStrategy
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% (  9/  9)
+Ksfraser\FaBankImport\Strategy\BlockDuplicateStrategy
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% ( 18/ 18)
+Ksfraser\FaBankImport\Strategy\DuplicateStrategyFactory
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% ( 11/ 11)
+Ksfraser\FaBankImport\Strategy\WarnDuplicateStrategy
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% ( 18/ 18)
+Ksfraser\FaBankImport\TransactionProcessor
+  Methods:  75.00% ( 6/ 8)   Lines:  54.95% ( 50/ 91)
+Ksfraser\FaBankImport\Types\BankTransferTransaction
+  Methods:  50.00% ( 1/ 2)   Lines:  50.00% (  1/  2)
+Ksfraser\FaBankImport\Types\CreditTransaction
+  Methods:  50.00% ( 1/ 2)   Lines:  50.00% (  1/  2)
+Ksfraser\FaBankImport\Types\DebitTransaction
+  Methods:  50.00% ( 1/ 2)   Lines:  50.00% (  1/  2)
+Ksfraser\FaBankImport\ValueObject\DuplicateResult
+  Methods: 100.00% (11/11)   Lines: 100.00% ( 13/ 13)
+Ksfraser\FaBankImport\ValueObject\FileInfo
+  Methods:  83.33% (10/12)   Lines:  83.33% ( 40/ 48)
+Ksfraser\FaBankImport\ValueObject\UploadResult
+  Methods: 100.00% (14/14)   Lines: 100.00% ( 26/ 26)
+Ksfraser\FaBankImport\Views\AmountCharges
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  3/  3)
+Ksfraser\FaBankImport\Views\BankTransferPartnerTypeView
+  Methods: 100.00% ( 9/ 9)   Lines: 100.00% ( 39/ 39)
+Ksfraser\FaBankImport\Views\CustomerPartnerTypeView
+  Methods:  63.64% ( 7/11)   Lines:  63.29% ( 50/ 79)
+Ksfraser\FaBankImport\Views\DataProviders\CustomerDataProvider
+  Methods:  68.75% (11/16)   Lines:  69.23% ( 54/ 78)
+Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider
+  Methods:  70.00% ( 7/10)   Lines:  92.50% ( 37/ 40)
+Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider
+  Methods:  91.67% (11/12)   Lines:  80.00% ( 36/ 45)
+Ksfraser\FaBankImport\Views\LineitemDisplayLeft
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  9/  9)
+Ksfraser\FaBankImport\Views\OtherBankAccount
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  3/  3)
+Ksfraser\FaBankImport\Views\OurBankAccount
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  3/  3)
+Ksfraser\FaBankImport\Views\PartnerTypeDisplayStrategy
+  Methods:  58.33% ( 7/12)   Lines:  67.65% ( 92/136)
+Ksfraser\FaBankImport\Views\ProcessStatementsView
+  Methods:  63.64% ( 7/11)   Lines:  65.28% ( 47/ 72)
+Ksfraser\FaBankImport\Views\ProcessTransactionButtonRow
+  Methods:  66.67% ( 2/ 3)   Lines:  80.00% (  4/  5)
+Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView
+  Methods:  62.50% ( 5/ 8)   Lines:  86.36% ( 38/ 44)
+Ksfraser\FaBankImport\Views\SubmitButton
+  Methods:  66.67% ( 2/ 3)   Lines:  75.00% (  3/  4)
+Ksfraser\FaBankImport\Views\SubmitButtonRow
+  Methods:  66.67% ( 2/ 3)   Lines:  80.00% (  4/  5)
+Ksfraser\FaBankImport\Views\SupplierPartnerTypeView
+  Methods:  87.50% ( 7/ 8)   Lines:  97.22% ( 35/ 36)
+Ksfraser\FaBankImport\Views\TransDate
+  Methods: 100.00% ( 3/ 3)   Lines: 100.00% (  8/  8)
+Ksfraser\FaBankImport\Views\TransTitle
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  3/  3)
+Ksfraser\FaBankImport\Views\TransType
+  Methods: 100.00% ( 1/ 1)   Lines: 100.00% (  3/  3)
+Ksfraser\FaBankImport\Views\TransactionTypeLabel
+  Methods:  50.00% ( 1/ 2)   Lines:  80.00% (  8/ 10)
+Ksfraser\FaBankImport\Views\UnsetTransButtonRow
+  Methods:  66.67% ( 2/ 3)   Lines:  80.00% (  4/  5)
+Ksfraser\FaBankImport\Views\ViewFactory
+  Methods: 100.00% ( 6/ 6)   Lines: 100.00% ( 48/ 48)
+ViewBILineItems
+  Methods:   5.56% ( 1/18)   Lines:   0.47% (  1/213)

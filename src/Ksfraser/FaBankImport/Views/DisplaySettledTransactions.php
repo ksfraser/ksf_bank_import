@@ -23,30 +23,30 @@ class DisplaySettledTransactions implements HtmlElementInterface
                 switch ($transaction->fa_trans_type)
                 {
                         case ST_SUPPAYMENT:
-				$table->appendRow( new SettledPaymentTable );
+				$table->appendRow( new SettledPaymentTable( $transaction ) );
                         break;
                         case ST_BANKDEPOSIT:
-				$table->appendRow( new SettledDepositTable );
+				$table->appendRow( new SettledDepositTable( $transaction ) );
                         break;
                         case 0:
 				$table->appendRow( new SettledManual() );
                         break;
                         default:
-				$table->appendRow( new SettledDefault() );
+				$table->appendRow( new SettledDefault( $transaction ) );
                         break;
                 }
 		$table->appendRow( new UnsetTransaction( $transaction ) );
                 //label_row( "Unset Transaction Association", submit( "UnsetTrans[$this->id]", _( "Unset Transaction $this->fa_trans_no"), false, '', 'default' ));
 	}
         /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
-        function toHtml()
+        function toHtml(): void
         {
                 $this->table->toHtml();
         }
         /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
         function getHtml()
         {
-                $this->table->getHtml();
+                return $this->table->getHtml();
         }
 
 }
@@ -101,14 +101,14 @@ abstract class SettledTable  implements HtmlElementInterface
                 //$table->appendRow( new OperationPayment() );
         }
         /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
-        function toHtml()
+        function toHtml(): void
         {
                 $this->table->toHtml();
         }
         /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
         function getHtml()
         {
-                $this->table->getHtml();
+                return $this->table->getHtml();
         }
 }
 
@@ -121,9 +121,9 @@ class SettledPaymentTable extends SettledTable
 //TODO data was passed in in an minfo array
 //	Ensure the data is available in transaction.
 		parent::__construct();
-                $table->appendRow( new OperationPayment() );
-                $table->appendRow( new FromBankAccount( $transaction ) );
-                $table->appendRow( new SettledSupplier( $transaction ) );
+                $this->table->appendRow( new OperationPayment() );
+                $this->table->appendRow( new FromBankAccount( $transaction ) );
+                $this->table->appendRow( new SettledSupplier( $transaction ) );
         }
 }
 class OperationPayment extends LabelRowBase
@@ -163,7 +163,7 @@ class SettledDepositTable extends SettledTable
         function __construct( $transaction )
         {
 		parent::__construct();
-                $table->appendRow( new OperationDeposit() );
+                $this->table->appendRow( new OperationDeposit() );
 //TODO: Refactor to use fa_customer
 		$custArray = get_customer_trans($transaction->fa_trans_no, $transaction->fa_trans_type);
                 $table->appendRow( new CustomerBranch( $custArray ) );

@@ -24,12 +24,12 @@ class PartnerType implements HtmlElementInterface
 		$this->row = new HTML_ROW_LABEL( $data, $label,  null, null );
 	}
 	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
-	function getHtml()
+	function getHtml(): string
 	{
-		$this->row->getHtml();
-	}
+				return $this->row->getHtml();
+		}
 	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
-	function toHtml()
+	function toHtml(): void
 	{
 		$this->row->toHtml();
 	}

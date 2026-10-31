@@ -25,14 +25,14 @@ class LineitemDisplayRight implements HtmlElementInterface
                 $table->appendRow( new MatchingGLS( $bi_lineitem ) );
         }
 	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
-	function toHtml()
+	function toHtml(): void
 	{
 		$this->table->toHtml();
 	}
 	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
-	function getHtml()
+	function getHtml(): string
 	{
-		$this->table->getHtml();
-	}
+				return $this->table->getHtml();
+		}
 }
 
