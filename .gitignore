@@ -42,3 +42,8 @@ phpunit_no_coverage*.txt
 
 # Test-created plugin directory (OperationTypesRegistry plugin discovery test)
 /OperationTypes/types/
+
+# QFX Test Files (financial data - do not commit)
+/qfx_files/
+*.qfx
+*.ofx

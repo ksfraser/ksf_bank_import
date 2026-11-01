@@ -1,0 +1,16 @@
+<?php
+
+
+$ofxParser = new \OfxParser\Parser();
+$ofx = $ofxParser->loadFromFile('/path/to/your/bankstatement.ofx');
+
+$bankAccount = reset($ofx->bankAccounts);
+
+// Get the statement start and end dates
+$startDate = $bankAccount->statement->startDate;
+$endDate = $bankAccount->statement->endDate;
+
+// Get the statement transactions for the account
+$transactions = $bankAccount->statement->transactions
+
+?>
