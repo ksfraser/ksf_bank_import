@@ -1,6 +1,17 @@
 <?php
 
 /**
+ * Code Flow (UML Activity)
+ *
+ * @uml
+ * start
+ * :BankImportConfig [CURRENT FILE];
+ * stop
+ * @enduml
+ *
+ * Responsibility: Core flow and role for BankImportConfig.
+ */
+/**
  * Bank Import Configuration
  *
  * Centralized configuration management for Bank Import module.
@@ -19,11 +30,12 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Config;
 
 /**
+ * @BABOK CLASS ROLLUP: BankImportConfig — 15 methods; FR-002 (15); FR-051 (15)
+ * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/BankImportConfig.php; coverage: docs/TestCases/ (file rollup)
  * Bank Import Configuration
  *
  * Provides type-safe access to module configuration settings.
  * All settings are stored in FrontAccounting's company preferences table.
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
  */
 class BankImportConfig
 {
@@ -43,10 +55,30 @@ class BankImportConfig
     private const DEFAULT_TRANS_REF_ACCOUNT = '0000';
 
     /**
+     * Configuration key for recency scoring rule weight
+     */
+    private const KEY_SCORING_RECENCY_WEIGHT = 'bank_import_scoring_recency_weight';
+
+    /**
+     * Configuration key for amount range scoring rule weight
+     */
+    private const KEY_SCORING_AMOUNT_WEIGHT = 'bank_import_scoring_amount_weight';
+
+    /**
+     * Configuration key for type consistency scoring rule weight
+     */
+    private const KEY_SCORING_TYPE_WEIGHT = 'bank_import_scoring_type_weight';
+
+    /**
+     * Default weight for scoring rules (1.0 = no adjustment)
+     */
+    private const DEFAULT_SCORING_WEIGHT = 1.0;
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getTransRefLoggingEnabled
      * Check if transaction reference logging is enabled
      *
      * @return bool True if enabled, false if disabled
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getTransRefLoggingEnabled(): bool
     {
@@ -61,28 +93,25 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getTransRefAccount
      * Get GL account code for transaction reference logging
      *
      * @return string GL account code (e.g., '0000')
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getTransRefAccount(): string
     {
         $account = get_company_pref(self::KEY_TRANS_REF_ACCOUNT);
         
-        // Default to '0000' if not set or empty
-        if ($account === null || $account === '') {
-            return self::DEFAULT_TRANS_REF_ACCOUNT;
-        }
-        return $account;
+        // Default to '0000' if not set
+        return $account ?? self::DEFAULT_TRANS_REF_ACCOUNT;
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setTransRefLoggingEnabled
      * Set transaction reference logging enabled/disabled
      *
      * @param bool $enabled True to enable, false to disable
      * @return void
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function setTransRefLoggingEnabled(bool $enabled): void
     {
@@ -90,6 +119,7 @@ class BankImportConfig
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setTransRefAccount
      * Set GL account code for transaction reference logging
      *
      * Validates that the account exists before saving.
@@ -97,7 +127,6 @@ class BankImportConfig
      * @param string $accountCode GL account code
      * @return void
      * @throws \InvalidArgumentException if account doesn't exist
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function setTransRefAccount(string $accountCode): void
     {
@@ -112,62 +141,201 @@ class BankImportConfig
     }
 
     /**
-     * Check if a GL account exists in the chart of accounts
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringRecencyWeight
+     * Get recency scoring rule weight
+     *
+     * Controls how much timestamp proximity affects matching confidence.
+     * Values > 1.0 emphasize recency, < 1.0 reduce it.
+     *
+     * @return float Weight multiplier (default: 1.0)
+     */
+    public static function getScoringRecencyWeight(): float
+    {
+        $value = get_company_pref(self::KEY_SCORING_RECENCY_WEIGHT);
+        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+    }
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringAmountWeight
+     * Get amount range scoring rule weight
+     *
+     * Controls how much transaction amount reliability affects matching.
+     * Values > 1.0 emphasize amount matching, < 1.0 reduce it.
+     *
+     * @return float Weight multiplier (default: 1.0)
+     */
+    public static function getScoringAmountWeight(): float
+    {
+        $value = get_company_pref(self::KEY_SCORING_AMOUNT_WEIGHT);
+        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+    }
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringTypeWeight
+     * Get type consistency scoring rule weight
+     *
+     * Controls how much transaction type matching affects confidence.
+     * Values > 1.0 emphasize type consistency, < 1.0 reduce it.
+     *
+     * @return float Weight multiplier (default: 1.0)
+     */
+    public static function getScoringTypeWeight(): float
+    {
+        $value = get_company_pref(self::KEY_SCORING_TYPE_WEIGHT);
+        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+    }
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringRecencyWeight
+     * Set recency scoring rule weight
+     *
+     * @param float $weight Weight multiplier (must be > 0)
+     * @return void
+     * @throws \InvalidArgumentException if weight is not positive
+     */
+    public static function setScoringRecencyWeight(float $weight): void
+    {
+        if ($weight <= 0) {
+            throw new \InvalidArgumentException('Scoring weight must be greater than 0, got: ' . $weight);
+        }
+        set_company_pref(self::KEY_SCORING_RECENCY_WEIGHT, (string)$weight);
+    }
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringAmountWeight
+     * Set amount range scoring rule weight
+     *
+     * @param float $weight Weight multiplier (must be > 0)
+     * @return void
+     * @throws \InvalidArgumentException if weight is not positive
+     */
+    public static function setScoringAmountWeight(float $weight): void
+    {
+        if ($weight <= 0) {
+            throw new \InvalidArgumentException('Scoring weight must be greater than 0, got: ' . $weight);
+        }
+        set_company_pref(self::KEY_SCORING_AMOUNT_WEIGHT, (string)$weight);
+    }
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringTypeWeight
+     * Set type consistency scoring rule weight
+     *
+     * @param float $weight Weight multiplier (must be > 0)
+     * @return void
+     * @throws \InvalidArgumentException if weight is not positive
+     */
+    public static function setScoringTypeWeight(float $weight): void
+    {
+        if ($weight <= 0) {
+            throw new \InvalidArgumentException('Scoring weight must be greater than 0, got: ' . $weight);
+        }
+        set_company_pref(self::KEY_SCORING_TYPE_WEIGHT, (string)$weight);
+    }
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringWeights
+     * Get all scoring weights as associative array
+     *
+     * Useful for applying weights to scoring engine or displaying in UI.
+     *
+     * @return array<string, float> {
+     *     recency: float,
+     *     amount: float,
+     *     type: float
+     * }
+     */
+    public static function getScoringWeights(): array
+    {
+        return [
+            'recency' => self::getScoringRecencyWeight(),
+            'amount' => self::getScoringAmountWeight(),
+            'type' => self::getScoringTypeWeight(),
+        ];
+    }
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringWeights
+     * Set all scoring weights at once
+     *
+     * @param float $recencyWeight Recency rule weight
+     * @param float $amountWeight Amount range rule weight
+     * @param float $typeWeight Type consistency rule weight
+     * @return void
+     * @throws \InvalidArgumentException if any weight is not positive
+     */
+    public static function setScoringWeights(float $recencyWeight, float $amountWeight, float $typeWeight): void
+    {
+        self::setScoringRecencyWeight($recencyWeight);
+        self::setScoringAmountWeight($amountWeight);
+        self::setScoringTypeWeight($typeWeight);
+    }
+
+    /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: glAccountExists
+     * Check if GL account exists in the chart of accounts
      *
      * @param string $accountCode GL account code to check
      * @return bool True if account exists, false otherwise
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     private static function glAccountExists(string $accountCode): bool
     {
         // In production, this queries FrontAccounting's database
         // For testing, we can mock get_company_pref() to bypass DB
         
-        if (!function_exists('db_escape')) {
+        if (!\function_exists('\\db_escape')) {
             // Not in FrontAccounting context (e.g., unit tests)
             // Allow any account code for testing
             return true;
         }
         
         $sql = "SELECT COUNT(*) as count FROM " . TB_PREF . "chart_master 
-                WHERE account_code = " . db_escape($accountCode);
+                WHERE account_code = " . \db_escape($accountCode);
         
-        $result = db_query($sql, "Failed to check GL account");
-        $row = db_fetch($result);
+        $result = \db_query($sql, "Failed to check GL account");
+        $row = \db_fetch($result);
         
-        // Any row result (array) means the account exists.
-        // This handles both production (count-based) and test stubs
-        // (which may return the row directly).
-        return is_array($row);
+        // Handle case where db_fetch returns false
+        if ($row === false) {
+            return false;
+        }
+        
+        return (int)$row['count'] > 0;
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getAllSettings
      * Get all configuration settings as array
      *
      * Useful for debugging or exporting settings.
      *
      * @return array<string, mixed> Configuration settings
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function getAllSettings(): array
     {
         return [
             'trans_ref_logging_enabled' => self::getTransRefLoggingEnabled(),
             'trans_ref_account' => self::getTransRefAccount(),
+            'scoring_weights' => self::getScoringWeights(),
         ];
     }
 
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: resetToDefaults
      * Reset all settings to defaults
      *
      * Useful for testing or resetting module configuration.
      *
      * @return void
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public static function resetToDefaults(): void
     {
         self::setTransRefLoggingEnabled(true);
         set_company_pref(self::KEY_TRANS_REF_ACCOUNT, self::DEFAULT_TRANS_REF_ACCOUNT);
+        self::setScoringWeights(
+            self::DEFAULT_SCORING_WEIGHT,
+            self::DEFAULT_SCORING_WEIGHT,
+            self::DEFAULT_SCORING_WEIGHT
+        );
     }
 }

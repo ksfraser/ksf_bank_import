@@ -1,29 +1,30 @@
 <?php
 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\Application\Config\Config;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
 /**
- * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: TransactionValidator — 6 methods; BR-001 (6); BR-002 (6); FR-008 (6)
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionValidator.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionValidator
 {
     private $config;
     private $errors = [];
 
-    /**
- * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
     public function __construct()
     {
         $this->config = Config::getInstance();
     }
 
-    /**
- * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validate */
     public function validate(BankTransactionInterface $transaction): bool
     {
         $this->errors = [];
@@ -35,9 +36,7 @@ class TransactionValidator
         return empty($this->errors);
     }
 
-    /**
- * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateType */
     private function validateType(BankTransactionInterface $transaction): self
     {
         $allowedTypes = $this->config->get('transaction.allowed_types');
@@ -49,9 +48,7 @@ class TransactionValidator
         return $this;
     }
 
-    /**
- * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateAmount */
     private function validateAmount(BankTransactionInterface $transaction): self
     {
         $maxAmount = $this->config->get('transaction.max_amount');
@@ -67,9 +64,7 @@ class TransactionValidator
         return $this;
     }
 
-    /**
- * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateDate */
     private function validateDate(BankTransactionInterface $transaction): self
     {
         $date = \DateTime::createFromFormat('Y-m-d', $transaction->getDate());
@@ -81,9 +76,7 @@ class TransactionValidator
         return $this;
     }
 
-    /**
- * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getErrors */
     public function getErrors(): array
     {
         return $this->errors;

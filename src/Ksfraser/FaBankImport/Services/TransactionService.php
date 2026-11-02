@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Services;
 
@@ -7,54 +6,37 @@ use Ksfraser\FaBankImport\Interfaces\TransactionRepositoryInterface;
 use Ksfraser\FaBankImport\Factories\TransactionTypeFactory;
 
 /**
- * Application service orchestrating transaction processing.
- *
- * Aligned (refactor-psr) with the repository's actual contract:
- * filter-based reads and typed update(array $ids, int $status, ...) calls.
- *
- * @since 20260822
- * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: TransactionService — 4 methods; BR-001 (2); FR-001 (2); BR-003 (1)
+ * Transaction Service — core processing
+ * @BABOK BR-001 (Auto Pair Detection) / BR-003 (Bank Transfer Creation) / ARCH-001 (Service Design) / FR-001 (Pair Detection) / FR-015 (DI Injection)
+ * Consolidated from: getPendingTransactions (BR-001/FR-001), processTransaction (BR-001/FR-001/BR-003), __construct (ARCH-001/FR-015), toggleTransactionType (BR-001/FR-001)
+ * @UML docs/ARCHITECTURE.md / docs/UAT_PLAN.md
  */
 class TransactionService
 {
     private $repository;
     private $factory;
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
-     */
+            /** @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     public function __construct(
-        TransactionRepositoryInterface $repository,
+        $repository,
         TransactionTypeFactory $factory
     ) {
         $this->repository = $repository;
         $this->factory = $factory;
     }
 
-    /**
-     * Fetch transactions still pending processing.
-     *
-     * @return array
- * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
-     */
+            /** @BABOK BR-001 / FR-001 — method: getPendingTransactions */
     public function getPendingTransactions(): array
     {
-        return $this->repository->findByFilters(['status' => 'pending']);
+        return $this->repository->findByStatus('pending');
     }
 
-    /**
-     * Process a transaction through its type handler and mark it processed.
-     *
-     * @param int    $id   Transaction id.
-     * @param string $type Transaction type code.
-     * @return bool True when the update affected rows.
-     * @throws \InvalidArgumentException When transaction not found.
- * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
-     */
+            /** @BABOK BR-001 / FR-001 / BR-003 — method: processTransaction */
     public function processTransaction(int $id, string $type): bool
     {
         $transaction = $this->repository->findById($id);
-
+        
         if (!$transaction) {
             throw new \InvalidArgumentException("Transaction not found: $id");
         }
@@ -62,34 +44,20 @@ class TransactionService
         $transactionObj = $this->factory->createTransactionType($type, $transaction);
         $transactionObj->processTransaction();
 
-        // Status 'processed' is FA status 1 in bi_transactions.
-        $this->repository->update([$id], 1, 0, 0);
-        return true;
+        return $this->repository->update($id, ['status' => 'processed']);
     }
 
-    /**
-     * Toggle the debit/credit direction of a transaction.
-     *
-     * Delegates to the ToggleDebitCredit command path in production; here we
-     * perform the direct repository update for the legacy contract.
-     *
-     * @param int $id Transaction id.
-     * @return bool True on success.
-     * @throws \InvalidArgumentException When transaction not found.
- * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
-     */
+            /** @BABOK RTM: BR-001 / ARCH-001 / FR-001 / FR-015 / TC-011-A / TC-011-B / TC-011-C*/
     public function toggleTransactionType(int $id): bool
     {
         $transaction = $this->repository->findById($id);
-
+        
         if (!$transaction) {
             throw new \InvalidArgumentException("Transaction not found: $id");
         }
 
-        // Direction flips are handled by the dedicated command/handler which
-        // owns the FA-side journal updates; repository alone cannot flip DC.
-        throw new \LogicException(
-            'toggleTransactionType must be performed via ToggleDebitCreditCommand.'
-        );
+        $newType = $transaction['transactionDC'] === 'C' ? 'D' : 'C';
+        
+        return $this->repository->update($id, ['transactionDC' => $newType]);
     }
 }

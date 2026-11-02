@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
@@ -10,6 +14,8 @@ use Ksfraser\FaBankImport\Repository\PartnerDataRepositoryInterface;
 use Ksfraser\FaBankImport\Config\ConfigService;
 
 /**
+ * @BABOK CLASS ROLLUP: KeywordMatchingService — 9 methods; BR-001 (9); BR-002 (9); FR-008 (9)
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/KeywordMatchingService.php; coverage: docs/TestCases/ (file rollup)
  * Service for keyword-based partner matching with scoring and confidence
  *
  * Implements the keyword clustering bonus algorithm and multi-factor
@@ -53,6 +59,7 @@ class KeywordMatchingService
     private int $maxSuggestions;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param PartnerDataRepositoryInterface $repository Partner data repository
@@ -74,6 +81,7 @@ class KeywordMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: search
      * Search for partners by keywords with scoring
      *
      * @param string   $searchText  Text to search for
@@ -126,6 +134,7 @@ class KeywordMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTopMatch
      * Get the top suggested partner for a search text
      *
      * Returns the single best match, or null if no match meets confidence threshold.
@@ -143,6 +152,7 @@ class KeywordMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: calculateScore
      * Calculate score for a partner match
      *
      * Applies clustering bonus to raw score based on number of matched keywords.
@@ -167,6 +177,7 @@ class KeywordMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: buildKeywordMatches
      * Build KeywordMatch objects from repository results
      *
      * @param array<array>     $partnerMatches Raw partner match data from repository
@@ -233,6 +244,7 @@ class KeywordMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadConfiguration
      * Load configuration from ConfigService
      *
      * @return void
@@ -265,6 +277,7 @@ class KeywordMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getClusteringFactor
      * Get current clustering factor
      *
      * @return float
@@ -276,6 +289,7 @@ class KeywordMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMinConfidenceThreshold
      * Get minimum confidence threshold
      *
      * @return float
@@ -287,6 +301,7 @@ class KeywordMatchingService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMaxSuggestions
      * Get maximum suggestions
      *
      * @return int

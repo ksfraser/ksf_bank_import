@@ -1,0 +1,36 @@
+<?php
+// @BABOK RTM: FR-009 / IR-001 / ARCH-008 (domain layer)
+/** @BABOK RTM: FR-009 / IR-001 / ARCH-008*/
+
+namespace Ksfraser\FaBankImport\Views;
+
+/**
+ * @BABOK CLASS ROLLUP: ModuleMenuView — 1 methods; FR-009 (1); IR-001 (1)
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/module_menu_view.php; coverage: docs/TestCases/ (file rollup)
+ * ModuleMenuView - Renders the module navigation menu
+ * 
+ * @package Views
+ * @since 20251019
+ */
+class ModuleMenuView
+{
+    /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderMenu
+     * Render the module menu HTML
+     * 
+     * @return void
+     */
+    public function renderMenu(): void
+    {
+        echo '<nav class="module-menu">';
+        echo '<ul>';
+        echo '<li><a href="process_statements.php">Process Statements</a></li>';
+        echo '<li><a href="import_statements.php">Import Statements</a></li>';
+        echo '<li><a href="manage_partners_data.php">Manage Partners Data</a></li>';
+        echo '<li><a href="view_statements.php">View Statements</a></li>';
+        echo '<li><a href="manage_uploaded_files.php">Manage Uploaded Files</a></li>';
+        echo '<li><a href="validate_gl_entries.php">Validate GL Entries</a></li>';
+        echo '</ul>';
+        echo '</nav>';
+    }
+}

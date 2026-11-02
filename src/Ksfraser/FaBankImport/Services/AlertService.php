@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK CLASS ROLLUP: AlertService — 7 methods; BR-001 (1); BR-002 (1); FR-008 (1); BR-012 (2); FR-012 (4); BR-012-003 (2)
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/AlertService.php; coverage: docs/TestCases/ (file rollup)
  */
 class AlertService
 {
@@ -13,18 +18,14 @@ class AlertService
     private $aggregator;
     private static $instance = null;
 
-    /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
-     */
+        /** @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     private function __construct()
     {
         $this->config = Config::getInstance();
         $this->aggregator = new MetricsAggregator($this->config->get('logging.path'));
     }
 
-    /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getInstance */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -33,17 +34,7 @@ class AlertService
         return self::$instance;
     }
 
-    /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
-     */
-    public static function resetInstance(): void
-    {
-        self::$instance = null;
-    }
-
-    /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
-     */
+        /** @BABOK BR-012 / FR-012 (Alert monitoring) — method: checkAndSendAlerts */
     public function checkAndSendAlerts(): void
     {
         if (!$this->config->get('alerts.enabled', false)) {
@@ -76,9 +67,7 @@ class AlertService
         }
     }
 
-    /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
-     */
+        /** @BABOK BR-012 / FR-012 — method: sendAnomalyAlert */
     private function sendAnomalyAlert(array $anomalies): void
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' Performance Anomalies Detected';
@@ -97,9 +86,7 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
-    /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
-     */
+        /** @BABOK BR-012-003 / FR-012 — method: sendSlowTransactionAlert */
     private function sendSlowTransactionAlert(string $metricName, array $metric): void
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' Slow Transactions Detected';
@@ -114,9 +101,7 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
-    /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
-     */
+        /** @BABOK BR-012-003 / FR-012 — method: sendHighMemoryAlert */
     private function sendHighMemoryAlert(string $metricName, array $metric): void
     {
         $subject = $this->config->get('alerts.email.subject_prefix') . ' High Memory Usage Detected';
@@ -131,9 +116,7 @@ class AlertService
         $this->sendEmail($subject, $message);
     }
 
-    /**
- * @BABOK FR-LOG-002, FR-PROC-001 | BR-LOG-001 | UAT-LOG-001
-     */
+        /** @BABOK ARCH-007 / FR-012 — method: sendEmail */
     private function sendEmail(string $subject, string $message): void
     {
         $to = $this->config->get('alerts.email.to');

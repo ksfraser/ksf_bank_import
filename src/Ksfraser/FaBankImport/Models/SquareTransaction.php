@@ -3,13 +3,12 @@
 namespace Ksfraser\FaBankImport\Models;
 
 /**
- * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+ * @BABOK CLASS ROLLUP: SquareTransaction — 4 methods; FR-008 (4); BR-003 (4)
+ * @BABOK RTM: FR-008 / BR-003; file: Models/SquareTransaction.php; coverage: docs/TestCases/ (file rollup)
  */
 class SquareTransaction extends BankTransaction
 {
-    /**
- * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
-     */
+    /** @BABOK FR-008 / BR-003 — method: addCustomerFromTransaction */
     public function addCustomerFromTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -23,9 +22,7 @@ class SquareTransaction extends BankTransaction
         ]);
     }
 
-    /**
- * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
-     */
+    /** @BABOK FR-008 / BR-003 — method: addVendorFromTransaction */
     public function addVendorFromTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -38,9 +35,7 @@ class SquareTransaction extends BankTransaction
         ]);
     }
 
-    /**
- * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
-     */
+    /** @BABOK FR-008 / BR-003 — method: unsetTransaction */
     public function unsetTransaction(): bool
     {
         $stmt = $this->connection->prepare(
@@ -49,9 +44,7 @@ class SquareTransaction extends BankTransaction
         return $stmt->execute([$this->getId()]);
     }
 
-    /**
- * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
-     */
+    /** @BABOK FR-008 / BR-003 — method: toggleDebitCredit */
     public function toggleDebitCredit(): bool
     {
         $newType = $this->getTransactionType() === 'D' ? 'C' : 'D';

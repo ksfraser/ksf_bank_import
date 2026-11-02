@@ -6,6 +6,8 @@ use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK CLASS ROLLUP: UnsetTransactionCommand — 3 methods; FR-014 (3)
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/UnsetTransactionCommand.php; coverage: docs/TestCases/ (file rollup)
  * Unset Transaction Command
  *
  * Disassociates transactions from their counterparties (customers/vendors).
@@ -28,27 +30,29 @@ class UnsetTransactionCommand implements CommandInterface
     /**
      * @var array POST data containing transaction IDs to unset
      */
-    private array $postData;
+    private $postData;
 
     /**
      * @var object Transaction repository
      */
-    private object $repository;
+    private $repository;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param array $postData POST data with UnsetTrans key
      * @param object $repository Transaction repository with reset() method
  * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
-    public function __construct(array $postData, object $repository)
+    public function __construct($postData, $repository)
     {
         $this->postData = $postData;
         $this->repository = $repository;
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: execute
      * {@inheritDoc}
  * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
@@ -95,6 +99,7 @@ class UnsetTransactionCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getName
      * {@inheritDoc}
  * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */

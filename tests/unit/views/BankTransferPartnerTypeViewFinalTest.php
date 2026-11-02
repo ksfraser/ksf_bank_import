@@ -8,6 +8,8 @@
  * @copyright  2025 KSF
  * @version    1.0.0
  */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace KsfBankImport\Tests\Unit\Views;
 
@@ -18,7 +20,7 @@ use Ksfraser\BankAccountDataProvider;
 // Load FA stubs
 
 // Load the view
-require_once __DIR__ . '/../../../views/BankTransferPartnerTypeView.v2.php';
+require_once __DIR__ . '/../../../Views/legacy/BankTransferPartnerTypeView.v2.php';
 
 /**
  * Test Bank Transfer Partner Type View

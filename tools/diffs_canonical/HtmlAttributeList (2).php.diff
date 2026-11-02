@@ -1,0 +1,27 @@
+--- external_exact:HtmlAttributeList.php
++++ repo:HtmlAttributeList (2).php
+@@ -77,24 +77,6 @@
+ 	}
+ 
+ 	/**
+-	 * Remove an attribute by name
+-	 *
+-	 * @param string $name Attribute name to remove
+-	 * @return void
+-	 */
+-	public function removeAttribute( string $name ): void
+-	{
+-		foreach( $this->attributeArray as $idx => $existing )
+-		{
+-			if( method_exists( $existing, 'getName' ) && $existing->getName() === $name )
+-			{
+-				unset( $this->attributeArray[$idx] );
+-				return;
+-			}
+-		}
+-	}
+-
+-	/**
+ 	 * Output HTML representation
+ 	 *
+ 	 * @return void

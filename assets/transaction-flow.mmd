@@ -1,0 +1,15 @@
+flowchart TD
+  UI[Transactions List (client)] -->|POST ProcessTransaction[id]| PS[process_statements.php\n(check $_POST['ProcessTransaction'])]
+  PS -->|set $tid / determine type| Controller[class.bank_import_controller.php\nprocessTransactions()]
+  Controller -->|if Deposit & Customer selected| View[ViewBiLineItems::getDisplayMatchingTrans() / displayMatchingTransArr()]
+  View -->|calls| FCP[CustomerPartnerType->show_allocatable()\n(render invoice table)]
+  FCP -->|renders HTML into| DOC[div id="doc_tbl" fragment]
+  DOC -->|Ajax fragment response| UI
+
+  subgraph Scenario
+    T1[Transaction 1: Deposit (Customer selected)]
+    T2[Transaction 2: ...]
+  end
+  UI --> T1
+  UI --> T2
+  T1 --> PS

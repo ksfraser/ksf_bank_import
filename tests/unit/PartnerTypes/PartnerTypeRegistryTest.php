@@ -14,6 +14,8 @@
  */
 
 declare(strict_types=1);
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Ksfraser\Tests\Unit\PartnerTypes;
 
@@ -153,7 +155,6 @@ class PartnerTypeRegistryTest extends TestCase
         $this->assertSame('Customer', $registry->getLabel('CU'));
         $this->assertSame('Bank Transfer', $registry->getLabel('BT'));
         $this->assertSame('Quick Entry', $registry->getLabel('QE'));
-        $this->assertSame('Manual settlement', $registry->getLabel('MA'));
         $this->assertSame('Matched', $registry->getLabel('ZZ'));
         $this->assertSame('Unknown', $registry->getLabel('UN'));
     }

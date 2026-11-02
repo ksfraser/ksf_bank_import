@@ -20,7 +20,7 @@ namespace Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Config\BankImportConfig;
-use Ksfraser\FaBankImport\handlers\QuickEntryTransactionHandler;
+use Ksfraser\FaBankImport\Handlers\QuickEntryTransactionHandler;
 
 class ConfigurationIntegrationTest extends TestCase
 {

@@ -6,6 +6,8 @@ use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK CLASS ROLLUP: ToggleDebitCreditCommand — 3 methods; FR-014 (3)
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/ToggleDebitCreditCommand.php; coverage: docs/TestCases/ (file rollup)
  * Toggle Debit/Credit Command
  *
  * Toggles the debit/credit indicator for bank transactions.
@@ -25,10 +27,11 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  */
 class ToggleDebitCreditCommand implements CommandInterface
 {
-    private array $postData;
-    private object $transactionService;
+    private $postData;
+    private $transactionService;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param array $postData POST data with ToggleTransaction key
@@ -36,14 +39,15 @@ class ToggleDebitCreditCommand implements CommandInterface
  * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function __construct(
-        array $postData,
-        object $transactionService
+        $postData,
+        $transactionService
     ) {
         $this->postData = $postData;
         $this->transactionService = $transactionService;
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: execute
      * {@inheritDoc}
  * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
@@ -107,6 +111,7 @@ class ToggleDebitCreditCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getName
      * {@inheritDoc}
  * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */

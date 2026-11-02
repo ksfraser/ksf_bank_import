@@ -6,6 +6,8 @@ use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK CLASS ROLLUP: AddVendorCommand — 3 methods; FR-014 (3)
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/AddVendorCommand.php; coverage: docs/TestCases/ (file rollup)
  * Add Vendor Command
  *
  * Creates new vendor (supplier) records from transaction counterparty information.
@@ -25,11 +27,12 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  */
 class AddVendorCommand implements CommandInterface
 {
-    private array $postData;
-    private object $vendorService;
-    private object $transactionRepository;
+    private $postData;
+    private $vendorService;
+    private $transactionRepository;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param array $postData POST data with AddVendor key
@@ -38,9 +41,9 @@ class AddVendorCommand implements CommandInterface
  * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */
     public function __construct(
-        array $postData,
-        object $vendorService,
-        object $transactionRepository
+        $postData,
+        $vendorService,
+        $transactionRepository
     ) {
         $this->postData = $postData;
         $this->vendorService = $vendorService;
@@ -48,6 +51,7 @@ class AddVendorCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: execute
      * {@inheritDoc}
  * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */
@@ -114,6 +118,7 @@ class AddVendorCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getName
      * {@inheritDoc}
  * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */

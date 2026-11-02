@@ -3,7 +3,8 @@
 namespace Ksfraser\FaBankImport\Commands;
 
 /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: ProcessTransactionCommand — 4 methods; FR-014 (4)
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/ProcessTransactionCommand.php; coverage: docs/TestCases/ (file rollup)
  */
 class ProcessTransactionCommand
 {
@@ -11,35 +12,27 @@ class ProcessTransactionCommand
     private $type;
     private $userId;
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
-    public function __construct(int $transactionId, string $type, ?int $userId = null)
+    /** @BABOK FR-014 / ARCH-004 — method: __construct */
+    public function __construct($transactionId, $type, $userId = null)
     {
         $this->transactionId = $transactionId;
         $this->type = $type;
         $this->userId = $userId;
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-014 / ARCH-004 — method: getTransactionId */
     public function getTransactionId(): int
     {
         return $this->transactionId;
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-014 / ARCH-004 — method: getType */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-014 / ARCH-004 — method: getUserId */
     public function getUserId(): ?int
     {
         return $this->userId;

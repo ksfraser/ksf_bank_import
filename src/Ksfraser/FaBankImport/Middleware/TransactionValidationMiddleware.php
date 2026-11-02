@@ -2,17 +2,26 @@
 
 namespace Ksfraser\FaBankImport\Middleware;
 
+use Ksfraser\FaBankImport\Middleware\MiddlewareInterface;
 use Ksfraser\FaBankImport\Http\RequestHandler;
+use Ksfraser\FaBankImport\Services\TransactionValidator;
 use Ksfraser\FaBankImport\Exceptions\TransactionValidationException;
 
 /**
- * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: TransactionValidationMiddleware — 2 methods; FR-014 (2)
+ * @BABOK RTM: FR-014 / ARCH-004; file: Middleware/TransactionValidationMiddleware.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionValidationMiddleware implements MiddlewareInterface
 {
-    /**
- * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    private $validator;
+
+    /** @BABOK FR-014 / ARCH-004 — method: __construct */
+    public function __construct()
+    {
+        $this->validator = new TransactionValidator();
+    }
+
+    /** @BABOK FR-014 / ARCH-004 — method: process */
     public function process(RequestHandler $request, callable $next)
     {
         if ($request->isPost()) {

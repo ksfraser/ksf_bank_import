@@ -12,12 +12,6 @@
 
 namespace Ksfraser\Views;
 
-require_once(__DIR__ . '/../HTML/HtmlFragment.php');
-require_once(__DIR__ . '/../HTML/HtmlAttribute.php');
-require_once(__DIR__ . '/../HTML/Elements/HtmlString.php');
-require_once(__DIR__ . '/../HTML/Elements/HtmlInput.php');
-require_once(__DIR__ . '/../HTML/Elements/HtmlSubmit.php');
-require_once(__DIR__ . '/../HTML/Composites/HtmlLabelRow.php');
 
 use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\HTML\HtmlAttribute;

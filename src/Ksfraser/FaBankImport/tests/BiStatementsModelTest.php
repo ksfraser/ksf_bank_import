@@ -2,15 +2,18 @@
 
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: bi_statements_modelTest — 6 methods; NFR-016 (6); FR-018 (6) */
 class bi_statements_modelTest extends TestCase
 {
     protected $bi_statements;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->bi_statements = new bi_statements_model();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testDefineTable */
     public function testDefineTable()
     {
         $this->bi_statements->define_table();
@@ -19,6 +22,7 @@ class bi_statements_modelTest extends TestCase
         $this->assertEquals('bi_statements', $this->bi_statements->iam);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testInsertTransaction */
     public function testInsertTransaction()
     {
         // Mock insert_data method
@@ -33,6 +37,7 @@ class bi_statements_modelTest extends TestCase
         $this->bi_statements->insert_transaction();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testUpdateStatement */
     public function testUpdateStatement()
     {
         $this->bi_statements->id = 1;
@@ -44,6 +49,7 @@ class bi_statements_modelTest extends TestCase
         $this->expectOutputRegex('/Could not update trans/');
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testGetStatement */
     public function testGetStatement()
     {
         $this->bi_statements->id = 1;
@@ -52,6 +58,7 @@ class bi_statements_modelTest extends TestCase
         $this->assertIsArray($result);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testStatementExists */
     public function testStatementExists()
     {
         $this->bi_statements->bank = 'Bank1';

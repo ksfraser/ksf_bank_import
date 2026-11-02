@@ -1,62 +1,36 @@
 <?php
-/**
- * Unit tests for BankImportController (canonical Ksfraser\FaBankImport\Controllers API).
- *
- * The former version of this file tested a dead contract (Controllers\
- * namespace, $_POST-driven processTransaction). Rewritten for the current
- * service/container architecture with injected container mock.
- */
-
-namespace Ksfraser\FaBankImport\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\Controllers\BankImportController;
-use Ksfraser\FaBankImport\Container;
-use Ksfraser\FaBankImport\Services\TransactionService;
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 class BankImportControllerTest extends TestCase
 {
-    private $container;
-    private $transactionService;
-    private $controller;
-
-    protected function setUp(): void
+    public function testControllerCanBeInstantiated()
     {
-        $this->container = $this->createMock(Container::class);
-        $this->transactionService = $this->createMock(TransactionService::class);
-        $this->container->method('getTransactionService')
-            ->willReturn($this->transactionService);
-
-        $this->controller = new BankImportController($this->container);
+        $controller = new bank_import_controller();
+        $this->assertInstanceOf(bank_import_controller::class, $controller);
     }
 
-    public function testIndexRendersPendingTransactions()
+    public function testControllerHasRepository()
     {
-        $this->transactionService->method('getPendingTransactions')->willReturn([
-            ['id' => 1, 'title' => 'Transaction 1', 'amount' => 100],
-            ['id' => 2, 'title' => 'Transaction 2', 'amount' => 200],
-        ]);
-
-        ob_start();
-        $this->controller->index();
-        $output = ob_get_clean();
-
-        $this->assertIsString($output);
-        $this->assertStringContainsString('Transaction 1', $output);
-        $this->assertStringContainsString('Transaction 2', $output);
+        $controller = new bank_import_controller();
+        $this->assertNotNull($controller->repository);
     }
 
-    public function testProcessWithoutCommandRedirects()
+    public function testExtractPostReturnsErrorWhenPartnerIdMissing()
     {
-        // No transaction command in POST -> controller redirects (meta refresh)
-        ob_start();
-        try {
-            $this->controller->process();
-        } catch (\Throwable $e) {
-            // redirect() may emit headers in some SAPI contexts; output check below
-        }
-        $output = ob_get_clean();
+        $controller = new bank_import_controller();
+        $_POST = [];
+        $controller->tid = 1;
+        $result = $controller->extractPost();
+        $this->assertTrue($result);
+    }
 
-        $this->assertStringNotContainsString('processed successfully', $output);
+    public function testSetWithDefaultField()
+    {
+        $controller = new bank_import_controller();
+        $controller->set('testField', 'testValue');
+        $this->assertEquals('testValue', $controller->get('testField'));
     }
 }

@@ -2,15 +2,17 @@
 
 use PHPUnit\Framework\TestCase;
 use Controllers\ProcessStatementsController;
-use Models\SquareTransaction;
+use Ksfraser\FaBankImport\Models\SquareTransaction;
 use Views\TransactionView;
 
+/** @BABOK CLASS ROLLUP: ProcessStatementsControllerTest — 8 methods; NFR-016 (8); FR-018 (8) */
 class ProcessStatementsControllerTest extends TestCase
 {
     private $controller;
     private $transactionModelMock;
     private $viewMock;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $this->transactionModelMock = $this->createMock(SquareTransaction::class);
@@ -22,6 +24,7 @@ class ProcessStatementsControllerTest extends TestCase
     }
 
     /**
+ * @BABOK NFR-016 / FR-018 — method: testIndexRendersTransactionList
      * Test that the index method renders the transaction list.
      */
     public function testIndexRendersTransactionList()
@@ -40,6 +43,7 @@ class ProcessStatementsControllerTest extends TestCase
     }
 
     /**
+ * @BABOK NFR-016 / FR-018 — method: testUnsetTransactionCallsModelMethod
      * Test that unsetTransaction calls the model method.
      */
     public function testUnsetTransactionCallsModelMethod()
@@ -54,6 +58,7 @@ class ProcessStatementsControllerTest extends TestCase
     }
 
     /**
+ * @BABOK NFR-016 / FR-018 — method: testAddCustomerCallsModelMethod
      * Test that addCustomer calls the model method.
      */
     public function testAddCustomerCallsModelMethod()
@@ -68,6 +73,7 @@ class ProcessStatementsControllerTest extends TestCase
     }
 
     /**
+ * @BABOK NFR-016 / FR-018 — method: testAddVendorCallsModelMethod
      * Test that addVendor calls the model method.
      */
     public function testAddVendorCallsModelMethod()
@@ -82,6 +88,7 @@ class ProcessStatementsControllerTest extends TestCase
     }
 
     /**
+ * @BABOK NFR-016 / FR-018 — method: testToggleTransactionCallsModelMethod
      * Test that toggleTransaction calls the model method.
      */
     public function testToggleTransactionCallsModelMethod()
@@ -96,6 +103,7 @@ class ProcessStatementsControllerTest extends TestCase
     }
 
     /**
+ * @BABOK NFR-016 / FR-018 — method: testProcessTransactionWithValidPartnerType
      * Test processing a transaction with a valid partner type.
      */
     public function testProcessTransactionWithValidPartnerType()
@@ -111,6 +119,7 @@ class ProcessStatementsControllerTest extends TestCase
     }
 
     /**
+ * @BABOK NFR-016 / FR-018 — method: testProcessTransactionWithInvalidPartnerType
      * Test processing a transaction with an invalid partner type.
      */
     public function testProcessTransactionWithInvalidPartnerType()

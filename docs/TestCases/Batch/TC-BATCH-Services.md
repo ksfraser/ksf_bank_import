@@ -1,0 +1,50 @@
+# TC-BATCH-Services: All Tagged Service Files
+- Services/AlertService.php -> BR-012 / FR-012 / ARCH-001
+- Services/ConfidenceEnhancer.php -> BR-011 / ARCH-011
+- Services/CustomerMatchingConfiguration.php -> BR-001 / ARCH-001
+- Services/CustomerScoringEngineFactory.php -> BR-011 / ARCH-011
+- Services/DuplicateDetector.php -> BR-001 / ARCH-001
+- Services/EventDispatcher.php -> ARCH-001 / BR-003
+- Services/FileStorageService.php -> BR-010 / ARCH-003
+- Services/FileStorageServiceInterface.php -> BR-010 / ARCH-003
+- Services/FileUploadService.php -> BR-010 / ARCH-003
+- Services/KeywordExtractorService.php -> BR-011 / ARCH-011 / KEYWORD_SCORING_SYSTEM.md
+- Services/KeywordMatchingService.php -> BR-011 / ARCH-011 / KEYWORD_SCORING_SYSTEM.md
+- Services/MetricsAggregator.php -> BR-012 / ARCH-007 / TC-012-A
+- Services/PartnerDataService.php -> BR-001 / ARCH-001
+- Services/PartnerMatcher.php -> BR-001 / ARCH-001 / BR-011
+- Services/PartnerMatcherFactory.php -> BR-001 / ARCH-001
+- Services/PartnerMatchingConfiguration.php -> BR-011 / ARCH-011
+- Services/PerformanceMonitor.php -> BR-007 / ARCH-007 / TC-012-A
+- Services/ReferenceNumberService.php -> ARCH-001 / FR-015
+- Services/Rules/AmountMatchRule.php -> BR-001 / FR-003 / TC-011-A / TC-011-B / TC-011-C
+- Services/Rules/BankAccountMatchRule.php -> BR-002 / ARCH-002
+- Services/Rules/InvoiceDetectionRule.php -> BR-002 / ARCH-002
+- Services/Rules/RefundDetectionRule.php -> BR-002 / ARCH-002
+- Services/Rules/VendorNameMatchRule.php -> BR-002 / ARCH-002
+- Services/Scoring/AmountRangeRule.php -> BR-011 / ARCH-011 / TC-011-B
+- Services/Scoring/RecencyRule.php -> BR-011 / ARCH-011
+- Services/Scoring/ScoringEngineFactory.php -> BR-011 / ARCH-011 / TC-011-B
+- Services/Scoring/ScoringRuleEngine.php -> BR-011 / ARCH-011 / TC-011-B / TC-011-C
+- Services/Scoring/ScoringRule.php -> BR-011 / ARCH-011
+- Services/Scoring/SupplierCandidate.php -> BR-011 / ARCH-011
+- Services/Scoring/TypeConsistencyRule.php -> BR-011 / ARCH-011
+- Services/SimpleCommandBus.php -> ARCH-001 / BR-003
+- Services/SupplierMatcher.php -> BR-001 / ARCH-001 / BR-011
+- Services/SupplierMatchingConfiguration.php -> BR-011 / ARCH-011
+- Services/SupplierMatchingRules.php -> BR-001 / ARCH-001
+- Services/SupplierMatchResult.php -> BR-001 / ARCH-001
+- Services/SupplierScoringEngineFactory.php -> BR-011 / ARCH-011
+- Services/SupplierTransactionMatcher.php -> BR-003 / ARCH-003
+- Services/TransactionCounter.php -> BR-007 / ARCH-007 / TC-012-A
+- Services/TransactionGLValidator.php -> BR-003 / ARCH-003 / BR-008
+- Services/TransactionLogger.php -> BR-008 / ARCH-008 / FR-018
+- Services/TransactionMatcherIntegration.php -> BR-001 / ARCH-001
+- Services/TransactionMatchingService.php -> BR-001 / ARCH-001 / FR-001
+- Services/TransactionMatchResult.php -> BR-001 / ARCH-001
+- Services/TransactionPartnerMatcher.php -> BR-001 / ARCH-001
+- Services/TransactionService.php -> BR-001 / ARCH-001 / FR-001 / FR-015 / TC-011-A / TC-011-B / TC-011-C
+- Services/TransactionValidator.php -> BR-007 / ARCH-007 / FR-007
+- Services/TransactionViewService.php -> BR-009 / ARCH-009 / FR-009 / TC-012-A
+- Services/UploadedFileManager.php -> BR-010 / ARCH-003 / TC-019-A
+- Services/VendorCandidate.php -> BR-011 / ARCH-011 / TC-011-C

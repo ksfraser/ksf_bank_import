@@ -3,7 +3,8 @@
 namespace Ksfraser\FaBankImport\Database;
 
 /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: QueryBuilder — 10 methods; FR-008 (10); DR-003 (10)
+ * @BABOK RTM: FR-008 / DR-003; file: Database/QueryBuilder.php; coverage: docs/TestCases/ (file rollup)
  */
 class QueryBuilder
 {
@@ -15,54 +16,42 @@ class QueryBuilder
     private $limit;
     private $offset;
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: __construct */
     public function __construct(string $table)
     {
         $this->connection = DatabaseFactory::getConnection();
         $this->table = $table;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: where */
     public function where(string $column, $value, string $operator = '='): self
     {
         $this->where[] = [$column, $operator, $value];
         return $this;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: orderBy */
     public function orderBy(string $column, string $direction = 'ASC'): self
     {
         $this->orderBy[] = [$column, strtoupper($direction)];
         return $this;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: limit */
     public function limit(int $limit): self
     {
         $this->limit = $limit;
         return $this;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: offset */
     public function offset(int $offset): self
     {
         $this->offset = $offset;
         return $this;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: get */
     public function get(): array
     {
         $query = $this->buildSelectQuery();
@@ -71,9 +60,7 @@ class QueryBuilder
         return $stmt->fetchAll();
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: first */
     public function first()
     {
         $this->limit(1);
@@ -81,9 +68,7 @@ class QueryBuilder
         return $results[0] ?? null;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: buildSelectQuery */
     private function buildSelectQuery(): string
     {
         $query = "SELECT * FROM {$this->table}";
@@ -117,9 +102,7 @@ class QueryBuilder
         return $query;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: update */
     public function update(array $data): bool
     {
         if (empty($this->where)) {
@@ -140,9 +123,7 @@ class QueryBuilder
         return $stmt->execute($this->params);
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / DR-003 — method: buildWhereClause */
     private function buildWhereClause(): string
     {
         $whereConditions = [];

@@ -5,7 +5,8 @@ namespace Ksfraser\FaBankImport\Models;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
 /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: AbstractTransaction — 10 methods; FR-008 (10); BR-003 (10)
+ * @BABOK RTM: FR-008 / BR-003; file: Models/AbstractTransaction.php; coverage: docs/TestCases/ (file rollup)
  */
 abstract class AbstractTransaction implements BankTransactionInterface
 {
@@ -18,18 +19,14 @@ abstract class AbstractTransaction implements BankTransactionInterface
     protected $accountDetails;
     protected $otherPartyDetails;
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: __construct */
     public function __construct(array $data)
     {
         $this->data = $data;
         $this->initializeFromData();
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: initializeFromData */
     protected function initializeFromData(): void
     {
         $this->id = $this->data['id'] ?? null;
@@ -48,64 +45,48 @@ abstract class AbstractTransaction implements BankTransactionInterface
         ];
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: getId */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: getAmount */
     public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: getDate */
     public function getDate(): string
     {
         return $this->date;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: getMemo */
     public function getMemo(): string
     {
         return $this->memo;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: getStatus */
     public function getStatus(): int
     {
         return $this->status;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: getAccountDetails */
     public function getAccountDetails(): array
     {
         return $this->accountDetails;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: getOtherPartyDetails */
     public function getOtherPartyDetails(): array
     {
         return $this->otherPartyDetails;
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / BR-003 — method: getTransactionType */
     abstract public function getTransactionType(): string;
 }

@@ -1,4 +1,6 @@
 <?php
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Tests\Unit;
 
@@ -11,10 +13,6 @@ use PHPUnit\Framework\TestCase;
  */
 class HtmlOBTest extends TestCase
 {
-	protected function setUp(): void
-	{
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlOB.php';
-	}
 	
 	/**
 	 * Test static capture method with simple echo

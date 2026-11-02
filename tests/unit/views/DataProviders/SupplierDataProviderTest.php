@@ -13,12 +13,15 @@
  * @version    1.0.0
  * @since      20250422
  */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Tests\Unit\Views\DataProviders;
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../../../views/DataProviders/SupplierDataProvider.php';
+// Use relative path to avoid case sensitivity issues
+require_once __DIR__ . '/../../../../Views/DataProviders/SupplierDataProvider.php';
 
 use KsfBankImport\Views\DataProviders\SupplierDataProvider;
 

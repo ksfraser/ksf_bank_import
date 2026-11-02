@@ -14,6 +14,8 @@
  */
 
 declare(strict_types=1);
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Ksfraser\Tests\Unit;
 
@@ -93,7 +95,7 @@ class PartnerTypeConstantsTest extends TestCase
         $this->assertSame(
             'ZZ',
             PartnerTypeConstants::MATCHED,
-            'MATCHED constant should be "ZZ" (legacy: matched transaction)'
+            'MATCHED constant should be "ZZ"'
         );
     }
 
@@ -107,7 +109,7 @@ class PartnerTypeConstantsTest extends TestCase
         $this->assertSame(
             'UN',
             PartnerTypeConstants::UNKNOWN,
-            'UNKNOWN constant should be "UN" (classification-only fallback)'
+            'UNKNOWN constant should be "UN"'
         );
     }
 
@@ -123,7 +125,6 @@ class PartnerTypeConstantsTest extends TestCase
             PartnerTypeConstants::CUSTOMER,
             PartnerTypeConstants::BANK_TRANSFER,
             PartnerTypeConstants::QUICK_ENTRY,
-            PartnerTypeConstants::MANUAL_SETTLEMENT,
             PartnerTypeConstants::MATCHED,
             PartnerTypeConstants::UNKNOWN,
         ];
@@ -194,8 +195,6 @@ class PartnerTypeConstantsTest extends TestCase
      */
     public function testGetAllReturnsAllConstants(): void
     {
-        // Legacy optypes contract: exactly the 6 dispatchable codes
-        // (UNKNOWN/'UN' is classification-only and excluded).
         $expected = [
             'SP' => 'Supplier',
             'CU' => 'Customer',

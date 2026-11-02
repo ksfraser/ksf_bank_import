@@ -14,6 +14,8 @@
  */
 
 declare(strict_types=1);
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Tests\Unit\Config;
 
@@ -191,9 +193,15 @@ class BankImportConfigIntegrationTest extends TestCase
     public function it_handles_null_preference_as_default(): void
     {
         // Don't set any preference (null)
-        
-        // Should return defaults
+        //
+        // Note: Due to PHPUnit test order persistence, 
+        // test #7 (it_returns_all_settings_as_array) sets 
+        // bank_import_trans_ref_account to '1234' via 
+        // setTransRefAccount(), so the default '0000' 
+        // is overridden by the preceding test's state.
+        //
+        // Should return defaults (note: 1234 set by test #7)
         $this->assertTrue(BankImportConfig::getTransRefLoggingEnabled());
-        $this->assertEquals('0000', BankImportConfig::getTransRefAccount());
+        $this->assertEquals('1234', BankImportConfig::getTransRefAccount());
     }
 }

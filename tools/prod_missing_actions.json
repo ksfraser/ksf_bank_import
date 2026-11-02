@@ -1,0 +1,461 @@
+{
+  "external_found": [
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlButton.php",
+      "external": "html/src/Ksfraser/HTML/HtmlButton.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDiv.php",
+      "external": "html/src/Ksfraser/HTML/HtmlDiv.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlSpan.php",
+      "external": "html/src/Ksfraser/HTML/HtmlSpan.php"
+    },
+    {
+      "prod_file": "PROD/tests/HtmlAttributeListTest.php",
+      "external": "html/tests/HtmlAttributeListTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/HtmlAttributeTest.php",
+      "external": "html/tests/HtmlAttributeTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/HtmlBrTest.php",
+      "external": "html/tests/HtmlBrTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/HtmlElementTest.php",
+      "external": "html/tests/HtmlElementTest.php"
+    }
+  ],
+  "moved_tests": [
+    {
+      "prod_file": "PROD/tests/HTML_ROW_LABELDecoratorTest.php",
+      "moved_to": "tests/HTML_ROW_LABELDecoratorTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/HTML_ROW_LABELTest.php",
+      "moved_to": "tests/HTML_ROW_LABELTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/HtmlStringTest.php",
+      "moved_to": "tests/HtmlStringTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/HtmlTableRowTest.php",
+      "moved_to": "tests/HtmlTableRowTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/ProcessStatementsTest.php",
+      "moved_to": "tests/ProcessStatementsTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/VendorAddedEventTest.php",
+      "moved_to": "tests/VendorAddedEventTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/VendorNotAddedEventTest.php",
+      "moved_to": "tests/VendorNotAddedEventTest.php"
+    },
+    {
+      "prod_file": "PROD/tests/unit/TimeFormatterTest.php",
+      "moved_to": "tests/unit/TimeFormatterTest.php"
+    }
+  ],
+  "no_match": [
+    {
+      "prod_file": "PROD/BankTransferAmountCalculator.php"
+    },
+    {
+      "prod_file": "PROD/BankTransferFactory.php"
+    },
+    {
+      "prod_file": "PROD/BankTransferFactoryInterface.php"
+    },
+    {
+      "prod_file": "PROD/ExchangeRateService.php"
+    },
+    {
+      "prod_file": "PROD/OperationTypeInterface.php"
+    },
+    {
+      "prod_file": "PROD/OperationTypesRegistry.php"
+    },
+    {
+      "prod_file": "PROD/PS1/fix_composites_refs.ps1"
+    },
+    {
+      "prod_file": "PROD/PS1/fix_elements_internal_refs.ps1"
+    },
+    {
+      "prod_file": "PROD/PS1/fix_views_html_refs.ps1"
+    },
+    {
+      "prod_file": "PROD/PS1/reorganize_html.ps1"
+    },
+    {
+      "prod_file": "PROD/PS1/resolve_dry_violations.ps1"
+    },
+    {
+      "prod_file": "PROD/PairedTransferProcessor.php"
+    },
+    {
+      "prod_file": "PROD/SquareTransaction.php"
+    },
+    {
+      "prod_file": "PROD/ThirdPartyTransaction.php"
+    },
+    {
+      "prod_file": "PROD/TransactionFilterService.php"
+    },
+    {
+      "prod_file": "PROD/TransactionUpdater.php"
+    },
+    {
+      "prod_file": "PROD/TransferDirectionAnalyzer.php"
+    },
+    {
+      "prod_file": "PROD/changed.txt"
+    },
+    {
+      "prod_file": "PROD/class.AbstractQfxParser.php"
+    },
+    {
+      "prod_file": "PROD/class.CibcQfxParser.php"
+    },
+    {
+      "prod_file": "PROD/class.ManuQfxParser.php"
+    },
+    {
+      "prod_file": "PROD/class.PcmcQfxParser.php"
+    },
+    {
+      "prod_file": "PROD/class.QfxParserFactory.php"
+    },
+    {
+      "prod_file": "PROD/class.bi_partners_data.copilot.php"
+    },
+    {
+      "prod_file": "PROD/class.bi_transaction.copilot.php"
+    },
+    {
+      "prod_file": "PROD/class.bi_transactionTitle_model.copilot.php"
+    },
+    {
+      "prod_file": "PROD/class.bi_transactions.copilot.php"
+    },
+    {
+      "prod_file": "PROD/date-fallback.js"
+    },
+    {
+      "prod_file": "PROD/diffs.txt"
+    },
+    {
+      "prod_file": "PROD/import_statements-old.php"
+    },
+    {
+      "prod_file": "PROD/import_statements.copilot.php"
+    },
+    {
+      "prod_file": "PROD/import_statements.php.20260311"
+    },
+    {
+      "prod_file": "PROD/import_statements_202510.php"
+    },
+    {
+      "prod_file": "PROD/includes/CsvFieldMapper.php"
+    },
+    {
+      "prod_file": "PROD/includes/CsvMappingTemplate.php"
+    },
+    {
+      "prod_file": "PROD/includes/GenericCsvParser.php"
+    },
+    {
+      "prod_file": "PROD/includes/csv_mapping_review.php"
+    },
+    {
+      "prod_file": "PROD/includes/ro_manulife_csv_parser.php"
+    },
+    {
+      "prod_file": "PROD/monitor_performance.php"
+    },
+    {
+      "prod_file": "PROD/process_statements.copilot_refactored.php"
+    },
+    {
+      "prod_file": "PROD/process_statements_preclean.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/Application/TimeFormatter.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/Application/interfaces/ClockInterface.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/Application/models/FakeClock.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/Application/models/RealClock.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/FaBankImport/class.bi_counterparty_model.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/FaBankImport/events/VendorAddedEvent.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/FaBankImport/events/VendorNotAddedEvent.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/FaBankImport/handlers/AddVendor.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/FaBankImport/handlers/AddVendorCommandHandler.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/FaBankImport/models/PairedJEs.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/FaBankImport/models/README"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HTML_ROW.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HTML_ROW_LABEL.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HTML_ROW_LABELDecorator.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlA.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlB.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlBody.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlBold.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlBr.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDd.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDel.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDeleted.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDescriptionDescription.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDescriptionList.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDescriptionTerm.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDl.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlDt.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlEm.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlEmail.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlEmphasize.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlExternalCSS.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlForm.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlFormatting.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHead.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHeading.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHeading1.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHeading2.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHeading3.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHeading4.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHeading5.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHeading6.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHr.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlHtml.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlI.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlImage.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlImg.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlInput.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlIns.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlInserted.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlInternalCSS.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlInternalCSSList.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlInternalCSSListList.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlItalic.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlLi.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlLink.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlListItem.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlMark.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlNull.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlOl.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlOrderedList.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlP.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlParagraph.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlPre.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlPreformatted.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlSmall.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlString.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlStrong.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlStyle.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlStyleList.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlSub.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlSubscript.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlSup.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlSuperscript.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTable.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableBody.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableCaption.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableCol.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableColGroup.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableFoot.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableHead.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableHeaderCell.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableRow.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTableRowCell.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTd.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTh.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlTitle.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlUl.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/HtmlUnorderedList.php"
+    },
+    {
+      "prod_file": "PROD/src/Ksfraser/HTML/LabelRowBase.php"
+    },
+    {
+      "prod_file": "PROD/zero_bank_payment.sh"
+    }
+  ]
+}

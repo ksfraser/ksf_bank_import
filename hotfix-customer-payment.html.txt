@@ -1,0 +1,1199 @@
+
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html dir='ltr' >
+<head profile="http://www.w3.org/2005/10/profile"><title>Bank Transactions</title><meta http-equiv='X-UA-Compatible' content='IE=10'>
+<meta http-equiv='Content-type' content='text/html; charset=iso-8859-1'><link href='../../themes/default/images/favicon.ico' rel='icon' type='image/x-icon'> 
+<link href='../../themes/canvas/default.css' rel='stylesheet' type='text/css'> 
+<script language="javascript" type="text/javascript" src="../../company/0/js_cache/1/JsHttpRequest.js"></script><script language="javascript" type="text/javascript" src="../../company/0/js_cache/1/behaviour.js"></script><script language="javascript" type="text/javascript" src="../../company/0/js_cache/1/utils.js"></script><script language="javascript" type="text/javascript" src="../../company/0/js_cache/1/inserts.js"></script><script language="javascript" type="text/javascript" src="../../company/0/js_cache/1/date_picker.js"></script></head> 
+<body><div class='fa-main'>
+<div id='header'>
+<ul>
+  <li><a class='shortcut' href='../../admin/display_prefs.php?'><img src='../../themes/canvas/images/preferences.gif' style='width:14px;height:14px;border:0;vertical-align:middle;padding-bottom:3px;' alt='Preferences'>&nbsp;&nbsp;Preferences</a></li>
+  <li><a class='shortcut' href='../../admin/change_current_user_password.php?selected_id=admin'><img src='../../themes/canvas/images/lock.gif' style='width:14px;height:14px;border:0;vertical-align:middle;padding-bottom:3px;' alt='Change Password'>&nbsp;&nbsp;Change password</a></li>
+  <li><a target = '_blank' onclick="javascript:openWindow(this.href,this.target); return false;" href='http://frontaccounting.com/fawiki/index.php?n=Help.BankTransactions&amp;ctxhelp=1&amp;lang=C'><img src='../../themes/canvas/images/help.gif' style='width:14px;height:14px;border:0;vertical-align:middle;padding-bottom:3px;' alt='Help'>&nbsp;&nbsp;Help</a></li>  <li><a class='shortcut' href='../../access/logout.php?'><img src='../../themes/canvas/images/login.gif' style='width:14px;height:14px;border:0;vertical-align:middle;padding-bottom:3px;' alt='Logout'>&nbsp;&nbsp;Logout</a></li></ul>
+<h1>FrontAccounting 2.4.19<span style='padding-left:300px;'><img id='ajaxmark' src='../../themes/canvas/images/ajax-loader.gif' align='center' style='visibility:hidden;'></span></h1>
+</div>
+<div class='fa-menu'><ul>
+<li class='active' ><a class='selected' href='../../index.php?application=orders' accesskey='S'><b><u>S</u>ales</b></a></li>
+<li ><a class='menu_tab' href='../../index.php?application=AP' accesskey='P'><b><u>P</u>urchases</b></a></li>
+<li ><a class='menu_tab' href='../../index.php?application=stock' accesskey='I'><b><u>I</u>tems and Inventory</b></a></li>
+<li ><a class='menu_tab' href='../../index.php?application=manuf' accesskey='M'><b><u>M</u>anufacturing</b></a></li>
+<li ><a class='menu_tab' href='../../index.php?application=assets' accesskey='F'><b><u>F</u>ixed Assets</b></a></li>
+<li ><a class='menu_tab' href='../../index.php?application=proj' accesskey='D'><b><u>D</u>imensions</b></a></li>
+<li ><a class='menu_tab' href='../../index.php?application=GL' accesskey='B'><b><u>B</u>anking and General Ledger</b></a></li>
+<li ><a class='menu_tab' href='../../index.php?application=FrontHrm' accesskey='H'><b><u>H</u>uman Resources</b></a></li>
+<li ><a class='menu_tab' href='../../index.php?application=system' accesskey='E'><b>S<u>e</u>tup</b></a></li>
+</ul>
+</div>
+<div class='clear'></div>
+<div class='fa-body'>
+<div id='fa-submenu'>
+<ul>
+<li><a href='../../sales/sales_order_entry.php?NewOrder=Yes'' class='menu_option' >Sales Order</a></li><li><a href='../../sales/sales_order_entry.php?NewInvoice=0' class='menu_option' >Direct Invoice</a></li><li><a href='../../sales/customer_payments.php?' class='menu_option' >Payments</a></li><li><a href='../../sales/inquiry/sales_orders_view.php?' class='menu_option' >Sales Order Inquiry</a></li><li><a href='../../sales/inquiry/customer_inquiry.php?' class='menu_option' >Transactions</a></li><li><a href='../../sales/manage/customers.php?' class='menu_option' >Customers</a></li><li><a href='../../sales/manage/customer_branches.php?' class='menu_option' >Branch</a></li><li><a href='../../reporting/reports_main.php?Class=0' class='menu_option' >Reports and Analysis</a></li><li><a href='../../admin/dashboard.php?sel_app=orders' class='menu_option' >Dashboard</a></li></ul>
+</div>
+<div class='clear'></div>
+<div class='fa-content'>
+<center><table id='title'><tr><td width='100%' class='titletext'>Bank Transactions</td><td align=right></td></tr></table></center><div id='msgbox'></div><div id='_page_body'><nav class="module-menu"><ul><li><a href="process_statements.php">Process Statements</a></li><li><a href="import_statements.php">Import Statements</a></li><li><a href="manage_partners_data.php">Manage Partners Data</a></li><li><a href="view_statements.php">View Statements</a></li></ul></nav><form method='post' action='/infra/accounting/modules/bank_import/process_statements.php' >
+<div id='doc_tbl'><center><table class='tablestyle_noborder' cellpadding='2' cellspacing='0'>
+<tr>
+<td >From:</td>
+<td><input type="text" name="TransAfterDate" class="date"  size="10" maxlength="12" value="03/09/2026" > <a tabindex='-1' href="javascript:date_picker(document.getElementsByName('TransAfterDate')[0]);">	<img src='../../themes/canvas/images/cal.gif' style='vertical-align:middle;padding-bottom:4px;width:16px;height:16px;border:0;' alt='Click Here to Pick up the date'></a>
+</td>
+<td >To:</td>
+<td><input type="text" name="TransToDate" class="date"  size="10" maxlength="12" value="04/30/2026" > <a tabindex='-1' href="javascript:date_picker(document.getElementsByName('TransToDate')[0]);">	<img src='../../themes/canvas/images/cal.gif' style='vertical-align:middle;padding-bottom:4px;width:16px;height:16px;border:0;' alt='Click Here to Pick up the date'></a>
+</td>
+<td >Status:</td>
+<td ><span id='_statusFilter_sel'><select autocomplete='off'  name='statusFilter' class='combo' title=''><option selected value='0'>Unsettled</option>
+<option  value='1'>Settled</option>
+<option  value='255'>All</option>
+</select>
+</span>
+</td>
+<td >Page Size:</td>
+<td ><span id='_page_size_sel'><select autocomplete='off'  name='page_size' class='combo' title=''><option  value='5'>5</option>
+<option selected value='10'>10</option>
+<option  value='25'>25</option>
+<option  value='100'>100</option>
+</select>
+</span>
+</td>
+<td ><button class="ajaxsubmit" type="submit" aspect='default'  name="RefreshInquiry"  id="RefreshInquiry" value="Search" title='Refresh Inquiry'><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Search</span></button>
+</td>
+</tr>
+</table></center>
+<div id="doc_tbl"><div class="pagination-controls" style="text-align: center; margin: 10px 0; padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px;"><span style="font-weight: bold;">Page 1 of 6 (Total: 53 rows)</span><br><br><div><button type="submit" disabled style="margin: 0 5px; opacity: 0.5; cursor: not-allowed;">â† Previous</button><input type="hidden" name="current_page_display_1" value="1"><input type="text" name="goto_page_1" value="1" style="width: 50px; padding: 4px; margin: 0 5px;"> <button type="submit" name="page_nav_action_1" value="go" style="margin: 0 5px; padding: 4px 12px; cursor: pointer;">Go</button><button type="submit" name="page_nav_action_1" value="next" style="margin: 0 5px; cursor: pointer;">Next â†’</button></div></div><table class="TABLESTYLE" width="100%"><thead><tr><th>Transaction Details</th><th>Operation/Status</th></tr></thead><tbody><tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-19 :: (2026-03-19)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Debit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >4503300016180307 - CIBC (CIBC Visa as Bank Account (0307))(1069.3)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > TELUS PRE-AUTH PAYMENT / TELUS PRE-AUTH PAYMENT</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >60.9 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >EDMONTON, AB;CC#4503********0307</td>
+</tr>
+<tr label='Add Vendor' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddVendor[122713]"  id="AddVendor[122713]" value="AddVendor"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddVendor</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[122713]"  id="ToggleTransaction[122713]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="current_page" value="1"><input type="hidden" name="vendor_short_122713" value=" TELUS PRE-AUTH PAYMENT"><input type="hidden" name="vendor_long_122713" value="TELUS PRE-AUTH PAYMENT"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Payment</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[122713]_sel'><select autocomplete='off'  name='partnerType[122713]' class='combo' title=''><option selected value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[122713]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Payment To:</td><td ><span id='_partnerId_122713_sel'><select id='partnerId_122713' autocomplete='off'  name='partnerId_122713' class='combo2' title='Select supplier' ><option   value='313'> AIRDRIE PHYSIOTHERAPY</option>
+<option   value='308'> ALBERTA INSURANCE COUNC</option>
+<option   value='293'> FULTON&#039;S HH BUILDI</option>
+<option   value='298'> MONTANA&#039;S</option>
+<option   value='173'>A&amp;W</option>
+<option   value='33'>A&amp;W - KSFP</option>
+<option   value='3'>Air Canada</option>
+<option   value='243'>AIRDRIE AIR</option>
+<option   value='2'>Allianz Global Assistance</option>
+<option   value='118'>Amazon</option>
+<option   value='113'>ATCO</option>
+<option   value='248'>BORDR.COM</option>
+<option   value='1'>Brian Meyers Landscaping</option>
+<option   value='203'>CALG</option>
+<option   value='13'>CM</option>
+<option   value='138'>COSTCO</option>
+<option   value='168'>DENNY&#039;S</option>
+<option   value='213'>DQ</option>
+<option   value='188'>ESSO</option>
+<option   value='5'>Expedia</option>
+<option   value='8'>FHS</option>
+<option   value='28'>Fraser Highland Shoppe</option>
+<option   value='43'>Fullscript</option>
+<option   value='6'>GMS</option>
+<option   value='303'>Home Depot</option>
+<option   value='208'>INDIGO</option>
+<option   value='268'>Insurance Companies</option>
+<option   value='23'>Kimberly Henry</option>
+<option   value='18'>KSF</option>
+<option   value='228'>LONDON</option>
+<option   value='9'>Manulife</option>
+<option   value='128'>MCDONALD&#039;S</option>
+<option   value='253'>NATH</option>
+<option   value='278'>Nissan</option>
+<option   value='53'>No Frills (DNU)</option>
+<option   value='148'>NOFRILLS</option>
+<option   value='218'>REAL CANADIAN SUPERSTO</option>
+<option   value='288'>Rona</option>
+<option   value='153'>SAVE ON FOODS</option>
+<option   value='233'>SHAW</option>
+<option   value='193'>SHELL</option>
+<option   value='123'>SHOPPERS</option>
+<option   value='183'>SMITTYS</option>
+<option   value='318'>Sobey&#039;s</option>
+<option   value='258'>SOUVENIRS</option>
+<option   value='263'>SP</option>
+<option   value='163'>SQUARE</option>
+<option   value='223'>STARBUCKS</option>
+<option   value='158'>Subway</option>
+<option   value='198'>THE CITY OF AIRDRIE</option>
+<option   value='178'>THE HOME DEPOT </option>
+<option   value='4'>Travel Brands</option>
+<option   value='38'>Tugo</option>
+<option   value='133'>VIRGIN</option>
+<option   value='48'>WAL-MART</option>
+<option   value='238'>WAWANESA</option>
+<option   value='283'>Wendys</option>
+<option   value='7'>Westjet</option>
+</select>
+</span>
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../purchasing/inquiry/suppliers_list.php?popup=1&client_id=partnerId_122713&quot;, &quot;&quot;);" title="Search suppliers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_122713" size="32" maxlength="" value="EDMONTON, AB;CC#4503********0307" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[122713]"  id="ProcessTransaction[122713]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[122713]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-20 :: (2026-03-23)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Debit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >2251 - WMMC (WMMC as Bank Account (KEVIN))(1070.2)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > WAL-MART / WAL-MART #1050</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >60.72 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >WAL-MART #1050 AIRDRIE, AB;CAN T4B 3G5  ;Grocery Stores and Supe</td>
+</tr>
+<tr label='Add Vendor' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddVendor[122526]"  id="AddVendor[122526]" value="AddVendor"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddVendor</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[122526]"  id="ToggleTransaction[122526]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_122526" value=" WAL-MART"><input type="hidden" name="vendor_long_122526" value="WAL-MART #1050"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Payment</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[122526]_sel'><select autocomplete='off'  name='partnerType[122526]' class='combo' title=''><option selected value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[122526]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Payment To:</td><td ><span id='_partnerId_122526_sel'><select id='partnerId_122526' autocomplete='off'  name='partnerId_122526' class='combo2' title='Select supplier' ><option   value='313'> AIRDRIE PHYSIOTHERAPY</option>
+<option   value='308'> ALBERTA INSURANCE COUNC</option>
+<option   value='293'> FULTON&#039;S HH BUILDI</option>
+<option   value='298'> MONTANA&#039;S</option>
+<option   value='173'>A&amp;W</option>
+<option   value='33'>A&amp;W - KSFP</option>
+<option   value='3'>Air Canada</option>
+<option   value='243'>AIRDRIE AIR</option>
+<option   value='2'>Allianz Global Assistance</option>
+<option   value='118'>Amazon</option>
+<option   value='113'>ATCO</option>
+<option   value='248'>BORDR.COM</option>
+<option   value='1'>Brian Meyers Landscaping</option>
+<option   value='203'>CALG</option>
+<option   value='13'>CM</option>
+<option   value='138'>COSTCO</option>
+<option   value='168'>DENNY&#039;S</option>
+<option   value='213'>DQ</option>
+<option   value='188'>ESSO</option>
+<option   value='5'>Expedia</option>
+<option   value='8'>FHS</option>
+<option   value='28'>Fraser Highland Shoppe</option>
+<option   value='43'>Fullscript</option>
+<option   value='6'>GMS</option>
+<option   value='303'>Home Depot</option>
+<option   value='208'>INDIGO</option>
+<option   value='268'>Insurance Companies</option>
+<option   value='23'>Kimberly Henry</option>
+<option   value='18'>KSF</option>
+<option   value='228'>LONDON</option>
+<option   value='9'>Manulife</option>
+<option   value='128'>MCDONALD&#039;S</option>
+<option   value='253'>NATH</option>
+<option   value='278'>Nissan</option>
+<option   value='53'>No Frills (DNU)</option>
+<option   value='148'>NOFRILLS</option>
+<option   value='218'>REAL CANADIAN SUPERSTO</option>
+<option   value='288'>Rona</option>
+<option   value='153'>SAVE ON FOODS</option>
+<option   value='233'>SHAW</option>
+<option   value='193'>SHELL</option>
+<option   value='123'>SHOPPERS</option>
+<option   value='183'>SMITTYS</option>
+<option   value='318'>Sobey&#039;s</option>
+<option   value='258'>SOUVENIRS</option>
+<option   value='263'>SP</option>
+<option   value='163'>SQUARE</option>
+<option   value='223'>STARBUCKS</option>
+<option   value='158'>Subway</option>
+<option   value='198'>THE CITY OF AIRDRIE</option>
+<option   value='178'>THE HOME DEPOT </option>
+<option   value='4'>Travel Brands</option>
+<option   value='38'>Tugo</option>
+<option   value='133'>VIRGIN</option>
+<option   value='48'>WAL-MART</option>
+<option   value='238'>WAWANESA</option>
+<option   value='283'>Wendys</option>
+<option   value='7'>Westjet</option>
+</select>
+</span>
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../purchasing/inquiry/suppliers_list.php?popup=1&client_id=partnerId_122526&quot;, &quot;&quot;);" title="Search suppliers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_122526" size="64" maxlength="" value="WAL-MART #1050 AIRDRIE, AB;CAN T4B 3G5  ;Grocery Stores and Supe" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[122526]"  id="ProcessTransaction[122526]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[122526]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-21 :: (2026-03-21)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Debit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >7293 - PCMC (PCMC as Bank Account)(1067)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > NOFRILLS ROB&#039;S / NOFRILLS ROB&#039;S #3946</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >46.73 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >7293</td>
+</tr>
+<tr label='Add Vendor' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddVendor[130210]"  id="AddVendor[130210]" value="AddVendor"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddVendor</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[130210]"  id="ToggleTransaction[130210]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_130210" value=" NOFRILLS ROB&#039;S"><input type="hidden" name="vendor_long_130210" value="NOFRILLS ROB&#039;S #3946"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Payment</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[130210]_sel'><select autocomplete='off'  name='partnerType[130210]' class='combo' title=''><option selected value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[130210]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Payment To:</td><td ><span id='_partnerId_130210_sel'><select id='partnerId_130210' autocomplete='off'  name='partnerId_130210' class='combo2' title='Select supplier' ><option   value='313'> AIRDRIE PHYSIOTHERAPY</option>
+<option   value='308'> ALBERTA INSURANCE COUNC</option>
+<option   value='293'> FULTON&#039;S HH BUILDI</option>
+<option   value='298'> MONTANA&#039;S</option>
+<option   value='173'>A&amp;W</option>
+<option   value='33'>A&amp;W - KSFP</option>
+<option selected  value='3'>Air Canada</option>
+<option   value='243'>AIRDRIE AIR</option>
+<option   value='2'>Allianz Global Assistance</option>
+<option   value='118'>Amazon</option>
+<option   value='113'>ATCO</option>
+<option   value='248'>BORDR.COM</option>
+<option selected  value='1'>Brian Meyers Landscaping</option>
+<option   value='203'>CALG</option>
+<option   value='13'>CM</option>
+<option   value='138'>COSTCO</option>
+<option   value='168'>DENNY&#039;S</option>
+<option   value='213'>DQ</option>
+<option   value='188'>ESSO</option>
+<option   value='5'>Expedia</option>
+<option   value='8'>FHS</option>
+<option   value='28'>Fraser Highland Shoppe</option>
+<option   value='43'>Fullscript</option>
+<option   value='6'>GMS</option>
+<option   value='303'>Home Depot</option>
+<option   value='208'>INDIGO</option>
+<option   value='268'>Insurance Companies</option>
+<option   value='23'>Kimberly Henry</option>
+<option   value='18'>KSF</option>
+<option   value='228'>LONDON</option>
+<option   value='9'>Manulife</option>
+<option   value='128'>MCDONALD&#039;S</option>
+<option   value='253'>NATH</option>
+<option   value='278'>Nissan</option>
+<option selected  value='53'>No Frills (DNU)</option>
+<option   value='148'>NOFRILLS</option>
+<option   value='218'>REAL CANADIAN SUPERSTO</option>
+<option   value='288'>Rona</option>
+<option   value='153'>SAVE ON FOODS</option>
+<option   value='233'>SHAW</option>
+<option   value='193'>SHELL</option>
+<option   value='123'>SHOPPERS</option>
+<option   value='183'>SMITTYS</option>
+<option   value='318'>Sobey&#039;s</option>
+<option   value='258'>SOUVENIRS</option>
+<option   value='263'>SP</option>
+<option   value='163'>SQUARE</option>
+<option   value='223'>STARBUCKS</option>
+<option   value='158'>Subway</option>
+<option   value='198'>THE CITY OF AIRDRIE</option>
+<option   value='178'>THE HOME DEPOT </option>
+<option   value='4'>Travel Brands</option>
+<option   value='38'>Tugo</option>
+<option   value='133'>VIRGIN</option>
+<option   value='48'>WAL-MART</option>
+<option   value='238'>WAWANESA</option>
+<option   value='283'>Wendys</option>
+<option   value='7'>Westjet</option>
+</select>
+</span>
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../purchasing/inquiry/suppliers_list.php?popup=1&client_id=partnerId_130210&quot;, &quot;&quot;);" title="Search suppliers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_130210" size="4" maxlength="" value="7293" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[130210]"  id="ProcessTransaction[130210]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[130210]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-21 :: (2026-03-21)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Debit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >7293 - PCMC (PCMC as Bank Account)(1067)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > NOFRILLS ROB&#039;S / NOFRILLS ROB&#039;S #3946</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >56.57 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >2992</td>
+</tr>
+<tr label='Add Vendor' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddVendor[130211]"  id="AddVendor[130211]" value="AddVendor"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddVendor</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[130211]"  id="ToggleTransaction[130211]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_130211" value=" NOFRILLS ROB&#039;S"><input type="hidden" name="vendor_long_130211" value="NOFRILLS ROB&#039;S #3946"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Payment</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[130211]_sel'><select autocomplete='off'  name='partnerType[130211]' class='combo' title=''><option selected value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[130211]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Payment To:</td><td ><span id='_partnerId_130211_sel'><select id='partnerId_130211' autocomplete='off'  name='partnerId_130211' class='combo2' title='Select supplier' ><option   value='313'> AIRDRIE PHYSIOTHERAPY</option>
+<option   value='308'> ALBERTA INSURANCE COUNC</option>
+<option   value='293'> FULTON&#039;S HH BUILDI</option>
+<option   value='298'> MONTANA&#039;S</option>
+<option   value='173'>A&amp;W</option>
+<option   value='33'>A&amp;W - KSFP</option>
+<option selected  value='3'>Air Canada</option>
+<option   value='243'>AIRDRIE AIR</option>
+<option   value='2'>Allianz Global Assistance</option>
+<option   value='118'>Amazon</option>
+<option   value='113'>ATCO</option>
+<option   value='248'>BORDR.COM</option>
+<option selected  value='1'>Brian Meyers Landscaping</option>
+<option   value='203'>CALG</option>
+<option   value='13'>CM</option>
+<option   value='138'>COSTCO</option>
+<option   value='168'>DENNY&#039;S</option>
+<option   value='213'>DQ</option>
+<option   value='188'>ESSO</option>
+<option   value='5'>Expedia</option>
+<option   value='8'>FHS</option>
+<option   value='28'>Fraser Highland Shoppe</option>
+<option   value='43'>Fullscript</option>
+<option   value='6'>GMS</option>
+<option   value='303'>Home Depot</option>
+<option   value='208'>INDIGO</option>
+<option   value='268'>Insurance Companies</option>
+<option   value='23'>Kimberly Henry</option>
+<option   value='18'>KSF</option>
+<option   value='228'>LONDON</option>
+<option   value='9'>Manulife</option>
+<option   value='128'>MCDONALD&#039;S</option>
+<option   value='253'>NATH</option>
+<option   value='278'>Nissan</option>
+<option selected  value='53'>No Frills (DNU)</option>
+<option   value='148'>NOFRILLS</option>
+<option   value='218'>REAL CANADIAN SUPERSTO</option>
+<option   value='288'>Rona</option>
+<option   value='153'>SAVE ON FOODS</option>
+<option   value='233'>SHAW</option>
+<option   value='193'>SHELL</option>
+<option   value='123'>SHOPPERS</option>
+<option   value='183'>SMITTYS</option>
+<option   value='318'>Sobey&#039;s</option>
+<option   value='258'>SOUVENIRS</option>
+<option   value='263'>SP</option>
+<option   value='163'>SQUARE</option>
+<option   value='223'>STARBUCKS</option>
+<option   value='158'>Subway</option>
+<option   value='198'>THE CITY OF AIRDRIE</option>
+<option   value='178'>THE HOME DEPOT </option>
+<option   value='4'>Travel Brands</option>
+<option   value='38'>Tugo</option>
+<option   value='133'>VIRGIN</option>
+<option   value='48'>WAL-MART</option>
+<option   value='238'>WAWANESA</option>
+<option   value='283'>Wendys</option>
+<option   value='7'>Westjet</option>
+</select>
+</span>
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../purchasing/inquiry/suppliers_list.php?popup=1&client_id=partnerId_130211&quot;, &quot;&quot;);" title="Search suppliers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_130211" size="4" maxlength="" value="2992" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[130211]"  id="ProcessTransaction[130211]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[130211]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-23 :: (2026-03-23)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Credit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >00449 12-93230 - CIBC (CIBC Savings account)(1061)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > / </td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >30 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >E-TRANSFER 011533374732;LINDSAY FRASER;Internet Banking</td>
+</tr>
+<tr label='Add Customer' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddCustomer[122708]"  id="AddCustomer[122708]" value="AddCustomer"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddCustomer</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[122708]"  id="ToggleTransaction[122708]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_122708" value=""><input type="hidden" name="vendor_long_122708" value=""></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Depost</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[122708]_sel'><select autocomplete='off'  name='partnerType[122708]' class='combo' title=''><option  value='SP'>Supplier</option>
+<option selected value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[122708]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>From Customer/Branch:</td><td ><span id='_partnerId_122708_sel'><select id='partnerId_122708' autocomplete='off'  name='partnerId_122708' class='combo2' title='Select customer' ><option   value='263'>0Garage Sale</option>
+<option   value='228'>3016 RCACC</option>
+<option   value='56'>Abbie MacKenzie</option>
+<option   value='283'>Abrio Place</option>
+<option   value='32'>Airdrie Curling Club</option>
+<option   value='8'>Airdrie Gaelic Society</option>
+<option   value='118'>Airdrie Legion</option>
+<option   value='148'>Alanna Cook</option>
+<option   value='238'>Amanda Chamberlain</option>
+<option   value='24'>Ashley Lacombe</option>
+<option   value='34'>Ashley Lamond</option>
+<option   value='29'>Barb Rolleman</option>
+<option   value='1'>Bill Charney</option>
+<option   value='248'>Calgary Police Cadet Corps</option>
+<option   value='163'>Canadian Brew House</option>
+<option   value='12'>Canwest Travel</option>
+<option   value='178'>Carstairs Lions</option>
+<option   value='28'>Charlie Lenover</option>
+<option   value='88'>Chris Sparling</option>
+<option   value='15'>Craig Smith</option>
+<option   value='233'>Creative Memories</option>
+<option   value='11'>CYCA</option>
+<option   value='5'>Dad</option>
+<option   value='10'>Dan McEwing</option>
+<option   value='133'>Dance Through Life</option>
+<option   value='18'>Danna and Rob Richardson</option>
+<option   value='188'>Debbie Ohlhausen</option>
+<option   value='98'>Denise Dueck</option>
+<option   value='6'>Devon Hayden</option>
+<option   value='93'>FHS</option>
+<option   value='203'>Fullscript</option>
+<option   value='19'>GMS</option>
+<option   value='108'>Ian Craig</option>
+<option   value='36'>Insurance Carriers</option>
+<option   value='158'>Jack Koops</option>
+<option   value='71'>Jackie Randle</option>
+<option   value='73'>Janice Lukenbill</option>
+<option   value='23'>Jared Ebner</option>
+<option   value='258'>Jayne Sandilands</option>
+<option   value='13'>Jim MacLeod</option>
+<option   value='213'>JSR Projects Inc</option>
+<option   value='278'>Julia McDiarmid</option>
+<option   value='273'>Kari Hicks</option>
+<option   value='27'>Kellie Windsor</option>
+<option   value='253'>Kelsie Erin Mailandt</option>
+<option   value='22'>Kerry McNamara</option>
+<option   value='61'>Kimberly Henry</option>
+<option   value='193'>KSF</option>
+<option   value='30'>Laura Olsen</option>
+<option   value='268'>Leah Perrault</option>
+<option   value='17'>Liam and Jasper</option>
+<option   value='223'>Lindsay Fraser</option>
+<option   value='2'>Loree Sheehan</option>
+<option   value='123'>Luxstone Manor</option>
+<option   value='31'>Marcus Crawler</option>
+<option   value='78'>MELISSA KIBSEY FAUST</option>
+<option   value='16'>MFC Travel Customer</option>
+<option   value='198'>MLF</option>
+<option   value='243'>Monika Heric</option>
+<option   value='33'>Natalie Moore</option>
+<option   value='14'>Pipe Lessons</option>
+<option   value='4'>Piping Performance Generic Cus</option>
+<option   value='173'>Randall Richards</option>
+<option   value='7'>Rhonda Auclaire</option>
+<option   value='9'>Rocky View School District</option>
+<option   value='138'>Ross Ford Elementary</option>
+<option   value='153'>Rotary Club of Airdrie</option>
+<option   value='41'>Roy Olney</option>
+<option   value='128'>ROYAL CANADIAN LEGION</option>
+<option   value='208'>SAIT</option>
+<option   value='168'>Sandra Henderson</option>
+<option   value='20'>Sandra Phillips</option>
+<option   value='66'>SFG</option>
+<option   value='25'>SHAY</option>
+<option   value='35'>Shelby Chalmers</option>
+<option   value='26'>Tara Skoby</option>
+<option   value='3'>Tim Ford</option>
+<option   value='183'>Tod Williams</option>
+<option   value='83'>Tugo</option>
+<option   value='103'>U15 AA </option>
+<option   value='113'>Village of Beiseker</option>
+<option   value='218'>Volunteer Airdrie Society</option>
+<option   value='143'>Westglen School</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerId_122708_update' value=' ' title='Select'> 
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../sales/inquiry/customers_list.php?popup=1&client_id=partnerId_122708&quot;, &quot;&quot;);" title="Search customers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Invoices to Pay</td><td ></td>
+</tr>
+<tr><td class='label'>Allocate Payment to (1) Invoice</td><td ><input  type="text" name="Invoice_122708" size="6" maxlength="" value="0" title='Invoice to Allocate Payment:'></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_122708" size="55" maxlength="" value="E-TRANSFER 011533374732;LINDSAY FRASER;Internet Banking" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[122708]"  id="ProcessTransaction[122708]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="partnerDetailId_122708" value="-1"><input type="hidden" name="customer_122708" value=""><input type="hidden" name="customer_branch_122708" value=""><input type="hidden" name="cids[122708]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-25 :: (2026-03-25)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Debit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >1797485 - Manulife (Manulife Advantage 1797485)(1072.485)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > Interac e-Transfer Receive / Interac e-Transfer Receive</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >301.85 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >Interac e-Transfer Receive</td>
+</tr>
+<tr label='Add Vendor' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddVendor[130181]"  id="AddVendor[130181]" value="AddVendor"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddVendor</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[130181]"  id="ToggleTransaction[130181]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_130181" value=" Interac e-Transfer Receive"><input type="hidden" name="vendor_long_130181" value="Interac e-Transfer Receive"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Payment</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[130181]_sel'><select autocomplete='off'  name='partnerType[130181]' class='combo' title=''><option selected value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[130181]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Payment To:</td><td ><span id='_partnerId_130181_sel'><select id='partnerId_130181' autocomplete='off'  name='partnerId_130181' class='combo2' title='Select supplier' ><option   value='313'> AIRDRIE PHYSIOTHERAPY</option>
+<option   value='308'> ALBERTA INSURANCE COUNC</option>
+<option   value='293'> FULTON&#039;S HH BUILDI</option>
+<option   value='298'> MONTANA&#039;S</option>
+<option   value='173'>A&amp;W</option>
+<option   value='33'>A&amp;W - KSFP</option>
+<option   value='3'>Air Canada</option>
+<option   value='243'>AIRDRIE AIR</option>
+<option   value='2'>Allianz Global Assistance</option>
+<option   value='118'>Amazon</option>
+<option   value='113'>ATCO</option>
+<option   value='248'>BORDR.COM</option>
+<option   value='1'>Brian Meyers Landscaping</option>
+<option   value='203'>CALG</option>
+<option   value='13'>CM</option>
+<option   value='138'>COSTCO</option>
+<option   value='168'>DENNY&#039;S</option>
+<option   value='213'>DQ</option>
+<option   value='188'>ESSO</option>
+<option   value='5'>Expedia</option>
+<option   value='8'>FHS</option>
+<option   value='28'>Fraser Highland Shoppe</option>
+<option   value='43'>Fullscript</option>
+<option   value='6'>GMS</option>
+<option   value='303'>Home Depot</option>
+<option   value='208'>INDIGO</option>
+<option   value='268'>Insurance Companies</option>
+<option   value='23'>Kimberly Henry</option>
+<option   value='18'>KSF</option>
+<option   value='228'>LONDON</option>
+<option   value='9'>Manulife</option>
+<option   value='128'>MCDONALD&#039;S</option>
+<option   value='253'>NATH</option>
+<option   value='278'>Nissan</option>
+<option   value='53'>No Frills (DNU)</option>
+<option   value='148'>NOFRILLS</option>
+<option   value='218'>REAL CANADIAN SUPERSTO</option>
+<option   value='288'>Rona</option>
+<option   value='153'>SAVE ON FOODS</option>
+<option   value='233'>SHAW</option>
+<option   value='193'>SHELL</option>
+<option   value='123'>SHOPPERS</option>
+<option   value='183'>SMITTYS</option>
+<option   value='318'>Sobey&#039;s</option>
+<option   value='258'>SOUVENIRS</option>
+<option   value='263'>SP</option>
+<option   value='163'>SQUARE</option>
+<option   value='223'>STARBUCKS</option>
+<option   value='158'>Subway</option>
+<option   value='198'>THE CITY OF AIRDRIE</option>
+<option   value='178'>THE HOME DEPOT </option>
+<option   value='4'>Travel Brands</option>
+<option   value='38'>Tugo</option>
+<option   value='133'>VIRGIN</option>
+<option   value='48'>WAL-MART</option>
+<option   value='238'>WAWANESA</option>
+<option   value='283'>Wendys</option>
+<option   value='7'>Westjet</option>
+</select>
+</span>
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../purchasing/inquiry/suppliers_list.php?popup=1&client_id=partnerId_130181&quot;, &quot;&quot;);" title="Search suppliers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_130181" size="26" maxlength="" value="Interac e-Transfer Receive" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[130181]"  id="ProcessTransaction[130181]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[130181]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-25 :: (2026-03-25)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Bank Transfer</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >7293 - PCMC (PCMC as Bank Account)(1067)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > PRE-AUTHORIZED PAYMENT / PRE-AUTHORIZED PAYMENT</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >1258.39 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >7293</td>
+</tr>
+<tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[130209]"  id="ToggleTransaction[130209]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_130209" value=" PRE-AUTHORIZED PAYMENT"><input type="hidden" name="vendor_long_130209" value="PRE-AUTHORIZED PAYMENT"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+int(687)
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Bank Transfer</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[130209]_sel'><select autocomplete='off'  name='partnerType[130209]' class='combo' title=''><option  value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option selected value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[130209]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Transfer to <i>Our Bank Account</i> <b>from (OTHER ACCOUNT</b>):</td><td ><span id='_partnerId_130209_sel'><select id='partnerId_130209' autocomplete='off'  name='partnerId_130209' class='combo' title='' ><option   value='118'>Airdrie Transit Tickets</option>
+<option   value='73'>ATB MC Marcia 6030</option>
+<option   value='178'>Capital One (Costco)</option>
+<option   value='183'>Capital One 2 (space)</option>
+<option   value='148'>CIBC Checking (inactive)</option>
+<option   value='153'>CIBC HELOC on SC 48933 (inactive)</option>
+<option   value='58'>CIBC HISA</option>
+<option   value='143'>CIBC HISA184 Inactive</option>
+<option   value='1'>CIBC Savings account</option>
+<option   value='38'>CIBC Visa as Bank Account (0307)</option>
+<option   value='98'>CIBC Visa as Bank Account Card 2 (4506)</option>
+<option   value='128'>Creative Memories Equity as Bank</option>
+<option   value='33'>FHS Equity as Bank Account</option>
+<option   value='138'>Gift Cards</option>
+<option   value='113'>GroceryDeliveryNT</option>
+<option   value='2'>Kevin Wallet</option>
+<option   value='6'>Manulife Advantage (K&amp;M - 1518404)</option>
+<option   value='8'>Manulife Advantage (Marcia - 1524001)</option>
+<option   value='188'>Manulife Advantage 1797485</option>
+<option   value='78'>Manulife Kevin 1708272</option>
+<option   value='5'>Marcia ATB (SAVINGS)</option>
+<option   value='213'>Marcia Chech Kroners&nbsp;-&nbsp;CHK</option>
+<option   value='4'>Marcia Square</option>
+<option   value='208'>Marcia Swiss Franks&nbsp;-&nbsp;SWF</option>
+<option   value='53'>Marcia Wallet</option>
+<option   value='83'>Marcia Wallet Euro&nbsp;-&nbsp;EUR</option>
+<option   value='103'>Montana&#039;s Gift Card</option>
+<option   value='48'>Optimum Points</option>
+<option   value='173'>PCF 379</option>
+<option   value='158'>PCF 424</option>
+<option   value='203'>PCF 424</option>
+<option   value='163'>PCF 436</option>
+<option   value='198'>PCF 436</option>
+<option   value='168'>PCF 998</option>
+<option   value='193'>PCMC 2014</option>
+<option   value='7'>PCMC as Bank Account</option>
+<option   value='18'>RBC HELOC</option>
+<option   value='28'>RBC HISA 841</option>
+<option   value='68'>RBC Ion Visa Marcia (4295)</option>
+<option   value='13'>RBC LOC Marcia</option>
+<option   value='133'>RBC MC</option>
+<option   value='23'>RBC Savings 605</option>
+<option   value='88'>RBC WJ MC Marcia (3824)</option>
+<option   value='93'>Simplii HISA 67177998</option>
+<option   value='3'>Simplii PLOC</option>
+<option   value='108'>TransportationNT</option>
+<option   value='123'>Uber Gift Card</option>
+<option   value='63'>Walmart MC Rewards</option>
+<option   value='214'>WMMC (Marcia)</option>
+<option   value='43'>WMMC as Bank Account (KEVIN)</option>
+</select>
+</span>
+</td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_130209" size="4" maxlength="" value="7293" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[130209]"  id="ProcessTransaction[130209]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs.  Ensure you double check Accounts and Amounts</td><td ><b>1</b>: <a target=_blank href='../../gl/view/gl_trans_view.php?type_id=4&trans_no=1338'> Transaction 4:1338</a> Score 4 Account <b>1067</b>  PC Master Card <b> 1258.39</b>  //Person /<br /><b>2</b>: <a target=_blank href='../../gl/view/gl_trans_view.php?type_id=4&trans_no=1338'> Transaction 4:1338</a> Score 0 Account <b>1061</b>  CIBC Savings Account -1258.39 //Person /<br /></td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[130209]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-27 :: (2026-03-27)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Debit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >7293 - PCMC (PCMC as Bank Account)(1067)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > NOFRILLS ROB&#039;S / NOFRILLS ROB&#039;S #3946</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >105.9 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >7293</td>
+</tr>
+<tr label='Add Vendor' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddVendor[130205]"  id="AddVendor[130205]" value="AddVendor"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddVendor</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[130205]"  id="ToggleTransaction[130205]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_130205" value=" NOFRILLS ROB&#039;S"><input type="hidden" name="vendor_long_130205" value="NOFRILLS ROB&#039;S #3946"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Payment</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[130205]_sel'><select autocomplete='off'  name='partnerType[130205]' class='combo' title=''><option selected value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[130205]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Payment To:</td><td ><span id='_partnerId_130205_sel'><select id='partnerId_130205' autocomplete='off'  name='partnerId_130205' class='combo2' title='Select supplier' ><option   value='313'> AIRDRIE PHYSIOTHERAPY</option>
+<option   value='308'> ALBERTA INSURANCE COUNC</option>
+<option   value='293'> FULTON&#039;S HH BUILDI</option>
+<option   value='298'> MONTANA&#039;S</option>
+<option   value='173'>A&amp;W</option>
+<option   value='33'>A&amp;W - KSFP</option>
+<option selected  value='3'>Air Canada</option>
+<option   value='243'>AIRDRIE AIR</option>
+<option   value='2'>Allianz Global Assistance</option>
+<option   value='118'>Amazon</option>
+<option   value='113'>ATCO</option>
+<option   value='248'>BORDR.COM</option>
+<option selected  value='1'>Brian Meyers Landscaping</option>
+<option   value='203'>CALG</option>
+<option   value='13'>CM</option>
+<option   value='138'>COSTCO</option>
+<option   value='168'>DENNY&#039;S</option>
+<option   value='213'>DQ</option>
+<option   value='188'>ESSO</option>
+<option   value='5'>Expedia</option>
+<option   value='8'>FHS</option>
+<option   value='28'>Fraser Highland Shoppe</option>
+<option   value='43'>Fullscript</option>
+<option   value='6'>GMS</option>
+<option   value='303'>Home Depot</option>
+<option   value='208'>INDIGO</option>
+<option   value='268'>Insurance Companies</option>
+<option   value='23'>Kimberly Henry</option>
+<option   value='18'>KSF</option>
+<option   value='228'>LONDON</option>
+<option   value='9'>Manulife</option>
+<option   value='128'>MCDONALD&#039;S</option>
+<option   value='253'>NATH</option>
+<option   value='278'>Nissan</option>
+<option selected  value='53'>No Frills (DNU)</option>
+<option   value='148'>NOFRILLS</option>
+<option   value='218'>REAL CANADIAN SUPERSTO</option>
+<option   value='288'>Rona</option>
+<option   value='153'>SAVE ON FOODS</option>
+<option   value='233'>SHAW</option>
+<option   value='193'>SHELL</option>
+<option   value='123'>SHOPPERS</option>
+<option   value='183'>SMITTYS</option>
+<option   value='318'>Sobey&#039;s</option>
+<option   value='258'>SOUVENIRS</option>
+<option   value='263'>SP</option>
+<option   value='163'>SQUARE</option>
+<option   value='223'>STARBUCKS</option>
+<option   value='158'>Subway</option>
+<option   value='198'>THE CITY OF AIRDRIE</option>
+<option   value='178'>THE HOME DEPOT </option>
+<option   value='4'>Travel Brands</option>
+<option   value='38'>Tugo</option>
+<option   value='133'>VIRGIN</option>
+<option   value='48'>WAL-MART</option>
+<option   value='238'>WAWANESA</option>
+<option   value='283'>Wendys</option>
+<option   value='7'>Westjet</option>
+</select>
+</span>
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../purchasing/inquiry/suppliers_list.php?popup=1&client_id=partnerId_130205&quot;, &quot;&quot;);" title="Search suppliers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_130205" size="4" maxlength="" value="7293" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[130205]"  id="ProcessTransaction[130205]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[130205]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-27 :: (2026-03-27)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Debit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >7293 - PCMC (PCMC as Bank Account)(1067)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > NOFRILLS ROB&#039;S / NOFRILLS ROB&#039;S #3946 R</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >63.51 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >7293</td>
+</tr>
+<tr label='Add Vendor' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddVendor[130206]"  id="AddVendor[130206]" value="AddVendor"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddVendor</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[130206]"  id="ToggleTransaction[130206]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_130206" value=" NOFRILLS ROB&#039;S"><input type="hidden" name="vendor_long_130206" value="NOFRILLS ROB&#039;S #3946 R"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Payment</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[130206]_sel'><select autocomplete='off'  name='partnerType[130206]' class='combo' title=''><option selected value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[130206]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Payment To:</td><td ><span id='_partnerId_130206_sel'><select id='partnerId_130206' autocomplete='off'  name='partnerId_130206' class='combo2' title='Select supplier' ><option   value='313'> AIRDRIE PHYSIOTHERAPY</option>
+<option   value='308'> ALBERTA INSURANCE COUNC</option>
+<option   value='293'> FULTON&#039;S HH BUILDI</option>
+<option   value='298'> MONTANA&#039;S</option>
+<option   value='173'>A&amp;W</option>
+<option   value='33'>A&amp;W - KSFP</option>
+<option selected  value='3'>Air Canada</option>
+<option   value='243'>AIRDRIE AIR</option>
+<option   value='2'>Allianz Global Assistance</option>
+<option   value='118'>Amazon</option>
+<option   value='113'>ATCO</option>
+<option   value='248'>BORDR.COM</option>
+<option selected  value='1'>Brian Meyers Landscaping</option>
+<option   value='203'>CALG</option>
+<option   value='13'>CM</option>
+<option   value='138'>COSTCO</option>
+<option   value='168'>DENNY&#039;S</option>
+<option   value='213'>DQ</option>
+<option   value='188'>ESSO</option>
+<option   value='5'>Expedia</option>
+<option   value='8'>FHS</option>
+<option   value='28'>Fraser Highland Shoppe</option>
+<option   value='43'>Fullscript</option>
+<option   value='6'>GMS</option>
+<option   value='303'>Home Depot</option>
+<option   value='208'>INDIGO</option>
+<option   value='268'>Insurance Companies</option>
+<option   value='23'>Kimberly Henry</option>
+<option   value='18'>KSF</option>
+<option   value='228'>LONDON</option>
+<option   value='9'>Manulife</option>
+<option   value='128'>MCDONALD&#039;S</option>
+<option   value='253'>NATH</option>
+<option   value='278'>Nissan</option>
+<option selected  value='53'>No Frills (DNU)</option>
+<option   value='148'>NOFRILLS</option>
+<option   value='218'>REAL CANADIAN SUPERSTO</option>
+<option   value='288'>Rona</option>
+<option   value='153'>SAVE ON FOODS</option>
+<option   value='233'>SHAW</option>
+<option   value='193'>SHELL</option>
+<option   value='123'>SHOPPERS</option>
+<option   value='183'>SMITTYS</option>
+<option   value='318'>Sobey&#039;s</option>
+<option   value='258'>SOUVENIRS</option>
+<option   value='263'>SP</option>
+<option   value='163'>SQUARE</option>
+<option   value='223'>STARBUCKS</option>
+<option   value='158'>Subway</option>
+<option   value='198'>THE CITY OF AIRDRIE</option>
+<option   value='178'>THE HOME DEPOT </option>
+<option   value='4'>Travel Brands</option>
+<option   value='38'>Tugo</option>
+<option   value='133'>VIRGIN</option>
+<option   value='48'>WAL-MART</option>
+<option   value='238'>WAWANESA</option>
+<option   value='283'>Wendys</option>
+<option   value='7'>Westjet</option>
+</select>
+</span>
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../purchasing/inquiry/suppliers_list.php?popup=1&client_id=partnerId_130206&quot;, &quot;&quot;);" title="Search suppliers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_130206" size="4" maxlength="" value="7293" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[130206]"  id="ProcessTransaction[130206]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[130206]" value=""></td></tr>
+<tr>
+<td width="50%"><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Trans Date (Event Date):</td>
+<td >2026-03-27 :: (2026-03-27)</td>
+</tr>
+<tr><td class='label'>Trans type:</td><td >Debit</td>
+</tr>
+<tr><td class='label'>Our Bank Account - (Account Name)(Number):</td><td >7293 - PCMC (PCMC as Bank Account)(1067)</td>
+</tr>
+<tr><td class='label'>Other account:</td><td > A&amp;W / A&amp;W #1396</td>
+</tr>
+<tr><td class='label'>Amount/Charge(s):</td><td >9.12 / 0 (CAD)</td>
+</tr>
+<tr><td class='label'>Trans Title:</td><td >7293</td>
+</tr>
+<tr label='Add Vendor' width='25' class='label'><button class="ajaxsubmit" type="submit" aspect='default'  name="AddVendor[130207]"  id="AddVendor[130207]" value="AddVendor"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>AddVendor</span></button>
+</tr><tr><td class='label'>Toggle Transaction Type Debit/Credit</td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ToggleTransaction[130207]"  id="ToggleTransaction[130207]" value="ToggleTransaction"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>ToggleTransaction</span></button>
+</td>
+</tr>
+</table></center>
+<input type="hidden" name="vendor_short_130207" value=" A&amp;W"><input type="hidden" name="vendor_long_130207" value="A&amp;W #1396"></td><td width='50%' valign='top'><center><table class='tablestyle2' width='100%' cellpadding='2' cellspacing='0'>
+<tr><td width='25%' class='label'>Operation:</td>
+<td >Payment</td>
+</tr>
+<tr><td class='label'>Partner:</td><td ><span id='_partnerType[130207]_sel'><select autocomplete='off'  name='partnerType[130207]' class='combo' title=''><option selected value='SP'>Supplier</option>
+<option  value='CU'>Customer</option>
+<option  value='QE'>Quick Entry</option>
+<option  value='BT'>Bank Transfer</option>
+<option  value='MA'>Manual settlement</option>
+<option  value='ZZ'>Matched</option>
+</select>
+</span>
+<input  type='submit' class='combo_select' style='border:0;background:url(../../themes/canvas/images/button_ok.png) no-repeat;display:none;' aspect='fallback' name='_partnerType[130207]_update' value=' ' title='Select'> 
+</td>
+</tr>
+<tr><td class='label'>Payment To:</td><td ><span id='_partnerId_130207_sel'><select id='partnerId_130207' autocomplete='off'  name='partnerId_130207' class='combo2' title='Select supplier' ><option   value='313'> AIRDRIE PHYSIOTHERAPY</option>
+<option   value='308'> ALBERTA INSURANCE COUNC</option>
+<option   value='293'> FULTON&#039;S HH BUILDI</option>
+<option   value='298'> MONTANA&#039;S</option>
+<option   value='173'>A&amp;W</option>
+<option   value='33'>A&amp;W - KSFP</option>
+<option   value='3'>Air Canada</option>
+<option   value='243'>AIRDRIE AIR</option>
+<option   value='2'>Allianz Global Assistance</option>
+<option   value='118'>Amazon</option>
+<option   value='113'>ATCO</option>
+<option   value='248'>BORDR.COM</option>
+<option   value='1'>Brian Meyers Landscaping</option>
+<option   value='203'>CALG</option>
+<option   value='13'>CM</option>
+<option   value='138'>COSTCO</option>
+<option   value='168'>DENNY&#039;S</option>
+<option   value='213'>DQ</option>
+<option   value='188'>ESSO</option>
+<option   value='5'>Expedia</option>
+<option   value='8'>FHS</option>
+<option   value='28'>Fraser Highland Shoppe</option>
+<option   value='43'>Fullscript</option>
+<option   value='6'>GMS</option>
+<option   value='303'>Home Depot</option>
+<option   value='208'>INDIGO</option>
+<option   value='268'>Insurance Companies</option>
+<option   value='23'>Kimberly Henry</option>
+<option   value='18'>KSF</option>
+<option   value='228'>LONDON</option>
+<option   value='9'>Manulife</option>
+<option   value='128'>MCDONALD&#039;S</option>
+<option   value='253'>NATH</option>
+<option   value='278'>Nissan</option>
+<option   value='53'>No Frills (DNU)</option>
+<option   value='148'>NOFRILLS</option>
+<option   value='218'>REAL CANADIAN SUPERSTO</option>
+<option   value='288'>Rona</option>
+<option   value='153'>SAVE ON FOODS</option>
+<option   value='233'>SHAW</option>
+<option   value='193'>SHELL</option>
+<option   value='123'>SHOPPERS</option>
+<option   value='183'>SMITTYS</option>
+<option   value='318'>Sobey&#039;s</option>
+<option   value='258'>SOUVENIRS</option>
+<option   value='263'>SP</option>
+<option   value='163'>SQUARE</option>
+<option   value='223'>STARBUCKS</option>
+<option   value='158'>Subway</option>
+<option   value='198'>THE CITY OF AIRDRIE</option>
+<option   value='178'>THE HOME DEPOT </option>
+<option   value='4'>Travel Brands</option>
+<option   value='38'>Tugo</option>
+<option   value='133'>VIRGIN</option>
+<option   value='48'>WAL-MART</option>
+<option   value='238'>WAWANESA</option>
+<option   value='283'>Wendys</option>
+<option   value='7'>Westjet</option>
+</select>
+</span>
+<img src="../../themes/canvas/images/view.gif" style="vertical-align:middle;width:12px;height:12px;border:0;" onclick="javascript:lookupWindow(&quot;../../purchasing/inquiry/suppliers_list.php?popup=1&client_id=partnerId_130207&quot;, &quot;&quot;);" title="Search suppliers" style="cursor:pointer;" /></td>
+</tr>
+<tr><td class='label'>Comment:</td><td ><input  type="text" name="comment_130207" size="4" maxlength="" value="7293" title='Comment:'></td>
+</tr>
+<tr><td class='label'></td><td ><button class="ajaxsubmit" type="submit" aspect='default'  name="ProcessTransaction[130207]"  id="ProcessTransaction[130207]" value="Process"><img src='../../themes/canvas/images/ok.gif' height='12' alt=''><span>Process</span></button>
+</td>
+</tr>
+<tr><td class='label'>Matching GLs</td><td >No Matches found automatically</td>
+</tr>
+</table></center>
+<input type="hidden" name="cids[130207]" value=""></td></tr>
+</tbody></table><div class="pagination-controls" style="text-align: center; margin: 10px 0; padding: 10px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 4px;"><span style="font-weight: bold;">Page 1 of 6 (Total: 53 rows)</span><br><br><div><button type="submit" disabled style="margin: 0 5px; opacity: 0.5; cursor: not-allowed;">â† Previous</button><input type="hidden" name="current_page_display_2" value="1"><input type="text" name="goto_page_2" value="1" style="width: 50px; padding: 4px; margin: 0 5px;"> <button type="submit" name="page_nav_action_2" value="go" style="margin: 0 5px; padding: 4px 12px; cursor: pointer;">Go</button><button type="submit" name="page_nav_action_2" value="next" style="margin: 0 5px; cursor: pointer;">Next â†’</button></div></div></div></div><input type="hidden" name="_focus" value="TransAfterDate"><input type="hidden" name="_modified" value="0"><input type="hidden" name="_confirmed" value=""><input type="hidden" name="_token" value="jL3cS5dxeRfZEpGdOzq73Qxx"></form>
+<center><center><table width='20%' cellpadding='2' cellspacing='0'>
+<tr>
+<td align=center><a href='javascript:goBack();'>Back</a></td>
+</tr>
+</table></center>
+</center><br></div></div>
+</div>
+<div class='fa-footer'>
+<span class='power'><a target='_blank' href='http://frontaccounting.com'>FrontAccounting 2.4.19</a></span>
+<span class='date'>04/11/2026&nbsp;12:19 am</span>
+<span class='date'>Fraser Family Mickey</span>
+<span class='date'>fhsws002.ksfraser.com</span>
+<span class='date'>Administrator</span>
+<span class='date'>Theme: canvas</span>
+<span class='date'></span>
+</div>
+</div>
+<script type='text/javascript'>
+		_focus = 'TransAfterDate';
+		_validate = [  ];
+		var editors = [  ];
+	</script>
+<script type="text/javascript"><!--
+function openWindow(url, title)
+{
+ var left = (screen.width - 900) / 2;
+ var top = (screen.height - 500) / 2;
+ return window.open(url, title, 'width=900,height=500,left='+left+',top='+top+',screenX='+left+',screenY='+top+',status=no,scrollbars=yes');
+}
+function lookupWindow(url, title) {
+    	var u = url.split('#');
+    	if (u.length == 2) {
+      		var element = document.getElementById(u[1]);
+      		var options = element.options;
+      		url = u[0] + '&' + u[1] + '=' + options[element.selectedIndex].value;
+    	}
+    	openWindow(url, title);
+	}
+var user = {
+theme: '../../themes/canvas/',
+loadtxt: 'Requesting data...',
+date: '04/11/2026',
+datesys: 0,
+datefmt: 0,
+datesep: '/',
+ts: ',',
+ds: '.',
+pdec : 2}
+
+--></script>
+</body></html>

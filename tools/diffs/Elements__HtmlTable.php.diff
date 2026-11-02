@@ -1,0 +1,27 @@
+--- external/Elements/HtmlTable.php
++++ repo/Elements/HtmlTable.php
+@@ -3,6 +3,7 @@
+ namespace Ksfraser\HTML\Elements;
+ 
+ use Ksfraser\HTML\HtmlElement;
++
+ use Ksfraser\HTML\HtmlElementInterface;
+ 
+ /***********************
+@@ -23,16 +24,4 @@
+ 		parent::__construct( $data );
+ 		$this->tag = "table";
+ 	}
+-
+-	/**
+-	 * Create an FA-styled table
+-	 *
+-	 * @param int $faStyle FA table style constant (TABLESTYLE, TABLESTYLE2, etc.)
+-	 * @param string $extra Additional attributes
+-	 * @return FaTable
+-	 */
+-	public static function createFaTable($faStyle = 2, $extra = "")
+-	{
+-		return new FaTable($faStyle, $extra);
+-	}
+ }

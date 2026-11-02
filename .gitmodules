@@ -1,0 +1,3 @@
+[submodule "lib/ksf_ofxparser"]
+	path = lib/ksf_ofxparser
+	url = https://github.com/ksfraser/ksf_ofxparser.git

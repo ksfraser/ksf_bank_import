@@ -1,0 +1,10 @@
+--- external/Elements/HtmlEmphasize.php
++++ repo/Elements/HtmlEmphasize.php
+@@ -3,7 +3,6 @@
+ namespace Ksfraser\HTML\Elements;
+ 
+ use Ksfraser\HTML\HtmlElementInterface;
+-use Ksfraser\HTML\Formatting\HtmlFormatting;
+ 
+ class HtmlEmphasize extends HtmlFormatting
+ {

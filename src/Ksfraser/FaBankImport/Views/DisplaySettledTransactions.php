@@ -1,25 +1,20 @@
 <?php
+// @BABOK RTM: FR-009 / IR-001 / ARCH-008 (domain layer)
+/** @BABOK RTM: ARCH-009 / UAT-001 / BR-009*/
 
 namespace Ksfraser\FaBankImport\Views;
 
 use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\LabelRowBase;
-use Ksfraser\HTML\Composites\HTML_TABLE;
 
 /**
- * @BABOK FR-PROC-001, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: DisplaySettledTransactions — 17 methods; FR-009 (17); IR-001 (17)
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/DisplaySettledTransactions.php; coverage: docs/TestCases/ (file rollup)
  */
-
-/**
- * @BABOK FR-PROC-001, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
- */
-
 class DisplaySettledTransactions implements HtmlElementInterface
 {
         protected $table;
-	/**
- * @BABOK FR-PROC-001, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
-	 */
+	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
 	function __construct( $transaction )
 	{
                 $this->table = $table = new HTML_TABLE( null, 100 );
@@ -43,23 +38,154 @@ class DisplaySettledTransactions implements HtmlElementInterface
 		$table->appendRow( new UnsetTransaction( $transaction ) );
                 //label_row( "Unset Transaction Association", submit( "UnsetTrans[$this->id]", _( "Unset Transaction $this->fa_trans_no"), false, '', 'default' ));
 	}
-        /**
- * @BABOK FR-PROC-001, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
-         */
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
         function toHtml(): void
         {
                 $this->table->toHtml();
         }
-        /**
- * @BABOK FR-PROC-001, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
-         */
-        function getHtml(): string
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
+        function getHtml()
         {
                 return $this->table->getHtml();
         }
 
 }
 
-/**
- * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
- */
+class StatusSettled extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct()
+        {
+                $this->label = "Status:";
+                $this->data = new HtmlBold( "Transaction Settled" );
+                parent::__construct( "" );
+        }
+}
+class UnsetTransaction extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct( $transaction )
+        {
+                $this->label = "Unset Transaction Association:";
+                $this->data = submit( "UnsetTrans[$transaction->id]", _( "Unset Transaction $transaction->fa_trans_no"), false, '', 'default' );
+                parent::__construct( "" );
+        }
+}
+class SettledManual extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct()
+        {
+                $this->label = "Operation:";
+                $this->data = "Manually Settled";
+                parent::__construct( "" );
+        }
+}
+class SettledDefault extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct( $transaction )
+        {
+                $this->label = "Status:";
+                $this->data = "other transaction type; no info yet " . print_r( $transaction, true );
+                parent::__construct( "" );
+        }
+}
+abstract class SettledTable  implements HtmlElementInterface
+{
+        protected $table;
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct( $transaction )
+        {
+                $this->table = $table = new HTML_TABLE( null, 100 );
+                //$table->appendRow( new OperationPayment() );
+        }
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
+        function toHtml(): void
+        {
+                $this->table->toHtml();
+        }
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
+        function getHtml()
+        {
+                return $this->table->getHtml();
+        }
+}
+
+class SettledPaymentTable extends SettledTable
+{
+        protected $table;
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct( $transaction )
+        {
+//TODO data was passed in in an minfo array
+//	Ensure the data is available in transaction.
+		parent::__construct();
+                $this->table->appendRow( new OperationPayment() );
+                $this->table->appendRow( new FromBankAccount( $transaction ) );
+                $this->table->appendRow( new SettledSupplier( $transaction ) );
+        }
+}
+class OperationPayment extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct()
+        {
+                $this->label = "Operation:";
+                $this->data = "Payment";
+                parent::__construct( "" );
+        }
+}
+class FromBankAccount extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct( $transaction )
+        {
+                $this->label = "From Bank Account:";
+                $this->data = $transaction->OurBankAccount;
+                parent::__construct( "" );
+        }
+}
+class SettledSupplier extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct( $transaction )
+        {
+                $this->label = "Supplier:";
+                $this->data = $transaction->SupplierName;
+                parent::__construct( "" );
+        }
+}
+class SettledDepositTable extends SettledTable
+{
+        protected $table;
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct( $transaction )
+        {
+		parent::__construct();
+                $this->table->appendRow( new OperationDeposit() );
+//TODO: Refactor to use fa_customer
+		$custArray = get_customer_trans($transaction->fa_trans_no, $transaction->fa_trans_type);
+                $table->appendRow( new CustomerBranch( $custArray ) );
+        }
+}
+class OperationDeposit extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct()
+        {
+                $this->label = "Operation:";
+                $this->data = "Deposit";
+                parent::__construct( "" );
+        }
+}
+class CustomerBranch extends LabelRowBase
+{
+        /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+        function __construct( $custArray )
+        {
+                $this->label = "Customer/Branch:";
+                $this->data = get_customer_name($custArray['debtor_no']) . " / " . get_branch_name($custArray['branch_code']);
+                parent::__construct( "" );
+        }
+}

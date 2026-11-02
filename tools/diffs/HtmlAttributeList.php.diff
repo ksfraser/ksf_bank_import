@@ -1,0 +1,105 @@
+--- external/HtmlAttributeList.php
++++ repo/HtmlAttributeList.php
+@@ -8,17 +8,16 @@
+ {
+ 	protected $attributeArray;
+ 	
+-	       /**
+-		* Constructor
+-		* @param HtmlAttribute|null $attribute Optional attribute to add on creation
+-		*/
+-		       function __construct($attribute = null)
+-		       {
+-			       $this->attributeArray = array(); // Initialize array
+-			       if ($attribute !== null) {
+-					   $this->addAttributeObject($attribute);
+-			       }
+-		       }
++	/**
++	 * Constructor
++	 * 
++	 * @param HtmlAttribute $attribute Initial attribute
++	 */
++	function __construct( HtmlAttribute $attribute )
++	{
++		$this->attributeArray = array(); // Initialize array
++		$this->addAttribute( $attribute );
++	}
+ 	
+ 	/**
+ 	 * Add an attribute to the list
+@@ -26,72 +25,9 @@
+ 	 * @param HtmlAttribute $attribute Attribute to add
+ 	 * @return void
+ 	 */
+-		function addAttributeObject($attribute): void
+-	       {
+-		       if (!($attribute instanceof HtmlAttribute)) {
+-			       throw new \InvalidArgumentException("HtmlAttributeList only accepts HtmlAttribute objects.");
+-		       }
+-		       $this->attributeArray[] = $attribute;
+-		       return;
+-	       }
+-
+-	/**
+-	 * Set (add or replace) an attribute in the list.
+-	 *
+-	 * If an attribute with the same name already exists, it is replaced.
+-	 *
+-	 * @param HtmlAttribute $attribute
+-	 * @return void
+-	 */
+-	public function setAttribute( HtmlAttribute $attribute ): void
++	function addAttribute( HtmlAttribute $attribute ): void
+ 	{
+-		$name = $attribute->getName();
+-		foreach( $this->attributeArray as $idx => $existing )
+-		{
+-			if( method_exists( $existing, 'getName' ) && $existing->getName() === $name )
+-			{
+-				$this->attributeArray[$idx] = $attribute;
+-				return;
+-			}
+-		}
+-		$this->addAttributeObject( $attribute );
+-		return;
+-	}
+-
+-	/**
+-	 * Get an attribute value by name.
+-	 *
+-	 * @param string $name
+-	 * @return string|null
+-	 */
+-	public function getAttributeValue( string $name ): ?string
+-	{
+-		foreach( $this->attributeArray as $existing )
+-		{
+-			if( method_exists( $existing, 'getName' ) && $existing->getName() === $name )
+-			{
+-				return method_exists( $existing, 'getValue' ) ? $existing->getValue() : null;
+-			}
+-		}
+-		return null;
+-	}
+-
+-	/**
+-	 * Remove an attribute by name
+-	 *
+-	 * @param string $name Attribute name to remove
+-	 * @return void
+-	 */
+-	public function removeAttribute( string $name ): void
+-	{
+-		foreach( $this->attributeArray as $idx => $existing )
+-		{
+-			if( method_exists( $existing, 'getName' ) && $existing->getName() === $name )
+-			{
+-				unset( $this->attributeArray[$idx] );
+-				return;
+-			}
+-		}
++		$this->attributeArray[] = $attribute;
+ 	}
+ 	
+ 	/**

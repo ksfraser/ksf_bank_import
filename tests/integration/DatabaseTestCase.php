@@ -3,50 +3,47 @@
 namespace Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\Database\DatabaseFactory;
+use PDO;
+use Ksfraser\FaBankImport\Infrastructure\Config\EnvironmentConfig;
+use Ksfraser\FaBankImport\Infrastructure\Database\MigrationRunner;
 
 abstract class DatabaseTestCase extends TestCase
 {
-    protected static $pdo;
+    protected PDO $pdo;
+    protected EnvironmentConfig $config;
+    protected MigrationRunner $migrationRunner;
+    protected array $executedMigrations = [];
 
     public static function setUpBeforeClass(): void
     {
-        // The repository under test reads through FrontAccounting's global
-        // db_query() / db_fetch(). In the test environment those are the
-        // famock stubs, which never touch a database, so the assertions can
-        // only be made against a real FrontAccounting install that has the
-        // bi_transactions / bi_statements tables (sql/update.sql).
-        //
-        // The tests live in the integration suite (phpunit.integration.xml),
-        // where the skip is visible instead of hiding in the default run.
-        if (!self::faDatabaseLayerAvailable()) {
-            self::markTestSkipped(
-                'Needs a live FrontAccounting install: the repository reads through FA\'s global '
-                . 'db_query() / db_fetch(), and in the test environment those are the famock '
-                . 'stubs, which never reach a database. Run this suite inside an FA install '
-                . '(with the bi_transactions / bi_statements tables from sql/update.sql) - see '
-                . 'phpunit.integration.xml.'
-            );
-        }
-
-        try {
-            self::$pdo = DatabaseFactory::getConnection();
-        } catch (\Throwable $e) {
-            self::markTestSkipped(
-                'The bi_transactions / bi_statements test database is not reachable: '
-                . $e->getMessage()
-                . '. The connection is configured with DB_HOST / DB_NAME / DB_USER / DB_PASS '
-                . '(default: localhost / fa_bank_import / root / no password) and the schema '
-                . 'comes from sql/update.sql. Run this suite with: '
-                . 'phpunit -c phpunit.integration.xml'
-            );
-        }
-        self::$pdo->beginTransaction();
+        // Connection setup happens in setUp for modern approach
     }
 
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->config = new EnvironmentConfig('test');
+        $creds = $this->config->getDatabaseCredentials();
+
+        try {
+            $this->pdo = new PDO(
+                $creds['dsn'],
+                $creds['user'],
+                $creds['password'],
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                ]
+            );
+            $this->pdo->beginTransaction();
+        } catch (\PDOException $e) {
+            $this->markTestSkipped(
+                "Could not connect to test database: " . $e->getMessage()
+            );
+        }
+
+        $this->migrationRunner = new MigrationRunner($this->pdo);
         $this->seedTestData();
     }
 
@@ -54,33 +51,16 @@ abstract class DatabaseTestCase extends TestCase
     {
         parent::tearDown();
         $this->cleanTestData();
+
+        // Rollback transaction to restore database to pre-test state
+        if ($this->pdo && $this->pdo->inTransaction()) {
+            $this->pdo->rollBack();
+        }
     }
 
     public static function tearDownAfterClass(): void
     {
-        if (self::$pdo->inTransaction()) {
-            self::$pdo->rollBack();
-        }
-        DatabaseFactory::closeConnection();
-    }
-
-    /**
-     * Is FA's database layer wired up to a real database?
-     *
-     * The famock stubs record the last SQL in $GLOBALS['__fa_last_sql'] and
-     * never query anything; a real FA install does not.
-     *
-     * @return bool
-     */
-    protected static function faDatabaseLayerAvailable(): bool
-    {
-        if (!function_exists('db_query')) {
-            return false;
-        }
-
-        // famock's db_* stubs are loaded by the test bootstrap; a real FA
-        // install does not load them.
-        return !isset($GLOBALS['__fa_db_stubs_loaded']);
+        // Legacy compatibility
     }
 
     protected function seedTestData(): void
@@ -95,19 +75,78 @@ abstract class DatabaseTestCase extends TestCase
 
     protected function createTestTransaction(array $data): int
     {
-        // The table carries the company prefix (TB_PREF), like every other
-        // table of the module.
-        $prefix = defined('TB_PREF') ? TB_PREF : '0_';
-
-        $sql = "INSERT INTO {$prefix}bi_transactions (
+        $sql = "INSERT INTO bi_transactions (
             amount, valueTimestamp, memo, transactionDC, status
         ) VALUES (
             :amount, :valueTimestamp, :memo, :transactionDC, :status
         )";
 
-        $stmt = self::$pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute($data);
 
-        return (int)self::$pdo->lastInsertId();
+        return (int)$this->pdo->lastInsertId();
+    }
+
+    /**
+     * Run migrations for this test
+     *
+     * @param array<string> $migrationClasses Migration class names to execute
+     * @return array Executed migration names
+     */
+    protected function runMigrations(array $migrationClasses): array
+    {
+        $migrations = array_map(fn($class) => new $class(), $migrationClasses);
+        $this->executedMigrations = $migrationClasses;
+        return $this->migrationRunner->runPending($migrations);
+    }
+
+    /**
+     * Clear a table completely
+     *
+     * @param string $tableName Table name
+     */
+    protected function clearTable(string $tableName): void
+    {
+        try {
+            $this->pdo->exec("DELETE FROM {$tableName}");
+        } catch (\PDOException $e) {
+            throw new \RuntimeException(
+                "Failed to clear table {$tableName}: " . $e->getMessage()
+            );
+        }
+    }
+
+    /**
+     * Get row count for a table
+     *
+     * @param string $tableName Table name
+     * @return int Row count
+     */
+    protected function countRows(string $tableName): int
+    {
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) as count FROM {$tableName}");
+        $stmt->execute();
+        $result = $stmt->fetch();
+        return (int)$result['count'];
+    }
+
+    /**
+     * Assert table has expected row count
+     *
+     * @param string $tableName Table name
+     * @param int $expectedCount Expected row count
+     * @param string $message Custom assertion message
+     */
+    protected function assertTableRowCount(
+        string $tableName,
+        int $expectedCount,
+        string $message = ''
+    ): void {
+        $actual = $this->countRows($tableName);
+        $this->assertEquals(
+            $expectedCount,
+            $actual,
+            $message ?: "Table {$tableName} should have {$expectedCount} rows, got {$actual}"
+        );
     }
 }

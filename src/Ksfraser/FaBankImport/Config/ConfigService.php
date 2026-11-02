@@ -6,6 +6,8 @@ use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
 
 /**
+ * @BABOK CLASS ROLLUP: ConfigService — 10 methods; FR-002 (10); FR-051 (10)
+ * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/ConfigService.php; coverage: docs/TestCases/ (file rollup)
  * Configuration Service (Refactored)
  * 
  * Now uses Repository Pattern with database storage
@@ -22,6 +24,7 @@ class ConfigService
     private ConfigRepositoryInterface $repository;
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: __construct
      * Constructor - Dependency Injection
      * 
      * @param ConfigRepositoryInterface|null $repository Configuration repository (injected)
@@ -34,6 +37,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getInstance
      * Get singleton instance (for backward compatibility)
      * 
      * @deprecated Use dependency injection instead
@@ -49,6 +53,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: create
      * Create instance with custom repository (for DI)
      * 
      * @param ConfigRepositoryInterface $repository Custom repository
@@ -61,6 +66,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: get
      * Get configuration value
      * 
      * Supports dot notation: 'upload.check_duplicates'
@@ -82,6 +88,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: set
      * Set configuration value
      * 
      * @param string $key Configuration key
@@ -104,6 +111,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getByCategory
      * Get all configuration values for a category
      * 
      * @param string $category Category name
@@ -116,6 +124,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getAll
      * Get all configuration values
      * 
      * @return array All configurations
@@ -127,6 +136,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: has
      * Check if configuration exists
      * 
      * @param string $key Configuration key
@@ -139,6 +149,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getHistory
      * Get configuration change history
      * 
      * @param string|null $key Specific key or null for all
@@ -152,6 +163,7 @@ class ConfigService
     }
     
     /**
+ * @BABOK FR-002 / FR-051 / ARCH-001 — method: getRepository
      * Get repository instance (for advanced usage)
      * 
      * @return ConfigRepositoryInterface

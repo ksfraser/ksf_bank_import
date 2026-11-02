@@ -1,25 +1,25 @@
 <?php
 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 /**
- * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/EventDispatcher.php; coverage: docs/TestCases/ (file rollup)
  */
 class EventDispatcher
 {
     private $listeners = [];
 
-    /**
- * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
-     */
+        /** @BABOK ARCH-001 / FR-014 — method: addListener */
     public function addListener(string $eventName, callable $listener): void
     {
         $this->listeners[$eventName][] = $listener;
     }
 
-    /**
- * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
-     */
+        /** @BABOK ARCH-001 / FR-014 (Event bus dispatch) — method: dispatch */
     public function dispatch(object $event): void
     {
         $eventName = get_class($event);

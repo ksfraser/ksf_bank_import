@@ -1,13 +1,20 @@
 # Composer Dependencies
 /vendor/
 composer.phar
+/vendor/*
 
 # PHPUnit
 .phpunit.result.cache
 /coverage/
 coverage.txt
-phpunit_full_output*.txt
+phpunit*.txt
+phpunit*.xml
+test-output.txt
 phpunit_no_coverage*.txt
+phpunit_full_output*.txt
+phpunit_full_results.txt
+test*.txt
+*_results*.txt
 
 # IDE Files
 .vscode/
@@ -38,7 +45,6 @@ phpunit_no_coverage*.txt
 *.php~
 *.copilot.php
 *-old.php
-*.bak
 
 # Test-created plugin directory (OperationTypesRegistry plugin discovery test)
 /OperationTypes/types/
@@ -47,3 +53,7 @@ phpunit_no_coverage*.txt
 /qfx_files/
 *.qfx
 *.ofx
+
+# Production dump directory (local)
+PROD/
+session-ses_ed3f.md

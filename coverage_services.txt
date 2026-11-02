@@ -1,0 +1,554 @@
+
+
+Code Coverage Report:        
+  2026-10-20 02:15:35        
+                             
+ Summary:                    
+  Classes:  1.03% (3/290)    
+  Methods:  7.10% (118/1662) 
+  Lines:    4.85% (572/11782)
+
+AbstractQfxParser
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 17)
+BiPartnersData
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 98)
+CibcQfxParser
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  2)
+Ksfraser\FaBankImport\API\APIErrorResponse
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 16)
+Ksfraser\FaBankImport\API\MatchTransactionRequest
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 25)
+Ksfraser\FaBankImport\API\MatchTransactionResponse
+  Methods:   0.00% ( 0/12)   Lines:   0.00% (  0/ 27)
+Ksfraser\FaBankImport\API\MatchingAPI
+  Methods:   0.00% ( 0/13)   Lines:   0.00% (  0/177)
+Ksfraser\FaBankImport\API\PartnerStatsResponse
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 28)
+Ksfraser\FaBankImport\API\ReportSummaryResponse
+  Methods:   0.00% ( 0/14)   Lines:   0.00% (  0/ 38)
+Ksfraser\FaBankImport\Application
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 18)
+Ksfraser\FaBankImport\Application\Partner\KeywordExtractor
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 19)
+Ksfraser\FaBankImport\Application\Partner\PartnerDataService
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 68)
+Ksfraser\FaBankImport\Application\Partner\PartnerSearchService
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 51)
+Ksfraser\FaBankImport\Application\Partner\ScoringEngine
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 25)
+Ksfraser\FaBankImport\Application\Partner\TrainingService
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 28)
+Ksfraser\FaBankImport\BankTransferTransaction
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Bootstrap
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 27)
+Ksfraser\FaBankImport\Cli\Commands\MigrationCommand
+  Methods:   0.00% ( 0/15)   Lines:   0.00% (  0/125)
+Ksfraser\FaBankImport\Cli\Commands\TrainingCommand
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 46)
+Ksfraser\FaBankImport\Cli\Kernel
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 63)
+Ksfraser\FaBankImport\Commands\AddCustomerCommand
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 46)
+Ksfraser\FaBankImport\Commands\AddVendorCommand
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 46)
+Ksfraser\FaBankImport\Commands\CommandDispatcher
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 40)
+Ksfraser\FaBankImport\Commands\ProcessTransactionCommand
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/  6)
+Ksfraser\FaBankImport\Commands\ToggleDebitCreditCommand
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 45)
+Ksfraser\FaBankImport\Commands\UnsetTransactionCommand
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 30)
+Ksfraser\FaBankImport\Comment
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Config\BankImportConfig
+  Methods:  46.67% ( 7/15)   Lines:  50.00% ( 28/ 56)
+Ksfraser\FaBankImport\Config\Config
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 39)
+Ksfraser\FaBankImport\Config\ConfigService
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 12)
+Ksfraser\FaBankImport\Container
+  Methods:   0.00% ( 0/14)   Lines:   0.00% (  0/ 46)
+Ksfraser\FaBankImport\Container\SimpleContainer
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 80)
+Ksfraser\FaBankImport\Controller\BankImportController
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 16)
+Ksfraser\FaBankImport\Controllers\AbstractController
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 22)
+Ksfraser\FaBankImport\Controllers\AdminController
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 60)
+Ksfraser\FaBankImport\Controllers\BankImportController
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 24)
+Ksfraser\FaBankImport\Controllers\BankImportController_MVC
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 16)
+Ksfraser\FaBankImport\CustomerTransaction
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Database\DatabaseFactory
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 18)
+Ksfraser\FaBankImport\Database\QueryBuilder
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 54)
+Ksfraser\FaBankImport\Database\TransactionQueryBuilder
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 93)
+Ksfraser\FaBankImport\Domain\Exceptions\InvalidKeywordException
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 21)
+Ksfraser\FaBankImport\Domain\Exceptions\PartnerDataNotFoundException
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 17)
+Ksfraser\FaBankImport\Domain\ValueObjects\Keyword
+  Methods:  60.00% ( 6/10)   Lines:  73.17% ( 30/ 41)
+Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch
+  Methods:  42.11% ( 8/19)   Lines:  33.75% ( 27/ 80)
+Ksfraser\FaBankImport\Domain\ValueObjects\MatchConfidence
+  Methods:  21.43% ( 3/14)   Lines:  27.12% ( 16/ 59)
+Ksfraser\FaBankImport\Domain\ValueObjects\PartnerData
+  Methods:  17.65% ( 3/17)   Lines:  22.22% ( 18/ 81)
+Ksfraser\FaBankImport\Entity\PartnerEntity
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 13)
+Ksfraser\FaBankImport\Entity\PartnerMatchResult
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 22)
+Ksfraser\FaBankImport\Entity\UploadedFile
+  Methods:   0.00% ( 0/17)   Lines:   0.00% (  0/ 36)
+Ksfraser\FaBankImport\Events\TransactionProcessedEvent
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/  6)
+Ksfraser\FaBankImport\Events\VendorAddedEvent
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Events\VendorNotAddedEvent
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Exception\PartnerException
+  Methods:  ( 0/ 0)   Lines:  (  0/  0)
+Ksfraser\FaBankImport\Exception\PartnerNotFoundException
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  6)
+Ksfraser\FaBankImport\Exception\PartnerPersistenceException
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  9)
+Ksfraser\FaBankImport\Exception\PartnerValidationException
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  7)
+Ksfraser\FaBankImport\Exception\TrainingException
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  9)
+Ksfraser\FaBankImport\Exceptions\HandlerDiscoveryException
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 15)
+Ksfraser\FaBankImport\Exceptions\TransactionValidationException
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  6)
+Ksfraser\FaBankImport\Exceptions\UnauthorizedException
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  1)
+Ksfraser\FaBankImport\FaGLWrapper
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 16)
+Ksfraser\FaBankImport\Factories\TransactionTypeFactory
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  7)
+Ksfraser\FaBankImport\Handlers\AbstractTransactionHandler
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 36)
+Ksfraser\FaBankImport\Handlers\BankTransferTransactionHandler
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/117)
+Ksfraser\FaBankImport\Handlers\CustomerTransactionHandler
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 90)
+Ksfraser\FaBankImport\Handlers\ErrorHandler
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 23)
+Ksfraser\FaBankImport\Handlers\ManualSettlementHandler
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 74)
+Ksfraser\FaBankImport\Handlers\MatchedTransactionHandler
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 90)
+Ksfraser\FaBankImport\Handlers\ProcessTransactionCommandHandler
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 13)
+Ksfraser\FaBankImport\Handlers\QuickEntryTransactionHandler
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/144)
+Ksfraser\FaBankImport\Handlers\SupplierTransactionHandler
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/124)
+Ksfraser\FaBankImport\Http\RequestHandler
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 29)
+Ksfraser\FaBankImport\Http\ResponseHandler
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 13)
+Ksfraser\FaBankImport\Infrastructure\Config\ConfigException
+  Methods:  ( 0/ 0)   Lines:  (  0/  0)
+Ksfraser\FaBankImport\Infrastructure\Config\EnvironmentConfig
+  Methods:   0.00% ( 0/14)   Lines:   0.00% (  0/ 81)
+Ksfraser\FaBankImport\Infrastructure\Database\MigrationException
+  Methods:  ( 0/ 0)   Lines:  (  0/  0)
+Ksfraser\FaBankImport\Infrastructure\Database\MigrationRunner
+  Methods:   0.00% ( 0/12)   Lines:   0.00% (  0/ 84)
+Ksfraser\FaBankImport\Infrastructure\Database\Migrations\CreatePartnerTables
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 17)
+Ksfraser\FaBankImport\Infrastructure\Database\Migrations\Migration001AddOccurrenceCount
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 18)
+Ksfraser\FaBankImport\Infrastructure\Database\Migrations\Migration002AddLastMatchedTs
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 12)
+Ksfraser\FaBankImport\Infrastructure\Database\PartnerRepositoryPdoImpl
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 74)
+Ksfraser\FaBankImport\Infrastructure\Error\ErrorHandler
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 34)
+Ksfraser\FaBankImport\Infrastructure\Factory\PartnerServiceFactory
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 15)
+Ksfraser\FaBankImport\Infrastructure\Logger\FileLogger
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 31)
+Ksfraser\FaBankImport\Infrastructure\Logger\NullLogger
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 18)
+Ksfraser\FaBankImport\LineitemDisplayRight
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  8)
+Ksfraser\FaBankImport\ManualTransaction
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\MatchedTransaction
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Middleware\AdminMiddleware
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Middleware\AuthMiddleware
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Middleware\MiddlewarePipeline
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  8)
+Ksfraser\FaBankImport\Middleware\PerformanceMonitoringMiddleware
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 47)
+Ksfraser\FaBankImport\Middleware\TransactionValidationMiddleware
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  7)
+Ksfraser\FaBankImport\Model\BiLineItemModel
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 63)
+Ksfraser\FaBankImport\Models\AbstractTransaction
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 23)
+Ksfraser\FaBankImport\Models\BankTransaction
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 24)
+Ksfraser\FaBankImport\Models\BiLineItemModel
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 63)
+Ksfraser\FaBankImport\Models\SquareTransaction
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 26)
+Ksfraser\FaBankImport\OperationTypes\OperationTypesRegistry
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/  7)
+Ksfraser\FaBankImport\PartnerSubSelect
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  7)
+Ksfraser\FaBankImport\PartnerType
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\QuickEntryTransaction
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Reporting\MatchingReport
+  Methods:   0.00% ( 0/19)   Lines:   0.00% (  0/ 83)
+Ksfraser\FaBankImport\Reporting\OperationReport
+  Methods:   0.00% ( 0/19)   Lines:   0.00% (  0/152)
+Ksfraser\FaBankImport\Reporting\ReportingService
+  Methods:   0.00% ( 0/23)   Lines:   0.00% (  0/ 93)
+Ksfraser\FaBankImport\Repositories\AbstractRepository
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 22)
+Ksfraser\FaBankImport\Repositories\TransactionRepository
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 79)
+Ksfraser\FaBankImport\Repository\DatabaseConfigRepository
+  Methods:   0.00% ( 0/16)   Lines:   0.00% (  0/149)
+Ksfraser\FaBankImport\Repository\DatabasePartnerDataRepository
+  Methods:   0.00% ( 0/13)   Lines:   0.00% (  0/140)
+Ksfraser\FaBankImport\Repository\DatabaseUploadedFileRepository
+  Methods:   0.00% ( 0/13)   Lines:   0.00% (  0/138)
+Ksfraser\FaBankImport\Repository\PdoPartnerRepository
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 80)
+Ksfraser\FaBankImport\Results\PaginatedTransactionResult
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 22)
+Ksfraser\FaBankImport\Results\TransactionResult
+  Methods:   0.00% ( 0/21)   Lines:   0.00% (  0/126)
+Ksfraser\FaBankImport\Services\AlertService
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 54)
+Ksfraser\FaBankImport\Services\ConfidenceEnhancer
+  Methods:  16.67% ( 1/ 6)   Lines:   2.33% (  1/ 43)
+Ksfraser\FaBankImport\Services\CustomerMatchingConfiguration
+  Methods:   9.09% ( 1/11)   Lines:   4.00% (  1/ 25)
+Ksfraser\FaBankImport\Services\CustomerScoringEngineFactory
+  Methods:  85.71% ( 6/ 7)   Lines:  91.67% ( 11/ 12)
+Ksfraser\FaBankImport\Services\DuplicateDetector
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 48)
+Ksfraser\FaBankImport\Services\EventDispatcher
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  6)
+Ksfraser\FaBankImport\Services\FileStorageService
+  Methods:   0.00% ( 0/13)   Lines:   0.00% (  0/ 76)
+Ksfraser\FaBankImport\Services\FileUploadService
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 83)
+Ksfraser\FaBankImport\Services\KeywordExtractorService
+  Methods:  44.44% ( 4/ 9)   Lines:  80.39% ( 41/ 51)
+Ksfraser\FaBankImport\Services\KeywordMatchingService
+  Methods:  44.44% ( 4/ 9)   Lines:  81.18% ( 69/ 85)
+Ksfraser\FaBankImport\Services\MetricsAggregator
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 63)
+Ksfraser\FaBankImport\Services\PartnerDataService
+  Methods: 100.00% (13/13)   Lines: 100.00% ( 36/ 36)
+Ksfraser\FaBankImport\Services\PartnerMatcher
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 11)
+Ksfraser\FaBankImport\Services\PartnerMatcherFactory
+  Methods:  75.00% ( 3/ 4)   Lines:  92.31% ( 12/ 13)
+Ksfraser\FaBankImport\Services\PartnerMatchingConfiguration
+  Methods:  ( 0/ 0)   Lines:  (  0/  0)
+Ksfraser\FaBankImport\Services\PerformanceMonitor
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 31)
+Ksfraser\FaBankImport\Services\ReferenceNumberService
+  Methods:  33.33% ( 1/ 3)   Lines:  14.29% (  1/  7)
+Ksfraser\FaBankImport\Services\Rules\AmountMatchRule
+  Methods:  40.00% ( 2/ 5)   Lines:  80.00% ( 12/ 15)
+Ksfraser\FaBankImport\Services\Rules\BankAccountMatchRule
+  Methods:  25.00% ( 1/ 4)   Lines:  62.50% (  5/  8)
+Ksfraser\FaBankImport\Services\Rules\InvoiceDetectionRule
+  Methods:  50.00% ( 2/ 4)   Lines:  75.00% (  6/  8)
+Ksfraser\FaBankImport\Services\Rules\RefundDetectionRule
+  Methods:  25.00% ( 1/ 4)   Lines:  62.50% (  5/  8)
+Ksfraser\FaBankImport\Services\Rules\VendorNameMatchRule
+  Methods:  50.00% ( 2/ 4)   Lines:  88.24% ( 15/ 17)
+Ksfraser\FaBankImport\Services\Scoring\AmountRangeRule
+  Methods:  25.00% ( 1/ 4)   Lines:   7.69% (  1/ 13)
+Ksfraser\FaBankImport\Services\Scoring\RecencyRule
+  Methods:  25.00% ( 1/ 4)   Lines:   7.69% (  1/ 13)
+Ksfraser\FaBankImport\Services\Scoring\ScoringEngineFactory
+  Methods: 100.00% ( 2/ 2)   Lines: 100.00% ( 20/ 20)
+Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine
+  Methods:  23.08% ( 3/13)   Lines:  44.16% ( 34/ 77)
+Ksfraser\FaBankImport\Services\Scoring\TypeConsistencyRule
+  Methods:  25.00% ( 1/ 4)   Lines:   7.14% (  1/ 14)
+Ksfraser\FaBankImport\Services\SimpleCommandBus
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  6)
+Ksfraser\FaBankImport\Services\SupplierMatchResult
+  Methods:  90.91% (10/11)   Lines:  95.45% ( 21/ 22)
+Ksfraser\FaBankImport\Services\SupplierMatcher
+  Methods:  85.71% ( 6/ 7)   Lines:  97.50% ( 39/ 40)
+Ksfraser\FaBankImport\Services\SupplierMatchingConfiguration
+  Methods:  72.73% ( 8/11)   Lines:  76.00% ( 19/ 25)
+Ksfraser\FaBankImport\Services\SupplierMatchingRules
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 64)
+Ksfraser\FaBankImport\Services\SupplierScoringEngineFactory
+  Methods: 100.00% ( 7/ 7)   Lines: 100.00% ( 12/ 12)
+Ksfraser\FaBankImport\Services\SupplierTransactionMatcher
+  Methods:  66.67% ( 6/ 9)   Lines:  90.91% ( 50/ 55)
+Ksfraser\FaBankImport\Services\TransactionCounter
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Services\TransactionGLValidator
+  Methods:   0.00% ( 0/13)   Lines:   0.00% (  0/179)
+Ksfraser\FaBankImport\Services\TransactionLogger
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  8)
+Ksfraser\FaBankImport\Services\TransactionMatchResult
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 15)
+Ksfraser\FaBankImport\Services\TransactionMatcherIntegration
+  Methods:   0.00% ( 0/15)   Lines:   0.00% (  0/149)
+Ksfraser\FaBankImport\Services\TransactionMatchingService
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/103)
+Ksfraser\FaBankImport\Services\TransactionPartnerMatcher
+  Methods:  33.33% ( 1/ 3)   Lines:  42.31% ( 33/ 78)
+Ksfraser\FaBankImport\Services\TransactionService
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 14)
+Ksfraser\FaBankImport\Services\TransactionValidator
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 21)
+Ksfraser\FaBankImport\Services\TransactionViewService
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 15)
+Ksfraser\FaBankImport\Services\UploadedFileManager
+  Methods:   0.00% ( 0/14)   Lines:   0.00% (  0/184)
+Ksfraser\FaBankImport\Services\VendorCandidate
+  Methods:  80.00% ( 4/ 5)   Lines:  87.50% (  7/  8)
+Ksfraser\FaBankImport\SpecialCaseTransaction
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\StatementReconcile\Application\BankAccountMatchService
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 66)
+Ksfraser\FaBankImport\StatementReconcile\Application\PhpSessionPendingSessionStore
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/  9)
+Ksfraser\FaBankImport\StatementReconcile\Application\ReconcileView
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/468)
+Ksfraser\FaBankImport\StatementReconcile\Application\ReconciliationCommitService
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 35)
+Ksfraser\FaBankImport\StatementReconcile\Application\StatementReconcileController
+  Methods:   0.00% ( 0/18)   Lines:   0.00% (  0/303)
+Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\ReconciliationSession
+  Methods:   0.00% ( 0/18)   Lines:   0.00% (  0/103)
+Ksfraser\FaBankImport\StatementReconcile\Domain\Entity\StatementOcr
+  Methods:   0.00% ( 0/12)   Lines:   0.00% (  0/ 58)
+Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationException
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  2)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionDto
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 39)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\MatchedPair
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 40)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\RawOcrResult
+  Methods:   0.00% ( 0/ 5)   Lines:   0.00% (  0/ 16)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 51)
+Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 60)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Database\Migrations\CreateReconciliationSessionTable
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 19)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Database\Migrations\CreateStatementOcrTable
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 19)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Database\Migrations\CreateStatementUploadTable
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 22)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\OllamaClient
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 54)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\PdfTextExtractor
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 18)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Ocr\StatementTextParser
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 63)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Persistence\PdoReconciliationSessionRepository
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 61)
+Ksfraser\FaBankImport\StatementReconcile\Infrastructure\Persistence\PdoStatementOcrRepository
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 70)
+Ksfraser\FaBankImport\StatementReconcile\Matching\SimpleMatchingEngine
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 71)
+Ksfraser\FaBankImport\Strategy\AllowDuplicateStrategy
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  9)
+Ksfraser\FaBankImport\Strategy\BlockDuplicateStrategy
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 18)
+Ksfraser\FaBankImport\Strategy\DuplicateStrategyFactory
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 11)
+Ksfraser\FaBankImport\Strategy\WarnDuplicateStrategy
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 18)
+Ksfraser\FaBankImport\SupplierTransaction
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Testing\SeederFactory
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 36)
+Ksfraser\FaBankImport\Testing\Seeders\PartnerSeeder
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 92)
+Ksfraser\FaBankImport\Transaction
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 66)
+Ksfraser\FaBankImport\TransactionCustomerDetails
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  8)
+Ksfraser\FaBankImport\TransactionFactoryImp
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 36)
+Ksfraser\FaBankImport\TransactionProcessor
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 91)
+Ksfraser\FaBankImport\Types\BankTransferTransaction
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  2)
+Ksfraser\FaBankImport\Types\CreditTransaction
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  2)
+Ksfraser\FaBankImport\Types\DebitTransaction
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  2)
+Ksfraser\FaBankImport\ValueObject\DuplicateResult
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 13)
+Ksfraser\FaBankImport\ValueObject\FileInfo
+  Methods:   0.00% ( 0/12)   Lines:   0.00% (  0/ 48)
+Ksfraser\FaBankImport\ValueObject\UploadResult
+  Methods:   0.00% ( 0/14)   Lines:   0.00% (  0/ 26)
+Ksfraser\FaBankImport\Views\AddCustomerButton
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Views\AddCustomerButtonRow
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Views\AddNoButton
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Views\AddVendorButton
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Views\AddVendorButtonRow
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Views\AllocatableInvoicesTable
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 59)
+Ksfraser\FaBankImport\Views\AmountCharges
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\BankTransferPartnerTypeView
+  Methods:   0.00% ( 0/ 9)   Lines:   0.00% (  0/ 39)
+Ksfraser\FaBankImport\Views\BiLineItemView
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  6)
+Ksfraser\FaBankImport\Views\CustomerBranch
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\CustomerPartnerTypeView
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 79)
+Ksfraser\FaBankImport\Views\DataProviders\CustomerDataProvider
+  Methods:   0.00% ( 0/16)   Lines:   0.00% (  0/ 78)
+Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider
+  Methods:   0.00% ( 0/10)   Lines:   0.00% (  0/ 40)
+Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider
+  Methods:   0.00% ( 0/12)   Lines:   0.00% (  0/ 45)
+Ksfraser\FaBankImport\Views\DisplaySettledTransactions
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 17)
+Ksfraser\FaBankImport\Views\FromBankAccount
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\HTML_ROW
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\HTML_ROW_LABELDecorator
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\HtmlTransactionView
+  Methods:   0.00% ( 0/ 7)   Lines:   0.00% (  0/ 39)
+Ksfraser\FaBankImport\Views\ImportUploadForm
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/ 18)
+Ksfraser\FaBankImport\Views\LineitemDisplayLeft
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  9)
+Ksfraser\FaBankImport\Views\MatchingGLFactory
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\MatchingGLS
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Views\ModuleMenuView
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/ 10)
+Ksfraser\FaBankImport\Views\OperationDeposit
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\OperationPayment
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\OtherBankAccount
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\OurBankAccount
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\Parsers
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 14)
+Ksfraser\FaBankImport\Views\PartnerTypeDisplayStrategy
+  Methods:   0.00% ( 0/12)   Lines:   0.00% (  0/136)
+Ksfraser\FaBankImport\Views\ProcessStatementsView
+  Methods:   0.00% ( 0/11)   Lines:   0.00% (  0/ 72)
+Ksfraser\FaBankImport\Views\ProcessTransactionButtonRow
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 44)
+Ksfraser\FaBankImport\Views\SettledDefault
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\SettledDepositTable
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Views\SettledManual
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\SettledPaymentTable
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Views\SettledSupplier
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\SettledTable
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\StatusSettled
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\SubmitButton
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Views\SubmitButtonRow
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Views\SupplierPartnerTypeView
+  Methods:   0.00% ( 0/ 8)   Lines:   0.00% (  0/ 36)
+Ksfraser\FaBankImport\Views\ToggleTransactionRow
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Views\ToggleTransactionTypeButton
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  4)
+Ksfraser\FaBankImport\Views\TransDate
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  8)
+Ksfraser\FaBankImport\Views\TransTitle
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\TransType
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\TransactionTypeLabel
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 10)
+Ksfraser\FaBankImport\Views\UnsetTransButtonRow
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  5)
+Ksfraser\FaBankImport\Views\UnsetTransaction
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  3)
+Ksfraser\FaBankImport\Views\ViewFactory
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 52)
+Ksfraser\FaBankImport\models\BankAccountByNumber
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 11)
+Ksfraser\FaBankImport\models\MatchingJEs
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 22)
+Ksfraser\HTML\LabelRowBase
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  7)
+ManuQfxParser
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  2)
+Models\AbstractThirdPartyTransaction
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/  5)
+Models\SquareTransaction
+  Methods:   0.00% ( 0/ 6)   Lines:   0.00% (  0/ 14)
+Models\ThirdPartyTransaction
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/  5)
+PmcQfxParser
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  2)
+QfxParserFactory
+  Methods:   0.00% ( 0/ 1)   Lines:   0.00% (  0/  7)
+ViewBILineItems
+  Methods:   0.00% ( 0/18)   Lines:   0.00% (  0/213)
+bank_import_controller
+  Methods:   0.00% ( 0/18)   Lines:   0.00% (  0/298)
+bi_transaction
+  Methods:   0.00% ( 0/17)   Lines:   0.00% (  0/ 30)
+bi_transactionTitle_model
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 23)
+hooks_bank_import
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/ 22)
+ksf_modules_table_filter_by_date
+  Methods:   0.00% ( 0/ 4)   Lines:   0.00% (  0/ 44)
+transaction_table
+  Methods:   0.00% ( 0/ 3)   Lines:   0.00% (  0/  8)
+transaction_table_row
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/ 23)
+ttr_label_row
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  2)
+ttr_table
+  Methods:   0.00% ( 0/ 2)   Lines:   0.00% (  0/  3)

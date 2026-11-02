@@ -3,6 +3,8 @@
 namespace Ksfraser\FaBankImport\Models;
 
 /**
+ * @BABOK CLASS ROLLUP: MatchingJEs — 3 methods; FR-008 (3); BR-003 (3)
+ * @BABOK RTM: FR-008 / BR-003; file: Models/MatchingJEs.php; coverage: docs/TestCases/ (file rollup)
  * MatchingJEs - Find matching Journal Entries for imported transactions
  * 
  * This class encapsulates the logic for finding existing journal entries
@@ -20,6 +22,7 @@ class MatchingJEs
     protected $matching_trans = array();
     
     /**
+ * @BABOK FR-008 / BR-003 — method: __construct
      * Constructor
      * 
      * @param object $bi_lineitem The bi_lineitem object containing transaction details
@@ -32,6 +35,7 @@ class MatchingJEs
     }
     
     /**
+ * @BABOK FR-008 / BR-003 — method: findMatches
      * Find matching existing journal entries
      * 
      * The transaction is imported into a bank account, with the counterparty being trz['accountName']
@@ -89,6 +93,7 @@ class MatchingJEs
     }
     
     /**
+ * @BABOK FR-008 / BR-003 — method: getMatchArr
      * Get the array of matching transactions
      * 
      * @return array Array of matching transactions with their scores

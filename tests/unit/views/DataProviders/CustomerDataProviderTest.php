@@ -17,7 +17,7 @@
 use PHPUnit\Framework\TestCase;
 use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 
-require_once __DIR__ . '/../../../../views/DataProviders/CustomerDataProvider.php';
+require_once __DIR__ . '/../../../../Views/DataProviders/CustomerDataProvider.php';
 
 /**
  * Test CustomerDataProvider
@@ -32,7 +32,8 @@ require_once __DIR__ . '/../../../../views/DataProviders/CustomerDataProvider.ph
  * - Memory caching
  * 
  * @coversDefaultClass KsfBankImport\Views\DataProviders\CustomerDataProvider
- */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 class CustomerDataProviderTest extends TestCase
 {
     /**

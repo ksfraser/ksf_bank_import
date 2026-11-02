@@ -1,0 +1,17 @@
+--- external/Elements/HtmlHeading5.php
++++ repo/Elements/HtmlHeading5.php
+@@ -9,6 +9,11 @@
+ *
+ * @since 20250517
+ */
+-/**
+- */
+-class HtmlHeading5 extends HtmlH5 {}
++class HtmlHeading5 extends HtmlHeading
++{
++	function __construct( HtmlElementInterface $data )
++	{
++		parent::__construct( $data );
++		$this->tag = "h5";
++	}
++}

@@ -24,6 +24,8 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\CustomerPartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: CustomerTransactionHandler — 3 methods; FR-049 (3)
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/CustomerTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  * Customer Transaction Handler
  *
  * Single Responsibility: Process customer transactions only
@@ -43,6 +45,7 @@ use Ksfraser\PartnerTypes\CustomerPartnerType;
 class CustomerTransactionHandler extends AbstractTransactionHandler
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * @inheritDoc
      *
      * Returns a CustomerPartnerType instance which provides:
@@ -58,6 +61,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * @inheritDoc
  * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      */
@@ -103,6 +107,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processCustomerPayment
      * Process customer payment (Credit transaction)
      *
      * @param array $transaction Transaction data

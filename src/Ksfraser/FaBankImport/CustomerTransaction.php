@@ -2,32 +2,26 @@
 
 namespace Ksfraser\FaBankImport;
 
+use Ksfraser\FaBankImport\Transaction;
 use Ksfraser\FaBankImport\Views\AddCustomerButton;
 
-use Ksfraser\FaBankImport\Transaction;
-
 /**
- * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: CustomerTransaction — 3 methods; BR-002 (3); FR-008 (3); FR-018 (3)
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: CustomerTransaction.php; coverage: docs/TestCases/ (file rollup)
  */
 class CustomerTransaction extends Transaction
 {
-	/**
- * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
-	 */
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
 	function __construct( array $trz )
 	{
 		parent::__construct( $trz );
 		$this->oplabel = "Customer Payment";
 	}
-	/**
- * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
-	 */
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner */
 	function displayPartner()
 	{
 	}
-	/**
- * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
-	 */
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
 	function selectAndDisplayButton()
 	{
 		$b = new AddCustomerButton( $this->id );

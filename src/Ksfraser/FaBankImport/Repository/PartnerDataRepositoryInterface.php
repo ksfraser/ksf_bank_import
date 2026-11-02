@@ -6,6 +6,8 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\PartnerData;
 use Ksfraser\FaBankImport\Domain\Exceptions\PartnerDataNotFoundException;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerDataRepositoryInterface — 11 methods; FR-008 (11)
+ * @BABOK RTM: FR-008 / ARCH-001; file: Repository/PartnerDataRepositoryInterface.php; coverage: docs/TestCases/ (file rollup)
  * Repository interface for partner data operations
  *
  * Defines contract for accessing and persisting partner data entities.
@@ -19,6 +21,7 @@ use Ksfraser\FaBankImport\Domain\Exceptions\PartnerDataNotFoundException;
 interface PartnerDataRepositoryInterface
 {
     /**
+ * @BABOK FR-008 / ARCH-001 — method: find
      * Find partner data by unique identifiers
      *
      * @param int $partnerId       Partner ID
@@ -37,6 +40,7 @@ interface PartnerDataRepositoryInterface
     ): ?PartnerData;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findByPartner
      * Find all partner data entries for a specific partner
      *
      * @param int $partnerId       Partner ID
@@ -48,6 +52,7 @@ interface PartnerDataRepositoryInterface
     public function findByPartner(int $partnerId, ?int $partnerType = null): array;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: findByKeyword
      * Find partner data entries by keyword using LIKE search
      *
      * Returns all entries where the data field contains the given keyword.
@@ -61,6 +66,7 @@ interface PartnerDataRepositoryInterface
     public function findByKeyword(string $keyword, ?int $partnerType = null): array;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: searchByKeywords
      * Search for partners by multiple keywords with scoring
      *
      * Returns partners that match any of the keywords, with occurrence counts
@@ -86,6 +92,7 @@ interface PartnerDataRepositoryInterface
     ): array;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: save
      * Save partner data (insert or update)
      *
      * If a record with the same unique key exists, updates the occurrence count.
@@ -100,6 +107,7 @@ interface PartnerDataRepositoryInterface
     public function save(PartnerData $partnerData): bool;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: delete
      * Delete partner data
      *
      * @param int    $partnerId       Partner ID
@@ -118,6 +126,7 @@ interface PartnerDataRepositoryInterface
     ): bool;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: deleteByPartner
      * Delete all partner data for a specific partner
      *
      * @param int      $partnerId   Partner ID
@@ -129,6 +138,7 @@ interface PartnerDataRepositoryInterface
     public function deleteByPartner(int $partnerId, ?int $partnerType = null): int;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: incrementOccurrence
      * Increment occurrence count for existing partner data
      *
      * If the record doesn't exist, this method should create it with count = 1.
@@ -151,6 +161,7 @@ interface PartnerDataRepositoryInterface
     ): bool;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: count
      * Get total count of partner data entries
      *
      * @param int|null $partnerType Optional partner type filter
@@ -161,6 +172,7 @@ interface PartnerDataRepositoryInterface
     public function count(?int $partnerType = null): int;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: exists
      * Check if partner data exists
      *
      * @param int    $partnerId       Partner ID
@@ -179,6 +191,7 @@ interface PartnerDataRepositoryInterface
     ): bool;
 
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getTopKeywords
      * Get top keywords by occurrence count
      *
      * Returns the most frequently occurring keywords across all partners.

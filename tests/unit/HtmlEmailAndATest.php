@@ -1,4 +1,6 @@
 <?php
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Tests\Unit;
 
@@ -12,13 +14,6 @@ class HtmlEmailAndATest extends TestCase
 	protected function setUp(): void
 	{
 		// Load all dependencies in order
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/HtmlElementInterface.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/HtmlElement.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlString.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/HtmlAttribute.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlLink.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlEmail.php';
-		require_once __DIR__ . '/../../src/Ksfraser/HTML/Elements/HtmlA.php';
 	}
 	
 	public function testHtmlEmailCreatesMailtoLink()

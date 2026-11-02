@@ -6,6 +6,8 @@ use Ksfraser\FaBankImport\Contracts\CommandInterface;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK CLASS ROLLUP: AddCustomerCommand — 3 methods; FR-014 (3)
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/AddCustomerCommand.php; coverage: docs/TestCases/ (file rollup)
  * Add Customer Command
  *
  * Creates new customer records from transaction counterparty information.
@@ -25,11 +27,12 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  */
 class AddCustomerCommand implements CommandInterface
 {
-    private array $postData;
-    private object $customerService;
-    private object $transactionRepository;
+    private $postData;
+    private $customerService;
+    private $transactionRepository;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param array $postData POST data with AddCustomer key
@@ -38,9 +41,9 @@ class AddCustomerCommand implements CommandInterface
  * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */
     public function __construct(
-        array $postData,
-        object $customerService,
-        object $transactionRepository
+        $postData,
+        $customerService,
+        $transactionRepository
     ) {
         $this->postData = $postData;
         $this->customerService = $customerService;
@@ -48,6 +51,7 @@ class AddCustomerCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: execute
      * {@inheritDoc}
  * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */
@@ -114,6 +118,7 @@ class AddCustomerCommand implements CommandInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getName
      * {@inheritDoc}
  * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      */

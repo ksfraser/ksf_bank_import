@@ -21,6 +21,8 @@ namespace Ksfraser\FaBankImport\Handlers;
 use Ksfraser\FaBankImport\Results\TransactionResult;
 
 /**
+ * @BABOK CLASS ROLLUP: TransactionHandlerInterface — 3 methods; FR-049 (3)
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/TransactionHandlerInterface.php; coverage: docs/TestCases/ (file rollup)
  * Transaction Handler Interface
  *
  * Strategy pattern interface for processing different transaction types.
@@ -36,6 +38,7 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
 interface TransactionHandlerInterface
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * Process a transaction for the specific partner type
      *
      * @param array $transaction Transaction data from bank statement
@@ -56,6 +59,7 @@ interface TransactionHandlerInterface
     ): TransactionResult;
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerType
      * Get the partner type short code this handler processes
      *
      * @return string Partner type code (SP, CU, QE, BT, MA, ZZ)
@@ -64,6 +68,7 @@ interface TransactionHandlerInterface
     public function getPartnerType(): string;
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: canProcess
      * Validate if this handler can process the given transaction
      *
      * Checks if the specified partner type matches this handler's type.

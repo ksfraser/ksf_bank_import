@@ -8,6 +8,8 @@
  * @copyright  2025 KSF
  * @version    1.0.0
  */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace KsfBankImport\Tests\Unit\Views;
 
@@ -21,7 +23,7 @@ use KsfBankImport\Views\QuickEntryPartnerTypeView;
 // Load FA stubs
 
 // Load the factory
-require_once __DIR__ . '/../../../views/ViewFactory.php';
+require_once __DIR__ . '/../../../Views/ViewFactory.php';
 
 /**
  * Test ViewFactory

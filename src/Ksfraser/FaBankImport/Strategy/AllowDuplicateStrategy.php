@@ -5,6 +5,8 @@ namespace Ksfraser\FaBankImport\Strategy;
 use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
 
 /**
+ * @BABOK CLASS ROLLUP: AllowDuplicateStrategy — 2 methods; BR-002 (2); FR-005 (2)
+ * @BABOK RTM: BR-002 / FR-005; file: Strategy/AllowDuplicateStrategy.php; coverage: docs/TestCases/ (file rollup)
  * Allow Duplicate Strategy
  * 
  * Silently allows duplicate uploads by reusing existing file
@@ -19,6 +21,7 @@ use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
 class AllowDuplicateStrategy implements DuplicateStrategyInterface
 {
     /**
+ * @BABOK BR-002 / FR-005 — method: handle
      * Handle duplicate - allow and reuse existing file
      * 
      * @param DuplicateResult $duplicateResult
@@ -39,6 +42,7 @@ class AllowDuplicateStrategy implements DuplicateStrategyInterface
     }
     
     /**
+ * @BABOK BR-002 / FR-005 — method: getName
      * Get strategy name
      * 
      * @return string

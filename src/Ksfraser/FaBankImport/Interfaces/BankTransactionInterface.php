@@ -3,40 +3,25 @@
 namespace Ksfraser\FaBankImport\Interfaces;
 
 /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: BankTransactionInterface — 8 methods; FR-015 (8)
+ * @BABOK RTM: FR-015 / ARCH-001; file: Interfaces/BankTransactionInterface.php; coverage: docs/TestCases/ (file rollup)
  */
 interface BankTransactionInterface
 {
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: getTransactionType */
     public function getTransactionType(): string;
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: getAmount */
     public function getAmount(): float;
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: getDate */
     public function getDate(): string;
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: getAccountDetails */
     public function getAccountDetails(): array;
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: getOtherPartyDetails */
     public function getOtherPartyDetails(): array;
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: getStatus */
     public function getStatus(): int;
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: getId */
     public function getId(): int;
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: getMemo */
     public function getMemo(): string;
 }

@@ -1,39 +1,38 @@
 <?php
 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 
 /**
- * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: TransactionViewService — 4 methods; BR-001 (4); BR-002 (4); FR-008 (4)
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionViewService.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionViewService
 {
     private $transaction;
     private $view;
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
     public function __construct(BankTransactionInterface $transaction, TransactionViewInterface $view)
     {
         $this->transaction = $transaction;
         $this->view = $view;
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: display */
     public function display(): string
     {
         $this->setupViewData();
         return $this->view->render();
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setupViewData */
     private function setupViewData(): void
     {
         $accountDetails = $this->transaction->getAccountDetails();
@@ -43,9 +42,7 @@ class TransactionViewService
         $this->setupActionButtons();
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setupActionButtons */
     private function setupActionButtons(): void
     {
         //TODO

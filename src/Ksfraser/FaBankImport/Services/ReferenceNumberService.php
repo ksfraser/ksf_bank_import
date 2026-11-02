@@ -19,8 +19,10 @@
 declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Services;
+/** @BABOK See docs/BusinessRequirements/BR-001-AutoMatch.md / docs/FunctionalRequirements/FR-001-AutoPairDetect.md / docs/Architecture/ARCH-001-ServiceDesign.md - Covered in RTM */
 
 /**
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/ReferenceNumberService.php; coverage: docs/TestCases/ (file rollup)
  * Reference Number Service
  * 
  * Generates guaranteed unique reference numbers for FrontAccounting transactions.
@@ -49,6 +51,7 @@ class ReferenceNumberService
      * @param object|null $referenceGenerator Optional reference generator for testing
  * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
+        /** @BABOK ARCH-001 / FR-015 (DI injection) — method: __construct */
     public function __construct($referenceGenerator = null)
     {
         // Allow dependency injection for testing, otherwise use FA global
@@ -70,6 +73,7 @@ class ReferenceNumberService
      * // Returns: "12345" or similar unique ref
  * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
+        /** @BABOK RTM: ARCH-001 / FR-015*/
     public function getUniqueReference(int $transType): string
     {
         // Use injected generator or FA global
@@ -90,6 +94,7 @@ class ReferenceNumberService
      * @return object FA References object
  * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
      */
+        /** @BABOK RTM: ARCH-001 / FR-015*/
     protected function getGlobalRefsObject()
     {
         global $Refs;

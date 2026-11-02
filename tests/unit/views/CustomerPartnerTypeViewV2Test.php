@@ -24,14 +24,15 @@ use KsfBankImport\Views\DataProviders\CustomerDataProvider;
 
 // Load FrontAccounting stubs for testing
 
-require_once __DIR__ . '/../../../views/CustomerPartnerTypeView.v2.php';
-require_once __DIR__ . '/../../../views/DataProviders/CustomerDataProvider.php';
+require_once __DIR__ . '/../../../Views/legacy/CustomerPartnerTypeView.v2.php';
+require_once __DIR__ . '/../../../Views/DataProviders/CustomerDataProvider.php';
 
 /**
  * Test CustomerPartnerTypeView.v2
  * 
  * @coversDefaultClass KsfBankImport\Views\CustomerPartnerTypeView
- */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 class CustomerPartnerTypeViewV2Test extends TestCase
 {
     private $dataProvider;

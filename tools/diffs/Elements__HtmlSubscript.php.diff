@@ -1,0 +1,21 @@
+--- external/Elements/HtmlSubscript.php
++++ repo/Elements/HtmlSubscript.php
+@@ -3,13 +3,12 @@
+ namespace Ksfraser\HTML\Elements;
+ 
+ use Ksfraser\HTML\HtmlElementInterface;
+-use Ksfraser\HTML\Formatting\HtmlFormatting;
+ 
+ class HtmlSubscript extends HtmlFormatting
+ {
+-	       function __construct( HtmlElementInterface $data )
+-	       {
+-		       parent::__construct( $data );
+-		       $this->tag = "sub";
+-	       }
++	function __construct( $data )
++	{
++		parent::__construct( $data );
++		$this->tag = "sub";
++	}
+ }

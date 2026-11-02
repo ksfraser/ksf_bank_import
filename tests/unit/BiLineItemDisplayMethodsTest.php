@@ -19,6 +19,8 @@
  */
 
 declare(strict_types=1);
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Tests\Unit;
 
@@ -222,6 +224,28 @@ class BiLineItemDisplayMethodsTest extends TestCase
             1,
             $count,
             'display_right() method should be defined exactly once (no duplicates)'
+        );
+    }
+    
+    /**
+     * Verify file size is reasonable (production has ~1050 lines)
+     *
+     * @test
+     */
+    public function file_size_is_reasonable(): void
+    {
+        $lineCount = count(file($this->classFile));
+        
+        $this->assertGreaterThan(
+            900,
+            $lineCount,
+            'File should have at least 900 lines (production baseline)'
+        );
+        
+        $this->assertLessThan(
+            1700,
+            $lineCount,
+            'File should have less than 1700 lines (no major duplication)'
         );
     }
 }

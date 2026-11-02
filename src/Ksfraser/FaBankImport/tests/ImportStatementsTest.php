@@ -1,8 +1,10 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: ImportStatementsTest — 2 methods; NFR-016 (2); FR-018 (2) */
 class ImportStatementsTest extends TestCase
 {
+    /** @BABOK NFR-016 / FR-018 — method: testImportStatement */
     public function testImportStatement()
     {
         // Sample data to be used in the test
@@ -34,6 +36,7 @@ class ImportStatementsTest extends TestCase
     }
 
     // Helper function to replace class instances with mocks
+    /** @BABOK NFR-016 / FR-018 — method: replaceInstance */
     private function replaceInstance($class, $mock)
     {
         global $instanceMap;

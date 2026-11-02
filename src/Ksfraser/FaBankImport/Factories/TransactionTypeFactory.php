@@ -7,13 +7,12 @@ use Ksfraser\FaBankImport\Types\DebitTransaction;
 use Ksfraser\FaBankImport\Types\BankTransferTransaction;
 
 /**
- * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: TransactionTypeFactory — 1 methods; FR-015 (1)
+ * @BABOK RTM: FR-015 / ARCH-001; file: Factories/TransactionTypeFactory.php; coverage: docs/TestCases/ (file rollup)
  */
 class TransactionTypeFactory
 {
-    /**
- * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-015 / ARCH-001 — method: createTransactionType */
     public function createTransactionType(string $type, array $data)
     {
         switch ($type) {

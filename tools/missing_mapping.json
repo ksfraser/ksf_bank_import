@@ -1,0 +1,2926 @@
+{
+  "generated": "2026-04-11T22:22:13.966Z",
+  "totalEntries": 216,
+  "report": [
+    {
+      "original": "PROD\\src\\Ksfraser\\Model\\BiLineItemModel.php",
+      "basename": "bilineitemmodel.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Model\\BiLineItemModel.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\AbstractPartnerType.php",
+      "basename": "abstractpartnertype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\AbstractPartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\AbstractPartnerType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\BankTransferPartnerType.php",
+      "basename": "banktransferpartnertype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\BankTransferPartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\BankTransferPartnerType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\PartnerTypeRegistry.php",
+      "basename": "partnertyperegistry.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\PartnerTypeRegistry.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\PartnerTypeRegistry.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\QuickEntryPartnerType.php",
+      "basename": "quickentrypartnertype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\QuickEntryPartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\QuickEntryPartnerType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\SupplierPartnerType.php",
+      "basename": "supplierpartnertype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\SupplierPartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\SupplierPartnerType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\PartnerTypeInterface.php",
+      "basename": "partnertypeinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\PartnerTypeInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\PartnerTypeInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\CustomerPartnerType.php",
+      "basename": "customerpartnertype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\CustomerPartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\CustomerPartnerType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\ManualSettlementPartnerType.php",
+      "basename": "manualsettlementpartnertype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\ManualSettlementPartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\ManualSettlementPartnerType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\PartnerTypes\\MatchedPartnerType.php",
+      "basename": "matchedpartnertype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\PartnerTypes\\MatchedPartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\PartnerTypes\\MatchedPartnerType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\systematic_replacement\\replace.sh",
+      "basename": "replace.sh",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\systematic_replacement\\replace.sh",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\systematic_replacement\\replace.sh"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\systematic_replacement\\REPLACEMENT_TRACKER.md",
+      "basename": "replacement_tracker.md",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\systematic_replacement\\REPLACEMENT_TRACKER.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\systematic_replacement\\REPLACEMENT_TRACKER.md"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\systematic_replacement\\replace.bat",
+      "basename": "replace.bat",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\systematic_replacement\\replace.bat",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\systematic_replacement\\replace.bat"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\View\\BiLineItemView.php",
+      "basename": "bilineitemview.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\view\\BiLineItemView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\BiLineItemView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\BiLineItemView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\View\\BiLineItemView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\view\\BiLineItemView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\BiLineItemView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\View\\BiLineItemView.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\Views\\CommentSubmitView.php",
+      "basename": "commentsubmitview.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Views\\CommentSubmitView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Views\\CommentSubmitView.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\Views\\PartnerTypeSelectorView.php",
+      "basename": "partnertypeselectorview.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Views\\PartnerTypeSelectorView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Views\\PartnerTypeSelectorView.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\BankTransaction.php",
+      "basename": "banktransaction.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\BankTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\BankTransaction.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\BankTransactionInterface.php",
+      "basename": "banktransactioninterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\BankTransactionInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\BankTransactionInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\interfaces\\BankTransactionInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\BankTransactionInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\BiLineItemModel.php",
+      "basename": "bilineitemmodel.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Model\\BiLineItemModel.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\BankAccountByNumber.php",
+      "basename": "bankaccountbynumber.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\BankAccountByNumber.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\BankAccountByNumber.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\middleware\\TransactionValidationMiddleware.php",
+      "basename": "transactionvalidationmiddleware.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\middleware\\TransactionValidationMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\middleware\\TransactionValidationMiddleware.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\model\\BiLineItemModel.php",
+      "basename": "bilineitemmodel.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\model\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\BiLineItemModel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Model\\BiLineItemModel.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\AbstractTransaction.php",
+      "basename": "abstracttransaction.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\AbstractTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\AbstractTransaction.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\MatchingJEs.php",
+      "basename": "matchingjes.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\MatchingJEs.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\MatchingJEs.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\repositories\\AbstractRepository.php",
+      "basename": "abstractrepository.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\repositories\\AbstractRepository.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\repositories\\AbstractRepository.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\repositories\\AbstractRepository.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\repositories\\AbstractRepository.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\repositories\\TransactionRepository.php",
+      "basename": "transactionrepository.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\repositories\\TransactionRepository.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\repositories\\TransactionRepository.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Repository\\ConfigRepositoryInterface.php",
+      "basename": "configrepositoryinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Repository\\ConfigRepositoryInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Repository\\ConfigRepositoryInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\ThirdPartyTransaction.php",
+      "basename": "thirdpartytransaction.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\Models\\ThirdPartyTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\Models\\ThirdPartyTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\ThirdPartyTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\ThirdPartyTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\ThirdPartyTransaction.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\PairedJEs.php",
+      "basename": "pairedjes.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\PairedJEs.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\README",
+      "basename": "readme",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\README",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\HTML\\readme"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\HTML\\readme",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\readme"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\models\\SquareTransaction.php",
+      "basename": "squaretransaction.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\Models\\SquareTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\Models\\SquareTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\SquareTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\SquareTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\SquareTransaction.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\middleware\\PerformanceMonitoringMiddleware.php",
+      "basename": "performancemonitoringmiddleware.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\middleware\\PerformanceMonitoringMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\middleware\\PerformanceMonitoringMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\middleware\\PerformanceMonitoringMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\middleware\\PerformanceMonitoringMiddleware.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\handlers\\TransactionHandlerInterface.php",
+      "basename": "transactionhandlerinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\TransactionHandlerInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\TransactionHandlerInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\http\\RequestHandler.php",
+      "basename": "requesthandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\http\\RequestHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\http\\RequestHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\http\\RequestHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\http\\RequestHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\http\\ResponseHandler.php",
+      "basename": "responsehandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\http\\ResponseHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\http\\ResponseHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\http\\ResponseHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\http\\ResponseHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\handlers\\SupplierTransactionHandler.php",
+      "basename": "suppliertransactionhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\SupplierTransactionHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\SupplierTransactionHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\handlers\\MatchedTransactionHandler.php",
+      "basename": "matchedtransactionhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\MatchedTransactionHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\MatchedTransactionHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\handlers\\ProcessTransactionCommandHandler.php",
+      "basename": "processtransactioncommandhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\ProcessTransactionCommandHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\ProcessTransactionCommandHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\handlers\\QuickEntryTransactionHandler.php",
+      "basename": "quickentrytransactionhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\QuickEntryTransactionHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\QuickEntryTransactionHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\BankTransactionInterface.php",
+      "basename": "banktransactioninterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\BankTransactionInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\models\\BankTransactionInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\interfaces\\BankTransactionInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\models\\BankTransactionInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\middleware\\AuthMiddleware.php",
+      "basename": "authmiddleware.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\middleware\\AuthMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\middleware\\AuthMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\middleware\\AuthMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\middleware\\AuthMiddleware.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\middleware\\MiddlewareInterface.php",
+      "basename": "middlewareinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\middleware\\MiddlewareInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\middleware\\MiddlewareInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\middleware\\MiddlewareInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\middleware\\MiddlewareInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\middleware\\MiddlewarePipeline.php",
+      "basename": "middlewarepipeline.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\middleware\\MiddlewarePipeline.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\middleware\\MiddlewarePipeline.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\middleware\\MiddlewarePipeline.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\middleware\\MiddlewarePipeline.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\middleware\\AdminMiddleware.php",
+      "basename": "adminmiddleware.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\middleware\\AdminMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\middleware\\AdminMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\middleware\\AdminMiddleware.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\middleware\\AdminMiddleware.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\CommandBusInterface.php",
+      "basename": "commandbusinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\interfaces\\CommandBusInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\CommandBusInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\interfaces\\CommandBusInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\interfaces\\CommandBusInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\TransactionRepositoryInterface.php",
+      "basename": "transactionrepositoryinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\TransactionRepositoryInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\interfaces\\TransactionRepositoryInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\TransactionViewInterface.php",
+      "basename": "transactionviewinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\interfaces\\TransactionViewInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\interfaces\\TransactionViewInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\SimpleCommandBus.php",
+      "basename": "simplecommandbus.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\services\\SimpleCommandBus.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\SimpleCommandBus.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\services\\SimpleCommandBus.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\SimpleCommandBus.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionGLValidator.php",
+      "basename": "transactionglvalidator.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionGLValidator.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\TransactionGLValidator.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionLogger.php",
+      "basename": "transactionlogger.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\services\\TransactionLogger.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionLogger.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\services\\TransactionLogger.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\TransactionLogger.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\ReferenceNumberService.php",
+      "basename": "referencenumberservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\ReferenceNumberService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\ReferenceNumberService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\MetricsAggregator.php",
+      "basename": "metricsaggregator.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\services\\MetricsAggregator.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\MetricsAggregator.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\services\\MetricsAggregator.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\MetricsAggregator.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\PartnerDataService.php",
+      "basename": "partnerdataservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\PartnerDataService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\PartnerDataService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\PerformanceMonitor.php",
+      "basename": "performancemonitor.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\PerformanceMonitor.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\PerformanceMonitor.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionService.php",
+      "basename": "transactionservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\TransactionService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\BlockDuplicateStrategy.php",
+      "basename": "blockduplicatestrategy.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\BlockDuplicateStrategy.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Strategy\\BlockDuplicateStrategy.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\DuplicateStrategyFactory.php",
+      "basename": "duplicatestrategyfactory.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\DuplicateStrategyFactory.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Strategy\\DuplicateStrategyFactory.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\DuplicateStrategyInterface.php",
+      "basename": "duplicatestrategyinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\DuplicateStrategyInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Strategy\\DuplicateStrategyInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\AllowDuplicateStrategy.php",
+      "basename": "allowduplicatestrategy.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\AllowDuplicateStrategy.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Strategy\\AllowDuplicateStrategy.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionValidator.php",
+      "basename": "transactionvalidator.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionValidator.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\TransactionValidator.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionViewService.php",
+      "basename": "transactionviewservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\TransactionViewService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\TransactionViewService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\UploadedFileManager.php",
+      "basename": "uploadedfilemanager.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\UploadedFileManager.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\UploadedFileManager.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\KeywordMatchingService.php",
+      "basename": "keywordmatchingservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\KeywordMatchingService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\KeywordMatchingService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Repository\\UploadedFileRepositoryInterface.php",
+      "basename": "uploadedfilerepositoryinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Repository\\UploadedFileRepositoryInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Repository\\UploadedFileRepositoryInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Results\\PaginatedTransactionResult.php",
+      "basename": "paginatedtransactionresult.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Results\\PaginatedTransactionResult.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Results\\PaginatedTransactionResult.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Results\\TransactionResult.php",
+      "basename": "transactionresult.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Results\\TransactionResult.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Results\\TransactionResult.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Repository\\PartnerDataRepositoryInterface.php",
+      "basename": "partnerdatarepositoryinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Repository\\PartnerDataRepositoryInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Repository\\PartnerDataRepositoryInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Repository\\DatabaseConfigRepository.php",
+      "basename": "databaseconfigrepository.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Repository\\DatabaseConfigRepository.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Repository\\DatabaseConfigRepository.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Repository\\DatabasePartnerDataRepository.php",
+      "basename": "databasepartnerdatarepository.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Repository\\DatabasePartnerDataRepository.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Repository\\DatabasePartnerDataRepository.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Repository\\DatabaseUploadedFileRepository.php",
+      "basename": "databaseuploadedfilerepository.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Repository\\DatabaseUploadedFileRepository.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Repository\\DatabaseUploadedFileRepository.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Service\\DuplicateDetector.php",
+      "basename": "duplicatedetector.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Service\\DuplicateDetector.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Service\\DuplicateDetector.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\AlertService.php",
+      "basename": "alertservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\services\\AlertService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\AlertService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\services\\AlertService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\AlertService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\EventDispatcher.php",
+      "basename": "eventdispatcher.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\services\\EventDispatcher.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\EventDispatcher.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\services\\EventDispatcher.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\EventDispatcher.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\event-dispatcher\\EventDispatcher.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\services\\KeywordExtractorService.php",
+      "basename": "keywordextractorservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\services\\KeywordExtractorService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\services\\KeywordExtractorService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Service\\TransactionCounter.php",
+      "basename": "transactioncounter.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Service\\TransactionCounter.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Service\\TransactionCounter.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Service\\FileStorageService.php",
+      "basename": "filestorageservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Service\\FileStorageService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Service\\FileStorageService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Service\\FileStorageServiceInterface.php",
+      "basename": "filestorageserviceinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Service\\FileStorageServiceInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Service\\FileStorageServiceInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Service\\FileUploadService.php",
+      "basename": "fileuploadservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Service\\FileUploadService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Service\\FileUploadService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\handlers\\ManualSettlementHandler.php",
+      "basename": "manualsettlementhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\ManualSettlementHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\ManualSettlementHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\commands\\ProcessTransactionCommand.php",
+      "basename": "processtransactioncommand.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\commands\\ProcessTransactionCommand.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\commands\\ProcessTransactionCommand.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\commands\\ToggleDebitCreditCommand.php",
+      "basename": "toggledebitcreditcommand.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\commands\\ToggleDebitCreditCommand.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\commands\\ToggleDebitCreditCommand.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\commands\\UnsetTransactionCommand.php",
+      "basename": "unsettransactioncommand.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\commands\\UnsetTransactionCommand.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\commands\\UnsetTransactionCommand.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\commands\\CommandDispatcher.php",
+      "basename": "commanddispatcher.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\commands\\CommandDispatcher.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\commands\\CommandDispatcher.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\view_statements.php",
+      "basename": "view_statements.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\duplicates_backup_20251116_183246\\view_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\duplicates_backup_20251116_183246\\view_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\view_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\view_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\view_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\view_statements.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\commands\\AddCustomerCommand.php",
+      "basename": "addcustomercommand.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\commands\\AddCustomerCommand.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\commands\\AddCustomerCommand.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\commands\\AddVendorCommand.php",
+      "basename": "addvendorcommand.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\commands\\AddVendorCommand.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\commands\\AddVendorCommand.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\config\\admin_routes.php",
+      "basename": "admin_routes.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\config\\admin_routes.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\config\\admin_routes.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\config\\admin_routes.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\config\\admin_routes.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Container\\SimpleContainer.php",
+      "basename": "simplecontainer.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Container\\SimpleContainer.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Container\\SimpleContainer.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Contracts\\CommandDispatcherInterface.php",
+      "basename": "commanddispatcherinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Contracts\\CommandDispatcherInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Contracts\\CommandDispatcherInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\Contracts\\CommandInterface.php",
+      "basename": "commandinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Contracts\\CommandInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Contracts\\CommandInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\config\\monitoring.php",
+      "basename": "monitoring.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\config\\monitoring.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\config\\monitoring.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\config\\monitoring.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\config\\monitoring.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\config\\BankImportConfig.php",
+      "basename": "bankimportconfig.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\config\\BankImportConfig.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\config\\BankImportConfig.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\config\\Config.php",
+      "basename": "config.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\config.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\config.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\config\\Config.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\config\\Config.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\config\\Config.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\config\\Config.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Command\\Shared\\Config.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\config\\ConfigService.php",
+      "basename": "configservice.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\config\\ConfigService.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\config\\ConfigService.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfraser\\FaBankImport\\TransactionProcessor.php",
+      "basename": "transactionprocessor.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\TransactionProcessor.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\TransactionProcessor.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\manage_partners_data.php.bak",
+      "basename": "manage_partners_data.php.bak",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\manage_partners_data.php.bak",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\manage_partners_data.php.bak",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\manage_partners_data.php.bak",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\manage_partners_data.php.bak"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfrasher\\FaBankImport\\phpunit.xml",
+      "basename": "phpunit.xml",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\contact-dto\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\qifparser\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksf_ofxparser\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\contact-dto\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\qifparser\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\object-enumerator\\phpunit.xml"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\phpunit.xml",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\object-enumerator\\phpunit.xml"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\src\\Ksfrasher\\FaBankImport\\process_statements.copilot_refactored.php",
+      "basename": "process_statements.copilot_refactored.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\duplicates_backup_20251116_183246\\process_statements.copilot_refactored.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\duplicates_backup_20251116_183246\\process_statements.copilot_refactored.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\process_statements.copilot_refactored.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\process_statements.copilot_refactored.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\process_statements.copilot_refactored.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfrasher\\FaBankImport\\manage_partners_data.php",
+      "basename": "manage_partners_data.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\manage_partners_data.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\manage_partners_data.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\manage_partners_data.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\manage_partners_data.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfrasher\\FaBankImport\\import_statements-old.php",
+      "basename": "import_statements-old.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\import_statements-old.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\import_statements-old.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\import_statements-old.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\import_statements.copilot.php",
+      "basename": "import_statements.copilot.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\import_statements.copilot.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\import_statements.copilot.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\import_statements.copilot.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\import_statements.php",
+      "basename": "import_statements.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\duplicates_backup_20251116_183246\\import_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\import_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\duplicates_backup_20251116_183246\\import_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\import_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\import_statements.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\import_statements.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\process_statements_preclean.php",
+      "basename": "process_statements_preclean.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\duplicates_backup_20251116_183246\\process_statements_preclean.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\duplicates_backup_20251116_183246\\process_statements_preclean.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\process_statements_preclean.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\process_statements_preclean.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\process_statements_preclean.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\TransactionFactory.php",
+      "basename": "transactionfactory.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\TransactionFactory.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\TransactionFactory.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\TransactionFactoryImp.php",
+      "basename": "transactionfactoryimp.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\TransactionFactoryImp.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\TransactionFactoryImp.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\TransactionProcessedEvent.php",
+      "basename": "transactionprocessedevent.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\events\\TransactionProcessedEvent.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\TransactionProcessedEvent.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\events\\TransactionProcessedEvent.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\TransactionProcessedEvent.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Transaction.php",
+      "basename": "transaction.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\includes\\vendor\\asgrim\\ofxparser\\lib\\OfxParser\\Entities\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\includes\\vendor\\asgrim\\ofxparser\\lib\\OfxParser\\Entities\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\asgrim\\ofxparser\\lib\\OfxParser\\Entities\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\jacques-ofxparser\\lib\\OfxParser\\Entities\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Entities\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksf_ofxparser\\src\\Ksfraser\\Entities\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\mimographix\\qif-library\\src\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\asgrim\\ofxparser\\lib\\OfxParser\\Entities\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Entities\\Transaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\mimographix\\qif-library\\src\\Transaction.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\README.md",
+      "basename": "readme.md",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\includes\\vendor\\asgrim\\ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\includes\\vendor\\asgrim\\ofxparser\\lib\\OfxParser\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\includes\\vendor\\asgrim\\ofxparser\\lib\\OfxParser\\Sgml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\includes\\vendor\\asgrim\\ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Domain\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\tests\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\asgrim\\ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\carbonphp\\carbon-doctrine-types\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\jacques-ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\contact-dto\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\doc\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Sgml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\standards\\Php73Compatibility\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\tests\\fixtures\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\qifparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksf_ofxparser\\doc\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksf_ofxparser\\src\\Ksfraser\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksf_ofxparser\\src\\Ksfraser\\Sgml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\mimographix\\qif-library\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\nesbot\\carbon\\readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\psr\\clock\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\deprecation-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\polyfill-mbstring\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\polyfill-php80\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\translation\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\translation-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Domain\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\HTML\\archived\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\HTML\\CSS\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\tests\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\asgrim\\ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\behat\\gherkin\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\carbonphp\\carbon-doctrine-types\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\ext\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Lib\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Step\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Subscriber\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Util\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\phpunit-wrapper\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\stub\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\doctrine\\instantiator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\guzzlehttp\\psr7\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\contact-dto\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\doc\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Sgml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\tests\\fixtures\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\qifparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\mimographix\\qif-library\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\myclabs\\deep-copy\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\nesbot\\carbon\\readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\nikic\\php-parser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phar-io\\manifest\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phar-io\\version\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-code-coverage\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-file-iterator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-invoker\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-text-template\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-timer\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\phpunit\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\clock\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\container\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\event-dispatcher\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\http-factory\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\http-message\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ralouphie\\getallheaders\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\cli-parser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\code-unit\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\code-unit-reverse-lookup\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\comparator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\complexity\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\diff\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\environment\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\exporter\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\global-state\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\lines-of-code\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\object-enumerator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\object-reflector\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\recursion-context\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\resource-operations\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\type\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\version\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\console\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\css-selector\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\deprecation-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\event-dispatcher\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\event-dispatcher-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\finder\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-ctype\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-intl-grapheme\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-intl-normalizer\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-mbstring\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-php73\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-php80\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\service-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\string\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\translation\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\translation-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\yaml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\theseer\\tokenizer\\README.md"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\.githooks\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\Project Docs\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\HTML\\archived\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\HTML\\CSS\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\doctrine\\instantiator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\myclabs\\deep-copy\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\nikic\\php-parser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phar-io\\manifest\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phar-io\\version\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-code-coverage\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-file-iterator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-invoker\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-text-template\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-timer\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\phpunit\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\cli-parser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\code-unit\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\code-unit-reverse-lookup\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\comparator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\complexity\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\diff\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\environment\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\exporter\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\global-state\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\lines-of-code\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\object-enumerator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\object-reflector\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\recursion-context\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\resource-operations\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\type\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\version\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\theseer\\tokenizer\\README.md"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\sample_MT940.sta",
+      "basename": "sample_mt940.sta",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\sample_MT940.sta",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\sample_MT940.sta",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\sample_MT940.sta",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\sample_MT940.sta"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\test.php",
+      "basename": "test.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\nesbot\\carbon\\src\\Carbon\\Traits\\Test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Lib\\Generator\\Test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Test\\Test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\nesbot\\carbon\\src\\Carbon\\Traits\\Test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\phpunit\\src\\Framework\\Test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\phpunit\\src\\Util\\Test.php"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\phpunit\\src\\Framework\\Test.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\phpunit\\src\\Util\\Test.php"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\events\\VendorNotAddedEvent.php",
+      "basename": "vendornotaddedevent.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\events\\VendorNotAddedEvent.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\exceptions\\HandlerDiscoveryException.php",
+      "basename": "handlerdiscoveryexception.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\exceptions\\HandlerDiscoveryException.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\exceptions\\HandlerDiscoveryException.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\exceptions\\TransactionValidationException.php",
+      "basename": "transactionvalidationexception.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\exceptions\\TransactionValidationException.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\exceptions\\TransactionValidationException.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\events\\VendorAddedEvent.php",
+      "basename": "vendoraddedevent.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\events\\VendorAddedEvent.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Domain\\ValueObjects\\PartnerData.php",
+      "basename": "partnerdata.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Domain\\ValueObjects\\PartnerData.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Domain\\ValueObjects\\PartnerData.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Entity\\UploadedFile.php",
+      "basename": "uploadedfile.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Entity\\UploadedFile.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Entity\\UploadedFile.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\guzzlehttp\\psr7\\src\\UploadedFile.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\events\\TransactionProcessedEvent.php",
+      "basename": "transactionprocessedevent.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\events\\TransactionProcessedEvent.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\TransactionProcessedEvent.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\events\\TransactionProcessedEvent.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\TransactionProcessedEvent.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\exceptions\\UnauthorizedException.php",
+      "basename": "unauthorizedexception.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\exceptions\\UnauthorizedException.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\exceptions\\UnauthorizedException.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\exceptions\\UnauthorizedException.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\exceptions\\UnauthorizedException.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\handlers\\BankTransferTransactionHandler.php",
+      "basename": "banktransfertransactionhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\BankTransferTransactionHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\BankTransferTransactionHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\handlers\\CustomerTransactionHandler.php",
+      "basename": "customertransactionhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\CustomerTransactionHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\CustomerTransactionHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\handlers\\ErrorHandler.php",
+      "basename": "errorhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\handlers\\ErrorHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\ErrorHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\handlers\\ErrorHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\ErrorHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Subscriber\\ErrorHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\nikic\\php-parser\\lib\\PhpParser\\ErrorHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\phpunit\\src\\Util\\ErrorHandler.php"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\nikic\\php-parser\\lib\\PhpParser\\ErrorHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\phpunit\\src\\Util\\ErrorHandler.php"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\handlers\\AddVendorCommandHandler.php",
+      "basename": "addvendorcommandhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\AddVendorCommandHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\factories\\TransactionTypeFactory.php",
+      "basename": "transactiontypefactory.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\factories\\TransactionTypeFactory.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\factories\\TransactionTypeFactory.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\handlers\\AbstractTransactionHandler.php",
+      "basename": "abstracttransactionhandler.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\AbstractTransactionHandler.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\handlers\\AbstractTransactionHandler.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\handlers\\AddVendor.php",
+      "basename": "addvendor.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\handlers\\AddVendor.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Domain\\ValueObjects\\MatchConfidence.php",
+      "basename": "matchconfidence.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Domain\\ValueObjects\\MatchConfidence.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Domain\\ValueObjects\\MatchConfidence.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\controllers\\BankImportController.php",
+      "basename": "bankimportcontroller.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controller\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controllers\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controller\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controllers\\BankImportController.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\controllers\\BiLineItemController.php",
+      "basename": "bilineitemcontroller.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Controller\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controller\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controllers\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Controller\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controller\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controllers\\BiLineItemController.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\cron\\monitor_performance.php",
+      "basename": "monitor_performance.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\cron\\monitor_performance.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\cron\\monitor_performance.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\monitor_performance.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\cron\\monitor_performance.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\cron\\monitor_performance.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\controllers\\AdminController.php",
+      "basename": "admincontroller.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\controllers\\AdminController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controllers\\AdminController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\controllers\\AdminController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controllers\\AdminController.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\controller\\BankImportController.php",
+      "basename": "bankimportcontroller.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controller\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controllers\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controller\\BankImportController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controllers\\BankImportController.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\controller\\BiLineItemController.php",
+      "basename": "bilineitemcontroller.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Controller\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controller\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controllers\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Controller\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controller\\BiLineItemController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controllers\\BiLineItemController.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\controllers\\AbstractController.php",
+      "basename": "abstractcontroller.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\controllers\\AbstractController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\controllers\\AbstractController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\controllers\\AbstractController.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\controllers\\AbstractController.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\database\\DatabaseFactory.php",
+      "basename": "databasefactory.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\database\\DatabaseFactory.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\database\\DatabaseFactory.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\database\\DatabaseFactory.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\database\\DatabaseFactory.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Domain\\Exceptions\\PartnerDataNotFoundException.php",
+      "basename": "partnerdatanotfoundexception.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Domain\\Exceptions\\PartnerDataNotFoundException.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Domain\\Exceptions\\PartnerDataNotFoundException.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Domain\\ValueObjects\\Keyword.php",
+      "basename": "keyword.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Domain\\ValueObjects\\Keyword.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Domain\\ValueObjects\\Keyword.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Domain\\ValueObjects\\KeywordMatch.php",
+      "basename": "keywordmatch.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Domain\\ValueObjects\\KeywordMatch.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Domain\\ValueObjects\\KeywordMatch.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Domain\\Exceptions\\InvalidKeywordException.php",
+      "basename": "invalidkeywordexception.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Domain\\Exceptions\\InvalidKeywordException.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Domain\\Exceptions\\InvalidKeywordException.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\database\\QueryBuilder.php",
+      "basename": "querybuilder.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\Application\\database\\QueryBuilder.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\database\\QueryBuilder.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\Application\\database\\QueryBuilder.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\database\\QueryBuilder.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\database\\TransactionQueryBuilder.php",
+      "basename": "transactionquerybuilder.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\database\\TransactionQueryBuilder.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\database\\TransactionQueryBuilder.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Domain\\README.md",
+      "basename": "readme.md",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\includes\\vendor\\asgrim\\ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\includes\\vendor\\asgrim\\ofxparser\\lib\\OfxParser\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\includes\\vendor\\asgrim\\ofxparser\\lib\\OfxParser\\Sgml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\includes\\vendor\\asgrim\\ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Domain\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\tests\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\asgrim\\ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\carbonphp\\carbon-doctrine-types\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\jacques-ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\contact-dto\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\doc\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Sgml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\standards\\Php73Compatibility\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\ksf_ofxparser\\tests\\fixtures\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksfraser\\qifparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksf_ofxparser\\doc\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksf_ofxparser\\src\\Ksfraser\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\ksf_ofxparser\\src\\Ksfraser\\Sgml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\mimographix\\qif-library\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\nesbot\\carbon\\readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\psr\\clock\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\deprecation-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\polyfill-mbstring\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\polyfill-php80\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\translation\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\vendor\\symfony\\translation-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Domain\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\HTML\\archived\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\HTML\\CSS\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\tests\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\asgrim\\ofxparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\behat\\gherkin\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\carbonphp\\carbon-doctrine-types\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\ext\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Lib\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Step\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Subscriber\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\codeception\\src\\Codeception\\Util\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\phpunit-wrapper\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\codeception\\stub\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\doctrine\\instantiator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\guzzlehttp\\psr7\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\contact-dto\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\doc\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\src\\Ksfraser\\Sgml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\ksf_ofxparser\\tests\\fixtures\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ksfraser\\qifparser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\mimographix\\qif-library\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\myclabs\\deep-copy\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\nesbot\\carbon\\readme.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\nikic\\php-parser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phar-io\\manifest\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phar-io\\version\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-code-coverage\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-file-iterator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-invoker\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-text-template\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-timer\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\phpunit\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\clock\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\container\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\event-dispatcher\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\http-factory\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\psr\\http-message\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\ralouphie\\getallheaders\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\cli-parser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\code-unit\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\code-unit-reverse-lookup\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\comparator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\complexity\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\diff\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\environment\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\exporter\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\global-state\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\lines-of-code\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\object-enumerator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\object-reflector\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\recursion-context\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\resource-operations\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\type\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\sebastian\\version\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\console\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\css-selector\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\deprecation-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\event-dispatcher\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\event-dispatcher-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\finder\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-ctype\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-intl-grapheme\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-intl-normalizer\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-mbstring\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-php73\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\polyfill-php80\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\service-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\string\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\translation\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\translation-contracts\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\symfony\\yaml\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\theseer\\tokenizer\\README.md"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\.githooks\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\Project Docs\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\HTML\\archived\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\HTML\\CSS\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\doctrine\\instantiator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\myclabs\\deep-copy\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\nikic\\php-parser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phar-io\\manifest\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phar-io\\version\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-code-coverage\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-file-iterator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-invoker\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-text-template\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-timer\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\phpunit\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\cli-parser\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\code-unit\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\code-unit-reverse-lookup\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\comparator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\complexity\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\diff\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\environment\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\exporter\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\global-state\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\lines-of-code\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\object-enumerator\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\object-reflector\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\recursion-context\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\resource-operations\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\type\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\sebastian\\version\\README.md",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\theseer\\tokenizer\\README.md"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Strategy\\WarnDuplicateStrategy.php",
+      "basename": "warnduplicatestrategy.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Strategy\\WarnDuplicateStrategy.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Strategy\\WarnDuplicateStrategy.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\TransDate.php",
+      "basename": "transdate.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransDate.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\TransTitle.php",
+      "basename": "transtitle.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransTitle.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\TransType.php",
+      "basename": "transtype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\TransactionTypeLabel.php",
+      "basename": "transactiontypelabel.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransactionTypeLabel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransactionTypeLabel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransactionTypeLabel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransactionTypeLabel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransactionTypeLabel.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\ProcessStatementsView.php",
+      "basename": "processstatementsview.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\ProcessStatementsView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\ProcessStatementsView.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\ToggleTransactionTypeButton.php",
+      "basename": "toggletransactiontypebutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\ToggleTransactionTypeButton.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\TransactionCustomerDetails.php",
+      "basename": "transactioncustomerdetails.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransactionCustomerDetails.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransactionCustomerDetails.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransactionCustomerDetails.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\_K1XBQ~9",
+      "basename": "_k1xbq~9",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\_K1XBQ~9",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\_K1XBQ~9",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\_K1XBQ~9",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\_K1XBQ~9"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\TransType.php",
+      "basename": "transtype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\PartnerSubSelect.php",
+      "basename": "partnersubselect.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\PartnerSubSelect.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\PartnerSubSelect.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\PartnerSubSelect.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\PartnerType.php",
+      "basename": "partnertype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\PartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\PartnerType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\PartnerType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\ToggleTransactionTypeButton.php",
+      "basename": "toggletransactiontypebutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\ToggleTransactionTypeButton.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\OurBankAccount.php",
+      "basename": "ourbankaccount.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\OurBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\OurBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\OurBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\OurBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\OurBankAccount.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\LineitemDisplayRight.php",
+      "basename": "lineitemdisplayright.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\LineitemDisplayRight.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\LineitemDisplayRight.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\LineitemDisplayRight.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\Operation.php",
+      "basename": "operation.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\Operation.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\Operation.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\Operation.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\OtherBankAccount.php",
+      "basename": "otherbankaccount.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\OtherBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\OtherBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\OtherBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\OtherBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\OtherBankAccount.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\TransactionCustomerDetails.php",
+      "basename": "transactioncustomerdetails.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransactionCustomerDetails.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransactionCustomerDetails.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransactionCustomerDetails.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\AddCustomerButton.php",
+      "basename": "addcustomerbutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\AddCustomerButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\AddCustomerButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\AddCustomerButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\AddCustomerButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\AddCustomerButton.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\AddNoButton.php",
+      "basename": "addnobutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\AddNoButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\AddNoButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\AddNoButton.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\views\\AddVendorButton.php",
+      "basename": "addvendorbutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\AddVendorButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\AddVendorButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\AddVendorButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\AddVendorButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\AddVendorButton.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\TransTitle.php",
+      "basename": "transtitle.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransTitle.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\LineitemDisplayLeft.php",
+      "basename": "lineitemdisplayleft.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\LineitemDisplayLeft.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\LineitemDisplayLeft.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\LineitemDisplayLeft.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\LineitemDisplayLeft.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\LineitemDisplayLeft.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\ValueObject\\DuplicateResult.php",
+      "basename": "duplicateresult.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\ValueObject\\DuplicateResult.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\ValueObject\\DuplicateResult.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\ValueObject\\FileInfo.php",
+      "basename": "fileinfo.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\ValueObject\\FileInfo.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\ValueObject\\FileInfo.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\ValueObject\\UploadResult.php",
+      "basename": "uploadresult.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\ValueObject\\UploadResult.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\ValueObject\\UploadResult.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\types\\DebitTransaction.php",
+      "basename": "debittransaction.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Types\\DebitTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\types\\DebitTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Types\\DebitTransaction.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Types\\BankTransferTransaction.php",
+      "basename": "banktransfertransaction.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Types\\BankTransferTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\types\\BankTransferTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Types\\BankTransferTransaction.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Types\\CreditTransaction.php",
+      "basename": "credittransaction.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Types\\CreditTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\types\\CreditTransaction.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\Types\\CreditTransaction.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\TransDate.php",
+      "basename": "transdate.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransDate.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\src\\Ksfasher\\FaBankImport\\Views\\TransTitle.php",
+      "basename": "transtitle.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransTitle.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\AddCustomerButtonRow.php",
+      "basename": "addcustomerbuttonrow.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\AddCustomerButtonRow.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\AddVendorButtonRow.php",
+      "basename": "addvendorbuttonrow.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\AddVendorButtonRow.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\ToggleTransactionTypeButton.php",
+      "basename": "toggletransactiontypebutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\ToggleTransactionTypeButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\ToggleTransactionTypeButton.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\tools\\compare_prod.ps1",
+      "basename": "compare_prod.ps1",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\tools\\compare_prod.ps1"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\OtherBankAccount.php",
+      "basename": "otherbankaccount.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\OtherBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\OtherBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\OtherBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\OtherBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\OtherBankAccount.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\OurBankAccount.php",
+      "basename": "ourbankaccount.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\OurBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\OurBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\OurBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\OurBankAccount.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\OurBankAccount.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\PartnerMatcher.php",
+      "basename": "partnermatcher.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\PartnerMatcher.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\PartnerMatcher.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\module_menu_view.php",
+      "basename": "module_menu_view.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\module_menu_view.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\module_menu_view.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\module_menu_view.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\module_menu_view.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\LabelRowBase.php",
+      "basename": "labelrowbase.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\LabelRowBase.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\HTML\\Composites\\LabelRowBase.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\HTML\\LabelRowBase.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\LabelRowBase.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\LabelRowBase.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\HTML\\Composites\\LabelRowBase.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\LabelRowBase.php"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\HTML\\Composites\\LabelRowBase.php"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\views\\LineitemDisplayLeft.php",
+      "basename": "lineitemdisplayleft.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\LineitemDisplayLeft.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\LineitemDisplayLeft.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\LineitemDisplayLeft.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\LineitemDisplayLeft.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\LineitemDisplayLeft.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\MatchingGLS.php",
+      "basename": "matchinggls.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\MatchingGLS.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\MatchingGLS.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\MatchingGLS.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\MatchingGLS.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\PartnerTypeDisplayStrategy.php",
+      "basename": "partnertypedisplaystrategy.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\PartnerTypeDisplayStrategy.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\PartnerTypeDisplayStrategy.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\SubmitButtonRow.php",
+      "basename": "submitbuttonrow.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\SubmitButtonRow.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\SubmitButtonRow.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\SupplierPartnerTypeView.php",
+      "basename": "supplierpartnertypeview.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\SupplierPartnerTypeView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\SupplierPartnerTypeView.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\SupplierPartnerTypeView.v2.php",
+      "basename": "supplierpartnertypeview.v2.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\SupplierPartnerTypeView.v2.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\SupplierPartnerTypeView.v2.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\SubmitButton.php",
+      "basename": "submitbutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\SubmitButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\HTML\\Button\\SubmitButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\HTML\\Buttons\\SubmitButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\SubmitButton.php"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\HTML\\Button\\SubmitButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\src\\Ksfraser\\HTML\\Buttons\\SubmitButton.php"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\views\\ProcessTransactionButtonRow.php",
+      "basename": "processtransactionbuttonrow.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\ProcessTransactionButtonRow.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\ProcessTransactionButtonRow.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\QuickEntryPartnerTypeView.php",
+      "basename": "quickentrypartnertypeview.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\QuickEntryPartnerTypeView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\QuickEntryPartnerTypeView.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\QuickEntryPartnerTypeView.v2.php",
+      "basename": "quickentrypartnertypeview.v2.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\QuickEntryPartnerTypeView.v2.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\QuickEntryPartnerTypeView.v2.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\AddCustomerButton.php",
+      "basename": "addcustomerbutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\AddCustomerButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\AddCustomerButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\AddCustomerButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\AddCustomerButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\AddCustomerButton.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\AddVendorButton.php",
+      "basename": "addvendorbutton.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\AddVendorButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\AddVendorButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\AddVendorButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\AddVendorButton.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\AddVendorButton.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\CustomerPartnerTypeView.php",
+      "basename": "customerpartnertypeview.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\CustomerPartnerTypeView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\CustomerPartnerTypeView.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\CustomerPartnerTypeView.v2.php",
+      "basename": "customerpartnertypeview.v2.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\CustomerPartnerTypeView.v2.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\CustomerPartnerTypeView.v2.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\BankTransferPartnerTypeView.v2.php",
+      "basename": "banktransferpartnertypeview.v2.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\BankTransferPartnerTypeView.v2.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\BankTransferPartnerTypeView.v2.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\AllocatableInvoicesTable.php",
+      "basename": "allocatableinvoicestable.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\AllocatableInvoicesTable.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\AllocatableInvoicesTable.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\AmountCharges.php",
+      "basename": "amountcharges.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\AmountCharges.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\AmountCharges.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\AmountCharges.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\AmountCharges.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\AmountCharges.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\BankTransferPartnerTypeView.php",
+      "basename": "banktransferpartnertypeview.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\BankTransferPartnerTypeView.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\BankTransferPartnerTypeView.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\ToggleTransactionRow.php",
+      "basename": "toggletransactionrow.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\ToggleTransactionRow.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\ToggleTransactionRow.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\errors\\unauthorized.php",
+      "basename": "unauthorized.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\errors\\unauthorized.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\errors\\unauthorized.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\transactions\\list.php",
+      "basename": "list.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\transactions\\list.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\transactions\\list.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\DataProviders\\SupplierDataProvider.php",
+      "basename": "supplierdataprovider.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\SupplierDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\DataProviders\\SupplierDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\SupplierDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\DataProviders\\SupplierDataProvider.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\UnsetTransButtonRow.php",
+      "basename": "unsettransbuttonrow.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\UnsetTransButtonRow.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\UnsetTransButtonRow.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\ViewFactory.php",
+      "basename": "viewfactory.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\ViewFactory.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\ViewFactory.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\TransType.php",
+      "basename": "transtype.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransType.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransType.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\TransactionTypeLabel.php",
+      "basename": "transactiontypelabel.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransactionTypeLabel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransactionTypeLabel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransactionTypeLabel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransactionTypeLabel.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransactionTypeLabel.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\TransDate.php",
+      "basename": "transdate.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransDate.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransDate.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\TransTitle.php",
+      "basename": "transtitle.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\Views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\FaBankImport\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\FaBankImport\\views\\TransTitle.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\TransTitle.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\DataProviders\\CustomerDataProvider.php",
+      "basename": "customerdataprovider.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\CustomerDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\DataProviders\\CustomerDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\CustomerDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\DataProviders\\CustomerDataProvider.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\DataProviders\\PartnerDataProviderInterface.php",
+      "basename": "partnerdataproviderinterface.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\DataProviders\\PartnerDataProviderInterface.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\DataProviders\\PartnerDataProviderInterface.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\DataProviders\\QuickEntryDataProvider.php",
+      "basename": "quickentrydataprovider.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\src\\Ksfraser\\QuickEntryDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\DataProviders\\QuickEntryDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\src\\Ksfraser\\QuickEntryDataProvider.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\DataProviders\\QuickEntryDataProvider.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\admin\\_nav.php",
+      "basename": "_nav.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\admin\\_nav.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\admin\\_nav.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\admin\\anomaly_report.php",
+      "basename": "anomaly_report.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\admin\\anomaly_report.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\admin\\anomaly_report.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    },
+    {
+      "original": "PROD\\views\\admin\\dashboard.php",
+      "basename": "dashboard.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\admin\\dashboard.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\vendor\\phpunit\\php-code-coverage\\src\\Report\\Html\\Renderer\\Dashboard.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\admin\\dashboard.php"
+      ],
+      "prodMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\html\\vendor\\phpunit\\php-code-coverage\\src\\Report\\Html\\Renderer\\Dashboard.php"
+      ],
+      "prodExactExists": false,
+      "status": "present_in_prod"
+    },
+    {
+      "original": "PROD\\views\\admin\\performance_report.php",
+      "basename": "performance_report.php",
+      "repoMatches": [
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\PROD\\views\\admin\\performance_report.php",
+        "c:\\Users\\prote\\Documents\\software-devel\\ksf_bank_import\\views\\admin\\performance_report.php"
+      ],
+      "prodMatches": [],
+      "prodExactExists": false,
+      "status": "moved_in_repo"
+    }
+  ]
+}

@@ -1,11 +1,14 @@
 <?php
-
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 namespace Tests\Unit\Views;
 
 use PHPUnit\Framework\TestCase;
 
 // Load the classes from views directory (global namespace)
-require_once __DIR__ . '/../../../views/TransType.php';
+require_once __DIR__ . '/../../../Views/TransType.php';
+// Load bi_lineitem class for mocking
+require_once __DIR__ . '/../../../class.bi_lineitem.php';
 
 /**
  * Test TransType view component
@@ -18,10 +21,11 @@ class TransTypeTest extends TestCase
     /**
      * Create a mock bi_lineitem object for testing
      */
-    private function createMockLineitem(string $transactionDC = 'D'): object
+    private function createMockLineitem(string $transactionTypeLabel = 'Debit'): object
     {
-        $mock = new \stdClass();
-        $mock->transactionDC = $transactionDC;
+        $mock = $this->createMock(\bi_lineitem::class);
+        $mock->method('getTransactionTypeLabel')
+            ->willReturn($transactionTypeLabel);
         
         return $mock;
     }
@@ -42,13 +46,13 @@ class TransTypeTest extends TestCase
      */
     public function testDebitType(): void
     {
-        $lineitem = $this->createMockLineitem('D');
+        $lineitem = $this->createMockLineitem('Debit');
         $transType = new \TransType($lineitem);
         
         $html = $transType->getHtml();
         
         $this->assertStringContainsString('Debit', $html);
-        $this->assertStringContainsString('Trans Type:', $html);
+$this->assertStringContainsString('Trans type:', $html);
     }
     
     /**
@@ -56,13 +60,13 @@ class TransTypeTest extends TestCase
      */
     public function testCreditType(): void
     {
-        $lineitem = $this->createMockLineitem('C');
+        $lineitem = $this->createMockLineitem('Credit');
         $transType = new \TransType($lineitem);
         
         $html = $transType->getHtml();
         
         $this->assertStringContainsString('Credit', $html);
-        $this->assertStringContainsString('Trans Type:', $html);
+        $this->assertStringContainsString('Trans type:', $html);
     }
     
     /**
@@ -70,13 +74,13 @@ class TransTypeTest extends TestCase
      */
     public function testBankTransferType(): void
     {
-        $lineitem = $this->createMockLineitem('B');
+        $lineitem = $this->createMockLineitem('Bank Transfer');
         $transType = new \TransType($lineitem);
         
         $html = $transType->getHtml();
         
         $this->assertStringContainsString('Bank Transfer', $html);
-        $this->assertStringContainsString('Trans Type:', $html);
+        $this->assertStringContainsString('Trans type:', $html);
     }
     
     /**
@@ -98,7 +102,7 @@ class TransTypeTest extends TestCase
      */
     public function testToHtmlOutputsDirectly(): void
     {
-        $lineitem = $this->createMockLineitem('C');
+        $lineitem = $this->createMockLineitem('Credit');
         $transType = new \TransType($lineitem);
         
         ob_start();
@@ -106,7 +110,7 @@ class TransTypeTest extends TestCase
         $output = ob_get_clean();
         
         $this->assertStringContainsString('Credit', $output);
-        $this->assertStringContainsString('Trans Type:', $output);
+        $this->assertStringContainsString('Trans type:', $output);
         $this->assertNotEmpty($output);
     }
 }

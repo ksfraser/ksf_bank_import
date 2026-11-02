@@ -56,6 +56,10 @@ use Ksfraser\FaBankImport\Services\ReferenceNumberService;
  * ```
  * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
+/**
+ * @BABOK CLASS ROLLUP: AbstractTransactionHandler — 11 methods; FR-049 (11)
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/AbstractTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
+ */
 abstract class AbstractTransactionHandler implements TransactionHandlerInterface
 {
     /**
@@ -73,6 +77,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     protected ReferenceNumberService $referenceService;
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: __construct
      * Constructor - initializes and validates partner type
      *
      * Uses fail-fast pattern - if subclass doesn't provide valid type,
@@ -100,6 +105,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerType
      * @inheritDoc
  * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
@@ -109,6 +115,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeObject
      * Get the PartnerType value object for this handler
      *
      * Returns the complete PartnerType object which provides:
@@ -126,6 +133,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * Get the PartnerType instance for this handler
      *
      * Each concrete handler returns its specific PartnerType value object.
@@ -137,6 +145,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     abstract protected function getPartnerTypeInstance(): PartnerTypeInterface;
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: canProcess
      * @inheritDoc
      * 
      * Standard implementation that checks if the partner type matches this handler.
@@ -148,6 +157,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: validateTransaction
      * Validate transaction has required fields
      *
      * Common validation logic shared across handlers.
@@ -172,6 +182,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: extractPartnerId
      * Extract partner ID from transaction POST data
      *
      * Common utility for extracting partner ID from filtered POST data.
@@ -198,6 +209,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: calculateCharge
      * Calculate bank charges for transaction
      *
      * Common utility for charge calculation using global function.
@@ -217,6 +229,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: createErrorResult
      * Create error result
      *
      * Standard error format for consistency across handlers.
@@ -233,6 +246,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: createSuccessResult
      * Create success result
      *
      * Standard success format for consistency across handlers.
@@ -255,6 +269,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: createWarningResult
      * Create warning result
      *
      * Standard warning format for consistency across handlers.

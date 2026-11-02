@@ -5,16 +5,15 @@ namespace Ksfraser\FaBankImport\Repositories;
 use Ksfraser\FaBankImport\Database\QueryBuilder;
 
 /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: AbstractRepository — 5 methods; FR-008 (5)
+ * @BABOK RTM: FR-008 / ARCH-001; file: Repositories/AbstractRepository.php; coverage: docs/TestCases/ (file rollup)
  */
 abstract class AbstractRepository
 {
     protected $table;
     protected $queryBuilder;
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / ARCH-001 — method: __construct */
     public function __construct()
     {
         if (empty($this->table)) {
@@ -23,9 +22,7 @@ abstract class AbstractRepository
         $this->queryBuilder = new QueryBuilder($this->table);
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / ARCH-001 — method: find */
     public function find($id)
     {
         return $this->queryBuilder
@@ -33,9 +30,7 @@ abstract class AbstractRepository
             ->first();
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / ARCH-001 — method: findBy */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         foreach ($criteria as $key => $value) {
@@ -59,9 +54,7 @@ abstract class AbstractRepository
         return $this->queryBuilder->get();
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / ARCH-001 — method: findOneBy */
     public function findOneBy(array $criteria)
     {
         foreach ($criteria as $key => $value) {
@@ -71,9 +64,7 @@ abstract class AbstractRepository
         return $this->queryBuilder->first();
     }
 
-    /**
- * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-008 / ARCH-001 — method: update */
     public function update($id, array $data): bool
     {
         return $this->queryBuilder

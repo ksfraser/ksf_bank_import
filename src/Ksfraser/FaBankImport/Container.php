@@ -5,7 +5,6 @@ namespace Ksfraser\FaBankImport;
 use Ksfraser\FaBankImport\Factories\TransactionTypeFactory;
 use Ksfraser\FaBankImport\Services\TransactionViewService;
 use Ksfraser\FaBankImport\Services\TransactionService;
-use Ksfraser\FaBankImport\Database\TransactionQueryBuilder;
 use Ksfraser\FaBankImport\Repositories\TransactionRepository;
 use Ksfraser\FaBankImport\Views\HtmlTransactionView;
 use Ksfraser\FaBankImport\Services\SimpleCommandBus;
@@ -19,7 +18,8 @@ use Ksfraser\FaBankImport\Controllers\BankImportController;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: Container — 14 methods; BR-002 (14); FR-008 (14); FR-018 (14)
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Container.php; coverage: docs/TestCases/ (file rollup)
  */
 class Container
 {
@@ -27,17 +27,13 @@ class Container
     private $services = [];
     private $config;
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     private function __construct()
     {
         $this->config = Config::getInstance();
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getInstance */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -46,29 +42,21 @@ class Container
         return self::$instance;
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getTransactionRepository */
     public function getTransactionRepository(): TransactionRepository
     {
-        return $this->services[TransactionRepository::class]
-            ?? $this->services[TransactionRepository::class] = new TransactionRepository(
-                new TransactionQueryBuilder()
-            );
+        return $this->services[TransactionRepository::class] 
+            ?? $this->services[TransactionRepository::class] = new TransactionRepository();
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getTransactionTypeFactory */
     public function getTransactionTypeFactory(): TransactionTypeFactory
     {
         return $this->services[TransactionTypeFactory::class] 
             ?? $this->services[TransactionTypeFactory::class] = new TransactionTypeFactory();
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getTransactionService */
     public function getTransactionService(): TransactionService
     {
         return $this->services[TransactionService::class] 
@@ -78,9 +66,7 @@ class Container
             );
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getTransactionViewService */
     public function getTransactionViewService(array $transactionData): TransactionViewService
     {
         $factory = $this->getTransactionTypeFactory();
@@ -90,9 +76,7 @@ class Container
         return new TransactionViewService($transaction, $view);
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getCommandBus */
     public function getCommandBus(): SimpleCommandBus
     {
         if (!isset($this->services[SimpleCommandBus::class])) {
@@ -106,18 +90,14 @@ class Container
         return $this->services[SimpleCommandBus::class];
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getEventDispatcher */
     public function getEventDispatcher(): EventDispatcher
     {
         return $this->services[EventDispatcher::class] 
             ?? $this->services[EventDispatcher::class] = new EventDispatcher();
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getProcessTransactionCommandHandler */
     public function getProcessTransactionCommandHandler(): ProcessTransactionCommandHandler
     {
         return $this->services[ProcessTransactionCommandHandler::class] 
@@ -126,9 +106,7 @@ class Container
             );
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getPerformanceMonitor */
     public function getPerformanceMonitor(): PerformanceMonitor
     {
         return $this->getSingletonService(PerformanceMonitor::class, function() {
@@ -136,9 +114,7 @@ class Container
         });
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getMetricsAggregator */
     public function getMetricsAggregator(): MetricsAggregator
     {
         return $this->getSingletonService(MetricsAggregator::class, function() {
@@ -146,9 +122,7 @@ class Container
         });
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getAdminController */
     public function getAdminController(): AdminController
     {
         return $this->getSingletonService(AdminController::class, function() {
@@ -156,9 +130,7 @@ class Container
         });
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getBankImportController */
     public function getBankImportController(): BankImportController
     {
         return $this->getSingletonService(BankImportController::class, function() {
@@ -166,9 +138,7 @@ class Container
         });
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: getSingletonService */
     private function getSingletonService(string $class, callable $factory)
     {
         if (!isset($this->services[$class])) {

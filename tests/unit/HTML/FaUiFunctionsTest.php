@@ -1,4 +1,6 @@
 <?php
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Tests\Unit\HTML;
 
@@ -41,6 +43,8 @@ class FaUiFunctionsTest extends TestCase
 
     public function testTableStyle2Constant(): void
     {
-        $this->assertEquals(2, FaUiFunctions::TABLESTYLE2);
+        // FA's real TABLESTYLE2 is the string 'tablestyle2'
+        // (includes/ui/ui_lists.inc).
+        $this->assertEquals('tablestyle2', FaUiFunctions::TABLESTYLE2);
     }
 }

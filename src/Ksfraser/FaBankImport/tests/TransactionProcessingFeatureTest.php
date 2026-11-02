@@ -5,10 +5,12 @@ namespace Tests\Feature;
 use Tests\Integration\DatabaseTestCase;
 use Ksfraser\FaBankImport\Application;
 
+/** @BABOK CLASS ROLLUP: TransactionProcessingFeatureTest — 6 methods; NFR-016 (6); FR-018 (6) */
 class TransactionProcessingFeatureTest extends DatabaseTestCase
 {
     private $app;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         parent::setUp();
@@ -16,6 +18,7 @@ class TransactionProcessingFeatureTest extends DatabaseTestCase
         $this->app = new Application();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: seedTestData */
     protected function seedTestData(): void
     {
         $this->createTestTransaction([
@@ -27,6 +30,7 @@ class TransactionProcessingFeatureTest extends DatabaseTestCase
         ]);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testDisplaysTransactionList */
     public function testDisplaysTransactionList()
     {
         ob_start();
@@ -38,6 +42,7 @@ class TransactionProcessingFeatureTest extends DatabaseTestCase
         $this->assertStringContainsString('Process', $output);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testProcessTransactionSuccessfully */
     public function testProcessTransactionSuccessfully()
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -55,6 +60,7 @@ class TransactionProcessingFeatureTest extends DatabaseTestCase
         $this->assertEquals('processed', $transaction['status']);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testDisplaysValidationErrors */
     public function testDisplaysValidationErrors()
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -68,6 +74,7 @@ class TransactionProcessingFeatureTest extends DatabaseTestCase
         $this->assertStringContainsString('Invalid transaction type', $output);
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: tearDown */
     protected function tearDown(): void
     {
         parent::tearDown();

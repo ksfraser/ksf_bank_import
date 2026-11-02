@@ -1,0 +1,21 @@
+--- external/Elements/HtmlSuperscript.php
++++ repo/Elements/HtmlSuperscript.php
+@@ -3,13 +3,12 @@
+ namespace Ksfraser\HTML\Elements;
+ 
+ use Ksfraser\HTML\HtmlElementInterface;
+-use Ksfraser\HTML\Formatting\HtmlFormatting;
+ 
+ class HtmlSuperscript extends HtmlFormatting
+ {
+-	       function __construct( HtmlElementInterface $data )
+-	       {
+-		       parent::__construct( $data );
+-		       $this->tag = "sup";
+-	       }
++	function __construct( $data )
++	{
++		parent::__construct( $data );
++		$this->tag = "sup";
++	}
+ }

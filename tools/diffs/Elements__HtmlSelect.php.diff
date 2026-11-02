@@ -1,0 +1,154 @@
+--- external/Elements/HtmlSelect.php
++++ repo/Elements/HtmlSelect.php
+@@ -53,39 +53,39 @@
+  * @since      20251020
+  * @version    1.0.0
+  */
+-use Ksfraser\HTML\HtmlElement;
+-
+-class HtmlSelect extends HtmlElement
++class HtmlSelect implements HtmlElementInterface
+ {
+     /**
+-    * @var HtmlElementInterface The select element name (as a value object)
+-    */
+-    private $name;
++     * @var string The select element name
++     */
++    private string $name;
+ 
+     /**
+      * @var HtmlOption[] Array of option elements
+      */
+-    private $options;
+-
++    private array $options;
++
++    /**
++     * @var HtmlAttributeList List of HTML attributes
++     */
++    private HtmlAttributeList $attributes;
+ 
+     /**
+      * Constructor
+      *
+-    * @param HtmlElementInterface $name The select element name (value object)
+-     *
+-     * @since 20251020
+-     */
+-    public function __construct(HtmlElementInterface $name)
+-    {
+-        parent::__construct();
++     * @param string $name The select element name
++     *
++     * @since 20251020
++     */
++    public function __construct(string $name)
++    {
+         $this->name = $name;
+         $this->options = [];
+-        $this->setTag('select');
+-        $this->addAttribute('id', 'select');
+-    }
+-
+-    /**
+-     * Get the select name (as string)
++        $this->attributes = new HtmlAttributeList(new HtmlAttribute("", ""));
++    }
++
++    /**
++     * Get the select name
+      *
+      * @return string The select name
+      *
+@@ -93,7 +93,7 @@
+      */
+     public function getName(): string
+     {
+-        return $this->name->getHtml();
++        return $this->name;
+     }
+ 
+     /**
+@@ -165,7 +165,7 @@
+      */
+     public function setId(string $id): self
+     {
+-        $this->attributeList->addAttributeObject(new HtmlAttribute('id', $id));
++        $this->attributes->addAttribute(new HtmlAttribute('id', $id));
+         return $this;
+     }
+ 
+@@ -180,7 +180,7 @@
+      */
+     public function setClass(string $class): self
+     {
+-        $this->attributeList->addAttributeObject(new HtmlAttribute('class', $class));
++        $this->attributes->addAttribute(new HtmlAttribute('class', $class));
+         return $this;
+     }
+ 
+@@ -196,7 +196,7 @@
+     public function setMultiple(bool $multiple): self
+     {
+         if ($multiple) {
+-            $this->attributeList->addAttributeObject(new HtmlAttribute('multiple', 'multiple'));
++            $this->attributes->addAttribute(new HtmlAttribute('multiple', 'multiple'));
+         }
+         return $this;
+     }
+@@ -212,7 +212,7 @@
+      */
+     public function setSize(int $size): self
+     {
+-        $this->attributeList->addAttributeObject(new HtmlAttribute('size', (string)$size));
++        $this->attributes->addAttribute(new HtmlAttribute('size', (string)$size));
+         return $this;
+     }
+ 
+@@ -228,7 +228,7 @@
+     public function setDisabled(bool $disabled): self
+     {
+         if ($disabled) {
+-            $this->attributeList->addAttributeObject(new HtmlAttribute('disabled', 'disabled'));
++            $this->attributes->addAttribute(new HtmlAttribute('disabled', 'disabled'));
+         }
+         return $this;
+     }
+@@ -245,7 +245,7 @@
+     public function setRequired(bool $required): self
+     {
+         if ($required) {
+-            $this->attributeList->addAttributeObject(new HtmlAttribute('required', 'required'));
++            $this->attributes->addAttribute(new HtmlAttribute('required', 'required'));
+         }
+         return $this;
+     }
+@@ -260,7 +260,11 @@
+      *
+      * @since 20251020
+      */
+-    // setAttribute removed because of Trait
++    public function setAttribute(string $name, string $value): self
++    {
++        $this->attributes->addAttribute(new HtmlAttribute($name, $value));
++        return $this;
++    }
+ 
+     /**
+      * Generate the HTML for this select element
+@@ -271,12 +275,12 @@
+      */
+     public function getHtml(): string
+     {
+-        $escapedName = $this->name->getHtml();
++        $escapedName = htmlspecialchars($this->name, ENT_QUOTES, 'UTF-8');
+ 
+         $html = '<select name="' . $escapedName . '"';
+ 
+         // Add custom attributes
+-        $attributesHtml = $this->attributeList->getHtml();
++        $attributesHtml = $this->attributes->getHtml();
+         if ($attributesHtml !== '') {
+             $html .= ' ' . $attributesHtml;
+         }

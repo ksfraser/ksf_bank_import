@@ -1,0 +1,11 @@
+# Unique files present only in repo src/Ksfraser/HTML (candidates to copy into external library)
+# Generated: 2026-04-11
+
+# Result: after scanning canonical locations in the external library and the repo,
+# all previously-listed files were found in canonical form (either in
+# software-devel/html/src/Ksfraser/HTML or elsewhere in this repo). The repo-side
+# duplicate "(2)" files have been removed where they were identical. This list is
+# intentionally empty to indicate there are no remaining repo-only Ksfraser/HTML
+# files that need to be copied into the external library.
+
+# If you want to re-populate this list, run the discovery script again.

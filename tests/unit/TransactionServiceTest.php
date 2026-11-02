@@ -1,12 +1,8 @@
 <?php
-/**
- * Unit tests for TransactionService (refactor-psr contract).
- *
- * Aligned with TransactionRepositoryInterface: findByFilters + typed
- * update(array $ids, int $status, ...).
- */
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
-namespace Ksfraser\FaBankImport\Tests\Unit;
+namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use Ksfraser\FaBankImport\Services\TransactionService;
@@ -29,26 +25,39 @@ class TransactionServiceTest extends TestCase
     public function testGetPendingTransactionsCallsRepository()
     {
         $this->repository->expects($this->once())
-            ->method('findByFilters')
-            ->with(['status' => 'pending'])
-            ->willReturn([['id' => 1]]);
+            ->method('findByStatus')
+            ->with('pending')
+            ->willReturn([]);
 
         $result = $this->service->getPendingTransactions();
-        $this->assertCount(1, $result);
+        $this->assertIsArray($result);
     }
 
-    public function testProcessTransactionThrowsWhenNotFound()
+    public function testProcessTransactionThrowsExceptionWhenNotFound()
     {
-        $this->repository->method('findById')->willReturn(null);
+        $this->repository->method('findById')
+            ->willReturn(null);
+
         $this->expectException(\InvalidArgumentException::class);
-        $this->service->processTransaction(999, 'SP');
+        $this->service->processTransaction(1, 'C');
     }
 
-    public function testToggleTransactionTypeIsCommandOwned()
+    public function testToggleTransactionTypeSuccessfully()
     {
-        // Direction flips belong to ToggleDebitCreditCommand; the service
-        // must not perform partial repository updates for it.
-        $this->expectException(\LogicException::class);
-        $this->service->toggleTransactionType(1);
+        $transaction = [
+            'id' => 1,
+            'transactionDC' => 'C'
+        ];
+
+        $this->repository->method('findById')
+            ->willReturn($transaction);
+
+        $this->repository->expects($this->once())
+            ->method('update')
+            ->with(1, ['transactionDC' => 'D'])
+            ->willReturn(true);
+
+        $result = $this->service->toggleTransactionType(1);
+        $this->assertTrue($result);
     }
 }

@@ -5,6 +5,8 @@ namespace Ksfraser\FaBankImport\Strategy;
 use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
 
 /**
+ * @BABOK CLASS ROLLUP: WarnDuplicateStrategy — 2 methods; BR-002 (2); FR-005 (2)
+ * @BABOK RTM: BR-002 / FR-005; file: Strategy/WarnDuplicateStrategy.php; coverage: docs/TestCases/ (file rollup)
  * Warn Duplicate Strategy
  * 
  * Warns user about duplicate but allows override with "force" flag
@@ -19,6 +21,7 @@ use Ksfraser\FaBankImport\ValueObject\DuplicateResult;
 class WarnDuplicateStrategy implements DuplicateStrategyInterface
 {
     /**
+ * @BABOK BR-002 / FR-005 — method: handle
      * Handle duplicate - warn user, allow force override
      * 
      * @param DuplicateResult $duplicateResult
@@ -49,6 +52,7 @@ class WarnDuplicateStrategy implements DuplicateStrategyInterface
     }
     
     /**
+ * @BABOK BR-002 / FR-005 — method: getName
      * Get strategy name
      * 
      * @return string

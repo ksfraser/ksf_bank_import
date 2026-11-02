@@ -11,7 +11,8 @@ use Ksfraser\FaBankImport\Middleware\PerformanceMonitoringMiddleware;
 use Ksfraser\FaBankImport\Handlers\ErrorHandler;
 
 /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: Application — 4 methods; BR-002 (4); FR-008 (4); FR-018 (4)
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Application.php; coverage: docs/TestCases/ (file rollup)
  */
 class Application
 {
@@ -19,9 +20,7 @@ class Application
     private $pipeline;
     private $errorHandler;
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
     public function __construct()
     {
         $this->container = Container::getInstance();
@@ -32,9 +31,7 @@ class Application
         $this->setupErrorHandling();
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupMiddleware */
     private function setupMiddleware(): void
     {
         $this->pipeline
@@ -43,17 +40,13 @@ class Application
             ->pipe(new TransactionValidationMiddleware());
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupErrorHandling */
     private function setupErrorHandling(): void
     {
         set_exception_handler([$this->errorHandler, 'handleException']);
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: run */
     public function run(): void
     {
         try {

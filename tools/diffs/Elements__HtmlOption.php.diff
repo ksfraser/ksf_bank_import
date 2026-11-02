@@ -1,0 +1,93 @@
+--- external/Elements/HtmlOption.php
++++ repo/Elements/HtmlOption.php
+@@ -6,7 +6,7 @@
+ 
+ use Ksfraser\HTML\HtmlElementInterface;
+ use Ksfraser\HTML\HtmlAttribute;
+-use Ksfraser\HTML\HtmlElement;
++use Ksfraser\HTML\HtmlAttributeList;
+ 
+ /**
+  * HtmlOption
+@@ -47,46 +47,60 @@
+  * @since      20251020
+  * @version    1.0.0
+  */
+-class HtmlOption extends HtmlElement
++class HtmlOption implements HtmlElementInterface
+ {
+     /**
+      * @var string The option value
+      */
+-    private $value;
++    private string $value;
+ 
+     /**
+      * @var string The option label (visible text)
+      */
+-    private $label;
++    private string $label;
+ 
+     /**
+      * @var bool Whether this option is selected
+      */
+-    private $selected;
++    private bool $selected;
+ 
+     /**
+      * @var HtmlAttributeList List of HTML attributes
+      */
++    private HtmlAttributeList $attributes;
+ 
+     /**
+      * Constructor
+      *
+-     * @param HtmlElementInterface|string $value    The option value
+-     * @param HtmlElementInterface|string $label    The option label (visible text)
++     * @param string $value    The option value
++     * @param string $label    The option label (visible text)
+      * @param bool   $selected Whether this option is selected (default: false)
+      *
+      * @since 20251020
+      */
+-    public function __construct($value, $label, bool $selected = false)
++    public function __construct(string $value, string $label, bool $selected = false)
+     {
+-        parent::__construct();
+-        $this->value = $value instanceof HtmlElementInterface ? $value->getHtml() : (string)$value;
+-        $this->label = $label instanceof HtmlElementInterface ? $label->getHtml() : (string)$label;
++        $this->value = $value;
++        $this->label = $label;
+         $this->selected = $selected;
+-        $this->setTag('option');
++        $this->attributes = new HtmlAttributeList(new HtmlAttribute("", ""));
+     }
+ 
+-    // ...existing code...
++    /**
++     * Add an HTML attribute
++     *
++     * @param string $name  Attribute name
++     * @param string $value Attribute value
++     *
++     * @return self For fluent interface
++     *
++     * @since 20251020
++     */
++    public function setAttribute(string $name, string $value): self
++    {
++        $this->attributes->addAttribute(new HtmlAttribute($name, $value));
++        return $this;
++    }
+ 
+     /**
+      * Get the option value
+@@ -159,7 +173,7 @@
+         }
+ 
+         // Add custom attributes
+-        $attributesHtml = $this->attributeList->getHtml();
++        $attributesHtml = $this->attributes->getHtml();
+         if ($attributesHtml !== '') {
+             $html .= ' ' . $attributesHtml;
+         }

@@ -54,7 +54,11 @@ namespace Ksfraser\FaBankImport\Results;
  * ```
  * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
  */
-class TransactionResult
+/**
+ * @BABOK CLASS ROLLUP: TransactionResult — 21 methods; FR-008 (21); FR-017 (21)
+ * @BABOK RTM: FR-008 / FR-017; file: Results/TransactionResult.php; coverage: docs/TestCases/ (file rollup)
+ */
+class TransactionResult implements \ArrayAccess
 {
     /**
      * Success status
@@ -99,6 +103,7 @@ class TransactionResult
     private array $data;
 
     /**
+ * @BABOK FR-008 / FR-017 — method: __construct
      * Private constructor (use static factory methods)
      *
      * @param bool $success Success status
@@ -126,6 +131,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: success
      * Create a success result
      *
      * @param int $transNo Transaction number
@@ -152,6 +158,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: error
      * Create an error result
      *
      * @param string $message Error message
@@ -172,6 +179,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: warning
      * Create a warning result
      *
      * @param string $message Warning message
@@ -198,6 +206,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: isSuccess
      * Check if result is successful
      *
      * @return bool
@@ -209,6 +218,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: isError
      * Check if result is an error
      *
      * @return bool
@@ -220,6 +230,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: isWarning
      * Check if result is a warning
      *
      * @return bool
@@ -231,6 +242,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getTransNo
      * Get transaction number
      *
      * @return int
@@ -242,6 +254,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getTransType
      * Get transaction type
      *
      * @return int
@@ -253,6 +266,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getMessage
      * Get message
      *
      * @return string
@@ -264,6 +278,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getLevel
      * Get display level
      *
      * @return string
@@ -275,6 +290,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: getData
      * Get additional data
      *
      * @param string|null $key Specific key to retrieve, or null for all data
@@ -291,6 +307,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: toArray
      * Convert to array (backward compatibility)
      *
      * @return array<string, mixed>
@@ -311,6 +328,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: display
      * Display result using FrontAccounting's notification system
      *
      * Calls display_notification() with appropriate level:
@@ -345,6 +363,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: toHtml
      * Get HTML representation of result
      *
      * Returns HTML div with appropriate Bootstrap alert class.
@@ -397,6 +416,7 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: __toString
      * Convert to string (returns message)
      *
      * @return string
@@ -408,6 +428,64 @@ class TransactionResult
     }
 
     /**
+ * @BABOK FR-008 / FR-017 — method: offsetExists
+     * Check if an offset exists
+     *
+     * @param mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset): bool
+    {
+        return in_array($offset, ['success', 'trans_no', 'trans_type', 'message', 'level'], true)
+            || array_key_exists($offset, $this->data);
+    }
+
+    /**
+ * @BABOK FR-008 / FR-017 — method: offsetGet
+     * Get an offset value
+     *
+     * @param mixed $offset
+     * @return mixed
+     */
+    public function offsetGet($offset): mixed
+    {
+        return match ($offset) {
+            'success' => $this->success,
+            'trans_no' => $this->transNo,
+            'trans_type' => $this->transType,
+            'message' => $this->message,
+            'level' => $this->level,
+            default => $this->data[$offset] ?? null,
+        };
+    }
+
+    /**
+ * @BABOK FR-008 / FR-017 — method: offsetSet
+     * Set an offset value (immutable - not supported)
+     *
+     * @param mixed $offset
+     * @param mixed $value
+     * @return void
+     */
+    public function offsetSet($offset, $value): void
+    {
+        throw new \RuntimeException('TransactionResult is immutable');
+    }
+
+    /**
+ * @BABOK FR-008 / FR-017 — method: offsetUnset
+     * Unset an offset (immutable - not supported)
+     *
+     * @param mixed $offset
+     * @return void
+     */
+    public function offsetUnset($offset): void
+    {
+        throw new \RuntimeException('TransactionResult is immutable');
+    }
+
+    /**
+ * @BABOK FR-008 / FR-017 — method: fromArray
      * Create result from array (backward compatibility)
      *
      * Allows conversion from old array format to TransactionResult object.

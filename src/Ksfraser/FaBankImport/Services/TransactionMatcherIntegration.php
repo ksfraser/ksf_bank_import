@@ -1,0 +1,526 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
+namespace Ksfraser\FaBankImport\Services;
+
+use SplFileInfo;
+
+/**
+ * TransactionMatcherIntegration
+ *
+ * Provides helper methods for integrating the transaction partner matcher into bi_lineitem.
+ *
+ * Single Responsibility: Encapsulate matcher integration logic and partner data loading.
+ *
+ * This class handles:
+ * - Loading partner data (suppliers, customers, bank accounts) from FA database
+ * - Creating matcher instances with appropriate configuration
+ * - Executing matches for a given transaction
+ * - Formatting results for display
+ *
+ * @package    Ksfraser\FaBankImport\Services
+ * @author     Kevin Fraser / ChatGPT
+ * @since      2025-04-19
+ * @version    1.0.0
+ *
+ * @example
+ * ```php
+ * // In bi_lineitem
+ * $integration = new TransactionMatcherIntegration();
+ * $results = $integration->matchTransaction($this);
+ *
+ * if ($results['best_match'] !== null) {
+ *     $confidence = $results['best_match']->getScore();
+ *     $partnerType = $results['best_match']->getPartnerType();
+ *     // Pre-populate form with best match...
+ * }
+ * ```
+ */
+/**
+ * @BABOK CLASS ROLLUP: TransactionMatcherIntegration — 25 methods; BR-001 (25); BR-002 (25); FR-008 (25)
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionMatcherIntegration.php; coverage: docs/TestCases/ (file rollup)
+ */
+final class TransactionMatcherIntegration
+{
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchTransaction
+     * Match a transaction against all partner types (suppliers, customers, bank accounts)
+     *
+     * Loads all available partners from FA database and scores the transaction
+     * against each, returning ranked results grouped by partner type.
+     *
+     * @param object $transaction Transaction object with properties:
+     *                            - otherBankAccount: string Bank account number
+     *                            - memo: string Transaction memo/description
+     *                            - amount: numeric Transaction amount
+     *                            - valueTimestamp: int Unix timestamp or date
+     * @param string $matcherType Optional matcher type: 'supplier', 'customer', or 'unified'
+     *                            Default: 'unified'
+     *
+     * @return array Results structure:
+     *               [
+     *                   'supplier' => [TransactionMatchResult, ...],
+     *                   'customer' => [TransactionMatchResult, ...],
+     *                   'bank_transfer' => [TransactionMatchResult, ...],
+     *                   'best_match' => TransactionMatchResult|null
+     *               ]
+     *
+     * @since 2025-04-19
+     */
+    public function matchTransaction(
+        object $transaction,
+        string $matcherType = 'unified'
+    ): array {
+        // Convert transaction to array for matcher
+        $transactionArray = [
+            'otherBankAccount' => $transaction->otherBankAccount ?? '',
+            'memo' => $transaction->memo ?? '',
+            'amount' => $transaction->amount ?? 0
+        ];
+
+        // Load all partners from database as arrays (format expected by matcher)
+        $suppliers = $this->loadAllSuppliersAsArrays();
+        $customers = $this->loadAllCustomersAsArrays();
+        $bankAccounts = $this->loadAllBankAccountsAsArrays();
+
+        // Create matcher via factory
+        $matcher = $this->createMatcher($matcherType);
+
+        // Execute match
+        return $matcher->matchTransaction(
+            $transactionArray,
+            $suppliers,
+            $customers,
+            $bankAccounts
+        );
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createMatcher
+     * Create matcher instance based on type
+     *
+     * @param string $matcherType 'supplier', 'customer', or 'unified'
+     *
+     * @return TransactionPartnerMatcher Configured matcher instance
+     *
+     * @since 2025-04-19
+     */
+    private function createMatcher(string $matcherType): TransactionPartnerMatcher
+    {
+        return match ($matcherType) {
+            'supplier' => PartnerMatcherFactory::createSupplierMatcher(),
+            'customer' => PartnerMatcherFactory::createCustomerMatcher(),
+            'unified' => PartnerMatcherFactory::createUnifiedMatcher(),
+            default => PartnerMatcherFactory::createUnifiedMatcher(),
+        };
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllSuppliersAsArrays
+     * Load all active suppliers from FA database as arrays (format expected by matcher)
+     *
+     * @return array Array of supplier arrays with:
+     *              - partner_id
+     *              - name
+     *              - account
+     *
+     * @since 2025-04-19
+     */
+    private function loadAllSuppliersAsArrays(): array
+    {
+        global $conn;
+
+        $sql = "SELECT supplier_id, supp_name, supp_account_no
+                FROM " . TB_PREF . "suppliers
+                WHERE inactive = 0
+                ORDER BY supp_name";
+
+        $result = db_query($sql, "Failed to load suppliers");
+        $suppliers = [];
+
+        while ($row = db_fetch_assoc($result)) {
+            $suppliers[] = [
+                'partner_id' => $row['supplier_id'],
+                'name' => $row['supp_name'],
+                'account' => $row['supp_account_no'] ?? ''
+            ];
+        }
+
+        return $suppliers;
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllCustomersAsArrays
+     * Load all active customers from FA database as arrays (format expected by matcher)
+     *
+     * @return array Array of customer arrays with:
+     *              - partner_id
+     *              - name
+     *              - account
+     *
+     * @since 2025-04-19
+     */
+    private function loadAllCustomersAsArrays(): array
+    {
+        global $conn;
+
+        $sql = "SELECT debtor_no, name, address
+                FROM " . TB_PREF . "debtors_master
+                WHERE inactive = 0
+                ORDER BY name";
+
+        $result = db_query($sql, "Failed to load customers");
+        $customers = [];
+
+        while ($row = db_fetch_assoc($result)) {
+            $customers[] = [
+                'partner_id' => $row['debtor_no'],
+                'name' => $row['name'],
+                'account' => $row['address'] ?? ''
+            ];
+        }
+
+        return $customers;
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllBankAccountsAsArrays
+     * Load all bank accounts from FA database as arrays (format expected by matcher)
+     *
+     * @return array Array of bank account arrays with:
+     *              - partner_id
+     *              - name
+     *              - account
+     *
+     * @since 2025-04-19
+     */
+    private function loadAllBankAccountsAsArrays(): array
+    {
+        global $conn;
+
+        $sql = "SELECT id, bank_name, bank_account_number
+                FROM " . TB_PREF . "bank_accounts
+                WHERE inactive = 0
+                ORDER BY bank_name";
+
+        $result = db_query($sql, "Failed to load bank accounts");
+        $bankAccounts = [];
+
+        while ($row = db_fetch_assoc($result)) {
+            $bankAccounts[] = [
+                'partner_id' => $row['id'],
+                'name' => $row['bank_name'],
+                'account' => $row['bank_account_number']
+            ];
+        }
+
+        return $bankAccounts;
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllSuppliers
+     * Load all active suppliers from FA database
+     *
+     * @return array Array of supplier objects with:
+     *              - supplier_id
+     *              - supp_name
+     *              - supp_account_no
+     *
+     * @since 2025-04-19
+     */
+    private function loadAllSuppliers(): array
+    {
+        global $conn;
+
+        $sql = "SELECT supplier_id, supp_name, supp_account_no
+                FROM " . TB_PREF . "suppliers
+                WHERE inactive = 0
+                ORDER BY supp_name";
+
+        $result = db_query($sql, "Failed to load suppliers");
+        $suppliers = [];
+
+        while ($row = db_fetch_assoc($result)) {
+            $suppliers[] = $this->createSupplierCandidate($row);
+        }
+
+        return $suppliers;
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllCustomers
+     * Load all active customers from FA database
+     *
+     * @return array Array of customer objects with:
+     *              - debtor_no
+     *              - name
+     *              - address
+     *
+     * @since 2025-04-19
+     */
+    private function loadAllCustomers(): array
+    {
+        global $conn;
+
+        $sql = "SELECT debtor_no, name, address
+                FROM " . TB_PREF . "debtors_master
+                WHERE inactive = 0
+                ORDER BY name";
+
+        $result = db_query($sql, "Failed to load customers");
+        $customers = [];
+
+        while ($row = db_fetch_assoc($result)) {
+            $customers[] = $this->createCustomerCandidate($row);
+        }
+
+        return $customers;
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadAllBankAccounts
+     * Load all bank accounts from FA database
+     *
+     * @return array Array of bank account objects with:
+     *              - id
+     *              - bank_account_number
+     *              - bank_name
+     *
+     * @since 2025-04-19
+     */
+    private function loadAllBankAccounts(): array
+    {
+        global $conn;
+
+        $sql = "SELECT id, bank_account_number, bank_name
+                FROM " . TB_PREF . "bank_accounts
+                WHERE inactive = 0
+                ORDER BY bank_name";
+
+        $result = db_query($sql, "Failed to load bank accounts");
+        $bankAccounts = [];
+
+        while ($row = db_fetch_assoc($result)) {
+            $bankAccounts[] = $this->createBankAccountCandidate($row);
+        }
+
+        return $bankAccounts;
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createSupplierCandidate
+     * Create a supplier candidate from database row
+     *
+     * @param array $row Database row with supplier data
+     *
+     * @return VendorCandidate Supplier candidate for matching
+     *
+     * @since 2025-04-19
+     */
+    private function createSupplierCandidate(array $row): VendorCandidate
+    {
+        return new VendorCandidate(
+            partnerId: (int)$row['supplier_id'],
+            partnerName: (string)$row['supp_name'],
+            partnerType: 'SP',
+            partnerAccount: (string)($row['supp_account_no'] ?? '')
+        );
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createCustomerCandidate
+     * Create a customer candidate from database row
+     *
+     * Implementation uses duck typing - accepts any object with required methods.
+     * For now, returns anonymous object; can be upgraded to proper class later.
+     *
+     * @param array $row Database row with customer data
+     *
+     * @return object Customer candidate with:
+     *              - getPartnerId(): int
+     *              - getPartnerName(): string
+     *              - getPartnerType(): string
+     *              - getPartnerAccount(): string
+     *
+     * @since 2025-04-19
+     */
+    private function createCustomerCandidate(array $row): object
+    {
+        return new class($row) {
+            private array $data;
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
+            public function __construct(array $data) {
+                $this->data = $data;
+            }
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId */
+            public function getPartnerId(): int {
+                return (int)$this->data['debtor_no'];
+            }
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerName */
+            public function getPartnerName(): string {
+                return (string)$this->data['name'];
+            }
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerType */
+            public function getPartnerType(): string {
+                return 'CU';
+            }
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerAccount */
+            public function getPartnerAccount(): string {
+                return (string)($this->data['address'] ?? '');
+            }
+        };
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createBankAccountCandidate
+     * Create a bank account candidate from database row
+     *
+     * @param array $row Database row with bank account data
+     *
+     * @return object Bank account candidate
+     *
+     * @since 2025-04-19
+     */
+    private function createBankAccountCandidate(array $row): object
+    {
+        return new class($row) {
+            private array $data;
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
+            public function __construct(array $data) {
+                $this->data = $data;
+            }
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId */
+            public function getPartnerId(): int {
+                return (int)$this->data['id'];
+            }
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerName */
+            public function getPartnerName(): string {
+                return (string)$this->data['bank_name'];
+            }
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerType */
+            public function getPartnerType(): string {
+                return 'BT';
+            }
+
+            /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerAccount */
+            public function getPartnerAccount(): string {
+                return (string)$this->data['bank_account_number'];
+            }
+        };
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: formatResultsForDisplay
+     * Format match results for display in HTML
+     *
+     * @param array $results Results from matchTransaction()
+     *
+     * @return array Formatted results with HTML-safe strings
+     *
+     * @since 2025-04-19
+     */
+    public function formatResultsForDisplay(array $results): array
+    {
+        return [
+            'best_match' => $results['best_match'] ? [
+                'partner_id' => $results['best_match']->getPartnerId(),
+                'partner_name' => htmlspecialchars($results['best_match']->getPartnerName()),
+                'partner_type' => $results['best_match']->getPartnerType(),
+                'score' => (int)$results['best_match']->getScore(),
+                'confidence_percent' => (int)$results['best_match']->getScore() . '%',
+                'meets_threshold' => $results['best_match']->meetsThreshold()
+            ] : null,
+            'supplier_matches' => $this->formatMatchesByType($results['supplier'] ?? []),
+            'customer_matches' => $this->formatMatchesByType($results['customer'] ?? []),
+            'bank_matches' => $this->formatMatchesByType($results['bank_transfer'] ?? []),
+        ];
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: formatMatchesByType
+     * Format individual matches for display
+     *
+     * @param array $matches Array of TransactionMatchResult objects
+     *
+     * @return array Formatted match data
+     *
+     * @since 2025-04-19
+     */
+    private function formatMatchesByType(array $matches): array
+    {
+        return array_map(
+            function (TransactionMatchResult $match) {
+                return [
+                    'partner_id' => $match->getPartnerId(),
+                    'partner_name' => htmlspecialchars($match->getPartnerName()),
+                    'score' => (int)$match->getScore(),
+                    'confidence_percent' => (int)$match->getScore() . '%',
+                    'meets_threshold' => $match->meetsThreshold()
+                ];
+            },
+            $matches
+        );
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getBestMatchDisplayString
+     * Get display string for best match recommendation
+     *
+     * @param TransactionMatchResult|null $bestMatch The best match result
+     *
+     * @return string Display string or empty if no match
+     *
+     * @since 2025-04-19
+     */
+    public function getBestMatchDisplayString(?TransactionMatchResult $bestMatch): string
+    {
+        if (!$bestMatch) {
+            return '';
+        }
+
+        $name = $bestMatch->getPartnerName();
+        $score = (int)$bestMatch->getScore();
+        $type = $bestMatch->getPartnerType();
+
+        return sprintf(
+            "Suggested: %s (%d%% confidence - %s)",
+            htmlspecialchars($name),
+            $score,
+            $this->getPartnerTypeLabel($type)
+        );
+    }
+
+    /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerTypeLabel
+     * Get user-friendly label for partner type code
+     *
+     * @param string $typeCode 'SP', 'CU', 'BT'
+     *
+     * @return string Localized partner type label
+     *
+     * @since 2025-04-19
+     */
+    private function getPartnerTypeLabel(string $typeCode): string
+    {
+        return match ($typeCode) {
+            'SP' => _("Supplier"),
+            'CU' => _("Customer"),
+            'BT' => _("Bank Transfer"),
+            default => $typeCode,
+        };
+    }
+}

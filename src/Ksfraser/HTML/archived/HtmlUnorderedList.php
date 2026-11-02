@@ -1,0 +1,21 @@
+<?php
+
+namespace Ksfraser\HTML\HTMLAtomic;
+
+use Ksfraser\HTML\HtmlElementInterface;
+
+/**
+ * @BABOK FR-VAL-004, FR-IMP-001 | BR-VAL-004 | UAT-VAL-006
+ */
+class HtmlUnorderedList extends HtmlElement
+{
+	//can have styles
+	/**
+ * @BABOK FR-VAL-004, FR-IMP-001 | BR-VAL-004 | UAT-VAL-006
+	 */
+	function __construct( HtmlElementInterface $data )
+	{
+		parent::__construct( $data );
+		$this->tag = "ul";
+	}
+}

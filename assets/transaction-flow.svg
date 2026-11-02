@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333" />
+    </marker>
+    <style>
+      .box { fill:#f7f9fc; stroke:#333; stroke-width:1; rx:6; ry:6; }
+      .title { font: bold 12px sans-serif; fill:#111; }
+      .label { font: 11px sans-serif; fill:#222; }
+      .sub { font: 10px sans-serif; fill:#444; }
+      .arrow { stroke:#333; stroke-width:1.25; fill:none; marker-end:url(#arrow); }
+    </style>
+  </defs>
+
+  <!-- Nodes -->
+  <rect x="40" y="30" width="180" height="50" class="box" />
+  <text x="130" y="57" class="title" text-anchor="middle">Transactions List (client)</text>
+
+  <rect x="280" y="30" width="200" height="50" class="box" />
+  <text x="380" y="53" class="title" text-anchor="middle">process_statements.php</text>
+  <text x="380" y="68" class="sub" text-anchor="middle">checks $_POST['ProcessTransaction']</text>
+
+  <rect x="520" y="30" width="220" height="50" class="box" />
+  <text x="630" y="53" class="title" text-anchor="middle">class.bank_import_controller.php</text>
+  <text x="630" y="68" class="sub" text-anchor="middle">processTransactions()</text>
+
+  <rect x="280" y="140" width="300" height="60" class="box" />
+  <text x="430" y="165" class="title" text-anchor="middle">ViewBiLineItems</text>
+  <text x="430" y="180" class="sub" text-anchor="middle">getDisplayMatchingTrans() / displayMatchingTransArr()</text>
+
+  <rect x="620" y="140" width="220" height="60" class="box" />
+  <text x="730" y="165" class="title" text-anchor="middle">CustomerPartnerType</text>
+  <text x="730" y="180" class="sub" text-anchor="middle">show_allocatable() — invoice table</text>
+
+  <rect x="420" y="260" width="220" height="50" class="box" />
+  <text x="530" y="287" class="title" text-anchor="middle">div id="doc_tbl"</text>
+  <text x="530" y="302" class="sub" text-anchor="middle">Ajax fragment returned to client</text>
+
+  <!-- Arrows -->
+  <path class="arrow" d="M220,55 L280,55" />
+  <path class="arrow" d="M480,55 L520,55" />
+  <path class="arrow" d="M630,80 L430,140" />
+  <path class="arrow" d="M580,170 L620,170" />
+  <path class="arrow" d="M580,200 L530,260" />
+  <path class="arrow" d="M530,310 L140,310 L140,80 L80,80" />
+
+  <!-- Scenario labels -->
+  <g>
+    <text x="40" y="360" class="label">Scenario: Transaction 1 — Deposit (Customer selected)</text>
+    <text x="40" y="380" class="label">Flow: Client → process_statements.php → controller → view → CustomerPartnerType → doc_tbl → Client</text>
+  </g>
+</svg>

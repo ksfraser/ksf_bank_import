@@ -31,15 +31,16 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\QuickEntryPartnerType;
 
 /**
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: QuickEntryTransactionHandler — 3 methods; FR-049 (3)
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/QuickEntryTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class QuickEntryTransactionHandler extends AbstractTransactionHandler
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * Get the partner type instance for Quick Entry transactions
      * 
      * @return PartnerTypeInterface Returns QuickEntryPartnerType value object
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
@@ -47,6 +48,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * Process a Quick Entry transaction
      * 
      * @param array $transaction Complete transaction record from bi_transactions
@@ -56,7 +58,6 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
      * @param array $ourAccount Bank account information
      * 
      * @return TransactionResult Success result with links, or error result
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     public function process(
         array $transaction,
@@ -109,6 +110,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processQuickEntry
      * Process a Quick Entry transaction
      * 
      * Creates an items_cart, loads the Quick Entry template, adds transaction
@@ -124,7 +126,6 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
      * @param int $transType ST_BANKPAYMENT or ST_BANKDEPOSIT
      * 
      * @return TransactionResult Success with links or error
- * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      */
     private function processQuickEntry(
         array $transaction,
@@ -290,7 +291,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
             $message,
             [
                 'view_gl_link' => "../../gl/view/gl_trans_view.php?type_id={$transType}&trans_no={$trans[1]}",
-                'attach_link' => (isset($_SERVER['HTTP_HOST']) ? "http://{$_SERVER['HTTP_HOST']}" : '') . "/accounting/admin/attachments.php?filterType={$transType}&trans_no={$trans[1]}"
+                'attach_link' => "http://fhsws002.ksfraser.com/infra/accounting/admin/attachments.php?filterType={$transType}&trans_no={$trans[1]}"
             ]
         );
     }

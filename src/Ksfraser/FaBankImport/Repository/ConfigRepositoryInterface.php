@@ -3,6 +3,8 @@
 namespace Ksfraser\FaBankImport\Repository;
 
 /**
+ * @BABOK CLASS ROLLUP: ConfigRepositoryInterface — 7 methods; FR-008 (7)
+ * @BABOK RTM: FR-008 / ARCH-001; file: Repository/ConfigRepositoryInterface.php; coverage: docs/TestCases/ (file rollup)
  * Configuration Repository Interface
  * 
  * Defines contract for configuration storage/retrieval
@@ -15,6 +17,7 @@ namespace Ksfraser\FaBankImport\Repository;
 interface ConfigRepositoryInterface
 {
     /**
+ * @BABOK FR-008 / ARCH-001 — method: get
      * Get configuration value by key
      * 
      * @param string $key Configuration key (e.g., 'upload.check_duplicates')
@@ -25,6 +28,7 @@ interface ConfigRepositoryInterface
     public function get(string $key, $default = null);
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: set
      * Set configuration value
      * 
      * @param string $key Configuration key
@@ -37,6 +41,7 @@ interface ConfigRepositoryInterface
     public function set(string $key, $value, ?string $username = null, ?string $reason = null): bool;
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getByCategory
      * Get all configuration values for a category
      * 
      * @param string $category Category name (e.g., 'upload', 'security')
@@ -46,6 +51,7 @@ interface ConfigRepositoryInterface
     public function getByCategory(string $category): array;
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getAll
      * Get all configuration values
      * 
      * @return array All configuration values
@@ -54,6 +60,7 @@ interface ConfigRepositoryInterface
     public function getAll(): array;
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: has
      * Check if configuration key exists
      * 
      * @param string $key Configuration key
@@ -63,6 +70,7 @@ interface ConfigRepositoryInterface
     public function has(string $key): bool;
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: delete
      * Delete configuration value
      * 
      * @param string $key Configuration key
@@ -72,6 +80,7 @@ interface ConfigRepositoryInterface
     public function delete(string $key): bool;
     
     /**
+ * @BABOK FR-008 / ARCH-001 — method: getHistory
      * Get configuration change history
      * 
      * @param string|null $key Specific key (null for all)

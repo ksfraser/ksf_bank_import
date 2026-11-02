@@ -5,6 +5,8 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: KeywordMatch — 19 methods; BR-002 (19); FR-008 (19); FR-018 (19)
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/KeywordMatch.php; coverage: docs/TestCases/ (file rollup)
  * Value Object representing a keyword match result
  *
  * Contains all information about a partner matched via keyword search,
@@ -58,6 +60,7 @@ class KeywordMatch
     private MatchConfidence $confidence;
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
      * Create a new KeywordMatch value object
      *
      * @param int             $partnerId       Partner ID
@@ -98,6 +101,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerId
      * Get partner ID
      *
      * @return int
@@ -109,6 +113,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerType
      * Get partner type
      *
      * @return int
@@ -120,6 +125,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerDetailId
      * Get partner detail ID
      *
      * @return int
@@ -131,6 +137,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerName
      * Get partner name
      *
      * @return string
@@ -142,6 +149,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getMatchedKeywords
      * Get matched keywords
      *
      * @return array<Keyword>
@@ -153,6 +161,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getMatchedKeywordCount
      * Get number of matched keywords
      *
      * @return int
@@ -164,6 +173,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getRawScore
      * Get raw score (before clustering bonus)
      *
      * @return int
@@ -175,6 +185,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getFinalScore
      * Get final score (with clustering bonus)
      *
      * @return float
@@ -186,6 +197,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getConfidence
      * Get confidence object
      *
      * @return MatchConfidence
@@ -197,6 +209,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getConfidencePercentage
      * Get confidence percentage
      *
      * @return float
@@ -208,6 +221,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: meetsConfidenceThreshold
      * Check if confidence meets threshold
      *
      * @param float $threshold Minimum confidence percentage
@@ -221,6 +235,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getClusteringBonus
      * Get clustering bonus that was applied
      *
      * @return float
@@ -235,6 +250,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: toArray
      * Convert to array representation
      *
      * @return array<string, mixed>
@@ -262,6 +278,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __toString
      * String representation
      *
      * @return string
@@ -280,6 +297,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validatePartnerId
      * Validate partner ID
      *
      * @param int $partnerId
@@ -297,6 +315,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validatePartnerName
      * Validate partner name
      *
      * @param string $name
@@ -312,6 +331,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validateMatchedKeywords
      * Validate matched keywords array
      *
      * @param array<Keyword> $keywords
@@ -335,6 +355,7 @@ class KeywordMatch
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validateScores
      * Validate scores
      *
      * @param int   $rawScore

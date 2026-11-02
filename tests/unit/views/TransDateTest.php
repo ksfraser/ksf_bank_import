@@ -1,11 +1,13 @@
 <?php
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 namespace Tests\Unit\Views;
 
 use PHPUnit\Framework\TestCase;
 
 // Load the class from views directory (global namespace)
-require_once __DIR__ . '/../../../views/TransDate.php';
+require_once __DIR__ . '/../../../Views/TransDate.php';
 
 /**
  * Test TransDate view component
@@ -20,9 +22,9 @@ class TransDateTest extends TestCase
      */
     private function createMockLineitem(): object
     {
-        $mock = new \stdClass();
-        $mock->valueTimestamp = '2025-10-19';
-        $mock->entryTimestamp = '2025-10-19 14:30:00';
+        $mock = $this->createMock(\bi_lineitem::class);
+        $mock->method('getValueTimestamp')->willReturn('2025-10-19');
+        $mock->method('getEntryTimestamp')->willReturn('2025-10-19 14:30:00');
         
         return $mock;
     }

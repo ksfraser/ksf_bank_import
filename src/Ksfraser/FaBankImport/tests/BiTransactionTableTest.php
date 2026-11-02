@@ -1,8 +1,10 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
+/** @BABOK CLASS ROLLUP: TransactionTableTest — 1 methods; NFR-016 (1); FR-018 (1) */
 class TransactionTableTest extends TestCase
 {
+    /** @BABOK NFR-016 / FR-018 — method: testConstruct */
     public function testConstruct()
     {
         // Create a mock for the db_fetch function

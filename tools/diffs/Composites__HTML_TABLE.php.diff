@@ -1,0 +1,45 @@
+--- external/Composites/HTML_TABLE.php
++++ repo/Composites/HTML_TABLE.php
+@@ -93,22 +93,36 @@
+     /**
+      * Output the table HTML directly to screen
+      * 
+-     * Generates standard HTML table tags without relying on global functions.
++     * This method maintains legacy behavior by echoing output directly.
++     * Uses FrontAccounting's start_table() and end_table() if available,
++     * otherwise generates standard HTML table tags.
++     * 
++     * NOTE: In the original class.bi_lineitem.php, line 127 had a bug:
++     *       it used `foreach( $rows as $row )` instead of `foreach( $this->rows as $row )`
++     *       This has been fixed here.
+      * 
+      * @return void
+      */
+     public function toHtml(): void
+     {
+-        // Generate table HTML directly
+-        echo "<table class='tablestyle" . $this->style . "' width='" . $this->width . "%'>\n";
++        // Start table using FA function or plain HTML
++        if (function_exists('start_table')) {
++            start_table($this->style, "width='" . $this->width . "%'");
++        } else {
++            echo "<table class='tablestyle" . $this->style . "' width='" . $this->width . "%'>\n";
++        }
+         
+-        // Output each row
++        // Output each row (FIXED: was $rows, now $this->rows)
+         foreach ($this->rows as $row) {
+             $row->toHtml();
+         }
+         
+-        // End table
+-        echo "</table>\n";
++        // End table using FA function or plain HTML
++        if (function_exists('end_table')) {
++            end_table();
++        } else {
++            echo "</table>\n";
++        }
+     }
+     
+     /**

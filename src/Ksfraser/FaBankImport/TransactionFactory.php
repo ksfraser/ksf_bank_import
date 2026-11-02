@@ -3,14 +3,13 @@
 namespace Ksfraser\FaBankImport;
 
 /**
- * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: TransactionFactory — 1 methods; BR-002 (1); FR-008 (1); FR-018 (1)
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: TransactionFactory.php; coverage: docs/TestCases/ (file rollup)
  */
 interface TransactionFactory
 {	
 	//throws InvalidTransactionType
 	//function makeTransaction( $recordType ) : Transaction;
-	/**
- * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-	 */
+	/** @BABOK BR-002 / FR-008 / FR-018 — method: makeTransaction */
 	function makeTransaction( array $transaction );
 }

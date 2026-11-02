@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\Keyword;
@@ -7,6 +11,8 @@ use Ksfraser\FaBankImport\Domain\Exceptions\InvalidKeywordException;
 use Ksfraser\FaBankImport\Config\ConfigService;
 
 /**
+ * @BABOK CLASS ROLLUP: KeywordExtractorService — 9 methods; BR-001 (9); BR-002 (9); FR-008 (9)
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/KeywordExtractorService.php; coverage: docs/TestCases/ (file rollup)
  * Service for extracting and validating keywords from text
  *
  * Handles tokenization, normalization, stopword filtering, and validation
@@ -46,6 +52,7 @@ class KeywordExtractorService
     ];
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param array<string>|null $stopwords Custom stopwords list (optional)
@@ -75,6 +82,7 @@ class KeywordExtractorService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: extract
      * Extract keywords from text
      *
      * Tokenizes text, normalizes keywords, filters stopwords, and validates.
@@ -128,6 +136,7 @@ class KeywordExtractorService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: extractAsStrings
      * Extract keywords as strings
      *
      * Convenience method that returns string array instead of Keyword objects.
@@ -144,6 +153,7 @@ class KeywordExtractorService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: isValid
      * Validate a keyword
      *
      * Checks if a keyword meets all validation criteria.
@@ -174,6 +184,7 @@ class KeywordExtractorService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: addStopword
      * Add stopword to the list
      *
      * @param string $stopword Stopword to add
@@ -190,6 +201,7 @@ class KeywordExtractorService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStopwords
      * Get current stopwords list
      *
      * @return array<string>
@@ -201,6 +213,7 @@ class KeywordExtractorService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMinKeywordLength
      * Get minimum keyword length
      *
      * @return int
@@ -212,6 +225,7 @@ class KeywordExtractorService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setMinKeywordLength
      * Set minimum keyword length
      *
      * @param int $length Minimum length (must be positive)
@@ -229,6 +243,7 @@ class KeywordExtractorService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: tokenize
      * Tokenize text into words
      *
      * Splits text on whitespace and special characters, preserving hyphens.

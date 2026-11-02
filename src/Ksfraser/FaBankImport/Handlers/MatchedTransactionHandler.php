@@ -41,15 +41,16 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\MatchedPartnerType;
 
 /**
- * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+ * @BABOK CLASS ROLLUP: MatchedTransactionHandler — 3 methods; FR-049 (3)
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/MatchedTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class MatchedTransactionHandler extends AbstractTransactionHandler
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * Get the partner type instance for Matched transactions
      * 
      * @return PartnerTypeInterface Returns MatchedPartnerType value object
- * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
      */
     protected function getPartnerTypeInstance(): PartnerTypeInterface
     {
@@ -57,6 +58,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * Process a Matched transaction
      * 
      * Links a bank transaction to an automatically matched FrontAccounting entry.
@@ -69,7 +71,6 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
      * @param array $ourAccount Bank account information
      * 
      * @return TransactionResult Success result with links, or error result
- * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
      */
     public function process(
         array $transaction,
@@ -131,6 +132,7 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processMatchedTransaction
      * Process matched transaction by confirming link to existing FA entry
      * 
      * @param array $transaction Complete transaction data
@@ -142,7 +144,6 @@ class MatchedTransactionHandler extends AbstractTransactionHandler
      * @param array $transactionPostData POST data containing memo/title
      * 
      * @return TransactionResult Success with links or error
- * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
      */
     private function processMatchedTransaction(
         array $transaction,

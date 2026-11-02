@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Domain\ValueObjects\PartnerData;
@@ -8,6 +12,8 @@ use Ksfraser\FaBankImport\Repository\PartnerDataRepositoryInterface;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerDataService — 13 methods; BR-001 (13); BR-002 (13); FR-008 (13)
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerDataService.php; coverage: docs/TestCases/ (file rollup)
  * Service for partner data CRUD operations
  *
  * Provides business logic layer for managing partner keyword data,
@@ -31,6 +37,7 @@ class PartnerDataService
     private KeywordExtractorService $extractor;
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
      * Constructor
      *
      * @param PartnerDataRepositoryInterface $repository Partner data repository
@@ -46,6 +53,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: save
      * Save partner data entry
      *
      * Creates or updates a partner data entry. If the entry already exists,
@@ -63,6 +71,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: saveKeyword
      * Save a keyword for a partner
      *
      * Convenience method that creates a PartnerData value object and saves it.
@@ -101,6 +110,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: saveKeywordsFromText
      * Extract and save keywords from text for a partner
      *
      * Extracts all valid keywords from text and saves them for the partner.
@@ -138,6 +148,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: incrementKeywordOccurrence
      * Increment occurrence count for a keyword
      *
      * Atomically increments the occurrence count. If the keyword doesn't exist,
@@ -169,6 +180,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: find
      * Find partner data by unique key
      *
      * @param int    $partnerId       Partner ID
@@ -189,6 +201,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerKeywords
      * Get all keywords for a partner
      *
      * @param int      $partnerId   Partner ID
@@ -203,6 +216,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: delete
      * Delete partner data entry
      *
      * @param int    $partnerId       Partner ID
@@ -223,6 +237,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: deletePartnerKeywords
      * Delete all keywords for a partner
      *
      * @param int      $partnerId   Partner ID
@@ -237,6 +252,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: exists
      * Check if a keyword exists for a partner
      *
      * @param int    $partnerId       Partner ID
@@ -257,6 +273,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: count
      * Get total count of partner data entries
      *
      * @param int|null $partnerType Optional partner type filter
@@ -270,6 +287,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTopKeywords
      * Get top keywords across all partners
      *
      * Returns the most frequently occurring keywords.
@@ -286,6 +304,7 @@ class PartnerDataService
     }
 
     /**
+ * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: rebuildPartnerKeywords
      * Rebuild keywords for a partner from current transaction data
      *
      * This method would be used to reprocess existing transactions and rebuild

@@ -5,6 +5,8 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
+ * @BABOK CLASS ROLLUP: PartnerData — 17 methods; BR-002 (17); FR-008 (17); FR-018 (17)
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/PartnerData.php; coverage: docs/TestCases/ (file rollup)
  * Value Object representing partner data entry
  *
  * Immutable object that encapsulates partner identification and their associated
@@ -43,6 +45,7 @@ class PartnerData
     private int $occurrenceCount;
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
      * Create a new PartnerData value object
      *
      * @param int    $partnerId       Partner ID (must be positive)
@@ -75,6 +78,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerId
      * Get partner ID
      *
      * @return int
@@ -86,6 +90,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerType
      * Get partner type
      *
      * @return int
@@ -97,6 +102,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerDetailId
      * Get partner detail ID
      *
      * @return int
@@ -108,6 +114,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getData
      * Get keyword/pattern data
      *
      * @return string
@@ -119,6 +126,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getOccurrenceCount
      * Get occurrence count
      *
      * @return int
@@ -130,6 +138,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: withIncrementedCount
      * Create a new instance with incremented occurrence count
      *
      * Since this is an immutable value object, this returns a new instance
@@ -157,6 +166,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: equals
      * Check if this partner data equals another
      *
      * @param PartnerData $other
@@ -173,6 +183,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: getUniqueKey
      * Get unique key for this partner data entry
      *
      * Used for checking uniqueness constraint
@@ -192,6 +203,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: toArray
      * Convert to array representation
      *
      * Useful for database storage or serialization
@@ -211,6 +223,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: fromArray
      * Create from array
      *
      * @param array<string, mixed> $data
@@ -238,6 +251,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: __toString
      * String representation
      *
      * @return string
@@ -256,6 +270,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validatePartnerId
      * Validate partner ID
      *
      * @param int $partnerId
@@ -273,6 +288,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validatePartnerType
      * Validate partner type
      *
      * @param int $partnerType
@@ -288,6 +304,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validatePartnerDetailId
      * Validate partner detail ID
      *
      * @param int $partnerDetailId
@@ -305,6 +322,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validateData
      * Validate data string
      *
      * @param string $data
@@ -327,6 +345,7 @@ class PartnerData
     }
 
     /**
+ * @BABOK BR-002 / FR-008 / FR-018 — method: validateOccurrenceCount
      * Validate occurrence count
      *
      * @param int $occurrenceCount

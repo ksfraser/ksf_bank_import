@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ksfraser\FaBankImport\Commands;
 
 use Ksfraser\FaBankImport\Contracts\CommandInterface;
@@ -9,6 +11,8 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
+ * @BABOK CLASS ROLLUP: CommandDispatcher — 6 methods; FR-014 (6)
+ * @BABOK RTM: FR-014 / ARCH-004; file: Commands/CommandDispatcher.php; coverage: docs/TestCases/ (file rollup)
  * Command Dispatcher
  *
  * Front Controller implementation that routes POST actions to appropriate Command classes.
@@ -27,28 +31,30 @@ use RuntimeException;
 class CommandDispatcher implements CommandDispatcherInterface
 {
     /**
-     * @var array<string, string> Map of action names to command classes
+     * @var array Map of action names to command classes
      */
-    private array $commands = [];
+    private $commands = [];
 
     /**
      * @var object DI container for instantiating commands
      */
-    private object $container;
+    private $container;
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: __construct
      * Constructor
      *
      * @param object $container DI container that implements make() method
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
-    public function __construct(object $container)
+    public function __construct($container)
     {
         $this->container = $container;
         $this->registerDefaultCommands();
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: registerDefaultCommands
      * Register default commands
      *
      * Auto-registers the core POST actions used in the application.
@@ -58,13 +64,14 @@ class CommandDispatcher implements CommandDispatcherInterface
      */
     private function registerDefaultCommands(): void
     {
-        $this->register('UnsetTrans', UnsetTransactionCommand::class);
-        $this->register('AddCustomer', AddCustomerCommand::class);
-        $this->register('AddVendor', AddVendorCommand::class);
-        $this->register('ToggleTransaction', ToggleDebitCreditCommand::class);
+        $this->register("UnsetTrans", UnsetTransactionCommand::class);
+        $this->register("AddCustomer", AddCustomerCommand::class);
+        $this->register("AddVendor", AddVendorCommand::class);
+        $this->register("ToggleTransaction", ToggleDebitCreditCommand::class);
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: register
      * {@inheritDoc}
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
@@ -74,7 +81,7 @@ class CommandDispatcher implements CommandDispatcherInterface
         if (!is_subclass_of($commandClass, CommandInterface::class)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Command class "%s" must implement %s',
+                    "Command class \"%s\" must implement %s",
                     $commandClass,
                     CommandInterface::class
                 )
@@ -85,6 +92,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: dispatch
      * {@inheritDoc}
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
@@ -93,17 +101,21 @@ class CommandDispatcher implements CommandDispatcherInterface
         // Check if command is registered
         if (!$this->hasCommand($actionName)) {
             return TransactionResult::error(
-                sprintf('Unknown action: %s', $actionName)
+                sprintf("Unknown action: %s", $actionName)
             );
         }
 
         $commandClass = $this->commands[$actionName];
 
         try {
+            // Get repository dependency
+            $repository = $this->container->make('TransactionRepository');
+            
             // Instantiate command with dependencies
             /** @var CommandInterface $command */
             $command = $this->container->make($commandClass, [
-                'postData' => $postData
+                "postData" => $postData,
+                "repository" => $repository
             ]);
 
             // Execute command
@@ -112,19 +124,20 @@ class CommandDispatcher implements CommandDispatcherInterface
             // Gracefully handle execution errors
             return TransactionResult::error(
                 sprintf(
-                    'Command execution failed: %s',
+                    "Command execution failed: %s",
                     $e->getMessage()
                 ),
                 [
-                    'command' => $commandClass,
-                    'action' => $actionName,
-                    'exception' => get_class($e)
+                    "command" => $commandClass,
+                    "action" => $actionName,
+                    "exception" => get_class($e)
                 ]
             );
         }
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: hasCommand
      * {@inheritDoc}
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
@@ -134,6 +147,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
+ * @BABOK FR-014 / ARCH-004 — method: getRegisteredActions
      * {@inheritDoc}
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */

@@ -1,5 +1,6 @@
 <?php
 
+/** @BABOK RTM: ARCH-009 / BR-009 / FR-009 / UAT-001*/
 namespace Ksfraser\FaBankImport\Controllers;
 
 use Ksfraser\Application\Container;
@@ -10,6 +11,7 @@ use Ksfraser\FaBankImport\Middleware\AuthMiddleware;
 
 
 /**
+<<<<<<<< HEAD:src/Ksfraser/FaBankImport/Controllers/BankImportController_MVC.php
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 
@@ -19,34 +21,127 @@ use Ksfraser\FaBankImport\Middleware\AuthMiddleware;
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 
+========
+ * @BABOK CLASS ROLLUP: BankImportController_MVC — 9 methods; BR-002 (9); FR-008 (9); FR-018 (9)
+ * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controllers/BankImportController.php; coverage: docs/TestCases/ (file rollup)
+ */
+>>>>>>>> origin/prod_202604_WIP:src/Ksfraser/FaBankImport/Controllers/BankImportController.php
+class BankImportController_MVC
+{
+    private $container;
+    private $transactions = [];
+
+<<<<<<<< HEAD:src/Ksfraser/FaBankImport/Controllers/BankImportController_MVC.php
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
+========
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+>>>>>>>> origin/prod_202604_WIP:src/Ksfraser/FaBankImport/Controllers/BankImportController.php
+    public function __construct()
+    {
+        $this->container = Container::getInstance();
+    }
+
+<<<<<<<< HEAD:src/Ksfraser/FaBankImport/Controllers/BankImportController_MVC.php
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
+========
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: index */
+>>>>>>>> origin/prod_202604_WIP:src/Ksfraser/FaBankImport/Controllers/BankImportController.php
+    public function index(): void
+    {
+        /* Original code replaced by new MVC structure
+        $transactions = $this->getAllTransactions();
+        foreach ($transactions as $transaction) {
+            $this->displayTransaction($transaction);
+        }
+        */
+        
+        // Load transactions using service
+        $this->transactions = $this->loadTransactions();
+        
+        // Display transactions using view service
+        foreach ($this->transactions as $transaction) {
+            $viewService = $this->container->getTransactionViewService($transaction);
+            echo $viewService->display();
+        }
+    }
+
+<<<<<<<< HEAD:src/Ksfraser/FaBankImport/Controllers/BankImportController_MVC.php
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
+========
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: loadTransactions */
+>>>>>>>> origin/prod_202604_WIP:src/Ksfraser/FaBankImport/Controllers/BankImportController.php
+    private function loadTransactions(): array
+    {
+        // Get transactions from database
+        $result = db_query("SELECT * FROM bi_transactions WHERE status = ?", ['pending']);
+        return $result ? $result : [];
+    }
+
+<<<<<<<< HEAD:src/Ksfraser/FaBankImport/Controllers/BankImportController_MVC.php
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
+========
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: processTransaction */
+>>>>>>>> origin/prod_202604_WIP:src/Ksfraser/FaBankImport/Controllers/BankImportController.php
+    public function processTransaction(int $transactionId, string $type): void
+    {
+        $transaction = $this->findTransaction($transactionId);
+        
+        if (!$transaction) {
+            throw new \InvalidArgumentException("Transaction not found: $transactionId");
+        }
+
+        $transactionObj = $this->container
+            ->getTransactionTypeFactory()
+            ->createTransactionType($type, $transaction);
+
+        $transactionObj->processTransaction();
+    }
+
+<<<<<<<< HEAD:src/Ksfraser/FaBankImport/Controllers/BankImportController_MVC.php
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     */
+========
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: findTransaction */
+>>>>>>>> origin/prod_202604_WIP:src/Ksfraser/FaBankImport/Controllers/BankImportController.php
+    private function findTransaction(int $id): ?array
+    {
+        $result = db_query("SELECT * FROM bi_transactions WHERE id = ?", [$id]);
+        return $result ? $result[0] : null;
+    }
+}
+
+<<<<<<<< HEAD:src/Ksfraser/FaBankImport/Controllers/BankImportController_MVC.php
+/**
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
+========
 class BankImportController extends AbstractController
 {
     private $container;
 
-    /**
-     * Constructor.
-     *
-     * @param \Ksfraser\FaBankImport\Container|null $container Optional container
-     *        injection for tests; defaults to the shared instance.
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
-    public function __construct($container = null)
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+    public function __construct()
     {
         parent::__construct();
-        $this->container = $container ?? Container::getInstance();
+        $this->container = Container::getInstance();
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: initializeMiddleware */
     protected function initializeMiddleware(): void
     {
         $this->pipeline->pipe(new AuthMiddleware());
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: index */
     public function index(): void
     {
         $transactionService = $this->container->getTransactionService();
@@ -57,9 +152,7 @@ class BankImportController extends AbstractController
         ]);
     }
 
-    /**
- * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK BR-002 / FR-008 / FR-018 — method: process */
     public function process(): void
     {
         $command = $this->request->getTransactionCommand();
@@ -86,3 +179,4 @@ class BankImportController extends AbstractController
         }
     }
 }
+>>>>>>>> origin/prod_202604_WIP:src/Ksfraser/FaBankImport/Controllers/BankImportController.php

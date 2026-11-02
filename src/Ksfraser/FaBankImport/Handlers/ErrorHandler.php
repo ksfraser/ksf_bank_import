@@ -7,16 +7,15 @@ use Monolog\Handler\StreamHandler;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
- * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK CLASS ROLLUP: ErrorHandler — 4 methods; FR-049 (4)
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/ErrorHandler.php; coverage: docs/TestCases/ (file rollup)
  */
 class ErrorHandler
 {
     private $logger;
     private $displayErrors;
 
-    /**
- * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-049 / ARCH-004 — method: __construct */
     public function __construct()
     {
         $config = Config::getInstance();
@@ -31,18 +30,14 @@ class ErrorHandler
         );
     }
 
-    /**
- * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-049 / ARCH-004 — method: handleException */
     public function handleException(\Throwable $e): void
     {
         $this->logException($e);
         $this->displayError($e);
     }
 
-    /**
- * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-049 / ARCH-004 — method: logException */
     private function logException(\Throwable $e): void
     {
         $this->logger->error($e->getMessage(), [
@@ -52,9 +47,7 @@ class ErrorHandler
         ]);
     }
 
-    /**
- * @BABOK FR-PROC-003, FR-LOG-005 | BR-PROC-001 | UAT-PROC-001
-     */
+    /** @BABOK FR-049 / ARCH-004 — method: displayError */
     private function displayError(\Throwable $e): void
     {
         if ($this->displayErrors) {

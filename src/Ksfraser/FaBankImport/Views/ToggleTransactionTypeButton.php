@@ -1,43 +1,60 @@
 <?php
+// @BABOK RTM: FR-009 / IR-001 / ARCH-008 (domain layer)
+/** @BABOK RTM: ARCH-009 / BR-009 / FR-009*/
 
 namespace Ksfraser\FaBankImport\Views;
 
-use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
-use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
-//require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
-
-//TODO: Refactor to replace the Submit button with our own class.
+use Ksfraser\HTML\Elements\HtmlSubmit;
+use Ksfraser\HTML\Elements\HtmlString;
+use Ksfraser\HTML\HtmlElementInterface;
 
 /**
- * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
+ * @BABOK CLASS ROLLUP: ToggleTransactionTypeButton — 3 methods; FR-009 (3); IR-001 (3)
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ToggleTransactionTypeButton.php; coverage: docs/TestCases/ (file rollup)
+ * ToggleTransactionTypeButton - small adapter that builds a HtmlSubmit
+ * element for toggling transaction debit/credit.
+ * 
+ * @package Views
+ * @since 20251019
  */
-class ToggleTransactionTypeButton implements \Ksfraser\HTML\HtmlElementInterface
+class ToggleTransactionTypeButton implements HtmlElementInterface
 {
-	protected $HTML_LABEL_ROW;
-	/**
- * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
-	 */
-	function __construct( int $index )
-	{
-		$buttonLabel = new \Ksfraser\HTML\Elements\HtmlString(_("ToggleTransaction"));
-		$submitButton = new \Ksfraser\HTML\Elements\HtmlSubmit($buttonLabel);
-		$submitButton->setName("ToggleTransaction[$index]");
-		$submitButton->setClass("default");
-		$label =  "Toggle Transaction Type Debit/Credit" ;
-		$this->HTML_LABEL_ROW = new HTML_ROW_LABELDecorator(  $submitButton, $label );
-	}
-	/**
- * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
-	 */
-	function toHtml(): void
-	{
-		$this->HTML_LABEL_ROW->toHtml();
-	}
-	/**
- * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
-	 */
-	function getHtml(): string
-	{
-		return $this->HTML_LABEL_ROW->getHtml();
-	}
+    /**
+     * @var HtmlSubmit
+     */
+    protected $submit;
+
+    /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+     * Create toggle button for transaction at given index
+     * 
+     * @param int $index The transaction index
+     */
+    public function __construct(int $index)
+    {
+        $this->submit = new HtmlSubmit(new HtmlString(_("ToggleTransaction")));
+        $this->submit->setName("ToggleTransaction[$index]")->setClass('default');
+    }
+
+    /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+     * Get HTML as string
+     * 
+     * @return string The HTML
+     */
+    public function getHtml(): string
+    {
+        return $this->submit->getHtml();
+    }
+
+    /**
+ * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+     * Output HTML directly to screen
+     * 
+     * @return void
+     */
+    public function toHtml(): void
+    {
+        echo $this->getHtml();
+    }
 }

@@ -14,12 +14,10 @@
 
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . '/../../../views/PartnerTypeDisplayStrategy.php';
-require_once __DIR__ . '/../../../views/ViewFactory.php';
-require_once __DIR__ . '/../../../src/Ksfraser/HTML/HtmlFragment.php';
-require_once __DIR__ . '/../../../src/Ksfraser/HTML/HtmlAttribute.php';
-require_once __DIR__ . '/../../../src/Ksfraser/HTML/Elements/HtmlInput.php';
-require_once __DIR__ . '/../../../src/Ksfraser/HTML/Elements/HtmlHidden.php';
+require_once __DIR__ . '/../../../Views/PartnerTypeDisplayStrategy.php';
+require_once __DIR__ . '/../../../Views/ViewFactory.php';
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
 
 class PartnerTypeDisplayStrategyTest extends TestCase
 {

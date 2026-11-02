@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+ */
+
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
@@ -7,7 +11,8 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 /**
- * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK CLASS ROLLUP: PerformanceMonitor — 6 methods; BR-001 (6); BR-002 (6); FR-008 (6)
+ * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PerformanceMonitor.php; coverage: docs/TestCases/ (file rollup)
  */
 class PerformanceMonitor
 {
@@ -15,9 +20,7 @@ class PerformanceMonitor
     private $measurements = [];
     private static $instance = null;
 
-    /**
- * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
     private function __construct()
     {
         $config = Config::getInstance();
@@ -30,9 +33,7 @@ class PerformanceMonitor
         );
     }
 
-    /**
- * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getInstance */
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -41,9 +42,7 @@ class PerformanceMonitor
         return self::$instance;
     }
 
-    /**
- * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: startMeasurement */
     public function startMeasurement(string $name): void
     {
         $this->measurements[$name] = [
@@ -52,9 +51,7 @@ class PerformanceMonitor
         ];
     }
 
-    /**
- * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: endMeasurement */
     public function endMeasurement(string $name): array
     {
         if (!isset($this->measurements[$name])) {
@@ -73,17 +70,13 @@ class PerformanceMonitor
         return $metrics;
     }
 
-    /**
- * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: recordMetric */
     public function recordMetric(string $name, array $data): void
     {
         $this->logger->info("Metric: {$name}", $data);
     }
 
-    /**
- * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
-     */
+    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getAverageMetrics */
     public function getAverageMetrics(string $name, int $minutes = 5): array
     {
         // Implementation to calculate average metrics from log file

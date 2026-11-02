@@ -1,10 +1,20 @@
 <?php
 
 /**
- * FrontAccounting Function Stubs for Testing
+ * FrontAccounting Test Environment Setup
  *
- * Provides stub implementations of FrontAccounting global functions
- * for unit testing in isolation from the FrontAccounting environment.
+ * The FA runtime for unit tests is provided by ksfraser/famock (composer
+ * dev dependency, loaded through composer's files autoloader before this
+ * file runs), so the historical stub definitions here are no longer the
+ * active implementations (famock's function_exists() guards keep ours
+ * dormant).
+ *
+ * This file keeps two responsibilities under the new order:
+ *  - re-declared-but-dormant stubs stay harmless for bootstraps that still
+ *    require this file by name;
+ *  - seed famock's fixture chart of accounts so BankImportConfig's GL
+ *    account validation behaves like production (db_query() answers
+ *    chart_master COUNT(*) lookups from $__fa_chart_accounts).
  *
  * @package    Tests\Helpers
  * @author     Kevin Fraser
@@ -18,6 +28,25 @@
 global $_test_company_prefs;
 $_test_company_prefs = [];
 
+// Fixture chart of accounts for chart_master lookups (famock) -- mirrors
+// the accounts used by FA's default chart so setters accept production-
+// shaped codes (9999 stays present because the config reset tests reuse
+// it as a valid mutated value).
+$GLOBALS['__fa_chart_accounts'] = [
+    '0000',
+    '1000',
+    '1060',
+    '1100',
+    '1200',
+    '1234',
+    '1400',
+    '1550',
+    '2000',
+    '2100',
+    '2130',
+    '9999',
+];
+
 /**
  * Get company preference (test stub)
  *
@@ -25,11 +54,11 @@ $_test_company_prefs = [];
  * @return mixed Preference value or null
  */
 if (!function_exists('get_company_pref')) {
-function get_company_pref($name)
-{
-    global $_test_company_prefs;
-    return $_test_company_prefs[$name] ?? null;
-}
+    function get_company_pref($name)
+    {
+        global $_test_company_prefs;
+        return isset($_test_company_prefs) ? ($_test_company_prefs[$name] ?? null) : null;
+    }
 }
 
 /**
@@ -40,11 +69,14 @@ function get_company_pref($name)
  * @return void
  */
 if (!function_exists('set_company_pref')) {
-function set_company_pref($name, $value)
-{
-    global $_test_company_prefs;
-    $_test_company_prefs[$name] = $value;
-}
+    function set_company_pref($name, $value)
+    {
+        global $_test_company_prefs;
+        if (!isset($_test_company_prefs)) {
+            $_test_company_prefs = [];
+        }
+        $_test_company_prefs[$name] = $value;
+    }
 }
 
 /**
@@ -54,10 +86,10 @@ function set_company_pref($name, $value)
  * @return string Escaped value
  */
 if (!function_exists('db_escape')) {
-function db_escape($value)
-{
-    return "'" . addslashes($value) . "'";
-}
+    function db_escape($value)
+    {
+        return "'" . addslashes($value) . "'";
+    }
 }
 
 /**
@@ -68,11 +100,11 @@ function db_escape($value)
  * @return array Result array
  */
 if (!function_exists('db_query')) {
-function db_query($sql, $error_msg = '')
-{
-    // Mock result for account existence check
-    return ['count' => 1];
-}
+    function db_query($sql, $error_msg = '')
+    {
+        // Mock result for account existence check
+        return ['count' => 1];
+    }
 }
 
 /**
@@ -82,10 +114,10 @@ function db_query($sql, $error_msg = '')
  * @return array Row array
  */
 if (!function_exists('db_fetch')) {
-function db_fetch($result)
-{
-    return $result;
-}
+    function db_fetch($result)
+    {
+        return $result;
+    }
 }
 
 /**
@@ -95,10 +127,10 @@ function db_fetch($result)
  * @return int Number of rows
  */
 if (!function_exists('db_num_rows')) {
-function db_num_rows($result)
-{
-    return is_array($result) && isset($result['count']) ? (int)$result['count'] : 10;
-}
+    function db_num_rows($result)
+    {
+        return is_array($result) && isset($result['count']) ? (int)$result['count'] : 10;
+    }
 }
 
 /**
@@ -109,10 +141,10 @@ function db_num_rows($result)
  * @return bool Always returns true in tests
  */
 if (!function_exists('is_new_reference')) {
-function is_new_reference($reference, $transType)
-{
-    return true;
-}
+    function is_new_reference($reference, $transType)
+    {
+        return true;
+    }
 }
 
 /**
@@ -122,10 +154,10 @@ function is_new_reference($reference, $transType)
  * @return string First day of month
  */
 if (!function_exists('begin_month')) {
-function begin_month($date)
-{
-    return date('Y-m-01', strtotime($date));
-}
+    function begin_month($date)
+    {
+        return date('Y-m-01', strtotime($date));
+    }
 }
 
 /**
@@ -135,10 +167,10 @@ function begin_month($date)
  * @return string Last day of month
  */
 if (!function_exists('end_month')) {
-function end_month($date)
-{
-    return date('Y-m-t', strtotime($date));
-}
+    function end_month($date)
+    {
+        return date('Y-m-t', strtotime($date));
+    }
 }
 
 /**
@@ -147,10 +179,10 @@ function end_month($date)
  * @return string Today's date in Y-m-d format
  */
 if (!function_exists('Today')) {
-function Today()
-{
-    return date('Y-m-d');
-}
+    function Today()
+    {
+        return date('Y-m-d');
+    }
 }
 
 /**

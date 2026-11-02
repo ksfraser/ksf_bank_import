@@ -41,19 +41,24 @@ use RuntimeException;
  * ```
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
+/**
+ * @BABOK CLASS ROLLUP: SimpleContainer — 10 methods; FR-015 (10)
+ * @BABOK RTM: FR-015 / ARCH-001; file: Container/SimpleContainer.php; coverage: docs/TestCases/ (file rollup)
+ */
 class SimpleContainer
 {
     /**
-     * @var array<string, mixed> Registered bindings
+     * @var array Registered bindings
      */
-    private array $bindings = [];
+    private $bindings = [];
 
     /**
-     * @var array<string, object> Singleton instances
+     * @var array Singleton instances
      */
-    private array $instances = [];
+    private $instances = [];
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: bind
      * Bind a class/interface to an implementation
      *
      * @param string $abstract Class name or interface name
@@ -72,6 +77,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: instance
      * Register a singleton instance
      *
      * @param string $abstract Class name or interface name
@@ -86,6 +92,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: make
      * Make an instance of a class with dependency injection
      *
      * @param string $abstract Class name to instantiate
@@ -138,6 +145,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: getConcrete
      * Get concrete implementation for an abstract
      *
      * @param string $abstract Abstract class/interface name
@@ -154,6 +162,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: isSingleton
      * Check if binding is registered as singleton
      *
      * @param string $abstract Abstract class/interface name
@@ -170,6 +179,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: build
      * Build a class instance with constructor injection
      *
      * @param string $class Class name to build
@@ -209,6 +219,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: resolveDependencies
      * Resolve constructor parameters
      *
      * @param ReflectionParameter[] $parameters Constructor parameters
@@ -284,6 +295,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: has
      * Check if binding exists
      *
      * @param string $abstract Abstract class/interface name
@@ -296,6 +308,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: getBindings
      * Get all registered bindings
      *
      * @return array<string, mixed>
@@ -307,6 +320,7 @@ class SimpleContainer
     }
 
     /**
+ * @BABOK FR-015 / ARCH-001 — method: flush
      * Flush all bindings and instances (for testing)
      *
      * @return void

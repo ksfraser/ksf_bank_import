@@ -1,0 +1,20 @@
+--- external/Elements/HtmlInputGenericButton.php
++++ repo/Elements/HtmlInputGenericButton.php
+@@ -4,8 +4,6 @@
+ 
+ use Ksfraser\HTML\Elements\HtmlInputButton;
+ use Ksfraser\HTML\HtmlElementInterface;
+-use Ksfraser\HTML\HtmlAttribute;
+-use \Ksfraser\HTML\JS\HtmlJsEventTrait;
+ 
+ /**
+  * HTML Generic Button Input Class
+@@ -63,7 +61,7 @@
+      */
+     public function setOnclick(string $javascript): self
+     {
+-		$this->setAttribute("onclick", $javascript);
++        $this->addAttribute(new HtmlAttribute("onclick", $javascript));
+         return $this;
+     }
+ }

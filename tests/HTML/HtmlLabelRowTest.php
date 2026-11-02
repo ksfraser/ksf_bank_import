@@ -3,7 +3,7 @@
 namespace Tests\HTML;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\HTML\Elements\HtmlLabelRow;
+use Ksfraser\HTML\Composites\HtmlLabelRow;
 use Ksfraser\HTML\Elements\HtmlString;
 
 /**

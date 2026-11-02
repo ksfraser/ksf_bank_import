@@ -25,6 +25,8 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\SupplierPartnerType;
 
 /**
+ * @BABOK CLASS ROLLUP: SupplierTransactionHandler — 4 methods; FR-049 (4)
+ * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/SupplierTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
  * Supplier Transaction Handler
  *
  * Single Responsibility: Process supplier transactions only
@@ -42,6 +44,7 @@ use Ksfraser\PartnerTypes\SupplierPartnerType;
 class SupplierTransactionHandler extends AbstractTransactionHandler
 {
     /**
+ * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
      * @inheritDoc
      *
      * Returns a SupplierPartnerType instance which provides:
@@ -57,6 +60,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: process
      * @inheritDoc
  * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
@@ -107,6 +111,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processSupplierPayment
      * Process supplier payment (Debit transaction)
      *
      * @param array $transaction Transaction data
@@ -180,6 +185,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
+ * @BABOK FR-049 / ARCH-004 — method: processSupplierRefund
      * Process supplier refund (Credit transaction)
      *
      * @param array $transaction Transaction data

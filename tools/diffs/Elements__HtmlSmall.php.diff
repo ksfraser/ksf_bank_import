@@ -1,0 +1,21 @@
+--- external/Elements/HtmlSmall.php
++++ repo/Elements/HtmlSmall.php
+@@ -3,13 +3,12 @@
+ namespace Ksfraser\HTML\Elements;
+ 
+ use Ksfraser\HTML\HtmlElementInterface;
+-use Ksfraser\HTML\Formatting\HtmlFormatting;
+ 
+ class HtmlSmall extends HtmlFormatting
+ {
+-	       function __construct( HtmlElementInterface $data )
+-	       {
+-		       parent::__construct( $data );
+-		       $this->tag = "small";
+-	       }
++	function __construct( $data )
++	{
++		parent::__construct( $data );
++		$this->tag = "small";
++	}
+ }

@@ -8,11 +8,13 @@ use Ksfraser\Application\Container;
 use Ksfraser\Application\Http\RequestHandler;
 use Ksfraser\FaBankImport\Commands\ProcessTransactionCommand;
 
+/** @BABOK CLASS ROLLUP: TransactionProcessingTest — 4 methods; NFR-016 (4); FR-018 (4) */
 class TransactionProcessingTest extends TestCase
 {
     private $app;
     private $container;
 
+    /** @BABOK NFR-016 / FR-018 — method: setUp */
     protected function setUp(): void
     {
         $_SESSION['user_id'] = 1; // Mock authenticated user
@@ -20,6 +22,7 @@ class TransactionProcessingTest extends TestCase
         $this->container = Container::getInstance();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testCompleteTransactionProcessingFlow */
     public function testCompleteTransactionProcessingFlow()
     {
         // Prepare test data
@@ -50,6 +53,7 @@ class TransactionProcessingTest extends TestCase
         $this->assertEquals('C', $result->getType());
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: testValidationMiddlewareRejectsInvalidType */
     public function testValidationMiddlewareRejectsInvalidType()
     {
         $this->expectException('Ksfraser\\FaBankImport\\Exceptions\\TransactionValidationException');
@@ -62,6 +66,7 @@ class TransactionProcessingTest extends TestCase
         $this->app->run();
     }
 
+    /** @BABOK NFR-016 / FR-018 — method: tearDown */
     protected function tearDown(): void
     {
         $_SESSION = [];

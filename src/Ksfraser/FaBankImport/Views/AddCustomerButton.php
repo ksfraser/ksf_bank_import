@@ -1,32 +1,41 @@
 <?php
+// @BABOK RTM: FR-009 / IR-001 / ARCH-008 (domain layer)
+/** @BABOK RTM: BR-009 / ARCH-009 / FR-009*/
+
 namespace Ksfraser\FaBankImport\Views;
 
-use Ksfraser\HTML\Composites\HTML_LABEL_ROW;
-use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
-
-//TODO: Refactor to replace the Submit button with our own class.
+use Ksfraser\HTML\Elements\HtmlSubmit;
+use Ksfraser\HTML\Elements\HtmlString;
 
 /**
- * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+ * @BABOK CLASS ROLLUP: AddCustomerButton — 3 methods; FR-009 (3); IR-001 (3)
+ * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AddCustomerButton.php; coverage: docs/TestCases/ (file rollup)
  */
-class AddCustomerButton
+class AddCustomerButton implements \Ksfraser\HTML\HtmlElementInterface
 {
-	protected $HTML_LABEL_ROW;
-	/**
- * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
-	 */
-	function __construct( int $index )
-	{
-		$data = submit( "AddCustomer[$index]", _("AddCustomer"), false, '', 'default' ) ;
-		$label = "Add Customer" ;
-		$this->HTML_LABEL_ROW = new HTML_ROW_LABELDecorator( $data, $label );
-		//label_row("Add Customer", submit("AddCustomer[$this->id]",_("AddCustomer"),false, '', 'default'));
-	}
-	/**
- * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
-	 */
-	function toHTML()
-	{
-		$this->HTML_LABEL_ROW->toHTML();
-	}
+    protected $submit;
+
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+    public function __construct(int $index)
+    {
+        /**
+         * Composition chosen intentionally: this class configures and wraps
+         * a `HtmlSubmit` element rather than extending it. See project
+         * docs for rationale.
+         */
+        $this->submit = new HtmlSubmit(new HtmlString(_("AddCustomer")));
+        $this->submit->setName("AddCustomer[$index]")->setClass('default');
+    }
+
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
+    public function getHtml(): string
+    {
+        return $this->submit->getHtml();
+    }
+
+    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
+    public function toHtml(): void
+    {
+        echo $this->getHtml();
+    }
 }

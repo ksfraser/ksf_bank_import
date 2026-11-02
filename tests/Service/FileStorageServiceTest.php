@@ -3,7 +3,7 @@
 namespace Ksfraser\FaBankImport\Tests\Service;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\Service\FileStorageService;
+use Ksfraser\FaBankImport\Services\FileStorageService;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
