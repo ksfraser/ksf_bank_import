@@ -7,18 +7,22 @@ namespace Ksfraser\FaBankImport\Types;
 use Ksfraser\FaBankImport\Models\AbstractTransaction;
 
 /**
- * @BABOK CLASS ROLLUP: CreditTransaction — 2 methods; FR-004 (2); DR-001 (2)
- * @BABOK RTM: FR-004 / DR-001; file: Types/CreditTransaction.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+
  */
 class CreditTransaction extends AbstractTransaction
 {
-    /** @BABOK FR-004 / DR-001 — method: getTransactionType */
+    /** * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTransactionType(): string
     {
         return 'C';
     }
 
-    /** @BABOK FR-004 / DR-001 — method: processTransaction */
+    /** * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
     public function processTransaction(): void
     {
         // Specific credit transaction processing logic

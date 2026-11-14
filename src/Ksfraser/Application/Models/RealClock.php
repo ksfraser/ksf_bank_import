@@ -4,8 +4,14 @@
 
 namespace Ksfraser\Application\Models;
 
+/**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ */
 class RealClock implements ClockInterface
 {
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function getCurrentTime(): \DateTimeInterface
     {
         return new \DateTimeImmutable();

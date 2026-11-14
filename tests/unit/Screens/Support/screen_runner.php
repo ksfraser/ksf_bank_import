@@ -35,6 +35,20 @@ if ($cwd !== '' && is_dir($cwd)) {
 // The stand-ins have to be installed before the mock package so that the
 // database doubles win over the ones shipped with the mock package.
 require_once __DIR__ . '/fa_screen_stubs.php';
+
+// Pre-declare the module's real include-file functions (update_transactions,
+// my_write_customer_payment, qe_to_cart, get_trans_counterparty) so they win
+// over the mock copies shipped by famock's FaWriteStubs, which load from the
+// composer autoloader right after. The screens must run the real code.
+$moduleIncludesInc = ($cwd !== '' ? rtrim($cwd, '/') : getcwd()) . '/includes/includes.inc';
+if (is_file($moduleIncludesInc)) {
+    require_once $moduleIncludesInc;
+}
+$modulePdataInc = ($cwd !== '' ? rtrim($cwd, '/') : getcwd()) . '/includes/pdata.inc';
+if (is_file($modulePdataInc)) {
+    require_once $modulePdataInc;
+}
+
 require_once $root . '/vendor/autoload.php';
 require_once $root . '/tests/bootstrap.php';
 require_once __DIR__ . '/ScreenAjax.php';

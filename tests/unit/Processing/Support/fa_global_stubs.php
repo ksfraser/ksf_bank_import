@@ -51,14 +51,19 @@ namespace {
         define('PT_QUICKENTRY', 'Q');
     }
 
-    if (!class_exists('items_cart', false)) {
+    // Declared under its own name so it can coexist with any global
+    // items_cart (FA-mock packages declare the real name first in phpunit
+    // processes). Handlers use the overridable createItemsCart() factory;
+    // tests that need the controllable behaviour override the factory to
+    // return this double.
+    if (!class_exists('items_cart_double', false)) {
         /**
-         * Minimal stand-in for FrontAccounting's items_cart.
+         * Minimal controllable stand-in for FrontAccounting's items_cart.
          *
          * Only the members used by the bank import handlers are implemented:
          * the transaction type, the GL lines and their total.
          */
-        class items_cart
+        class items_cart_double
         {
             /** @var int Transaction type of the cart. */
             public $trans_type = 0;

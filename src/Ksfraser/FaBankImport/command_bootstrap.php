@@ -92,7 +92,7 @@ if (USE_COMMAND_PATTERN) {
 // ============================================================================
 
 /**
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: command_bootstrap.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  * Handle POST actions using Command Pattern
  *
  * @param CommandDispatcher $dispatcher
@@ -114,7 +114,7 @@ function handleCommandAction(CommandDispatcher $dispatcher, array $postData): ?\
 }
 
 /**
-* @BABOK BR-002 / FR-008 / FR-018 — method: handleLegacyAction
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  * Handle POST actions using legacy code
  *
  * @param object $bi_controller

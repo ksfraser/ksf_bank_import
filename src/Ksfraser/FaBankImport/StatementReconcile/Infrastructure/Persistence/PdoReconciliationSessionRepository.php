@@ -11,8 +11,8 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\ReconciliationExce
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Repository\ReconciliationSessionRepositoryInterface;
 
 /**
- * @BABOK CLASS ROLLUP: PdoReconciliationSessionRepository — 8 methods; FR-008 (8)
- * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Persistence/PdoReconciliationSessionRepository.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+
  * PDO-backed implementation of ReconciliationSessionRepositoryInterface.
  *
  * Table: bi_reconciliation_session
@@ -28,7 +28,7 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
     private $pdo;
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: __construct
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * @param PDO $pdo
      */
     public function __construct(PDO $pdo)
@@ -37,7 +37,7 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: save
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function save(ReconciliationSession $session): int
@@ -53,7 +53,7 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: findById
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function findById(int $id): ?ReconciliationSession
@@ -72,7 +72,7 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: findLatestByStatementOcrId
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function findLatestByStatementOcrId(int $statementOcrId): ?ReconciliationSession
@@ -94,7 +94,7 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: approve
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function approve(int $sessionId, int $userId): void
@@ -113,7 +113,7 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: insert
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * @param array $data Storage array from ReconciliationSession::toStorageArray().
      * @return int New row ID.
      */
@@ -147,7 +147,7 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: update
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * @param int   $id
      * @param array $data
      */
@@ -181,7 +181,7 @@ final class PdoReconciliationSessionRepository implements ReconciliationSessionR
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: hydrate
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Reconstitute a ReconciliationSession from a raw DB row.
      *
      * @param array $row

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -12,8 +12,8 @@ use Ksfraser\FaBankImport\Repository\UploadedFileRepositoryInterface;
 use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 
 /**
- * @BABOK CLASS ROLLUP: DuplicateDetector — 8 methods; BR-001 (8); BR-002 (8); FR-008 (8)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/DuplicateDetector.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
+
  * Duplicate Detector Service
  * 
  * Detects duplicate file uploads using multiple verification methods:
@@ -42,7 +42,7 @@ class DuplicateDetector
     private FileStorageServiceInterface $storageService;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      * Constructor - Dependency Injection
      * 
      * @param UploadedFileRepositoryInterface $fileRepository
@@ -61,7 +61,7 @@ class DuplicateDetector
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: detect
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      * Detect if file is a duplicate
      * 
      * Process:
@@ -114,7 +114,7 @@ class DuplicateDetector
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: isDuplicateCheckingEnabled
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      * Check if duplicate checking is enabled in config
      * 
      * @return bool
@@ -126,7 +126,7 @@ class DuplicateDetector
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getDuplicateWindowDays
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      * Get duplicate detection time window in days
      * 
      * @return int Number of days
@@ -138,7 +138,7 @@ class DuplicateDetector
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getDuplicateAction
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      * Get duplicate action from config
      * 
      * @return string 'allow', 'warn', or 'block'
@@ -157,7 +157,7 @@ class DuplicateDetector
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: verifyDuplicateByHash
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      * Verify files are identical using MD5 hash
      * 
      * Compares MD5 hash of new upload with existing file on disk
@@ -192,7 +192,7 @@ class DuplicateDetector
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: isDuplicate
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      * Check if specific file would be a duplicate
      * 
      * Convenience method for checking before actual upload
@@ -225,7 +225,7 @@ class DuplicateDetector
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStatistics
+ * @BABOK FR-IMP-004 | BR-IMP-002 | UAT-IMP-003
      * Get duplicate statistics
      * 
      * @return array Statistics about duplicate detection

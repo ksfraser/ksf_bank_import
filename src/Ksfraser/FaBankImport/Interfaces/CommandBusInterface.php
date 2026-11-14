@@ -3,13 +3,17 @@
 namespace Ksfraser\FaBankImport\Interfaces;
 
 /**
- * @BABOK CLASS ROLLUP: CommandBusInterface — 2 methods; FR-015 (2)
- * @BABOK RTM: FR-015 / ARCH-001; file: Interfaces/CommandBusInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+
  */
 interface CommandBusInterface
 {
-    /** @BABOK FR-015 / ARCH-001 — method: dispatch */
+    /** * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+*/
     public function dispatch($command);
-    /** @BABOK FR-015 / ARCH-001 — method: register */
+    /** * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+*/
     public function register(string $commandClass, $handler): void;
 }

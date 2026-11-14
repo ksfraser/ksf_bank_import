@@ -3,8 +3,8 @@
 namespace Ksfraser\FaBankImport\Application\Partner;
 
 /**
- * @BABOK CLASS ROLLUP: KeywordExtractor — 3 methods; BR-011 (3)
- * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/KeywordExtractor.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Keyword Extractor Service
  * 
  * Extracts meaningful keywords from transaction descriptions.
@@ -52,7 +52,7 @@ class KeywordExtractor
     private const MIN_KEYWORD_LENGTH = 3;
     
     /**
- * @BABOK BR-011 / ARCH-011 — method: extract
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Extract keywords from transaction description
      * 
      * Process:
@@ -111,7 +111,7 @@ class KeywordExtractor
     }
     
     /**
- * @BABOK BR-011 / ARCH-011 — method: knownPhrases
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get list of known phrases (for configuration)
      */
     public function knownPhrases(): array
@@ -120,7 +120,7 @@ class KeywordExtractor
     }
     
     /**
- * @BABOK BR-011 / ARCH-011 — method: stopwords
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get list of stopwords (for configuration)
      */
     public function stopwords(): array

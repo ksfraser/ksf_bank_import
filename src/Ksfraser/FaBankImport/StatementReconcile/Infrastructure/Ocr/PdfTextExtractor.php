@@ -8,8 +8,8 @@ use Smalot\PdfParser\Parser;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 
 /**
- * @BABOK CLASS ROLLUP: PdfTextExtractor — 3 methods; FR-007 (3)
- * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/PdfTextExtractor.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+
  * Uses smalot/pdfparser to extract plain text from a PDF file.
  *
  * This works well for text-layer PDFs (e.g. digital bank statements).
@@ -28,7 +28,7 @@ final class PdfTextExtractor implements PdfTextExtractorInterface
     private $parser;
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: __construct
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * @param Parser $parser Injected smalot/pdfparser Parser instance.
      */
     public function __construct(Parser $parser)
@@ -37,7 +37,7 @@ final class PdfTextExtractor implements PdfTextExtractorInterface
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: extractText
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function extractText(string $pdfPath): string
@@ -70,7 +70,7 @@ final class PdfTextExtractor implements PdfTextExtractorInterface
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: isUsableText
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Returns true when the extracted text is long enough to be useful for an
      * LLM extraction pass.  Short texts may indicate a scanned image-only PDF.
      *

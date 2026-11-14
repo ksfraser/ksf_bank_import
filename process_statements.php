@@ -142,7 +142,7 @@ if ($use_date_picker)
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
 
 
-	include_once __DIR__ . "/views/module_menu_view.php"; // Include the ModuleMenuView class
+	include_once __DIR__ . "/Views/module_menu_view.php"; // Include the ModuleMenuView class
     	$menu = new \Views\ModuleMenuView();
     	$menu->renderMenu(); // Render the module menu
 

@@ -19,6 +19,12 @@ $_SERVER['REQUEST_METHOD'] = isset($config['method']) ? (string) $config['method
 
 if (!empty($config['use_legacy'])) {
     define('USE_COMMAND_PATTERN', false);
+} elseif (!empty($config['with_dispatcher'])) {
+    // A registered dispatcher means the child must take the command-pattern
+    // path (the screen's own default when the flag is unspecified is legacy).
+    if (!defined('USE_COMMAND_PATTERN')) {
+        define('USE_COMMAND_PATTERN', true);
+    }
 }
 
 /**
@@ -88,10 +94,14 @@ if (!empty($config['with_container'])) {
 
 if (!empty($config['with_dispatcher'])) {
     $commandDispatcher = new CommandDispatcher(new SimpleContainer());
-    $commandDispatcher->register('UnsetTrans', screen_success_command::class);
-    $commandDispatcher->register('AddCustomer', screen_success_command::class);
-    $commandDispatcher->register('AddVendor', screen_success_command::class);
-    $commandDispatcher->register('ToggleTransaction', screen_success_command::class);
+    // 'raw' keeps the module's real default commands; anything else gets a
+    // success command double for every action.
+    if ($config['with_dispatcher'] !== 'raw') {
+        $commandDispatcher->register('UnsetTrans', screen_success_command::class);
+        $commandDispatcher->register('AddCustomer', screen_success_command::class);
+        $commandDispatcher->register('AddVendor', screen_success_command::class);
+        $commandDispatcher->register('ToggleTransaction', screen_success_command::class);
+    }
 }
 
 $Ajax = new \Ksfraser\FaBankImport\Tests\Unit\Screens\Support\ScreenAjax();

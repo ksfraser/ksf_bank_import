@@ -8,8 +8,8 @@ use PDO;
 use Ksfraser\FaBankImport\Testing\Seeder;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerSeeder — 10 methods; NFR-016 (10)
- * @BABOK RTM: NFR-016; file: Testing/Seeders/PartnerSeeder.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * PartnerSeeder - Generate realistic partner test data
  *
  * Creates partner records for testing with realistic names, types,
@@ -32,13 +32,17 @@ final class PartnerSeeder implements Seeder
     private const TABLE = 'bi_partners_data';
     private int $recordCount = 0;
 
-    /** @BABOK NFR-016 — method: __construct */
+    /** @BABOK NFR-016 — method: __construct * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function __construct(private int $customerCount = 15, private int $supplierCount = 10)
     {
         $this->recordCount = $customerCount + $supplierCount + 5; // Plus 5 banks/transfers
     }
 
-    /** @BABOK NFR-016 — method: seed */
+    /** @BABOK NFR-016 — method: seed * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function seed(PDO $pdo): void
     {
         // Clear existing data to allow re-seeding
@@ -63,13 +67,17 @@ final class PartnerSeeder implements Seeder
         }
     }
 
-    /** @BABOK NFR-016 — method: name */
+    /** @BABOK NFR-016 — method: name * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function name(): string
     {
         return 'PartnerSeeder';
     }
 
-    /** @BABOK NFR-016 — method: description */
+    /** @BABOK NFR-016 — method: description * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function description(): string
     {
         return sprintf(
@@ -79,14 +87,16 @@ final class PartnerSeeder implements Seeder
         );
     }
 
-    /** @BABOK NFR-016 — method: recordCount */
+    /** @BABOK NFR-016 — method: recordCount * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function recordCount(): int
     {
         return $this->recordCount;
     }
 
     /**
- * @BABOK NFR-016 — method: generateCustomers
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Generate customer partner data
      *
      * @return array<array<string, mixed>>
@@ -113,7 +123,7 @@ final class PartnerSeeder implements Seeder
     }
 
     /**
- * @BABOK NFR-016 — method: generateSuppliers
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Generate supplier partner data
      *
      * @return array<array<string, mixed>>
@@ -141,7 +151,7 @@ final class PartnerSeeder implements Seeder
     }
 
     /**
- * @BABOK NFR-016 — method: generateBanks
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Generate bank/transfer partner data
      *
      * @return array<array<string, mixed>>
@@ -183,7 +193,7 @@ final class PartnerSeeder implements Seeder
     }
 
     /**
- * @BABOK NFR-016 — method: insertPartner
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Insert a partner into the database
      *
      * @param PDO $pdo Database connection
@@ -206,7 +216,7 @@ final class PartnerSeeder implements Seeder
     }
 
     /**
- * @BABOK NFR-016 — method: randomRecentDate
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Generate a random recent timestamp (within last 90 days)
      *
      * @return string|null

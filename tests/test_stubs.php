@@ -16,6 +16,8 @@ namespace {
     if (!class_exists('origin', false) && !class_exists('Ksfraser\\Origin\\origin', false)) {
         class origin {
             protected $_data = [];
+            public function __construct() {
+            }
             public function set($field, $value = null, $enforce = true) {
                 $this->_data[$field] = $value;
             }
@@ -111,18 +113,6 @@ namespace Views {
     if (!class_exists('TransactionView', false)) {
         class TransactionView {
             public function renderTransactionList($transactions) {}
-        }
-    }
-}
-namespace Ksfraser\FaBankImport\Models {
-    if (!class_exists('SquareTransaction', false)) {
-        class SquareTransaction {
-            public function getAllTransactions() { return []; }
-            public function unsetTransaction($id) {}
-            public function addCustomerFromTransaction($id) {}
-            public function addVendorFromTransaction($id) {}
-            public function toggleDebitCredit($id) {}
-            public function processSupplierTransaction($id) {}
         }
     }
 }

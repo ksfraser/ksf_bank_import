@@ -5,8 +5,8 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
- * @BABOK CLASS ROLLUP: MatchConfidence — 14 methods; BR-002 (14); FR-008 (14); FR-018 (14)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/MatchConfidence.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Value Object representing match confidence calculation
  *
  * Encapsulates the multi-factor confidence score calculation based on:
@@ -48,7 +48,7 @@ class MatchConfidence
     private const STRENGTH_WEIGHT = 0.4;
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a new MatchConfidence value object
      *
      * @param float $keywordCoverage Percentage of search keywords matched (0-100)
@@ -68,7 +68,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getKeywordCoverage
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get keyword coverage percentage
      *
      * @return float
@@ -80,7 +80,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getScoreStrength
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get score strength percentage
      *
      * @return float
@@ -92,7 +92,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getPercentage
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get overall confidence percentage
      *
      * @return float
@@ -104,7 +104,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: meetsThreshold
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if confidence meets threshold
      *
      * @param float $threshold Minimum confidence percentage (0-100)
@@ -118,7 +118,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: isHighConfidence
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if this is a high confidence match
      *
      * Defined as >= 70% confidence
@@ -132,7 +132,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: isMediumConfidence
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if this is a medium confidence match
      *
      * Defined as 40% - 69% confidence
@@ -146,7 +146,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: isLowConfidence
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if this is a low confidence match
      *
      * Defined as < 40% confidence
@@ -160,7 +160,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getLevel
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get confidence level as string
      *
      * @return string "high", "medium", or "low"
@@ -178,7 +178,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: fromMatchStatistics
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create from match statistics
      *
      * @param int   $matchedKeywordCount Number of keywords that matched
@@ -228,7 +228,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: toArray
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Convert to array representation
      *
      * @return array<string, mixed>
@@ -245,7 +245,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: __toString
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * String representation
      *
      * @return string
@@ -263,7 +263,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: calculate
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Calculate overall confidence percentage
      *
      * Formula: (keyword_coverage * 0.6) + (score_strength * 0.4)
@@ -278,7 +278,7 @@ class MatchConfidence
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: validatePercentage
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Validate percentage value
      *
      * @param float  $value Percentage value

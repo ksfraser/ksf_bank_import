@@ -3,8 +3,8 @@
 namespace Ksfraser\FaBankImport\Repository;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerRepository — 10 methods; FR-008 (10)
- * @BABOK RTM: FR-008 / ARCH-001; file: Repository/PartnerRepository.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Interface for partner data repository operations
  *
  * Defines CRUD operations for partner data using modern PDO patterns.
@@ -14,7 +14,7 @@ namespace Ksfraser\FaBankImport\Repository;
 interface PartnerRepository
 {
     /**
- * @BABOK FR-008 / ARCH-001 — method: create
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a new partner record
      *
      * @param array $data Partner data: name, partner_type, occurrence_count, last_matched_ts
@@ -24,7 +24,7 @@ interface PartnerRepository
     public function create(array $data): int;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: read
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Read a partner by ID
      *
      * @param int $id Partner ID
@@ -33,7 +33,7 @@ interface PartnerRepository
     public function read(int $id): ?array;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: update
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Update an existing partner
      *
      * @param int $id Partner ID
@@ -43,7 +43,7 @@ interface PartnerRepository
     public function update(int $id, array $data): bool;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: delete
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Delete a partner
      *
      * @param int $id Partner ID
@@ -52,7 +52,7 @@ interface PartnerRepository
     public function delete(int $id): bool;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: findByName
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Find partners by name
      *
      * @param string $name Partner name (supports partial matching)
@@ -62,7 +62,7 @@ interface PartnerRepository
     public function findByName(string $name, ?string $partnerType = null): array;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: findByType
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Find partners by type
      *
      * @param string $partnerType Partner type value
@@ -71,7 +71,7 @@ interface PartnerRepository
     public function findByType(string $partnerType): array;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: findAll
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all partners
      *
      * @return array All partner records
@@ -79,7 +79,7 @@ interface PartnerRepository
     public function findAll(): array;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: count
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner count
      *
      * @return int Total partners
@@ -87,7 +87,7 @@ interface PartnerRepository
     public function count(): int;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: incrementOccurrenceCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Increment occurrence count for a partner
      *
      * @param int $id Partner ID
@@ -96,7 +96,7 @@ interface PartnerRepository
     public function incrementOccurrenceCount(int $id): bool;
 
     /**
- * @BABOK FR-008 / ARCH-001 — method: updateLastMatched
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Update last matched timestamp for a partner
      *
      * @param int $id Partner ID

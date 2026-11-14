@@ -5,6 +5,7 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\LabelRowBase;
 use Ksfraser\HTML\Elements\HtmlB;
+use Ksfraser\HTML\Elements\HtmlBold;
 
 /**
  * @BABOK FR-PROC-001, FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001

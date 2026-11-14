@@ -10,8 +10,8 @@ declare(strict_types=1);
  * unreachable. This double keeps the same behaviour but lets a test make the
  * reference generator or the transfer itself fail.
  *
- * It is loaded from tests/bootstrap.php *before* the mock package so that the
- * mock package does not declare the class a second time.
+ * It is loaded from the handler test support file and instantiated through the
+ * handler's overridable createBankTransfer() factory.
  *
  * @package    Ksfraser\FaBankImport\Tests\Unit\Processing\Support
  * @author     KSF
@@ -21,11 +21,14 @@ declare(strict_types=1);
 
 namespace {
 
-    if (!class_exists('fa_bank_transfer', false)) {
+    // Declared under its own name so it can coexist with any global
+    // fa_bank_transfer (FA-mock packages declare the real name first in
+    // phpunit processes). The handler factory override instantiates it.
+    if (!class_exists('fa_bank_transfer_double', false)) {
         /**
          * Test double for FrontAccounting's fa_bank_transfer helper class.
          */
-        class fa_bank_transfer
+        class fa_bank_transfer_double
         {
             /** @var array<string, mixed> Values set on the transfer. */
             private $data = [];

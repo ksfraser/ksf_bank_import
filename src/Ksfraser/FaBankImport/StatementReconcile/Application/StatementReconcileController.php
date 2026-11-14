@@ -24,8 +24,8 @@ use Ksfraser\FaBankImport\StatementReconcile\Matching\SimpleMatchingEngine;
 use Smalot\PdfParser\Parser as PdfParser;
 
 /**
- * @BABOK CLASS ROLLUP: StatementReconcileController — 18 methods; FR-007 (18); BR-004 (18)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/StatementReconcileController.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  * Application-layer controller for the PDF CC statement reconciliation workflow.
  *
  * Handles three actions dispatched from reconcile_statement.php:
@@ -68,7 +68,7 @@ class StatementReconcileController
     private $config;
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * @param ReconcileView                            $view
      * @param StatementOcrRepositoryInterface          $ocrRepo
      * @param ReconciliationSessionRepositoryInterface $sessionRepo
@@ -96,7 +96,7 @@ class StatementReconcileController
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: handle
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Main dispatcher.  Call from reconcile_statement.php after FA bootstrap.
      *
      * @param string $action Value of $_POST['action'] or empty string.
@@ -149,7 +149,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: handleParse
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Process the uploaded PDF: OCR, auto-detect bank account, show confirmation screen.
      */
     private function handleParse(): void
@@ -193,7 +193,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: handleConfirmAccount
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Receive the confirmed bank account, load FA transactions, run matching, show review.
      *
      * @param int $userId
@@ -288,7 +288,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: handleApprove
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Commit the approved session to FA and show success.
      *
      * @param int $userId
@@ -325,7 +325,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: handleRemovePair
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Remove a matched pair from the pending session (user adjustment).
      * Re-renders the review screen.
      */
@@ -367,7 +367,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: handleManualMatch
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Apply a manually selected line↔bank_tx pair to the pending session (REQ-014).
      *
      * @param int $userId
@@ -436,7 +436,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: handlePrintSchedule
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the printable reconciliation schedule (REQ-015).
      *
      * @param int $userId
@@ -462,7 +462,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: buildStatementOcr
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Build the OCR pipeline, parse the PDF, and return the StatementOcr aggregate.
      *
      * Extracted as a protected method so test subclasses can return a fixture
@@ -489,7 +489,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: validateUpload
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Validate the PDF upload and return the $_FILES entry.
      *
      * @return array{name:string,tmp_name:string,size:int}
@@ -538,7 +538,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: loadBankTransactions
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Load unreconciled FA native bank transactions for the given bank account and
      * the statement's date range.
      *
@@ -609,7 +609,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: loadBankAccountEndingBalance
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Query the last ending reconcile balance for a FA bank account.
      *
      * Returns null when FA globals are unavailable (unit-test environment) or the
@@ -641,7 +641,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: detectDuplicateTransactionIds
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Detect FA bank transactions with the same date + amount.
      *
      * Returns the sequence IDs (integer keys assigned during load) of any rows
@@ -677,7 +677,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: loadAllFaBankAccounts
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Load all non-inactive FA bank accounts for the confirmation dropdown.
      *
      * @return array[] Each entry has 'id' and 'bank_account_name'.
@@ -701,7 +701,7 @@ class StatementReconcileController
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: buildOllamaClient
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Build the Ollama client from module config.
      *
      * @return OllamaClientInterface
@@ -724,19 +724,25 @@ class StatementReconcileController
         return new OllamaClient($http, $baseUrl, $apiKey, $timeout);
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: storePendingSession */
+    /** * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     private function storePendingSession(array $data): void
     {
         $this->pendingStore->store($data);
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: loadPendingSession */
+    /** * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     private function loadPendingSession(): ?array
     {
         return $this->pendingStore->load();
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: clearPendingSession */
+    /** * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     private function clearPendingSession(): void
     {
         $this->pendingStore->clear();

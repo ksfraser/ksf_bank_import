@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exception;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerNotFoundException — 2 methods; FR-050 (2)
- * @BABOK RTM: FR-050 / ARCH-003; file: Exception/PartnerNotFoundException.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+
  * PartnerNotFoundException - Thrown when a partner cannot be found
  * 
  * @author Kevin Fraser
@@ -14,7 +14,9 @@ namespace Ksfraser\FaBankImport\Exception;
  */
 class PartnerNotFoundException extends PartnerException
 {
-    /** @BABOK FR-050 / ARCH-003 — method: byId */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function byId(int $id): self
     {
         return new self(
@@ -22,7 +24,9 @@ class PartnerNotFoundException extends PartnerException
         );
     }
 
-    /** @BABOK FR-050 / ARCH-003 — method: byName */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function byName(string $name): self
     {
         return new self(

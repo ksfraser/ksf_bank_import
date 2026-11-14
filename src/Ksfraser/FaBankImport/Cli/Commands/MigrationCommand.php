@@ -12,8 +12,8 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migrations\CreatePartnerTables
 use PDO;
 
 /**
- * @BABOK CLASS ROLLUP: MigrationCommand — 15 methods; FR-049 (15)
- * @BABOK RTM: FR-049 / ARCH-004; file: Cli/Commands/MigrationCommand.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+
  * MigrationCommand - Manage database migrations
  *
  * Provides database migration management with support for:
@@ -38,7 +38,9 @@ final class MigrationCommand implements Command
     private MigrationRunner $runner;
     private array $migrations = [];
 
-    /** @BABOK FR-049 / ARCH-004 — method: __construct */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function __construct(private readonly Logger $logger)
     {
         $this->initializeDatabase();
@@ -46,7 +48,7 @@ final class MigrationCommand implements Command
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: initializeDatabase
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Initialize database connection from environment config
      */
     private function initializeDatabase(): void
@@ -72,7 +74,7 @@ final class MigrationCommand implements Command
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: registerMigrations
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Register all available migrations
      */
     private function registerMigrations(): void
@@ -82,19 +84,25 @@ final class MigrationCommand implements Command
         ];
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: name */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function name(): string
     {
         return 'migrate';
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: description */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function description(): string
     {
         return 'Manage database migrations';
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: execute */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function execute(array $arguments = []): int
     {
         try {
@@ -115,7 +123,7 @@ final class MigrationCommand implements Command
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: executeUp
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Execute pending migrations (up)
      */
     private function executeUp(): int
@@ -146,7 +154,7 @@ final class MigrationCommand implements Command
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: executeDown
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Rollback the last batch of migrations (down)
      */
     private function executeDown(): int
@@ -182,7 +190,7 @@ final class MigrationCommand implements Command
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: executeStatus
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Show migration status
      */
     private function executeStatus(): int
@@ -241,7 +249,7 @@ final class MigrationCommand implements Command
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: executeRefresh
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Refresh database (rollback all and re-run)
      */
     private function executeRefresh(): int
@@ -289,7 +297,9 @@ final class MigrationCommand implements Command
         }
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: help */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function help(): string
     {
         return <<<'HELP'
@@ -321,7 +331,7 @@ HELP;
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: outputSuccess
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Output success message (green)
      */
     private function outputSuccess(string $message): void
@@ -330,7 +340,7 @@ HELP;
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: outputInfo
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Output info message (white)
      */
     private function outputInfo(string $message): void
@@ -339,7 +349,7 @@ HELP;
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: outputWarning
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Output warning message (yellow)
      */
     private function outputWarning(string $message): void
@@ -348,7 +358,7 @@ HELP;
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: outputError
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Output error message (red)
      */
     private function outputError(string $message): void

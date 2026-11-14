@@ -8,8 +8,8 @@ use Ksfraser\FaBankImport\Contracts\Logger;
 use Ksfraser\FaBankImport\Exception\PartnerException;
 
 /**
- * @BABOK CLASS ROLLUP: ErrorHandler — 4 methods; FR-006 (4)
- * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Error/ErrorHandler.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+
  * ErrorHandler - Centralized error handling for Partner subsystem
  * 
  * Provides error wrapping, logging, and recovery strategies.
@@ -20,13 +20,15 @@ use Ksfraser\FaBankImport\Exception\PartnerException;
  */
 final class ErrorHandler
 {
-    /** @BABOK FR-006 / ARCH-007 — method: __construct */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function __construct(private readonly Logger $logger)
     {
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: handle
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
      * Execute callable with error handling and logging
      * 
      * @template T
@@ -61,7 +63,7 @@ final class ErrorHandler
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: handleWithRecovery
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
      * Execute callable with recovery strategy
      * 
      * If the callable throws an exception, the recovery callable is executed.
@@ -87,7 +89,7 @@ final class ErrorHandler
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: logException
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
      * Log exception details
      */
     public function logException(\Throwable $exception, string $context = ''): void

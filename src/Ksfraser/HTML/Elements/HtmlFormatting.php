@@ -7,6 +7,7 @@ use Ksfraser\HTML\HtmlElement;
 use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\HtmlAttribute;
 use Ksfraser\HTML\HtmlAttributeList;
+use Ksfraser\HTML\Elements\HtmlString;
 
 /**//*********************************************
 * Formatting on Text.
@@ -27,7 +28,7 @@ class HtmlFormatting extends HtmlElement
 		// overrides to disallow Attributes.  Initialize the same state
 		// directly so construction succeeds.
 		$this->nested = array();
-		$this->addNested( $data );
+		$this->addNested( is_string( $data ) ? new HtmlString( $data ) : $data );
 		$this->empty = false;
 		$this->attributeList = new HtmlAttributeList( new HtmlAttribute( "", "" ) );
 		$this->tag = "";

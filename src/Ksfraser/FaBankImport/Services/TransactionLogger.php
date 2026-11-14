@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -9,20 +9,24 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;
 
 /**
- * @BABOK CLASS ROLLUP: TransactionLogger — 2 methods; BR-001 (2); BR-002 (2); FR-008 (2)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionLogger.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+
  */
 class TransactionLogger
 {
     private $logFile;
 
-    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
+    /** * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+*/
     public function __construct(string $logFile = null)
     {
         $this->logFile = $logFile ?? __DIR__ . '/../../logs/transactions.log';
     }
 
-    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: logTransactionProcessed */
+    /** * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+*/
     public function logTransactionProcessed(TransactionProcessedEvent $event): void
     {
         $message = sprintf(

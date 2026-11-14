@@ -6,20 +6,32 @@ namespace Ksfraser\Application;
 
 use Ksfraser\Application\Models\ClockInterface;
 
+/**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ */
 class TimeFormatter
 {
     private ClockInterface $clock;
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function __construct(ClockInterface $clock)
     {
         $this->clock = $clock;
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function whatTimeIsIt(): string
     {
         return $this->clock->getCurrentTime()->format('Y-m-d\TH:i:sO');
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function YYYYMMDDHMS(): string
     {
         return $this->clock->getCurrentTime()->format('Y-m-d H:i:s');

@@ -57,8 +57,8 @@ final class TransactionServiceTest extends ProcessingTestCase
             ->willReturn(['id' => 7, 'transactionDC' => 'C']);
         $repository->expects($this->once())
             ->method('update')
-            ->with([7], 1, 0, 0)
-            ->willReturn(1);
+            ->with(7, ['status' => 'processed'])
+            ->willReturn(true);
 
         $service = new TransactionService($repository, new TransactionTypeFactory());
 

@@ -3,52 +3,79 @@
 namespace Models;
 
 /**
- * @BABOK CLASS ROLLUP: ThirdPartyTransactionInterface — 12 methods; FR-008 (12); BR-003 (12)
- * @BABOK RTM: FR-008 / BR-003; file: Models/ThirdPartyTransaction.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+
  */
 interface ThirdPartyTransactionInterface
 {
-    /** @BABOK FR-008 / BR-003 — method: getAllTransactions */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getAllTransactions();
-    /** @BABOK FR-008 / BR-003 — method: unsetTransaction */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function unsetTransaction($transactionId);
-    /** @BABOK FR-008 / BR-003 — method: addCustomerFromTransaction */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function addCustomerFromTransaction($transactionId);
-    /** @BABOK FR-008 / BR-003 — method: addVendorFromTransaction */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function addVendorFromTransaction($transactionId);
-    /** @BABOK FR-008 / BR-003 — method: processSupplierTransaction */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function processSupplierTransaction($transactionId);
-    /** @BABOK FR-008 / BR-003 — method: processCustomerTransaction */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function processCustomerTransaction($transactionId);
-    /** @BABOK FR-008 / BR-003 — method: processBankTransfer */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function processBankTransfer($transactionId);
-    /** @BABOK FR-008 / BR-003 — method: toggleDebitCredit */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function toggleDebitCredit($transactionId);
 }
 
+/**
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ */
 abstract class AbstractThirdPartyTransaction implements ThirdPartyTransactionInterface
 {
    protected $tableName;
 
-    /** @BABOK FR-008 / BR-003 — method: __construct */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function __construct($tableName = 'bi_transactions')
     {
         $this->tableName = $tableName;
     }
 
-    /** @BABOK FR-008 / BR-003 — method: getAllTransactions */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getAllTransactions()
     {
         return db_query("SELECT * FROM {$this->tableName}");
     }
 
-    /** @BABOK FR-008 / BR-003 — method: unsetTransaction */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     public function unsetTransaction($transactionId)
     {
         db_query("UPDATE {$this->tableName} SET status = 'unset' WHERE id = ?", [$transactionId]);
     }
 
-    /** @BABOK FR-008 / BR-003 — method: getTransactionById */
+    /** * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+*/
     protected function getTransactionById($transactionId)
     {
         $result = db_query("SELECT * FROM {$this->tableName} WHERE id = ?", [$transactionId]);

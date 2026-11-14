@@ -5,8 +5,8 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
- * @BABOK CLASS ROLLUP: KeywordMatch — 19 methods; BR-002 (19); FR-008 (19); FR-018 (19)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/KeywordMatch.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Value Object representing a keyword match result
  *
  * Contains all information about a partner matched via keyword search,
@@ -60,7 +60,7 @@ class KeywordMatch
     private MatchConfidence $confidence;
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a new KeywordMatch value object
      *
      * @param int             $partnerId       Partner ID
@@ -101,7 +101,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerId
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner ID
      *
      * @return int
@@ -113,7 +113,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerType
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner type
      *
      * @return int
@@ -125,7 +125,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerDetailId
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner detail ID
      *
      * @return int
@@ -137,7 +137,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getPartnerName
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner name
      *
      * @return string
@@ -149,7 +149,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getMatchedKeywords
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get matched keywords
      *
      * @return array<Keyword>
@@ -161,7 +161,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getMatchedKeywordCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get number of matched keywords
      *
      * @return int
@@ -173,7 +173,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getRawScore
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get raw score (before clustering bonus)
      *
      * @return int
@@ -185,7 +185,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getFinalScore
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get final score (with clustering bonus)
      *
      * @return float
@@ -197,7 +197,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getConfidence
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get confidence object
      *
      * @return MatchConfidence
@@ -209,7 +209,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getConfidencePercentage
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get confidence percentage
      *
      * @return float
@@ -221,7 +221,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: meetsConfidenceThreshold
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if confidence meets threshold
      *
      * @param float $threshold Minimum confidence percentage
@@ -235,7 +235,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getClusteringBonus
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get clustering bonus that was applied
      *
      * @return float
@@ -250,7 +250,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: toArray
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Convert to array representation
      *
      * @return array<string, mixed>
@@ -278,7 +278,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: __toString
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * String representation
      *
      * @return string
@@ -297,7 +297,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: validatePartnerId
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Validate partner ID
      *
      * @param int $partnerId
@@ -315,7 +315,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: validatePartnerName
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Validate partner name
      *
      * @param string $name
@@ -331,7 +331,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: validateMatchedKeywords
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Validate matched keywords array
      *
      * @param array<Keyword> $keywords
@@ -355,7 +355,7 @@ class KeywordMatch
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: validateScores
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Validate scores
      *
      * @param int   $rawScore

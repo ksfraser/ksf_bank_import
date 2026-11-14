@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -37,20 +37,22 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  * @since 2.3.0
  */
 /**
- * @BABOK CLASS ROLLUP: ConfidenceEnhancer — 6 methods; BR-001 (6); BR-002 (6); FR-008 (6)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/ConfidenceEnhancer.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  */
 class ConfidenceEnhancer
 {
     private const MIN_CONFIDENCE_FOR_AUTO_MATCH = 75.0;
 
-    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function __construct(private readonly ScoringRuleEngine $engine)
     {
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: enhance
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Enhance a single keyword match with context-aware confidence adjustment
      *
      * Applies all registered scoring rules to calculate a context boost,
@@ -96,7 +98,7 @@ class ConfidenceEnhancer
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: enhanceMultiple
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Enhance multiple keyword matches
      *
      * Applies enhancement to each match and returns array of enhanced results.
@@ -122,7 +124,7 @@ class ConfidenceEnhancer
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getBestMatch
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get best enhanced match from a list
      *
      * Returns the highest confidence enhanced match, or null if empty.
@@ -142,7 +144,7 @@ class ConfidenceEnhancer
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getAutoMatchCandidates
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get all auto-match candidates
      *
      * Returns enhanced matches that exceed AUTO_MATCH threshold (75%+).
@@ -163,7 +165,7 @@ class ConfidenceEnhancer
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: applyConfidenceAdjustment
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Apply confidence adjustment with clamping
      *
      * Ensures result stays within 0-100 range.

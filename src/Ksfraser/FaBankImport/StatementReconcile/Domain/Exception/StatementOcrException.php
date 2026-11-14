@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\Exception;
 use RuntimeException;
 
 /**
- * @BABOK CLASS ROLLUP: StatementOcrException — 2 methods; FR-007 (2); BR-004 (2)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Exception/StatementOcrException.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+
  * Thrown when an OCR operation on a statement fails or returns invalid data.
  *
  * @package Ksfraser\FaBankImport\StatementReconcile\Domain\Exception
@@ -17,7 +17,7 @@ use RuntimeException;
 class StatementOcrException extends RuntimeException
 {
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: forReason
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * @param string $reason Human-readable reason for failure.
      * @return self
      */
@@ -27,7 +27,7 @@ class StatementOcrException extends RuntimeException
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: missingField
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * @param string $field Field that was missing in the parsed result.
      * @return self
      */

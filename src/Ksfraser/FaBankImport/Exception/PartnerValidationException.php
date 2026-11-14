@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exception;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerValidationException — 3 methods; FR-050 (3)
- * @BABOK RTM: FR-050 / ARCH-003; file: Exception/PartnerValidationException.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+
  * PartnerValidationException - Thrown when partner data validation fails
  * 
  * Used when partner data violates constraints or business rules.
@@ -16,13 +16,17 @@ namespace Ksfraser\FaBankImport\Exception;
  */
 class PartnerValidationException extends PartnerException
 {
-    /** @BABOK FR-050 / ARCH-003 — method: emptyName */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function emptyName(): self
     {
         return new self('Partner name cannot be empty');
     }
 
-    /** @BABOK FR-050 / ARCH-003 — method: invalidOccurrenceCount */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function invalidOccurrenceCount(int $count): self
     {
         return new self(
@@ -30,7 +34,9 @@ class PartnerValidationException extends PartnerException
         );
     }
 
-    /** @BABOK FR-050 / ARCH-003 — method: nameExceedsMaxLength */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function nameExceedsMaxLength(int $length): self
     {
         return new self(

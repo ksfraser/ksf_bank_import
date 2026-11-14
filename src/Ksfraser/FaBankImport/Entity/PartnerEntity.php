@@ -5,8 +5,8 @@
 namespace Ksfraser\FaBankImport\Entity;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerEntity — 7 methods; FR-008 (7); DR-001 (7)
- * @BABOK RTM: FR-008 / DR-001 / ARCH-010; file: Entity/PartnerEntity.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Partner Entity - Immutable value object representing a partner
  * 
  * Encapsulates partner data with immutability enforced through readonly properties.
@@ -45,7 +45,7 @@ final class PartnerEntity
     private readonly ?\DateTime $lastMatchedTs;
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Construct a new partner entity
      * 
      * @param int $id Unique identifier (0 for new, >0 for existing)
@@ -69,7 +69,7 @@ final class PartnerEntity
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: id
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get unique identifier
      */
     public function id(): int
@@ -78,7 +78,7 @@ final class PartnerEntity
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: name
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner name
      */
     public function name(): string
@@ -87,7 +87,7 @@ final class PartnerEntity
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: type
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner type
      */
     public function type(): PartnerType
@@ -96,7 +96,7 @@ final class PartnerEntity
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: occurrenceCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get occurrence count (learning metric)
      */
     public function occurrenceCount(): int
@@ -105,7 +105,7 @@ final class PartnerEntity
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: lastMatchedTs
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get last matched timestamp (recency metric)
      */
     public function lastMatchedTs(): ?\DateTime
@@ -114,7 +114,7 @@ final class PartnerEntity
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: __set
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Prevent dynamic property assignment (enforce immutability)
      */
     public function __set(string $name, mixed $value): void

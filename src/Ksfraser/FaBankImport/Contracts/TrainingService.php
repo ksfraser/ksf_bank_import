@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Contracts;
 
 /**
- * @BABOK CLASS ROLLUP: TrainingService — 1 methods; FR-015 (1)
- * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/TrainingService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * TrainingService Contract
  * 
  * Defines the interface for building training data from historical transactions.
@@ -24,7 +24,7 @@ namespace Ksfraser\FaBankImport\Contracts;
 interface TrainingService
 {
     /**
- * @BABOK FR-015 / ARCH-001 — method: buildTrainingData
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Build training data from historical transactions
      * 
      * Scans all partners and their historical transactions to:

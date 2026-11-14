@@ -14,8 +14,8 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\PartnerFormData;
 
 /**
- * @BABOK CLASS ROLLUP: QuickEntryPartnerTypeView — 8 methods; FR-009 (8); IR-001 (8)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/QuickEntryPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+
  * QuickEntryPartnerTypeView - Display quick entry selection UI
  * 
  * Single Responsibility: Render quick entry selection dropdown based on transaction direction.
@@ -53,7 +53,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     private $formData;
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      * 
      * @param int $lineItemId The ID of the line item
@@ -72,7 +72,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getLineItemId
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get the line item ID
      * 
      * @return int
@@ -83,7 +83,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerId
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get the selected partner ID
      * 
      * @return int|null
@@ -94,7 +94,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerDetailId
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get the selected partner detail ID
      * 
      * @return int|null
@@ -105,7 +105,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get the HTML for this view
      * 
      * @return string HTML output
@@ -133,7 +133,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Output HTML directly
      * 
      * @return void
@@ -144,7 +144,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildQuickEntrySelect
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Build quick entry select dropdown
      * 
      * @return HtmlSelect
@@ -180,7 +180,7 @@ class QuickEntryPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getQuickEntryDescription
+ * @BABOK FR-PROC-002, FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get base description of selected quick entry
      * 
      * @return string Description text (empty string if none)

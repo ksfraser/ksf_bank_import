@@ -1,6 +1,6 @@
 <?php
 /**
- * @BABOK RTM: FR-006 / ARCH-007; file: process_statements_preclean.php; coverage: docs/TestCases/ (file rollup)
+
  */
 
 $path_to_root = "../..";

@@ -18,8 +18,8 @@ namespace Ksfraser\FaBankImport\Reporting;
 use DateTime;
 
 /**
- * @BABOK CLASS ROLLUP: MatchingReport — 19 methods; FR-012 (19)
- * @BABOK RTM: FR-012 / ARCH-007; file: Reporting/MatchingReport.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  * MatchingReport - Immutable record of a match operation
  *
  * @example
@@ -53,7 +53,7 @@ class MatchingReport
     private int $candidatesEvaluated;
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: __construct
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * @param string $transactionId Transaction identifier
      * @param ?int $partnerId Matched partner ID (null if no match)
      * @param float $confidence Final confidence score (0-100)
@@ -90,7 +90,7 @@ class MatchingReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: success
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create a successful match report
      *
      * @param string $transactionId Transaction ID
@@ -126,7 +126,7 @@ class MatchingReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: failed
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create a failed match report
      *
      * @param string $transactionId Transaction ID
@@ -156,7 +156,7 @@ class MatchingReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: uncertain
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create a partial/uncertain match report
      *
      * @param string $transactionId Transaction ID
@@ -192,38 +192,48 @@ class MatchingReport
 
     // ====== Getters ======
 
-    /** @BABOK FR-012 / ARCH-007 — method: getTransactionId */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTransactionId(): string
     {
         return $this->transactionId;
     }
 
-    /** @BABOK FR-012 / ARCH-007 — method: getPartnerId */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getPartnerId(): ?int
     {
         return $this->partnerId;
     }
 
-    /** @BABOK FR-012 / ARCH-007 — method: getConfidence */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getConfidence(): float
     {
         return $this->confidence;
     }
 
-    /** @BABOK FR-012 / ARCH-007 — method: isSuccess */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function isSuccess(): bool
     {
         return $this->success;
     }
 
-    /** @BABOK FR-012 / ARCH-007 — method: getReason */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getReason(): string
     {
         return $this->reason;
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getConfidenceLevel
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get confidence level classification
      *
      * @return string 'HIGH' (≥70%), 'MEDIUM' (40-69%), 'LOW' (<40%)
@@ -240,7 +250,7 @@ class MatchingReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getScoreBreakdown
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get score breakdown by rule
      *
      * @return array<string, float> Rule name => contribution
@@ -251,7 +261,7 @@ class MatchingReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getKeywords
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get keywords extracted from transaction
      *
      * @return array<string>
@@ -261,26 +271,32 @@ class MatchingReport
         return $this->keywords;
     }
 
-    /** @BABOK FR-012 / ARCH-007 — method: getTimestamp */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTimestamp(): DateTime
     {
         return $this->timestamp;
     }
 
-    /** @BABOK FR-012 / ARCH-007 — method: getScoreFormula */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getScoreFormula(): ?string
     {
         return $this->scoreFormula;
     }
 
-    /** @BABOK FR-012 / ARCH-007 — method: getCandidatesEvaluated */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getCandidatesEvaluated(): int
     {
         return $this->candidatesEvaluated;
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getSuccessValue
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get success as numeric value for averaging
      *
      * @return float 1.0 if successful, 0.0 if not
@@ -291,7 +307,7 @@ class MatchingReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: toArray
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Convert to array for logging/serialization
      *
      * @return array<string, mixed>
@@ -314,7 +330,7 @@ class MatchingReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getTotalScore
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get total contribution from score breakdown
      *
      * @return float Sum of all rule contributions
@@ -325,7 +341,7 @@ class MatchingReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getAverageRuleContribution
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get average score per rule
      *
      * @return float Average contribution per rule

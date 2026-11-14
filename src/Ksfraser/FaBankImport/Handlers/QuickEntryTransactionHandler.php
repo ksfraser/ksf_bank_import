@@ -31,13 +31,13 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\QuickEntryPartnerType;
 
 /**
- * @BABOK CLASS ROLLUP: QuickEntryTransactionHandler — 3 methods; FR-049 (3)
- * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/QuickEntryTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+
  */
 class QuickEntryTransactionHandler extends AbstractTransactionHandler
 {
     /**
- * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get the partner type instance for Quick Entry transactions
      * 
      * @return PartnerTypeInterface Returns QuickEntryPartnerType value object
@@ -48,7 +48,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: process
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Process a Quick Entry transaction
      * 
      * @param array $transaction Complete transaction record from bi_transactions
@@ -110,7 +110,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: processQuickEntry
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Process a Quick Entry transaction
      * 
      * Creates an items_cart, loads the Quick Entry template, adds transaction
@@ -138,7 +138,7 @@ class QuickEntryTransactionHandler extends AbstractTransactionHandler
         int $transType
     ): TransactionResult {
         // Create items cart with appropriate transaction type
-        $cart = new \items_cart($transType);
+        $cart = $this->createItemsCart($transType);
         $cart->order_id = 0;
         $cart->original_amount = $transaction['transactionAmount'] + $charge;
 

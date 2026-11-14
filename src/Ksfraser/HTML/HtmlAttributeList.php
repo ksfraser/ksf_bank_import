@@ -14,13 +14,16 @@ class HtmlAttributeList implements HtmlElementInterface
 	/**
 	 * Constructor
 	 * 
-	 * @param HtmlAttribute $attribute Initial attribute
+	 * @param HtmlAttribute|null $attribute Initial attribute (optional)
  * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
 	 */
-	function __construct( HtmlAttribute $attribute )
+	function __construct( ?HtmlAttribute $attribute = null )
 	{
 		$this->attributeArray = array(); // Initialize array
-		$this->addAttribute( $attribute );
+		if ( $attribute !== null )
+		{
+			$this->addAttribute( $attribute );
+		}
 	}
 	
 	/**

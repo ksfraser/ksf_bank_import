@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -9,8 +9,8 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
- * @BABOK CLASS ROLLUP: FileStorageService — 13 methods; BR-001 (13); BR-002 (13); FR-008 (13)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/FileStorageService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+
  * File Storage Service
  * 
  * Handles physical file storage operations on disk
@@ -34,7 +34,7 @@ class FileStorageService implements FileStorageServiceInterface
     private const DIR_PERMISSIONS = 0750;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Constructor
      * 
      * @param string|null $storageDir Optional custom storage directory
@@ -51,7 +51,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: store
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Store uploaded file to disk
      * 
      * @param FileInfo $fileInfo File information from upload
@@ -98,7 +98,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: delete
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Delete file from disk
      * 
      * @param string $filePath Full path to file
@@ -115,7 +115,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: exists
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Check if file exists on disk
      * 
      * @param string $filePath Full path to file
@@ -128,7 +128,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getContents
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Get file contents
      * 
      * @param string $filePath Full path to file
@@ -153,7 +153,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStorageDirectory
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Get storage directory path
      * 
      * @return string Full path to upload storage directory
@@ -165,7 +165,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: ensureStorageDirectoryExists
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Ensure storage directory exists with proper permissions
      * 
      * @return void
@@ -190,7 +190,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: generateUniqueFilename
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Generate unique filename to avoid collisions
      * 
      * Format: PARSER_YYYYMMDD_HHMMSS_RANDOM.ext
@@ -225,7 +225,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getDefaultStorageDirectory
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Get default storage directory
      * 
      * @return string Full path to company/bank_imports/uploads
@@ -241,7 +241,7 @@ class FileStorageService implements FileStorageServiceInterface
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createHtaccessFile
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Create .htaccess file to protect upload directory
      * 
      * Prevents direct web access to uploaded files
@@ -277,7 +277,7 @@ HTACCESS;
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFileSize
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Get file size in bytes
      * 
      * @param string $filePath Full path to file
@@ -302,7 +302,7 @@ HTACCESS;
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getModificationTime
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Get file modification time
      * 
      * @param string $filePath Full path to file
@@ -327,7 +327,7 @@ HTACCESS;
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: copy
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Copy file to new location
      * 
      * Useful for creating backups or archives

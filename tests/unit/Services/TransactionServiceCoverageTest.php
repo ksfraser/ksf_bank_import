@@ -73,7 +73,8 @@ final class TransactionServiceCoverageTest extends TestCase
 
         $this->repository->expects($this->once())
             ->method('update')
-            ->with([5], 1, 0, 0);
+            ->with(5, ['status' => 'processed'])
+            ->willReturn(true);
 
         $this->assertTrue($this->service->processTransaction(5, 'SP'));
         $this->assertTrue($processed->called);

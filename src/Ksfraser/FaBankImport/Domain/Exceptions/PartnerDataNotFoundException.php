@@ -5,8 +5,8 @@ namespace Ksfraser\FaBankImport\Domain\Exceptions;
 use Exception;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerDataNotFoundException — 3 methods; BR-002 (3); FR-008 (3); FR-018 (3)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/Exceptions/PartnerDataNotFoundException.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Exception thrown when partner data is not found
  *
  * @package Ksfraser\FaBankImport\Domain\Exceptions
@@ -17,7 +17,7 @@ use Exception;
 class PartnerDataNotFoundException extends Exception
 {
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: forPartner
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create exception for partner data not found by ID
      *
      * @param int $partnerId
@@ -43,7 +43,7 @@ class PartnerDataNotFoundException extends Exception
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: forKeyword
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create exception for no matches found by keyword
      *
      * @param string $keyword
@@ -64,7 +64,7 @@ class PartnerDataNotFoundException extends Exception
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: forKeywords
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create exception for no matches found by keywords array
      *
      * @param array<string> $keywords

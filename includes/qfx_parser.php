@@ -328,11 +328,16 @@ class qfx_parser extends parser {
 			$trz->currency = $currency;
 			//$trz->currency = $smts[$sid]->currency;
 		
-			$trz->transactionCode = (string) $transaction->uniqueId;		//Reference Number
-			$trz->fitid = (string) $transaction->uniqueId;	
+			// The OFX SGML converter leaves an empty <FITID></FITID> holding a
+			// newline text node, so a whitespace-only fitid means "no fitid":
+			// normalise it to an empty string so the statement's validate()
+			// reports the transaction as broken instead of passing it on.
+			$fitid = trim((string) $transaction->uniqueId);
+			$trz->transactionCode = $fitid;		//Reference Number
+			$trz->fitid = $fitid;
 			$trz->acctid = $accountNumber;		//This is an account number string i.e. from the bank. PCMC - 5181....
-			$trz->intu_bid = $bankid;			
-			$trz->reference = (string) $transaction->uniqueId;		//Reference Number
+			$trz->intu_bid = $bankid;
+			$trz->reference = $fitid;		//Reference Number
 			$trz->transactionCodeDesc = (string) $transaction->type;	//Status
 			$trz->checknumber = (string) $transaction->checkNumber;		//Cheque  Number
 			if( include_once( 'includes.inc' ) )

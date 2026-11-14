@@ -192,15 +192,33 @@ final class ScreenScaffold
         self::write($faRoot . '/gl/includes/gl_ui.inc', "<?php\n");
 
         // Module includes: the real implementations are reused so the screens
-        // behave exactly like they do in production.
+        // behave exactly like they do in production. parser.php was moved to
+        // the repository root during the refactor; the rest live in includes/.
         $includes = $moduleDir . '/includes/';
-        foreach (['parser.php', 'ro_wmmc_csv_parser.php', 'banking.php', 'parsers.inc'] as $file) {
-            self::link($repo . '/includes/' . $file, $includes . $file);
+        $moduleIncludeTargets = [
+            'parser.php' => $repo . '/parser.php',
+            'ro_wmmc_csv_parser.php' => $repo . '/includes/ro_wmmc_csv_parser.php',
+            'banking.php' => $repo . '/includes/banking.php',
+            'parsers.inc' => $repo . '/includes/parsers.inc',
+        ];
+        foreach ($moduleIncludeTargets as $file => $target) {
+            self::link($target, $includes . $file);
         }
 
         // The QFX parser is copied (not linked) so that its __DIR__ points at
         // the scaffold and it picks up the scaffold's includes.inc.
         self::write($includes . 'qfx_parser.php', (string) file_get_contents($repo . '/includes/qfx_parser.php'));
+
+        // The copied QFX parser still needs the OFX vendor autoloader. It looks
+        // for <module>/config/ofx_parser_config.php first, then falls back to
+        // ./vendor — so link the repository vendor tree and provide the config
+        // file pointing at it.
+        self::link($repo . '/includes/vendor', $includes . 'vendor');
+        self::write(
+            $moduleDir . '/config/ofx_parser_config.php',
+            "<?php\nif (!defined('OFX_PARSER_AUTOLOAD')) {\n"
+            . "    define('OFX_PARSER_AUTOLOAD', '" . $repo . "/includes/vendor/autoload.php');\n}\n"
+        );
 
         // includes.inc pulls in the transaction model; the scaffold loads the
         // model itself (see below) so that the model can be made to fail.
@@ -262,13 +280,17 @@ PHP;
      */
     private function originStub(): string
     {
+        // The vendor package may already have declared the class when its
+        // autoload files load, so only declare it when absent.
         return <<<'PHP'
 <?php
 // Minimal stand-in for ksf_modules_common's origin base class.
-class origin
-{
-    public function __construct()
+if (!class_exists('origin', false)) {
+    class origin
     {
+        public function __construct()
+        {
+        }
     }
 }
 PHP;

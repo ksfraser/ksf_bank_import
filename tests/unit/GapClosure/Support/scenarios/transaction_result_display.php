@@ -5,10 +5,12 @@ declare(strict_types=1);
 /**
  * Scenario: the display of a warning result.
  *
- * The result falls back to the plain notification when the installation has
- * no dedicated warning helper. The PHPUnit process always has the mock
- * package loaded, which declares that helper, so the fallback is never
- * taken there. The scenario declares the notification only.
+ * The mock package (loaded by the composer autoloader before the scenario)
+ * declares FA's display_warning() helper, so the result routes the warning
+ * to it; famock's helper captures into $GLOBALS['test_warnings']. The
+ * scenario reports that capture so the routing is observable in the child's
+ * output. (The plain-notification fallback of TransactionResult::display()
+ * is unreachable in any process that autoloads famock.)
  *
  * @package    Ksfraser\FaBankImport\Tests\Unit\GapClosure\Support\scenarios
  * @license    MIT
@@ -28,5 +30,10 @@ if (!function_exists('display_notification')) {
 require_once KSF_GAP_ROOT . '/src/Ksfraser/FaBankImport/Results/TransactionResult.php';
 
 \Ksfraser\FaBankImport\Results\TransactionResult::warning('Careful')->display();
+
+$warnings = isset($GLOBALS['test_warnings']) ? (array) $GLOBALS['test_warnings'] : [];
+foreach ($warnings as $warning) {
+    echo 'WARNING: ' . $warning . "\n";
+}
 
 echo "SCENARIO_OK\n";

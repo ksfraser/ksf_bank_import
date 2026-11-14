@@ -1,16 +1,17 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
 
 use Ksfraser\FaBankImport\Config\Config;
+use Ksfraser\FaBankImport\Service\BankImportPathResolver;
 
 /**
- * @BABOK CLASS ROLLUP: UploadedFileManager — 14 methods; BR-001 (14); BR-002 (14); FR-008 (14)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/UploadedFileManager.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+
  * UploadedFileManager - Manage uploaded bank statement files
  * 
  * Mantis #2708: Store uploaded files for future reference
@@ -29,7 +30,7 @@ class UploadedFileManager
     protected $db;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Constructor
      * 
      * @param string|null $upload_dir Custom upload directory (optional)
@@ -37,14 +38,14 @@ class UploadedFileManager
      */
     public function __construct($upload_dir = null)
     {
-        global $db, $path_to_root, $comp_path;
-        
+        global $db;
+
         $this->db = $db;
-        
+
         // Use company-specific directory like FA attachments
         if ($upload_dir === null) {
-            // Store in company_path/bank_imports/
-            $this->upload_dir = $comp_path . '/' . user_company() . '/bank_imports';
+            // Store in company_path/bank_imports/uploads
+            $this->upload_dir = BankImportPathResolver::forCurrentCompany()->uploadsDir();
         } else {
             $this->upload_dir = $upload_dir;
         }
@@ -59,7 +60,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: protectDirectory
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Create .htaccess to protect uploaded files
  * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      */
@@ -78,7 +79,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: saveUploadedFile
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Save an uploaded file
      * 
      * @param array $file_info $_FILES array entry
@@ -177,7 +178,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: linkFileToStatements
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Link an uploaded file to statements
      * 
      * @param int $file_id Uploaded file ID
@@ -212,7 +213,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: updateStatementCount
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Update statement count for a file
      * 
      * @param int $file_id File ID
@@ -232,7 +233,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: generateUniqueFilename
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Generate unique filename
      * 
      * @param string $original_filename Original filename
@@ -255,7 +256,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: findDuplicate
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Find duplicate file upload
      * 
      * Checks for existing file with same:
@@ -305,7 +306,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getUploadedFiles
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get all uploaded files
      * 
      * @param array $filters Optional filters (user, date_from, date_to, parser_type)
@@ -359,7 +360,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFileDetails
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get file details
      * 
      * @param int $file_id File ID
@@ -389,7 +390,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getLinkedStatements
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get statements linked to a file
      * 
      * @param int $file_id File ID
@@ -415,7 +416,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: downloadFile
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Download a file
      * 
      * @param int $file_id File ID
@@ -448,7 +449,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: deleteFile
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Delete an uploaded file
      * 
      * @param int $file_id File ID
@@ -476,7 +477,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTotalFileCount
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get total file count
      * 
      * @param array $filters Optional filters
@@ -513,7 +514,7 @@ class UploadedFileManager
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStorageStats
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get storage statistics
      * 
      * @return array Statistics

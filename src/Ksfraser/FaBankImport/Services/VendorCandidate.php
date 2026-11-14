@@ -16,7 +16,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -24,8 +24,8 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 
 /**
- * @BABOK CLASS ROLLUP: VendorCandidate — 5 methods; BR-001 (5); BR-002 (5); FR-008 (5)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/VendorCandidate.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Vendor Candidate Implementation
  *
  * Simple implementation of the SupplierCandidate interface for
@@ -62,7 +62,7 @@ final class VendorCandidate implements SupplierCandidate
     private int $partnerType;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param int    $partnerId      The partner/supplier ID
@@ -83,7 +83,7 @@ final class VendorCandidate implements SupplierCandidate
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * {@inheritdoc}
      */
     public function getPartnerId(): int
@@ -92,7 +92,7 @@ final class VendorCandidate implements SupplierCandidate
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * {@inheritdoc}
      */
     public function getPartnerName(): string
@@ -101,7 +101,7 @@ final class VendorCandidate implements SupplierCandidate
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerType
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * {@inheritdoc}
      */
     public function getPartnerType(): int
@@ -110,7 +110,7 @@ final class VendorCandidate implements SupplierCandidate
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerAccount
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get partner account
      *
      * @return string

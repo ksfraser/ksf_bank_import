@@ -9,8 +9,8 @@ use Ksfraser\FaBankImport\Contracts\Logger;
 use InvalidArgumentException;
 
 /**
- * @BABOK CLASS ROLLUP: Kernel — 8 methods; FR-049 (8)
- * @BABOK RTM: FR-049 / ARCH-004; file: Cli/Kernel.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Cli Kernel - Dispatcher for CLI commands
  * 
  * Routes command line inputs to appropriate command handlers.
@@ -24,13 +24,15 @@ final class Kernel
     /** @var Command[] */
     private array $commands = [];
 
-    /** @BABOK FR-049 / ARCH-004 — method: __construct */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function __construct(private readonly Logger $logger)
     {
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: register
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Register a command
      */
     public function register(Command $command): void
@@ -40,7 +42,7 @@ final class Kernel
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: runFromArgv
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Run from argv array (typically $_SERVER['argv'])
      * 
      * @param array<string> $argv Command line arguments
@@ -71,7 +73,7 @@ final class Kernel
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: execute
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Execute a specific command
      */
     public function execute(string $commandName, array $arguments = []): int
@@ -96,7 +98,7 @@ final class Kernel
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: showHelp
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Show general help
      */
     private function showHelp(): int
@@ -127,7 +129,7 @@ final class Kernel
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: showCommandHelp
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Show help for a specific command
      */
     private function showCommandHelp(string $commandName): int
@@ -142,7 +144,7 @@ final class Kernel
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: parseArguments
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Parse command line arguments into key-value pairs
      * 
      * Converts:
@@ -179,7 +181,7 @@ final class Kernel
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: commands
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get registered commands
      * 
      * @return array<string, Command>

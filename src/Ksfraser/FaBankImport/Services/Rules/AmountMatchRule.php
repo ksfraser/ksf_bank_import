@@ -10,7 +10,7 @@
  * @author     Kevin Fraser
  * @copyright  2025 KSF
  * @since      7.6 (2026-04-19)
- * @BABOK BR-001 (Auto Pair Detection) — FR-003 (Amount Matching Tolerance) — AC-003.1/003.2
+
  * @UML docs/FunctionalRequirements/FR-003.md
  * @version    1.0.0
  */
@@ -23,8 +23,8 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRule;
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 
 /**
- * @BABOK CLASS ROLLUP: AmountMatchRule — 5 methods; BR-001 (5)
- * @BABOK RTM: BR-001 / ARCH-001; file: Services/Rules/AmountMatchRule.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+
  * Amount Range Matching Rule
  *
  * @since 7.6
@@ -37,7 +37,7 @@ class AmountMatchRule implements ScoringRule
     private float $tolerance;
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
      * Constructor
      *
      * @param float $tolerance Tolerance percentage (default 1.0 = 1%)
@@ -49,7 +49,7 @@ class AmountMatchRule implements ScoringRule
     }
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: calculateScore
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
      * @inheritDoc
      */
     public function calculateScore(array $transaction, SupplierCandidate $match): float
@@ -80,7 +80,7 @@ class AmountMatchRule implements ScoringRule
     }
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: getName
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
      * @inheritDoc
      */
     public function getName(): string
@@ -89,7 +89,7 @@ class AmountMatchRule implements ScoringRule
     }
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: getMaxBoost
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
      * @inheritDoc
      */
     public function getMaxBoost(): float
@@ -98,7 +98,7 @@ class AmountMatchRule implements ScoringRule
     }
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: getMinReduction
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
      * @inheritDoc
      */
     public function getMinReduction(): float

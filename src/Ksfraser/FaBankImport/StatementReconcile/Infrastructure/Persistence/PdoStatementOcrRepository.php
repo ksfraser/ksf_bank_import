@@ -11,8 +11,8 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrExcept
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Repository\StatementOcrRepositoryInterface;
 
 /**
- * @BABOK CLASS ROLLUP: PdoStatementOcrRepository — 7 methods; FR-008 (7)
- * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Persistence/PdoStatementOcrRepository.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+
  * PDO-backed implementation of StatementOcrRepositoryInterface.
  *
  * Table: bi_statement_ocr
@@ -28,7 +28,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     private $pdo;
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: __construct
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * @param PDO $pdo
      */
     public function __construct(PDO $pdo)
@@ -37,7 +37,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: save
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function save(StatementOcr $entity): int
@@ -53,7 +53,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: findById
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function findById(int $id): ?StatementOcr
@@ -72,7 +72,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: findByAccountIdentifier
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function findByAccountIdentifier(string $accountIdentifier): array
@@ -93,7 +93,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: insert
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * @param array $data
      * @return int New row ID.
      */
@@ -131,7 +131,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: update
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * @param int   $id
      * @param array $data
      */
@@ -170,7 +170,7 @@ final class PdoStatementOcrRepository implements StatementOcrRepositoryInterface
     }
 
     /**
- * @BABOK FR-008 / ARCH-010 — method: hydrate
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Reconstitute a StatementOcr from a raw DB row.
      *
      * @param array $row

@@ -30,8 +30,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Config;
 
 /**
- * @BABOK CLASS ROLLUP: BankImportConfig — 15 methods; FR-002 (15); FR-051 (15)
- * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/BankImportConfig.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+
  * Bank Import Configuration
  *
  * Provides type-safe access to module configuration settings.
@@ -75,7 +75,7 @@ class BankImportConfig
     private const DEFAULT_SCORING_WEIGHT = 1.0;
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getTransRefLoggingEnabled
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Check if transaction reference logging is enabled
      *
      * @return bool True if enabled, false if disabled
@@ -93,7 +93,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getTransRefAccount
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get GL account code for transaction reference logging
      *
      * @return string GL account code (e.g., '0000')
@@ -107,7 +107,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: setTransRefLoggingEnabled
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Set transaction reference logging enabled/disabled
      *
      * @param bool $enabled True to enable, false to disable
@@ -119,7 +119,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: setTransRefAccount
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Set GL account code for transaction reference logging
      *
      * Validates that the account exists before saving.
@@ -141,7 +141,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringRecencyWeight
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get recency scoring rule weight
      *
      * Controls how much timestamp proximity affects matching confidence.
@@ -152,11 +152,11 @@ class BankImportConfig
     public static function getScoringRecencyWeight(): float
     {
         $value = get_company_pref(self::KEY_SCORING_RECENCY_WEIGHT);
-        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+        return $value !== null && trim((string)$value) !== '' ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringAmountWeight
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get amount range scoring rule weight
      *
      * Controls how much transaction amount reliability affects matching.
@@ -167,11 +167,11 @@ class BankImportConfig
     public static function getScoringAmountWeight(): float
     {
         $value = get_company_pref(self::KEY_SCORING_AMOUNT_WEIGHT);
-        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+        return $value !== null && trim((string)$value) !== '' ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringTypeWeight
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get type consistency scoring rule weight
      *
      * Controls how much transaction type matching affects confidence.
@@ -182,11 +182,11 @@ class BankImportConfig
     public static function getScoringTypeWeight(): float
     {
         $value = get_company_pref(self::KEY_SCORING_TYPE_WEIGHT);
-        return $value !== null ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
+        return $value !== null && trim((string)$value) !== '' ? (float)$value : self::DEFAULT_SCORING_WEIGHT;
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringRecencyWeight
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Set recency scoring rule weight
      *
      * @param float $weight Weight multiplier (must be > 0)
@@ -202,7 +202,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringAmountWeight
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Set amount range scoring rule weight
      *
      * @param float $weight Weight multiplier (must be > 0)
@@ -218,7 +218,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringTypeWeight
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Set type consistency scoring rule weight
      *
      * @param float $weight Weight multiplier (must be > 0)
@@ -234,7 +234,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getScoringWeights
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get all scoring weights as associative array
      *
      * Useful for applying weights to scoring engine or displaying in UI.
@@ -255,7 +255,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: setScoringWeights
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Set all scoring weights at once
      *
      * @param float $recencyWeight Recency rule weight
@@ -272,7 +272,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: glAccountExists
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Check if GL account exists in the chart of accounts
      *
      * @param string $accountCode GL account code to check
@@ -283,7 +283,11 @@ class BankImportConfig
         // In production, this queries FrontAccounting's database
         // For testing, we can mock get_company_pref() to bypass DB
         
-        if (!\function_exists('\\db_escape')) {
+        // Detect a live FrontAccounting runtime by its database handle: FA's
+        // connect_db.inc sets the global $db (mysqli). A function_exists()
+        // check on db_escape() cannot be used because the FA mock library
+        // (famock) declares that function in every test process.
+        if (!isset($GLOBALS['db'])) {
             // Not in FrontAccounting context (e.g., unit tests)
             // Allow any account code for testing
             return true;
@@ -304,7 +308,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getAllSettings
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Get all configuration settings as array
      *
      * Useful for debugging or exporting settings.
@@ -321,7 +325,7 @@ class BankImportConfig
     }
 
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: resetToDefaults
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
      * Reset all settings to defaults
      *
      * Useful for testing or resetting module configuration.

@@ -9,8 +9,8 @@ use GuzzleHttp\Exception\GuzzleException;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\Exception\StatementOcrException;
 
 /**
- * @BABOK CLASS ROLLUP: OllamaClient — 2 methods; FR-007 (2)
- * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/OllamaClient.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+
  * Guzzle-backed Ollama REST client.
  *
  * Targets Ollama's /api/generate endpoint with stream=false so the
@@ -42,7 +42,7 @@ final class OllamaClient implements OllamaClientInterface
     private $timeoutSeconds;
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: __construct
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * @param ClientInterface $http           Injected Guzzle client (pre-configured base_uri optional).
      * @param string          $baseUrl        Full base URL e.g. "http://ollama.internal:11434".
      * @param string          $apiKey         Optional Bearer token.
@@ -65,7 +65,7 @@ final class OllamaClient implements OllamaClientInterface
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: generate
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      */
     public function generate(string $model, string $prompt, array $options = []): array

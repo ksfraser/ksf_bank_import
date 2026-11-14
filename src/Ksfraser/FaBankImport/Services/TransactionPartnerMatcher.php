@@ -17,7 +17,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -25,8 +25,8 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 
 /**
- * @BABOK CLASS ROLLUP: TransactionPartnerMatcher — 3 methods; BR-001 (3); BR-002 (3); FR-008 (3)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionPartnerMatcher.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Transaction Partner Matcher
  *
  * Orchestrates matching of incoming bank transactions against all available
@@ -65,7 +65,7 @@ class TransactionPartnerMatcher
     private int $partnerTypeBankTransfer = 4; // ST_BANKTRANSFER
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param ScoringRuleEngine $engine Scoring engine instance
@@ -80,7 +80,7 @@ class TransactionPartnerMatcher
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchTransaction
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Match a transaction against all available partners
      *
      * Scores the transaction against suppliers, customers, and bank transfer
@@ -223,7 +223,7 @@ class TransactionPartnerMatcher
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setPartnerTypeConstants
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Set partner type constants (for testability)
      *
      * @param int $supplier     PT_SUPPLIER constant value

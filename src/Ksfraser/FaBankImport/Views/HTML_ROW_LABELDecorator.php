@@ -8,8 +8,8 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 /**
- * @BABOK CLASS ROLLUP: HTML_ROW_LABELDecorator — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/HTML_ROW_LABELDecorator.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+
  * HTML_ROW_LABELDecorator - Decorator for HTML_ROW_LABEL
  * 
  * @package Views
@@ -23,7 +23,7 @@ class HTML_ROW_LABELDecorator implements HtmlElementInterface
     protected $HTML_LABEL_ROW;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Create label row decorator
      * 
      * @param string $data The cell content
@@ -37,7 +37,7 @@ class HTML_ROW_LABELDecorator implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Output HTML directly to screen
      * 
      * @return void
@@ -48,7 +48,7 @@ class HTML_ROW_LABELDecorator implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Get HTML as string
      * 
      * @return string The HTML

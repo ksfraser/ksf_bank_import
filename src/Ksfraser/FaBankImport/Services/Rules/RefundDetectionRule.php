@@ -16,7 +16,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services\Rules;
@@ -25,8 +25,8 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRule;
 use Ksfraser\FaBankImport\Services\Scoring\SupplierCandidate;
 
 /**
- * @BABOK CLASS ROLLUP: RefundDetectionRule — 4 methods; BR-001 (4)
- * @BABOK RTM: BR-001 / ARCH-001; file: Services/Rules/RefundDetectionRule.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Refund Type Detection Rule
  *
  * Detects when a transaction is a customer refund (opposite of supplier invoice).
@@ -40,7 +40,7 @@ class RefundDetectionRule implements ScoringRule
     const ST_CUSTREFUND = 11;
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: calculateScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @inheritDoc
      */
     public function calculateScore(array $transaction, SupplierCandidate $match): float
@@ -57,7 +57,7 @@ class RefundDetectionRule implements ScoringRule
     }
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: getName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @inheritDoc
      */
     public function getName(): string
@@ -66,7 +66,7 @@ class RefundDetectionRule implements ScoringRule
     }
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: getMaxBoost
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @inheritDoc
      */
     public function getMaxBoost(): float
@@ -75,7 +75,7 @@ class RefundDetectionRule implements ScoringRule
     }
 
     /**
- * @BABOK BR-001 / ARCH-001 — method: getMinReduction
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @inheritDoc
      */
     public function getMinReduction(): float

@@ -91,8 +91,8 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * @since 1.0.0
  */
 /**
- * @BABOK CLASS ROLLUP: CustomerDataProvider — 16 methods; FR-009 (16); IR-001 (16)
- * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/CustomerDataProvider.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  */
 class CustomerDataProvider implements PartnerDataProviderInterface
 {
@@ -134,7 +134,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     private $loaded = false;
     
     /**
- * @BABOK FR-009 / IR-001 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Private constructor for singleton pattern
      */
     private function __construct()
@@ -143,7 +143,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getInstance
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get singleton instance
      * 
      * @return CustomerDataProvider The singleton instance
@@ -158,7 +158,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: reset
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Reset singleton instance (for testing)
      * 
      * @return void
@@ -170,7 +170,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getPartners
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all customers (implements PartnerDataProviderInterface)
      * 
      * @return array<int, array> Customer data indexed by customer ID
@@ -182,7 +182,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getCustomers
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all customers
      * 
      * @return array<int, array> Customer data indexed by customer ID
@@ -197,7 +197,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getCustomer
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get specific customer
      * 
      * @param int $customerId Customer ID (debtor_no)
@@ -215,7 +215,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getBranches
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all branches for a customer
      * 
      * @param int $customerId Customer ID
@@ -244,7 +244,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getBranch
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get specific branch for a customer
      * 
      * The branch code is FA's cust_branch.branch_code, a varchar (e.g. 'BR1'),
@@ -274,7 +274,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: hasBranches
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if customer has branches
      * 
      * @param int $customerId Customer ID
@@ -293,7 +293,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getPartnerLabel
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get label for customer (implements PartnerDataProviderInterface)
      * 
      * @param int $partnerId Customer ID
@@ -308,7 +308,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getLabel
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get label for customer
      * 
      * @param int $customerId Customer ID
@@ -324,7 +324,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: hasPartner
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if customer exists (implements PartnerDataProviderInterface)
      * 
      * @param int $partnerId Customer ID to check
@@ -338,7 +338,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: hasCustomer
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if customer exists
      * 
      * @param int $customerId Customer ID to check
@@ -355,7 +355,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get count of customers
      * 
      * @return int Number of customers
@@ -370,7 +370,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: loadCustomers
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Load customers and branches from database
      * 
      * Queries FrontAccounting database for all active customers and their branches.
@@ -426,7 +426,7 @@ class CustomerDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: loadBranches
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Load customer branches from database
      * 
      * Loads all branch data and creates customer-to-branches mapping.

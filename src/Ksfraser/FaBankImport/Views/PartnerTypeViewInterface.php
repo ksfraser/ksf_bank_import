@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerTypeViewInterface — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/PartnerTypeViewInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Partner Type View Interface
  * 
  * Contract for partner type view classes.
@@ -21,7 +21,7 @@ use Ksfraser\HTML\HtmlElementInterface;
 interface PartnerTypeViewInterface extends HtmlElementInterface
 {
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getLineItemId
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get the line item ID this view is associated with
      * 
      * @return int
@@ -29,7 +29,7 @@ interface PartnerTypeViewInterface extends HtmlElementInterface
     public function getLineItemId(): int;
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerId
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get the selected partner ID after matching/selection
      * 
      * @return int|null
@@ -37,7 +37,7 @@ interface PartnerTypeViewInterface extends HtmlElementInterface
     public function getSelectedPartnerId(): ?int;
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerDetailId
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get the selected partner detail ID (e.g., branch code)
      * 
      * @return int|null

@@ -3,8 +3,8 @@
 namespace Ksfraser\FaBankImport\Events;
 
 /**
- * @BABOK CLASS ROLLUP: TransactionProcessedEvent — 4 methods; BR-003 (4)
- * @BABOK RTM: BR-003 / ARCH-004; file: Events/TransactionProcessedEvent.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+
  */
 class TransactionProcessedEvent
 {
@@ -12,7 +12,9 @@ class TransactionProcessedEvent
     private $type;
     private $timestamp;
 
-    /** @BABOK BR-003 / ARCH-004 — method: __construct */
+    /** * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct(int $transactionId, string $type)
     {
         $this->transactionId = $transactionId;
@@ -20,19 +22,25 @@ class TransactionProcessedEvent
         $this->timestamp = new \DateTime();
     }
 
-    /** @BABOK BR-003 / ARCH-004 — method: getTransactionId */
+    /** * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTransactionId(): int
     {
         return $this->transactionId;
     }
 
-    /** @BABOK BR-003 / ARCH-004 — method: getType */
+    /** * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getType(): string
     {
         return $this->type;
     }
 
-    /** @BABOK BR-003 / ARCH-004 — method: getTimestamp */
+    /** * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002, FR-LOG-003 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTimestamp(): \DateTime
     {
         return $this->timestamp;

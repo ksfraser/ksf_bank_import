@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
- * @BABOK CLASS ROLLUP: ReportSummaryResponse — 14 methods; FR-001 (14)
- * @BABOK RTM: FR-001 / ARCH-001; file: API/ReportSummaryResponse.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+
  * ReportSummaryResponse
  *
  * Response object containing aggregated matching statistics.
@@ -25,7 +25,7 @@ namespace Ksfraser\FaBankImport\API;
 class ReportSummaryResponse
 {
     /**
- * @BABOK FR-001 / ARCH-001 — method: __construct
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      *
      * @param int $totalAttempted Total matches attempted
@@ -54,7 +54,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTotalAttempted
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get total attempts
      */
     public function getTotalAttempted(): int
@@ -63,7 +63,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTotalSuccessful
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get total successful
      */
     public function getTotalSuccessful(): int
@@ -72,7 +72,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTotalFailed
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get total failed
      */
     public function getTotalFailed(): int
@@ -81,7 +81,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getSuccessRate
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get success rate (0.0-1.0)
      */
     public function getSuccessRate(): float
@@ -90,7 +90,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getAverageConfidence
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get average confidence
      */
     public function getAverageConfidence(): float
@@ -99,7 +99,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getConfidenceDistribution
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get confidence distribution
      */
     public function getConfidenceDistribution(): array
@@ -108,7 +108,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getConfidencePercentiles
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get confidence percentiles
      */
     public function getConfidencePercentiles(): array
@@ -117,7 +117,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getRuleMetrics
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get rule metrics
      */
     public function getRuleMetrics(): array
@@ -126,7 +126,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getMostImpactfulRule
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get most impactful rule
      */
     public function getMostImpactfulRule(): string
@@ -135,7 +135,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getAverageKeywordsPerTransaction
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get average keywords per transaction
      */
     public function getAverageKeywordsPerTransaction(): float
@@ -144,7 +144,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getAverageCandidatesEvaluated
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get average candidates evaluated
      */
     public function getAverageCandidatesEvaluated(): float
@@ -153,7 +153,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getFailureReasons
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get failure reasons
      */
     public function getFailureReasons(): array
@@ -162,7 +162,7 @@ class ReportSummaryResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: toArray
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Convert to array for JSON serialization
      */
     public function toArray(): array

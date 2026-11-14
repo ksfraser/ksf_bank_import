@@ -74,8 +74,8 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * @since 1.0.0
  */
 /**
- * @BABOK CLASS ROLLUP: SupplierDataProvider — 12 methods; FR-009 (12); IR-001 (12)
- * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/SupplierDataProvider.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  */
 class SupplierDataProvider implements PartnerDataProviderInterface
 {
@@ -101,7 +101,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     private $loaded = false;
     
     /**
- * @BABOK FR-009 / IR-001 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Private constructor for singleton pattern
      */
     private function __construct()
@@ -110,7 +110,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getInstance
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get singleton instance
      * 
      * @return SupplierDataProvider The singleton instance
@@ -125,7 +125,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: reset
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Reset singleton instance (for testing)
      * 
      * @return void
@@ -137,7 +137,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getPartners
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all suppliers (implements PartnerDataProviderInterface)
      * 
      * @return array<int, array> Supplier data indexed by supplier ID
@@ -149,7 +149,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getSuppliers
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all suppliers
      * 
      * @return array<int, array> Supplier data indexed by supplier ID
@@ -164,7 +164,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getSupplier
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get specific supplier
      * 
      * @param int $supplierId Supplier ID
@@ -182,7 +182,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getPartnerLabel
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get label for supplier (implements PartnerDataProviderInterface)
      * 
      * @param int $partnerId Supplier ID
@@ -197,7 +197,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getLabel
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get label for supplier
      * 
      * @param int $supplierId Supplier ID
@@ -213,7 +213,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: hasPartner
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if supplier exists (implements PartnerDataProviderInterface)
      * 
      * @param int $partnerId Supplier ID to check
@@ -227,7 +227,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: hasSupplier
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if supplier exists
      * 
      * @param int $supplierId Supplier ID to check
@@ -244,7 +244,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get count of suppliers
      * 
      * @return int Number of suppliers
@@ -259,7 +259,7 @@ class SupplierDataProvider implements PartnerDataProviderInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: loadSuppliers
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Load suppliers from database
      * 
      * Queries FrontAccounting database for all active suppliers.

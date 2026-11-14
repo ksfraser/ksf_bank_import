@@ -23,31 +23,37 @@
 	}
 
 /**
- * @BABOK CLASS ROLLUP: transaction_table — 9 methods; BR-002 (9); FR-008 (9); FR-018 (9)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.transactions_table.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+
  */
 class transaction_table
 {
 	//The table is made up of a series of rows
 	protected $transaction_table_rows;	//!<array
 	/**//**************************************************
- * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
+
 	*
 	* @param mysql_res
 	* @returns none
 	*******************************************************/
+	/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct( $mysql_res )
 	{
 		$this->transaction_table_rows = array();
 		$this->res2arr( $mysql_res );
 	}
 	/**//************************************************
- * @BABOK BR-002 / FR-008 / FR-018 — method: res2arr
+
 	* Take the query result and build classes
 	*
 	* @param mysql_res
 	* @returns none builds internal array
 	****************************************************/
+	/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function res2arr( $mysql_res )
 	{
 		while($myrow = db_fetch($res)) 
@@ -56,12 +62,15 @@ class transaction_table
 		}
 	}
 	/**//************************************************
- * @BABOK BR-002 / FR-008 / FR-018 — method: display
+
 	* Convert our data into an output HTML
 	*
 	* @param none
 	* @return HTML
 	*****************************************************/
+	/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display()
 	{
 		start_table(TABLESTYLE, "width='100%'");
@@ -73,14 +82,20 @@ class transaction_table
 	}
 }
 
+/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+ */
 class transaction_table_row
 {
 	/**//**************************************************
- * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
+
 	*
 	* @param mysql_row db_fetch'd row (array)
 	* @returns none
 	*******************************************************/
+	/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function __construct( $res_arr )
 	{
 		 	$this->transactionDC = $res_arr['transactionDC'];
@@ -117,12 +132,15 @@ class transaction_table_row
 			}
 	}
 	/**//************************************************
- * @BABOK BR-002 / FR-008 / FR-018 — method: display
+
 	* Convert our data into an output HTML
 	*
 	* @param none
 	* @return HTML
 	*****************************************************/
+	/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display()
 	{
 	}
@@ -135,12 +153,15 @@ class transaction_table_row
 * Probably from my VIEW classes.
 *
 *************************/
+/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+ */
 class ttr_table
 {
 	protected $style;
 	protected $width;	//!<int percentage
 	/**
- * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
 	* @param int the style definition
 	* @param int The percentage width
 	*/
@@ -150,33 +171,44 @@ class ttr_table
 		$this->width = $width;
 	}
 	/**//************************************************
- * @BABOK BR-002 / FR-008 / FR-018 — method: display
+
 	* Convert our data into an output HTML
 	*
 	* @param none
 	* @return HTML
 	*****************************************************/
+	/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display()
 	{
 		return start_table( $this->style, "width='" . $this->width . "%'");
 	}
 	
 }
+/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+ */
 class ttr_label_row
 {
 	protected $data;	//!<string
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+	/** * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+*/
 	function __construct( $data )
 	{
 		$this->data = $data;
 	}
 	/**//************************************************
- * @BABOK BR-002 / FR-008 / FR-018 — method: display
+
 	* Convert our data into an output HTML
 	*
 	* @param none
 	* @return HTML
 	*****************************************************/
+	/**
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+	 */
 	function display()
 	{
 		return label_row( $this->data );

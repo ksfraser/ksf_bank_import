@@ -52,6 +52,11 @@ final class TraceabilityAuditTest extends TestCase
             ) {
                 continue; // test code is not production code
             }
+            if (strpos($relative, 'archived' . DIRECTORY_SEPARATOR) !== false
+                || strpos($relative, DIRECTORY_SEPARATOR . 'archived' . DIRECTORY_SEPARATOR) !== false
+            ) {
+                continue; // archived library snapshots are not production code
+            }
             $files[] = $file->getPathname();
         }
         sort($files);

@@ -5,14 +5,16 @@ namespace Ksfraser\FaBankImport\Exceptions;
 //TODO:  flesh out specific validations and their resulting exceptions
 
 /**
- * @BABOK CLASS ROLLUP: TransactionValidationException — 2 methods; FR-050 (2)
- * @BABOK RTM: FR-050 / ARCH-003; file: Exceptions/TransactionValidationException.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+
  */
 class TransactionValidationException extends \Exception
 {
     private $validationErrors;
 
-    /** @BABOK FR-050 / ARCH-003 — method: __construct */
+    /** * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct(array $errors, string $message = "", int $code = 0)
     {
         parent::__construct(
@@ -22,7 +24,9 @@ class TransactionValidationException extends \Exception
         $this->validationErrors = $errors;
     }
 
-    /** @BABOK FR-050 / ARCH-003 — method: getValidationErrors */
+    /** * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getValidationErrors(): array
     {
         return $this->validationErrors;

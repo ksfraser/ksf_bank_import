@@ -11,8 +11,8 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\BankTransactionD
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
 
 /**
- * @BABOK CLASS ROLLUP: ReconcileView — 9 methods; FR-007 (9); BR-004 (9)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/ReconcileView.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  * Renders the reconciliation UI pages.
  *
  * Three screens:
@@ -38,7 +38,7 @@ class ReconcileView
     // ------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderUploadForm
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the PDF-only upload form.
      *
      * Bank account is auto-detected after OCR; the user confirms on the next screen.
@@ -76,7 +76,7 @@ class ReconcileView
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderAccountConfirmation
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the bank account confirmation screen (step 2 of 3).
      *
      * Shown after OCR so the user can confirm the auto-detected FA account before
@@ -154,7 +154,7 @@ class ReconcileView
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderReview
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the interactive reconciliation review screen.
      *
      * The layout mirrors FA's native bank reconciliation screen:
@@ -583,7 +583,7 @@ JS;
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderSuccess
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render a success message after commit.
      *
      * @param int $sessionId Persisted session ID, for reference.
@@ -606,7 +606,7 @@ JS;
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderError
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render an error message.
      *
      * @param string $message Already-sanitised error text.
@@ -621,7 +621,7 @@ JS;
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: renderPrintSchedule
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render a printable reconciliation schedule (REQ-015).
      *
      * Shows matched transactions, unmatched lines, and balance summary in
@@ -782,7 +782,7 @@ JS;
     // ------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: csrfField
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render a CSRF token hidden field compatible with FA's check_token() mechanism.
      * Falls back to a no-op if FA's token functions are not loaded.
      *

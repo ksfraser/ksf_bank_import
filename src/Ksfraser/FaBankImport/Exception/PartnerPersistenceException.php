@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exception;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerPersistenceException — 3 methods; FR-050 (3)
- * @BABOK RTM: FR-050 / ARCH-003; file: Exception/PartnerPersistenceException.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+
  * PartnerPersistenceException - Thrown when database operations fail
  * 
  * Wraps PDO exceptions and other persistence layer errors.
@@ -16,7 +16,9 @@ namespace Ksfraser\FaBankImport\Exception;
  */
 class PartnerPersistenceException extends PartnerException
 {
-    /** @BABOK FR-050 / ARCH-003 — method: fromThrowable */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function fromThrowable(\Throwable $previous, string $operation): self
     {
         return new self(
@@ -26,7 +28,9 @@ class PartnerPersistenceException extends PartnerException
         );
     }
 
-    /** @BABOK FR-050 / ARCH-003 — method: updateWithoutId */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function updateWithoutId(): self
     {
         return new self(
@@ -34,7 +38,9 @@ class PartnerPersistenceException extends PartnerException
         );
     }
 
-    /** @BABOK FR-050 / ARCH-003 — method: deleteNotFound */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function deleteNotFound(): self
     {
         return new self('Delete operation failed: partner not found');

@@ -9,8 +9,8 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
- * @BABOK CLASS ROLLUP: CreateStatementUploadTable — 4 methods; FR-008 (4)
- * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Database/Migrations/CreateStatementUploadTable.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+
  * Creates the bi_statement_upload table.
  *
  * Stores one row per uploaded PDF statement file:
@@ -26,19 +26,25 @@ use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
  */
 final class CreateStatementUploadTable implements Migration
 {
-    /** @BABOK FR-008 / ARCH-010 — method: name */
+    /** * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+*/
     public function name(): string
     {
         return '20260420_100002_create_statement_upload_table';
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: description */
+    /** * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+*/
     public function description(): string
     {
         return 'Create bi_statement_upload table for PDF statement file tracking';
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: up */
+    /** * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+*/
     public function up(PDO $pdo): void
     {
         try {
@@ -75,7 +81,9 @@ final class CreateStatementUploadTable implements Migration
         }
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: down */
+    /** * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+*/
     public function down(PDO $pdo): void
     {
         try {

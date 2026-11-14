@@ -3,8 +3,8 @@
 namespace Ksfraser\FaBankImport\Models;
 
 /**
- * @BABOK CLASS ROLLUP: BankAccountByNumber — 6 methods; FR-008 (6); BR-003 (6)
- * @BABOK RTM: FR-008 / BR-003; file: Models/BankAccountByNumber.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
+
  * BankAccountByNumber - Retrieves bank account details by account number
  * 
  * This class encapsulates the logic for retrieving bank account information
@@ -22,7 +22,7 @@ class BankAccountByNumber
     protected $bankDetails;
     
     /**
- * @BABOK FR-008 / BR-003 — method: __construct
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      * 
      * @param string $bankAccountNumber The bank account number to look up
@@ -35,7 +35,7 @@ class BankAccountByNumber
     }
     
     /**
- * @BABOK FR-008 / BR-003 — method: loadBankDetails
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      * Load bank account details from the database
      * 
      * Uses the fa_bank_accounts class to retrieve bank account information
@@ -76,7 +76,7 @@ class BankAccountByNumber
     }
     
     /**
- * @BABOK FR-008 / BR-003 — method: getBankDetails
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      * Get the loaded bank account details
      * 
      * @return array Associative array containing bank account details
@@ -88,7 +88,7 @@ class BankAccountByNumber
     }
     
     /**
- * @BABOK FR-008 / BR-003 — method: getBankAccountName
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      * Get the bank account name
      * 
      * @return string|null The bank account name
@@ -100,7 +100,7 @@ class BankAccountByNumber
     }
     
     /**
- * @BABOK FR-008 / BR-003 — method: getBankAccountCode
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      * Get the bank account code (GL account)
      * 
      * @return string|null The bank account code
@@ -112,7 +112,7 @@ class BankAccountByNumber
     }
     
     /**
- * @BABOK FR-008 / BR-003 — method: __get
+ * @BABOK FR-PROC-003 | BR-PROC-001 | UAT-PROC-001
      * Magic getter to support fa_bank_accounts compatibility
      * 
      * The original fa_bank_accounts class expects a property to access,

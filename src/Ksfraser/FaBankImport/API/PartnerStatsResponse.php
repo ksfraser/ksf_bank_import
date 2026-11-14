@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerStatsResponse — 10 methods; FR-001 (10)
- * @BABOK RTM: FR-001 / ARCH-001; file: API/PartnerStatsResponse.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+
  * PartnerStatsResponse
  *
  * Response object containing partner-specific matching statistics.
@@ -24,7 +24,7 @@ namespace Ksfraser\FaBankImport\API;
 class PartnerStatsResponse
 {
     /**
- * @BABOK FR-001 / ARCH-001 — method: __construct
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      *
      * @param int $partnerId Partner ID
@@ -49,7 +49,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getPartnerId
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get partner ID
      */
     public function getPartnerId(): int
@@ -58,7 +58,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getPartnerName
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get partner name
      */
     public function getPartnerName(): string
@@ -67,7 +67,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTotalMatches
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get total matches
      */
     public function getTotalMatches(): int
@@ -76,7 +76,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getSuccessfulMatches
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get successful matches
      */
     public function getSuccessfulMatches(): int
@@ -85,7 +85,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getSuccessRate
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get success rate
      */
     public function getSuccessRate(): float
@@ -94,7 +94,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getAverageConfidence
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get average confidence
      */
     public function getAverageConfidence(): float
@@ -103,7 +103,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getConfidenceDistribution
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get confidence distribution
      */
     public function getConfidenceDistribution(): array
@@ -112,7 +112,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getLastMatchedAt
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get last matched at timestamp
      */
     public function getLastMatchedAt(): string
@@ -123,7 +123,7 @@ class PartnerStatsResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: toArray
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Convert to array for JSON serialization
      */
     public function toArray(): array

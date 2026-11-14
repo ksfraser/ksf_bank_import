@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Tests\Unit\Services;
 
 use PHPUnit\Framework\TestCase;
-use Ksfraser\FaBankImport\Service\DuplicateDetector;
+use Ksfraser\FaBankImport\Services\DuplicateDetector;
 use Ksfraser\FaBankImport\Entity\UploadedFile;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 use Ksfraser\FaBankImport\Repository\UploadedFileRepositoryInterface;
 use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
-use Ksfraser\FaBankImport\Service\FileStorageServiceInterface;
+use Ksfraser\FaBankImport\Services\FileStorageServiceInterface;
 
 /**
  * Behavioural tests for the duplicate detector.

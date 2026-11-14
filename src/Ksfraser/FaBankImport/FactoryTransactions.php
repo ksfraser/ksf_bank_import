@@ -7,117 +7,168 @@ use Ksfraser\FaBankImport\Views\AddNoButton;
 use Ksfraser\FaBankImport\Views\AddVendorButton;
 
 /**
- * @BABOK CLASS ROLLUP: SupplierTransaction — 18 methods; BR-002 (18); FR-008 (18); FR-018 (18)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: FactoryTransactions.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-004, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+
  */
 class SupplierTransaction extends Transaction
 {
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+	/** * @BABOK FR-PROC-004, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+*/
 	function __construct( array $trz )
 	{
 		parent::__construct( $trz );
 		$this->oplabel = "Supplier Payment";
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner */
+	/** * @BABOK FR-PROC-004, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+*/
 	function displayPartner()
 	{
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
+	/** * @BABOK FR-PROC-004, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+*/
 	function selectAndDisplayButton()
 	{
 		$b = new AddVendorButton( $this->id );
 		$b->toHtml();
 	}
 }
+/**
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+ */
 class QuickEntryTransaction extends Transaction
 {
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+	/** * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+*/
 	function __construct( array $trz )
 	{
 		parent::__construct( $trz );
 		$this->oplabel = "Quick Entry";
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner */
+	/** * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+*/
 	function displayPartner()
 	{
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
+	/** * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-006 | BR-PROC-001 | UAT-PROC-001
+*/
 	function selectAndDisplayButton()
 	{
 		$b = new AddNoButton( $this->id );
 		$b->toHtml();
 	}
 }
+/**
+ * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+ */
 class MatchedTransaction extends Transaction
 {
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+	/** * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+ * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+*/
 	function __construct( array $trz )
 	{
 		parent::__construct( $trz );
 		$this->oplabel = "Matched Existing Transaction";
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner */
+	/** * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+ * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+*/
 	function displayPartner()
 	{
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
+	/** * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+ * @BABOK FR-PROC-009 | BR-PROC-002 | UAT-PROC-008
+*/
 	function selectAndDisplayButton()
 	{
 		$b = new AddNoButton( $this->id );
 		$b->toHtml();
 	}
 }
+/**
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ */
 class BankTransferTransaction extends Transaction
 {
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+	/** * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
 	function __construct( array $trz )
 	{
 		parent::__construct( $trz );
 		$this->oplabel = "Bank Transfer";
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner */
+	/** * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
 	function displayPartner()
 	{
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
+	/** * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
 	function selectAndDisplayButton()
 	{
 		$b = new AddNoButton( $this->id );
 		$b->toHtml();
 	}
 }
+/**
+ * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
+ */
 class ManualTransaction extends Transaction
 {
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+	/** * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
+ * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
+*/
 	function __construct( array $trz )
 	{
 		parent::__construct( $trz );
 		$this->oplabel = "Manually Match A transaction";
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner */
+	/** * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
+ * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
+*/
 	function displayPartner()
 	{
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
+	/** * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
+ * @BABOK FR-PROC-008 | BR-PROC-002 | UAT-PROC-008
+*/
 	function selectAndDisplayButton()
 	{
 		$b = new AddNoButton( $this->id );
 		$b->toHtml();
 	}
 }
+/**
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ */
 class SpecialCaseTransaction extends Transaction
 {
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+	/** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
 	function __construct( array $trz )
 	{
 		parent::__construct( $trz );
 		$this->oplabel = "";
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner */
+	/** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
 	function displayPartner()
 	{
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
+	/** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
 	function selectAndDisplayButton()
 	{
 		$b = new AddNoButton( $this->id );

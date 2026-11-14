@@ -7,18 +7,22 @@ namespace Ksfraser\FaBankImport\Types;
 use Ksfraser\FaBankImport\Models\AbstractTransaction;
 
 /**
- * @BABOK CLASS ROLLUP: BankTransferTransaction — 2 methods; FR-004 (2); DR-001 (2)
- * @BABOK RTM: FR-004 / DR-001; file: Types/BankTransferTransaction.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+
  */
 class BankTransferTransaction extends AbstractTransaction
 {
-    /** @BABOK FR-004 / DR-001 — method: getTransactionType */
+    /** * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTransactionType(): string
     {
         return 'B';
     }
 
-    /** @BABOK FR-004 / DR-001 — method: processTransaction */
+    /** * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
     public function processTransaction(): void
     {
         // Specific bank transfer processing logic

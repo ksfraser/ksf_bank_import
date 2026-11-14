@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -12,8 +12,8 @@ use Ksfraser\FaBankImport\Repository\PartnerDataRepositoryInterface;
 use InvalidArgumentException;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerDataService — 13 methods; BR-001 (13); BR-002 (13); FR-008 (13)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerDataService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Service for partner data CRUD operations
  *
  * Provides business logic layer for managing partner keyword data,
@@ -37,7 +37,7 @@ class PartnerDataService
     private KeywordExtractorService $extractor;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      *
      * @param PartnerDataRepositoryInterface $repository Partner data repository
@@ -53,7 +53,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: save
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Save partner data entry
      *
      * Creates or updates a partner data entry. If the entry already exists,
@@ -71,7 +71,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: saveKeyword
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Save a keyword for a partner
      *
      * Convenience method that creates a PartnerData value object and saves it.
@@ -110,7 +110,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: saveKeywordsFromText
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Extract and save keywords from text for a partner
      *
      * Extracts all valid keywords from text and saves them for the partner.
@@ -148,7 +148,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: incrementKeywordOccurrence
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Increment occurrence count for a keyword
      *
      * Atomically increments the occurrence count. If the keyword doesn't exist,
@@ -180,7 +180,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: find
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Find partner data by unique key
      *
      * @param int    $partnerId       Partner ID
@@ -201,7 +201,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerKeywords
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all keywords for a partner
      *
      * @param int      $partnerId   Partner ID
@@ -216,7 +216,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: delete
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Delete partner data entry
      *
      * @param int    $partnerId       Partner ID
@@ -237,7 +237,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: deletePartnerKeywords
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Delete all keywords for a partner
      *
      * @param int      $partnerId   Partner ID
@@ -252,7 +252,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: exists
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if a keyword exists for a partner
      *
      * @param int    $partnerId       Partner ID
@@ -273,7 +273,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: count
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get total count of partner data entries
      *
      * @param int|null $partnerType Optional partner type filter
@@ -287,7 +287,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTopKeywords
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get top keywords across all partners
      *
      * Returns the most frequently occurring keywords.
@@ -304,7 +304,7 @@ class PartnerDataService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: rebuildPartnerKeywords
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Rebuild keywords for a partner from current transaction data
      *
      * This method would be used to reprocess existing transactions and rebuild

@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\FaBankImport\Model\BiLineItemModel;
 
 /**
- * @BABOK CLASS ROLLUP: BiLineItemView — 2 methods; FR-009 (2); IR-001 (2)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/BiLineItemView.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+
  * View class for rendering line item data.
  */
 class BiLineItemView
@@ -19,7 +19,7 @@ class BiLineItemView
     private $lineItemModel;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      * Constructor.
      *
      * @param BiLineItemModel $lineItemModel
@@ -30,7 +30,7 @@ class BiLineItemView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: render
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      * Render the line item as an array.
      *
      * @return array

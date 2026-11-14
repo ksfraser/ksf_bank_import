@@ -23,7 +23,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -35,8 +35,8 @@ use Ksfraser\FaBankImport\Services\Rules\AmountMatchRule;
 use Ksfraser\FaBankImport\Services\Rules\RefundDetectionRule;
 
 /**
- * @BABOK CLASS ROLLUP: CustomerScoringEngineFactory — 7 methods; BR-001 (7); BR-002 (7); FR-008 (7)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/CustomerScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Factory for Creating Customer-Configured Scoring Engine
  *
  * Demonstrates reusability of generic rules in different contexts.
@@ -61,7 +61,7 @@ final class CustomerScoringEngineFactory
     private CustomerMatchingConfiguration $configuration;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param CustomerMatchingConfiguration $configuration Configuration for rules
@@ -73,7 +73,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get configuration reference
      *
      * @return CustomerMatchingConfiguration Current configuration
@@ -85,7 +85,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createBankAccountRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create bank account matching rule
      *
      * PROD REQUIREMENT: Customer bank account MUST match exactly
@@ -100,7 +100,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createCustomerNameRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create customer name matching rule
      *
      * Reuses generic VendorNameMatchRule - identical logic applies
@@ -115,7 +115,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createAmountRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create amount matching rule
      *
      * Higher tolerance for customer refunds (may include processing fees).
@@ -131,7 +131,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createRefundRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create refund detection rule
      *
      * Detects customer refund transactions and provides scoring boost.
@@ -146,7 +146,7 @@ final class CustomerScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createEngine
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create configured scoring engine with all customer matching rules
      *
      * Returns a ScoringRuleEngine instance with all customer-specific rules

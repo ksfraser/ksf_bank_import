@@ -9,8 +9,8 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
- * @BABOK CLASS ROLLUP: StatementLine — 11 methods; FR-007 (11); BR-004 (11)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/StatementLine.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+
  * Represents a single line item from a parsed credit-card statement.
  *
  * Immutable value object: identity is determined by all field values.
@@ -45,7 +45,7 @@ final class StatementLine
     private $rawText;
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * @param string            $lineId
      * @param \DateTimeImmutable $date
      * @param string            $description
@@ -84,7 +84,7 @@ final class StatementLine
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: fromArray
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Factory: create from an associative array (e.g. decoded JSON).
      *
      * Expected keys: line_id, date (YYYY-MM-DD), description, amount, type, raw_text
@@ -120,32 +120,40 @@ final class StatementLine
         );
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getLineId */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getLineId(): string
     {
         return $this->lineId;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getDate */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getDate(): \DateTimeImmutable
     {
         return $this->date;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getDescription */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getAmount */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getAmount(): string
     {
         return $this->amount;
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: getAmountFloat
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Returns the amount as a float for arithmetic. Use getAmount() for persistence.
      */
     public function getAmountFloat(): float
@@ -153,25 +161,33 @@ final class StatementLine
         return (float) $this->amount;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getType */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getType(): string
     {
         return $this->type;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: isCredit */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function isCredit(): bool
     {
         return $this->type === self::TYPE_CREDIT;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getRawText */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getRawText(): string
     {
         return $this->rawText;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: toArray */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function toArray(): array
     {
         return [

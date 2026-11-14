@@ -8,14 +8,16 @@ use Ksfraser\HTML\Elements\HtmlSubmit;
 use Ksfraser\HTML\Elements\HtmlString;
 
 /**
- * @BABOK CLASS ROLLUP: AddCustomerButton — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AddCustomerButton.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+
  */
 class AddCustomerButton implements \Ksfraser\HTML\HtmlElementInterface
 {
     protected $submit;
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+    /** * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+*/
     public function __construct(int $index)
     {
         /**
@@ -27,13 +29,17 @@ class AddCustomerButton implements \Ksfraser\HTML\HtmlElementInterface
         $this->submit->setName("AddCustomer[$index]")->setClass('default');
     }
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml */
+    /** * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+*/
     public function getHtml(): string
     {
         return $this->submit->getHtml();
     }
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml */
+    /** * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+*/
     public function toHtml(): void
     {
         echo $this->getHtml();

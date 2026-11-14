@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Tests\Unit\GapClosure\Service;
 
-use Ksfraser\FaBankImport\Service\FileStorageService;
+use Ksfraser\FaBankImport\Services\FileStorageService;
 use Ksfraser\FaBankImport\Tests\Unit\GapClosure\Service\Support\AlwaysExistingFileStorageService;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ require_once __DIR__ . '/../../Services/Support/fa_company_path.php';
 /**
  * Coverage for the file storage service.
  *
- * @see \Ksfraser\FaBankImport\Service\FileStorageService
+ * @see \Ksfraser\FaBankImport\Services\FileStorageService
  */
 final class FileStorageServiceTest extends TestCase
 {

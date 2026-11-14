@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
- * @BABOK CLASS ROLLUP: TransTitle — 1 methods; FR-009 (1); IR-001 (1)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/TransTitle.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+
  * TransTitle - Display transaction title row
  * 
  * Shows the transaction title/description from the bank statement.
@@ -19,7 +19,7 @@ use Ksfraser\HTML\Composites\LabelRowBase;
 class TransTitle extends LabelRowBase
 {
 	/**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
 	 * Create transaction title row
 	 * 
 	 * @param object $bi_lineitem The bank import line item with transactionTitle property

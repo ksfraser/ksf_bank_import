@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
- * @BABOK CLASS ROLLUP: RecencyRule — 4 methods; BR-011 (4)
- * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/RecencyRule.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Recency Scoring Rule
  *
  * More recent transactions have more reliable patterns, so boost confidence
@@ -27,7 +27,9 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
  */
 final class RecencyRule implements ScoringRule
 {
-    /** @BABOK BR-011 / ARCH-011 — method: calculateScore */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function calculateScore(array $transaction, SupplierCandidate $match): float
     {
         if (!isset($transaction['date'])) {
@@ -49,19 +51,25 @@ final class RecencyRule implements ScoringRule
         return -2.0; // Older data (patterns may have changed)
     }
 
-    /** @BABOK BR-011 / ARCH-011 — method: getName */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function getName(): string
     {
         return 'RecencyRule';
     }
 
-    /** @BABOK BR-011 / ARCH-011 — method: getMaxBoost */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function getMaxBoost(): float
     {
         return 5.0;
     }
 
-    /** @BABOK BR-011 / ARCH-011 — method: getMinReduction */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function getMinReduction(): float
     {
         return -2.0;

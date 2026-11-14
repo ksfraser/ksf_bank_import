@@ -326,8 +326,14 @@ if (!function_exists('company_path')) {
      * Get the current company's file path
      * @param int $id Company ID (optional)
      * @return string Company path
+     * Steerable through $GLOBALS['__ksf_test_company_path'] (mirrors
+     * tests/unit/Services/Support/fa_company_path.php semantics).
      */
     function company_path(int $id = 0): string {
+        if (!empty($GLOBALS['__ksf_test_company_path'])) {
+            return rtrim((string) $GLOBALS['__ksf_test_company_path'], '/\\') . DIRECTORY_SEPARATOR;
+        }
+
         // Stub - returns a temp directory for development
         return sys_get_temp_dir() . '/fa_company';
     }
@@ -376,16 +382,20 @@ if (!defined('TB_PREF')) {
 
 if (!defined('PT_SUPPLIER')) {
     /**
-     * Partner type constant for suppliers
+     * Partner type constant for suppliers.
+     *
+     * The module's partner data tables store the single-letter codes
+     * ('S', 'C', ...), so the screen stubs use those as the partner-type
+     * values the forms carry in POST.
      */
-    define('PT_SUPPLIER', 'supplier');
+    define('PT_SUPPLIER', 'S');
 }
 
 if (!defined('PT_CUSTOMER')) {
     /**
-     * Partner type constant for customers
+     * Partner type constant for customers (single-letter code, see PT_SUPPLIER)
      */
-    define('PT_CUSTOMER', 'customer');
+    define('PT_CUSTOMER', 'C');
 }
 
 if (!defined('ANY_NUMERIC')) {
@@ -399,17 +409,11 @@ if (!defined('ANY_NUMERIC')) {
 // Custom Module Functions
 // =============================================================================
 
-if (!function_exists('getParsers')) {
-    /**
-     * Get available file format parsers
-     * @return array Array of parser configurations
-     */
-    function getParsers(): array {
-        // Stub - returns empty array for development
-        // Real implementation in parsers.inc
-        return [];
-    }
-}
+// NOTE: getParsers() is intentionally NOT stubbed here. The screens run the
+// real includes/parsers.inc (see ScreenScaffold), and a stub declaration would
+// collide with the real implementation in the same PHP process
+// ("Cannot redeclare getParsers()"). ImportUploadForm provides the namespaced
+// Parsers::getParsers() accessor for unit tests instead.
 
 if (!function_exists('search_partner_by_bank_account')) {
     /**
@@ -495,8 +499,11 @@ if (!function_exists('get_customer_details_from_trans')) {
      * @return array|null Customer details or null
      */
     function get_customer_details_from_trans(int $trans_type, int $trans_no): ?array {
-        // Stub - returns null for development
-        return null;
+        // Stub - consistent customer/branch pair so detail rows render.
+        return array(
+            'name' => 'Customer',
+            'br_name' => 'Branch',
+        );
     }
 }
 

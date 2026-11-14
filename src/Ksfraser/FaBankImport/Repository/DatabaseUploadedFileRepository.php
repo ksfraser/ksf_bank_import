@@ -6,8 +6,8 @@ use Ksfraser\FaBankImport\Entity\UploadedFile;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
- * @BABOK CLASS ROLLUP: DatabaseUploadedFileRepository — 13 methods; FR-008 (13)
- * @BABOK RTM: FR-008 / ARCH-001; file: Repository/DatabaseUploadedFileRepository.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+
  * Database Implementation of Uploaded File Repository
  * 
  * Handles ONLY file metadata (not file content)
@@ -24,7 +24,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     private const TABLE_LINKS = 'bi_file_statements';
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: ensureTablesExist
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Ensure database tables exist (auto-migration on first use)
      * 
      * @return void
@@ -43,7 +43,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: createTables
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Create database tables for file metadata
      * 
      * @return void
@@ -89,7 +89,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: save
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Save file metadata to database
      * 
      * NOTE: Does NOT save file content - only metadata
@@ -132,7 +132,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: findById
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Find file metadata by ID
      * 
      * @param int $id File ID
@@ -156,7 +156,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: findDuplicate
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Find potential duplicate file
      * 
      * Checks: original filename, file size, and optionally MD5 hash
@@ -188,7 +188,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: linkToStatements
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Link file to statements (many-to-many relationship)
      * 
      * @param int $fileId File ID
@@ -225,7 +225,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: getLinkedStatements
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get statements linked to a file
      * 
      * @param int $fileId File ID
@@ -253,7 +253,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: updateStatementCount
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Update statement count for a file
      * 
      * @param int $fileId File ID
@@ -276,7 +276,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: delete
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Delete file metadata (CASCADE deletes links)
      * 
      * NOTE: Does NOT delete physical file - caller must handle that
@@ -302,7 +302,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: findAll
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get all files with optional filters
      * 
      * @param array $filters Optional filters (user, date_from, date_to, parser_type)
@@ -348,7 +348,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: count
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get total file count with optional filters
      * 
      * @param array $filters Optional filters
@@ -385,7 +385,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: getStatistics
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get storage statistics
      * 
      * @return array Statistics (total_files, total_size, etc.)
@@ -414,7 +414,7 @@ class DatabaseUploadedFileRepository implements UploadedFileRepositoryInterface
     }
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: hydrateEntity
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Hydrate database row into UploadedFile entity
      * 
      * @param array $row Database row

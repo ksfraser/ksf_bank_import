@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
- * @BABOK CLASS ROLLUP: APIErrorResponse — 6 methods; FR-001 (6)
- * @BABOK RTM: FR-001 / ARCH-001; file: API/APIErrorResponse.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+
  * APIErrorResponse
  *
  * Response object for API errors.
@@ -25,7 +25,7 @@ namespace Ksfraser\FaBankImport\API;
 class APIErrorResponse
 {
     /**
- * @BABOK FR-001 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * Constructor
      *
      * @param int $statusCode HTTP status code
@@ -42,7 +42,7 @@ class APIErrorResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getStatusCode
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * Get status code
      */
     public function getStatusCode(): int
@@ -51,7 +51,7 @@ class APIErrorResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getMessage
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * Get message
      */
     public function getMessage(): string
@@ -60,7 +60,7 @@ class APIErrorResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getCode
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * Get error code
      */
     public function getCode(): ?string
@@ -69,7 +69,7 @@ class APIErrorResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getDetails
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * Get error details
      */
     public function getDetails(): ?array
@@ -78,7 +78,7 @@ class APIErrorResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: toArray
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * Convert to array for JSON serialization
      */
     public function toArray(): array

@@ -8,21 +8,25 @@ use Ksfraser\FaBankImport\Interfaces\TransactionViewInterface;
 use Ksfraser\FaBankImport\Interfaces\BankTransactionInterface;
 
 /**
- * @BABOK CLASS ROLLUP: HtmlTransactionView — 7 methods; FR-009 (7); IR-001 (7)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/HtmlTransactionView.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+
  */
 class HtmlTransactionView implements TransactionViewInterface
 {
     private $transaction;
     private $buttons = [];
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct(BankTransactionInterface $transaction)
     {
         $this->transaction = $transaction;
     }
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: render */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function render(): string
     {
         $html = '<div class="transaction">';
@@ -32,7 +36,9 @@ class HtmlTransactionView implements TransactionViewInterface
         return $html;
     }
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionDetails */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     private function renderTransactionDetails(): string
     {
         $accountDetails = $this->transaction->getAccountDetails();
@@ -54,7 +60,9 @@ class HtmlTransactionView implements TransactionViewInterface
         );
     }
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: renderActions */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function renderActions(): string
     {
         $html = '<div class="actions">';
@@ -65,7 +73,9 @@ class HtmlTransactionView implements TransactionViewInterface
         return $html;
     }
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: addButton */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function addButton(string $type, array $params): void
     {
         $this->buttons[] = [
@@ -74,7 +84,9 @@ class HtmlTransactionView implements TransactionViewInterface
         ];
     }
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: renderButton */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     private function renderButton(array $button): string
     {
         $id = $button['params']['id'] ?? '';
@@ -86,7 +98,9 @@ class HtmlTransactionView implements TransactionViewInterface
         );
     }
 
-    /** @BABOK FR-009 / IR-001 / ARCH-008 — method: getButtonLabel */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     private function getButtonLabel(string $type): string
     {
         $labels = [

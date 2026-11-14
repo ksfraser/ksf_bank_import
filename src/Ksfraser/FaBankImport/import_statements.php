@@ -335,7 +335,7 @@ function parse_uploaded_files() {
  *
  * @param array<int, array<int|string, object>> $multistatements File index => statements
  * @return void
- * @BABOK FR-IMP-001, FR-IMP-003, FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-006, FR-004 | BR-IMP-004 | UAT-IMP-005
  */
 function flatten_statements_into_session(array $multistatements): void
 {
@@ -355,7 +355,7 @@ function flatten_statements_into_session(array $multistatements): void
  *
  * @param array<int, array<int|string, object>> $multistatements File index => statements
  * @return array<string, string> The detected account id => FA bank account number
- * @BABOK FR-002, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-IMP-006, FR-006 | BR-IMP-004 | UAT-IMP-005
  */
 function load_saved_account_associations(array $multistatements): array
 {
@@ -395,7 +395,7 @@ function load_saved_account_associations(array $multistatements): array
  * @param array<int, array<int|string, object>> $multistatements File index => statements
  * @param array<int, string>                    $uploaded_filenames File index => uploaded file name
  * @return bool True when the blocking screen was rendered
- * @BABOK FR-002, FR-003, FR-005, FR-006, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-IMP-006, FR-002 | BR-IMP-004 | UAT-IMP-005
  */
 function offer_account_resolution_step(array $multistatements, array $uploaded_filenames): bool
 {
@@ -424,7 +424,7 @@ function offer_account_resolution_step(array $multistatements, array $uploaded_f
  * Handle the Proceed button of the resolution screen.
  *
  * @return void
- * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-IMP-006, FR-004 | BR-IMP-004 | UAT-IMP-005
  */
 function resolve_account_mappings(): void
 {
@@ -520,7 +520,7 @@ function resolve_account_mappings(): void
  * Handle the Cancel button of the resolution screen.
  *
  * @return void
- * @BABOK FR-002, FR-005 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-IMP-006, FR-008 | BR-IMP-004 | UAT-IMP-005
  */
 function cancel_account_resolution(): void
 {

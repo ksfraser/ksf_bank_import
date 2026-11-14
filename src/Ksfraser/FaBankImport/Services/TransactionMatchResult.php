@@ -17,14 +17,14 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
 
 /**
- * @BABOK CLASS ROLLUP: TransactionMatchResult — 7 methods; BR-001 (7); BR-002 (7); FR-008 (7)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionMatchResult.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Transaction Match Result
  *
  * Represents a single matched partner with confidence score and type.
@@ -63,7 +63,7 @@ final class TransactionMatchResult
     private string $partnerType;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param int    $partnerId    The partner ID
@@ -84,7 +84,7 @@ final class TransactionMatchResult
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerId
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get partner ID
      *
      * @return int
@@ -95,7 +95,7 @@ final class TransactionMatchResult
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get partner name
      *
      * @return string
@@ -106,7 +106,7 @@ final class TransactionMatchResult
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get confidence score (0-100)
      *
      * @return float
@@ -117,7 +117,7 @@ final class TransactionMatchResult
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getPartnerType
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get partner type
      *
      * @return string One of: 'supplier', 'customer', 'bank_transfer'
@@ -128,7 +128,7 @@ final class TransactionMatchResult
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: meetsThreshold
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Check if match meets minimum confidence threshold
      *
      * @param int $threshold Minimum score threshold
@@ -140,7 +140,7 @@ final class TransactionMatchResult
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: toArray
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Convert to array for display/serialization
      *
      * @return array

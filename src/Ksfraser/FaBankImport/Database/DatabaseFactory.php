@@ -5,15 +5,17 @@ namespace Ksfraser\FaBankImport\Database;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
- * @BABOK CLASS ROLLUP: DatabaseFactory — 3 methods; FR-008 (3); DR-003 (3)
- * @BABOK RTM: FR-008 / DR-003; file: Database/DatabaseFactory.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+
  */
 class DatabaseFactory
 {
     private static $connection = null;
     private static $config;
 
-    /** @BABOK FR-008 / DR-003 — method: getConnection */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public static function getConnection()
     {
         if (self::$connection === null) {
@@ -23,7 +25,9 @@ class DatabaseFactory
         return self::$connection;
     }
 
-    /** @BABOK FR-008 / DR-003 — method: createConnection */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     private static function createConnection()
     {
         $host = self::$config->get('db.host');
@@ -44,7 +48,9 @@ class DatabaseFactory
         }
     }
 
-    /** @BABOK FR-008 / DR-003 — method: closeConnection */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public static function closeConnection(): void
     {
         self::$connection = null;

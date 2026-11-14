@@ -3,15 +3,17 @@
 namespace Ksfraser\FaBankImport\Events;
 
 /**
- * @BABOK CLASS ROLLUP: VendorAddedEvent — 3 methods; BR-003 (3)
- * @BABOK RTM: BR-003 / ARCH-004; file: Events/VendorAddedEvent.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+
  */
 class VendorAddedEvent
 {
     private int $vendorId;
     private string $timestamp;
 
-    /** @BABOK BR-003 / ARCH-004 — method: __construct */
+    /** * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+*/
     public function __construct(int $vendorId)
     {
         $this->vendorId = $vendorId;
@@ -19,13 +21,17 @@ class VendorAddedEvent
         trigger_error("Created Supplier ID $vendorId", E_USER_NOTICE);
     }
 
-    /** @BABOK BR-003 / ARCH-004 — method: getVendorId */
+    /** * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+*/
     public function getVendorId(): int
     {
         return $this->vendorId;
     }
 
-    /** @BABOK BR-003 / ARCH-004 — method: getTimestamp */
+    /** * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+*/
     public function getTimestamp(): string
     {
         return $this->timestamp;

@@ -11,8 +11,8 @@ use Ksfraser\FaBankImport\Infrastructure\Error\ErrorHandler;
 use Ksfraser\FaBankImport\Exception\TrainingException;
 
 /**
- * @BABOK CLASS ROLLUP: TrainingCommand — 9 methods; FR-049 (9)
- * @BABOK RTM: FR-049 / ARCH-004; file: Cli/Commands/TrainingCommand.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * TrainingCommand - CLI command to execute partner matching training
  * 
  * Runs the TrainingService to collect training data from historical transactions
@@ -30,26 +30,34 @@ use Ksfraser\FaBankImport\Exception\TrainingException;
  */
 final class TrainingCommand implements Command
 {
-    /** @BABOK FR-049 / ARCH-004 — method: __construct */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function __construct(
         private readonly TrainingService $trainingService,
         private readonly Logger $logger,
         private readonly ErrorHandler $errorHandler
     ) {}
 
-    /** @BABOK FR-049 / ARCH-004 — method: name */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function name(): string
     {
         return 'train';
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: description */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function description(): string
     {
         return 'Build training data from historical partner transactions';
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: execute */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function execute(array $arguments = []): int
     {
         try {
@@ -87,7 +95,9 @@ final class TrainingCommand implements Command
         }
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: help */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function help(): string
     {
         return <<<'HELP'
@@ -125,19 +135,25 @@ EXAMPLES:
 HELP;
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: parseDryRunFlag */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     private function parseDryRunFlag(array $arguments): bool
     {
         return isset($arguments['--dry-run']) || isset($arguments['dry-run']);
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: parseQuietFlag */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     private function parseQuietFlag(array $arguments): bool
     {
         return isset($arguments['--quiet']) || isset($arguments['quiet']);
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: outputResults */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     private function outputResults(array $stats, bool $dryRun): void
     {
         $modeText = $dryRun ? ' (dry-run)' : '';
@@ -154,7 +170,9 @@ HELP;
         }
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: outputError */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     private function outputError(string $message): void
     {
         echo "\n";

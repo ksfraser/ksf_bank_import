@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Exception;
 
 /**
- * @BABOK CLASS ROLLUP: TrainingException — 3 methods; FR-050 (3)
- * @BABOK RTM: FR-050 / ARCH-003; file: Exception/TrainingException.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+
  * TrainingException - Thrown when training operations fail
  * 
  * Wraps errors during training data collection and processing.
@@ -16,7 +16,9 @@ namespace Ksfraser\FaBankImport\Exception;
  */
 class TrainingException extends PartnerException
 {
-    /** @BABOK FR-050 / ARCH-003 — method: databaseError */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function databaseError(\Throwable $previous): self
     {
         return new self(
@@ -26,13 +28,17 @@ class TrainingException extends PartnerException
         );
     }
 
-    /** @BABOK FR-050 / ARCH-003 — method: noPartnersFound */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function noPartnersFound(): self
     {
         return new self('Training failed: no partners found in database');
     }
 
-    /** @BABOK FR-050 / ARCH-003 — method: invalidDryRunOption */
+    /** * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+*/
     public static function invalidDryRunOption(?bool $dryRun): self
     {
         return new self(

@@ -5,8 +5,8 @@
 namespace Ksfraser\FaBankImport\Entity;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerMatchResult — 7 methods; FR-008 (7); DR-001 (7)
- * @BABOK RTM: FR-008 / DR-001 / ARCH-010; file: Entity/PartnerMatchResult.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Partner Match Result - Immutable value object for search results
  * 
  * Represents a single match result from partner searching.
@@ -42,7 +42,7 @@ final class PartnerMatchResult
     private readonly array $factors;
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Construct a match result
      * 
      * @param PartnerEntity $partner The matched partner
@@ -61,7 +61,7 @@ final class PartnerMatchResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: partner
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get the matched partner
      */
     public function partner(): PartnerEntity
@@ -70,7 +70,7 @@ final class PartnerMatchResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: confidence
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get confidence score (0.0 to 1.0)
      */
     public function confidence(): float
@@ -79,7 +79,7 @@ final class PartnerMatchResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: factors
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get all scoring factors
      */
     public function factors(): array
@@ -88,7 +88,7 @@ final class PartnerMatchResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: totalScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Calculate total score from factors
      * 
      * Base factors (substring, keyword, account) are summed
@@ -122,7 +122,7 @@ final class PartnerMatchResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: isAutoSelectable
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Check if confidence is high enough for auto-selection
      */
     public function isAutoSelectable(): bool
@@ -131,7 +131,7 @@ final class PartnerMatchResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 / ARCH-010 — method: __set
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Prevent dynamic property assignment (enforce immutability)
      */
     public function __set(string $name, mixed $value): void

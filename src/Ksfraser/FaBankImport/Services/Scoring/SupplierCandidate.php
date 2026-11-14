@@ -17,14 +17,14 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
- * @BABOK CLASS ROLLUP: SupplierCandidate — 3 methods; BR-011 (3)
- * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/SupplierCandidate.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Interface for supplier/vendor candidates
  *
  * Defines the minimal methods required by ScoringRuleEngine
@@ -35,7 +35,7 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
 interface SupplierCandidate
 {
     /**
- * @BABOK BR-011 / ARCH-011 — method: getPartnerId
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get supplier/partner ID
      *
      * @return int
@@ -43,7 +43,7 @@ interface SupplierCandidate
     public function getPartnerId(): int;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getPartnerName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get supplier/partner name
      *
      * @return string
@@ -51,7 +51,7 @@ interface SupplierCandidate
     public function getPartnerName(): string;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getPartnerType
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get supplier/partner type
      *
      * @return int

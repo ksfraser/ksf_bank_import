@@ -3,25 +3,19 @@
 namespace Ksfraser\FaBankImport;
 
 use Ksfraser\FaBankImport\Views\ToggleTransactionTypeButton;
+use Ksfraser\FaBankImport\Views\ToggleTransactionRow;
 
 //use Ksfraser\FaBankImport\TransactionTypeLabel.php;
 use \Exception;
+use Ksfraser\FaBankImport\Views\TransactionTypeLabel;
 
-// Legacy compatibility: some code paths may run without Composer autoload.
-// Keep this include safe so tools like PHPUnit coverage can load this file.
-if (!class_exists(__NAMESPACE__ . '\\TransactionTypeLabel', false)) {
-	$transactionTypeLabelCandidates = [
-		__DIR__ . '/views/TransactionTypeLabel.php',
-		__DIR__ . '/../../../views/TransactionTypeLabel.php',
-	];
+// Note: TransactionTypeLabel is resolved through the Composer autoloader as
+// Ksfraser\FaBankImport\Views\TransactionTypeLabel (repo-root Views/ provides
+// the global class_alias shim for legacy callers).
 
-	foreach ($transactionTypeLabelCandidates as $candidate) {
-		if (is_file($candidate)) {
-			require_once $candidate;
-			break;
-		}
-	}
-}
+// Number of days either side of a bank date used when matching GL entries.
+// TODO: until this is exposed as a config value.
+const DEFAULT_DAYS_SPREAD = 10;
 
 /**
  * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
@@ -139,7 +133,7 @@ abstract class Transaction
 	 */
 	function determineTransactionTypeLabel(): void
 	{
-		$tTL = new \TransactionTypeLabel( $this->transactionDC );
+		$tTL = new TransactionTypeLabel( $this->transactionDC );
 		$this->transactionTypeLabel = $tTL->getTransactionTypeLabel();
 		return;
 	}
@@ -290,7 +284,7 @@ abstract class Transaction
 	/**
  * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
 	 */
-	function matchedVendor() 
+	function matchedVendor()
 	{
 		if( ! isset( $this->vendor_list ) )
 		{
@@ -304,12 +298,28 @@ abstract class Transaction
 		return $matchedVendor;
 	}
 	/**
+	 * Get the supplier ID for a matched vendor
+	 *
+	 * @param int|string $matchedVendor The vendor array key (from array_search)
+	 * @return int The supplier ID
+	 * @throws Exception if vendor_list is not set
+ * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+	 */
+	function matchedSupplierId( $matchedVendor ) : int
+	{
+		if( ! isset( $this->vendor_list ) )
+		{
+			throw new Exception( "Field not set ->vendor_list", KSF_FIELD_NOT_SET );
+		}
+		return $this->vendor_list[$matchedVendor]['supplier_id'];
+	}
+	/**
  * @BABOK FR-PROC-001, FR-PROC-003, FR-PROC-011, FR-PROC-012, FR-PROC-013, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
 	 */
 	function ToggleTransactionTypeButton()
 	{
-		$b = new ToggleTransactionTypeButton( $this->id );
-		$b->toHtml();
+		$row = new ToggleTransactionRow( $this->id );
+		$row->toHtml();
 	}
 	/**//***************************************************************
 	* Check if the transaction has a pair.

@@ -3,19 +3,35 @@
 namespace Ksfraser\FaBankImport\Interfaces;
 
 /**
- * @BABOK CLASS ROLLUP: TransactionRepositoryInterface — 5 methods; FR-015 (5)
- * @BABOK RTM: FR-015 / ARCH-001; file: Interfaces/TransactionRepositoryInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+
  */
 interface TransactionRepositoryInterface
 {
-    /** @BABOK FR-015 / ARCH-001 — method: findById */
+    /** * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function findById(int $id): ?array;
-    /** @BABOK FR-015 / ARCH-001 — method: findAll */
+    /** * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function findAll(): array;
-    /** @BABOK FR-015 / ARCH-001 — method: findByStatus */
+    /**
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+     * Filterable list query: unknown filter keys are ignored, known keys are
+     * matched exactly against the transaction columns.
+     */
+    public function findByFilters(array $filters): array;
+    /** * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function findByStatus(string $status): array;
-    /** @BABOK FR-015 / ARCH-001 — method: save */
+    /** * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function save(array $transaction): bool;
-    /** @BABOK FR-015 / ARCH-001 — method: update */
+    /** * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function update(int $id, array $data): bool;
 }

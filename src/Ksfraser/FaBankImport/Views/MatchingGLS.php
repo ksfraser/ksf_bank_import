@@ -8,8 +8,8 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 /**
- * @BABOK CLASS ROLLUP: MatchingGLS — 6 methods; FR-009 (6); IR-001 (6)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/MatchingGLS.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-VAL-006
+
  * MatchingGLS - Display matching general ledger transactions
  * 
  * @package Views
@@ -23,7 +23,7 @@ class MatchingGLS implements HtmlElementInterface
     protected $row;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-VAL-006
      * Create matching GLs display
      * 
      * @param object $bi_lineitem The bank import line item
@@ -36,7 +36,7 @@ class MatchingGLS implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-VAL-006
      * Get HTML as string
      * 
      * @return string The HTML
@@ -47,7 +47,7 @@ class MatchingGLS implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-VAL-006
      * Output HTML directly to screen
      * 
      * @return void
@@ -63,11 +63,12 @@ class MatchingGLS implements HtmlElementInterface
  * 
  * @package Views
  * @since 20251019
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
  */
 class MatchingGLFactory implements HtmlElementInterface
 {
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create matching GL factory
      * 
      * @param object $bi_lineitem The bank import line item
@@ -77,7 +78,7 @@ class MatchingGLFactory implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get HTML as string
      * 
      * @return string Empty string for now
@@ -88,7 +89,7 @@ class MatchingGLFactory implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Output HTML directly to screen
      * 
      * @return void

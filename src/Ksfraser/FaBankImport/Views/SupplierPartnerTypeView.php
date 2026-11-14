@@ -14,8 +14,8 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\FaBankImport\Services\PartnerMatcher;
 
 /**
- * @BABOK CLASS ROLLUP: SupplierPartnerTypeView — 8 methods; FR-009 (8); IR-001 (8)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/SupplierPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
+
  * SupplierPartnerTypeView - Display supplier selection UI
  * 
  * Single Responsibility: Render supplier selection dropdown with auto-matching.
@@ -59,7 +59,7 @@ class SupplierPartnerTypeView implements PartnerTypeViewInterface
     private $partnerMatcher;
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      * 
      * @param int $lineItemId The ID of the line item
@@ -83,7 +83,7 @@ class SupplierPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getLineItemId
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Get the line item ID
      * 
      * @return int
@@ -94,7 +94,7 @@ class SupplierPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerId
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Get the selected partner ID
      * 
      * @return int|null
@@ -105,7 +105,7 @@ class SupplierPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerDetailId
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Get the selected partner detail ID
      * 
      * @return int|null
@@ -116,7 +116,7 @@ class SupplierPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Get the HTML for this view
      * 
      * @return string HTML output
@@ -136,7 +136,7 @@ class SupplierPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Output HTML directly
      * 
      * @return void
@@ -147,7 +147,7 @@ class SupplierPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: autoMatchSupplier
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Auto-match supplier by bank account if no partner ID is set
      * 
      * @return void
@@ -166,7 +166,7 @@ class SupplierPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildSupplierSelect
+ * @BABOK FR-PROC-002, FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Build supplier select dropdown
      * 
      * @return HtmlSelect

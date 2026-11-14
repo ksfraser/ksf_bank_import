@@ -17,13 +17,13 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
 
 /**
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerMatchingConfiguration.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
  * PartnerMatchingConfiguration
  * 
  * Provides configuration values for partner matching operations.

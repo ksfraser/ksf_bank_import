@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\Infrastructure\Database\Migrations;
 use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 
 /**
- * @BABOK CLASS ROLLUP: Migration001AddOccurrenceCount — 5 methods; FR-006 (5)
- * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migrations/Migration001AddOccurrenceCount.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+
  * Migration 001: Add occurrence_count to bi_partners_data
  * 
  * Adds occurrence_count column to track frequency of partner matches.
@@ -19,25 +19,33 @@ final class Migration001AddOccurrenceCount implements Migration
     private const TABLE_PREFIX = '0_';
     private const TABLE = self::TABLE_PREFIX . 'bi_partners_data';
 
-    /** @BABOK FR-006 / ARCH-007 — method: name */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function name(): string
     {
         return '20260416_140000_add_occurrence_count';
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: version */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function version(): string
     {
         return '001';
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: description */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function description(): string
     {
         return 'Add occurrence_count to bi_partners_data for frequency-based scoring';
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: up */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function up(\PDO $pdo): void
     {
         $pdo->exec("
@@ -62,7 +70,9 @@ final class Migration001AddOccurrenceCount implements Migration
         ");
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: down */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function down(\PDO $pdo): void
     {
         $pdo->exec("

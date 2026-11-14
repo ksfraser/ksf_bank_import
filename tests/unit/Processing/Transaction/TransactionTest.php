@@ -332,7 +332,8 @@ final class TransactionTest extends ProcessingTestCase
         $transaction->displayAddVendorOrCustomer();
         $output = ob_get_clean();
 
-        $this->assertStringContainsString('Add Button', $output);
+        $this->assertStringContainsString('AddCustomer[12]', $output);
+        $this->assertStringContainsString('AddCustomer', $output);
     }
 
     /**

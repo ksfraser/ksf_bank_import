@@ -147,6 +147,90 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
     }
     
     /**
+     * Update a single transaction's columns
+     *
+     * @param int   $id            Transaction primary key (g_id)
+     * @param array $data          column => value pairs to update
+     *
+     * @return bool true when the row was updated
+     *
+     * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+     */
+    public function update(int $id, array $data): bool
+    {
+        if ($id <= 0 || $data === []) {
+            return false;
+        }
+
+        $assignments = [];
+        foreach (array_keys($data) as $column) {
+            $assignments[] = $column . ' = :' . $column;
+        }
+
+        $data['id'] = $id;
+        $sql = 'UPDATE ' . $this->queryBuilder->getTableName()
+            . ' SET ' . implode(', ', $assignments)
+            . ' WHERE g_id = :id';
+
+        $sql = $this->binder->bind($sql, $data);
+
+        db_query($sql, 'unable to update transaction');
+
+        return db_affected_rows() > 0;
+    }
+
+    /**
+     * TransactionRepositoryInterface — findByStatus
+     *
+     * @param string $status Value of the status column (textual key)
+     *
+     * @return array Array of transaction records
+     *
+     * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+     */
+    public function findByStatus(string $status): array
+    {
+        return $this->findByFilters(['status' => $status]);
+    }
+
+    /**
+     * TransactionRepositoryInterface — save (insert)
+     *
+     * @param array $transaction Column => value pairs for a new transaction row
+     *
+     * @return bool true when the row was inserted
+     *
+     * @since 20251104
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
+     */
+    public function save(array $transaction): bool
+    {
+        if ($transaction === []) {
+            return false;
+        }
+
+        $columns = array_keys($transaction);
+        $placeholders = array_map(
+            static function (string $column): string {
+                return ':' . $column;
+            },
+            $columns
+        );
+
+        $sql = 'INSERT INTO ' . $this->queryBuilder->getTableName()
+            . ' (' . implode(', ', $columns) . ')'
+            . ' VALUES (' . implode(', ', $placeholders) . ')';
+
+        $sql = $this->binder->bind($sql, $transaction);
+
+        db_query($sql, 'unable to save transaction');
+
+        return db_affected_rows() > 0;
+    }
+
+    /**
      * Update transactions with FA GL information
      * 
      * @param array  $transactionIds Array of transaction IDs to update
@@ -163,7 +247,7 @@ class TransactionRepository implements \Ksfraser\FaBankImport\Interfaces\Transac
      * @since 20251104
  * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012, FR-VAL-001 | BR-PROC-001 | UAT-PROC-001
      */
-    public function update(
+    public function updateTransactions(
         array $transactionIds,
         int $status,
         int $faTransNo,

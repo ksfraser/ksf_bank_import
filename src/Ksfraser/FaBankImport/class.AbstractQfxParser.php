@@ -11,22 +11,34 @@
 //	Have a config whether we should match MEMO field i.e. INTERNET TRASFER/PAY/DEPOSIT/...
 //	Have a further config to indicate chunk delimiters.  CIBC uses ";".  Is this standard?
 
-require_once (__DIR__ . '/vendor/autoload.php' );
-include_once( 'includes.inc' );
+require_once (__DIR__ . '/../../../vendor/autoload.php' );
+// FrontAccounting mandatory include - skipped when the helper is already
+// declared (test bootstrap / FA session already provided it).
+if (!function_exists('shorten_bankAccount_Names')) {
+	include_once( __DIR__ . '/../../../includes.inc' );
+}
+
 
 /************************************************
- * @BABOK CLASS ROLLUP: AbstractQfxParser — 7 methods; BR-002 (7); FR-008 (7); FR-018 (7)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: class.AbstractQfxParser.php; coverage: docs/TestCases/ (file rollup)
+
+
 * Abstract class to parse a QFX/OFX file
 ************************************************/
+/**
+ * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+ */
 abstract class AbstractQfxParser {
     protected $bank_from_file;
     protected $bankid_from_file;
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: parse */
+    /** * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+*/
     abstract public function parse($content, $static_data = array(), $debug = true);
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: detectBank */
+    /** * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+*/
     protected function detectBank($institute, $static_data) {
         if (null !== $institute->name) {
             $this->bank_from_file = true;
@@ -40,7 +52,9 @@ abstract class AbstractQfxParser {
         }
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: detectBankId */
+    /** * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005, FR-001 | BR-IMP-001 | UAT-IMP-001
+*/
     protected function detectBankId($institute, $static_data) {
         if (null !== $institute->id) {
             $this->bankid_from_file = true;
@@ -55,32 +69,52 @@ abstract class AbstractQfxParser {
     }
 }
 
+/**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ */
 class CibcQfxParser extends AbstractQfxParser {
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: parse */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement CIBC-specific parsing logic
         // Example: Handle CIBC-specific transaction types or formats
     }
 }
 
+/**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ */
 class PmcQfxParser extends AbstractQfxParser {
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: parse */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement PMC-specific parsing logic
         // Example: Handle PMC-specific transaction types or formats
     }
 }
 
+/**
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ */
 class ManuQfxParser extends AbstractQfxParser {
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: parse */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function parse($content, $static_data = array(), $debug = true) {
         // Implement MANU-specific parsing logic
         // Example: Handle MANU-specific transaction types or formats
     }
 }
 
+/**
+ * @BABOK FR-IMP-002, FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ */
 class QfxParserFactory {
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: createParser */
+    /** * @BABOK FR-IMP-002, FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-002, FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public static function createParser($content) {
         // Detection logic to determine which parser to use
         if (strpos($content, 'CIBC') !== false) {

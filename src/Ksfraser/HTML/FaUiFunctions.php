@@ -26,7 +26,10 @@ if (KSF_FA_UI_AVAILABLE) {
  * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
  */
 class FaUiFunctions {
-    const TABLESTYLE2 = 2; // Matching FA's constant
+    // The module convention (includes/fa_stubs.php) passes literal CSS class
+    // names to start_table(); real FA passes the TABLESTYLE2 sentinel which
+    // its own ui_controls.inc maps to the same class name.
+    const TABLESTYLE2 = 'tablestyle2';
 
     /**
  * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
@@ -48,7 +51,7 @@ class FaUiFunctions {
         if (KSF_FA_UI_AVAILABLE) {
             call_user_func('\\start_table', $type, $params);
         } else {
-            echo "<table class='tablestyle$type' $params>\n";
+            echo "<table class='$type' $params>\n";
         }
     }
 

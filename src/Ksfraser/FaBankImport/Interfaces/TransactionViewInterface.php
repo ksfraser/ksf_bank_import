@@ -3,15 +3,21 @@
 namespace Ksfraser\FaBankImport\Interfaces;
 
 /**
- * @BABOK CLASS ROLLUP: TransactionViewInterface — 3 methods; FR-015 (3)
- * @BABOK RTM: FR-015 / ARCH-001; file: Interfaces/TransactionViewInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  */
 interface TransactionViewInterface
 {
-    /** @BABOK FR-015 / ARCH-001 — method: render */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function render(): string;
-    /** @BABOK FR-015 / ARCH-001 — method: renderActions */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function renderActions(): string;
-    /** @BABOK FR-015 / ARCH-001 — method: addButton */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function addButton(string $type, array $params): void;
 }

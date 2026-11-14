@@ -25,8 +25,8 @@ use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\SupplierPartnerType;
 
 /**
- * @BABOK CLASS ROLLUP: SupplierTransactionHandler — 4 methods; FR-049 (4)
- * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/SupplierTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
+
  * Supplier Transaction Handler
  *
  * Single Responsibility: Process supplier transactions only
@@ -44,7 +44,7 @@ use Ksfraser\PartnerTypes\SupplierPartnerType;
 class SupplierTransactionHandler extends AbstractTransactionHandler
 {
     /**
- * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * @inheritDoc
      *
      * Returns a SupplierPartnerType instance which provides:
@@ -60,7 +60,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: process
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * @inheritDoc
  * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      */
@@ -111,7 +111,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: processSupplierPayment
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Process supplier payment (Debit transaction)
      *
      * @param array $transaction Transaction data
@@ -185,7 +185,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: processSupplierRefund
+ * @BABOK FR-PROC-004 | BR-PROC-001 | UAT-PROC-001
      * Process supplier refund (Credit transaction)
      *
      * @param array $transaction Transaction data
@@ -213,7 +213,7 @@ class SupplierTransactionHandler extends AbstractTransactionHandler
         $reference = $this->referenceService->getUniqueReference($trans_type);
         
         // Create items cart for bank deposit
-        $cart = new \items_cart($trans_type);
+        $cart = $this->createItemsCart($trans_type);
         $cart->order_id = $trans_no;
         $cart->tran_date = sql2date($transaction['valueTimestamp']);
         $cart->reference = $reference;

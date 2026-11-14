@@ -14,8 +14,8 @@ use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\FaBankImport\Services\PartnerMatcher;
 
 /**
- * @BABOK CLASS ROLLUP: CustomerPartnerTypeView — 11 methods; FR-009 (11); IR-001 (11)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/CustomerPartnerTypeView.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
+
  * CustomerPartnerTypeView - Display customer/branch selection UI
  * 
  * Single Responsibility: Render customer and branch selection dropdowns with auto-matching.
@@ -71,7 +71,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     private $partnerMatcher;
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      * 
      * @param int $lineItemId The ID of the line item
@@ -101,7 +101,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getLineItemId
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Get the line item ID
      * 
      * @return int
@@ -112,7 +112,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerId
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Get the selected partner ID
      * 
      * @return int|null
@@ -123,7 +123,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getSelectedPartnerDetailId
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Get the selected partner detail ID
      * 
      * @return int|null
@@ -134,7 +134,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Get the HTML for this view
      * 
      * @return string HTML output
@@ -165,7 +165,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Output HTML directly
      * 
      * @return void
@@ -176,7 +176,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: autoMatchCustomer
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Auto-match customer by bank account if no partner ID is set
      * 
      * @return void
@@ -196,7 +196,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildCustomerSelect
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Build customer select dropdown
      * 
      * @return HtmlSelect
@@ -232,7 +232,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildBranchContent
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Build branch dropdown or hidden field
      * 
      * @return HtmlSelect|HtmlHidden
@@ -248,7 +248,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildBranchSelect
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Build branch select dropdown
      * 
      * @return HtmlSelect
@@ -282,7 +282,7 @@ class CustomerPartnerTypeView implements PartnerTypeViewInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildAllocatableInvoicesFragment
+ * @BABOK FR-PROC-002, FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
      * Build allocatable invoices fragment
      * 
      * Returns HtmlFragment with invoice allocation UI, or null if not available.

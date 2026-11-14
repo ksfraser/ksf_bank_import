@@ -9,8 +9,8 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
- * @BABOK CLASS ROLLUP: SubmitButton — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/SubmitButton.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
+
  * SubmitButton - generic adapter that builds a HtmlSubmit element.
  * 
  * @package Views
@@ -24,7 +24,7 @@ class SubmitButton implements HtmlElementInterface
     protected $submit;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      * Create submit button with given name and label
      * 
      * @param string $name The button name
@@ -37,7 +37,7 @@ class SubmitButton implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      * Get HTML as string
      * 
      * @return string The HTML
@@ -48,7 +48,7 @@ class SubmitButton implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      * Output HTML directly to screen
      * 
      * @return void

@@ -5,8 +5,8 @@
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**
- * @BABOK CLASS ROLLUP: UploadResult — 14 methods; FR-008 (14); DR-001 (14)
- * @BABOK RTM: FR-008 / DR-001; file: ValueObject/UploadResult.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
+
  * Upload Result Value Object
  * 
  * Immutable result from file upload operation
@@ -37,7 +37,7 @@ class UploadResult
     private bool $allowForce;
     
     /**
- * @BABOK FR-008 / DR-001 — method: __construct
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Private constructor - use static factory methods
      * 
      * @param bool $success
@@ -65,7 +65,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: success
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Create success result
      * 
      * @param int $fileId File ID
@@ -80,7 +80,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: error
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Create error result
      * 
      * @param string $message Error message
@@ -93,7 +93,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: duplicate
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Create duplicate result (warn or block)
      * 
      * @param string $message Duplicate message
@@ -107,7 +107,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: reused
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Create reused result (duplicate allowed, existing file reused)
      * 
      * @param int $fileId Existing file ID
@@ -121,7 +121,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: isSuccess
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Check if upload was successful
      * 
      * @return bool
@@ -133,7 +133,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getMessage
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Get result message
      * 
      * @return string
@@ -145,7 +145,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getFileId
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Get file ID (if successful)
      * 
      * @return int|null
@@ -157,7 +157,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getFilename
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Get unique filename (if successful)
      * 
      * @return string|null
@@ -169,7 +169,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getType
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Get result type
      * 
      * @return string success, error, duplicate, or reused
@@ -181,7 +181,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: isDuplicate
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Check if this is a duplicate result
      * 
      * @return bool
@@ -193,7 +193,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: allowForce
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Check if force upload is allowed
      * 
      * @return bool
@@ -205,7 +205,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: isReused
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Check if file was reused (duplicate with allow strategy)
      * 
      * @return bool
@@ -217,7 +217,7 @@ class UploadResult
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: toArray
+ * @BABOK FR-IMP-004, FR-IMP-010 | BR-IMP-002 | UAT-IMP-003
      * Convert to array for JSON/API responses
      * 
      * @return array

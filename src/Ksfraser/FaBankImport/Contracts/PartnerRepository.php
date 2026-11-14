@@ -6,8 +6,8 @@ use Ksfraser\FaBankImport\Entity\PartnerEntity;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerRepository — 8 methods; FR-015 (8)
- * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/PartnerRepository.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Partner Repository Contract
  * 
  * Defines operations for persisting and retrieving partner entities.
@@ -19,7 +19,7 @@ use Ksfraser\FaBankImport\Entity\PartnerType;
 interface PartnerRepository
 {
     /**
- * @BABOK FR-015 / ARCH-001 — method: getById
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner by ID
      * 
      * @param int $id Partner ID
@@ -28,7 +28,7 @@ interface PartnerRepository
     public function getById(int $id): ?PartnerEntity;
     
     /**
- * @BABOK FR-015 / ARCH-001 — method: getByName
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner by name and type
      * 
      * @param string $name Partner name
@@ -38,7 +38,7 @@ interface PartnerRepository
     public function getByName(string $name, PartnerType $type): ?PartnerEntity;
     
     /**
- * @BABOK FR-015 / ARCH-001 — method: searchByPattern
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Search partners by pattern (name LIKE)
      * 
      * @param string $pattern Search pattern (wildcards allowed)
@@ -48,7 +48,7 @@ interface PartnerRepository
     public function searchByPattern(string $pattern, ?PartnerType $type = null): array;
     
     /**
- * @BABOK FR-015 / ARCH-001 — method: getByType
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all partners of a specific type
      * 
      * @param PartnerType $type Partner type
@@ -57,7 +57,7 @@ interface PartnerRepository
     public function getByType(PartnerType $type): array;
     
     /**
- * @BABOK FR-015 / ARCH-001 — method: create
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a new partner
      * 
      * @param PartnerEntity $partner Partner to create
@@ -66,7 +66,7 @@ interface PartnerRepository
     public function create(PartnerEntity $partner): int;
     
     /**
- * @BABOK FR-015 / ARCH-001 — method: update
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Update an existing partner
      * 
      * @param PartnerEntity $partner Partner to update (must have id > 0)
@@ -75,7 +75,7 @@ interface PartnerRepository
     public function update(PartnerEntity $partner): void;
     
     /**
- * @BABOK FR-015 / ARCH-001 — method: delete
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Delete a partner by ID
      * 
      * @param int $id Partner ID to delete
@@ -84,7 +84,7 @@ interface PartnerRepository
     public function delete(int $id): bool;
     
     /**
- * @BABOK FR-015 / ARCH-001 — method: exists
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if partner exists
      * 
      * @param int $id Partner ID

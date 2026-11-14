@@ -4,15 +4,24 @@
 
 namespace Ksfraser\Application\Models;
 
+/**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ */
 class FakeClock implements ClockInterface
 {
     private \DateTimeInterface $fixedTime;
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function __construct(?\DateTimeInterface $fixedTime = null)
     {
         $this->fixedTime = $fixedTime ?? new \DateTimeImmutable('1984-04-04 00:00:00');
     }
 
+    /**
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+     */
     public function getCurrentTime(): \DateTimeInterface
     {
         return $this->fixedTime;

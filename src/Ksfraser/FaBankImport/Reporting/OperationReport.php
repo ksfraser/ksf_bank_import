@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Reporting;
 
 /**
- * @BABOK CLASS ROLLUP: OperationReport — 19 methods; FR-012 (19)
- * @BABOK RTM: FR-012 / ARCH-007; file: Reporting/OperationReport.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  * OperationReport - Summary of matching operation batch
  *
  * Analyzes success rates, confidence distribution, and rule effectiveness
@@ -39,7 +39,7 @@ class OperationReport
     private int $totalSuccessful;
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: __construct
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * @param array<MatchingReport> $reports All matching reports for this operation
      */
     public function __construct(array $reports = [])
@@ -53,7 +53,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: addReport
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Add a report to the operation
      *
      * @param MatchingReport $report
@@ -70,7 +70,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getReports
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get all reports in operation
      *
      * @return array<MatchingReport>
@@ -81,7 +81,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getTotalAttempted
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get total match attempts
      *
      * @return int
@@ -92,7 +92,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getTotalSuccessful
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get successful matches
      *
      * @return int
@@ -103,7 +103,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getTotalFailed
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get failed matches
      *
      * @return int
@@ -114,7 +114,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getSuccessRate
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get success rate (0.0 - 1.0)
      *
      * @return float Percentage of successful matches
@@ -128,7 +128,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getSuccessRatePercentage
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get success rate as percentage (0-100)
      *
      * @return float Percentage
@@ -139,7 +139,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getAverageConfidence
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get average confidence across all reports
      *
      * @return float Average (0-100)
@@ -158,7 +158,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getAverageSuccessConfidence
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get average confidence for successful matches only
      *
      * @return float Average (0-100)
@@ -184,7 +184,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getAverageFailureConfidence
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get average confidence for failed matches only
      *
      * @return float Average (0-100)
@@ -210,7 +210,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getConfidenceDistribution
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get confidence distribution (HIGH/MEDIUM/LOW)
      *
      * @return array<string, int> ['HIGH' => count, 'MEDIUM' => count, 'LOW' => count]
@@ -228,7 +228,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getConfidencePercentiles
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get percentile confidence levels
      *
      * @return array<string, float> Percentiles: p50, p75, p90, p95
@@ -255,7 +255,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getRuleEffectiveness
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get rule effectiveness analysis
      *
      * @return array<string, array> {
@@ -314,7 +314,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getMostImpactfulRule
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get most impactful rule (highest average contribution)
      *
      * @return ?string Rule name with highest impact
@@ -342,7 +342,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getAverageKeywordsPerTransaction
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get average keywords per transaction
      *
      * @return float
@@ -363,7 +363,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getAverageCandidatesEvaluated
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get average candidates evaluated per transaction
      *
      * @return float
@@ -384,7 +384,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getSummary
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get summary statistics
      *
      * @return array<string, mixed>
@@ -409,7 +409,7 @@ class OperationReport
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: percentile
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Helper: Calculate percentile from sorted array
      *
      * @param array<float> $sortedValues Already sorted values

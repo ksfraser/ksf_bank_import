@@ -9,8 +9,8 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
- * @BABOK CLASS ROLLUP: CreateStatementOcrTable — 4 methods; FR-008 (4)
- * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Database/Migrations/CreateStatementOcrTable.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+
  * Creates the bi_statement_ocr table.
  *
  * Stores one row per uploaded CC statement PDF, including:
@@ -24,19 +24,25 @@ use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
  */
 final class CreateStatementOcrTable implements Migration
 {
-    /** @BABOK FR-008 / ARCH-010 — method: name */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function name(): string
     {
         return '20260420_100000_create_statement_ocr_table';
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: description */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function description(): string
     {
         return 'Create bi_statement_ocr table for PDF CC statement OCR results and metadata';
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: up */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function up(PDO $pdo): void
     {
         try {
@@ -70,7 +76,9 @@ final class CreateStatementOcrTable implements Migration
         }
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: down */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function down(PDO $pdo): void
     {
         try {

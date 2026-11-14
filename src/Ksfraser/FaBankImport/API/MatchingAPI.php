@@ -54,8 +54,8 @@ use Ksfraser\FaBankImport\Reporting\MatchingReport;
  * ```
  */
 /**
- * @BABOK CLASS ROLLUP: MatchingAPI — 13 methods; FR-001 (13)
- * @BABOK RTM: FR-001 / ARCH-001; file: API/MatchingAPI.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  */
 class MatchingAPI
 {
@@ -65,7 +65,7 @@ class MatchingAPI
     private ReportingService $reporting;
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @param TransactionMatchingService $transactionMatching Transaction matching service
      * @param KeywordMatchingService $keywordMatching Keyword matching service
      * @param ConfidenceEnhancer $confidenceEnhancer Confidence refinement
@@ -84,7 +84,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: matchTransaction
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Match a transaction to partners
      *
      * POST /api/match/transaction
@@ -188,7 +188,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getReportSummary
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get aggregated report summary
      *
      * GET /api/report/summary
@@ -215,7 +215,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getPartnerStats
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get partner-specific statistics
      *
      * GET /api/partner/{partnerID}/stats
@@ -267,7 +267,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getLowestConfidenceTransactions
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get lowest confidence transactions
      *
      * GET /api/report/lowest-confidence
@@ -289,7 +289,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getHighestConfidenceTransactions
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get highest confidence transactions
      *
      * GET /api/report/highest-confidence
@@ -311,7 +311,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTopPartnersBySuccessRate
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get top performing partners by success rate
      *
      * GET /api/report/top-partners
@@ -334,7 +334,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getFailureReasonsSummary
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get failure reasons summary
      *
      * GET /api/report/failure-reasons
@@ -354,7 +354,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getKeywordFrequency
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get keyword usage summary
      *
      * GET /api/report/keywords
@@ -380,7 +380,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTransactionReports
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get detailed report for specific transaction
      *
      * GET /api/report/transaction/{transactionID}
@@ -396,7 +396,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getConfidenceLevel
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Helper: Convert confidence score to level
      *
      * @param float $confidence Confidence (0-100)
@@ -414,7 +414,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: clearReports
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Clear all recorded reports and reset session
      *
      * DELETE /api/admin/reports
@@ -428,7 +428,7 @@ class MatchingAPI
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getSessionMetrics
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get session metrics
      *
      * GET /api/admin/session

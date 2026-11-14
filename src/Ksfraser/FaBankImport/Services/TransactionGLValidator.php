@@ -1,14 +1,14 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
 
 /**
- * @BABOK CLASS ROLLUP: TransactionGLValidator — 13 methods; BR-001 (13); BR-002 (13); FR-008 (13)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionGLValidator.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
+
  * TransactionGLValidator - Validate imported bank transactions against GL entries
  * 
  * Mantis #2713: Validate that bank transaction data matches GL entries
@@ -29,7 +29,7 @@ class TransactionGLValidator
     protected $suggestions = [];
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Constructor
  * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      */
@@ -41,7 +41,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateAllTransactions
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Validate all imported transactions that have been matched to GL entries
      * 
      * @param int|null $smt_id Optional statement ID to validate specific statement
@@ -86,7 +86,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateTransaction
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Validate a single transaction against its GL entry
      * 
      * @param array $transaction Transaction data from bi_transactions table
@@ -157,7 +157,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: checkGLTransactionExists
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Check if a GL transaction exists
      * 
      * @param int $trans_type Transaction type
@@ -179,7 +179,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getGLTransactionDetails
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Get GL transaction details
      * 
      * @param int $trans_type Transaction type
@@ -207,7 +207,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateAmounts
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Validate amounts match between bank import and GL
      * 
      * @param array $transaction Bank transaction
@@ -261,7 +261,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateDates
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Validate dates are within reasonable range
      * 
      * @param array $transaction Bank transaction
@@ -295,7 +295,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateBankAccount
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Validate bank account matches
      * 
      * @param array $transaction Bank transaction
@@ -327,7 +327,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: findPossibleGLMatches
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Find possible GL transaction matches
      * Uses the existing matching routine
      * 
@@ -365,7 +365,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: generateSummary
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Generate summary of validation results
      * 
      * @param array $validationResults All validation results
@@ -407,7 +407,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: flagTransactionForReview
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Flag a transaction for review
      * Updates the status field in bi_transactions
      * 
@@ -428,7 +428,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFlaggedTransactions
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Get all flagged transactions
      * 
      * @return array Flagged transactions
@@ -453,7 +453,7 @@ class TransactionGLValidator
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: clearFlag
+ * @BABOK FR-VAL-001, FR-VAL-002, FR-VAL-003, FR-VAL-005 | BR-VAL-001 | UAT-VAL-002
      * Clear flag from a transaction
      * 
      * @param int $trans_id Transaction ID

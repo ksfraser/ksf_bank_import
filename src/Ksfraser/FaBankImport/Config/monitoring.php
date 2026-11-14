@@ -1,6 +1,6 @@
 <?php
 /**
- * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/monitoring.php; coverage: docs/TestCases/ (file rollup)
+
  */
 
 return [

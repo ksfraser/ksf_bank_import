@@ -55,8 +55,8 @@ namespace Ksfraser\FaBankImport\Results;
  * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
  */
 /**
- * @BABOK CLASS ROLLUP: TransactionResult — 21 methods; FR-008 (21); FR-017 (21)
- * @BABOK RTM: FR-008 / FR-017; file: Results/TransactionResult.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  */
 class TransactionResult implements \ArrayAccess
 {
@@ -103,7 +103,7 @@ class TransactionResult implements \ArrayAccess
     private array $data;
 
     /**
- * @BABOK FR-008 / FR-017 — method: __construct
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Private constructor (use static factory methods)
      *
      * @param bool $success Success status
@@ -131,7 +131,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: success
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create a success result
      *
      * @param int $transNo Transaction number
@@ -158,7 +158,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: error
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create an error result
      *
      * @param string $message Error message
@@ -179,7 +179,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: warning
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create a warning result
      *
      * @param string $message Warning message
@@ -206,7 +206,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: isSuccess
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Check if result is successful
      *
      * @return bool
@@ -218,7 +218,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: isError
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Check if result is an error
      *
      * @return bool
@@ -230,7 +230,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: isWarning
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Check if result is a warning
      *
      * @return bool
@@ -242,7 +242,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: getTransNo
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get transaction number
      *
      * @return int
@@ -254,7 +254,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: getTransType
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get transaction type
      *
      * @return int
@@ -266,7 +266,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: getMessage
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get message
      *
      * @return string
@@ -278,7 +278,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: getLevel
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get display level
      *
      * @return string
@@ -290,7 +290,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: getData
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get additional data
      *
      * @param string|null $key Specific key to retrieve, or null for all data
@@ -307,7 +307,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: toArray
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Convert to array (backward compatibility)
      *
      * @return array<string, mixed>
@@ -328,7 +328,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: display
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Display result using FrontAccounting's notification system
      *
      * Calls display_notification() with appropriate level:
@@ -363,7 +363,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: toHtml
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get HTML representation of result
      *
      * Returns HTML div with appropriate Bootstrap alert class.
@@ -416,7 +416,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: __toString
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Convert to string (returns message)
      *
      * @return string
@@ -428,7 +428,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: offsetExists
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Check if an offset exists
      *
      * @param mixed $offset
@@ -441,7 +441,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: offsetGet
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get an offset value
      *
      * @param mixed $offset
@@ -460,7 +460,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: offsetSet
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Set an offset value (immutable - not supported)
      *
      * @param mixed $offset
@@ -473,7 +473,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: offsetUnset
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Unset an offset (immutable - not supported)
      *
      * @param mixed $offset
@@ -485,7 +485,7 @@ class TransactionResult implements \ArrayAccess
     }
 
     /**
- * @BABOK FR-008 / FR-017 — method: fromArray
+ * @BABOK FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create result from array (backward compatibility)
      *
      * Allows conversion from old array format to TransactionResult object.

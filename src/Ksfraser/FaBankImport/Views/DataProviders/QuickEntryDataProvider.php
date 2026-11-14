@@ -75,8 +75,8 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
  * @since 1.0.0
  */
 /**
- * @BABOK CLASS ROLLUP: QuickEntryDataProvider — 10 methods; FR-009 (10); IR-001 (10)
- * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/QuickEntryDataProvider.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  */
 class QuickEntryDataProvider
 {
@@ -116,7 +116,7 @@ class QuickEntryDataProvider
     private $type;
     
     /**
- * @BABOK FR-009 / IR-001 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Private constructor for singleton pattern
      * 
      * @param int $type Quick entry type (QE_DEPOSIT or QE_PAYMENT)
@@ -127,7 +127,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: forDeposit
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get singleton instance for deposit entries
      * 
      * @return QuickEntryDataProvider Instance for QE_DEPOSIT entries
@@ -146,7 +146,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: forPayment
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get singleton instance for payment entries
      * 
      * @return QuickEntryDataProvider Instance for QE_PAYMENT entries
@@ -165,7 +165,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: reset
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Reset singletons (for testing)
      * 
      * @return void
@@ -178,7 +178,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getEntries
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all quick entries of this type
      * 
      * @return array<int, array> Quick entry data indexed by ID
@@ -193,7 +193,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getEntry
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get specific quick entry
      * 
      * @param int $entryId Quick entry ID
@@ -211,7 +211,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getLabel
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get label for quick entry
      * 
      * @param int $entryId Quick entry ID
@@ -227,7 +227,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: hasEntry
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if entry exists
      * 
      * @param int $entryId Quick entry ID to check
@@ -244,7 +244,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: getCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get count of entries
      * 
      * @return int Number of quick entries of this type
@@ -259,7 +259,7 @@ class QuickEntryDataProvider
     }
     
     /**
- * @BABOK FR-009 / IR-001 — method: loadEntries
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Load quick entries from database
      * 
      * Queries FrontAccounting database for quick entries of this type.

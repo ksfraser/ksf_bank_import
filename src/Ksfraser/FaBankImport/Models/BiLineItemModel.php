@@ -7,8 +7,8 @@ use Ksfraser\frontaccounting\FaCustomerPayment;
 use Ksfraser\frontaccounting\FaGl;
 
 /**
- * @BABOK CLASS ROLLUP: BiLineItemModel — 6 methods; FR-008 (6); BR-003 (6)
- * @BABOK RTM: FR-008 / BR-003; file: Models/BiLineItemModel.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+
  * Model class for handling line item data.
  * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
  */
@@ -111,7 +111,7 @@ class BiLineItemModel extends GenericFaInterface
     protected $fa_bank_accounts;
 
     /**
- * @BABOK FR-008 / BR-003 — method: __construct
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      * Constructor for BiLineItemModel.
      *
      * @param array $trz
@@ -126,7 +126,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: initialize
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      * Initialize the model with transaction data.
      *
      * @param array $trz
@@ -158,7 +158,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: determineTransactionTypeLabel
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      * Determine the transaction type label based on transactionDC.
  * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
@@ -178,7 +178,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: getBankAccountDetails
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      * Retrieve bank account details.
  * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
@@ -191,7 +191,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: setPartnerType
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      * Set the partner type and operation label based on transactionDC.
  * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
@@ -218,7 +218,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: findMatchingExistingJE
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      * Find matching existing journal entries.
      *
      * @return array

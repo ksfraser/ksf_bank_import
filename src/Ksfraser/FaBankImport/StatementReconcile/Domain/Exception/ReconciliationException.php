@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\Exception;
 use RuntimeException;
 
 /**
- * @BABOK CLASS ROLLUP: ReconciliationException — 3 methods; FR-007 (3); BR-004 (3)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/Exception/ReconciliationException.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
+
  * Thrown when a reconciliation session is in an invalid state or operation fails.
  *
  * @package Ksfraser\FaBankImport\StatementReconcile\Domain\Exception
@@ -17,7 +17,7 @@ use RuntimeException;
 class ReconciliationException extends RuntimeException
 {
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: sessionNotFound
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * @param int $sessionId
      * @return self
      */
@@ -27,7 +27,7 @@ class ReconciliationException extends RuntimeException
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: alreadyApproved
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * @param string $currentStatus
      * @return self
      */
@@ -37,7 +37,7 @@ class ReconciliationException extends RuntimeException
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: forReason
+ * @BABOK FR-VAL-005 | BR-VAL-003 | UAT-VAL-004
      * @param string $reason
      * @return self
      */

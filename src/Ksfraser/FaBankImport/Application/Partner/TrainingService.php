@@ -9,8 +9,8 @@ use Ksfraser\FaBankImport\Contracts\TrainingService as TrainingServiceInterface;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
- * @BABOK CLASS ROLLUP: TrainingService — 2 methods; BR-011 (2)
- * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/TrainingService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * TrainingService - Build training data from historical partner transactions
  *
  * Processes historical transactions and updates partner learning data
@@ -28,14 +28,16 @@ use Ksfraser\FaBankImport\Entity\PartnerType;
  */
 final class TrainingService implements TrainingServiceInterface
 {
-    /** @BABOK BR-011 / ARCH-011 — method: __construct */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function __construct(
         private readonly PartnerRepository $partnerRepository,
         private readonly PartnerDataServiceInterface $dataService
     ) {}
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: buildTrainingData
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Build training data from historical transactions
      *
      * Processes all partners by searching for matching historical transactions.

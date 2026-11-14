@@ -32,7 +32,16 @@ class TestTransaction extends Transaction
      */
     function selectAndDisplayButton()
     {
-        $button = new \Ksfraser\FaBankImport\Views\AddNoButton($this->id);
+        // Mirrors the legacy base class dispatch (class.bi_lineitem.php):
+        // debit statements offer the Add Vendor button, credit statements
+        // the Add Customer button, anything else renders nothing.
+        if ($this->transactionDC === 'D') {
+            $button = new \Ksfraser\FaBankImport\Views\AddVendorButton($this->id);
+        } elseif ($this->transactionDC === 'C') {
+            $button = new \Ksfraser\FaBankImport\Views\AddCustomerButton($this->id);
+        } else {
+            return;
+        }
         $button->toHtml();
     }
 

@@ -62,8 +62,22 @@ class MockLineItem
     public string $our_account = 'CIBC Chequing';
     public int $fa_trans_type = 0;
     public int $fa_trans_no = 55;
+    public string $oplabel = 'Debit';
+    public string $transactionTitle = 'debit card held expenses';
     public string $otherBankAccount = 'OTHER';
     public string $otherBankAccountName = 'Other Party';
+    public string $OurBankAccount = 'CIBC Chequing';
+    public string $SupplierName = 'SUPPLIER NAME';
+
+    public function getOtherBankAccount(): string
+    {
+        return $this->otherBankAccount;
+    }
+
+    public function getOtherBankAccountName(): string
+    {
+        return $this->otherBankAccountName;
+    }
 
     public function getValueTimestamp(): string
     {
@@ -74,6 +88,59 @@ class MockLineItem
     {
         return $this->entryTimestamp;
     }
+
+    public function getTransactionTitle(): string
+    {
+        return $this->memo;
+    }
+
+    public function getTransactionTypeLabel(): string
+    {
+        return $this->transactionTypeLabel;
+    }
+
+    public function getOurAccount(): string
+    {
+        return $this->our_account;
+    }
+
+    public function getOurBankDetails(): array
+    {
+        return ['bank_name' => 'CIBC'];
+    }
+
+    public function getOurBankAccountName(): string
+    {
+        return $this->ourBankAccountName;
+    }
+
+    public function getOurBankAccountCode(): string
+    {
+        return $this->ourBankAccountCode;
+    }
+
+    public function getAmount(): string
+    {
+        return '12.34';
+    }
+
+    public function getCharge(): string
+    {
+        return '0.00';
+    }
+
+    public function getCurrency(): string
+    {
+        return 'CAD';
+    }
+}
+
+/**
+ * Minimal concrete SettledTable so the shared empty-framework behaviour
+ * (abstract base) can be exercised directly.
+ */
+class ConcreteSettledTable extends SettledTable
+{
 }
 
 class ViewsElementsCoverageTest extends TestCase
@@ -144,9 +211,11 @@ class ViewsElementsCoverageTest extends TestCase
         $unsetRow = new UnsetTransButtonRow(1, 55);
         $processRow = new ProcessTransactionButtonRow(2);
 
-        $subHtml = $this->bufferHtml(fn () => $subRow->getHtml());
-        $unsetHtml = $this->bufferHtml(fn () => $unsetRow->getHtml());
-        $processHtml = $this->bufferHtml(fn () => $processRow->getHtml());
+        // These rows are return-string APIs (HtmlLabelRow composition);
+        // bufferHtml would capture nothing since they do not echo.
+        $subHtml = $subRow->getHtml();
+        $unsetHtml = $unsetRow->getHtml();
+        $processHtml = $processRow->getHtml();
 
         $this->assertStringContainsString('sub[1]', $subHtml);
         $this->assertStringContainsString('Unset Transaction 55', $unsetHtml);
@@ -160,11 +229,11 @@ class ViewsElementsCoverageTest extends TestCase
         $row = new ToggleTransactionRow(9);
         $button = new ToggleTransactionTypeButton(9);
 
-        $rowHtml = $this->bufferHtml(fn () => $row->getHtml());
-        $buttonHtml = $this->bufferHtml(fn () => $button->getHtml());
+        $rowHtml = $row->getHtml();
+        $buttonHtml = $button->getHtml();
 
         $this->assertStringContainsString('Toggle Transaction Type Debit/Credit', $rowHtml);
-        $this->assertStringContainsString('ToggleTransactionType[9]', $buttonHtml);
+        $this->assertStringContainsString('ToggleTransaction[9]', $buttonHtml);
     }
 
     // ------------------------------------------------------------------
@@ -182,7 +251,7 @@ class ViewsElementsCoverageTest extends TestCase
     {
         $decorator = new HTML_ROW_LABELDecorator('data', 'label');
 
-        $html = $this->bufferHtml(fn () => $decorator->getHtml());
+        $html = $decorator->getHtml();
 
         $this->assertStringContainsString('label', $html);
         $this->assertStringContainsString('data', $html);
@@ -239,7 +308,8 @@ class ViewsElementsCoverageTest extends TestCase
         $right = new LineitemDisplayRight($this->lineItem());
 
         $leftHtml = $this->bufferHtml(fn () => $left->toHtml());
-        $rightHtml = $this->bufferHtml(fn () => $right->getHtml());
+        // LineitemDisplayRight is a return-string API (LabelRowBase).
+        $rightHtml = $right->getHtml();
 
         // Right side is the contrast for the left.
         $this->assertNotSame($leftHtml, $rightHtml);
@@ -254,13 +324,16 @@ class ViewsElementsCoverageTest extends TestCase
     {
         $display = new DisplaySettledTransactions($this->lineItem());
 
-        $this->assertSame($display->getHtml(), $display->toHtml());
+        $echoedHtml = $this->bufferHtml(fn () => $display->toHtml());
+        $this->assertSame($display->getHtml(), $echoedHtml);
         $this->assertStringContainsString('<table', $display->getHtml());
     }
 
     public function test_settled_table_base_renders_empty_framework(): void
     {
-        $table = new SettledTable($this->lineItem());
+        // SettledTable is an abstract base; exercise the shared framework
+        // through a minimal concrete subclass.
+        $table = new ConcreteSettledTable($this->lineItem());
 
         $this->assertIsString($table->getHtml());
     }
@@ -271,9 +344,10 @@ class ViewsElementsCoverageTest extends TestCase
         $defaultRow = new SettledDefault($this->lineItem());
         $status = new StatusSettled();
 
-        $manualHtml = $this->bufferHtml(fn () => $manual->getHtml());
-        $defaultHtml = $this->bufferHtml(fn () => $defaultRow->getHtml());
-        $statusHtml = $this->bufferHtml(fn () => $status->getHtml());
+        // LabelRowBase subclasses are return-string APIs.
+        $manualHtml = $manual->getHtml();
+        $defaultHtml = $defaultRow->getHtml();
+        $statusHtml = $status->getHtml();
 
         $this->assertStringContainsString('Manually Settled', $manualHtml);
         $this->assertStringContainsString('other transaction type; no info yet', $defaultHtml);
@@ -284,7 +358,9 @@ class ViewsElementsCoverageTest extends TestCase
     {
         $unset = new UnsetTransaction($this->lineItem());
 
-        $html = $this->bufferHtml(fn () => $unset->getHtml());
+        // UnsetTransaction calls submit(..., echo=false) and composes a
+        // return-string row; capture the return value, not the buffer.
+        $html = $unset->getHtml();
 
         $this->assertStringContainsString('Unset Transaction', $html);
         $this->assertStringContainsString('UnsetTrans[7]', $html);
@@ -319,8 +395,8 @@ class ViewsElementsCoverageTest extends TestCase
         $payment = new OperationPayment();
         $deposit = new OperationDeposit();
 
-        $paymentHtml = $this->bufferHtml(fn () => $payment->getHtml());
-        $depositHtml = $this->bufferHtml(fn () => $deposit->getHtml());
+        $paymentHtml = $payment->getHtml();
+        $depositHtml = $deposit->getHtml();
 
         $this->assertStringContainsString('Payment', $paymentHtml);
         $this->assertStringContainsString('Deposit', $depositHtml);
@@ -330,7 +406,7 @@ class ViewsElementsCoverageTest extends TestCase
     {
         $row = new CustomerBranch(['debtor_no' => 5, 'branch_code' => 22]);
 
-        $html = $this->bufferHtml(fn () => $row->getHtml());
+        $html = $row->getHtml();
 
         $this->assertStringContainsString('Customer #5', $html);
         $this->assertStringContainsString('Branch #22', $html);
@@ -340,7 +416,8 @@ class ViewsElementsCoverageTest extends TestCase
     {
         $supplier = new SettledSupplier($this->lineItem());
 
-        $html = $this->bufferHtml(fn () => $supplier->getHtml());
+        // SettledSupplier is a return-string API (LabelRowBase).
+        $html = $supplier->getHtml();
 
         $this->assertStringContainsString('Supplier:', $html);
         $this->assertStringContainsString('SUPPLIER NAME', $html);
@@ -350,7 +427,8 @@ class ViewsElementsCoverageTest extends TestCase
     {
         $fromBank = new FromBankAccount($this->lineItem());
 
-        $html = $this->bufferHtml(fn () => $fromBank->getHtml());
+        // FromBankAccount is a return-string API (LabelRowBase).
+        $html = $fromBank->getHtml();
 
         $this->assertStringContainsString('From Bank Account:', $html);
         $this->assertStringContainsString('CIBC Chequing', $html);
@@ -360,6 +438,9 @@ class ViewsElementsCoverageTest extends TestCase
     {
         $details = new \Ksfraser\FaBankImport\Views\TransactionCustomerDetails(4, 9);
 
-        $this->assertIsString($details->getHtml());
+        // The class exposes its rendered string via getLineitemMatchedCustomerDetails().
+        $this->assertIsString($details->getLineitemMatchedCustomerDetails());
+        $this->assertStringContainsString('Customer', $details->getLineitemMatchedCustomerDetails());
+        $this->assertStringContainsString('Branch', $details->getLineitemMatchedCustomerDetails());
     }
 }

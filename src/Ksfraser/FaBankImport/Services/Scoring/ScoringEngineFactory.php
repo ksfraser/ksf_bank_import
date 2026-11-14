@@ -14,7 +14,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services\Scoring;
@@ -22,8 +22,8 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
 use Ksfraser\FaBankImport\Config\BankImportConfig;
 
 /**
- * @BABOK CLASS ROLLUP: ScoringEngineFactory — 2 methods; BR-011 (2)
- * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * ScoringEngineFactory
  *
  * Builds ScoringRuleEngine instances with rules registered at weights from config.
@@ -42,7 +42,7 @@ use Ksfraser\FaBankImport\Config\BankImportConfig;
 class ScoringEngineFactory
 {
     /**
- * @BABOK BR-011 / ARCH-011 — method: create
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create a ScoringRuleEngine with all rules registered at config-specified weights
      *
      * Reads scoring weights from BankImportConfig and registers:
@@ -76,7 +76,7 @@ class ScoringEngineFactory
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: createWithWeights
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create a ScoringRuleEngine with custom weights (for testing or advanced usage)
      *
      * @param float|null $recencyWeight Override recency weight (null = use config)

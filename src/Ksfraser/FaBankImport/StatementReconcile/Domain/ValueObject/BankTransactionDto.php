@@ -9,8 +9,8 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
- * @BABOK CLASS ROLLUP: BankTransactionDto — 10 methods; FR-007 (10); BR-004 (10)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/BankTransactionDto.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+
  * DTO representing a single FA bank transaction for matching purposes.
  *
  * Keeps the domain layer decoupled from FA's internal data structures.
@@ -48,7 +48,7 @@ final class BankTransactionDto
     private $type;
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * @param int                $id          Session-local sequence id.
      * @param \DateTimeImmutable $date
      * @param string             $amount      Non-negative decimal string.
@@ -90,7 +90,7 @@ final class BankTransactionDto
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: fromArray
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Build from an associative array (e.g. fetched from FA DB row).
      * Expected keys: id, date (YYYY-MM-DD), amount, description, type,
      * fa_trans_type (optional), fa_trans_no (optional)
@@ -118,14 +118,16 @@ final class BankTransactionDto
         );
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getId */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getId(): int
     {
         return $this->id;
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: getFaTransType
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * FA transaction type code (0_bank_trans.type).
      * Null only in unit-test fixtures that pre-date the FA-native-reconciliation requirement.
      */
@@ -135,7 +137,7 @@ final class BankTransactionDto
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: getFaTransNo
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * FA transaction number (0_bank_trans.trans_no).
      * Null only in unit-test fixtures that pre-date the FA-native-reconciliation requirement.
      */
@@ -144,31 +146,41 @@ final class BankTransactionDto
         return $this->faTransNo;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getDate */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getDate(): \DateTimeImmutable
     {
         return $this->date;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getAmount */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getAmount(): string
     {
         return $this->amount;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getAmountFloat */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getAmountFloat(): float
     {
         return (float) $this->amount;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getDescription */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getType */
+    /** * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+*/
     public function getType(): string
     {
         return $this->type;

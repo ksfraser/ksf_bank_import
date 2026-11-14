@@ -259,13 +259,30 @@ final class SupplierTransactionHandlerTest extends ProcessingTestCase
     /**
      * A refund without a usable GL line is refused.
      *
+     * The GL-line refusal is observable only through the controllable
+     * items_cart double, so this test wires it in through the handler's
+     * overridable createItemsCart() factory (the FA-mock package declares
+     * the global items_cart first in phpunit processes, and its version
+     * accepts every line).
+     *
      * @return void
      */
     public function test_a_refund_without_a_usable_gl_line_is_refused(): void
     {
         FaStubRegistry::setReturn('items_cart.add_gl_item', false);
 
-        $result = $this->handler->process(
+        $stubbed = new class ($this->referenceService()) extends SupplierTransactionHandler {
+            /**
+             * @param int $transType
+             * @return \items_cart_double
+             */
+            protected function createItemsCart(int $transType)
+            {
+                return new \items_cart_double($transType);
+            }
+        };
+
+        $result = $stubbed->process(
             $this->transaction('C'),
             ['partnerId' => 7],
             1,
@@ -276,6 +293,7 @@ final class SupplierTransactionHandlerTest extends ProcessingTestCase
         $this->assertTrue($result->isError());
         $this->assertStringContainsString('You must enter at least one payment line', $result->getMessage());
     }
+
 
     /**
      * A refund of zero is refused because the bank amount would be zero.

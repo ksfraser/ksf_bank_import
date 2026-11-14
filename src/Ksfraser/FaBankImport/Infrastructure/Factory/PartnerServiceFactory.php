@@ -13,8 +13,8 @@ use Ksfraser\FaBankImport\Contracts\PartnerRepository;
 use PDO;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerServiceFactory — 6 methods; FR-006 (6)
- * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Factory/PartnerServiceFactory.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * PartnerServiceFactory
  * 
  * Centralized factory for creating partner-related services.
@@ -46,7 +46,7 @@ final class PartnerServiceFactory
     private static ?ScoringEngine $scoringEngine = null;
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: createPartnerRepository
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a PartnerRepository instance
      * 
      * @param PDO $pdo PDO connection to use
@@ -58,7 +58,7 @@ final class PartnerServiceFactory
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: createKeywordExtractor
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a KeywordExtractor instance
      * 
      * Returns singleton to avoid re-initializing phrase/stopword lists.
@@ -75,7 +75,7 @@ final class PartnerServiceFactory
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: createScoringEngine
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a ScoringEngine instance
      * 
      * Returns singleton since it's stateless.
@@ -92,7 +92,7 @@ final class PartnerServiceFactory
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: createPartnerSearchService
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a PartnerSearchService instance
      * 
      * Orchestrates:
@@ -113,7 +113,7 @@ final class PartnerServiceFactory
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: createPartnerDataService
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a PartnerDataService instance
      * 
      * Wraps:
@@ -130,7 +130,7 @@ final class PartnerServiceFactory
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: reset
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Reset singleton caches (useful for testing)
      */
     public static function reset(): void

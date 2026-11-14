@@ -6,8 +6,8 @@ use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
 
 /**
- * @BABOK CLASS ROLLUP: ConfigService — 10 methods; FR-002 (10); FR-051 (10)
- * @BABOK RTM: FR-002 / FR-051 / ARCH-001; file: Config/ConfigService.php; coverage: docs/TestCases/ (file rollup)
+
+
  * Configuration Service (Refactored)
  * 
  * Now uses Repository Pattern with database storage
@@ -15,7 +15,8 @@ use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
  * 
  * @author Kevin Fraser
  * @since 2.0.0 - Refactored to use DI and Repository pattern
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+  * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
  */
 class ConfigService
 {
@@ -24,11 +25,12 @@ class ConfigService
     private ConfigRepositoryInterface $repository;
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: __construct
+
      * Constructor - Dependency Injection
      * 
      * @param ConfigRepositoryInterface|null $repository Configuration repository (injected)
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function __construct(?ConfigRepositoryInterface $repository = null)
     {
@@ -37,12 +39,13 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getInstance
+
      * Get singleton instance (for backward compatibility)
      * 
      * @deprecated Use dependency injection instead
      * @return self
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public static function getInstance(): self
     {
@@ -53,12 +56,13 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: create
+
      * Create instance with custom repository (for DI)
      * 
      * @param ConfigRepositoryInterface $repository Custom repository
      * @return self New instance
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public static function create(ConfigRepositoryInterface $repository): self
     {
@@ -66,7 +70,7 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: get
+
      * Get configuration value
      * 
      * Supports dot notation: 'upload.check_duplicates'
@@ -80,7 +84,8 @@ class ConfigService
      * $config = ConfigService::getInstance();
      * $enabled = $config->get('upload.check_duplicates', false);
      * ```
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function get(string $key, $default = null)
     {
@@ -88,7 +93,7 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: set
+
      * Set configuration value
      * 
      * @param string $key Configuration key
@@ -103,7 +108,8 @@ class ConfigService
      * ```php
      * $config->set('upload.check_duplicates', true, 'admin', 'Enable duplicate checking');
      * ```
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function set(string $key, $value, ?string $username = null, ?string $reason = null): bool
     {
@@ -111,12 +117,13 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getByCategory
+
      * Get all configuration values for a category
      * 
      * @param string $category Category name
      * @return array Configuration values
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getByCategory(string $category): array
     {
@@ -124,11 +131,12 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getAll
+
      * Get all configuration values
      * 
      * @return array All configurations
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getAll(): array
     {
@@ -136,12 +144,13 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: has
+
      * Check if configuration exists
      * 
      * @param string $key Configuration key
      * @return bool True if exists
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function has(string $key): bool
     {
@@ -149,13 +158,14 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getHistory
+
      * Get configuration change history
      * 
      * @param string|null $key Specific key or null for all
      * @param int $limit Number of records
      * @return array History records
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getHistory(?string $key = null, int $limit = 50): array
     {
@@ -163,11 +173,12 @@ class ConfigService
     }
     
     /**
- * @BABOK FR-002 / FR-051 / ARCH-001 — method: getRepository
+
      * Get repository instance (for advanced usage)
      * 
      * @return ConfigRepositoryInterface
- * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+
+          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getRepository(): ConfigRepositoryInterface
     {

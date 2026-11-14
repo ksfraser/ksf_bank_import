@@ -8,8 +8,8 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\Composites\HTML_TABLE;
 
 /**
- * @BABOK CLASS ROLLUP: LineitemDisplayLeft — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/LineitemDisplayLeft.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+
  * LineitemDisplayLeft - Left side display for line items
  * 
  * Composes a table with transaction details: date, type, accounts, amount, title
@@ -25,7 +25,7 @@ class LineitemDisplayLeft implements HtmlElementInterface
     protected $table;
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Create left display panel
      * 
      * @param object $bi_lineitem The bank import line item data
@@ -42,7 +42,7 @@ class LineitemDisplayLeft implements HtmlElementInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Output HTML directly to screen
      * 
      * @return void
@@ -53,7 +53,7 @@ class LineitemDisplayLeft implements HtmlElementInterface
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
      * Get HTML as string
      * 
      * @return string The HTML

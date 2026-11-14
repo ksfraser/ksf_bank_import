@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -11,8 +11,8 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 
 /**
- * @BABOK CLASS ROLLUP: TransactionMatchingService — 10 methods; BR-001 (10); BR-002 (10); FR-008 (10)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/TransactionMatchingService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
+
  * TransactionMatchingService - Context-aware transaction to partner matching
  *
  * Coordinates partner matching with transaction context for improved accuracy:
@@ -33,13 +33,15 @@ class TransactionMatchingService
 {
     private const MIN_CONFIDENCE_FOR_AUTO_MATCH = 75.0;
 
-    /** @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct */
+    /** * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
+* @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
+*/
     public function __construct(private readonly KeywordMatchingService $matchingService)
     {
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchTransaction
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Match a transaction to a partner
      *
      * Extracts searchable text from transaction, searches for partners,
@@ -98,7 +100,7 @@ class TransactionMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTransactionCandidates
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Get all candidate matches for a transaction
      *
      * Returns ranked list of all potential matches for user review.
@@ -150,7 +152,7 @@ class TransactionMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: calculateContextBoost
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Calculate confidence adjustment based on transaction context
      *
      * Returns a boost/reduction factor (negative = reduce, positive = increase)
@@ -187,7 +189,7 @@ class TransactionMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getRecencyBoost
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Get recency boost factor
      *
      * More recent transactions have more reliable patterns
@@ -214,7 +216,7 @@ class TransactionMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getAmountRangeBoost
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Get amount range boost
      *
      * Recurring patterns (same amount) are more reliable
@@ -246,7 +248,7 @@ class TransactionMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTypeConsistencyBoost
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Get type consistency boost
      *
      * If transaction type aligns with partner type, increase confidence
@@ -278,7 +280,7 @@ class TransactionMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: applyConfidenceAdjustment
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Apply confidence adjustment with clamping
      *
      * Prevents adjusted confidence from going below 0 or above 100
@@ -294,7 +296,7 @@ class TransactionMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: buildSearchText
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Build searchable text from transaction
      *
      * Extracts and concatenates all text fields that should be used for matching.
@@ -325,7 +327,7 @@ class TransactionMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: validateTransaction
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
      * Validate transaction has required fields
      *
      * @param array $transaction Transaction to validate

@@ -12,17 +12,22 @@ require_once( __DIR__ . "/HTML/HTML_ROW_LABELDecorator.php" );
 
 
 /**//***********************
- * @BABOK CLASS ROLLUP: Parsers — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ImportUploadForm.php; coverage: docs/TestCases/ (file rollup)
+
+
 * Class to return the list of parsers
 *
 * @todo alter parsers so that they register with this class so we don't have to hardcode the list
 *
 * @since 20250716
 */
+/**
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+ */
 class Parsers
 {
-	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: getParsers */
+	/** * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+*/
 	public static function getParsers():array
 	{
 		//TODO: Refactor to use namespaces and the FaBankImport directory
@@ -46,7 +51,7 @@ class Parsers
 		        );
 	}
 	/**//**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getParserArray
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
 	* Take array from getParsers and reformat!
 	*
 	* @since 20250716
@@ -85,7 +90,9 @@ class Parsers
 *                $this->HTML_LABEL_ROW->toHTML();
 *        }
 *}
-**/
+** @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
+*/
 
 /**//********************************************
 * Class to display the upload form
@@ -97,7 +104,9 @@ class Parsers
 */
 class ImportUploadForm
 {
-	/** @BABOK FR-009 / IR-001 / ARCH-008 — method: getImportUploadForm */
+	/** * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
+*/
 	public static function getImportUploadForm()
 	{
     		div_start('doc_tbl');

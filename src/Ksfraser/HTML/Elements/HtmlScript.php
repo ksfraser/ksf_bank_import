@@ -51,6 +51,7 @@ use Ksfraser\HTML\HtmlElement;
  * echo $script->getHtml();
  * // Output: <script type="text/javascript">alert("Hi");</script>
  * ```
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
  */
 class HtmlScript extends HtmlElement
 {
@@ -66,6 +67,7 @@ class HtmlScript extends HtmlElement
      * 
      * @param string|null $type    Optional script type (defaults to 'text/javascript')
      * @param string|null $content Optional inline script content
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function __construct($type = null, $content = null)
     {
@@ -89,6 +91,7 @@ class HtmlScript extends HtmlElement
      * 
      * @param string $content The JavaScript code to include
      * @return HtmlScript Fluent interface
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function setContent($content)
     {
@@ -100,6 +103,7 @@ class HtmlScript extends HtmlElement
      * Get inline script content
      * 
      * @return string|null
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function getContent()
     {
@@ -110,6 +114,7 @@ class HtmlScript extends HtmlElement
      * Generate the HTML representation
      * 
      * @return string
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      */
     public function getHtml(): string
     {

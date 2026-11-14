@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
- * @BABOK CLASS ROLLUP: MatchTransactionRequest — 9 methods; FR-001 (9)
- * @BABOK RTM: FR-001 / ARCH-001; file: API/MatchTransactionRequest.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * MatchTransactionRequest
  *
  * Request object for matching a transaction to a partner.
@@ -25,7 +25,7 @@ namespace Ksfraser\FaBankImport\API;
 class MatchTransactionRequest
 {
     /**
- * @BABOK FR-001 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param string $transactionId Transaction identifier
@@ -46,7 +46,7 @@ class MatchTransactionRequest
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: validate
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Validate request data
      *
      * @throws \InvalidArgumentException
@@ -67,7 +67,7 @@ class MatchTransactionRequest
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: fromArray
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create request from array (typically JSON decoded)
      *
      * @param array $data
@@ -86,7 +86,7 @@ class MatchTransactionRequest
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTransactionId
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get transaction ID
      */
     public function getTransactionId(): string
@@ -95,7 +95,7 @@ class MatchTransactionRequest
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getAmount
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get transaction amount
      */
     public function getAmount(): float
@@ -104,7 +104,7 @@ class MatchTransactionRequest
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getDescription
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get transaction description
      */
     public function getDescription(): string
@@ -113,7 +113,7 @@ class MatchTransactionRequest
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTransactionType
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get transaction type
      */
     public function getTransactionType(): string
@@ -122,7 +122,7 @@ class MatchTransactionRequest
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getReferenceNumber
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get reference number
      */
     public function getReferenceNumber(): ?string
@@ -131,7 +131,7 @@ class MatchTransactionRequest
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: toArray
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Convert to array for serialization
      */
     public function toArray(): array

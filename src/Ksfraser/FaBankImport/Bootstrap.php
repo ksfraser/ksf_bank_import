@@ -7,15 +7,17 @@ use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;
 use Ksfraser\FaBankImport\Services\TransactionLogger;
 
 /**
- * @BABOK CLASS ROLLUP: Bootstrap — 6 methods; BR-002 (6); FR-008 (6); FR-018 (6)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Bootstrap.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+
  */
 class Bootstrap
 {
     private $container;
     private $config;
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+    /** * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+*/
     public function __construct()
     {
         $this->container = Container::getInstance();
@@ -23,7 +25,9 @@ class Bootstrap
         $this->setupEventListeners();
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupEventListeners */
+    /** * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+*/
     private function setupEventListeners(): void
     {
         $eventDispatcher = $this->container->getEventDispatcher();
@@ -36,7 +40,9 @@ class Bootstrap
         );
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: run */
+    /** * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+*/
     public function run(): void
     {
         // Initialize error handling
@@ -49,7 +55,9 @@ class Bootstrap
         $this->setupLogging();
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupErrorHandling */
+    /** * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+*/
     private function setupErrorHandling(): void
     {
         error_reporting(E_ALL);
@@ -58,7 +66,9 @@ class Bootstrap
         });
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: verifyDatabaseConnection */
+    /** * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+*/
     private function verifyDatabaseConnection(): void
     {
         try {
@@ -74,7 +84,9 @@ class Bootstrap
         }
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: setupLogging */
+    /** * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002, FR-LOG-003 | BR-LOG-001 | UAT-LOG-001
+*/
     private function setupLogging(): void
     {
         $logPath = $this->config->get('logging.path');

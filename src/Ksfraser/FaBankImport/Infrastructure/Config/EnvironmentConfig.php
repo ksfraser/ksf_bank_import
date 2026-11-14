@@ -27,15 +27,17 @@ namespace Ksfraser\FaBankImport\Infrastructure\Config;
  * @since 2.2.0
  */
 /**
- * @BABOK CLASS ROLLUP: EnvironmentConfig — 14 methods; FR-006 (14)
- * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Config/EnvironmentConfig.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
+
  */
 final class EnvironmentConfig
 {
     private array $config = [];
     private string $environment;
 
-    /** @BABOK FR-006 / ARCH-007 — method: __construct */
+    /** * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
+*/
     public function __construct(?string $environment = null)
     {
         $this->environment = $environment ?? $_ENV['APP_ENV'] ?? 'development';
@@ -43,7 +45,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: loadConfig
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Load configuration from environment variables and .env file
      * Priority: Environment variables > .env file > defaults
      */
@@ -93,7 +95,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: getString
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Get a string configuration value
      * 
      * @param string $key Dot-notation key (e.g., 'database.host', 'app.env')
@@ -111,7 +113,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: getInt
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Get an integer configuration value
      * 
      * @param string $key Dot-notation key
@@ -129,7 +131,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: getBool
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Get a boolean configuration value
      * 
      * @param string $key Dot-notation key
@@ -147,7 +149,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: get
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Get a raw configuration value (any type)
      * Supports dot-notation for nested keys: 'database.host'
      * 
@@ -172,7 +174,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: parseBool
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Parse boolean-like string values
      */
     private function parseBool(mixed $value): bool
@@ -192,7 +194,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: isTest
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Check if running in test environment
      */
     public function isTest(): bool
@@ -201,7 +203,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: isDevelopment
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Check if running in development environment
      */
     public function isDevelopment(): bool
@@ -210,7 +212,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: isDebug
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Check if debug mode is enabled
      */
     public function isDebug(): bool
@@ -219,7 +221,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: getEnvironment
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Get current environment
      */
     public function getEnvironment(): string
@@ -228,7 +230,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: getDatabaseDsn
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Get full database DSN for PDO connection
      */
     public function getDatabaseDsn(): string
@@ -242,7 +244,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: getDatabaseCredentials
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Get database credentials as array
      */
     public function getDatabaseCredentials(): array
@@ -255,7 +257,7 @@ final class EnvironmentConfig
     }
 
     /**
- * @BABOK FR-006 / ARCH-007 — method: validate
+ * @BABOK FR-LOG-001 | BR-LOG-001 | UAT-LOG-001
      * Validate that all required configuration is present
      * 
      * @throws ConfigException if required configuration is missing

@@ -3,8 +3,8 @@
 define( 'MENU_IMPORT', 'menu_import' );
 
 /**
- * @BABOK CLASS ROLLUP: hooks_bank_import — 3 methods; NFR-016 (1); FR-018 (3); BR-002 (2); FR-008 (2)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: hooks.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+
  */
 class hooks_bank_import extends hooks {
     var $module_name = 'bank_import'; 
@@ -14,6 +14,9 @@ class hooks_bank_import extends hooks {
     * Install additonal menu options provided by module
     */
 
+    /**
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+     */
     function install_options($app) {
 	global $path_to_root;
 
@@ -44,7 +47,9 @@ class hooks_bank_import extends hooks {
     }
 
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: activate_extension */
+    /** * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+*/
     function activate_extension($company, $check_only=true) {
 	$updates = array( 'update.sql' => array($this->module_name) );
 	return $this->update_databases($company, $updates, $check_only);
@@ -53,7 +58,9 @@ class hooks_bank_import extends hooks {
 
     //this is required to cancel bank transactions when a voiding operation occurs
 	//@todo refactor to use my eventloop functions
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: db_prevoid */
+    /** * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-001, FR-PROC-001 | BR-IMP-001 | UAT-IMP-001
+*/
     function db_prevoid($trans_type, $trans_no) {
 	    //SET status=0
 	$sql = "

@@ -9,8 +9,8 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
- * @BABOK CLASS ROLLUP: CreateReconciliationSessionTable — 4 methods; FR-008 (4)
- * @BABOK RTM: FR-008 / ARCH-010; file: StatementReconcile/Infrastructure/Database/Migrations/CreateReconciliationSessionTable.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+
  * Creates the bi_reconciliation_session table.
  *
  * Each row represents one reconciliation pass for a parsed statement:
@@ -24,19 +24,25 @@ use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
  */
 final class CreateReconciliationSessionTable implements Migration
 {
-    /** @BABOK FR-008 / ARCH-010 — method: name */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function name(): string
     {
         return '20260420_100001_create_reconciliation_session_table';
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: description */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function description(): string
     {
         return 'Create bi_reconciliation_session table for statement reconciliation workflow';
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: up */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function up(PDO $pdo): void
     {
         try {
@@ -74,7 +80,9 @@ final class CreateReconciliationSessionTable implements Migration
         }
     }
 
-    /** @BABOK FR-008 / ARCH-010 — method: down */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function down(PDO $pdo): void
     {
         try {

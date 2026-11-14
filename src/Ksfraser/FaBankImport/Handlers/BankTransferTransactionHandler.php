@@ -87,8 +87,18 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
         }
 
         // Load external fa_bank_transfer class
+        //
+        // The class file lives in the sibling ksf_modules_common tree. When it
+        // is present (production) it is loaded normally; when absent (tests,
+        // where the transfer object is provided by an overridable factory)
+        // fall back to an already-declared class. The class_exists check below
+        // remains the real gate either way.
         $faClassPath = $this->getFaBankTransferClassPath();
-        $inc = require_once($faClassPath);
+        if (is_file($faClassPath)) {
+            $inc = require_once($faClassPath);
+        } else {
+            $inc = true;
+        }
         
         if (!$inc || !class_exists('fa_bank_transfer')) {
             return $this->createErrorResult(
@@ -105,6 +115,22 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
             $transactionId,
             $collectionIds
         );
+    }
+
+    /**
+     * Create the fa_bank_transfer helper object.
+     *
+     * Kept as an overridable factory so tests can inject a controllable
+     * double without depending on global class-declaration order (phpunit
+     * loads the composer autoload — and therefore any FA-mock package —
+     * before the test bootstrap can declare its own version of the class).
+     *
+     * @return object fa_bank_transfer instance
+ * @BABOK FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+     */
+    protected function createBankTransfer()
+    {
+        return new \fa_bank_transfer();
     }
 
     /**
@@ -151,7 +177,7 @@ class BankTransferTransactionHandler extends AbstractTransactionHandler
         string $collectionIds
     ): TransactionResult {
         // Create bank transfer object
-        $bttrf = new \fa_bank_transfer();
+        $bttrf = $this->createBankTransfer();
         
         try {
             // Set transaction type

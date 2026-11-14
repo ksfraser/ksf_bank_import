@@ -12,8 +12,8 @@ namespace Ksfraser\FaBankImport\Tests\Unit\GapClosure;
  *
  *  - the facade for the FrontAccounting UI functions only delegates when
  *    the installation is below FA_ROOT;
- *  - the result display falls back to the plain notification when the
- *    installation has no warning helper;
+ *  - the result display routes the warning to the display helper the
+ *    installation provides (famock's in the test process);
  *  - the path resolver reports that the installation has no helper for the
  *    company directory.
  */
@@ -50,12 +50,12 @@ final class IsolatedEnvironmentTest extends \PHPUnit\Framework\TestCase
     /**
      * @return void
      */
-    public function testTheWarningFallsBackToTheNotification(): void
+    public function testTheWarningIsRoutedToTheDisplayHelper(): void
     {
         $this->scenario->run('transaction_result_display');
 
         $this->assertStringContainsString('SCENARIO_OK', $this->scenario->getOutput());
-        $this->assertStringContainsString('NOTIFICATION: Careful', $this->scenario->getOutput());
+        $this->assertStringContainsString('WARNING: Careful', $this->scenario->getOutput());
         $this->assertSame(0, $this->scenario->getExitCode());
     }
 

@@ -10,8 +10,8 @@ use Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider;
 use Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider;
 
 /**
- * @BABOK CLASS ROLLUP: ViewFactory — 6 methods; FR-009 (6); IR-001 (6)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ViewFactory.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  * ViewFactory - Factory for creating PartnerType Views
  * 
  * Single Responsibility: Create and configure PartnerType Views with all dependencies
@@ -27,7 +27,7 @@ class ViewFactory
     const PARTNER_TYPE_QUICK_ENTRY = 'quick_entry';
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: createPartnerTypeView
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create a PartnerType View with all dependencies
      * 
      * @param string $partnerType The partner type
@@ -63,7 +63,7 @@ class ViewFactory
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: createSupplierView
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create Supplier View with dependencies
      * 
      * @param int $lineItemId Line item ID
@@ -83,7 +83,7 @@ class ViewFactory
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: createCustomerView
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create Customer View with dependencies
      * 
      * @param int $lineItemId Line item ID
@@ -105,7 +105,7 @@ class ViewFactory
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: createBankTransferView
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create Bank Transfer View with dependencies
      * 
      * @param int $lineItemId Line item ID
@@ -127,7 +127,7 @@ class ViewFactory
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: createQuickEntryView
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create Quick Entry View with dependencies
      * 
      * @param int $lineItemId Line item ID
@@ -150,7 +150,7 @@ class ViewFactory
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getValidPartnerTypes
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get all valid partner type constants
      * 
      * @return array Array of valid partner type strings

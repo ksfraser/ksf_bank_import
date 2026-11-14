@@ -8,8 +8,8 @@ use Ksfraser\FaBankImport\Entity\PartnerEntity;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerDataServiceInterface — 6 methods; BR-011 (6)
- * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/PartnerDataServiceInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * PartnerDataServiceInterface
  *
  * Interface for partner CRUD operations and data management.
@@ -17,7 +17,7 @@ use Ksfraser\FaBankImport\Entity\PartnerType;
 interface PartnerDataServiceInterface
 {
     /**
- * @BABOK BR-011 / ARCH-011 — method: getPartnerData
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get existing partner or return null
      *
      * @param int $partnerId Partner ID to retrieve
@@ -27,7 +27,7 @@ interface PartnerDataServiceInterface
     public function getPartnerData(int $partnerId, PartnerType $type): ?PartnerEntity;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: setPartnerData
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Set (create or update) partner data
      *
      * @param int $partnerId Partner ID (0 for new)
@@ -37,7 +37,7 @@ interface PartnerDataServiceInterface
     public function setPartnerData(int $partnerId, PartnerType $type, string $partnerName): void;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: appendPartnerData
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Append data to existing partner (accumulation)
      *
      * @param int $partnerId Existing partner ID
@@ -47,7 +47,7 @@ interface PartnerDataServiceInterface
     public function appendPartnerData(int $partnerId, PartnerType $type, string $newData): void;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: deletePartnerData
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Delete partner by ID
      *
      * @param int $partnerId Partner to delete
@@ -56,7 +56,7 @@ interface PartnerDataServiceInterface
     public function deletePartnerData(int $partnerId): bool;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: updateOccurrenceCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Increment occurrence count for a partner
      *
      * @param int $partnerId Partner to update
@@ -65,7 +65,7 @@ interface PartnerDataServiceInterface
     public function updateOccurrenceCount(int $partnerId, PartnerType $type): void;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: updateLastMatchedTimestamp
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Update last matched timestamp to current time
      *
      * @param int $partnerId Partner to update

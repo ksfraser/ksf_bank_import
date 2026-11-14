@@ -11,8 +11,8 @@ use InvalidArgumentException;
 use DomainException;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerDataService — 7 methods; BR-011 (7)
- * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/PartnerDataService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * PartnerDataService
  * 
  * Wrapper service for partner CRUD operations.
@@ -31,13 +31,15 @@ final class PartnerDataService implements PartnerDataServiceInterface
 {
     private const MAX_PARTNER_DATA_LENGTH = 2000;
 
-    /** @BABOK BR-011 / ARCH-011 — method: __construct */
+    /** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct(
         private readonly PartnerRepository $partnerRepository,
     ) {}
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getPartnerData
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get existing partner or return null
      * 
      * @param int $partnerId Partner ID to retrieve
@@ -50,7 +52,7 @@ final class PartnerDataService implements PartnerDataServiceInterface
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: setPartnerData
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Set (create or update) partner data
      * 
      * - If partner doesn't exist, creates new
@@ -103,7 +105,7 @@ final class PartnerDataService implements PartnerDataServiceInterface
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: appendPartnerData
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Append data to existing partner (accumulation)
      * 
      * Concatenates new data with newline separator.
@@ -147,7 +149,7 @@ final class PartnerDataService implements PartnerDataServiceInterface
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: deletePartnerData
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Delete partner by ID
      * 
      * @param int $partnerId Partner to delete
@@ -159,7 +161,7 @@ final class PartnerDataService implements PartnerDataServiceInterface
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: updateOccurrenceCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Increment occurrence count for a partner
      * 
      * Used when a partner is matched successfully.
@@ -188,7 +190,7 @@ final class PartnerDataService implements PartnerDataServiceInterface
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: updateLastMatchedTimestamp
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Update last matched timestamp to current time
      * 
      * Used when a partner is successfully matched to a transaction.

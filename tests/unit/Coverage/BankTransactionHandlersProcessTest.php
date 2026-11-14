@@ -13,6 +13,7 @@
 namespace Ksfraser\FaBankImport\Tests\Coverage;
 
 use PHPUnit\Framework\TestCase;
+use Ksfraser\FaBankImport\Tests\Unit\Processing\Support\FaStubRegistry;
 use Ksfraser\FaBankImport\Handlers\QuickEntryTransactionHandler;
 use Ksfraser\FaBankImport\Handlers\SupplierTransactionHandler;
 use Ksfraser\FaBankImport\Handlers\CustomerTransactionHandler;
@@ -24,8 +25,26 @@ class BankTransactionHandlersProcessTest extends TestCase
 {
     protected function setUp(): void
     {
-        $GLOBALS['__fa_write_log'] = [];
-        $GLOBALS['__fa_write_throwable'] = [];
+        // Drive the same namespace-level FA doubles the Processing suite
+        // uses. Once any other suite in the process has declared them, the
+        // handlers' unqualified calls resolve to these doubles instead of
+        // famock's globals, so the tests must not depend on which
+        // implementation is active. Configuring FaStubRegistry here makes
+        // the outcomes identical either way.
+        require_once __DIR__ . '/../Processing/Support/FaStubRegistry.php';
+        require_once __DIR__ . '/../Processing/Support/handler_fa_stubs.php';
+
+        FaStubRegistry::reset();
+        FaStubRegistry::setReturn('write_bank_transaction', [1, 777]);
+        FaStubRegistry::setReturn('write_supp_payment', 555);
+        FaStubRegistry::setReturn('my_write_customer_payment', 666);
+        FaStubRegistry::setReturn('get_trans_counterparty', [
+            [
+                'person_id' => 10,
+                'person_type' => 'supplier',
+                'person_type_id' => 3,
+            ],
+        ]);
     }
 
     private function transaction(array $overrides = []): array
@@ -73,11 +92,11 @@ class BankTransactionHandlersProcessTest extends TestCase
         $this->assertSame(1, $result->getTransType(), 'Debit should map to ST_BANKPAYMENT');
         $this->assertStringContainsString('Bank Payment', $result->getMessage());
         $this->assertStringContainsString('Trans #777', $result->getMessage());
-        $this->assertArrayHasKey('qe_to_cart', $GLOBALS['__fa_write_log']);
-        $this->assertArrayHasKey('write_bank_transaction', $GLOBALS['__fa_write_log']);
-        $this->assertArrayHasKey('update_transactions', $GLOBALS['__fa_write_log']);
+        $this->assertNotNull(FaStubRegistry::lastCall('qe_to_cart'));
+        $this->assertNotNull(FaStubRegistry::lastCall('write_bank_transaction'));
+        $this->assertNotNull(FaStubRegistry::lastCall('update_transactions'));
 
-        $call = $GLOBALS['__fa_write_log']['update_transactions'];
+        $call = FaStubRegistry::lastCall('update_transactions');
         $this->assertSame(42, $call[0], 'transaction id');
         $this->assertSame('1', $call[1], 'collection ids');
         $this->assertSame(777, $call[3]);
@@ -132,10 +151,10 @@ class BankTransactionHandlersProcessTest extends TestCase
 
         $this->assertTrue($result->isSuccess(), $result->getMessage());
         $this->assertSame(555, $result->getTransNo(), 'write_supp_payment returns 555');
-        $this->assertArrayHasKey('write_supp_payment', $GLOBALS['__fa_write_log']);
-        $this->assertArrayHasKey('update_partner_data', $GLOBALS['__fa_write_log']);
+        $this->assertNotNull(FaStubRegistry::lastCall('write_supp_payment'));
+        $this->assertNotNull(FaStubRegistry::lastCall('update_partner_data'));
 
-        $call = $GLOBALS['__fa_write_log']['update_transactions'];
+        $call = FaStubRegistry::lastCall('update_transactions');
         $this->assertSame(52, $call[0], 'transaction id');
         $this->assertSame(555, $call[3]);
         $this->assertSame('SP', $call[7]);
@@ -155,7 +174,7 @@ class BankTransactionHandlersProcessTest extends TestCase
 
         $this->assertTrue($result->isSuccess(), $result->getMessage());
         $this->assertSame(777, $result->getTransNo(), 'write_bank_transaction returns 777');
-        $this->assertArrayHasKey('write_bank_transaction', $GLOBALS['__fa_write_log']);
+        $this->assertNotNull(FaStubRegistry::lastCall('write_bank_transaction'));
     }
 
     public function test_supplier_invalid_dc_type_returns_error(): void
@@ -188,11 +207,11 @@ class BankTransactionHandlersProcessTest extends TestCase
 
         $this->assertTrue($result->isSuccess(), $result->getMessage());
         $this->assertSame(666, $result->getTransNo(), 'my_write_customer_payment returns 666');
-        $this->assertArrayHasKey('my_write_customer_payment', $GLOBALS['__fa_write_log']);
-        $this->assertArrayHasKey('add_cust_allocation', $GLOBALS['__fa_write_log']);
-        $this->assertArrayHasKey('update_debtor_trans_allocation', $GLOBALS['__fa_write_log']);
+        $this->assertNotNull(FaStubRegistry::lastCall('my_write_customer_payment'));
+        $this->assertNotNull(FaStubRegistry::lastCall('add_cust_allocation'));
+        $this->assertNotNull(FaStubRegistry::lastCall('update_debtor_trans_allocation'));
 
-        $call = $GLOBALS['__fa_write_log']['update_transactions'];
+        $call = FaStubRegistry::lastCall('update_transactions');
         $this->assertSame(62, $call[0], 'transaction id');
         $this->assertSame(666, $call[3]);
         $this->assertSame('CU', $call[7]);
@@ -227,9 +246,9 @@ class BankTransactionHandlersProcessTest extends TestCase
         );
 
         $this->assertTrue($result->isSuccess(), $result->getMessage());
-        $this->assertArrayHasKey('set_bank_partner_data', $GLOBALS['__fa_write_log']);
+        $this->assertNotNull(FaStubRegistry::lastCall('set_bank_partner_data'));
 
-        $call = $GLOBALS['__fa_write_log']['update_transactions'];
+        $call = FaStubRegistry::lastCall('update_transactions');
         $this->assertSame(72, $call[0], 'transaction id');
         $this->assertSame(123, $call[3], 'fa_bank_transfer mock sets trans_no 123');
         $this->assertSame(4, $call[4], 'ST_BANKTRANSFER');
@@ -282,9 +301,9 @@ class BankTransactionHandlersProcessTest extends TestCase
         $this->assertSame(88, $result->getTransNo());
         $this->assertSame(22, $result->getTransType());
         $this->assertStringContainsString('MATCH', $result->getMessage());
-        $this->assertArrayHasKey('set_partner_data', $GLOBALS['__fa_write_log']);
+        $this->assertNotNull(FaStubRegistry::lastCall('set_partner_data'));
 
-        $call = $GLOBALS['__fa_write_log']['update_transactions'];
+        $call = FaStubRegistry::lastCall('update_transactions');
         $this->assertSame(82, $call[0], 'transaction id');
         $this->assertSame(88, $call[3]);
         $this->assertSame(22, $call[4]);
@@ -324,7 +343,7 @@ class BankTransactionHandlersProcessTest extends TestCase
         $this->assertSame(22, $result->getTransType());
         $this->assertStringContainsString('manually settled', $result->getMessage());
 
-        $call = $GLOBALS['__fa_write_log']['update_transactions'];
+        $call = FaStubRegistry::lastCall('update_transactions');
         $this->assertSame(92, $call[0], 'transaction id');
         $this->assertSame(91, $call[3]);
     }
@@ -348,7 +367,10 @@ class BankTransactionHandlersProcessTest extends TestCase
 
     public function test_manual_settlement_failure_to_retrieve_counterparty_is_reported(): void
     {
-        $GLOBALS['__fa_write_throwable']['get_trans_counterparty'] = 'db unavailable';
+        FaStubRegistry::setException(
+            'get_trans_counterparty',
+            new \RuntimeException('db unavailable')
+        );
         $handler = new ManualSettlementHandler();
 
         $result = $handler->process(

@@ -9,8 +9,8 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
- * @BABOK CLASS ROLLUP: UnsetTransButtonRow — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/UnsetTransButtonRow.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
+
  * UnsetTransButtonRow - wraps an UnsetTrans submit into a HtmlLabelRow
  * 
  * @package Views
@@ -24,7 +24,7 @@ class UnsetTransButtonRow implements HtmlElementInterface
     protected $row;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      * Create unset transaction button row for given index and transaction number
      * 
      * @param int $index The transaction index
@@ -38,7 +38,7 @@ class UnsetTransButtonRow implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      * Get HTML as string
      * 
      * @return string The HTML
@@ -49,7 +49,7 @@ class UnsetTransButtonRow implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      * Output HTML directly to screen
      * 
      * @return void

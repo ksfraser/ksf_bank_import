@@ -57,8 +57,8 @@ use Ksfraser\FaBankImport\Services\ReferenceNumberService;
  * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
  */
 /**
- * @BABOK CLASS ROLLUP: AbstractTransactionHandler — 11 methods; FR-049 (11)
- * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/AbstractTransactionHandler.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  */
 abstract class AbstractTransactionHandler implements TransactionHandlerInterface
 {
@@ -77,7 +77,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     protected ReferenceNumberService $referenceService;
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Constructor - initializes and validates partner type
      *
      * Uses fail-fast pattern - if subclass doesn't provide valid type,
@@ -105,7 +105,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: getPartnerType
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * @inheritDoc
  * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      */
@@ -115,7 +115,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeObject
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get the PartnerType value object for this handler
      *
      * Returns the complete PartnerType object which provides:
@@ -133,7 +133,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: getPartnerTypeInstance
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get the PartnerType instance for this handler
      *
      * Each concrete handler returns its specific PartnerType value object.
@@ -145,7 +145,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     abstract protected function getPartnerTypeInstance(): PartnerTypeInterface;
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: canProcess
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * @inheritDoc
      * 
      * Standard implementation that checks if the partner type matches this handler.
@@ -157,7 +157,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: validateTransaction
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Validate transaction has required fields
      *
      * Common validation logic shared across handlers.
@@ -182,7 +182,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: extractPartnerId
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Extract partner ID from transaction POST data
      *
      * Common utility for extracting partner ID from filtered POST data.
@@ -209,7 +209,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: calculateCharge
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Calculate bank charges for transaction
      *
      * Common utility for charge calculation using global function.
@@ -229,7 +229,24 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: createErrorResult
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+     * Create the items_cart helper used by transaction builders.
+     *
+     * Kept as an overridable factory so tests can inject a controllable
+     * double without depending on global class-declaration order (phpunit
+     * loads the composer autoload — and therefore any FA-mock package —
+     * before the test bootstrap can declare its own version of the class).
+     *
+     * @param int $transType Transaction type for the cart
+     * @return object items_cart instance
+     */
+    protected function createItemsCart(int $transType)
+    {
+        return new \items_cart($transType);
+    }
+
+    /**
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create error result
      *
      * Standard error format for consistency across handlers.
@@ -246,7 +263,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: createSuccessResult
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create success result
      *
      * Standard success format for consistency across handlers.
@@ -269,7 +286,7 @@ abstract class AbstractTransactionHandler implements TransactionHandlerInterface
     }
 
     /**
- * @BABOK FR-049 / ARCH-004 — method: createWarningResult
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create warning result
      *
      * Standard warning format for consistency across handlers.

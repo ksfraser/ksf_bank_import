@@ -21,8 +21,9 @@ use Ksfraser\FaBankImport\Contracts\BankAccountDirectoryInterface;
  *
  * @package Ksfraser\FaBankImport\Repository
  * @since 1.0.0
- * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+
  * @license GPL-3.0
+  * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
  */
 final class FaBankAccountDirectory implements BankAccountDirectoryInterface
 {
@@ -56,7 +57,8 @@ final class FaBankAccountDirectory implements BankAccountDirectoryInterface
      * @param callable|null $hookInvoker Hook entry; defaults to hook_invoke().
      * @param callable|null $listAll     Native lister; defaults to get_bank_accounts().
      * @param callable|null $dtoFactory  Hook DTO builder; tests may inject a stub.
-     * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+
+          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function __construct(callable $hookInvoker = null, callable $listAll = null, callable $dtoFactory = null)
     {
@@ -97,7 +99,8 @@ final class FaBankAccountDirectory implements BankAccountDirectoryInterface
      * The bank accounts the user can choose from.
      *
      * @return array<int, array{id: int, number: string, name: string}> The bank accounts
-     * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+
+          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function listBankAccounts(): array
     {
@@ -125,7 +128,8 @@ final class FaBankAccountDirectory implements BankAccountDirectoryInterface
      *
      * @param string $number Bank account number.
      * @return bool True when the account exists.
-     * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+
+          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function accountNumberExists(string $number): bool
     {
@@ -146,7 +150,8 @@ final class FaBankAccountDirectory implements BankAccountDirectoryInterface
      * @param array<int, array<string, mixed>> $rows   FA bank account rows.
      * @param string                           $number Bank account number.
      * @return bool True when the account exists.
-     * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+
+          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
     public static function accountNumberExistsIn(array $rows, string $number): bool
     {
@@ -170,7 +175,8 @@ final class FaBankAccountDirectory implements BankAccountDirectoryInterface
      *
      * @param string $number The raw identifier.
      * @return string The comparison token.
-     * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+
+          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
     public static function normalizeAccountNumber(string $number): string
     {
@@ -190,7 +196,8 @@ final class FaBankAccountDirectory implements BankAccountDirectoryInterface
      * @return array<int, array<string, mixed>>|null The rows, or null when
      *         the hook was not answered with usable data (module silent,
      *         NoData or ErrorResult all fall through).
-     * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+
+          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
 
     private function searchThroughHook(array $dtoValues): ?array
@@ -223,7 +230,8 @@ final class FaBankAccountDirectory implements BankAccountDirectoryInterface
      *
      * @return array<int, array<string, mixed>>|null The rows, or null when
      *         neither the module nor FA could provide them.
-     * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+
+          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
 
     private function bankAccountRows(): ?array

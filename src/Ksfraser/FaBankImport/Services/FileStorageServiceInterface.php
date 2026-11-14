@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -9,8 +9,8 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
- * @BABOK CLASS ROLLUP: FileStorageServiceInterface — 6 methods; BR-001 (6); BR-002 (6); FR-008 (6)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/FileStorageServiceInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
+
  * File Storage Service Interface
  * 
  * Contract for file system operations
@@ -23,7 +23,7 @@ use Ksfraser\FaBankImport\ValueObject\FileInfo;
 interface FileStorageServiceInterface
 {
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: store
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Store uploaded file to disk
      * 
      * Moves file from temporary location to permanent storage
@@ -40,7 +40,7 @@ interface FileStorageServiceInterface
     public function store(FileInfo $fileInfo, string $parserType): array;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: delete
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Delete file from disk
      * 
      * @param string $filePath Full path to file
@@ -50,7 +50,7 @@ interface FileStorageServiceInterface
     public function delete(string $filePath): bool;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: exists
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Check if file exists on disk
      * 
      * @param string $filePath Full path to file
@@ -60,7 +60,7 @@ interface FileStorageServiceInterface
     public function exists(string $filePath): bool;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getContents
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Get file contents
      * 
      * @param string $filePath Full path to file
@@ -72,7 +72,7 @@ interface FileStorageServiceInterface
     public function getContents(string $filePath): string;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStorageDirectory
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Get storage directory path
      * 
      * @return string Full path to upload storage directory
@@ -81,7 +81,7 @@ interface FileStorageServiceInterface
     public function getStorageDirectory(): string;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: ensureStorageDirectoryExists
+ * @BABOK FR-IMP-003 | BR-IMP-003 | UAT-IMP-006
      * Ensure storage directory exists with proper permissions
      * 
      * @return void

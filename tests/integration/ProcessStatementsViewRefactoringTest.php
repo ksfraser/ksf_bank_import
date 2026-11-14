@@ -21,9 +21,12 @@ class ProcessStatementsViewRefactoringTest extends TestCase
      */
     public function testHeaderTableHtmlOutputIsIdentical(): void
     {
-        // Skip if not in FA environment (dependencies not available)
-        if (!class_exists('ksf_modules_table_filter_by_date')) {
-            $this->markTestSkipped('FrontAccounting environment not available for integration testing');
+        // Skip if not in FA environment (dependencies not available).
+        // class_exists() would trigger the Composer classmap, which includes
+        // header_table.php and fatals on its ksf_modules_common require —
+        // probe the dependency file instead.
+        if (!file_exists('../ksf_modules_common/class.origin.php')) {
+            $this->markTestSkipped('ksf_modules_common (class.origin.php) not available for integration testing');
         }
 
         require_once('header_table.php');

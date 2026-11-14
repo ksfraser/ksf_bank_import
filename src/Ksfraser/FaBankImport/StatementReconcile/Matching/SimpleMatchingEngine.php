@@ -36,8 +36,8 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
  * @author  Kevin Fraser
  */
 /**
- * @BABOK CLASS ROLLUP: SimpleMatchingEngine — 6 methods; FR-007 (6)
- * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Matching/SimpleMatchingEngine.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  */
 final class SimpleMatchingEngine implements MatchingEngineInterface
 {
@@ -56,7 +56,7 @@ final class SimpleMatchingEngine implements MatchingEngineInterface
     private $threshold;
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @param float $threshold Minimum confidence in [0.0, 1.0] to accept a pair.
      */
     public function __construct(float $threshold = self::DEFAULT_THRESHOLD)
@@ -65,7 +65,7 @@ final class SimpleMatchingEngine implements MatchingEngineInterface
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: match
+
      * {@inheritdoc}
      */
     public function match(StatementOcr $statement, array $bankTransactions): ReconciliationSession
@@ -106,7 +106,7 @@ final class SimpleMatchingEngine implements MatchingEngineInterface
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: findBestMatch
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Evaluate all available bank transactions against $line and return the best
      * MatchedPair at or above the threshold, or null if none qualifies.
      *
@@ -164,7 +164,7 @@ final class SimpleMatchingEngine implements MatchingEngineInterface
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: scoresAmountDate
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Rule 1: amounts match within 0.005 (rounding tolerance) AND dates are equal.
      *
      * @param StatementLine      $line
@@ -180,7 +180,7 @@ final class SimpleMatchingEngine implements MatchingEngineInterface
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: scoresDescriptionFuzzy
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Rule 2: token-overlap similarity between descriptions.
      *
      * Splits both descriptions into normalised word tokens, then computes
@@ -208,7 +208,7 @@ final class SimpleMatchingEngine implements MatchingEngineInterface
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: tokenise
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Normalise a description string into an array of lowercase word tokens,
      * stripping punctuation and short stop-words.
      *

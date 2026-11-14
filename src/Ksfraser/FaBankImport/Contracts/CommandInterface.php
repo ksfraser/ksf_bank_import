@@ -42,13 +42,13 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
 /**
- * @BABOK CLASS ROLLUP: CommandInterface — 2 methods; FR-015 (2)
- * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/CommandInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+
  */
 interface CommandInterface
 {
     /**
- * @BABOK FR-015 / ARCH-001 — method: execute
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Execute the command
      *
      * Performs the business operation encapsulated by this command.
@@ -71,7 +71,7 @@ interface CommandInterface
     public function execute(): TransactionResult;
 
     /**
- * @BABOK FR-015 / ARCH-001 — method: getName
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Get command name
      *
      * Returns a human-readable name for this command.

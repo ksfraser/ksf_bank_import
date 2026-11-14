@@ -8,20 +8,24 @@ use Ksfraser\FaBankImport\Http\ResponseHandler;
 use Ksfraser\FaBankImport\Exceptions\UnauthorizedException;
 
 /**
- * @BABOK CLASS ROLLUP: AdminMiddleware — 2 methods; FR-014 (2)
- * @BABOK RTM: FR-014 / ARCH-004; file: Middleware/AdminMiddleware.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-LOG-006, FR-UPL-004 | BR-LOG-002 | UAT-LOG-005
+
  */
 class AdminMiddleware implements MiddlewareInterface
 {
     private $response;
 
-    /** @BABOK FR-014 / ARCH-004 — method: __construct */
+    /** * @BABOK FR-LOG-006, FR-UPL-004 | BR-LOG-002 | UAT-LOG-005
+ * @BABOK FR-LOG-006, FR-UPL-004 | BR-LOG-002 | UAT-LOG-005
+*/
     public function __construct()
     {
         $this->response = new ResponseHandler();
     }
 
-    /** @BABOK FR-014 / ARCH-004 — method: process */
+    /** * @BABOK FR-LOG-006, FR-UPL-004 | BR-LOG-002 | UAT-LOG-005
+ * @BABOK FR-LOG-006, FR-UPL-004 | BR-LOG-002 | UAT-LOG-005
+*/
     public function process(RequestHandler $request, callable $next)
     {
         if (!isset($_SESSION['user_id']) || !isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {

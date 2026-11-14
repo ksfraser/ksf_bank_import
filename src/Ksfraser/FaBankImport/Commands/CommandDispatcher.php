@@ -11,8 +11,8 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * @BABOK CLASS ROLLUP: CommandDispatcher — 6 methods; FR-014 (6)
- * @BABOK RTM: FR-014 / ARCH-004; file: Commands/CommandDispatcher.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+
  * Command Dispatcher
  *
  * Front Controller implementation that routes POST actions to appropriate Command classes.
@@ -41,7 +41,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     private $container;
 
     /**
- * @BABOK FR-014 / ARCH-004 — method: __construct
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Constructor
      *
      * @param object $container DI container that implements make() method
@@ -54,7 +54,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
- * @BABOK FR-014 / ARCH-004 — method: registerDefaultCommands
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Register default commands
      *
      * Auto-registers the core POST actions used in the application.
@@ -71,7 +71,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
- * @BABOK FR-014 / ARCH-004 — method: register
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * {@inheritDoc}
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
@@ -92,7 +92,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
- * @BABOK FR-014 / ARCH-004 — method: dispatch
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * {@inheritDoc}
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
@@ -108,15 +108,18 @@ class CommandDispatcher implements CommandDispatcherInterface
         $commandClass = $this->commands[$actionName];
 
         try {
-            // Get repository dependency
-            $repository = $this->container->make('TransactionRepository');
-            
+            $overrides = [
+                "postData" => $postData,
+            ];
+
+            if ($this->commandNeedsRepository($commandClass)) {
+                $overrides["repository"] = $this->container->make('TransactionRepository');
+                $overrides["transactionRepository"] = $overrides["repository"];
+            }
+
             // Instantiate command with dependencies
             /** @var CommandInterface $command */
-            $command = $this->container->make($commandClass, [
-                "postData" => $postData,
-                "repository" => $repository
-            ]);
+            $command = $this->container->make($commandClass, $overrides);
 
             // Execute command
             return $command->execute();
@@ -137,7 +140,7 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
- * @BABOK FR-014 / ARCH-004 — method: hasCommand
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * {@inheritDoc}
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */
@@ -147,7 +150,44 @@ class CommandDispatcher implements CommandDispatcherInterface
     }
 
     /**
- * @BABOK FR-014 / ARCH-004 — method: getRegisteredActions
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+     * Whether the command constructor declares a repository dependency.
+     *
+     * Commands that only need the POST data must not force the container to
+     * resolve a repository (that makes every simple command unusable without
+     * a repository binding). The check is both name- and type-based so it
+     * covers the typed and untyped command constructors in this module.
+     *
+     * @param string $commandClass
+     * @return bool
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+     */
+    private function commandNeedsRepository(string $commandClass): bool
+    {
+        $reflection = new \ReflectionClass($commandClass);
+        $constructor = $reflection->getConstructor();
+
+        if ($constructor === null) {
+            return false;
+        }
+
+        foreach ($constructor->getParameters() as $parameter) {
+            $type = $parameter->getType();
+            $typeName = $type instanceof \ReflectionNamedType
+                ? $type->getName()
+                : (string) $type;
+
+            if (substr($parameter->getName(), -10) === 'Repository'
+                || stripos((string) $typeName, 'Repository') !== false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * {@inheritDoc}
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      */

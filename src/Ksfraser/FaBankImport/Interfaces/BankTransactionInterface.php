@@ -3,25 +3,41 @@
 namespace Ksfraser\FaBankImport\Interfaces;
 
 /**
- * @BABOK CLASS ROLLUP: BankTransactionInterface — 8 methods; FR-015 (8)
- * @BABOK RTM: FR-015 / ARCH-001; file: Interfaces/BankTransactionInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  */
 interface BankTransactionInterface
 {
-    /** @BABOK FR-015 / ARCH-001 — method: getTransactionType */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTransactionType(): string;
-    /** @BABOK FR-015 / ARCH-001 — method: getAmount */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getAmount(): float;
-    /** @BABOK FR-015 / ARCH-001 — method: getDate */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getDate(): string;
-    /** @BABOK FR-015 / ARCH-001 — method: getAccountDetails */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getAccountDetails(): array;
-    /** @BABOK FR-015 / ARCH-001 — method: getOtherPartyDetails */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getOtherPartyDetails(): array;
-    /** @BABOK FR-015 / ARCH-001 — method: getStatus */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getStatus(): int;
-    /** @BABOK FR-015 / ARCH-001 — method: getId */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getId(): int;
-    /** @BABOK FR-015 / ARCH-001 — method: getMemo */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getMemo(): string;
 }

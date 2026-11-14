@@ -9,8 +9,8 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
- * @BABOK CLASS ROLLUP: HTML_ROW — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/HTML_ROW.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  * HTML_ROW - Wraps data in an HTML table row
  * 
  * @package Views
@@ -24,7 +24,7 @@ class HTML_ROW implements HtmlElementInterface
     protected $row;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Create table row with given data
      * 
      * @param string $data The cell content
@@ -35,7 +35,7 @@ class HTML_ROW implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Output HTML directly to screen
      * 
      * @return void
@@ -46,7 +46,7 @@ class HTML_ROW implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get HTML as string
      * 
      * @return string The HTML

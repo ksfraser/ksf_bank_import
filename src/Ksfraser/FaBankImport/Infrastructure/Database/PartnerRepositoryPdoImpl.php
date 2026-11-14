@@ -9,8 +9,8 @@ use Ksfraser\FaBankImport\Entity\PartnerEntity;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerRepositoryPdoImpl — 10 methods; FR-006 (10)
- * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/PartnerRepositoryPdoImpl.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Partner Repository - PDO Implementation
  * 
  * Persists and retrieves partner entities using PDO with parameterized queries.
@@ -23,13 +23,15 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
 {
     private const TABLE = 'bi_partners_data';
     
-    /** @BABOK FR-006 / ARCH-007 — method: __construct */
+    /** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct(private readonly PDO $pdo)
     {
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: getById
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner by ID
      */
     public function getById(int $id): ?PartnerEntity
@@ -44,7 +46,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: getByName
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get partner by name and type
      */
     public function getByName(string $name, PartnerType $type): ?PartnerEntity
@@ -59,7 +61,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: searchByPattern
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Search by pattern (LIKE)
      */
     public function searchByPattern(string $pattern, ?PartnerType $type = null): array
@@ -81,7 +83,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: getByType
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all partners of a type
      */
     public function getByType(PartnerType $type): array
@@ -95,7 +97,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: create
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create new partner
      */
     public function create(PartnerEntity $partner): int
@@ -117,7 +119,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: update
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Update existing partner
      */
     public function update(PartnerEntity $partner): void
@@ -144,7 +146,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: delete
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Delete partner
      */
     public function delete(int $id): bool
@@ -158,7 +160,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: exists
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check existence
      */
     public function exists(int $id): bool
@@ -172,7 +174,7 @@ class PartnerRepositoryPdoImpl implements PartnerRepository
     }
     
     /**
- * @BABOK FR-006 / ARCH-007 — method: rowToEntity
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Convert database row to entity
      */
     private function rowToEntity(array $row): PartnerEntity

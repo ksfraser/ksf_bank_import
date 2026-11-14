@@ -27,6 +27,7 @@ use Ksfraser\HTML\HtmlElementInterface;
  * @package Ksfraser\HTML
  * @author Kevin Fraser
  * @since 20251220
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
  */
 abstract class ActionButton extends HtmlInputGenericButton
 {
@@ -51,6 +52,7 @@ abstract class ActionButton extends HtmlInputGenericButton
      * @param string $actionName The name of the action (edit, delete, etc.)
      * @param HtmlElementInterface $label The button label text
      * @param string $actionId The identifier for this action (e.g., record ID)
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function __construct($actionName, HtmlElementInterface $label, $actionId = '')
     {
@@ -65,6 +67,7 @@ abstract class ActionButton extends HtmlInputGenericButton
      * Implemented by subclasses for specific action behavior.
      * 
      * @return void
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     abstract protected function setupActionButton();
 
@@ -72,6 +75,7 @@ abstract class ActionButton extends HtmlInputGenericButton
      * Get the action ID
      * 
      * @return string
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function getActionId()
     {
@@ -82,6 +86,7 @@ abstract class ActionButton extends HtmlInputGenericButton
      * Get the action name
      * 
      * @return string
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function getActionName()
     {
@@ -93,6 +98,7 @@ abstract class ActionButton extends HtmlInputGenericButton
      * 
      * @param string $cssClass CSS class name(s)
      * @return self Fluent interface
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function setCssClass($cssClass)
     {
@@ -104,6 +110,7 @@ abstract class ActionButton extends HtmlInputGenericButton
      * 
      * @param string $cssClass CSS class to add
      * @return self Fluent interface
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function addCssClass(string $class): self
     {
@@ -114,6 +121,7 @@ abstract class ActionButton extends HtmlInputGenericButton
      *
      * @param string $function JavaScript function to call (should return boolean)
      * @return self
+ * @BABOK FR-PROC-011 | BR-PROC-005 | UAT-PROC-010
      */
     public function setOnclickFunction(string $function): self
     {

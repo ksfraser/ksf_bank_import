@@ -16,7 +16,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -24,8 +24,8 @@ namespace Ksfraser\FaBankImport\Services;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerMatcherFactory — 4 methods; BR-001 (4); BR-002 (4); FR-008 (4)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/PartnerMatcherFactory.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Partner Matcher Factory
  *
  * Factory for creating specialized matchers with different configurations:
@@ -39,7 +39,7 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 final class PartnerMatcherFactory
 {
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createUnifiedMatcher
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create unified transaction partner matcher
      *
      * Uses supplier configuration weights as baseline for all partner types.
@@ -57,7 +57,7 @@ final class PartnerMatcherFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createSupplierMatcher
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create supplier-specific matcher
      *
      * Uses SupplierMatchingConfiguration optimized for supplier transactions.
@@ -74,7 +74,7 @@ final class PartnerMatcherFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createCustomerMatcher
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create customer-specific matcher
      *
      * Uses CustomerMatchingConfiguration optimized for customer transactions
@@ -92,7 +92,7 @@ final class PartnerMatcherFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createCustom
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create with custom configuration and engine
      *
      * For advanced use cases where custom configuration or engine is needed.

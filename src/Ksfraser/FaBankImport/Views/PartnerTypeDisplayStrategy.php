@@ -7,6 +7,7 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Elements\HtmlHidden;
 use Ksfraser\HTML\HtmlFragment;
 use Ksfraser\HTML\Composites\HtmlLabelRow;
+use Ksfraser\HTML\Elements\HtmlRaw;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\HtmlSelect;
 use Ksfraser\HTML\Elements\HtmlInput;
@@ -41,8 +42,8 @@ use Ksfraser\FaBankImport\OperationTypes\OperationTypesRegistry;
  * @see Martin Fowler's "Refactoring: Improving the Design of Existing Code"
  */
 /**
- * @BABOK CLASS ROLLUP: PartnerTypeDisplayStrategy — 12 methods; FR-009 (12); IR-001 (12)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/PartnerTypeDisplayStrategy.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  */
 class PartnerTypeDisplayStrategy
 {
@@ -58,7 +59,7 @@ class PartnerTypeDisplayStrategy
     private $strategies = [];
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      * 
      * Dynamically builds strategy map from PartnerTypeRegistry instead of
@@ -83,7 +84,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: buildStrategyMap
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Build strategy map dynamically from PartnerTypeRegistry
      * 
      * Instead of hardcoding the strategies array, we discover partner types
@@ -104,7 +105,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: display
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Display the appropriate partner type view based on partner type code
      * 
      * DEPRECATED: Use render() instead. This method directly echoes output,
@@ -122,7 +123,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: render
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the appropriate partner type view based on partner type code
      * 
      * Returns HtmlFragment containing the rendered HTML. Caller decides
@@ -144,7 +145,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: displaySupplier
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Display Supplier partner type (SP)
      * 
      * @return HtmlFragment Rendered HTML
@@ -163,7 +164,7 @@ class PartnerTypeDisplayStrategy
             
             $labelRow = $view->getHtml();
             $fragment = new HtmlFragment();
-            $fragment->addChild($labelRow instanceof \Ksfraser\HTML\HtmlElementInterface ? $labelRow : new HtmlString((string)$labelRow));
+            $fragment->addChild($labelRow instanceof \Ksfraser\HTML\HtmlElementInterface ? $labelRow : new HtmlRaw((string)$labelRow));
             return $fragment;
         } else {
             $view = new SupplierPartnerTypeView(
@@ -178,7 +179,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayCustomer
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Display Customer partner type (CU)
      * 
      * @return HtmlFragment Rendered HTML
@@ -199,7 +200,7 @@ class PartnerTypeDisplayStrategy
             
             $html = $view->getHtml();
             $fragment = new HtmlFragment();
-            $fragment->addChild($html instanceof \Ksfraser\HTML\HtmlElementInterface ? $html : new HtmlString((string)$html));
+            $fragment->addChild($html instanceof \Ksfraser\HTML\HtmlElementInterface ? $html : new HtmlRaw((string)$html));
             return $fragment;
         } else {
             $view = new CustomerPartnerTypeView(
@@ -216,7 +217,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayBankTransfer
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Display Bank Transfer partner type (BT)
      * 
      * @return HtmlFragment Rendered HTML
@@ -237,7 +238,7 @@ class PartnerTypeDisplayStrategy
             
             $html = $view->getHtml();
             $fragment = new HtmlFragment();
-            $fragment->addChild($html instanceof \Ksfraser\HTML\HtmlElementInterface ? $html : new HtmlString((string)$html));
+            $fragment->addChild($html instanceof \Ksfraser\HTML\HtmlElementInterface ? $html : new HtmlRaw((string)$html));
             return $fragment;
         } else {
             $view = new BankTransferPartnerTypeView(
@@ -254,7 +255,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayQuickEntry
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Display Quick Entry partner type (QE)
      * 
      * @return HtmlFragment Rendered HTML
@@ -272,7 +273,7 @@ class PartnerTypeDisplayStrategy
             
             $labelRow = $view->getHtml();
             $fragment = new HtmlFragment();
-            $fragment->addChild($labelRow instanceof \Ksfraser\HTML\HtmlElementInterface ? $labelRow : new HtmlString((string)$labelRow));
+            $fragment->addChild($labelRow instanceof \Ksfraser\HTML\HtmlElementInterface ? $labelRow : new HtmlRaw((string)$labelRow));
             return $fragment;
         } else {
             $view = new QuickEntryPartnerTypeView(
@@ -286,7 +287,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayManualSettlement
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Display Manual Settlement partner type (MA)
      * 
      * @return HtmlFragment Rendered HTML elements
@@ -297,10 +298,15 @@ class PartnerTypeDisplayStrategy
         $fragment = new HtmlFragment();
         
         $fragment->addChild(new HtmlHidden("partnerId_$id", 'manual'));
-        
-        $registry = OperationTypesRegistry::getInstance();
-        $opts_arr = $registry->getTypes();
-        
+
+        // Single source of truth: bank-related transaction types (same as
+        // bi_lineitem::displayMatchedPartnerType()).
+        if (!class_exists('Ksfraser\\FrontAccounting\\TransactionTypes\\TransactionTypesRegistry')) {
+            require_once __DIR__ . '/../../FrontAccounting/TransactionTypes/TransactionTypesRegistry.php';
+        }
+        $opts_arr = \Ksfraser\FrontAccounting\TransactionTypes\TransactionTypesRegistry::getInstance()
+            ->getLabelsArray(['moneyMoved' => true]);
+
         if (!empty($opts_arr)) {
             $selectName = "Existing_Type";
             $select = new HtmlSelect($selectName);
@@ -324,7 +330,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: displayMatchedExisting
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Display Matched Existing transaction partner type (ZZ)
      * 
      * @return HtmlFragment Rendered HTML elements (hidden fields)
@@ -354,7 +360,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getAvailablePartnerTypes
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get available partner type codes
      * 
      * @return array List of valid partner type codes
@@ -365,7 +371,7 @@ class PartnerTypeDisplayStrategy
     }
     
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: isValidPartnerType
+ * @BABOK FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Check if a partner type code is valid
      * 
      * @param string $partnerType Partner type code to validate

@@ -43,22 +43,24 @@ use DateTime;
  * ```
  */
 /**
- * @BABOK CLASS ROLLUP: ReportingService — 23 methods; FR-012 (23)
- * @BABOK RTM: FR-012 / ARCH-007; file: Reporting/ReportingService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  */
 class ReportingService
 {
     private array $reports = [];
     private DateTime $sessionStart;
 
-    /** @BABOK FR-012 / ARCH-007 — method: __construct */
+    /** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct()
     {
         $this->sessionStart = new DateTime();
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: recordMatch
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Record a single match attempt
      *
      * @param MatchingReport $report Result of match operation
@@ -70,7 +72,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: recordMatches
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Record multiple match attempts
      *
      * @param array<MatchingReport> $reports Results to record
@@ -84,7 +86,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getTotalRecorded
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get total matches recorded
      *
      * @return int
@@ -95,7 +97,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getSessionStart
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get session start time
      *
      * @return DateTime
@@ -106,7 +108,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getSessionDuration
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get session duration in seconds
      *
      * @return int
@@ -117,7 +119,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: generateOperationReport
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Generate operation report for all recorded matches
      *
      * @return OperationReport
@@ -128,7 +130,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: generateSuccessReport
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Generate operation report for successful matches only
      *
      * @return OperationReport
@@ -143,7 +145,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: generateFailureReport
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Generate operation report for failed matches only
      *
      * @return OperationReport
@@ -158,7 +160,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getReportsByTransaction
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get reports matching transaction ID
      *
      * @param string $transactionId
@@ -173,7 +175,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getReportsByPartner
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get reports for specific partner
      *
      * @param int $partnerId
@@ -188,7 +190,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getReportsByConfidenceRange
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get reports with confidence in specific range
      *
      * @param float $minConfidence Minimum confidence (0-100)
@@ -204,7 +206,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getReportsBefore
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get reports before specific time
      *
      * @param DateTime $before
@@ -219,7 +221,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getReportsAfter
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get reports after specific time
      *
      * @param DateTime $after
@@ -234,7 +236,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getReportsByConfidenceLevel
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get reports with specific confidence level
      *
      * @param string $level 'HIGH', 'MEDIUM', or 'LOW'
@@ -249,7 +251,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getLowestConfidenceTransactions
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Find transaction IDs with lowest confidence scores
      *
      * @param int $limit Number of results
@@ -270,7 +272,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getHighestConfidenceTransactions
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Find transaction IDs with highest confidence scores
      *
      * @param int $limit Number of results
@@ -291,7 +293,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getTopPartnersBySuccessRate
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Find partners with highest match success rate
      *
      * @param int $minMatches Minimum matches to include
@@ -331,7 +333,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getFailureReasonsSummary
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get failure reasons summary
      *
      * @return array<string, int> Reason => count
@@ -352,7 +354,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getAllKeywords
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get all unique keywords used across all reports
      *
      * @return array<string>
@@ -371,7 +373,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getKeywordFrequency
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get keywords frequency distribution
      *
      * @return array<string, int> Keyword => frequency
@@ -391,7 +393,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: reset
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Clear all recorded reports
      *
      * @return void
@@ -403,7 +405,7 @@ class ReportingService
     }
 
     /**
- * @BABOK FR-012 / ARCH-007 — method: getAllReports
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Get all raw reports
      *
      * @return array<MatchingReport>

@@ -3,8 +3,8 @@
 namespace Ksfraser\FaBankImport\Results;
 
 /**
- * @BABOK CLASS ROLLUP: PaginatedTransactionResult — 3 methods; FR-008 (3); FR-017 (3)
- * @BABOK RTM: FR-008 / FR-017; file: Results/PaginatedTransactionResult.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+
  * PaginatedTransactionResult
  *
  * Value Object representing a paginated set of transactions with metadata
@@ -43,7 +43,7 @@ class PaginatedTransactionResult
 	public $limit;
 
 	/**
- * @BABOK FR-008 / FR-017 — method: __construct
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
 	 * Construct a PaginatedTransactionResult with validation
 	 *
 	 * @param array $transactions The transaction rows keyed by transactionCode
@@ -95,7 +95,7 @@ class PaginatedTransactionResult
 	}
 
 	/**
- * @BABOK FR-008 / FR-017 — method: hasNextPage
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
 	 * Check if there is a next page
 	 *
 	 * @return bool
@@ -106,7 +106,7 @@ class PaginatedTransactionResult
 	}
 
 	/**
- * @BABOK FR-008 / FR-017 — method: hasPreviousPage
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
 	 * Check if there is a previous page
 	 *
 	 * @return bool

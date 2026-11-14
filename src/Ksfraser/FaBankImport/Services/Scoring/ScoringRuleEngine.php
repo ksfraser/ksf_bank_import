@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services\Scoring;
@@ -40,8 +40,8 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
  * @since 2.3.0
  */
 /**
- * @BABOK CLASS ROLLUP: ScoringRuleEngine — 13 methods; BR-011 (13)
- * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringRuleEngine.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  */
 class ScoringRuleEngine
 {
@@ -59,7 +59,7 @@ class ScoringRuleEngine
     private const DEFAULT_WEIGHT = 1.0;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: register
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Register a scoring rule with optional weight
      *
      * Weight allows adjusting rule importance (configurable in future):
@@ -86,7 +86,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: calculateAdjustment
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Calculate total confidence adjustment across all rules
      *
      * Applies all registered rules, multiplies each by its weight,
@@ -137,7 +137,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getScoreBreakdown
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get detailed breakdown of last calculated adjustment
      *
      * Returns comprehensive breakdown with:
@@ -155,7 +155,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getScoreDetails
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get detailed score information for logging
      *
      * Returns comprehensive data about the last calculation:
@@ -179,7 +179,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: formatScoreDetails
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Format score details as human-readable calculation string
      *
      * Returns format like: "RecencyRule(5)+AmountRule(3)=8"
@@ -213,7 +213,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: calculateAdjustmentWithBreakdown
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Calculate adjustments with detailed results
      *
      * Returns array with both the clamped adjustment and full breakdown.
@@ -233,7 +233,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getRuleCount
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get count of registered rules
      *
      * @return int Number of rules
@@ -244,7 +244,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getRuleWeight
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get weight for a specific rule
      *
      * @param string $ruleName Rule name to get weight for
@@ -256,7 +256,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getRuleWeights
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get all rules with their weights
      *
      * @return array<string, float> Map of rule name => weight
@@ -267,7 +267,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getMaxPossibleBoost
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get total possible maximum boost
      *
      * Sum of all positive boosts from all registered rules, accounting for weights.
@@ -286,7 +286,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getMaxPossibleReduction
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get total possible maximum reduction
      *
      * Sum of all negative reductions from all registered rules, accounting for weights.
@@ -305,7 +305,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: reset
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Reset all registered rules and weights
      *
      * Clears the rules and breakdown lists. Useful for testing.
@@ -321,7 +321,7 @@ class ScoringRuleEngine
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: formatScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Format a score value (number) for display
      *
      * @param float $score Score to format

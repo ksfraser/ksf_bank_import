@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\Testing;
 use PDO;
 
 /**
- * @BABOK CLASS ROLLUP: SeederFactory — 7 methods; NFR-016 (7)
- * @BABOK RTM: NFR-016; file: Testing/SeederFactory.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * SeederFactory - Manage and execute seeders
  *
  * Provides a convenient way to:
@@ -31,13 +31,15 @@ final class SeederFactory
     /** @var Seeder[] */
     private array $seeders = [];
 
-    /** @BABOK NFR-016 — method: __construct */
+    /** @BABOK NFR-016 — method: __construct * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function __construct(private readonly PDO $pdo)
     {
     }
 
     /**
- * @BABOK NFR-016 — method: register
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Register a seeder
      *
      * @param Seeder $seeder Seeder instance to register
@@ -50,7 +52,7 @@ final class SeederFactory
     }
 
     /**
- * @BABOK NFR-016 — method: runAll
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Run all registered seeders
      *
      * @return array<string, int> Array of seeder names to record counts
@@ -77,7 +79,7 @@ final class SeederFactory
     }
 
     /**
- * @BABOK NFR-016 — method: run
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Run a specific seeder by name
      *
      * @param string $seederName Name of seeder to run
@@ -122,7 +124,7 @@ final class SeederFactory
     }
 
     /**
- * @BABOK NFR-016 — method: totalRecordCount
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get total number of records that would be seeded
      *
      * @return int
@@ -137,7 +139,7 @@ final class SeederFactory
     }
 
     /**
- * @BABOK NFR-016 — method: has
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Check if seeder is registered
      *
      * @param string $seederName Name of seeder to check

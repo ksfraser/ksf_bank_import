@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Tests\Unit\GapClosure\Service\Support;
 
-use Ksfraser\FaBankImport\Service\FileStorageService;
+use Ksfraser\FaBankImport\Services\FileStorageService;
 
 /**
  * A file storage service that believes every file exists.

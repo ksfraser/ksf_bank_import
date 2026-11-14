@@ -7,18 +7,22 @@ namespace Ksfraser\FaBankImport\Types;
 use Ksfraser\FaBankImport\Models\AbstractTransaction;
 
 /**
- * @BABOK CLASS ROLLUP: DebitTransaction — 2 methods; FR-004 (2); DR-001 (2)
- * @BABOK RTM: FR-004 / DR-001; file: Types/DebitTransaction.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-004, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+
  */
 class DebitTransaction extends AbstractTransaction
 {
-    /** @BABOK FR-004 / DR-001 — method: getTransactionType */
+    /** * @BABOK FR-PROC-004, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTransactionType(): string
     {
         return 'D';
     }
 
-    /** @BABOK FR-004 / DR-001 — method: processTransaction */
+    /** * @BABOK FR-PROC-004, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-006, FR-PROC-007 | BR-PROC-001 | UAT-PROC-001
+*/
     public function processTransaction(): void
     {
         // Specific debit transaction processing logic

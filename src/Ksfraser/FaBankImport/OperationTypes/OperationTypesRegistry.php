@@ -3,15 +3,17 @@
 namespace Ksfraser\FaBankImport\OperationTypes;
 
 /**
- * @BABOK CLASS ROLLUP: OperationTypesRegistry — 5 methods; FR-013 (5)
- * @BABOK RTM: FR-013; file: OperationTypes/OperationTypesRegistry.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  */
 class OperationTypesRegistry
 {
     private static ?self $instance = null;
     private array $types = [];
 
-    /** @BABOK FR-013 — method: getInstance */
+    /** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public static function getInstance(): self
     {
         if (self::$instance === null) {
@@ -20,25 +22,33 @@ class OperationTypesRegistry
         return self::$instance;
     }
 
-    /** @BABOK FR-013 — method: getTypes */
+    /** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getTypes(): array
     {
         return $this->types;
     }
 
-    /** @BABOK FR-013 — method: addType */
+    /** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function addType(string $key, string $label): void
     {
         $this->types[$key] = $label;
     }
 
-    /** @BABOK FR-013 — method: getLabel */
+    /** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function getLabel(string $key): ?string
     {
         return $this->types[$key] ?? null;
     }
 
-    /** @BABOK FR-013 — method: isValid */
+    /** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function isValid(string $key): bool
     {
         return isset($this->types[$key]);

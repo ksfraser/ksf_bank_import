@@ -25,7 +25,7 @@ use Ksfraser\FaBankImport\Config\ConfigService;
 page(_($help_context = "Bank Import Configuration"));
 
 // Include module menu
-include_once "views/module_menu_view.php";
+include_once __DIR__ . "/Views/module_menu_view.php";
 $menu = new \Views\ModuleMenuView();
 $menu->renderMenu();
 

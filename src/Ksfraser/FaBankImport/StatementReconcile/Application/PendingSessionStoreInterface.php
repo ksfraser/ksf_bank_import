@@ -6,8 +6,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\StatementReconcile\Application;
 
 /**
- * @BABOK CLASS ROLLUP: PendingSessionStoreInterface — 3 methods; FR-007 (3); BR-004 (3)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/PendingSessionStoreInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+
  * Persists the in-progress reconciliation state across HTTP requests.
  *
  * The interface is intentionally narrow: store, load, clear.  Implementations
@@ -17,7 +17,7 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Application;
 interface PendingSessionStoreInterface
 {
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: store
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Persist the pending session data.
      *
      * @param array $data Arbitrary key-value state for the current workflow step.
@@ -25,7 +25,7 @@ interface PendingSessionStoreInterface
     public function store(array $data): void;
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: load
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Retrieve the pending session data, or null if none exists.
      *
      * @return array|null
@@ -33,7 +33,7 @@ interface PendingSessionStoreInterface
     public function load(): ?array;
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: clear
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Discard the pending session data.
      */
     public function clear(): void;

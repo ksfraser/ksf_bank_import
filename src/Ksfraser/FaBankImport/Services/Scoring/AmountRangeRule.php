@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services\Scoring;
 
 /**
- * @BABOK CLASS ROLLUP: AmountRangeRule — 4 methods; BR-011 (4)
- * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/AmountRangeRule.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+
  * Amount Range Scoring Rule
  *
  * Recurring patterns (amounts) are more reliable for matching. Small amounts
@@ -28,7 +28,9 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
  */
 final class AmountRangeRule implements ScoringRule
 {
-    /** @BABOK BR-011 / ARCH-011 — method: calculateScore */
+    /** * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+*/
     public function calculateScore(array $transaction, SupplierCandidate $match): float
     {
         if (!isset($transaction['amount'])) {
@@ -56,19 +58,25 @@ final class AmountRangeRule implements ScoringRule
         return 2.0;
     }
 
-    /** @BABOK BR-011 / ARCH-011 — method: getName */
+    /** * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+*/
     public function getName(): string
     {
         return 'AmountRangeRule';
     }
 
-    /** @BABOK BR-011 / ARCH-011 — method: getMaxBoost */
+    /** * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+*/
     public function getMaxBoost(): float
     {
         return 3.0;
     }
 
-    /** @BABOK BR-011 / ARCH-011 — method: getMinReduction */
+    /** * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+ * @BABOK FR-VAL-002, FR-VAL-004 | BR-VAL-002 | UAT-VAL-003
+*/
     public function getMinReduction(): float
     {
         return -5.0;

@@ -11,8 +11,8 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementLine;
 use Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject\StatementMetadata;
 
 /**
- * @BABOK CLASS ROLLUP: StatementTextParser — 7 methods; FR-007 (7)
- * @BABOK RTM: FR-007 / ARCH-010; file: StatementReconcile/Infrastructure/Ocr/StatementTextParser.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
+
  * Orchestrates the two-step PDF-to-StatementOcr pipeline:
  *
  *   Step 1 – Text extraction
@@ -56,7 +56,7 @@ final class StatementTextParser
     private $extractionModel;
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: __construct
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * @param PdfTextExtractorInterface $pdfExtractor
      * @param OllamaClientInterface     $ollama
      * @param string                    $ocrModel        Ollama model for OCR fallback (e.g. "glm-ocr").
@@ -75,7 +75,7 @@ final class StatementTextParser
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: parse
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Parse a PDF file into a StatementOcr aggregate.
      *
      * @param string $pdfPath Absolute path to the PDF file.
@@ -99,7 +99,7 @@ final class StatementTextParser
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: resolveText
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Try pdfparser first; fall back to Ollama glm-ocr if needed.
      *
      * @param string $pdfPath
@@ -122,7 +122,7 @@ final class StatementTextParser
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: runOcrFallback
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Send a prompt to glm-ocr to perform OCR.
      * In a real deployment the caller should convert the PDF page to a base64
      * image and send it in the options['images'] array (Ollama LLaVA-style).
@@ -158,7 +158,7 @@ PROMPT;
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: extractStructured
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Send extracted text to gemma4 for structured JSON extraction.
      *
      * @param string $rawText
@@ -191,7 +191,7 @@ PROMPT;
     }
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: buildExtractionPrompt
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Build the structured extraction prompt with a JSON schema spec embedded.
      *
      * @param string $rawText
@@ -240,7 +240,7 @@ PROMPT;
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / ARCH-010 — method: buildStatementOcr
+ * @BABOK FR-IMP-005 | BR-IMP-001 | UAT-IMP-001
      * Validate the LLM extraction result and construct the StatementOcr aggregate.
      *
      * @param array  $extraction Decoded LLM JSON.

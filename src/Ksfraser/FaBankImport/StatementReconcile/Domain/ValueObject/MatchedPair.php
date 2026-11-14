@@ -9,8 +9,8 @@ namespace Ksfraser\FaBankImport\StatementReconcile\Domain\ValueObject;
 use InvalidArgumentException;
 
 /**
- * @BABOK CLASS ROLLUP: MatchedPair — 10 methods; FR-007 (10); BR-004 (10)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Domain/ValueObject/MatchedPair.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * A pair representing one statement line matched to one FA bank transaction.
  *
  * Immutable value object.
@@ -54,7 +54,7 @@ final class MatchedPair
     private $faTransNo;
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @param string   $statementLineId
      * @param int      $bankTransactionId Session-local sequence id.
      * @param float    $matchConfidence   Must be in [0.0, 1.0].
@@ -93,7 +93,7 @@ final class MatchedPair
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: fromArray
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @param array $data Keys: statement_line_id, bank_transaction_id, match_confidence,
      *                    rules_matched, fa_trans_type (optional), fa_trans_no (optional)
      * @return self
@@ -110,32 +110,40 @@ final class MatchedPair
         );
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getStatementLineId */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function getStatementLineId(): string
     {
         return $this->statementLineId;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getBankTransactionId */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function getBankTransactionId(): int
     {
         return $this->bankTransactionId;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: getMatchConfidence */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function getMatchConfidence(): float
     {
         return $this->matchConfidence;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: isHighConfidence */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function isHighConfidence(float $threshold = 0.9): bool
     {
         return $this->matchConfidence >= $threshold;
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: getRulesMatched
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * @return string[]
      */
     public function getRulesMatched(): array
@@ -144,7 +152,7 @@ final class MatchedPair
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: getFaTransType
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * FA transaction type code (0_bank_trans.type).
      * Used by ReconciliationCommitService to build the UPDATE WHERE clause.
      */
@@ -154,7 +162,7 @@ final class MatchedPair
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: getFaTransNo
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * FA transaction number (0_bank_trans.trans_no).
      * Used by ReconciliationCommitService to build the UPDATE WHERE clause.
      */
@@ -163,7 +171,9 @@ final class MatchedPair
         return $this->faTransNo;
     }
 
-    /** @BABOK FR-007 / BR-004 / ARCH-010 — method: toArray */
+    /** * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+*/
     public function toArray(): array
     {
         return [

@@ -32,13 +32,13 @@ use Ksfraser\FaBankImport\Results\TransactionResult;
  * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
  */
 /**
- * @BABOK CLASS ROLLUP: CommandDispatcherInterface — 4 methods; FR-015 (4)
- * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/CommandDispatcherInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
+
  */
 interface CommandDispatcherInterface
 {
     /**
- * @BABOK FR-015 / ARCH-001 — method: register
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Register a command class for an action
      *
      * Maps an action name (e.g., 'UnsetTrans' from POST) to a command class.
@@ -55,7 +55,7 @@ interface CommandDispatcherInterface
     public function register(string $actionName, string $commandClass): void;
 
     /**
- * @BABOK FR-015 / ARCH-001 — method: dispatch
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Dispatch a POST action to its command
      *
      * Finds the registered command for the action name, instantiates it
@@ -72,7 +72,7 @@ interface CommandDispatcherInterface
     public function dispatch(string $actionName, array $postData): TransactionResult;
 
     /**
- * @BABOK FR-015 / ARCH-001 — method: hasCommand
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Check if a command is registered for an action
      *
      * @param string $actionName Action identifier to check
@@ -83,7 +83,7 @@ interface CommandDispatcherInterface
     public function hasCommand(string $actionName): bool;
 
     /**
- * @BABOK FR-015 / ARCH-001 — method: getRegisteredActions
+ * @BABOK FR-PROC-011, FR-PROC-013 | BR-PROC-005 | UAT-PROC-010
      * Get all registered action names
      *
      * @return string[] Array of registered action names

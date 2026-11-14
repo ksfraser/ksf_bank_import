@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\Infrastructure\Logger;
 use Ksfraser\FaBankImport\Contracts\Logger;
 
 /**
- * @BABOK CLASS ROLLUP: NullLogger — 9 methods; FR-006 (9)
- * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Logger/NullLogger.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+
  * NullLogger - Discards all log messages
  * 
  * Use when logging is disabled or for testing.
@@ -19,55 +19,73 @@ use Ksfraser\FaBankImport\Contracts\Logger;
  */
 final class NullLogger implements Logger
 {
-    /** @BABOK FR-006 / ARCH-007 — method: emergency */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function emergency(string $message, array $context = []): void
     {
         // No-op
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: alert */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function alert(string $message, array $context = []): void
     {
         // No-op
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: critical */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function critical(string $message, array $context = []): void
     {
         // No-op
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: error */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function error(string $message, array $context = []): void
     {
         // No-op
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: warning */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function warning(string $message, array $context = []): void
     {
         // No-op
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: notice */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function notice(string $message, array $context = []): void
     {
         // No-op
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: info */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function info(string $message, array $context = []): void
     {
         // No-op
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: debug */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function debug(string $message, array $context = []): void
     {
         // No-op
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: log */
+    /** * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+ * @BABOK FR-LOG-002 | BR-LOG-001 | UAT-LOG-001
+*/
     public function log(string $level, string $message, array $context = []): void
     {
         // No-op

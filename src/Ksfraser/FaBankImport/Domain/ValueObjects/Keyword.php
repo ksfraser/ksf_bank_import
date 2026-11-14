@@ -5,8 +5,8 @@ namespace Ksfraser\FaBankImport\Domain\ValueObjects;
 use InvalidArgumentException;
 
 /**
- * @BABOK CLASS ROLLUP: Keyword — 10 methods; BR-002 (10); FR-008 (10); FR-018 (10)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Domain/ValueObjects/Keyword.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Value Object representing a single keyword
  *
  * Encapsulates keyword text with validation rules for pattern matching.
@@ -34,7 +34,7 @@ class Keyword
     private const MAX_LENGTH = 100;
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: __construct
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Create a new Keyword value object
      *
      * @param string $text The keyword text (will be normalized)
@@ -50,7 +50,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getText
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get keyword text
      *
      * @return string
@@ -62,7 +62,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: getLength
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get keyword length
      *
      * @return int
@@ -74,7 +74,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: isValid
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if keyword is valid (meets length requirements)
      *
      * @return bool
@@ -87,7 +87,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: contains
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if this keyword contains another keyword
      *
      * @param Keyword $other
@@ -101,7 +101,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: equals
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if this keyword equals another
      *
      * Case-insensitive comparison
@@ -117,7 +117,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: isStopword
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if keyword matches a stopword pattern
      *
      * @param array<string> $stopwords List of stopwords
@@ -136,7 +136,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: __toString
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * String representation
      *
      * @return string
@@ -148,7 +148,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: normalize
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Normalize keyword text
      *
      * - Trim whitespace
@@ -176,7 +176,7 @@ class Keyword
     }
 
     /**
- * @BABOK BR-002 / FR-008 / FR-018 — method: validate
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Validate keyword
      *
      * @param string $text Normalized keyword text

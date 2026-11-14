@@ -5,8 +5,8 @@
 namespace Ksfraser\FaBankImport\Views\DataProviders;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerDataProviderInterface — 4 methods; FR-009 (4); IR-001 (4)
- * @BABOK RTM: FR-009 / IR-001; file: Views/DataProviders/PartnerDataProviderInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * Partner Data Provider Interface
  * 
  * Contract for classes that provide partner selection data.
@@ -19,7 +19,7 @@ namespace Ksfraser\FaBankImport\Views\DataProviders;
 interface PartnerDataProviderInterface
 {
     /**
- * @BABOK FR-009 / IR-001 — method: getPartners
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get all partners
      * 
      * @return array<int, array> Associative array of partner data indexed by ID
@@ -27,7 +27,7 @@ interface PartnerDataProviderInterface
     public function getPartners(): array;
     
     /**
- * @BABOK FR-009 / IR-001 — method: getPartnerLabel
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get label for a specific partner
      * 
      * @param int $partnerId The partner ID
@@ -36,7 +36,7 @@ interface PartnerDataProviderInterface
     public function getPartnerLabel(int $partnerId): ?string;
     
     /**
- * @BABOK FR-009 / IR-001 — method: hasPartner
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Check if partner exists
      * 
      * @param int $partnerId The partner ID to check
@@ -45,7 +45,7 @@ interface PartnerDataProviderInterface
     public function hasPartner(int $partnerId): bool;
     
     /**
- * @BABOK FR-009 / IR-001 — method: getCount
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Get count of partners
      * 
      * @return int Number of partners available

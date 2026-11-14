@@ -7,9 +7,10 @@ declare(strict_types=1);
  * \Ksfraser\FaBankImport\Config\BankImportConfig.
  *
  * The class checks for the global db_escape() function to decide whether it
- * runs inside FrontAccounting. The FA mocks of vendor/ksfraser/famock always
- * provide db_escape(), so the "not in FrontAccounting" branch can only be
- * observed from a process that does not load them.
+ * detects a live FrontAccounting runtime by the global $db handle that FA's
+ * connect_db.inc sets. The FA mocks of vendor/ksfraser/famock provide
+ * db_escape() but never a $db handle, so this scenario runs with no $db and
+ * exercises the "not in FrontAccounting" branch.
  */
 
 use Ksfraser\FaBankImport\Config\BankImportConfig;
@@ -40,7 +41,7 @@ if (!function_exists('set_company_pref')) {
 
 $GLOBALS['__company_prefs'] = [];
 
-echo 'DB_ESCAPE_EXISTS=' . (function_exists('db_escape') ? '1' : '0') . "\n";
+echo 'IS_FA_RUNTIME=' . (isset($GLOBALS['db']) ? '1' : '0') . "\n";
 
 BankImportConfig::setTransRefAccount('1234');
 echo 'ACCOUNT=' . BankImportConfig::getTransRefAccount() . "\n";

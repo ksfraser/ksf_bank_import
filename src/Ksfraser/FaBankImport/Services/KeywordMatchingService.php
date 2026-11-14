@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -14,8 +14,8 @@ use Ksfraser\FaBankImport\Repository\PartnerDataRepositoryInterface;
 use Ksfraser\FaBankImport\Config\ConfigService;
 
 /**
- * @BABOK CLASS ROLLUP: KeywordMatchingService — 9 methods; BR-001 (9); BR-002 (9); FR-008 (9)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/KeywordMatchingService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
+
  * Service for keyword-based partner matching with scoring and confidence
  *
  * Implements the keyword clustering bonus algorithm and multi-factor
@@ -59,7 +59,7 @@ class KeywordMatchingService
     private int $maxSuggestions;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      *
      * @param PartnerDataRepositoryInterface $repository Partner data repository
@@ -81,7 +81,7 @@ class KeywordMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: search
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Search for partners by keywords with scoring
      *
      * @param string   $searchText  Text to search for
@@ -134,7 +134,7 @@ class KeywordMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getTopMatch
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Get the top suggested partner for a search text
      *
      * Returns the single best match, or null if no match meets confidence threshold.
@@ -152,7 +152,7 @@ class KeywordMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: calculateScore
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Calculate score for a partner match
      *
      * Applies clustering bonus to raw score based on number of matched keywords.
@@ -177,7 +177,7 @@ class KeywordMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: buildKeywordMatches
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Build KeywordMatch objects from repository results
      *
      * @param array<array>     $partnerMatches Raw partner match data from repository
@@ -244,7 +244,7 @@ class KeywordMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: loadConfiguration
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Load configuration from ConfigService
      *
      * @return void
@@ -277,7 +277,7 @@ class KeywordMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getClusteringFactor
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Get current clustering factor
      *
      * @return float
@@ -289,7 +289,7 @@ class KeywordMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMinConfidenceThreshold
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Get minimum confidence threshold
      *
      * @return float
@@ -301,7 +301,7 @@ class KeywordMatchingService
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMaxSuggestions
+ * @BABOK FR-PROC-002, FR-VAL-004 | BR-PROC-001 | UAT-PROC-001
      * Get maximum suggestions
      *
      * @return int

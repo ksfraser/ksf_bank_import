@@ -176,8 +176,6 @@ namespace {
     }
 
     $mode = isset($args[0]) ? (string) $args[0] : 'index';
-
-    $GLOBALS['__db_query_calls'] = [];
     $GLOBALS['__db_query_rows'] = ($mode !== 'not_found');
 
     $controller = new BankImportController_MVC();

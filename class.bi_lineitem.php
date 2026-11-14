@@ -76,18 +76,18 @@ use Ksfraser\Views\CommentSubmitView;
 require_once( __DIR__ . '/src/Ksfraser/Views/PartnerTypeSelectorView.php' );
 use Ksfraser\Views\PartnerTypeSelectorView;
 
-require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOB.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlRaw.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTable.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTd.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTableRow.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlElement.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlA.php' );
-require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlFragment.php' );
+if (!class_exists('Ksfraser\HTML\Composites\HTML_ROW')) require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW.php' );
+if (!class_exists('Ksfraser\HTML\Elements\HtmlString')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php' );
+if (!class_exists('Ksfraser\HTML\Elements\HtmlOB')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOB.php' );
+if (!class_exists('Ksfraser\HTML\Elements\HtmlRaw')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlRaw.php' );
+if (!class_exists('Ksfraser\HTML\Elements\HtmlTable')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTable.php' );
+if (!class_exists('Ksfraser\HTML\Elements\HtmlTd')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTd.php' );
+if (!class_exists('Ksfraser\HTML\Elements\HtmlTableRow')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlTableRow.php' );
+if (!class_exists('Ksfraser\HTML\HtmlElement')) require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlElement.php' );
+if (!class_exists('Ksfraser\HTML\HtmlAttribute')) require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php' );
+if (!class_exists('Ksfraser\HTML\Elements\HtmlLink')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlLink.php' );
+if (!class_exists('Ksfraser\HTML\Elements\HtmlA')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlA.php' );
+if (!class_exists('Ksfraser\HTML\HtmlFragment')) require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlFragment.php' );
 use Ksfraser\HTML\Composites\HTML_ROW;
 use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\Elements\{HtmlOB, HtmlRaw, HtmlTable, HtmlTd, HtmlTableRow, HtmlLink, HtmlA};
@@ -95,7 +95,7 @@ use Ksfraser\HTML\{HtmlElement, HtmlAttribute, HtmlFragment};
 
 
 
-require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php' );
+if (!class_exists('Ksfraser\HTML\Composites\HTML_ROW_LABEL')) require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HTML_ROW_LABEL.php' );
 use Ksfraser\HTML\Composites\HTML_ROW_LABEL;
 
 require_once( __DIR__ . '/src/Ksfraser/PartnerFormData.php' );
@@ -174,7 +174,7 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $partnerId;	//!<int
 	protected $partnerDetailId;	//!<int		//Used for Customer Branch
 	protected $oplabel;
-	protected $matching_trans;	//!<array was arr_arr
+	protected $matching_trans = array();	//!<array was arr_arr
 	protected $days_spread;
 	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |		|
 	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
@@ -624,6 +624,17 @@ class bi_lineitem extends generic_fa_interface_model
 		$this->matching_transactions_finder = $finder;
 		return $this;
 	}
+	/**
+	 * Set the matching transaction rows directly (test seam / pre-computed matches).
+	 *
+	 * @param array $matches Array of match rows (each with 'score', 'type', 'type_no', 'is_invoice' keys).
+	 * @return self Fluent interface.
+	 */
+	public function setMatchingTrans( array $matches ): self
+	{
+		$this->matching_trans = $matches;
+		return $this;
+	}
 	/**//******************************************************************
 	* Create a URL link using HtmlA convenience class
 	*
@@ -958,13 +969,13 @@ class bi_lineitem extends generic_fa_interface_model
 	function displayMatchedPartnerType()
 	{
 		require_once(__DIR__ . '/src/Ksfraser/FrontAccounting/TransactionTypes/TransactionTypesRegistry.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlHidden.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Composites/HtmlLabelRow.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlSelect.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOption.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/Elements/HtmlInput.php');
-		require_once(__DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php');
+		if (!class_exists('Ksfraser\HTML\Elements\HtmlHidden')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlHidden.php' );
+		if (!class_exists('Ksfraser\HTML\Composites\HtmlLabelRow')) require_once( __DIR__ . '/src/Ksfraser/HTML/Composites/HtmlLabelRow.php' );
+		if (!class_exists('Ksfraser\HTML\Elements\HtmlString')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlString.php' );
+		if (!class_exists('Ksfraser\HTML\Elements\HtmlSelect')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlSelect.php' );
+		if (!class_exists('Ksfraser\HTML\Elements\HtmlOption')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlOption.php' );
+		if (!class_exists('Ksfraser\HTML\Elements\HtmlInput')) require_once( __DIR__ . '/src/Ksfraser/HTML/Elements/HtmlInput.php' );
+		if (!class_exists('Ksfraser\HTML\HtmlAttribute')) require_once( __DIR__ . '/src/Ksfraser/HTML/HtmlAttribute.php' );
 		
 		// Hidden field for partnerId
 		$hidden = new \Ksfraser\HTML\Elements\HtmlHidden("partnerId_$this->id", 'manual');
@@ -1287,6 +1298,16 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		return $this->id;
 	}
+
+	/**
+	 * Get the current operation label (e.g. "MATCH", "Payment")
+	 *
+	 * @return string|null Current label, null when not set
+	 */
+	public function getOplabel(): ?string
+	{
+		return $this->oplabel;
+	}
 	
 	/**
 	 * Get memo field
@@ -1317,6 +1338,141 @@ class bi_lineitem extends generic_fa_interface_model
 	{
 		return $this->matching_trans ?? [];
 	}
+
+	/**
+	 * Get the transaction type label (Credit/Debit/Bank Transfer)
+	 *
+	 * @return string Type label
+	 */
+	public function getTransactionTypeLabel(): string
+	{
+		return $this->transactionTypeLabel ?? '';
+	}
+
+	/**
+	 * Get the debit/credit indicator ('C' credit, 'D' debit)
+	 *
+	 * @return string Transaction DC indicator
+	 */
+	public function getTransactionDC(): string
+	{
+		return $this->transactionDC ?? '';
+	}
+
+
+	/**
+	 * Get the value timestamp
+	 *
+	 * @return string Value timestamp
+	 */
+	public function getValueTimestamp(): string
+	{
+		return $this->valueTimestamp ?? '';
+	}
+
+	/**
+	 * Get the entry timestamp
+	 *
+	 * @return string Entry timestamp
+	 */
+	public function getEntryTimestamp(): string
+	{
+		return $this->entryTimestamp ?? '';
+	}
+
+	/**
+	 * Get the currency
+	 *
+	 * @return string Currency code
+	 */
+	public function getCurrency(): string
+	{
+		return $this->currency ?? '';
+	}
+
+	/**
+	 * Get the transaction amount
+	 *
+	 * @return float|null Transaction amount
+	 */
+	public function getAmount()
+	{
+		return $this->amount;
+	}
+
+	/**
+	 * Get the charge amount
+	 *
+	 * @return float|null Charge amount
+	 */
+	public function getCharge()
+	{
+		return $this->charge;
+	}
+
+	/**
+	 * Get the other (partner) bank account number
+	 *
+	 * @return string Other bank account
+	 */
+	public function getOtherBankAccount(): string
+	{
+		return $this->otherBankaccount ?? '';
+	}
+
+	/**
+	 * Get the other (partner) bank account name
+	 *
+	 * @return string Other bank account name
+	 */
+	public function getOtherBankAccountName(): string
+	{
+		return $this->otherBankaccountName ?? '';
+	}
+
+	/**
+	 * Get our bank account number
+	 *
+	 * @return string Our account
+	 */
+	public function getOurAccount(): string
+	{
+		return $this->our_account ?? '';
+	}
+
+	/**
+	 * Get our bank account details array (populated by getBankAccountDetails()).
+	 *
+	 * @return array Details with account_code, bank_account_name, bank_name keys
+	 */
+	public function getOurBankDetails(): array
+	{
+		$this->getBankAccountDetails();
+		return $this->ourBankDetails ?? [];
+	}
+
+	/**
+	 * Get our bank account name
+	 *
+	 * @return string Bank account name
+	 */
+	public function getOurBankAccountName(): string
+	{
+		$this->getBankAccountDetails();
+		return $this->ourBankDetails['bank_account_name'] ?? '';
+	}
+
+	/**
+	 * Get our bank account code
+	 *
+	 * @return string Account code
+	 */
+	public function getOurBankAccountCode(): string
+	{
+		$this->getBankAccountDetails();
+		return $this->ourBankDetails['account_code'] ?? '';
+	}
+
 	
 	/**
 	 * Get form data handler

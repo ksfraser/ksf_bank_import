@@ -6,22 +6,28 @@ use Ksfraser\FaBankImport\Transaction;
 use Ksfraser\FaBankImport\Views\AddCustomerButton;
 
 /**
- * @BABOK CLASS ROLLUP: CustomerTransaction — 3 methods; BR-002 (3); FR-008 (3); FR-018 (3)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: CustomerTransaction.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+
  */
 class CustomerTransaction extends Transaction
 {
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+	/** * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+*/
 	function __construct( array $trz )
 	{
 		parent::__construct( $trz );
 		$this->oplabel = "Customer Payment";
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: displayPartner */
+	/** * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+*/
 	function displayPartner()
 	{
 	}
-	/** @BABOK BR-002 / FR-008 / FR-018 — method: selectAndDisplayButton */
+	/** * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-005, FR-PROC-013 | BR-PROC-001 | UAT-PROC-001
+*/
 	function selectAndDisplayButton()
 	{
 		$b = new AddCustomerButton( $this->id );

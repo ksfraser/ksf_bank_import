@@ -7,20 +7,24 @@ use Ksfraser\FaBankImport\Services\TransactionService;
 use Ksfraser\FaBankImport\Events\TransactionProcessedEvent;
 
 /**
- * @BABOK CLASS ROLLUP: ProcessTransactionCommandHandler — 2 methods; FR-049 (2)
- * @BABOK RTM: FR-049 / ARCH-004; file: Handlers/ProcessTransactionCommandHandler.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  */
 class ProcessTransactionCommandHandler
 {
     private $transactionService;
 
-    /** @BABOK FR-049 / ARCH-004 — method: __construct */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct(TransactionService $transactionService)
     {
         $this->transactionService = $transactionService;
     }
 
-    /** @BABOK FR-049 / ARCH-004 — method: handle */
+    /** * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function handle(ProcessTransactionCommand $command): TransactionProcessedEvent
     {
         $success = $this->transactionService->processTransaction(

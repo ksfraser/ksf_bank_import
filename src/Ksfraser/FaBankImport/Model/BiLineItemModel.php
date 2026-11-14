@@ -7,8 +7,8 @@ use Ksfraser\frontaccounting\FaCustomerPayment;
 use Ksfraser\frontaccounting\FaGl;
 
 /**
- * @BABOK CLASS ROLLUP: BiLineItemModel — 6 methods; FR-008 (6); BR-003 (6)
- * @BABOK RTM: FR-008 / BR-003; file: Model/BiLineItemModel.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+
  * Model class for handling line item data.
  */
 class BiLineItemModel extends GenericFaInterface
@@ -110,7 +110,7 @@ class BiLineItemModel extends GenericFaInterface
     protected $fa_bank_accounts;
 
     /**
- * @BABOK FR-008 / BR-003 — method: __construct
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Constructor for BiLineItemModel.
      *
      * @param array $trz
@@ -124,7 +124,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: initialize
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Initialize the model with transaction data.
      *
      * @param array $trz
@@ -155,7 +155,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: determineTransactionTypeLabel
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Determine the transaction type label based on transactionDC.
      */
     public function determineTransactionTypeLabel(): void
@@ -174,7 +174,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: getBankAccountDetails
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Retrieve bank account details.
      */
     public function getBankAccountDetails(): void
@@ -186,7 +186,7 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: setPartnerType
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Set the partner type and operation label based on transactionDC.
      */
     public function setPartnerType(): void
@@ -212,12 +212,12 @@ class BiLineItemModel extends GenericFaInterface
     }
 
     /**
- * @BABOK FR-008 / BR-003 — method: findMatchingExistingJE
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Find matching existing journal entries.
      *
-     * @return array
+     * @return iterable|array The matches the finder returned.
      */
-    public function findMatchingExistingJE(): array
+    public function findMatchingExistingJE(): iterable
     {
         $fa_gl = new FaGl();
         $fa_gl->set("amount_min", $this->amount);
@@ -231,5 +231,60 @@ class BiLineItemModel extends GenericFaInterface
 
         $this->matching_trans = $fa_gl->find_matching_transactions();
         return $this->matching_trans;
+    }
+
+    /**
+     * Convert a transaction object's members onto this model
+     * (legacy bi_lineitem::trz2obj() parity).
+     *
+     * @param object $trz Source transaction object.
+     * @return int Number of members copied.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+     */
+    public function trz2obj($trz): int
+    {
+        return $this->obj2obj($trz);
+    }
+
+    /**
+     * Look up a partner by the bank account name through the legacy
+     * partner data helper, which is loaded relative to the working
+     * directory (legacy bi_lineitem parity).
+     *
+     * @param int|string $partnerType The partner type to search in.
+     * @return array The partner match the helper returned.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+     */
+    public function seekPartnerByBankAccount($partnerType): array
+    {
+        require_once 'class.bi_partners_data.php';
+
+        $partnerData = new \Ksfraser\FaBankImport\Model\bi_partners_data();
+
+        return (array) $partnerData->search_partner_by_bank_account($partnerType, $this->otherBankAccount);
+    }
+
+    /**
+     * Whether the transaction has a paired transaction (legacy parity:
+     * pairing is not implemented yet, always false).
+     *
+     * @return bool Always false for now.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+     */
+    public function isPaired(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Find transactions that look like a pair of this one (legacy parity:
+     * pairing is not implemented yet).
+     *
+     * @return int The number of paired transactions found.
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-009, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+     */
+    public function findPaired(): int
+    {
+        return 0;
     }
 }

@@ -32,17 +32,37 @@ final class BankImportConfigTest extends TestCase
      */
     private $resultPosBackup = [];
 
+    /**
+     * @var array
+     */
+    private $chartBackup = [];
+
+    /**
+     * @var mixed
+     */
+    private $dbBackup;
+
     protected function setUp(): void
     {
         $this->prefsBackup = $GLOBALS['__fa_company_prefs'] ?? [];
         $this->tableBackup = $GLOBALS['__fa_table'] ?? [];
         $this->resultSetBackup = $GLOBALS['__fa_result_set'] ?? [];
         $this->resultPosBackup = $GLOBALS['__fa_result_pos'] ?? [];
+        $this->chartBackup = $GLOBALS['__fa_chart_accounts'] ?? [];
+        $this->dbBackup = $GLOBALS['db'] ?? null;
 
         $GLOBALS['__fa_company_prefs'] = [];
         $GLOBALS['__fa_table'] = [];
         $GLOBALS['__fa_result_set'] = [];
         $GLOBALS['__fa_result_pos'] = [];
+        // Reset the famock chart fixture: an earlier suite in the process
+        // (tests/helpers/fa_functions.php) seeds it, and an unreset fixture
+        // would make the refusal test accept the account it must reject.
+        $GLOBALS['__fa_chart_accounts'] = [];
+        // Simulate a live FrontAccounting runtime: BankImportConfig detects
+        // FA by the global $db handle (FA's connect_db.inc sets it; famock
+        // and standalone contexts do not).
+        $GLOBALS['db'] = new \stdClass();
     }
 
     protected function tearDown(): void
@@ -51,6 +71,12 @@ final class BankImportConfigTest extends TestCase
         $GLOBALS['__fa_table'] = $this->tableBackup;
         $GLOBALS['__fa_result_set'] = $this->resultSetBackup;
         $GLOBALS['__fa_result_pos'] = $this->resultPosBackup;
+        $GLOBALS['__fa_chart_accounts'] = $this->chartBackup;
+        if ($this->dbBackup === null) {
+            unset($GLOBALS['db']);
+        } else {
+            $GLOBALS['db'] = $this->dbBackup;
+        }
     }
 
     public function testTransactionReferenceLoggingIsEnabledByDefault(): void
@@ -100,7 +126,11 @@ final class BankImportConfigTest extends TestCase
         $GLOBALS['__fa_company_prefs']['bank_import_trans_ref_account'] = '2100';
 
         $this->assertSame(
-            ['trans_ref_logging_enabled' => false, 'trans_ref_account' => '2100'],
+            [
+                'trans_ref_logging_enabled' => false,
+                'trans_ref_account' => '2100',
+                'scoring_weights' => ['recency' => 1.0, 'amount' => 1.0, 'type' => 1.0],
+            ],
             BankImportConfig::getAllSettings()
         );
     }
@@ -121,7 +151,7 @@ final class BankImportConfigTest extends TestCase
         $process = (new IsolatedProcess())->run('bank_import_config');
 
         $this->assertSame(0, $process->getExitCode(), $process->getOutput());
-        $this->assertStringContainsString('DB_ESCAPE_EXISTS=0', $process->getStdout());
+        $this->assertStringContainsString('IS_FA_RUNTIME=0', $process->getStdout());
         $this->assertStringContainsString('ACCOUNT=1234', $process->getStdout());
         $this->assertStringContainsString('LOGGING_ENABLED=0', $process->getStdout());
         $this->assertStringContainsString('BANK_IMPORT_CONFIG_COMPLETED', $process->getStdout());

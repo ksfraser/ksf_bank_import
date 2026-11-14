@@ -43,12 +43,12 @@ abstract class AbstractController
     {
         extract($data);
         /*
-         * The views live in the module's views/ directory. The shell itself
+         * The views live in the module's Views/ directory. The shell itself
          * sits in src/Ksfraser/Application, so it has to look for them in the
          * module root (and in the migrated view tree).
          */
         $candidates = [
-            __DIR__ . '/../../../../views/' . $view . '.php',        // -> module root views/
+            __DIR__ . '/../../../../Views/' . $view . '.php',        // -> module root Views/ (canonical)
             __DIR__ . '/../../FaBankImport/Views/' . $view . '.php', // -> the migrated view tree
         ];
         $template = null;

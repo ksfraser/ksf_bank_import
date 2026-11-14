@@ -15,8 +15,8 @@ use Ksfraser\HTML\HtmlElementInterface;
 use Ksfraser\HTML\HtmlAttribute;
 
 /**
- * @BABOK CLASS ROLLUP: AllocatableInvoicesTable — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/AllocatableInvoicesTable.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
+
  * AllocatableInvoicesTable - SRP class to render allocatable invoices as a self-contained table
  * 
  * @package Views
@@ -30,7 +30,7 @@ class AllocatableInvoicesTable implements HtmlElementInterface
     private $fragment;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      * Create allocatable invoices table
      * 
      * @param array $allocDetails Array of allocation rows (each row is an assoc array)
@@ -128,7 +128,7 @@ class AllocatableInvoicesTable implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      * Get HTML as string
      * 
      * @return string The HTML
@@ -139,7 +139,7 @@ class AllocatableInvoicesTable implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-013 | BR-PROC-006 | UAT-PROC-013
      * Output HTML directly to screen
      * 
      * @return void

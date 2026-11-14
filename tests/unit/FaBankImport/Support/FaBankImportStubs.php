@@ -142,32 +142,29 @@ namespace Ksfraser\FaBankImport\Tests\Unit\FaBankImport\Support {
             return $rows;
         }
 
-        public function update(
-            array $transactionIds,
-            int $status,
-            int $faTransNo,
-            int $faTransType,
-            bool $matched = false,
-            bool $created = false,
-            ?string $partnerType = null,
-            string $partnerOption = ''
-        ): int {
-            return count($transactionIds);
+        public function findByStatus(string $status): array
+        {
+            return $this->findByFilters(['status' => $status]);
         }
 
-        public function reset(array $transactionIds, int $faTransNo, int $faTransType): int
+        public function save(array $transaction): bool
         {
-            return count($transactionIds);
+            $this->rows[] = $transaction;
+
+            return true;
         }
 
-        public function prevoid(int $faTransNo, int $faTransType): int
+        public function update(int $id, array $data): bool
         {
-            return 0;
-        }
+            foreach ($this->rows as $index => $row) {
+                if (isset($row['id']) && (int) $row['id'] === $id) {
+                    $this->rows[$index] = array_merge($row, $data);
 
-        public function findNormalPairing(?string $account = null): array
-        {
-            return [];
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 

@@ -176,7 +176,7 @@ final class TransactionRepositoryTest extends TestCase
     {
         \Ksfraser\FaBankImport\Repositories\RepositoryDbStub::$affected = 3;
 
-        $affected = $this->repository->update([4, 5], 1, 100, 12, true, false, 'SP', '17');
+        $affected = $this->repository->updateTransactions([4, 5], 1, 100, 12, true, false, 'SP', '17');
 
         $this->assertSame(3, $affected);
 
@@ -197,7 +197,7 @@ final class TransactionRepositoryTest extends TestCase
     {
         $repository = new TransactionRepository(new ScreenTransactionQueryBuilder());
 
-        $repository->update([7], 1, 100, 12);
+        $repository->updateTransactions([7], 1, 100, 12);
 
         $queries = \Ksfraser\FaBankImport\Repositories\RepositoryDbStub::$queries;
 

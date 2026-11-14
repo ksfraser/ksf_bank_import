@@ -33,8 +33,8 @@ use Ksfraser\FaBankImport\StatementReconcile\Domain\Service\ReconciliationCommit
  * @author  Kevin Fraser
  */
 /**
- * @BABOK CLASS ROLLUP: ReconciliationCommitService — 5 methods; FR-007 (5); BR-004 (5)
- * @BABOK RTM: FR-007 / BR-004 / ARCH-010; file: StatementReconcile/Application/ReconciliationCommitService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+
  */
 class ReconciliationCommitService implements ReconciliationCommitServiceInterface
 {
@@ -42,7 +42,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     private $sessionRepo;
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: __construct
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * @param ReconciliationSessionRepositoryInterface $sessionRepo
      */
     public function __construct(ReconciliationSessionRepositoryInterface $sessionRepo)
@@ -51,7 +51,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: commit
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * {@inheritdoc}
      *
      * @throws ReconciliationException If the session is not found or already approved.
@@ -109,7 +109,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     // -------------------------------------------------------------------------
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: isFaDbAvailable
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Whether the FA db_query global is available.
      * Overridable in tests.
      *
@@ -121,7 +121,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: markFaBankTransactionReconciled
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Replicate FA's reconciliation commit for a single 0_bank_trans row.
      *
      * Sets `reconciled` to the statement end date (FA's convention for marking
@@ -147,7 +147,7 @@ class ReconciliationCommitService implements ReconciliationCommitServiceInterfac
     }
 
     /**
- * @BABOK FR-007 / BR-004 / ARCH-010 — method: updateBankAccount
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
      * Replicate FA's bank account update after reconciliation.
      *
      * @param int    $bankAccountId

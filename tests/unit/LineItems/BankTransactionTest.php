@@ -186,32 +186,12 @@ final class BankTransactionTest extends TestCase
         $this->assertFalse($transaction->processTransaction());
     }
 
-    /**
-     * Expose the parent class' private state to the child class.
-     *
-     * BankTransaction declares $data and $connection as private, so the
-     * SquareTransaction subclass cannot read them. Assigning the same names
-     * from the outside creates dynamic properties that the subclass does
-     * see, which is what the production code expects to find.
-     *
-     * @param SquareTransaction $transaction Transaction to prepare.
-     * @param array $data Row the transaction was built from.
-     * @return SquareTransaction The same transaction.
-     */
-    private function exposeParentState(SquareTransaction $transaction, array $data): SquareTransaction
-    {
-        $transaction->data = $data;
-        $transaction->connection = $this->connection;
-
-        return $transaction;
-    }
-
     public function testTheSquareTransactionAddsACustomer(): void
     {
         $data = $this->transactionData();
         $data['email'] = 'someone@example.test';
 
-        $transaction = $this->exposeParentState(new SquareTransaction($data), $data);
+        $transaction = new SquareTransaction($data);
 
         $this->assertTrue($transaction->addCustomerFromTransaction());
 
@@ -224,7 +204,7 @@ final class BankTransactionTest extends TestCase
     public function testTheSquareTransactionAddsACustomerWithoutAnEmail(): void
     {
         $data = $this->transactionData();
-        $transaction = $this->exposeParentState(new SquareTransaction($data), $data);
+        $transaction = new SquareTransaction($data);
 
         $this->assertTrue($transaction->addCustomerFromTransaction());
 
@@ -236,7 +216,7 @@ final class BankTransactionTest extends TestCase
     public function testTheSquareTransactionAddsAVendor(): void
     {
         $data = $this->transactionData();
-        $transaction = $this->exposeParentState(new SquareTransaction($data), $data);
+        $transaction = new SquareTransaction($data);
 
         $this->assertTrue($transaction->addVendorFromTransaction());
 
@@ -249,7 +229,7 @@ final class BankTransactionTest extends TestCase
     public function testTheSquareTransactionUnsetsTheTransaction(): void
     {
         $data = $this->transactionData();
-        $transaction = $this->exposeParentState(new SquareTransaction($data), $data);
+        $transaction = new SquareTransaction($data);
 
         $this->assertTrue($transaction->unsetTransaction());
 
@@ -262,7 +242,7 @@ final class BankTransactionTest extends TestCase
     public function testTheSquareTransactionTogglesADebitIntoACredit(): void
     {
         $data = $this->transactionData();
-        $transaction = $this->exposeParentState(new SquareTransaction($data), $data);
+        $transaction = new SquareTransaction($data);
 
         $this->assertTrue($transaction->toggleDebitCredit());
 
@@ -276,7 +256,7 @@ final class BankTransactionTest extends TestCase
         $data = $this->transactionData();
         $data['transactionDC'] = 'C';
 
-        $transaction = $this->exposeParentState(new SquareTransaction($data), $data);
+        $transaction = new SquareTransaction($data);
 
         $this->assertTrue($transaction->toggleDebitCredit());
 
@@ -290,7 +270,7 @@ final class BankTransactionTest extends TestCase
         $this->useConnection(new FakeConnection(false));
 
         $data = $this->transactionData();
-        $transaction = $this->exposeParentState(new SquareTransaction($data), $data);
+        $transaction = new SquareTransaction($data);
 
         $this->assertFalse($transaction->unsetTransaction());
         $this->assertFalse($transaction->toggleDebitCredit());

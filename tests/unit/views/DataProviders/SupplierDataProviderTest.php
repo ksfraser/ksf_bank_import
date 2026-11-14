@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 // Use relative path to avoid case sensitivity issues
 require_once __DIR__ . '/../../../../Views/DataProviders/SupplierDataProvider.php';
 
-use KsfBankImport\Views\DataProviders\SupplierDataProvider;
+use Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider;
 
 /**
  * Test suite for SupplierDataProvider
@@ -35,7 +35,7 @@ use KsfBankImport\Views\DataProviders\SupplierDataProvider;
  * - Performance (single load per page)
  * - Interface implementation
  * 
- * @coversDefaultClass \KsfBankImport\Views\DataProviders\SupplierDataProvider
+ * @coversDefaultClass \Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider
  */
 class SupplierDataProviderTest extends TestCase
 {
@@ -342,7 +342,7 @@ class SupplierDataProviderTest extends TestCase
         $provider = SupplierDataProvider::getInstance();
         
         $this->assertInstanceOf(
-            'KsfBankImport\Views\DataProviders\PartnerDataProviderInterface',
+            'Ksfraser\FaBankImport\Views\DataProviders\PartnerDataProviderInterface',
             $provider,
             'SupplierDataProvider should implement PartnerDataProviderInterface'
         );

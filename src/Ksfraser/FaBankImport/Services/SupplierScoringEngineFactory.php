@@ -27,7 +27,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -39,8 +39,8 @@ use Ksfraser\FaBankImport\Services\Rules\AmountMatchRule;
 use Ksfraser\FaBankImport\Services\Rules\InvoiceDetectionRule;
 
 /**
- * @BABOK CLASS ROLLUP: SupplierScoringEngineFactory — 7 methods; BR-001 (7); BR-002 (7); FR-008 (7)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierScoringEngineFactory.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Factory for Creating Supplier-Configured Scoring Engine
  *
  * Single responsibility: Create and register supplier-specific rules
@@ -59,7 +59,7 @@ final class SupplierScoringEngineFactory
     private SupplierMatchingConfiguration $configuration;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param SupplierMatchingConfiguration $configuration Configuration for rules
@@ -71,7 +71,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get configuration reference
      *
      * @return SupplierMatchingConfiguration Current configuration
@@ -83,7 +83,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createBankAccountRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create bank account matching rule
      *
      * PROD REQUIREMENT: Bank account MUST match exactly
@@ -97,7 +97,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createVendorNameRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create vendor name matching rule
      *
      * Uses keyword scoring for vendor name matching.
@@ -111,7 +111,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createAmountRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create amount matching rule
      *
      * Matches amounts within configured tolerance.
@@ -125,7 +125,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createInvoiceRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create invoice detection rule
      *
      * Detects supplier invoice transactions.
@@ -139,7 +139,7 @@ final class SupplierScoringEngineFactory
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createEngine
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create configured scoring engine with all supplier matching rules
      *
      * Returns a ScoringRuleEngine instance with all supplier-specific rules

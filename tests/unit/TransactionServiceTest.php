@@ -25,8 +25,8 @@ class TransactionServiceTest extends TestCase
     public function testGetPendingTransactionsCallsRepository()
     {
         $this->repository->expects($this->once())
-            ->method('findByStatus')
-            ->with('pending')
+            ->method('findByFilters')
+            ->with(['status' => 'pending'])
             ->willReturn([]);
 
         $result = $this->service->getPendingTransactions();
@@ -42,7 +42,7 @@ class TransactionServiceTest extends TestCase
         $this->service->processTransaction(1, 'C');
     }
 
-    public function testToggleTransactionTypeSuccessfully()
+    public function testToggleTransactionTypeIsOwnedByTheToggleDebitCreditCommand()
     {
         $transaction = [
             'id' => 1,
@@ -52,12 +52,9 @@ class TransactionServiceTest extends TestCase
         $this->repository->method('findById')
             ->willReturn($transaction);
 
-        $this->repository->expects($this->once())
-            ->method('update')
-            ->with(1, ['transactionDC' => 'D'])
-            ->willReturn(true);
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('toggleTransactionType must be performed via ToggleDebitCreditCommand.');
 
-        $result = $this->service->toggleTransactionType(1);
-        $this->assertTrue($result);
+        $this->service->toggleTransactionType(1);
     }
 }

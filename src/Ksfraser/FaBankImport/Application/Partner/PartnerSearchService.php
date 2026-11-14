@@ -10,8 +10,8 @@ use Ksfraser\FaBankImport\Entity\PartnerMatchResult;
 use Ksfraser\FaBankImport\Entity\PartnerType;
 
 /**
- * @BABOK CLASS ROLLUP: PartnerSearchService — 5 methods; BR-011 (5)
- * @BABOK RTM: BR-011 / ARCH-011; file: Application/Partner/PartnerSearchService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+
  * PartnerSearchService
  * 
  * Orchestrator that coordinates partner matching across multiple domain services.
@@ -35,7 +35,9 @@ final class PartnerSearchService
 {
     private const CONFIDENCE_THRESHOLD = 0.75; // 75% for auto-select
 
-    /** @BABOK BR-011 / ARCH-011 — method: __construct */
+    /** * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct(
         private readonly PartnerRepository $partnerRepository,
         private readonly KeywordExtractor $keywordExtractor,
@@ -43,7 +45,7 @@ final class PartnerSearchService
     ) {}
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: search
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Search for partners matching the given text.
      * 
      * Process:
@@ -100,7 +102,7 @@ final class PartnerSearchService
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: autoSelect
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Automatically select the best matching partner if confidence is high enough.
      * 
      * If the top match has confidence >= 75%, this method will:
@@ -145,7 +147,7 @@ final class PartnerSearchService
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: calculateFactors
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Calculate all 6 factors for a single candidate partner.
      * 
      * Factors:
@@ -183,7 +185,7 @@ final class PartnerSearchService
     }
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: calculateConfidence
+ * @BABOK FR-PROC-002 | BR-PROC-001 | UAT-PROC-001
      * Calculate final confidence from all 6 factors.
      * 
      * Formula (from ScoringEngine):

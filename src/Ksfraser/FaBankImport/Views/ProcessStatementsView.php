@@ -5,7 +5,7 @@
 namespace Ksfraser\FaBankImport\Views;
 
 /**
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ProcessStatementsView.php; coverage: docs/TestCases/ (file rollup)
+
  * View class for rendering the main process statements page.
  *
  * This class encapsulates all HTML generation for the bank import process statements page,
@@ -20,7 +20,9 @@ namespace Ksfraser\FaBankImport\Views;
  * - Delegates table HTML to bi_lineitem->getHtml() 
  * - Maintains form-compatible HTML output for FrontAccounting integration
  */
-/** @BABOK CLASS ROLLUP: ProcessStatementsView — 11 methods; FR-009 (11); IR-001 (11) */
+/** * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+*/
 class ProcessStatementsView
 {
     /**
@@ -49,7 +51,7 @@ class ProcessStatementsView
     private $paginationRenderCount;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Constructor.
      *
      * @param array $transactions Array of transaction data
@@ -65,7 +67,7 @@ class ProcessStatementsView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: setPaginationData
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Set pagination data from transaction query result
      *
      * @since 20260405
@@ -78,7 +80,7 @@ class ProcessStatementsView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: render
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the complete process statements page HTML.
      *
      * @return string Complete HTML for the page
@@ -91,7 +93,7 @@ class ProcessStatementsView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderDocumentTableDiv
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the document table div with filter and transaction tables.
      *
      * @return string HTML for the document table div
@@ -119,7 +121,7 @@ class ProcessStatementsView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderFilterTable
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the filter table using the existing header_table.php class.
 	*
 	* Currently being rendered in process_statements
@@ -138,7 +140,7 @@ class ProcessStatementsView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionTable
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the transaction display table.
      *
      * @return string HTML string for the transaction table
@@ -175,7 +177,7 @@ class ProcessStatementsView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionTableHeader
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the transaction table header.
      *
      * @return string HTML string for table header
@@ -187,7 +189,7 @@ class ProcessStatementsView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionTableBody
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the transaction table body with all transactions.
      *
      * @return string HTML string for table body
@@ -205,7 +207,7 @@ class ProcessStatementsView
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderTransactionRow
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render a single transaction row.
      *
      * @param string $transactionCode Transaction identifier
@@ -243,7 +245,7 @@ class ProcessStatementsView
 
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderPaginationControls
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render pagination navigation controls
      *
      * Displays page information and Previous/Next buttons for navigating through
@@ -326,7 +328,7 @@ class ProcessStatementsView
 /**/
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: renderFormEnd
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
      * Render the form end tag.
      *
      * @return string HTML for form end

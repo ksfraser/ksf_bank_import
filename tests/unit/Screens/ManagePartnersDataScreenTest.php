@@ -57,7 +57,7 @@ final class ManagePartnersDataScreenTest extends TestCase
     public function testTheScreenRendersThePartnerTypeChooser(): void
     {
         $process = $this->runScreen([
-            'post' => ['partner_type' => 'C', 'partner_id' => 1, 'partner_detail_id' => 0],
+            'post' => ['partner_type' => PT_CUSTOMER, 'partner_id' => 1, 'partner_detail_id' => 0],
         ]);
 
         $output = $process->getStdout();
@@ -72,7 +72,7 @@ final class ManagePartnersDataScreenTest extends TestCase
     public function testASupplierOffersTheSupplierListAndHidesTheDetailField(): void
     {
         $process = $this->runScreen([
-            'post' => ['partner_type' => 'S', 'partner_id' => 2, 'partner_detail_id' => 0],
+            'post' => ['partner_type' => PT_SUPPLIER, 'partner_id' => 2, 'partner_detail_id' => 0],
         ]);
 
         $output = $process->getStdout();
@@ -85,7 +85,7 @@ final class ManagePartnersDataScreenTest extends TestCase
     public function testACustomerWithBranchesOffersTheBranchList(): void
     {
         $process = $this->runScreen([
-            'post' => ['partner_type' => 'C', 'partner_id' => 3, 'partner_detail_id' => 0],
+            'post' => ['partner_type' => PT_CUSTOMER, 'partner_id' => 3, 'partner_detail_id' => 0],
             'customer_has_branches' => true,
         ]);
 
@@ -99,7 +99,7 @@ final class ManagePartnersDataScreenTest extends TestCase
     public function testACustomerWithoutBranchesHidesTheDetailField(): void
     {
         $process = $this->runScreen([
-            'post' => ['partner_type' => 'C', 'partner_id' => 3, 'partner_detail_id' => 0],
+            'post' => ['partner_type' => PT_CUSTOMER, 'partner_id' => 3, 'partner_detail_id' => 0],
             'customer_has_branches' => false,
         ]);
 
@@ -122,7 +122,7 @@ final class ManagePartnersDataScreenTest extends TestCase
     public function testTheStoredIbanIsShownInTheTextArea(): void
     {
         $process = $this->runScreen([
-            'post' => ['partner_type' => 'C', 'partner_id' => 3, 'partner_detail_id' => 0],
+            'post' => ['partner_type' => PT_CUSTOMER, 'partner_id' => 3, 'partner_detail_id' => 0],
             'db_rows' => [
                 [['data' => 'CA1234567890']],
             ],

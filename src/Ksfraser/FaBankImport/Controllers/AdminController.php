@@ -8,15 +8,17 @@ use Ksfraser\FaBankImport\Services\MetricsAggregator;
 use Ksfraser\FaBankImport\Config\Config;
 
 /**
- * @BABOK CLASS ROLLUP: AdminController — 5 methods; BR-002 (5); FR-008 (5); FR-018 (5)
- * @BABOK RTM: BR-002 / FR-008 / FR-018; file: Controllers/AdminController.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+
  */
 class AdminController extends AbstractController
 {
     private $monitor;
     private $aggregator;
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: __construct */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function __construct()
     {
         parent::__construct();
@@ -25,7 +27,9 @@ class AdminController extends AbstractController
         $this->aggregator = new MetricsAggregator($config->get('logging.path'));
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: dashboard */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function dashboard(): void
     {
         $metrics = [
@@ -42,7 +46,9 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: performanceReport */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function performanceReport(): void
     {
         $startDate = $this->request->getQuery('start_date', date('Y-m-d', strtotime('-7 days')));
@@ -68,7 +74,9 @@ class AdminController extends AbstractController
         $this->render('admin/performance_report', $data);
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: exportMetrics */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function exportMetrics(): void
     {
         $startDate = $this->request->getQuery('start_date', date('Y-m-d', strtotime('-30 days')));
@@ -96,7 +104,9 @@ class AdminController extends AbstractController
         fclose($output);
     }
 
-    /** @BABOK BR-002 / FR-008 / FR-018 — method: anomalyReport */
+    /** * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+*/
     public function anomalyReport(): void
     {
         $days = (int)$this->request->getQuery('days', '7');

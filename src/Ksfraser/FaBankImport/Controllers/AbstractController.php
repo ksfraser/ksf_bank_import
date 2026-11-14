@@ -43,8 +43,8 @@ abstract class AbstractController
         // Views live in the module-root views/ directory; support both the
         // repo checkout layout and an installed modules/<name> layout.
         $candidates = [
-            __DIR__ . "/../../views/$view.php",      // src/Ksfraser/FaBankImport/controllers -> repo views (legacy)
-            __DIR__ . "/../../../../views/$view.php", // -> module root views/
+            __DIR__ . "/../../../../Views/$view.php", // -> module root Views/ (canonical)
+            __DIR__ . "/../../Views/$view.php",       // src/Ksfraser/FaBankImport/controllers -> src/Ksfraser/Views
         ];
         $template = null;
         foreach ($candidates as $candidate) {

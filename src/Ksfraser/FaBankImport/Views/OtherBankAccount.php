@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\Views;
 use Ksfraser\HTML\Composites\LabelRowBase;
 
 /**
- * @BABOK CLASS ROLLUP: OtherBankAccount — 1 methods; FR-009 (1); IR-001 (1)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/OtherBankAccount.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
+
  * OtherBankAccount - Display other party's bank account row
  * 
  * Shows the counterparty's bank account number and name.
@@ -20,7 +20,7 @@ use Ksfraser\HTML\Composites\LabelRowBase;
 class OtherBankAccount extends LabelRowBase
 {
 	/**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-001 | BR-PROC-001 | UAT-PROC-001
 	 * Create other bank account row
 	 * 
 	 * @param object $bi_lineitem The bank import line item with otherBankAccount properties

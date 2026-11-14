@@ -138,6 +138,7 @@ final class CommandBootstrapTest extends TestCase
         $process = $this->runBootstrap([
             'method' => 'POST',
             'post' => ['UnsetTrans' => [1 => 1]],
+            'with_dispatcher' => 'raw',
         ]);
 
         $info = $process->getInfo();
@@ -208,6 +209,7 @@ final class CommandBootstrapTest extends TestCase
             'method' => 'POST',
             'post' => ['UnsetTrans' => [1 => 1]],
             'with_transaction_model' => true,
+            'with_dispatcher' => 'raw',
         ]);
 
         $info = $process->getInfo();

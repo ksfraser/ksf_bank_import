@@ -34,19 +34,42 @@ class BiLineItemMatchingTest extends TestCase
 
     protected function setUp(): void
     {
-        // Mock $_POST to avoid undefined index warnings
-        if (!isset($_POST)) {
-            $_POST = [];
-        }
-        
+        // Reset $_POST unconditionally: PartnerFormData reads the partner
+        // type from $_POST['partnerType'][id], and an earlier suite in the
+        // same phpunit process can leave stale entries behind (the previous
+        // isset() guard let that pollution in).
+        $_POST = [];
+        $_GET = [];
+
         // Include the class file
         require_once __DIR__ . '/../../class.bi_lineitem.php';
-        
+
+        // Minimal transaction row the original constructor needs.
+        $trz = [
+            'transactionDC' => 'C',
+            'memo' => 'Test Memo',
+            'our_account' => 'Test Account',
+            'valueTimestamp' => '2025-04-02',
+            'entryTimestamp' => '2025-04-01',
+            'accountName' => 'Test Account Name',
+            'transactionTitle' => 'Test Title',
+            'transactionCode' => '1234',
+            'transactionCodeDesc' => 'Test Code Desc',
+            'currency' => 'USD',
+            'status' => 1,
+            'id' => 123,
+            'fa_trans_type' => 1,
+            'fa_trans_no' => 1,
+            'transactionAmount' => 100.0,
+            'transactionType' => 'COM'
+        ];
+
         // Create a mock bi_lineitem instance that mocks findMatchingExistingJE
         $this->lineItem = $this->getMockBuilder(\bi_lineitem::class)
             ->setMethods(['findMatchingExistingJE'])
+            ->setConstructorArgs([$trz])
             ->enableOriginalConstructor()
-            ->getMock(); 
+            ->getMock();
         
         // Set a test ID
         $this->lineItem->setId(123);
@@ -59,6 +82,8 @@ class BiLineItemMatchingTest extends TestCase
         if (isset($_POST[$key])) {
             unset($_POST[$key]);
         }
+        // PartnerFormData stores state in the nested $_POST['partnerType'][id].
+        unset($_POST['partnerType']);
     }
 
     /**

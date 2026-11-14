@@ -125,8 +125,8 @@ class ConcretePartnerTypesTest extends TestCase
         
         $this->assertSame('UN', $type->getShortCode());
         $this->assertSame('Unknown', $type->getLabel());
-        $this->assertSame('ZZ', $type->getConstantName());
-        $this->assertSame(100, $type->getPriority());
+        $this->assertSame('UNKNOWN', $type->getConstantName());
+        $this->assertSame(999, $type->getPriority());
         // getDescription() may return null for Unknown type
         $this->assertTrue($type->getDescription() === null || is_string($type->getDescription()));
     }

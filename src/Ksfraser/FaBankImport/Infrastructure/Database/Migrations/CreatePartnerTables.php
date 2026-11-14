@@ -9,8 +9,8 @@ use Ksfraser\FaBankImport\Infrastructure\Database\Migration;
 use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
 
 /**
- * @BABOK CLASS ROLLUP: CreatePartnerTables — 4 methods; FR-006 (4)
- * @BABOK RTM: FR-006 / ARCH-007; file: Infrastructure/Database/Migrations/CreatePartnerTables.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+
  * Initial Migration - Create Partner Tables
  * 
  * Creates the foundational tables for partner data management:
@@ -21,19 +21,25 @@ use Ksfraser\FaBankImport\Infrastructure\Database\MigrationException;
  */
 final class CreatePartnerTables implements Migration
 {
-    /** @BABOK FR-006 / ARCH-007 — method: name */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function name(): string
     {
         return '20260416_140000_create_partner_tables';
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: description */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function description(): string
     {
         return 'Create bi_partners_data table for partner matching and training';
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: up */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function up(PDO $pdo): void
     {
         try {
@@ -62,7 +68,9 @@ final class CreatePartnerTables implements Migration
         }
     }
 
-    /** @BABOK FR-006 / ARCH-007 — method: down */
+    /** * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-007 | BR-IMP-001 | UAT-IMP-001
+*/
     public function down(PDO $pdo): void
     {
         try {

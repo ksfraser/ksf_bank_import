@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\API;
 
 /**
- * @BABOK CLASS ROLLUP: MatchTransactionResponse — 12 methods; FR-001 (12)
- * @BABOK RTM: FR-001 / ARCH-001; file: API/MatchTransactionResponse.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * MatchTransactionResponse
  *
  * Response object containing match results.
@@ -25,7 +25,7 @@ namespace Ksfraser\FaBankImport\API;
 class MatchTransactionResponse
 {
     /**
- * @BABOK FR-001 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param string $transactionId Transaction identifier
@@ -54,7 +54,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: isSuccess
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Check if match was successful
      */
     public function isSuccess(): bool
@@ -63,7 +63,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getTransactionId
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get transaction ID
      */
     public function getTransactionId(): string
@@ -72,7 +72,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getPartnerId
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get matched partner ID
      */
     public function getPartnerId(): ?int
@@ -81,7 +81,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getPartnerName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get matched partner name
      */
     public function getPartnerName(): ?string
@@ -90,7 +90,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getConfidence
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get confidence score (0-100)
      */
     public function getConfidence(): float
@@ -99,7 +99,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getConfidenceLevel
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get confidence level classification
      */
     public function getConfidenceLevel(): string
@@ -108,7 +108,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getScoreFormula
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get score formula
      */
     public function getScoreFormula(): ?string
@@ -117,7 +117,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getScoreBreakdown
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get score breakdown
      */
     public function getScoreBreakdown(): array
@@ -126,7 +126,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getKeywords
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get keywords used in matching
      */
     public function getKeywords(): array
@@ -135,7 +135,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: getReason
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get reason/result message
      */
     public function getReason(): ?string
@@ -144,7 +144,7 @@ class MatchTransactionResponse
     }
 
     /**
- * @BABOK FR-001 / ARCH-001 — method: toArray
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Convert to array for JSON serialization
      */
     public function toArray(): array

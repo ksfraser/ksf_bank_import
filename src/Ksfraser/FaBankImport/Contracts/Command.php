@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Ksfraser\FaBankImport\Contracts;
 
 /**
- * @BABOK CLASS ROLLUP: Command — 4 methods; FR-015 (4)
- * @BABOK RTM: FR-015 / ARCH-001; file: Contracts/Command.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-012 | BR-PROC-005 | UAT-PROC-010
+
  * Command Contract - CLI Command Interface
  * 
  * Defines the contract for CLI commands that can be executed
@@ -18,19 +18,19 @@ namespace Ksfraser\FaBankImport\Contracts;
 interface Command
 {
     /**
- * @BABOK FR-015 / ARCH-001 — method: name
+ * @BABOK FR-PROC-012 | BR-PROC-005 | UAT-PROC-010
      * Get the command name (e.g., 'train', 'import')
      */
     public function name(): string;
 
     /**
- * @BABOK FR-015 / ARCH-001 — method: description
+ * @BABOK FR-PROC-012 | BR-PROC-005 | UAT-PROC-010
      * Get the command description
      */
     public function description(): string;
 
     /**
- * @BABOK FR-015 / ARCH-001 — method: execute
+ * @BABOK FR-PROC-012 | BR-PROC-005 | UAT-PROC-010
      * Execute the command
      * 
      * @param array<string, mixed> $arguments Command arguments and options
@@ -39,7 +39,7 @@ interface Command
     public function execute(array $arguments = []): int;
 
     /**
- * @BABOK FR-015 / ARCH-001 — method: help
+ * @BABOK FR-PROC-012 | BR-PROC-005 | UAT-PROC-010
      * Get command usage/help text
      */
     public function help(): string;

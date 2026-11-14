@@ -67,6 +67,45 @@ namespace Ksfraser\common {
             {
                 return $this->values[$field] ?? null;
             }
+
+            /**
+             * Copy the public members of one object onto another.
+             *
+             * @param object $source Object to copy from.
+             * @return int Number of members copied.
+             */
+            public function obj2obj($source)
+            {
+                $count = 0;
+                foreach (get_object_vars($source) as $name => $value) {
+                    $this->$name = $value;
+                    $count++;
+                }
+
+                return $count;
+            }
+
+            /**
+             * Magic accessor mirroring the real legacy base class: reads a
+             * declared (or dynamically set) property by name.
+             *
+             * @param string $name Property name.
+             * @return mixed Null when unset.
+             */
+            public function __get($name)
+            {
+                if (array_key_exists($name, $this->values)) {
+                    return $this->values[$name];
+                }
+                if (!property_exists($this, $name)) {
+                    return null;
+                }
+                $reader = \Closure::bind(static function ($obj, $prop) {
+                    return $obj->{$prop};
+                }, null, static::class);
+
+                return $reader($this, $name);
+            }
         }
     }
 }

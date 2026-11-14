@@ -28,7 +28,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -37,8 +37,8 @@ use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRule;
 
 /**
- * @BABOK CLASS ROLLUP: SupplierMatchingRules — 23 methods; BR-001 (23); BR-002 (23); FR-008 (23)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierMatchingRules.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Factory for Creating Supplier-Specific Matching Rules
  *
  * Replicates PROD supplier matching behavior (bank account lookup) using the
@@ -58,7 +58,7 @@ final class SupplierMatchingRules
     private SupplierMatchingConfiguration $configuration;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param SupplierMatchingConfiguration $configuration Configuration for rules
@@ -70,7 +70,7 @@ final class SupplierMatchingRules
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get configuration reference
      *
      * @return SupplierMatchingConfiguration Current configuration
@@ -82,7 +82,7 @@ final class SupplierMatchingRules
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createBankAccountRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create bank account matching rule
      *
      * PROD REQUIREMENT: Bank account MUST match exactly
@@ -100,7 +100,7 @@ final class SupplierMatchingRules
             private $weight;
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @param int $weight
              */
             public function __construct(int $weight = 100)
@@ -109,7 +109,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function getName(): string
@@ -118,7 +118,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeight
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function getWeight(): int
@@ -127,7 +127,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: calculateScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function calculateScore(array $context): int
@@ -146,7 +146,7 @@ final class SupplierMatchingRules
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createVendorNameRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create vendor name matching rule
      *
      * Uses keyword scoring for vendor name matching. Higher score for exact
@@ -164,7 +164,7 @@ final class SupplierMatchingRules
             private $weight;
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @param int $weight
              */
             public function __construct(int $weight = 30)
@@ -173,7 +173,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function getName(): string
@@ -182,7 +182,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeight
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function getWeight(): int
@@ -191,7 +191,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: calculateScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function calculateScore(array $context): int
@@ -229,7 +229,7 @@ final class SupplierMatchingRules
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createAmountMatchRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create amount matching rule
      *
      * Matches amounts within configured tolerance. Exact match scores 100,
@@ -252,7 +252,7 @@ final class SupplierMatchingRules
             private $tolerance;
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @param int $weight
              * @param float $tolerance
              */
@@ -263,7 +263,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function getName(): string
@@ -272,7 +272,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeight
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function getWeight(): int
@@ -281,7 +281,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: calculateScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function calculateScore(array $context): int
@@ -313,7 +313,7 @@ final class SupplierMatchingRules
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createInvoiceDetectionRule
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create invoice detection rule
      *
      * Detects supplier invoice transactions and provides extra boost for matching.
@@ -331,7 +331,7 @@ final class SupplierMatchingRules
             private $weight;
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @param int $weight
              */
             public function __construct(int $weight = 10)
@@ -340,7 +340,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function getName(): string
@@ -349,7 +349,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeight
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function getWeight(): int
@@ -358,7 +358,7 @@ final class SupplierMatchingRules
             }
 
             /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: calculateScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
              * @inheritDoc
              */
             public function calculateScore(array $context): int
@@ -377,7 +377,7 @@ final class SupplierMatchingRules
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: createScoringEngine
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Create configured scoring engine with all supplier matching rules
      *
      * Returns a ScoringRuleEngine instance with all supplier-specific rules

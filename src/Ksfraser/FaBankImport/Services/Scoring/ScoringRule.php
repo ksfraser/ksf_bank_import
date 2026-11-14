@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services\Scoring;
@@ -11,8 +11,8 @@ namespace Ksfraser\FaBankImport\Services\Scoring;
 use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 
 /**
- * @BABOK CLASS ROLLUP: ScoringRule — 4 methods; BR-011 (4)
- * @BABOK RTM: BR-011 / ARCH-011; file: Services/Scoring/ScoringRule.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * ScoringRule Interface
  *
  * Contract for pluggable scoring strategies that calculate confidence adjustments
@@ -30,7 +30,7 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 interface ScoringRule
 {
     /**
- * @BABOK BR-011 / ARCH-011 — method: calculateScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Calculate confidence adjustment for this rule
      *
      * @param array $transaction Transaction data with keys: account, amount, type, date, memo, etc.
@@ -40,7 +40,7 @@ interface ScoringRule
     public function calculateScore(array $transaction, SupplierCandidate $match): float;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getName
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get human-readable name of this rule
      *
      * Used for logging and debugging to identify which rule contributed which score.
@@ -50,7 +50,7 @@ interface ScoringRule
     public function getName(): string;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getMaxBoost
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get maximum possible boost this rule can apply
      *
      * ScoringRuleEngine uses this to validate that total adjustments remain reasonable.
@@ -61,7 +61,7 @@ interface ScoringRule
     public function getMaxBoost(): float;
 
     /**
- * @BABOK BR-011 / ARCH-011 — method: getMinReduction
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get minimum possible reduction this rule can apply
      *
      * Should match the minimum (most negative) value calculateScore() can return.

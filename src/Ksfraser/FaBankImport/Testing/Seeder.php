@@ -7,8 +7,8 @@ namespace Ksfraser\FaBankImport\Testing;
 use PDO;
 
 /**
- * @BABOK CLASS ROLLUP: Seeder — 4 methods; NFR-016 (4)
- * @BABOK RTM: NFR-016; file: Testing/Seeder.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Seeder Interface - Contract for database seeders
  *
  * Defines the contract for seeding test/development data into the database.
@@ -24,7 +24,7 @@ use PDO;
 interface Seeder
 {
     /**
- * @BABOK NFR-016 — method: seed
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Seed the database with test data
      *
      * @param PDO $pdo Database connection
@@ -34,7 +34,7 @@ interface Seeder
     public function seed(PDO $pdo): void;
 
     /**
- * @BABOK NFR-016 — method: name
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get a human-readable name for this seeder
      *
      * @return string
@@ -42,7 +42,7 @@ interface Seeder
     public function name(): string;
 
     /**
- * @BABOK NFR-016 — method: description
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get description of what this seeder does
      *
      * @return string
@@ -50,7 +50,7 @@ interface Seeder
     public function description(): string;
 
     /**
- * @BABOK NFR-016 — method: recordCount
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get number of records that will be created
      *
      * @return int

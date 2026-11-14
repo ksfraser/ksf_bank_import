@@ -40,15 +40,11 @@ define('FA_ROOT', dirname(__DIR__));
 
 // Load FrontAccounting function mocks
 //
-// The controllable fa_bank_transfer double is declared first: the mock package
-// only declares the class when it does not exist yet, and the double lets the
-// bank transfer handler exercise its failure paths.
-require_once __DIR__ . '/unit/Processing/Support/fa_bank_transfer_double.php';
-
+// The controllable fa_bank_transfer double is declared before autoload (top of
+// this file), so only the mock package needs the explicit require here.
 if (file_exists(__DIR__ . '/../vendor/ksfraser/famock/php/FAMock.php')) {
     require_once __DIR__ . '/../vendor/ksfraser/famock/php/FAMock.php';
 }
-
 // Start the session BEFORE any test emits output; later session_start()
 // calls in tests see an active session instead of fataling on sent headers.
 if (session_status() === PHP_SESSION_NONE && !headers_sent()) {

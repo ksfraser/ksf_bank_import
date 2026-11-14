@@ -3,7 +3,7 @@
 /**
  * Unit Tests for ViewFactory
  * 
- * @package    KsfBankImport\Tests\Unit\Views
+ * @package    Tests\Unit\Views
  * @author     Kevin Fraser / ChatGPT
  * @copyright  2025 KSF
  * @version    1.0.0
@@ -11,14 +11,14 @@
 /** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
 /** @BABOK See docs/Requirements/ for module coverage tracking */
 
-namespace KsfBankImport\Tests\Unit\Views;
+namespace Tests\Unit\Views;
 
 use PHPUnit\Framework\TestCase;
-use KsfBankImport\Views\ViewFactory;
-use KsfBankImport\Views\SupplierPartnerTypeView;
-use KsfBankImport\Views\CustomerPartnerTypeView;
-use KsfBankImport\Views\BankTransferPartnerTypeView;
-use KsfBankImport\Views\QuickEntryPartnerTypeView;
+use Ksfraser\FaBankImport\Views\ViewFactory;
+use Ksfraser\FaBankImport\Views\SupplierPartnerTypeView;
+use Ksfraser\FaBankImport\Views\CustomerPartnerTypeView;
+use Ksfraser\FaBankImport\Views\BankTransferPartnerTypeView;
+use Ksfraser\FaBankImport\Views\QuickEntryPartnerTypeView;
 
 // Load FA stubs
 
@@ -28,7 +28,7 @@ require_once __DIR__ . '/../../../Views/ViewFactory.php';
 /**
  * Test ViewFactory
  * 
- * @coversDefaultClass \KsfBankImport\Views\ViewFactory
+ * @coversDefaultClass \Ksfraser\FaBankImport\Views\ViewFactory
  */
 class ViewFactoryTest extends TestCase
 {
@@ -38,9 +38,9 @@ class ViewFactoryTest extends TestCase
     protected function tearDown(): void
     {
         // Reset all data provider singletons
-        \KsfBankImport\Views\DataProviders\SupplierDataProvider::reset();
-        \KsfBankImport\Views\DataProviders\CustomerDataProvider::reset();
-        \KsfBankImport\Views\DataProviders\QuickEntryDataProvider::reset();
+        \Ksfraser\FaBankImport\Views\DataProviders\SupplierDataProvider::reset();
+        \Ksfraser\FaBankImport\Views\DataProviders\CustomerDataProvider::reset();
+        \Ksfraser\FaBankImport\Views\DataProviders\QuickEntryDataProvider::reset();
         
         $_POST = [];
         $_GET = [];

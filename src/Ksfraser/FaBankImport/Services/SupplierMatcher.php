@@ -29,7 +29,7 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -38,8 +38,8 @@ use Ksfraser\FaBankImport\Domain\ValueObjects\KeywordMatch;
 use Ksfraser\FaBankImport\Services\ConfidenceEnhancer;
 
 /**
- * @BABOK CLASS ROLLUP: SupplierMatcher — 7 methods; BR-001 (7); BR-002 (7); FR-008 (7)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierMatcher.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Supplier Matching Service
  *
  * Orchestrates matching transactions to suppliers using configurable,
@@ -72,7 +72,7 @@ class SupplierMatcher
     private ConfidenceEnhancer $confidenceEnhancer;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Constructor
      *
      * @param SupplierMatchingConfiguration $configuration Matching configuration
@@ -89,7 +89,7 @@ class SupplierMatcher
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: matchSuppliers
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Match a transaction to suppliers from a supplier list
      *
      * Scores the transaction against all suppliers, applies confidence
@@ -148,7 +148,7 @@ class SupplierMatcher
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: determineAutoMatchDecision
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Determine auto-match decision based on PROD behavior
      *
      * PROD: 0-2 matches above threshold = auto. 3+ = manual selection required.
@@ -176,7 +176,7 @@ class SupplierMatcher
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: normalizeScore
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Normalize raw score to 0-100 confidence percentage
      *
      * Clamps score to reasonable range and converts to percentage.
@@ -195,7 +195,7 @@ class SupplierMatcher
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: applyConfidenceAdjustment
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Apply confidence adjustments to raw score
      *
      * Can incorporate context-aware enhancements or boosts.
@@ -213,7 +213,7 @@ class SupplierMatcher
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfiguration
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get configuration reference
      *
      * @return SupplierMatchingConfiguration Current configuration
@@ -225,7 +225,7 @@ class SupplierMatcher
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getConfidenceEnhancer
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get confidence enhancer reference
      *
      * @return ConfidenceEnhancer Confidence enhancer

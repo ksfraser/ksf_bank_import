@@ -5,8 +5,8 @@
 namespace Ksfraser\FaBankImport\ValueObject;
 
 /**
- * @BABOK CLASS ROLLUP: FileInfo — 12 methods; FR-008 (12); DR-001 (12)
- * @BABOK RTM: FR-008 / DR-001; file: ValueObject/FileInfo.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
+
  * File Information Value Object
  * 
  * Immutable object representing uploaded file information
@@ -24,7 +24,7 @@ class FileInfo
     private string $mimeType;
     
     /**
- * @BABOK FR-008 / DR-001 — method: __construct
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Constructor
      * 
      * @param string $originalFilename Original filename from upload
@@ -47,7 +47,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: fromUpload
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Create from $_FILES array entry
      * 
      * @param array $fileData $_FILES array entry
@@ -81,7 +81,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getUploadErrorMessage
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Get human-readable upload error message
      * 
      * @param int $errorCode PHP upload error code
@@ -110,7 +110,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getOriginalFilename
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Get original filename
      * 
      * @return string
@@ -122,7 +122,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getTmpPath
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Get temporary file path
      * 
      * @return string
@@ -134,7 +134,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getSize
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Get file size in bytes
      * 
      * @return int
@@ -146,7 +146,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getMimeType
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Get MIME type
      * 
      * @return string
@@ -158,7 +158,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getExtension
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Get file extension
      * 
      * @return string
@@ -170,7 +170,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getBasename
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Get base filename without extension
      * 
      * @return string
@@ -182,7 +182,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: getMd5Hash
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Calculate MD5 hash of file
      * 
      * @return string MD5 hash
@@ -200,7 +200,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: validateFilename
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Validate filename
      * 
      * @param string $filename
@@ -219,7 +219,7 @@ class FileInfo
     }
     
     /**
- * @BABOK FR-008 / DR-001 — method: validateSize
+ * @BABOK FR-IMP-001, FR-IMP-003 | BR-IMP-001 | UAT-IMP-001
      * Validate file size
      * 
      * @param int $size

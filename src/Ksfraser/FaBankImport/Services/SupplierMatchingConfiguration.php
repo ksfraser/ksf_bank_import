@@ -26,14 +26,14 @@
 declare(strict_types=1);
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
 
 /**
- * @BABOK CLASS ROLLUP: SupplierMatchingConfiguration — 11 methods; BR-001 (11); BR-002 (11); FR-008 (11)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/SupplierMatchingConfiguration.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+
  * Configuration for Supplier Matching Rules
  *
  * Manages configurable weights and thresholds used by the scoring engine
@@ -88,7 +88,7 @@ final class SupplierMatchingConfiguration
     private float $amountTolerance = 1.0;
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeights
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get score weights for all matching criteria
      *
      * @return array<string, int> Score weights indexed by criterion name
@@ -100,7 +100,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setWeights
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Set custom score weights for matching criteria
      *
      * @param array<string, int> $weights Score weights indexed by criterion name
@@ -114,7 +114,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getWeight
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get individual weight for a criterion
      *
      * @param string $criterion Criterion name (bank_account, vendor_name, etc.)
@@ -127,7 +127,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setWeight
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Set weight for individual criterion
      *
      * @param string $criterion Criterion name
@@ -142,7 +142,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMinimumConfidenceThreshold
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get minimum confidence threshold for auto-match
      *
      * @return int Threshold percentage (0-100)
@@ -154,7 +154,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setMinimumConfidenceThreshold
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Set minimum confidence threshold for auto-match
      *
      * @param int $threshold Threshold percentage (0-100)
@@ -168,7 +168,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getMaximumAutoMatches
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get maximum number of matches for auto-selection
      *
      * @return int Maximum (3+ require manual selection)
@@ -180,7 +180,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setMaximumAutoMatches
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Set maximum number of matches for auto-selection
      *
      * @param int $maximum Maximum count
@@ -194,7 +194,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getAmountTolerance
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Get amount matching tolerance percentage
      *
      * @return float Tolerance as percentage (e.g., 1.0 = 1%)
@@ -206,7 +206,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setAmountTolerance
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Set amount matching tolerance percentage
      *
      * @param float $tolerance Tolerance as percentage
@@ -220,7 +220,7 @@ final class SupplierMatchingConfiguration
     }
 
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: setProdDefaults
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      * Apply production defaults matching PROD behavior
      *
      * PROD BASELINE:

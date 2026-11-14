@@ -6,8 +6,8 @@ use Ksfraser\FaBankImport\Entity\UploadedFile;
 use Ksfraser\FaBankImport\ValueObject\FileInfo;
 
 /**
- * @BABOK CLASS ROLLUP: UploadedFileRepositoryInterface — 10 methods; FR-008 (10)
- * @BABOK RTM: FR-008 / ARCH-001; file: Repository/UploadedFileRepositoryInterface.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
+
  * Uploaded File Repository Interface
  * 
  * Defines contract for file metadata storage
@@ -20,7 +20,7 @@ use Ksfraser\FaBankImport\ValueObject\FileInfo;
 interface UploadedFileRepositoryInterface
 {
     /**
- * @BABOK FR-008 / ARCH-001 — method: save
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Save file metadata to database
      * 
      * @param UploadedFile $file File entity
@@ -32,7 +32,7 @@ interface UploadedFileRepositoryInterface
     public function save(UploadedFile $file): int;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: findById
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Find file by ID
      * 
      * @param int $id File ID
@@ -42,7 +42,7 @@ interface UploadedFileRepositoryInterface
     public function findById(int $id): ?UploadedFile;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: findDuplicate
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Find potential duplicate files
      * 
      * @param FileInfo $fileInfo File information
@@ -53,7 +53,7 @@ interface UploadedFileRepositoryInterface
     public function findDuplicate(FileInfo $fileInfo, int $windowDays): ?UploadedFile;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: linkToStatements
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Link file to statements
      * 
      * @param int $fileId File ID
@@ -64,7 +64,7 @@ interface UploadedFileRepositoryInterface
     public function linkToStatements(int $fileId, array $statementIds): bool;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: getLinkedStatements
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get statements linked to a file
      * 
      * @param int $fileId File ID
@@ -74,7 +74,7 @@ interface UploadedFileRepositoryInterface
     public function getLinkedStatements(int $fileId): array;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: updateStatementCount
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Update statement count for a file
      * 
      * @param int $fileId File ID
@@ -84,7 +84,7 @@ interface UploadedFileRepositoryInterface
     public function updateStatementCount(int $fileId): bool;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: delete
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Delete file metadata
      * 
      * @param int $fileId File ID
@@ -94,7 +94,7 @@ interface UploadedFileRepositoryInterface
     public function delete(int $fileId): bool;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: findAll
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get all files with optional filters
      * 
      * @param array $filters Optional filters (user, date_from, date_to, parser_type)
@@ -106,7 +106,7 @@ interface UploadedFileRepositoryInterface
     public function findAll(array $filters = [], int $limit = 100, int $offset = 0): array;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: count
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get total file count
      * 
      * @param array $filters Optional filters
@@ -116,7 +116,7 @@ interface UploadedFileRepositoryInterface
     public function count(array $filters = []): int;
     
     /**
- * @BABOK FR-008 / ARCH-001 — method: getStatistics
+ * @BABOK FR-IMP-003, FR-IMP-009, FR-UPL-001, FR-UPL-002, FR-UPL-003, FR-UPL-004, FR-UPL-005 | BR-IMP-003 | UAT-IMP-006
      * Get storage statistics
      * 
      * @return array Statistics (total_files, total_size, etc.)

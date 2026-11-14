@@ -30,8 +30,8 @@ namespace Ksfraser\FaBankImport\Database;
  * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
  */
 /**
- * @BABOK CLASS ROLLUP: TransactionQueryBuilder — 9 methods; FR-008 (9); DR-003 (9)
- * @BABOK RTM: FR-008 / DR-003; file: Database/TransactionQueryBuilder.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
+
  */
 class TransactionQueryBuilder
 {
@@ -46,7 +46,7 @@ class TransactionQueryBuilder
     private string $statementsTable;
     
     /**
- * @BABOK FR-008 / DR-003 — method: __construct
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Constructor
      * 
      * Note: In FrontAccounting, each company has its own table prefix defined by TB_PREF constant.
@@ -69,7 +69,7 @@ class TransactionQueryBuilder
     }
     
     /**
- * @BABOK FR-008 / DR-003 — method: buildGetTransactionsQuery
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Build SELECT query for transactions with filters
      * 
      * Builds a parameterized query for fetching transactions based on various filters.
@@ -172,7 +172,7 @@ class TransactionQueryBuilder
     }
     
     /**
- * @BABOK FR-008 / DR-003 — method: buildGetTransactionQuery
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Build SELECT query for single transaction by ID
      * 
      * @param int $transactionId The transaction ID
@@ -196,7 +196,7 @@ class TransactionQueryBuilder
     }
     
     /**
- * @BABOK FR-008 / DR-003 — method: buildResetTransactionsQuery
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Build UPDATE query to reset transaction status
      * 
      * Used when voiding FA transactions - resets bi_transactions status.
@@ -231,7 +231,7 @@ class TransactionQueryBuilder
     }
     
     /**
- * @BABOK FR-008 / DR-003 — method: buildUpdateTransactionsQuery
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Build UPDATE query to update transaction with FA GL info
      * 
      * Links bi_transactions to FA general ledger transactions.
@@ -294,7 +294,7 @@ class TransactionQueryBuilder
     }
     
     /**
- * @BABOK FR-008 / DR-003 — method: buildPrevoidQuery
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Build UPDATE query for prevoid hook
      * 
      * Resets transactions when FA GL entry is being voided.
@@ -328,7 +328,7 @@ class TransactionQueryBuilder
     }
     
     /**
- * @BABOK FR-008 / DR-003 — method: buildNormalPairingQuery
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Build SELECT query for normal pairing patterns
      * 
      * Gets aggregated transaction patterns for counterparty matching.
@@ -361,7 +361,7 @@ class TransactionQueryBuilder
     }
     
     /**
- * @BABOK FR-008 / DR-003 — method: getTableName
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Get table name
      * 
      * @return string
@@ -375,7 +375,7 @@ class TransactionQueryBuilder
     }
     
     /**
- * @BABOK FR-008 / DR-003 — method: getStatementsTableName
+ * @BABOK FR-PROC-001, FR-PROC-002, FR-PROC-003, FR-PROC-004, FR-PROC-005, FR-PROC-006, FR-PROC-007, FR-PROC-008, FR-PROC-009, FR-PROC-011, FR-PROC-012 | BR-PROC-001 | UAT-PROC-001
      * Get statements table name
      * 
      * @return string

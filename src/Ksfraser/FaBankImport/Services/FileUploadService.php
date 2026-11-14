@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @BABOK RTM: service layer (FR-001 through FR-018); module coverage tracking: docs/Requirements/
+
  */
 
 namespace Ksfraser\FaBankImport\Services;
@@ -14,8 +14,8 @@ use Ksfraser\FaBankImport\Repository\ConfigRepositoryInterface;
 use Ksfraser\FaBankImport\Strategy\DuplicateStrategyFactory;
 
 /**
- * @BABOK CLASS ROLLUP: FileUploadService — 11 methods; BR-001 (11); BR-002 (11); FR-008 (11)
- * @BABOK RTM: BR-001 / BR-002 / FR-008 / ARCH-001; file: Services/FileUploadService.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
+
  * File Upload Service
  * 
  * Main orchestrator for file upload process
@@ -45,7 +45,7 @@ class FileUploadService
     private ConfigRepositoryInterface $configRepository;
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: __construct
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Constructor - Dependency Injection
      * 
      * @param UploadedFileRepositoryInterface $fileRepository
@@ -67,7 +67,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: upload
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Upload and process file
      * 
      * Process:
@@ -163,7 +163,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: linkToStatements
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Link uploaded file to imported statements
      * 
      * Called after statements are successfully imported from file
@@ -179,7 +179,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: delete
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Delete uploaded file (both disk and database)
      * 
      * @param int $fileId File ID
@@ -205,7 +205,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFile
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Get uploaded file by ID
      * 
      * @param int $fileId File ID
@@ -218,7 +218,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getFileContents
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Get file contents for download
      * 
      * @param int $fileId File ID
@@ -241,7 +241,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: listFiles
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * List uploaded files with filters
      * 
      * @param array $filters Optional filters (user, date_from, date_to, parser_type)
@@ -256,7 +256,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: countFiles
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Get total file count
      * 
      * @param array $filters Optional filters
@@ -269,7 +269,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getStatistics
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Get storage statistics
      * 
      * @return array Statistics
@@ -281,7 +281,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: getCurrentUsername
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Get current username from FrontAccounting session
      * 
      * @return string Username
@@ -298,7 +298,7 @@ class FileUploadService
     }
     
     /**
- * @BABOK BR-001 / BR-002 / FR-008 / ARCH-001 — method: create
+ * @BABOK FR-IMP-001 | BR-IMP-001 | UAT-IMP-001
      * Create service instance with dependencies (DI Factory Method)
      * 
      * @param UploadedFileRepositoryInterface|null $fileRepository

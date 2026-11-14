@@ -9,8 +9,8 @@ use Ksfraser\HTML\Elements\HtmlString;
 use Ksfraser\HTML\HtmlElementInterface;
 
 /**
- * @BABOK CLASS ROLLUP: ToggleTransactionRow — 3 methods; FR-009 (3); IR-001 (3)
- * @BABOK RTM: FR-009 / IR-001 / ARCH-008; file: Views/ToggleTransactionRow.php; coverage: docs/TestCases/ (file rollup)
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
+
  * ToggleTransactionRow - composes a ToggleTransactionTypeButton into
  * a HtmlLabelRow for use in legacy views.
  * 
@@ -25,7 +25,7 @@ class ToggleTransactionRow implements HtmlElementInterface
     protected $row;
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: __construct
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      * Create toggle transaction row for given index
      * 
      * @param int $index The transaction index
@@ -38,7 +38,7 @@ class ToggleTransactionRow implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: getHtml
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      * Get HTML as string
      * 
      * @return string The HTML
@@ -49,7 +49,7 @@ class ToggleTransactionRow implements HtmlElementInterface
     }
 
     /**
- * @BABOK FR-009 / IR-001 / ARCH-008 — method: toHtml
+ * @BABOK FR-PROC-010, FR-PROC-011 | BR-PROC-001 | UAT-PROC-001
      * Output HTML directly to screen
      * 
      * @return void

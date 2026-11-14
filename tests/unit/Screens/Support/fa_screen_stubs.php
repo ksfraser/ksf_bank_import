@@ -588,6 +588,55 @@ namespace {
         }
     }
 
+    if (!function_exists('customer_branches_list_row')) {
+        /**
+         * Renders a customer-branch picker row.
+         *
+         * @param string $label       Row label.
+         * @param mixed  $customer_id Customer id.
+         * @param string $name        Field name.
+         * @param mixed  $selected_id Selected branch id.
+         *
+         * @return void
+         */
+        function customer_branches_list_row($label, $customer_id, $name, $selected_id = null)
+        {
+            echo '<tr><td>' . $label . '</td><td><select name=\'' . $name . '\'></select></td></tr>';
+        }
+    }
+
+    if (!function_exists('supplier_list_row')) {
+        /**
+         * Renders a supplier picker row.
+         *
+         * @param string $label       Row label.
+         * @param string $name        Field name.
+         * @param mixed  $selected_id Selected supplier id.
+         *
+         * @return void
+         */
+        function supplier_list_row($label, $name, $selected_id = null)
+        {
+            echo '<tr><td>' . $label . '</td><td><select name=\'' . $name . '\'></select></td></tr>';
+        }
+    }
+
+    if (!function_exists('customer_list_row')) {
+        /**
+         * Renders a customer picker row.
+         *
+         * @param string $label       Row label.
+         * @param string $name        Field name.
+         * @param mixed  $selected_id Selected customer id.
+         *
+         * @return void
+         */
+        function customer_list_row($label, $name, $selected_id = null)
+        {
+            echo '<tr><td>' . $label . '</td><td><select name=\'' . $name . '\'></select></td></tr>';
+        }
+    }
+
     if (!function_exists('set_focus')) {
         /**
          * Records the field the screen wants the cursor in.
