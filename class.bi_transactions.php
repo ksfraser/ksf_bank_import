@@ -454,9 +454,25 @@ class bi_transactions_model extends generic_fa_interface_model {
 	* Get transactions details for display
 	*
 	* @param int status
-	* @returns array transaction rows sorted
+	* @param string|null $transAfterDate Date filter start (defaults to $_POST['TransAfterDate'])
+	* @param string|null $transToDate Date filter end (defaults to $_POST['TransToDate'])
+	* @param float|null $transactionAmount Amount filter (unused, legacy parity)
+	* @param string|null $transactionTitle Title filter (unused, legacy parity)
+	* @param int|null $limit Legacy single LIMIT parameter
+	* @param string|null $bankAccount Bank account filter (parity with prod; not yet filtering)
+	* @param int $offset Pagination offset (default 0)
+	* @param int $limit_page Number of rows per page (default 5)
+	* @returns \Ksfraser\FaBankImport\Results\PaginatedTransactionResult Value object containing:
+	*                  - transactions: array of transaction rows keyed by transactionCode
+	*                  - total_count: total count of matching transactions
+	*                  - current_page: current page number
+	*                  - total_pages: total number of pages
+	*                  - offset: current offset
+	*                  - limit: current limit per page
+	*                  (implements IteratorAggregate/Countable for legacy array-compat)
+	* @throws \InvalidArgumentException if pagination values fail validation
 	***************************************************************************/
-	function get_transactions( $status = null, $transAfterDate = null, $transToDate = null, $transactionAmount = null, $transactionTitle = null, $limit = null ) 
+	function get_transactions( $status = null, $transAfterDate = null, $transToDate = null, $transactionAmount = null, $transactionTitle = null, $limit = null, $bankAccount = null, $offset = 0, $limit_page = 5 )
 	{
 		if( null == $transAfterDate )
 		{
@@ -473,6 +489,12 @@ class bi_transactions_model extends generic_fa_interface_model {
         	{
               		$sql .= "  AND t.status = '" . $status . "'";
         	}
+		if( null !== $bankAccount )
+        	{
+			//Need further investigation in account since it isn't always the full number
+              		//$sql .= "  AND t.account = '" . $bankAccount . "'";
+              		//$sql .= "  AND t.acctid = '" . $bankAccount . "'";
+        	}
 /*
 		if( null !== $transactionAmount )
         	{
@@ -486,7 +508,20 @@ class bi_transactions_model extends generic_fa_interface_model {
         	}
 */
 
-		if( null !== $limit )
+		// Get total count using dedicated counter service (SRP)
+		$counter = new \Ksfraser\FaBankImport\Services\TransactionCounter();
+		$total_count = $counter->count( substr( $sql, strpos( $sql, " WHERE " ) ) );
+
+		// Apply sorting BEFORE pagination
+        	$sql .= " ORDER BY t.valueTimestamp ASC";
+
+		// Apply pagination if using new offset/limit_page parameters (when called with explicit values)
+		// Otherwise use legacy limit behavior
+		if( $offset > 0 || $limit_page !== 5 || ($limit === null && !isset($this->limit)) )
+		{
+			$sql .= " LIMIT " . (int)max(1, $limit_page) . " OFFSET " . (int)max(0, $offset);
+		}
+		else if( null !== $limit )
 		{
 			if( is_numeric( $limit ) )
 			{
@@ -497,10 +532,8 @@ class bi_transactions_model extends generic_fa_interface_model {
 		{
 			$sql .= " LIMIT $this->limit ";
 		}
-        	$sql .= " ORDER BY t.valueTimestamp ASC";
 
-         	$res = db_query($sql, 'unable to get transactions data');
-	        $result = db_query($sql, "could not get transaction data");
+         	$result = db_query($sql, "could not get transaction data");
         	while($myrow = db_fetch($result))
         	{
         	        //display_notification( __FILE__ . "::" . __LINE__ );
@@ -511,7 +544,22 @@ class bi_transactions_model extends generic_fa_interface_model {
         	        }
         	        $trzs[$trz_code][] = $myrow;
         	}
-	        return $trzs;
+
+		// Calculate pagination metadata
+		$limit_page = max(1, (int)$limit_page);
+		$offset = max(0, (int)$offset);
+		$current_page = (int)(($offset / $limit_page) + 1);
+		$total_pages = (int)ceil($total_count / $limit_page);
+
+		// Return wrapped structure with pagination metadata
+	        return new \Ksfraser\FaBankImport\Results\PaginatedTransactionResult(
+	        	$trzs,
+	        	$total_count,
+	        	$current_page,
+	        	$total_pages,
+	        	$offset,
+	        	$limit_page
+	        );
 	}
 	/**//**********************************************************************
 	* Get a specific transaction's details

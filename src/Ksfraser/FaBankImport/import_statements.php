@@ -404,6 +404,27 @@ function offer_account_resolution_step(array $multistatements, array $uploaded_f
         new \Ksfraser\FaBankImport\Repository\FaBankAccountDirectory()
     );
 
+    // Warn when the account(s) detected in the file do not match the bank
+    // account the user selected in the upload form - the selection may be
+    // wrong and can still be corrected (FR-001, FR-002).
+    if (isset($_POST['bank_account']) && (int) $_POST['bank_account'] > 0) {
+        $selectedAccount = get_bank_account((int) $_POST['bank_account']);
+        if (is_array($selectedAccount) && !empty($selectedAccount['bank_account_number'])) {
+            foreach (
+                $resolution->collectSelectionMismatches(
+                    $multistatements,
+                    (string) $selectedAccount['bank_account_number']
+                ) as $detectedMismatch
+            ) {
+                display_warning(sprintf(
+                    _("The account detected in the uploaded file ('%s') does not match the bank account you selected ('%s'). Verify the account mapping before importing."),
+                    $detectedMismatch,
+                    (string) $selectedAccount['bank_account_number']
+                ));
+            }
+        }
+    }
+
     $savedMap = load_saved_account_associations($multistatements);
     $multistatements = $resolution->applySavedAssociations($multistatements, $savedMap);
 

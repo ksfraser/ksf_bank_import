@@ -535,6 +535,7 @@ return [
     'Ksfraser\\FaBankImport\\Views\\QuickEntryPartnerTypeView' => ['FR-PROC-002', 'FR-PROC-006'],
     'Ksfraser\\FaBankImport\\Views\\BankTransferPartnerTypeView' => ['FR-PROC-002', 'FR-PROC-007'],
     'Ksfraser\\FaBankImport\\Views\\ProcessTransactionButtonRow' => ['FR-PROC-012'],
+    'Ksfraser\\FaBankImport\\Views\\ProcessBothSidesButtonRow' => ['FR-PROC-012'],
     'Ksfraser\\FaBankImport\\Views\\ToggleTransactionRow' => ['FR-PROC-010', 'FR-PROC-011'],
     'Ksfraser\\FaBankImport\\Views\\UnsetTransButtonRow' => ['FR-PROC-011'],
     'Ksfraser\\FaBankImport\\Views\\PartnerTypeDisplayStrategy' => ['FR-PROC-010'],

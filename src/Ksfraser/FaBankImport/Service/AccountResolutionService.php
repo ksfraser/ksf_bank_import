@@ -89,12 +89,47 @@ class AccountResolutionService
      * The bank accounts the user can map an identifier to.
      *
      * @return array<int, array{id: int, number: string, name: string}> The bank accounts
-
           * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function availableBankAccounts(): array
     {
         return $this->accounts->listBankAccounts();
+    }
+
+    /**
+     * The detected account identifiers that do NOT match the bank account
+     * the user selected in the upload form.
+     *
+     * Used to warn the user that the file reports a different account than
+     * the FA bank account they picked, so a wrong selection can be corrected
+     * before the import continues (FR-001, FR-002).
+     *
+     * @param array<int, array<int|string, object>> $multistatements      The parsed statements
+     * @param string                                $selectedAccountNumber The bank account number the user selected
+     * @return array<int, string> The detected identifiers that differ from the selection
+     * @since 20261114
+     * @BABOK FR-001, FR-002 | BR-ACCT-001 | UAT-ACCT-001
+     */
+    public function collectSelectionMismatches(array $multistatements, string $selectedAccountNumber): array
+    {
+        $mismatches = [];
+
+        foreach ($this->mapping->collectDetectedAccountsByFile($multistatements) as $detectedList) {
+            foreach ($detectedList as $detected) {
+                $detected = trim((string) $detected);
+                if ($detected === '') {
+                    continue;
+                }
+                if (strcasecmp($detected, $selectedAccountNumber) === 0) {
+                    continue;
+                }
+                if (!in_array($detected, $mismatches, true)) {
+                    $mismatches[] = $detected;
+                }
+            }
+        }
+
+        return $mismatches;
     }
 
     /**

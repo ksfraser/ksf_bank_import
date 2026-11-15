@@ -71,6 +71,18 @@ if (!function_exists('code_units')) {
             if (in_array($t['id'], $modifiers, true)) {
                 continue; // modifiers sit between the docblock and the declaration
             }
+            if (defined('T_ATTRIBUTE') && $t['id'] === T_ATTRIBUTE) {
+                // The body of an attribute (e.g. #[\ReturnTypeWillChange]) also
+                // sits between the docblock and the declaration; skip it whole
+                // without clearing the pending docblock.
+                for ($j = $i + 1; $j < $count; $j++) {
+                    if ($tokens[$j]['id'] === null && $tokens[$j]['text'] === ']') {
+                        $i = $j;
+                        break;
+                    }
+                }
+                continue;
+            }
             if ($t['id'] === T_NAMESPACE) {
                 $namespace = '';
                 for ($j = $i + 1; $j < $count; $j++) {

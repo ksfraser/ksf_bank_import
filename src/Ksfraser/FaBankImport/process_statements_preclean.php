@@ -803,6 +803,11 @@ if (1) {
 	{
 		$trzs = $bit->get_transactions();
 	}
+	//get_transactions returns a PaginatedTransactionResult; legacy loop wants the grouped array
+	if( $trzs instanceof \Ksfraser\FaBankImport\Results\PaginatedTransactionResult )
+	{
+		$trzs = $trzs->transactions;
+	}
 	
 /*************************************************************************************************************/
 	start_table(TABLESTYLE, "width='100%'");

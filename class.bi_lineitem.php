@@ -175,6 +175,8 @@ class bi_lineitem extends generic_fa_interface_model
 	protected $partnerDetailId;	//!<int		//Used for Customer Branch
 	protected $oplabel;
 	protected $matching_trans = array();	//!<array was arr_arr
+	protected $paired_transactions = array();	//!<array Bank transfer pair candidates found by findPaired()
+	protected $paired_checked = false;	//!<bool findPaired() has been run
 	protected $days_spread;
 	protected $transactionCode;     //| varchar(32)  | YES  |     | NULL    |		|
 	protected $transactionCodeDesc; //| varchar(32)  | YES  |     | NULL    |		|
@@ -308,8 +310,16 @@ class bi_lineitem extends generic_fa_interface_model
 		$fragment = new HtmlFragment();
 		$fragment->addChild($leftTd);
 		$fragment->addChild($rightTd);
-		
+
 		$tr = new HtmlTableRow($fragment);
+
+		// Highlight both sides of a detected bank transfer pair (FR-PROC-012)
+		if( $this->isPaired() )
+		{
+			$tr->addAttribute(new HtmlAttribute('class', 'bi_paired_row'));
+			$tr->addAttribute(new HtmlAttribute('style', 'background-color: #fff3cd;'));
+			$tr->addAttribute(new HtmlAttribute('title', _("Bank transfer pair")));
+		}
 		
 		// Recursively renders: <tr><td>LEFT</td><td>RIGHT</td></tr>
 		return $tr->getHtml();
@@ -540,37 +550,103 @@ class bi_lineitem extends generic_fa_interface_model
 	/**//**************************************************************
 	* Display our paired transaction
 	*
+	* Shows the counterpart row details (account, date, DC, amount) for
+	* the first detected pair.  Called from getLeftTd()'s content when
+	* ->isPaired() is true.
+	*
 	*******************************************************************/
 	function displayPaired()
 	{
+		$paired = $this->getPairedTransactions();
+		if( empty( $paired ) )
+		{
+			return;
+		}
+		$trans = $paired[0];
+		$info = sprintf(
+			"#%s %s %s %s (%.2f) - %s",
+			isset( $trans['id'] ) ? $trans['id'] : '?',
+			isset( $trans['transactionDC'] ) ? $trans['transactionDC'] : '?',
+			isset( $trans['valueTimestamp'] ) ? $trans['valueTimestamp'] : '?',
+			isset( $trans['our_account'] ) ? $trans['our_account'] : '?',
+			isset( $trans['transactionAmount'] ) ? (float)$trans['transactionAmount'] : 0.0,
+			isset( $trans['transactionTitle'] ) ? $trans['transactionTitle'] : ''
+		);
+		$labelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow(
+			new \Ksfraser\HTML\Elements\HtmlString(_("Paired transaction:")),
+			new \Ksfraser\HTML\Elements\HtmlString($info)
+		);
+		$labelRow->toHtml();
 	}
 	/**//***************************************************************
 	* Find paired transactions i.e. bank transfers from one account to another
 	* such as Savings <> HISA or CC payments
 	*
-	*	Because of the extra processing time, this function needs to be run
-	*	as a maintenance activity rather than as a real time search.
+	*	A pair is: same absolute amount, opposing DC (debit/credit),
+	*	different bank account, still unprocessed (status 0), within the
+	*	+2 day intra-bank transfer window.
 	*
+	*	Since we are only doing a +2 days and not -2, we only find the
+	*	FIRST of a paired set of transactions when called on the first
+	*	side.  The second side of the pair has no future partner.
+	*
+	*	Sets ->paired_transactions / ->paired_checked so ->isPaired()
+	*	doesn't have to re-query.
+	*
+	*	@returns array of paired transaction rows (empty if none found)
 	*********************************************************************/
 	function findPaired()
 	{
+		// Pair detection runs at display time inside FA. Outside FA (unit tests)
+		// the FA date/db helpers are absent, so degrade to "no pairs" rather
+		// than fatal on the missing FA functions.
+		if( ! function_exists( 'date2sql' ) || ! function_exists( 'add_days' ) )
+		{
+			return array();
+		}
 		require_once( 'class.bi_transactions.php' );
 		$bi_t = new bi_transactions_model();
-		//Since we are only doing a +2 days and not -2, we should only find the first of a paired set of transactions
-		$trzs = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, 2 ), $this->amount, null );	//This will be matching dollar amounts within 2 days.  
-		$count = 0;
-		foreach( $trzs as $trans )
+		//Only status 0 (unprocessed) transactions within the +2 day window.  The amount filter
+		//parameter of get_transactions is not applied in SQL (legacy parity), so match amounts in PHP.
+		$result = $bi_t->get_transactions( 0, $this->valueTimestamp, add_days( $this->valueTimestamp, 2 ), $this->amount, null );	//Matching dollar amounts within 2 days.
+		$paired = array();
+		$transactions = ( $result instanceof \Ksfraser\FaBankImport\Results\PaginatedTransactionResult )
+			? $result->transactions
+			: $result;
+		foreach( $transactions as $trz_code => $trz_data )
 		{
-			if( ! strcmp( trim( $trans['our_account'] ) , trim( $this->our_account ) ) )
+			if( ! is_array( $trz_data ) )
 			{
-				continue;	//Can't match within same bank account
-			} 
-			if( ! strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) )
+				continue;
+			}
+			foreach( $trz_data as $trans )
 			{
-				continue;	//Paired transactions will have opposing DC values.
-			} 
-			
+				if( isset( $trans['id'] ) && isset( $this->id ) && (int)$trans['id'] === (int)$this->id )
+				{
+					continue;	//Don't pair with ourselves
+				}
+				if( ! isset( $trans['our_account'] ) || strcmp( trim( $trans['our_account'] ) , trim( $this->our_account ) ) === 0 )
+				{
+					continue;	//Can't match within same bank account
+				}
+				if( ! isset( $trans['transactionDC'] ) || strcmp( trim( $trans['transactionDC'] ) , trim( $this->transactionDC ) ) === 0 )
+				{
+					continue;	//Paired transactions will have opposing DC values.
+				}
+				if( ! isset( $trans['transactionAmount'] ) || abs( abs( (float)$trans['transactionAmount'] ) - abs( (float)$this->amount ) ) > 0.005 )
+				{
+					continue;	//Amounts must match (same absolute value, within rounding)
+				}
+				if( isset( $trans['status'] ) && (int)$trans['status'] !== 0 )
+				{
+					continue;	//The paired transaction should also still be unprocessed
+				}
+				$paired[] = $trans;
+			}
 		}
+		$this->paired_transactions = $paired;
+		$this->paired_checked = true;
+		return $paired;
 	}
 	/**//***************************************************************
 	* Check if the transaction has a pair.
@@ -583,7 +659,25 @@ class bi_lineitem extends generic_fa_interface_model
 	*********************************************************************/
 	function isPaired()
 	{
-		return false;
+		if( ! isset( $this->paired_checked ) || ! $this->paired_checked )
+		{
+			$this->findPaired();
+		}
+		return ! empty( $this->paired_transactions );
+	}
+	/**//***************************************************************
+	* Get the transaction rows paired with this one (bank transfer pair).
+	* Runs ->findPaired() first if it hasn't been run yet.
+	*
+	* @returns array of paired transaction rows
+	*********************************************************************/
+	function getPairedTransactions()
+	{
+		if( ! isset( $this->paired_checked ) || ! $this->paired_checked )
+		{
+			$this->findPaired();
+		}
+		return $this->paired_transactions;
 	}
 	/**//***************************************************************
 	* Find any transactions that alraedy exist that look like this one
@@ -1141,12 +1235,28 @@ class bi_lineitem extends generic_fa_interface_model
 					$cids = array();
 				}
 				$cids = implode(',', $cids);
-				
+
 				// Use HtmlHidden instead of hidden() function
 				$hiddenInput = new \Ksfraser\HTML\Elements\HtmlHidden("cids[$this->id]", $cids);
 				$hiddenInput->toHtml();
-				
+
 				$this->displayMatchingTransArr();
+
+				// Paired bank transfer: offer one-shot "Process Both Sides"
+				// instead of creating the BT then running a Match (FR-PROC-012)
+				if( $this->isPaired() )
+				{
+					$pairedInfo = new \Ksfraser\HTML\Elements\HtmlString(
+						_("Bank transfer pair detected. Processing will record both sides of the transfer.")
+					);
+					$pairedLabelRow = new \Ksfraser\HTML\Composites\HtmlLabelRow(
+						new \Ksfraser\HTML\Elements\HtmlString(_("Paired Transfer:")),
+						$pairedInfo
+					);
+					$pairedLabelRow->toHtml();
+
+					(new \Ksfraser\FaBankImport\Views\ProcessBothSidesButtonRow((int)$this->id))->toHtml();
+				}
 			}
 		}))->getHtml();
 		

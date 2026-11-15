@@ -138,6 +138,11 @@ if ($use_popup_windows)
 	$js .= get_js_open_window(900, 500);
 if ($use_date_picker)
 	$js .= get_js_date_picker();
+// Ensure select changes submit the full form while preserving pagination state
+// preserveSubmit(sel) will ensure a hidden input named 'current_page' exists
+// so that select-triggered submits (partnerType etc.) do not reset the page to 1.
+// (Ported from prod-bank-import-2025 hotfix f624467 — dropped by the refactor merge)
+$js .= "<script>function preserveSubmit(sel){try{var f=sel.form; if(!f) return; var cp = f.querySelector('input[name=\'current_page\']'); if(!cp){cp=document.createElement('input'); cp.type='hidden'; cp.name='current_page'; cp.value='" . (isset($_POST['current_page']) ? (int)$_POST['current_page'] : 1) . "'; f.appendChild(cp);} f.submit();}catch(e){console && console.error(e);} }</script>";
 
 page(_($help_context = "Bank Transactions"), @$_GET['popup'], false, "", $js);
 
@@ -464,6 +469,10 @@ if (1) {
 	$headertable = new ksf_modules_table_filter_by_date();
 	$headertable->bank_import_header();
 
+	// Maintain pagination state across form submission
+	hidden('current_page', isset($_POST['current_page']) ? (int)$_POST['current_page'] : 1);
+	hidden('page_size', isset($_POST['page_size']) ? (int)$_POST['page_size'] : 10);
+
 	//if (!@$_GET['popup'])
 	//	end_form();
 
@@ -474,7 +483,7 @@ if (1) {
 	//------------------------------------------------------------------------------------------------
 	// this is data display table
 	$trzs = array();
-	
+
 	// Load vendor list from singleton manager (session-cached)
 	if (!class_exists('\KsfBankImport\VendorListManager')) {
 		require_once(__DIR__ . '/VendorListManager.php');
@@ -485,52 +494,79 @@ if (1) {
 
 	require_once(__DIR__ . '/class.bi_transactions.php');
 	$bit = new bi_transactions_model();
+
+/*20260406 (ported from prod-bank-import-2025) */
+	// Initialize pagination parameters
+	// Handle button-based navigation with instance detection (1=top, 2=bottom)
+	$current_page = 1;
+	$detected_instance = null;
+
+	// Check which pagination instance was submitted
+	for ($i = 1; $i <= 2; $i++) {
+		if (isset($_POST['page_nav_action_' . $i])) {
+			$detected_instance = $i;
+			break;
+		}
+	}
+
+	// Process pagination if an action was submitted
+	if ($detected_instance !== null) {
+		$action = $_POST['page_nav_action_' . $detected_instance];
+		$last_page = isset($_POST['current_page_display_' . $detected_instance]) ? (int)$_POST['current_page_display_' . $detected_instance] : 1;
+
+		if ($action === 'previous' && $last_page > 1) {
+			$current_page = $last_page - 1;
+		} elseif ($action === 'next') {
+			$current_page = $last_page + 1;
+		} elseif ($action === 'go') {
+			// For 'go' action, use user-entered page number
+			$goto_field = 'goto_page_' . $detected_instance;
+			if (isset($_POST[$goto_field]) && !empty($_POST[$goto_field])) {
+				$goto_page = (int)$_POST[$goto_field];
+				$current_page = max(1, min($goto_page, 999)); // Ensure valid page number
+			} else {
+				$current_page = $last_page;
+			}
+		} else {
+			$current_page = $last_page;
+		}
+	}
+
+	// Ensure current_page is always valid (minimum 1)
+	$current_page = max(1, $current_page);
+	$_POST['current_page'] = $current_page;
+
+	$page_size = isset($_POST['page_size']) && (int)$_POST['page_size'] > 0 ? (int)$_POST['page_size'] : 10;
+	$_POST['page_size'] = $page_size;
+	$offset = ($current_page - 1) * $page_size;
+	$limit_page = $page_size;
+/* */
+
+	// Get transactions with pagination
 	if( $_POST['statusFilter'] == 0 OR $_POST['statusFilter'] == 1 )
 	{
-		$trzs = $bit->get_transactions( $_POST['statusFilter'] );
+		$result = $bit->get_transactions( $_POST['statusFilter'], null, null, null, null, null, null, $offset, $limit_page );
 	}
 	else
 	{
-		$trzs = $bit->get_transactions();
+		$result = $bit->get_transactions( null, null, null, null, null, null, null, $offset, $limit_page );
 	}
-	
-/*************************************************************************************************************/
-	start_table(TABLESTYLE, "width='100%'");
-	table_header(array("Transaction Details", "Operation/Status"));
 
-	//load data
-	
-	//This foreach loop should probably be rolled up into the WHILE loop above.
-	foreach($trzs as $trz_code => $trz_data) 
-	{
-		//try to match something, interpreting saved info if status=TR_SETTLED
-		//$minfo = doMatching($myrow, $coyBankAccounts, $custBankAccounts, $suppBankAccounts);
-	/*
-	*	//now group data from tranzaction
-	*	$tid = 0;
-	*	$cids = array();
-	*
-	*	//bring trans details
-	*	$has_trz = 0;
-	*	$amount = 0;
-	*	$charge = 0;
-	*/
-	
-		require_once(__DIR__ . '/class.bi_lineitem.php');
-		foreach($trz_data as $idx => $trz) 
-		{
-			//LOGIC ERROR?
-				//We are handling line items, but then ->display out of the loop?
-				//I assume this is for lines with charges, etc which could be in the MT940 format but not QFX and therefore I'm not seeing  an issue?
-			$bi_lineitem = new bi_lineitem( $trz, $vendor_list, $optypes );
-		}	//foreach trz_data
-	/*
-	*	//cids is an empty array at this point.
-	*	$cids = implode(',', $cids);
-	*/
-		$bi_lineitem->display();
-	} //Foreach
-	end_table();
+	// Extract transactions and pagination metadata from result
+	$trzs = $result->transactions;
+	$pagination = array(
+		'total_count' => $result->total_count,
+		'current_page' => $result->current_page,
+		'total_pages' => $result->total_pages,
+		'page_size' => $limit_page,
+		'limit' => $limit_page,
+		'offset' => $result->offset
+	);
+
+	// Render using ProcessStatementsView (filter + top pagination + transactions + bottom pagination)
+	$view = new \Ksfraser\FaBankImport\Views\ProcessStatementsView($trzs, $optypes, $vendor_list);
+	$view->setPaginationData($pagination);
+	echo $view->render();
 /*************************************************************************************************************/
 }
 

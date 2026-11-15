@@ -9,8 +9,12 @@ namespace Ksfraser\FaBankImport\Results;
  *
  * Value Object representing a paginated set of transactions with metadata
  * Provides type safety and validation at construction time
+ *
+ * Implements IteratorAggregate/Countable so legacy consumers that treated
+ * get_transactions()'s return value as the grouped transactions array keep
+ * working (foreach/iteration proxies to ->transactions).
  */
-class PaginatedTransactionResult
+class PaginatedTransactionResult implements \IteratorAggregate, \Countable
 {
 	/**
 	 * @var array The transactions keyed by transactionCode
@@ -114,5 +118,29 @@ class PaginatedTransactionResult
 	public function hasPreviousPage(): bool
 	{
 		return $this->current_page > 1;
+	}
+
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+	 * Iterate over the grouped transactions (legacy array-compat).
+	 *
+	 * @return \ArrayIterator
+	 */
+	#[\ReturnTypeWillChange]
+	public function getIterator()
+	{
+		return new \ArrayIterator($this->transactions);
+	}
+
+	/**
+ * @BABOK FR-PROC-001, FR-PROC-010 | BR-PROC-001 | UAT-PROC-001
+	 * Count of transaction codes in the current page (legacy count() compat).
+	 *
+	 * @return int
+	 */
+	#[\ReturnTypeWillChange]
+	public function count()
+	{
+		return count($this->transactions);
 	}
 }
