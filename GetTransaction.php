@@ -10,6 +10,8 @@ $path_to_root = "../..";
 require_once( __DIR__ . '/../ksf_modules_common/defines.inc.php' );
 require_once( 'class.bi_transactions.php' );
 
+use Ksfraser\FaBankImport\Integration\BiLineItemIntegration;
+
 class GetTransaction extends bi_transactions_model  {
 /** Inherits
 *	var $id_bi_transactions_model;	//!< Index of table
@@ -122,10 +124,21 @@ class GetTransaction extends bi_transactions_model  {
 	* @param int index
 	* @param bool should we set the internal variables.  Since this is new, defaulting to legacy behaviour
 	* @returns array transaction row from db
+	* 
+	* INTEGRATION: Uses BiLineItemIntegration bridge for all transaction access
 	***************************************************************************/
 	function get_transaction( $tid = null, $bSetInternal = true ) 
 	{
-		return parent::get_transaction( $tid, true );
+		// Use new architecture via integration bridge
+		$integration = BiLineItemIntegration::getInstance();
+		$transaction = $integration->getLineItemById($tid);
+		
+		if (!$transaction) {
+			// Fallback to legacy for backward compatibility
+			return parent::get_transaction( $tid, true );
+		}
+		
+		return $transaction;
 	}
 	//function trz2obj( $trz )
 	//function get_normal_pairing( $account = null) 

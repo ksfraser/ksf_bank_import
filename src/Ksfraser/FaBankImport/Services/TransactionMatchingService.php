@@ -34,7 +34,7 @@ class TransactionMatchingService
     private const MIN_CONFIDENCE_FOR_AUTO_MATCH = 75.0;
 
     /** * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
-* @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004, FR-PROC-012 | BR-VAL-004 | UAT-VAL-006
 */
     public function __construct(private readonly KeywordMatchingService $matchingService)
     {

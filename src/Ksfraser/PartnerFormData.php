@@ -45,12 +45,12 @@ class PartnerFormData
     /**
      * @var int The line item ID
      */
-    private int $lineItemId;
+    private $lineItemId;
 
     /**
      * @var FormFieldNameGenerator Field name generator
      */
-    private FormFieldNameGenerator $fieldGenerator;
+    private $fieldGenerator;
 
     /**
      * Constructor

@@ -278,7 +278,7 @@ class SimpleContainer
             
             try {
                 $dependencies[] = $this->make($className);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 if ($parameter->isOptional()) {
                     $dependencies[] = null;
                 } else {

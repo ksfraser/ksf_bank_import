@@ -19,6 +19,7 @@ include_once($path_to_root . "/includes/ui.inc");
 include_once($path_to_root . "/modules/bank_import/includes/banking.php");
 include_once($path_to_root . "/modules/bank_import/includes/parsers.inc");
 require_once 'includes/qfx_parser.php';
+require_once __DIR__ . '/src/Ksfraser/FaBankImport/Support/ExceptionDisplayNotifier.php';
 
 // Emergency error handler for blank screen debugging
 register_shutdown_function(function() {
@@ -126,7 +127,7 @@ function importStatement($smt, $file_id = null)
 		try {
 			$uploadService = FileUploadService::create();
 			$uploadService->linkToStatements($file_id, array($smt_id));
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			display_error("Failed to link file to statement: " . $e->getMessage());
 		}
 	}
@@ -151,13 +152,13 @@ function importStatement($smt, $file_id = null)
 /**
 				$bit = new BiTransactions();
 */
-			} catch( Exception $e )
+			} catch( \Throwable $e )
 			{
 				display_error( __FILE__ . "::" . __LINE__ . print_r( $e, true ) );
 			}
-		} catch( Exception $e )
+		} catch( \Throwable $e )
 		{
-			display_notification( __FILE__ . "::" . __LINE__ . " " . print_r( $e, true ) );
+			\Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'import transaction init');
 		}
 		$bit->trz2obj( $t );
 		$bit->set( "smt_id", $smt_id );
@@ -373,7 +374,7 @@ function parse_uploaded_files() {
     	        continue;
     	    }
     	    
-    	} catch (\Exception $e) {
+	    } catch (\Throwable $e) {
     	    display_error("Failed to upload file '$fname': " . $e->getMessage());
     	    display_error(__FILE__ . "::" . __LINE__ . " Stack trace: " . $e->getTraceAsString());
     	    $smt_err++;
@@ -402,14 +403,14 @@ function parse_uploaded_files() {
             $statements = $parser->parse($content, $static_data, $debug=true);
             file_put_contents($debug_log, "Parse SUCCESS! Statements: " . count($statements) . "\n", FILE_APPEND);
             display_notification( __FILE__ . "::" . __LINE__ . "  Parse complete! Statement count: " . count($statements) );
-        } catch (\Exception $e) {
+		} catch (\Throwable $e) {
             file_put_contents($debug_log, "EXCEPTION: " . $e->getMessage() . "\n", FILE_APPEND);
             file_put_contents($debug_log, "File: " . $e->getFile() . ":" . $e->getLine() . "\n", FILE_APPEND);
             display_error( __FILE__ . "::" . __LINE__ . "  PARSE EXCEPTION: " . $e->getMessage());
             display_error( __FILE__ . "::" . __LINE__ . "  Stack trace: " . $e->getTraceAsString());
             $smt_err++;
             $statements = array();  // Empty array to avoid further errors
-        } catch (\Error $e) {
+		} catch (\Error $e) {
             file_put_contents($debug_log, "ERROR (Fatal): " . $e->getMessage() . "\n", FILE_APPEND);
             file_put_contents($debug_log, "File: " . $e->getFile() . ":" . $e->getLine() . "\n", FILE_APPEND);
             display_error( __FILE__ . "::" . __LINE__ . "  PARSE ERROR (Fatal): " . $e->getMessage());

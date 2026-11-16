@@ -21,7 +21,7 @@ use Ksfraser\FaBankImport\Contracts\BankAccountDirectoryInterface;
  * @package Ksfraser\FaBankImport\Service
  * @since 20260822
 
-  * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
  */
 class AccountResolutionService
 {
@@ -35,7 +35,7 @@ class AccountResolutionService
      * @param StatementAccountMappingService    $mapping  Detects and applies the account mapping
      * @param BankAccountDirectoryInterface     $accounts The existing bank accounts (read only)
 
-          * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function __construct(
         StatementAccountMappingService $mapping,
@@ -55,7 +55,7 @@ class AccountResolutionService
      * @param array<string, string>                 $resolvedMap     Detected => bank account number
      * @return array<string, array<int, int>> Detected identifier => the file indexes it was found in
 
-          * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function collectUnresolved(array $multistatements, array $resolvedMap = []): array
     {
@@ -89,7 +89,7 @@ class AccountResolutionService
      * The bank accounts the user can map an identifier to.
      *
      * @return array<int, array{id: int, number: string, name: string}> The bank accounts
-          * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function availableBankAccounts(): array
     {
@@ -108,7 +108,7 @@ class AccountResolutionService
      * @param string                                $selectedAccountNumber The bank account number the user selected
      * @return array<int, string> The detected identifiers that differ from the selection
      * @since 20261114
-     * @BABOK FR-001, FR-002 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function collectSelectionMismatches(array $multistatements, string $selectedAccountNumber): array
     {
@@ -142,7 +142,7 @@ class AccountResolutionService
      * @param array<string, string>                 $savedMap         Detected => bank account number
      * @return array<int, array<int|string, object>> The statements with the saved mapping applied
 
-          * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function applySavedAssociations(array $multistatements, array $savedMap): array
     {
@@ -160,7 +160,7 @@ class AccountResolutionService
      * @param array<string, string>                 $detectedToTargetNumber Detected => bank account number
      * @return array<int, array<int|string, object>> The statements with the mapping applied
 
-          * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function applyResolution(array $multistatements, array $detectedToTargetNumber): array
     {
@@ -177,7 +177,7 @@ class AccountResolutionService
      * @param array<int, bool>                     $skippedFiles   The files the duplicate review skipped
      * @return array<int, array<int|string, object>> The statements of the files that are imported
 
-          * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function statementsAfterDuplicateReview(array $multistatements, array $skippedFiles = []): array
     {

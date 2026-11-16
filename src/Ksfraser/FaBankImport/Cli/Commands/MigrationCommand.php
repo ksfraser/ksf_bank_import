@@ -68,7 +68,7 @@ final class MigrationCommand implements Command
             );
 
             $this->runner = new MigrationRunner($this->pdo);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new \RuntimeException("Failed to initialize database: " . $e->getMessage());
         }
     }
@@ -146,7 +146,7 @@ final class MigrationCommand implements Command
 
             $this->logger->info("Migrations executed", ['count' => count($executed)]);
             return 0;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->outputError("Failed to run migrations: " . $e->getMessage());
             $this->logger->error("Migration execution failed", ['error' => $e->getMessage()]);
             return 1;
@@ -182,7 +182,7 @@ final class MigrationCommand implements Command
 
             $this->logger->info("Migrations rolled back", ['count' => count($rolledBack)]);
             return 0;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->outputError("Rollback failed: " . $e->getMessage());
             $this->logger->error("Migration rollback failed", ['error' => $e->getMessage()]);
             return 1;
@@ -242,7 +242,7 @@ final class MigrationCommand implements Command
 
             $this->outputInfo(str_repeat("-", 50) . "\n");
             return 0;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->outputError("Failed to get migration status: " . $e->getMessage());
             return 1;
         }
@@ -290,7 +290,7 @@ final class MigrationCommand implements Command
             $this->outputSuccess("Applied " . count($executed) . " migration(s).\n");
             $this->logger->info("Database refreshed", ['migrations' => count($executed)]);
             return 0;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->outputError("Database refresh failed: " . $e->getMessage());
             $this->logger->error("Database refresh failed", ['error' => $e->getMessage()]);
             return 1;

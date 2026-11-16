@@ -2,6 +2,10 @@
 
 namespace Ksfraser\FaBankImport\Models;
 
+require_once __DIR__ . '/../Support/ExceptionDisplayNotifier.php';
+
+use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
+
 /**
  * @BABOK FR-VAL-004, FR-PROC-009 | BR-VAL-004 | UAT-VAL-006
 
@@ -79,9 +83,9 @@ class MatchingJEs
             try {
                 $new_arr = $fa_gl->find_matching_transactions( $this->bi_lineitem->memo );
                         //display_notification( __FILE__ . "::" . __LINE__ );
-            } catch( \Exception $e )
+            } catch (\Throwable $e)
             {
-                display_notification(  __FILE__ . "::" . __LINE__ . "::" . $e->getMessage() );
+                ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'find_matching_transactions');
             }
                         //display_notification( __FILE__ . "::" . __LINE__ );
         }

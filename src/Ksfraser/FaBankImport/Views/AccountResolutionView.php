@@ -20,7 +20,7 @@ namespace Ksfraser\FaBankImport\Views;
  * @package Ksfraser\FaBankImport\Views
  * @since 20261011
 
-  * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
  */
 class AccountResolutionView
 {
@@ -50,7 +50,7 @@ class AccountResolutionView
      * @param array<int, string>             $fileNames     File index => uploaded file name
      * @return void
 
-          * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function renderBlocking(array $unresolved, array $bankAccounts, array $fileNames): void
     {
@@ -99,7 +99,7 @@ class AccountResolutionView
      * @param string $detected The detected account id
      * @return string A 12 character key, stable for the same input
 
-          * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     public static function fieldKeyFor(string $detected): string
     {
@@ -112,7 +112,7 @@ class AccountResolutionView
      * @param array<int|string, mixed> $post The POST array
      * @return array<string, array{detected: string, selected: int, remember: bool}> The keyed decisions
 
-          * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     public static function collectSubmittedMapping(array $post): array
     {
@@ -140,7 +140,7 @@ class AccountResolutionView
      * @param array<int, string> $fileNames   File index => uploaded file name
      * @return string The label of the files
 
-          * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     private function labelForFiles(array $fileIndexes, array $fileNames): string
     {
@@ -159,7 +159,7 @@ class AccountResolutionView
      * @param array<int, array{id: int, number: string, name: string}> $bankAccounts The bank accounts
      * @return array<int, string> Bank account id => the option label
 
-          * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     private function optionsFor(array $bankAccounts): array
     {
@@ -179,7 +179,7 @@ class AccountResolutionView
      * @param array<int, string> $options   Bank account id => label
      * @return void
 
-          * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-002, FR-003, FR-005, FR-006 | BR-ACCT-001 | UAT-ACCT-001
      */
     private static function select(string $fieldName, array $options): void
     {

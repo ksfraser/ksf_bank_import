@@ -39,6 +39,8 @@ class hooks_bank_import extends hooks {
 				$path_to_root."/modules/".$this->module_name."/import_statements.php", 'SA_BANKACCOUNT', MENU_MAINTENANCE);
 			$app->add_lapp_function(3, _("Process Bank Statements"),
 				$path_to_root."/modules/".$this->module_name."/process_statements.php", 'SA_BANKACCOUNT', MENU_IMPORT);
+			$app->add_lapp_function(3, _("Reconcile CC Statement (PDF)"),
+				$path_to_root."/modules/".$this->module_name."/reconcile_statement.php", 'SA_BANKACCOUNT', MENU_IMPORT);
 			$app->add_lapp_function(3, _("Bank Statements Inquiry"),
 				$path_to_root."/modules/".$this->module_name."/view_statements.php", 'SA_BANKACCOUNT', MENU_INQUIRY);
 			$app->add_lapp_function(3, _("Manage Uploaded Files"),

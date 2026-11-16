@@ -22,7 +22,7 @@ namespace Ksfraser\FaBankImport\Service;
  * @package Ksfraser\FaBankImport\Service
  * @since 20260822
 
-  * @BABOK FR-008, FR-IMP-004, FR-IMP-007, FR-IMP-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-008, FR-IMP-004, FR-IMP-007, FR-IMP-008 | BR-ACCT-001 | UAT-ACCT-001
  */
 class ImportFlow
 {
@@ -46,7 +46,7 @@ class ImportFlow
      *
      * @return array<int, string> The steps in the order they run
 
-          * @BABOK FR-008, FR-IMP-004, FR-IMP-007, FR-IMP-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-008, FR-IMP-004, FR-IMP-007, FR-IMP-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function steps(): array
     {
@@ -59,7 +59,7 @@ class ImportFlow
      * @param string $step The step that has just run
      * @return string|null The next step, or null when the flow is finished
 
-          * @BABOK FR-008, FR-IMP-004, FR-IMP-007, FR-IMP-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-008, FR-IMP-004, FR-IMP-007, FR-IMP-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function nextStep(string $step): ?string
     {
@@ -77,7 +77,7 @@ class ImportFlow
      * @param string $step The step to check
      * @return bool True when the resolution belongs after the step
 
-          * @BABOK FR-008, FR-IMP-004, FR-IMP-007, FR-IMP-008 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-008, FR-IMP-004, FR-IMP-007, FR-IMP-008 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function runsAccountResolutionAfter(string $step): bool
     {

@@ -76,7 +76,7 @@ class AddCustomerCommand implements CommandInterface
                     'customer_id' => $customerId,
                     'name' => $transaction['counterpartyName'] ?? 'Unknown'
                 ];
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $errors[] = [
                     'transaction_id' => $transactionId,
                     'error' => $e->getMessage()

@@ -87,8 +87,8 @@ class UnsetTransactionCommand implements CommandInterface
                     'transaction_ids' => $transactionIds
                 ]
             );
-        } catch (\Exception $e) {
-            return TransactionResult::error(
+        } catch (\Throwable $e) {
+                return TransactionResult::error(
                 sprintf('Failed to unset transactions: %s', $e->getMessage()),
                 [
                     'attempted_count' => $count,

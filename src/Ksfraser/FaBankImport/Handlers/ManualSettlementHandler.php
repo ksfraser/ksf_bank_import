@@ -136,7 +136,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
         // Get counterparty information from the existing entry
         try {
             $counterpartyArr = get_trans_counterparty($existingEntry, $existingType);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Failed to get counterparty information: ' . $e->getMessage()
             );
@@ -153,7 +153,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
             update_transactions(
                 $transactionId,
                 $collectionIds,
-                1, // status = processed
+                self::STATUS_PROCESSED, // status = processed
                 $existingEntry,
                 $existingType,
                 true, // manual flag
@@ -161,7 +161,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
                 null,
                 ""
             );
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->createErrorResult(
                 'Failed to update transaction: ' . $e->getMessage()
             );
@@ -176,7 +176,7 @@ class ManualSettlementHandler extends AbstractTransactionHandler
             if (!empty($personType) && $personTypeId > 0) {
                 set_partner_data($personType, $existingType, $personTypeId, $memo);
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // Non-critical error, continue processing
             // Partner data update is optional
         }

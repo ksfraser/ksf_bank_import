@@ -20,6 +20,7 @@ namespace Ksfraser\FaBankImport\Handlers;
 
 use Exception;
 use Ksfraser\FaBankImport\Results\TransactionResult;
+use Ksfraser\FaBankImport\Services\CustomerInvoiceAllocator;
 use Ksfraser\PartnerTypes\PartnerTypeInterface;
 use Ksfraser\PartnerTypes\CustomerPartnerType;
 
@@ -152,6 +153,22 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
         
         // Calculate amount
         $amount = user_numeric($transaction['transactionAmount']);
+        $paymentDate = sql2date($transaction['valueTimestamp']);
+
+        // Resolve allocation strategy: explicit invoice first, else e-transfer heuristic.
+        $invoiceAllocations = [];
+        if (!empty($invoiceNo)) {
+            $invoiceAllocations[] = [
+                'invoice_no' => $invoiceNo,
+                'amount' => (float)$amount,
+            ];
+        } elseif ($this->isEtransferMemo($transaction)) {
+            $invoiceAllocations = $this->resolveCustomerInvoiceAllocations(
+                $partnerId,
+                (string)$paymentDate,
+                (float)$amount
+            );
+        }
         
         // Write customer payment
         $payment_id = my_write_customer_payment(
@@ -159,7 +176,7 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
             $partnerId,
             $branchId,
             $ourAccount['id'],
-            sql2date($transaction['valueTimestamp']),
+            $paymentDate,
             $reference,
             $amount,
             $discount = 0,
@@ -174,19 +191,28 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
             throw new Exception('Failed to create customer payment');
         }
         
-        // If invoice number provided, allocate payment against invoice
-        if ($invoiceNo) {
-            add_cust_allocation(
-                $amount,
-                ST_CUSTPAYMENT,
-                $payment_id,
-                ST_SALESINVOICE,
-                $invoiceNo,
-                $partnerId,
-                sql2date($transaction['valueTimestamp'])
-            );
-            
-            update_debtor_trans_allocation(ST_SALESINVOICE, $invoiceNo, $partnerId);
+        // Apply allocations: explicit invoice, or auto-selected for e-transfer memos.
+        if (!empty($invoiceAllocations)) {
+            foreach ($invoiceAllocations as $allocation) {
+                $allocInvoiceNo = $allocation['invoice_no'];
+                $allocAmount = (float)($allocation['amount'] ?? 0);
+                if (empty($allocInvoiceNo) || $allocAmount <= 0) {
+                    continue;
+                }
+
+                add_cust_allocation(
+                    $allocAmount,
+                    ST_CUSTPAYMENT,
+                    $payment_id,
+                    ST_SALESINVOICE,
+                    $allocInvoiceNo,
+                    $partnerId,
+                    $paymentDate
+                );
+
+                update_debtor_trans_allocation(ST_SALESINVOICE, $allocInvoiceNo, $partnerId);
+            }
+
             update_debtor_trans_allocation(ST_CUSTPAYMENT, $payment_id, $partnerId);
         }
         
@@ -208,10 +234,10 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
         update_partner_data($partnerId, PT_CUSTOMER, $branchId, $transaction['memo'] ?? '');
         update_partner_data($partnerId, $trans_type, $branchId, $transaction['memo'] ?? '');
         
-        $successMessage = $invoiceNo 
+        $successMessage = $invoiceNo
             ? "Customer Payment Processed and Allocated to Invoice {$invoiceNo}: {$payment_id}"
             : "Customer Payment Processed: {$payment_id}";
-        
+
         return $this->createSuccessResult(
             $payment_id,
             $trans_type,
@@ -223,5 +249,61 @@ class CustomerTransactionHandler extends AbstractTransactionHandler
                 'allocate_link' => $invoiceNo ? null : "../../sales/allocations/customer_allocate.php?trans_no={$payment_id}&trans_type={$trans_type}&debtor_no={$partnerId}"
             ]
         );
+    }
+
+    /**
+     * Detect e-transfer memos for the auto-allocation heuristic.
+     *
+     * @param array $transaction The parsed bank transaction
+     * @return bool True when the memo identifies an e-transfer
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
+     */
+    private function isEtransferMemo(array $transaction): bool
+    {
+        $memo = strtoupper((string)($transaction['memo'] ?? $transaction['transactionTitle'] ?? ''));
+        if ($memo === '') {
+            return false;
+        }
+
+        return strpos($memo, 'E-TRANSFER') !== false
+            || strpos($memo, 'ETRANSFER') !== false
+            || strpos($memo, 'INTERAC') !== false;
+    }
+
+    /**
+     * Load the customer's outstanding invoices and resolve auto allocations.
+     *
+     * @param int $partnerId The customer (debtor) id
+     * @param string $paymentDate The payment date (SQL format)
+     * @param float $paymentAmount The payment amount
+     * @return array<int,array{invoice_no:int,amount:float}> The resolved allocations
+ * @BABOK FR-PROC-005 | BR-PROC-001 | UAT-PROC-001
+     */
+    private function resolveCustomerInvoiceAllocations(int $partnerId, string $paymentDate, float $paymentAmount): array
+    {
+        $sql = "SELECT trans_no, tran_date, ov_amount, alloc
+                FROM " . TB_PREF . "debtor_trans
+                WHERE type = " . ST_SALESINVOICE . "
+                  AND debtor_no = " . db_escape($partnerId) . "
+                  AND tran_date <= " . db_escape($paymentDate) . "
+                ORDER BY tran_date DESC, trans_no DESC";
+
+        $result = db_query($sql, 'Could not load customer invoices for allocation');
+        $invoices = [];
+        while ($row = db_fetch_assoc($result)) {
+            $outstanding = (float)($row['ov_amount'] ?? 0) - (float)($row['alloc'] ?? 0);
+            if ($outstanding <= 0) {
+                continue;
+            }
+
+            $invoices[] = [
+                'invoice_no' => (int)($row['trans_no'] ?? 0),
+                'tran_date' => (string)($row['tran_date'] ?? ''),
+                'amount' => $outstanding,
+            ];
+        }
+
+        $allocator = new CustomerInvoiceAllocator();
+        return $allocator->resolveAllocations($invoices, $paymentAmount, $paymentDate);
     }
 }

@@ -1,0 +1,50 @@
+<?php
+/** @BABOK Referenced in RTM (FR-001 through FR-012, ARCH-001 through ARCH-010, BR-001 through BR-012) */
+/** @BABOK See docs/Requirements/ for module coverage tracking */
+
+namespace Tests\Unit\HTML;
+
+use PHPUnit\Framework\TestCase;
+use Ksfraser\HTML\Composites\HTML_ROW_LABELDecorator;
+
+/**
+ * @deprecated Target class is no longer module-owned under src/Ksfraser/HTML.
+ *             Kept only as historical package coverage outside the active suite.
+ */
+class HTML_ROW_LABELDecoratorTest extends TestCase
+{
+    private HTML_ROW_LABELDecorator $decorator;
+
+    protected function setUp(): void
+    {
+        $this->decorator = new HTML_ROW_LABELDecorator('test data', 'Test Label');
+    }
+
+    public function testGetHtmlDelegatesCorrectly(): void
+    {
+        $html = $this->decorator->getHtml();
+        $this->assertStringContainsString('Test Label', $html);
+        $this->assertStringContainsString('test data', $html);
+        $this->assertStringContainsString('width="25%"', $html); // Default width
+        $this->assertStringContainsString('class="label"', $html); // Default class
+    }
+
+    public function testToHtmlDelegatesCorrectly(): void
+    {
+        ob_start();
+        $this->decorator->toHtml();
+        $output = ob_get_clean();
+        
+        $this->assertStringContainsString('Test Label', $output);
+        $this->assertStringContainsString('test data', $output);
+    }
+
+    public function testCustomAttributesArePassed(): void
+    {
+        $decorator = new HTML_ROW_LABELDecorator('test data', 'Test Label', 40, 'custom-class');
+        $html = $decorator->getHtml();
+        
+        $this->assertStringContainsString('width="40%"', $html);
+        $this->assertStringContainsString('class="custom-class"', $html);
+    }
+}

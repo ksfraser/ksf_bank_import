@@ -96,30 +96,30 @@ class TransactionUpdater
         $_cids = array();  // No charges for bank transfers
         
         // Update FROM transaction (debit side)
-        update_transactions(
-            $transferData['from_trans_id'], 
-            $_cids, 
-            $status = 1,  // Processed
-            $result['trans_no'], 
-            $result['trans_type'], 
-            false,  // Not manual
-            true,   // Created new transaction
-            "BT",   // Bank Transfer
-            $transferData['to_account']  // Partner account
-        );
+            update_transactions(
+                $transferData['from_trans_id'], 
+                $_cids, 
+                $status = BI_STATUS_PROCESSED,
+                $result['trans_no'], 
+                $result['trans_type'], 
+                false,  // Not manual
+                true,   // Created new transaction
+                "BT",   // Bank Transfer
+                $transferData['to_account']  // Partner account
+            );
         
         // Update TO transaction (credit side)
-        update_transactions(
-            $transferData['to_trans_id'], 
-            $_cids, 
-            $status = 1,  // Processed
-            $result['trans_no'], 
-            $result['trans_type'], 
-            false,  // Not manual
-            true,   // Created new transaction
-            "BT",   // Bank Transfer
-            $transferData['from_account']  // Partner account
-        );
+            update_transactions(
+                $transferData['to_trans_id'], 
+                $_cids, 
+                $status = BI_STATUS_PROCESSED,
+                $result['trans_no'], 
+                $result['trans_type'], 
+                false,  // Not manual
+                true,   // Created new transaction
+                "BT",   // Bank Transfer
+                $transferData['from_account']  // Partner account
+            );
         
         // Update partner data for reporting
         set_bank_partner_data(

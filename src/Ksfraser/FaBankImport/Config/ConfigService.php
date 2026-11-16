@@ -16,7 +16,7 @@ use Ksfraser\FaBankImport\Repository\DatabaseConfigRepository;
  * @author Kevin Fraser
  * @since 2.0.0 - Refactored to use DI and Repository pattern
 
-  * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
  */
 class ConfigService
 {
@@ -30,7 +30,7 @@ class ConfigService
      * 
      * @param ConfigRepositoryInterface|null $repository Configuration repository (injected)
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     private function __construct(?ConfigRepositoryInterface $repository = null)
     {
@@ -45,7 +45,7 @@ class ConfigService
      * @deprecated Use dependency injection instead
      * @return self
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public static function getInstance(): self
     {
@@ -62,7 +62,7 @@ class ConfigService
      * @param ConfigRepositoryInterface $repository Custom repository
      * @return self New instance
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public static function create(ConfigRepositoryInterface $repository): self
     {
@@ -85,7 +85,7 @@ class ConfigService
      * $enabled = $config->get('upload.check_duplicates', false);
      * ```
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function get(string $key, $default = null)
     {
@@ -109,7 +109,7 @@ class ConfigService
      * $config->set('upload.check_duplicates', true, 'admin', 'Enable duplicate checking');
      * ```
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function set(string $key, $value, ?string $username = null, ?string $reason = null): bool
     {
@@ -123,7 +123,7 @@ class ConfigService
      * @param string $category Category name
      * @return array Configuration values
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getByCategory(string $category): array
     {
@@ -136,7 +136,7 @@ class ConfigService
      * 
      * @return array All configurations
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getAll(): array
     {
@@ -150,7 +150,7 @@ class ConfigService
      * @param string $key Configuration key
      * @return bool True if exists
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function has(string $key): bool
     {
@@ -165,7 +165,7 @@ class ConfigService
      * @param int $limit Number of records
      * @return array History records
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getHistory(?string $key = null, int $limit = 50): array
     {
@@ -178,7 +178,7 @@ class ConfigService
      * 
      * @return ConfigRepositoryInterface
 
-          * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
+ * @BABOK FR-005, FR-IMP-004, FR-LOG-006, FR-UPL-004 | BR-ACCT-003 | UAT-ACCT-003
      */
     public function getRepository(): ConfigRepositoryInterface
     {

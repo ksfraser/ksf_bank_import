@@ -131,10 +131,18 @@ class BankTransferPartnerTypeView
         
         // Build options
         foreach ($bankAccounts as $account) {
+<<<<<<<< HEAD:Views/legacy/BankTransferPartnerTypeView.v2.php
             // FA's 0_bank_accounts column is bank_account_name
             $option = new HtmlOption(
                 $account['id'],
                 $account['bank_account_name'] ?? ($account['name'] ?? '')
+========
+            // Support multiple key names for account name (bank_account_name, name, account_name, etc.)
+            $accountName = $account['bank_account_name'] ?? $account['name'] ?? $account['account_name'] ?? 'Unknown';
+            $option = new HtmlOption(
+                $account['id'], 
+                $accountName
+>>>>>>>> origin/hotfix/customer-match:Views/BankTransferPartnerTypeView.v2.php
             );
             
             if ($account['id'] == $selectedId) {

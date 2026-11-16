@@ -1,0 +1,92 @@
+Reconciliation Session (Ksfraser\FaBankImport\Tests\StatementReconcile\Domain\Entity\ReconciliationSession)
+ [x] Create pending defaults
+ [x] Add pair and remove from unmatched
+ [x] Add pair replaces existing for same line
+ [x] Remove pair moves line to unmatched
+ [x] Approve transitions status
+ [x] Double approve throws
+ [x] Add pair on approved session throws
+ [x] Remove pair on approved session throws
+ [x] From database
+ [x] To storage array
+
+Statement Ocr (Ksfraser\FaBankImport\Tests\StatementReconcile\Domain\Entity\StatementOcr)
+ [x] Create returns unpersisted entity
+ [x] Get lines
+ [x] Get lines by type
+ [x] Metadata is accessible
+ [x] To storage array has required keys
+ [x] From database
+
+Matched Pair (Ksfraser\FaBankImport\Tests\StatementReconcile\Domain\ValueObject\MatchedPair)
+ [x] Constructs successfully
+ [x] Is high confidence
+ [x] Rejects empty statement line id
+ [x] Rejects zero bank transaction id
+ [x] Rejects negative bank transaction id
+ [x] Rejects confidence above one
+ [x] Rejects negative confidence
+ [x] From array
+ [x] To array
+
+Statement Line (Ksfraser\FaBankImport\Tests\StatementReconcile\Domain\ValueObject\StatementLine)
+ [x] Constructs successfully
+ [x] Credit type
+ [x] Rejects empty line id
+ [x] Rejects invalid type
+ [x] Rejects negative amount
+ [x] Rejects non numeric amount
+ [x] From array successfully
+ [x] From array throws on invalid date
+ [x] From array throws on missing required key
+ [x] To array
+
+Statement Metadata (Ksfraser\FaBankImport\Tests\StatementReconcile\Domain\ValueObject\StatementMetadata)
+ [x] Constructs with all fields
+ [x] Nullable account identifier and due date
+ [x] Rejects end date before start
+ [x] Rejects non numeric opening balance
+ [x] Rejects non numeric closing balance
+ [x] Negative balances accepted
+ [x] From array successfully
+ [x] From array without optional fields
+ [x] From array throws on missing key
+ [x] To array
+
+Ollama Client (Ksfraser\FaBankImport\Tests\StatementReconcile\Infrastructure\Ocr\OllamaClient)
+ [ ] Generate returns decoded array
+ [ ] Api key adds bearer header
+ [ ] Rejects empty base url
+ [ ] Throws on http error
+ [ ] Throws on non 200 status
+ [ ] Throws on empty body
+ [ ] Throws on invalid json
+ [ ] Rejects empty model
+ [ ] Rejects empty prompt
+ [ ] Base url trailing slash normalised
+ [ ] Header injection in api key sanitised
+
+Pdf Text Extractor (Ksfraser\FaBankImport\Tests\StatementReconcile\Infrastructure\Ocr\PdfTextExtractor)
+ [ ] Extract text returns parsed text
+ [ ] Throws when file not found
+ [ ] Throws when parser fails
+ [ ] Is usable text returns true when long
+ [ ] Is usable text returns false when short
+
+Statement Text Parser (Ksfraser\FaBankImport\Tests\StatementReconcile\Infrastructure\Ocr\StatementTextParser)
+ [x] Parse returns statement ocr on valid input
+ [x] Parse throws when extraction missing required field
+ [x] Parse throws when extraction model returns empty response
+ [x] Parse with zero transactions still valid
+ [ ] Fallback to ocr model when text too short
+
+Simple Matching Engine (Ksfraser\FaBankImport\Tests\StatementReconcile\Matching\SimpleMatchingEngine)
+ [x] Exact amount and date match returns high confidence
+ [x] Different amount produces no match
+ [x] Same bank tx not matched twice
+ [x] Unmatched bank transactions reported
+ [x] Description similarity adds confidence
+ [x] Empty statement and bank produce empty session
+ [ ] Custom threshold blocks low confidence match
+ [x] Multiple lines match correctly
+

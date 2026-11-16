@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * DEPRECATED - ResponseHandler Symfony Integration Tests
+ * 
+ * This test file is deprecated and no longer maintained.
+ * 
+ * Reason for deprecation:
+ * - Requires Symfony\Component\HttpFoundation (not in composer.json)
+ * - ResponseHandler class uses Symfony HTTP components which are not a project dependency
+ * - This feature was experimental and is not part of the core functionality
+ * - Tests depend on external package not committed to composer.json
+ * 
+ * Status:
+ * ✗ Tests cannot run without installing symfony/http-foundation separately
+ * ✗ Not part of approved test suite (SupplierMatching, SupplierTransaction, StatementReconcile)
+ * 
+ * Restoration:
+ * If HTTP response handling via Symfony is needed:
+ * 1. Run: composer require symfony/http-foundation
+ * 2. Uncomment tests/unit/ResponseHandlerTest.php.deprecated
+ * 3. Verify tests pass
+ * 4. Update composer.json require-dev if making this permanent
+ * 
+ * Better Alternative:
+ * Consider using native PHP/FrontAccounting response mechanisms instead of Symfony.
+ * See tests/unit/ResponseHandlerTest.php.deprecated for original test code if needed.
+ */

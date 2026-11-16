@@ -15,7 +15,7 @@ namespace Ksfraser\FaBankImport\Contracts;
  * @package Ksfraser\FaBankImport\Contracts
  * @since 20260822
 
-  * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
  */
 interface BankAccountDirectoryInterface
 {
@@ -24,7 +24,7 @@ interface BankAccountDirectoryInterface
      *
      * @return array<int, array{id: int, number: string, name: string}> The bank accounts
 
-          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function listBankAccounts(): array;
 
@@ -34,7 +34,7 @@ interface BankAccountDirectoryInterface
      * @param string $number Bank account number.
      * @return bool True when the account exists.
 
-          * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
+ * @BABOK FR-003, FR-007 | BR-ACCT-001 | UAT-ACCT-001
      */
     public function accountNumberExists(string $number): bool;
 }

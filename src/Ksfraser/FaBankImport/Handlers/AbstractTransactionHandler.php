@@ -62,6 +62,8 @@ use Ksfraser\FaBankImport\Services\ReferenceNumberService;
  */
 abstract class AbstractTransactionHandler implements TransactionHandlerInterface
 {
+    protected const STATUS_PROCESSED = 1;
+
     /**
      * Partner type value object
      *

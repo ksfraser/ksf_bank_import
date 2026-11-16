@@ -2,12 +2,20 @@
 
 require_once( '../ksf_modules_common/class.origin.php' );
 require_once( 'class.bi_transaction.php' );
+require_once( __DIR__ . '/src/Ksfraser/FaBankImport/Support/ExceptionDisplayNotifier.php' );
 //require_once( 'class.bi_transactions.php' );
 
 use Ksfraser\FaBankImport\Handlers\AddVendor;
+use Ksfraser\FaBankImport\Services\CustomerInvoiceAllocator;
+use Ksfraser\FaBankImport\Support\ExceptionDisplayNotifier;
+use Ksfraser\Exceptions\InvalidDataValueException;
+use Ksfraser\Exceptions\VarNotSetException;
 
 class bank_import_controller extends origin
 {
+	private const STATUS_UNPROCESSED = 0;
+	private const STATUS_PROCESSED = 1;
+
 	protected $trz;	//!< transaction
 	protected $repository;	//!<object	bi_transactions
 	protected $our_account;
@@ -93,13 +101,16 @@ class bank_import_controller extends origin
 	*****************************************************/
 	function extractPost()
 	{
+		global $Ajax;
 		$bi_t = new bi_transaction();
 //20241208
 		$bPartnerIdSet = $bi_t->set( "extractPost",  $this->tid );	//Get details from _POST for this transaction
 		//check params
 		if( ! $bPartnerIdSet )
 		{
-			$Ajax->activate('doc_tbl');
+			if (isset($Ajax) && is_object($Ajax)) {
+				$Ajax->activate('doc_tbl');
+			}
 			display_error('missing partnerId');
 			return true;
 		}
@@ -122,16 +133,22 @@ class bank_import_controller extends origin
 	function getTransaction( $id )
 	{
 		$this->trz = GetTransaction::getTransaction( $id );
+		if (!is_array($this->trz)) {
+			$this->trz = array();
+			return $this->trz;
+		}
 		//$this->trz = $this->repository->get_transaction( $id, true );
 			//->trz is array
 			//->repository has values from this ID
 
 		//From processCustomer but should apply everywhere!
-		if( strlen( $this->trz['transactionTitle'] ) < 4 )
+		$transactionTitle = (string)($this->trz['transactionTitle'] ?? '');
+		$memo = (string)($this->trz['memo'] ?? '');
+		if( strlen( $transactionTitle ) < 4 )
 		{
-			if( strlen( $this->trz['memo'] ) > 0 )
+			if( strlen( $memo ) > 0 )
 			{
-				$this->trz['transactionTitle'] .= " : " . $this->trz['memo'];
+				$this->trz['transactionTitle'] = $transactionTitle . " : " . $memo;
 			}
 		}
 		//for backward compatibility
@@ -152,7 +169,7 @@ class bank_import_controller extends origin
 				//value is "Unset Transaction"
 				$cids = array();	//Need to figure out if there are related IDs being passed in too in the _POST
 				$this->repository->reset_transactions($key, $cids, 0, 0 );
-				display_notification( "Disassociated $unset from $id"  );
+				display_notification( "Disassociated transaction id $key"  );
 			}
 		}
 	}
@@ -184,9 +201,12 @@ class bank_import_controller extends origin
 			 		display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $repository, true )  );
 					//$sql =  $repository->hand_update_sql();
 					//db_query( $sql, "Couldn't toggle C/D for transaction" );
-				} catch (Exception $e )
+				} catch (InvalidDataValueException $e )
 				{
-			 		display_notification( __FILE__ . "::" . __LINE__ . "::" .  print_r( $e, true )  );
+					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'toggleDebitCredit validation');
+				} catch (\Throwable $e )
+				{
+					ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'toggleDebitCredit unexpected');
 				}
 				
 			}
@@ -275,7 +295,9 @@ class bank_import_controller extends origin
 		$chgs = array();
 		$charge = 0;
 		//display_notification("tid=$this->tid, cids=`".$_POST['cids'][$tid]."`");
-		$_cids = array_filter(explode(',', $_POST['cids'][$tid]));
+		$_cids = isset($_POST['cids'][$tid])
+			? array_filter(explode(',', $_POST['cids'][$tid]))
+			: array();
 		//display_notification("cids_array=".print_r($_cids,true));
 
 		foreach($_cids as $cid) {
@@ -336,6 +358,82 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 	update_partner_data( $this->partnerId, $this->partnerType, $partner_detail_id, $this->trz['account']);
 }
 
+/**//*********************************************************************************
+* Persist confirmed memo-type decision for e-transfer classification reuse
+*
+* @param int partner type (PT_SUPPLIER / PT_CUSTOMER)
+* @param int partner detail id (branch for customers, null for suppliers)
+* @returns none
+******************************************************************************************/
+function persist_memo_type_decision($partner_type, $partner_detail_id = ANY_NUMERIC)
+{
+	require_once('includes/pdata.inc');
+	$memo = '';
+	if (isset($this->trz['memo']) && strlen(trim((string)$this->trz['memo'])) > 0) {
+		$memo = (string)$this->trz['memo'];
+	} else if (isset($this->trz['transactionTitle'])) {
+		$memo = (string)$this->trz['transactionTitle'];
+	}
+
+	if (!$this->is_etransfer_memo($memo)) {
+		return;
+	}
+
+	$fingerprint = $this->extract_memo_fingerprint($memo);
+	if (strlen($fingerprint) === 0) {
+		return;
+	}
+
+	set_partner_data(
+		$this->partnerId,
+		$partner_type,
+		$partner_detail_id,
+		'MEMO_TYPE:' . $fingerprint
+	);
+}
+
+/**
+ * @param string $memo
+ * @return bool
+ */
+function is_etransfer_memo($memo)
+{
+	$memo_u = strtoupper((string)$memo);
+	return strpos($memo_u, 'E-TRANSFER') !== false
+		|| strpos($memo_u, 'ETRANSFER') !== false
+		|| strpos($memo_u, 'INTERAC') !== false;
+}
+
+/**
+ * @param string $memo
+ * @return string
+ */
+function extract_memo_fingerprint($memo)
+{
+	$memo_u = strtoupper(trim((string)$memo));
+	if (strlen($memo_u) === 0) {
+		return '';
+	}
+
+	$parts = array_values(array_filter(array_map('trim', explode(';', $memo_u)), function ($p) {
+		return strlen((string)$p) > 0;
+	}));
+
+	$seed = $memo_u;
+	if (count($parts) >= 2) {
+		$seed = $parts[1];
+	}
+
+	$clean = preg_replace('/[^A-Z0-9 ]+/', '', $seed);
+	$clean = preg_replace('/\s+/', ' ', trim((string)$clean));
+
+	if (strlen((string)$clean) > 48) {
+		$clean = substr((string)$clean, 0, 48);
+	}
+
+	return (string)$clean;
+}
+
 	/**//**********************************************************
 	* Create the CART class as needed by some routines
 	*
@@ -344,7 +442,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 	{
 		$this->cCart = new items_cart($this->transType);
 		$this->cCart->order_id = 0;
-		$this->cCart->original_amount = $this->trz['transactionAmount'] + $charge;
+		$this->cCart->original_amount = $this->trz['transactionAmount'] + $this->charge;
 		$reference = $this->getNewRef( $this->transType );
 		$this->cCart->tran_date = sql2date($this->trz['valueTimestamp']);
 		/** date of cart should be date of transaction
@@ -365,27 +463,27 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		if( !isset( $this->trz ) )
 		{
 				display_error( "->trz not set" );
-			throw new Exception( "->trz not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->trz not set");
 		}
 		if( !isset( $this->partnerId ) )
 		{
 				display_error( "->partnerId not set" );
-			throw new Exception( "->partnerId not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->partnerId not set");
 		}
 		if( !isset( $this->our_account ) )
 		{
 				display_error( "->our_account not set" );
-			throw new Exception( "->our_account not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->our_account not set");
 		}
 		if( !isset( $this->charge ) )
 		{
 				display_error( "->charge not set" );
-			throw new Exception( "->charge not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->charge not set");
 		}
 		if( !isset( $this->tid ) )
 		{
 				display_error( "->tid not set" );
-			throw new Exception( "->tid not set", KSF_VAR_NOT_SET );
+			throw new VarNotSetException("->tid not set");
 		}
 		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		$trans_no = 0;  //NEW.  A number would be an update - leads to voiding of a bunch of stuff and then redo-ing.
@@ -400,7 +498,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			if( !isset( $reference ) )
 			{
 				display_error( "Didn't acquire new Reference" );
-				throw new Exception( "Didn't acquire new Reference", KSF_VAR_NOT_SET );
+				throw new VarNotSetException("Didn't acquire new Reference");
 			}
 		//display_notification( __FILE__ . "::" . __LINE__ . "::" . __METHOD__);
 		
@@ -423,8 +521,9 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$counterparty_arr = get_trans_counterparty( $payment_id, $this->transType );
 				//display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 				/***/
-				$this->update_transactions($this->tid, $_cids, $status=1, $payment_id, $this->transType, false, true,  "SP", $this->partnerId );
+				$this->update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $payment_id, $this->transType, false, true,  "SP", $this->partnerId );
 				$this->update_partner_data( null );	//Suppliers don't have branches
+				$this->persist_memo_type_decision(PT_SUPPLIER, null);
 				display_notification('Supplier Payment Processed:' . $payment_id );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
 				//display_notification("<a target=_blank href='http://" . $_SERVER["HTTP_HOST"] . "/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
@@ -460,9 +559,6 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			$this->cCart->reference = $reference = $this->getNewRef( $this->transType );
 			//display_notification("Reference = $reference");
 
-			while (count($args) < 10) $args[] = 0;
-			$args = (object)array_combine( array( 'trans_no', 'supplier_id', 'bank_account', 'date_', 'ref', 'bank_amount', 'supp_amount', 'supp_discount', 'memo_', 'bank_charge'), $args);
-
 		/* */
 			//$supplier_accounts = get_supplier_accounts($this->partnerId);
 			$supplier_accounts = get_supplier($this->partnerId);  //Does this give us the dimensions?
@@ -496,7 +592,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			//	add_audit_trail
 			//	add_comments
 			//	../../gl/includes/db/gl_db_banking.inc
-			$payment_id = write_bank_transaction( $this->cCart->trans_type, $this->cCart->order_id, $our_account['id'], $this->cCart, sql2date( $this->trz['valueTimestamp'] ), $this->partnerType, $this->partnerId,
+			$payment_id = write_bank_transaction( $this->cCart->trans_type, $this->cCart->order_id, $this->our_account['id'], $this->cCart, sql2date( $this->trz['valueTimestamp'] ), $this->partnerType, $this->partnerId,
 								ANY_NUMERIC, $this->cCart->reference, $this->trz['transactionTitle'], true, number_format2(abs( $this->cCart->gl_items_total() ) ));
 
 			//update trans with payment_id details
@@ -507,8 +603,9 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 				$counterparty_arr = get_trans_counterparty( $payment_id, $this->transType );
 				display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 				/***/
-				$this->update_transactions($this->tid, $_cids, $status=1, $payment_id[1], $this->transType, false, true,  "SP", $this->partnerId );
+				$this->update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $payment_id[1], $this->transType, false, true,  "SP", $this->partnerId );
 				$this->update_partner_data( null );
+				$this->persist_memo_type_decision(PT_SUPPLIER, null);
 				display_notification('Supplier Refund Processed:' . print_r( $payment_id, true ) );
 				//While we COULD attach to a Supplier Payment, we don't see them in the P/L drill downs.  More valuable to attach to the related Supplier Invoice
 				//display_notification("<a target=_blank href='http://" . $_SERVER["HTTP_HOST"] . "/accounting/admin/attachments.php?filterType=" . ST_PAYMENT . "&trans_no=" . $payment_id . "'>Attach Document</a>" );
@@ -527,8 +624,15 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 	*************/
 	function processCustomerPayment()
 	{
+		$invoiceKey = "Invoice_{$this->tid}";
+		$paymentDate = sql2date($this->trz['valueTimestamp']);
+		$paymentAmount = user_numeric($this->trz['transactionAmount']);
+		$invoiceAllocations = array();
+		$_cids = isset($_POST['cids'][$this->tid])
+			? array_filter(explode(',', $_POST['cids'][$this->tid]))
+			: array();
 		display_notification( __FILE__ . "::" . __LINE__ . "Index passed in (processTransaction from post): " . $this->tid );
-		display_notification( __FILE__ . "::" . __LINE__ . "Invoice for this Index: " . $_POST['Invoice_$this->tid'] );
+		display_notification( __FILE__ . "::" . __LINE__ . "Invoice for this Index: " . ($_POST[$invoiceKey] ?? '') );
 		//20240211 Works.  Not sure why BANKDEPOSIT vice CUSTPAYMENT in original module.
 		//$this->transType = ST_BANKDEPOSIT;
 		$this->transType = ST_CUSTPAYMENT;
@@ -579,22 +683,86 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 			display_notification("Invoice Number and Deposit Number: $this->invoiceNo :: $deposit_id ");
 			if( $this->invoiceNo )
 			{
-				$counterparty_arr = get_trans_counterparty( $deposit_id, $this->transType );
-				display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-				$fcp = new fa_customer_payment( $this->partnerId );
-				$fcp->set( "trans_date", $valueTimestamp );
-				$fcp->set( "trans_type", $this->transType );
-				$fcp->set( "payment_id", $deposit_id );
-				$fcp->write_allocation();
+				$invoiceAllocations[] = array(
+					'invoice_no' => (int) $this->invoiceNo,
+					'amount' => $paymentAmount,
+				);
 			}
-			update_transactions($this->tid, $_cids, $status=1, $deposit_id, $this->transType, false, true,  "CU", $this->partnerId);
+			else if ($this->is_etransfer_memo((string)($this->trz['memo'] ?? $this->trz['transactionTitle'] ?? '')))
+			{
+				$invoiceAllocations = $this->resolveCustomerInvoiceAllocations($this->partnerId, $paymentDate, $paymentAmount);
+				if (!empty($invoiceAllocations)) {
+					$this->invoiceNo = implode(', ', array_map(function ($allocation) {
+						return (string) $allocation['invoice_no'];
+					}, $invoiceAllocations));
+				}
+			}
+			if (!empty($invoiceAllocations))
+			{
+				$this->applyCustomerInvoiceAllocations($deposit_id, $invoiceAllocations, $paymentDate);
+			}
+			update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $deposit_id, $this->transType, false, true,  "CU", $this->partnerId);
 			//We want to update fa_trans_type, fa_trans_no, account/accountName, status, matchinfo, matched/created, g_partner
 			update_partner_data($this->partnerId, $this->transType, $this->custBranch, $this->trz['memo']);
 			if( $this->transType !== PT_CUSTOMER )
 				update_partner_data($this->partnerId, PT_CUSTOMER, $this->custBranch, $this->trz['memo']);
-			display_notification('Customer Payment/Deposit processed');
+			$this->persist_memo_type_decision(PT_CUSTOMER, $this->custBranch);
+			display_notification(!empty($invoiceAllocations)
+				? 'Customer Payment/Deposit processed and auto-allocated'
+				: 'Customer Payment/Deposit processed');
 			display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $deposit_id . "'>View Entry</a>" );
 		}
+	}
+
+	private function resolveCustomerInvoiceAllocations($partnerId, $paymentDate, $paymentAmount)
+	{
+		$sql = "SELECT trans_no, tran_date, ov_amount, alloc
+				FROM " . TB_PREF . "debtor_trans
+				WHERE type = " . ST_SALESINVOICE . "
+				  AND debtor_no = " . db_escape($partnerId) . "
+				  AND tran_date <= " . db_escape($paymentDate) . "
+				ORDER BY tran_date DESC, trans_no DESC";
+
+		$result = db_query($sql, 'Could not load customer invoices for allocation');
+		$invoices = array();
+		while ($row = db_fetch_assoc($result)) {
+			$outstanding = (float)($row['ov_amount'] ?? 0) - (float)($row['alloc'] ?? 0);
+			if ($outstanding <= 0) {
+				continue;
+			}
+			$invoices[] = array(
+				'invoice_no' => (int)($row['trans_no'] ?? 0),
+				'tran_date' => (string)($row['tran_date'] ?? ''),
+				'amount' => $outstanding,
+			);
+		}
+
+		$allocator = new CustomerInvoiceAllocator();
+		return $allocator->resolveAllocations($invoices, (float)$paymentAmount, (string)$paymentDate);
+	}
+
+	private function applyCustomerInvoiceAllocations($depositId, array $invoiceAllocations, $paymentDate)
+	{
+		foreach ($invoiceAllocations as $allocation) {
+			$invoiceNo = (int)($allocation['invoice_no'] ?? 0);
+			$amount = (float)($allocation['amount'] ?? 0);
+			if ($invoiceNo <= 0 || $amount <= 0) {
+				continue;
+			}
+
+			add_cust_allocation(
+				$amount,
+				ST_CUSTPAYMENT,
+				$depositId,
+				ST_SALESINVOICE,
+				$invoiceNo,
+				$this->partnerId,
+				sql2date($paymentDate)
+			);
+			update_debtor_trans_allocation(ST_SALESINVOICE, $invoiceNo, $this->partnerId);
+		}
+
+		update_debtor_trans_allocation(ST_CUSTPAYMENT, $depositId, $this->partnerId);
 	}
 	/**//**
 	* search for bank account info
@@ -635,9 +803,18 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		{
 			$error = 0;
 			$bError = $this->extractPost();
+			$_cids = isset($_POST['cids'][$this->tid])
+				? array_filter(explode(',', $_POST['cids'][$this->tid]))
+				: array();
 				//time to gather data about transaction
 				$this->getTransaction($this->tid);
-				$bError = $this->retrieveOurAccount();
+				if (empty($this->trz) || !isset($this->trz['transactionDC'])) {
+					display_error('missing transaction data');
+					$bError = true;
+				}
+				if ( ! $bError ) {
+					$bError = $this->retrieveOurAccount();
+				}
 			if ( ! $bError ) 
 			{
 				$this->charge = $this->sumCharges( $this->tid );
@@ -655,7 +832,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 						//      Auto match Vendor (from CC data) to Suppliers.
 						//	      Auto Create a supplier if doesn't exist
 						//		      We get name, address, etc from CC statements.
-					case ( $partnerType == 'SP' ):
+					case ( $_POST['partnerType'][$this->tid] == 'SP' ):
 						$this->processSupplierTransaction();
 					break;
 			/*************************************************************************************************************/
@@ -663,7 +840,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 						//      Match customers to records
 						//	      i.e. E-Transfer from XXYYY (CIBC statements)
 					case ($_POST['partnerType'][$this->tid] == 'CU' && $this->trz['transactionDC'] == 'C'):
-						$this->processCustomer();
+						$this->processCustomerPayment();
 					break;
 			/*************************************************************************************************************/
 					case ($_POST['partnerType'][$this->tid] == 'QE'):
@@ -674,10 +851,10 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 		
 							//function qe_to_cart(&$cart, $id, $base, $type, $descr='')
 							$qe_memo = "A:" . $this->our_account['bank_account_name'] . ":" . $this->trz['account_name'] . " M:" . $this->trz['account'] . ":" . $this->trz['transactionTitle'] . ": " . $this->trz['transactionCode'];
-							$rval = qe_to_cart($cart, $this->partnerId, $this->trz['transactionAmount'], ($this->trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
-						} catch( Exception $e )
+							$rval = qe_to_cart($this->cCart, $this->partnerId, $this->trz['transactionAmount'], ($this->trz['transactionDC']=='C') ? QE_DEPOSIT : QE_PAYMENT, $qe_memo );
+						} catch( \Throwable $e )
 						{
-							display_notification('RVAL Exception' . print_r( $e, true ) );
+							ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'qe_to_cart');
 						}
 						// function add_gl_item($code_id, $dimension_id, $dimension2_id, $amount, $memo='', $act_descr=null, $person_id=null, $date=null)
 			//TODO:
@@ -692,15 +869,17 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							$this->cCart->add_gl_item(get_company_pref('bank_charge_act'), 0, 0, $this->charge, 'Charge/'.$this->trz['transactionTitle']);
 							//process the transaction
 							begin_transaction();
+							try
+							{
 		
-							$trans = write_bank_transaction(
-								$this->cCart->trans_type, $this->cCart->order_id, $this->our_account['id'],
-								$this->cCart, sql2date($this->trz['valueTimestamp']),
-									PT_QUICKENTRY, $this->partnerId, 0,
-									$this->cCart->reference, $qe_memo, true, null);
-									//$this->cCart->reference, $this->trz['transactionTitle'], true, null);
+								$trans = write_bank_transaction(
+									$this->cCart->trans_type, $this->cCart->order_id, $this->our_account['id'],
+									$this->cCart, sql2date($this->trz['valueTimestamp']),
+										PT_QUICKENTRY, $this->partnerId, 0,
+										$this->cCart->reference, $qe_memo, true, null);
+										//$this->cCart->reference, $this->trz['transactionTitle'], true, null);
 		
-							$counterparty_arr = get_trans_counterparty( $trans[1], $this->transType );
+								$counterparty_arr = get_trans_counterparty( $trans[1], $this->transType );
 							//display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
 						/***
 							Array (	 [0] =>
@@ -728,17 +907,24 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 								//partnerID in this case is the QE index.
 							set_bank_partner_data( $this->our_account['id'], $this->transType, $this->partnerId, $this->trz['transactionTitle'] );
 						***/
-							update_transactions($this->tid, $_cids, $status=1, $trans[1], $this->transType, false, true, "QE", $this->partnerId );
-							commit_transaction();
-							//Don't want this preventing the commit!
-							set_bank_partner_data( $this->our_account['id'], $this->transType, $this->partnerId, $this->trz['transactionTitle'] );
-							//ST_BANKPAYMENT or ST_BANKDEPOSIT
+								update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $trans[1], $this->transType, false, true, "QE", $this->partnerId );
+								commit_transaction();
+								//Don't want this preventing the commit!
+								set_bank_partner_data( $this->our_account['id'], $this->transType, $this->partnerId, $this->trz['transactionTitle'] );
+								//ST_BANKPAYMENT or ST_BANKDEPOSIT
 		
 							//Let User attach a document
 							display_notification("<a target=_blank href='http://" . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost') . "/accounting/admin/attachments.php?filterType=" . $this->transType . "&trans_no=" . $trans[1] . "'>Attach Document</a>" );
 							//Let the user view the created transaction
 							//http://192.168.0.66/accounting/gl/view/gl_trans_view.php?type_id=0&trans_no=10825
 							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans[1] . "'>View Entry</a>" );
+							}
+							catch( \Throwable $e )
+							{
+								rollback_transaction();
+								ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'quick entry execution');
+								break;
+							}
 		
 		
 							}
@@ -781,9 +967,9 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 								$bttrf->set( "memo_", $this->trz['transactionTitle'] . "::" . $this->trz['transactionCode'] . "::" . $this->trz['memo'] );
 								$bttrf->set( "target_amount", $this->trz['transactionAmount'] );
 							}
-							catch( Exception $e )
+							catch( \Throwable $e )
 							{
-								//display_notification( __FILE__ . "::" . __LINE__ . ":" . $e->getMessage() );
+								ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bank transfer setup');
 								break;
 							}
 							try
@@ -791,24 +977,34 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 								$bttrf->getNextRef();
 								//$bttrf->trans_date_in_fiscal_year();
 							}
-							catch( Exception $e )
+							catch( \Throwable $e )
 							{
+								ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bank transfer getNextRef');
 								break;
 							}
 							begin_transaction();
-							//can_process is baked into add_bank_transfer
-							$bttrf->add_bank_transfer();
-							$counterparty_arr = get_trans_counterparty( $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ) );
-								////display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-							$trans_no = $bttrf->get( "trans_no" );
-							$this->transType = $bttrf->get( "trans_type" );
-							update_transactions( $this->tid, $_cids, $status=1, $trans_no, $this->transType, false, true,  "BT", $this->partnerId );
-							//update_transactions( $this->tid, $_cids, $status=1, $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ), false, true );
+							try
+							{
+								//can_process is baked into add_bank_transfer
+								$bttrf->add_bank_transfer();
+								$counterparty_arr = get_trans_counterparty( $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ) );
+									////display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
+								$trans_no = $bttrf->get( "trans_no" );
+								$this->transType = $bttrf->get( "trans_type" );
+								update_transactions( $this->tid, $_cids, $status=self::STATUS_PROCESSED, $trans_no, $this->transType, false, true,  "BT", $this->partnerId );
+								//update_transactions( $this->tid, $_cids, $status=1, $bttrf->get( "trans_no" ), $bttrf->get( "trans_type" ), false, true );
 		
-							set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $this->trz['memo'] );   //Short Form
+								set_bank_partner_data( $bttrf->get( "FromBankAccount" ), $bttrf->get( "trans_type" ), $bttrf->get( "ToBankAccount" ), $this->trz['memo'] );   //Short Form
 										//memo/transactionTitle holds the reference number, which would be unique :(
-							commit_transaction();
-							display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans_no . "'>View Entry</a>" );
+								commit_transaction();
+								display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $this->transType . "&trans_no=" . $trans_no . "'>View Entry</a>" );
+							}
+							catch( \Throwable $e )
+							{
+								rollback_transaction();
+								ExceptionDisplayNotifier::notify($e, __FILE__, __LINE__, 'bank transfer execution');
+								break;
+							}
 						}
 						else
 						{
@@ -819,7 +1015,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 					case ($_POST['partnerType'][$this->tid] == 'MA'):
 						$counterparty_arr = get_trans_counterparty( $_POST['Existing_Entry'], $_POST['Existing_Type'] );
 							display_notification( __FILE__ . "::" . __LINE__ . print_r( $counterparty_arr, true ) );
-						update_transactions($this->tid, $_cids, $status=1, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
+						update_transactions($this->tid, $_cids, $status=self::STATUS_PROCESSED, $_POST['Existing_Entry'], $_POST['Existing_Type'], true, false, null, "" );
 						display_notification("<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST['Existing_Type'] . "&trans_no=" . $_POST['Existing_Entry'] . "'>View Entry</a>" );
 						set_partner_data( $counterparty_arr['person_type'], $_POST['Existing_Type'], $counterparty_arr['person_type_id'], $this->trz['memo'] );       //Short Form
 						display_notification("Transaction was manually settled " . print_r( $_POST['Existing_Type'], true ) . ":" . print_r( $_POST['Existing_Entry'], true ) );
@@ -866,7 +1062,7 @@ function update_partner_data( $partner_detail_id  = ANY_NUMERIC)
 							}
 						}
 							//display_notification(__FILE__ . "::" . __LINE__  );
-							update_transactions( $this->tid, $_cids, $status=1, $_POST["trans_no_$this->tid"], $_POST["trans_type_$this->tid"], true, false,  "ZZ", $this->partnerId );
+							update_transactions( $this->tid, $_cids, $status=self::STATUS_PROCESSED, $_POST["trans_no_$this->tid"], $_POST["trans_type_$this->tid"], true, false,  "ZZ", $this->partnerId );
 							//display_notification(__FILE__ . "::" . __LINE__  );
 							display_notification("Transaction was MATCH settled " .  $_POST["trans_type_$this->tid"] . "::" . $_POST["trans_no_$this->tid"] . "::" . "<a target=_blank href='../../gl/view/gl_trans_view.php?type_id=" . $_POST["trans_type_$this->tid"] . "&trans_no=" . $_POST["trans_no_$this->tid"] . "'>View Entry</a>");
 						set_partner_data( $person_type, $_POST["trans_type_$this->tid"], $person_type_id, $memo );
