@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Unit\Validators\StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" tests="15" assertions="1" errors="14" warnings="0" failures="0" skipped="0" time="0.362097">
+    <testcase name="testValidStatementPassesAllRules" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="36" assertions="0" time="0.350965">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testValidStatementPassesAllRules
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:356
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:38</error>
+    </testcase>
+    <testcase name="testInvalidDateRangeStartAfterEnd" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="50" assertions="0" time="0.000657">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testInvalidDateRangeStartAfterEnd
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:356
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:52</error>
+    </testcase>
+    <testcase name="testInvalidDateRangeExceedsMaximum" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="68" assertions="0" time="0.000665">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testInvalidDateRangeExceedsMaximum
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:356
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:70</error>
+    </testcase>
+    <testcase name="testMissingTransactionAmounts" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="86" assertions="0" time="0.000769">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testMissingTransactionAmounts
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:356
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:88</error>
+    </testcase>
+    <testcase name="testInsufficientMerchantDetails" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="112" assertions="0" time="0.000641">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testInsufficientMerchantDetails
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:115</error>
+    </testcase>
+    <testcase name="testTransactionCountTooLow" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="137" assertions="0" time="0.000707">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testTransactionCountTooLow
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:139</error>
+    </testcase>
+    <testcase name="testTransactionCountTooHigh" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="160" assertions="0" time="0.001027">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testTransactionCountTooHigh
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:172</error>
+    </testcase>
+    <testcase name="testMissingAccountReference" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="193" assertions="0" time="0.000662">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testMissingAccountReference
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:195</error>
+    </testcase>
+    <testcase name="testInvalidAccountReferenceFormat" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="213" assertions="0" time="0.000701">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testInvalidAccountReferenceFormat
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:215</error>
+    </testcase>
+    <testcase name="testInvalidCurrencyCode" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="233" assertions="0" time="0.000619">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testInvalidCurrencyCode
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:235</error>
+    </testcase>
+    <testcase name="testDuplicateTransactionsDetected" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="253" assertions="0" time="0.000887">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testDuplicateTransactionsDetected
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:256</error>
+    </testcase>
+    <testcase name="testMultipleViolationsCollected" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="279" assertions="0" time="0.000618">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testMultipleViolationsCollected
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:281</error>
+    </testcase>
+    <testcase name="testValidStatementWithVariousCurrencies" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="299" assertions="0" time="0.000693">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testValidStatementWithVariousCurrencies
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:302</error>
+    </testcase>
+    <testcase name="testFluentInterfaceConfiguration" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="320" assertions="1" time="0.001816"/>
+    <testcase name="testValidationResultSummary" class="Tests\Unit\Validators\StatementValidatorTest" classname="Tests.Unit.Validators.StatementValidatorTest" file="C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php" line="333" assertions="0" time="0.000672">
+      <error type="Error">Tests\Unit\Validators\StatementValidatorTest::testValidationResultSummary
+Error: Call to private Ksfraser\FaBankImport\Import\DTOs\ParsedStatementDTO::__construct() from scope Tests\Unit\Validators\StatementValidatorTest
+
+C:\Users\prote\Documents\software-devel\ksf_bank_import\tests\unit\Validators\StatementValidatorTest.php:335</error>
+    </testcase>
+  </testsuite>
+</testsuites>

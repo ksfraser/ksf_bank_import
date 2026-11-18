@@ -12,7 +12,7 @@ use Ksfraser\FaBankImport\Specifications\BiTransactionSpecification;
  * Enables testable, reusable query logic.
  * 
  * @package Ksfraser\FaBankImport\QueryBuilders
-  * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
  */
 final class BiTransactionQueryBuilder
 {
@@ -23,7 +23,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Add WHERE condition
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function where(string $field, string $operator, mixed $value): self
     {
@@ -38,7 +38,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Add BETWEEN condition
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function whereBetween(string $field, mixed $min, mixed $max): self
     {
@@ -53,7 +53,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Add IN condition
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function whereIn(string $field, array $values): self
     {
@@ -68,7 +68,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Add IS NULL condition
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function whereIsNull(string $field): self
     {
@@ -83,7 +83,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Add IS NOT NULL condition
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function whereIsNotNull(string $field): self
     {
@@ -98,7 +98,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Apply a specification
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function apply(BiTransactionSpecification $spec): self
     {
@@ -119,7 +119,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Add ORDER BY
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function orderBy(string $field, string $direction = 'ASC'): self
     {
@@ -133,7 +133,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Set LIMIT
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function limit(int $limit): self
     {
@@ -144,7 +144,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Set OFFSET
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function offset(int $offset): self
     {
@@ -155,7 +155,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Clear all criteria and sorting
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function reset(): self
     {
@@ -169,7 +169,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Get accumulated criteria
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getCriteria(): array
     {
@@ -178,7 +178,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Get accumulated sorting
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getSorting(): array
     {
@@ -187,7 +187,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Get limit
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getLimit(): int
     {
@@ -196,7 +196,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Get offset
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getOffset(): int
     {
@@ -205,7 +205,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Convert to array for API/serialization
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function toArray(): array
     {
@@ -219,7 +219,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Build a query string (for debugging)
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function toDebugString(): string
     {
@@ -252,7 +252,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Check if query has any conditions
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function hasConditions(): bool
     {
@@ -261,7 +261,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Get number of conditions
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getConditionCount(): int
     {
@@ -270,7 +270,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Get page number (based on limit/offset)
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function getPage(): int
     {
@@ -283,7 +283,7 @@ final class BiTransactionQueryBuilder
 
     /**
      * Set pagination by page number
-          * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
+ * @BABOK FR-PROC-004, FR-PROC-009 | BR-PROC-001 | UAT-PROC-001
      */
     public function page(int $page, int $pageSize = 50): self
     {
