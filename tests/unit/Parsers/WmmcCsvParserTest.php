@@ -152,6 +152,22 @@ final class WmmcCsvParserTest extends TestCase
         $this->assertCount(2, $statements['2024-06-02']->transactions);
     }
 
+    public function testThe2023HeaderSpellingsMapToTheSameColumns(): void
+    {
+        $csv = '"Date","Posted Date","Reference number","Activity Type","Status","Card number",'
+            . '"Merchant Category","Merchant name","Merchant city","Merchant State or Province",'
+            . '"Merchant country","Merchant postal code","Amount","Rewards","Name on Card"' . "\n"
+            . '"2023-04-16","2023-04-18","ref-9","TRANS","APPROVED","************2251",'
+            . '"Grocery","WAL-MART #1050","AIRDRIE","AB","CAN","T4B 3G5","$37.73","","KEVIN FRASER"' . "\n";
+
+        $transaction = (new \ro_wmmc_csv_parser())
+            ->parse($csv, $this->staticData(), false)['2023-04-16']->transactions[0];
+
+        $this->assertSame('AB', $transaction->transactionTitle3, 'The 2023 "Merchant State or Province" header is recognised.');
+        $this->assertSame('T4B 3G5', trim($transaction->transactionTitle5), 'The 2023 "Merchant postal code" header is recognised.');
+        $this->assertSame('CAN', $transaction->transactionTitle4);
+    }
+
     public function testRowsFromTwoCardsOnTheSameDayBecomeSeparateStatements(): void
     {
         $csv = $this->header2024 . "\n"
