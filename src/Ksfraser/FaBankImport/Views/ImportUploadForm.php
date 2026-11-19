@@ -52,6 +52,11 @@ class Parsers
 		            'optional' => array('bank_account'),
 		        ),
 		        'ro_wmmc_csv' => array('name' => 'WMMC, CSV format', 'select' => array('bank_account' => 'Select bank account')),
+		        'ro_manulife_csv' => array(
+		            'name' => 'Manulife Bank, CSV format',
+		            'select' => array('bank_account' => 'Select bank account'),
+		            'optional' => array('bank_account'),
+		        ),
 		        );
 	}
 	/**//**

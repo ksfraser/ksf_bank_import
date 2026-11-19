@@ -1,313 +1,395 @@
 <?php
 
-//we need to interpret the file and generate a new statement for each day of transactions
-
-/**//******************************************************************************************
-* Parse the CSV from Walmart.  This is a Credit card ONLY. 
-*	(They don't have a retail bank side in Canada, at this time)
-*
-**********************************************************************************************/
+/**
+ * WMMC (Walmart Canada credit card) CSV statement parser.
+ *
+ * The export format has changed several times over the years, so the parser
+ * maps every documented header spelling onto one canonical set of keys and
+ * treats the columns that only appear in newer exports as optional:
+ *
+ *   "Date","Activity Type","Merchant Name","Merchant Category","Amount","Rewards"
+ *   "Transaction Date","Activity Type","Merchant Name","Merchant Category","Amount","Rewards"
+ *   "Date","Posted Date","Reference Number","Activity Type","Status",
+ *     "Transaction Card Number","Merchant Category","Merchant Name",
+ *     "Merchant City","Merchant State/Province","Merchant Postal Code/Zip",
+ *     "Amount","Rewards"
+ *   "Date","Posted Date","Reference Number","Activity Type","Status",
+ *     "Transaction Card Number","Merchant Category","Merchant Name",
+ *     "Merchant City","Merchant State/Province","Merchant Country",
+ *     "Merchant Postal Code/Zip","Amount","Rewards","Name on Card"
+ *
+ * One statement is emitted per transaction date, as before. Amounts are kept
+ * positive; direction lives in transactionDC (D charge, C refund, B payment).
+ *
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+ */
 class ro_wmmc_csv_parser extends parser {
 
-	/**//**
-	 * Convert an array of  CSV lines into assoc array
+	/**
+	 * Header alias map: normalized header text => canonical column key.
 	 *
-	 * Called by parse
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 *
+	 * @return array<string,string>
 	 */
-	function _combine_array(&$row, $key, $header) {
-  		$row = array_combine($header, $row);
+	protected function headerAliases()
+	{
+		return array(
+			'date' => 'date',
+			'transaction date' => 'date',
+			'trans date' => 'date',
+			'posted date' => 'posteddate',
+			'post date' => 'posteddate',
+			'posting date' => 'posteddate',
+			'reference number' => 'referencenumber',
+			'reference' => 'referencenumber',
+			'ref number' => 'referencenumber',
+			'reference no' => 'referencenumber',
+			'activity type' => 'activitytype',
+			'status' => 'status',
+			'transaction card number' => 'cardnumber',
+			'card number' => 'cardnumber',
+			'merchant category' => 'category',
+			'category' => 'category',
+			'merchant name' => 'merchant',
+			'description' => 'merchant',
+			'merchant' => 'merchant',
+			'merchant city' => 'city',
+			'city' => 'city',
+			'merchant state/province' => 'province',
+			'merchant province' => 'province',
+			'state/province' => 'province',
+			'state' => 'province',
+			'province' => 'province',
+			'merchant country' => 'country',
+			'country' => 'country',
+			'merchant postal code/zip' => 'postalcode',
+			'postal code/zip' => 'postalcode',
+			'postal code' => 'postalcode',
+			'zip' => 'postalcode',
+			'amount' => 'amount',
+			'transaction amount' => 'amount',
+			'rewards' => 'rewards',
+			'reward' => 'rewards',
+			'name on card' => 'nameoncard',
+			'cardholder name' => 'nameoncard',
+		);
 	}
 
-	/**//*********************************************************
-	* Import a CSV
-	*
-	* @param string contents from file_get_contents
-	*
-	**************************************************************/
+	/**
+	 * Normalize one header cell: strip quotes/BOM, collapse whitespace, lower case.
+	 *
+	 * @param string $cell Raw header cell.
+	 * @return string
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function normalizeHeaderCell($cell)
+	{
+		$cell = preg_replace('/^\xEF\xBB\xBF/', '', (string) $cell);
+		$cell = trim($cell, " \t\n\r\0\x0B\"'");
+		$cell = preg_replace('/\s+/', ' ', $cell);
+		return strtolower($cell);
+	}
+
+	/**
+	 * Map the raw header row to canonical column keys.
+	 *
+	 * Unknown headers keep a sanitized version of their own name so the row
+	 * still combines cleanly; a canonical key that is already claimed by an
+	 * earlier column is not overwritten.
+	 *
+	 * @param array<int,string> $cells Raw header cells.
+	 * @return array<int,string> Column key per position.
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function mapHeader(array $cells)
+	{
+		$aliases = $this->headerAliases();
+		$used = array();
+		$mapped = array();
+
+		foreach ($cells as $index => $cell) {
+			$normalized = $this->normalizeHeaderCell($cell);
+			$key = isset($aliases[$normalized]) ? $aliases[$normalized] : $normalized;
+			$key = str_replace(' ', '', $key);
+
+			if ($key === '') {
+				$key = 'column' . $index;
+			}
+			if (isset($used[$key])) {
+				$key .= '_' . $index;
+			}
+
+			$used[$key] = true;
+			$mapped[$index] = $key;
+		}
+
+		return $mapped;
+	}
+
+	/**
+	 * Read a canonical column from a parsed row, defaulting to ''.
+	 *
+	 * @param array<string,string> $row Parsed row.
+	 * @param string               $key Canonical column key.
+	 * @return string
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function column(array $row, $key)
+	{
+		return isset($row[$key]) ? (string) $row[$key] : '';
+	}
+
+	/**
+	 * Normalize a date cell to ISO yyyy-mm-dd when it is recognizable.
+	 *
+	 * WMMC exports ISO dates; MM/DD/YYYY is accepted because older exports and
+	 * hand-edited files use it.
+	 *
+	 * @param string $date Raw date cell.
+	 * @return string Original value when it cannot be normalized.
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function normalizeDate($date)
+	{
+		$date = trim($date);
+		$date = preg_split('/[ T]/', $date);
+		$date = $date[0];
+
+		if (preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $date)) {
+			return $date;
+		}
+		if (preg_match('#^(\d{4})/(\d{1,2})/(\d{1,2})$#', $date, $m)) {
+			return sprintf('%04d-%02d-%02d', $m[1], $m[2], $m[3]);
+		}
+		if (preg_match('#^(\d{1,2})/(\d{1,2})/(\d{4})$#', $date, $m)) {
+			return sprintf('%04d-%02d-%02d', $m[3], $m[1], $m[2]);
+		}
+
+		return $date;
+	}
+
+	/**
+	 * Parse an amount cell into a positive number plus its sign.
+	 *
+	 * Handles "$56.34", "-10.00", "1,234.56", "(10.00)" and "10.00-".
+	 *
+	 * @param string $amount Raw amount cell.
+	 * @return array{0:float,1:bool} The absolute amount and whether it is negative.
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function parseAmount($amount)
+	{
+		$amount = trim((string) $amount);
+		$negative = false;
+
+		if (strncmp($amount, '-', 1) === 0 || substr($amount, -1) === '-') {
+			$negative = true;
+		}
+		if (strlen($amount) > 1 && $amount[0] === '(' && substr($amount, -1) === ')') {
+			$negative = true;
+		}
+
+		$number = preg_replace('/[^\d\.]/', '', $amount);
+
+		return array((float) $number, $negative);
+	}
+
+	/**
+	 * Import a WMMC CSV export.
+	 *
+	 * @param string $content     File contents.
+	 * @param array  $static_data Form data (account, currency, bank_name).
+	 * @param bool   $debug       Echo parse commentary.
+	 * @return array<string,statement> Statements keyed by transaction date.
+	 * @throws Exception When the header carries neither a date nor an amount column.
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
 	function parse($content, $static_data = array(), $debug = true) {
-	//keep statements in an array, hashed by statement-id
-	//statement id is the statement date: yyyy-mm-dd-<number>-<seq>
-	// as each line is processed, adjust statement data and add tranzactions
-	$smts = array();
+		$smts = array();
+		$cardsSeen = array();
 
-	$months = array(
-		'ianuarie' => '01', 'februarie' => '02', 'martie' => '03', 'aprilie' => '04', 'mai' => '05', 'iunie' => '06',
-		'iulie' => '07', 'august' => '08', 'septembrie' => '09', 'octombrie' => '10', 'noiembrie' => '11', 'decembrie' => '12',
-	);
+		$lines = preg_split('/\r\n|\r|\n/', (string) $content);
+		$headerLine = array_shift($lines);
 
-/*************************************************************
-* WMMC CSV Format (2023-2024):
-*
-* 	"Date","Posted Date","reference number","Activity Type","status","Transaction card number","Merchant category","Merchant name","Merchant City","Merchant state/province","Merchant country","Merchant postal code/zip","Amount","rewards","name on card"
-* 	"2024-01-08","2024-01-10","""55503804009004047182377""","TRANS","APPROVED","************2251","Grocery Stores and Supermarkets","WAL-MART #1050","AIRDRIE","AB","CAN","T4B 3G5","$56.34","","KEVIN FRASER"
-************************************************************/
-
-
-	//var_dump( $static_data );
-	//split content by \n
-	$lines = explode("\n", $content);
-
-	//first line is header 
-	$header = array_shift($lines);
-/*******************************************************************************************
-*	Over the course of 2 years, WMMC exports have had 5 different columns/headers
-*
-*		"Date","Activity Type","Merchant Name","Merchant Category","Amount","Rewards"
-*		"Transaction Date","Activity Type","Merchant Name","Merchant Category","Amount","Rewards"
-*		"Date","Posted Date","Reference Number","Activity Type","Status","Transaction Card Number","Merchant Category","Merchant Name","Merchant City","Merchant State/Province","Merchant Postal Code/Zip","Amount","Rewards"
-*		"Date","Posted Date","Reference Number","Activity Type","Status","Transaction Card Number","Merchant Category","Merchant Name","Merchant City","Merchant State/Province","Merchant Country","Merchant Postal Code/Zip","Amount","Rewards","Name on Card"
-*
-*******************************************************************************************/
-$search_arr = array();
-$replace_arr = array();
-
-$search_arr[] = "Posted Date";
-$replace_arr[] = "posteddate";
-
-$search_arr[] = "Transaction Date";
-$replace_arr[] = "transdate";
-
-$search_arr[] = "Date";
-$replace_arr[] = "transdate";
-
-$search_arr[] = "Activity Type";
-$replace_arr[] = "activitytype";
-
-$search_arr[] = "Merchant Name";
-$replace_arr[] = "merchant";
-
-$search_arr[] = "Merchant Category";
-$replace_arr[] = "category";
-
-$search_arr[] = "Amount";
-$replace_arr[] = "amount";
-
-$search_arr[] = "Rewards";
-$replace_arr[] = "rewards";
-
-$search_arr[] = "Reference Number";
-$replace_arr[] = "referencenumber";
-
-$search_arr[] = "Status";
-$replace_arr[] = "status";
-
-$search_arr[] = "Transaction Card Number";
-$replace_arr[] = "cardnumber";
-
-$search_arr[] = "Merchant City";
-$replace_arr[] = "city";
-
-$search_arr[] = "Merchant State/Province";
-$replace_arr[] = "province";
-
-$search_arr[] = "Merchant Postal Code/Zip";
-$replace_arr[] = "postalcode";
-
-$search_arr[] = "Merchant Country";
-$replace_arr[] = "country";
-
-$search_arr[] = "Name on Card";
-$replace_arr[] = "nameoncard";
-
-	$header = strtolower( $header );
-	//var_dump( $header );
-	$header_arr = str_getcsv( $header );
-	//$header_arr = explode( ",", $header );
-	var_dump( $header_arr );
-
-	//current transaction
-	$trz = null;
-	$trz_line = '';
-	//last TRF transaction
-	$last_trz = null;
-	
-	//parse lines
-
-
-	foreach($lines as $line) {
-		if (strlen($line) == 0)
-		continue;
-
-		//echo "----------------------------------------------------\n";
-			echo "debug: line: $line\n";
-
-		$linedata = str_getcsv($line);
-		var_dump( $linedata );
-		$linedata = array_combine( $header_arr, $linedata );
-		var_dump( $linedata );
-
-		//if exists and has some date format => it is a $sid
-		if(!empty($linedata["date"])) {
-		$sid = $linedata["date"];
+		if ($headerLine === null || trim($headerLine) === '') {
+			throw new Exception('Empty WMMC CSV file.');
 		}
 
-		//if smtid exists in results, add to this statement else create new statement
-		if (empty($smts[$sid])) {
-		$smts[$sid] = new statement;
-		if( isset( $static_data['bank_name'] ) )
-		{
-			$smts[$sid]->bank = $static_data['bank_name'];
-		}
-		else
-		{
-			$smts[$sid]->bank = 'WMMC';	//WM has renamed their banking a couple of times.  Currently on their URL is FAIRSTONE (was DUOBANK).  Used to be WMFS.  And something else some other time.
-		}
-		//get additional info from static_data
-		$smts[$sid]->account = $static_data['account'];		//This is an account number string i.e. from the bank.  For walmart, they send it as ************2251
-			//Someone might want to extend this if you have multiple cards on the account,
-			//and you want to insert each person's spending into a different GL
-		$smts[$sid]->currency = $static_data['currency'];
-		$smts[$sid]->timestamp = $sid;
-		$smts[$sid]->startBalance = '0';
-		$smts[$sid]->endBalance = '0';
-		$smts[$sid]->number = '00000';
-		$smts[$sid]->sequence = '0';
-		$smts[$sid]->statementId = "{$sid}-{$smts[$sid]->number}-{$smts[$sid]->sequence}";
+		$columns = $this->mapHeader(str_getcsv($headerLine));
 
-		echo "debug: adding a statement with sid=$sid\n";
-		} else {
-			echo "debug: statement exists for sid=$sid\n";
+		if (!in_array('date', $columns, true) || !in_array('amount', $columns, true)) {
+			throw new Exception('Unrecognised WMMC CSV: the header has no date or amount column.');
 		}
 
-		//state machine
-		// in transaction && new transaction indicator => close transaction
-		if ($trz && !empty($linedata["date"]) ) {
 		if ($debug) {
-			echo "debug: closing transaction {$trz->valueTimestamp}\n";
-			echo "debug: trz_line=$trz_line\n";
-			$trz->dump();
+			echo 'WMMC CSV columns: ' . implode(', ', $columns) . "\n";
 		}
-		$smts[$trz->valueTimestamp]->addTransaction($trz);
 
-		if ($trz->transactionType != 'COM')
-			$last_trz = $trz;
-		if ($trz->valueTimestamp != $sid)
-			$last_trz = null;
+		foreach ($lines as $lineNumber => $line) {
+			if (trim($line) === '') {
+				continue;
+			}
 
-		$trz = null;
-		$trz_line = '';
-		}
-		
-		// not in transaction && new transaction indicator => open transaction and parse line 1
-		if (!$trz && !empty($linedata['date'])) {
-			if ($debug) echo "debug: adding new transaction....\n";
+			$cells = str_getcsv($line);
+
+			// Tolerate ragged rows (trailing empty cells, totals lines with
+			// fewer columns) instead of letting array_combine() throw.
+			$cells = array_slice(array_pad($cells, count($columns), ''), 0, count($columns));
+			$row = array_combine($columns, array_map('strval', $cells));
+
+			$sid = $this->normalizeDate($this->column($row, 'date'));
+			if ($sid === '') {
+				if ($debug) {
+					echo 'WMMC CSV: skipping row without a date: ' . $line . "\n";
+				}
+				continue;
+			}
+
+			// One statement per (date, card): a single export can carry rows
+			// from more than one card, and each statement must record its own
+			// account rather than inheriting whichever card came first.
+			$rowCard = trim($this->column($row, 'cardnumber'));
+			$key = $sid . '|' . preg_replace('/[^0-9A-Za-z]/', '', $rowCard);
+			$cardsSeen[$key] = $rowCard;
+
+			if (empty($smts[$key])) {
+				$smts[$key] = new statement;
+				$smts[$key]->bank = $this->column($row, 'bankname') !== ''
+					? $this->column($row, 'bankname')
+					: (isset($static_data['bank_name']) && $static_data['bank_name'] !== ''
+						? $static_data['bank_name']
+						: 'WMMC');
+
+				// The statement account is the bank account number. WMMC's export
+				// only carries the masked card number, so fall back to that when
+				// the form did not supply an account.
+				if (isset($static_data['account']) && $static_data['account'] !== '') {
+					$smts[$key]->account = $static_data['account'];
+				} elseif ($rowCard !== '') {
+					$smts[$key]->account = $rowCard;
+				} else {
+					$smts[$key]->account = 'WMMC';
+				}
+
+				$smts[$key]->currency = isset($static_data['currency']) && $static_data['currency'] !== ''
+					? $static_data['currency']
+					: 'CAD';
+				$smts[$key]->timestamp = $sid;
+				$smts[$key]->startBalance = '0';
+				$smts[$key]->endBalance = '0';
+				$smts[$key]->sequence = '0';
+
+				if ($debug) {
+					echo "WMMC CSV: adding statement for $sid\n";
+				}
+			}
+
+			list($amount, $negative) = $this->parseAmount($this->column($row, 'amount'));
+			$merchant = $this->column($row, 'merchant');
+			$postedDate = $this->column($row, 'posteddate');
+			$city = $this->column($row, 'city');
+			$province = $this->column($row, 'province');
+			$country = $this->column($row, 'country');
+			$postalCode = $this->column($row, 'postalcode');
+			$category = $this->column($row, 'category');
+			$rewards = $this->column($row, 'rewards');
+			$reference = $this->column($row, 'referencenumber');
+			$status = $this->column($row, 'status');
+			$cardNumber = $this->column($row, 'cardnumber');
+			$nameOnCard = $this->column($row, 'nameoncard');
+
 			$trz = new transaction;
 
-			//transactionDC & amount
-			var_dump( $linedata['amount'] );
-//TRF for Transactions
-//COM for fees - ATM fees, commissions, admin fees.
-			if( strncmp( $linedata['amount'], "-", 1 ) == 0 )
-			{
-				//This is a payment or refund
-				//first char is -
-	
-				if( false !== strpos( $linedata['merchant name'], "PAYMENT" ) )
-				{
-					//PAYMENT, comes from a Bank
-					$trz->transactionDC = 'B';
-					$trz->transactionType = 'TRF';
-				}		
-				else
-				{
-					//IF Not PAYMENT - REFUND
-					$trz->transactionDC = 'C';
-	  				$trz->transactionType = 'TRF';
-				}
-			}
-			else
-			{
-				//Charge
+			// TRF for transactions, COM for fees (ATM fees, commissions,
+			// admin fees). A leading minus is a payment coming from a bank
+			// account or a refund; everything else is a charge.
+			if ($negative) {
+				$isPayment = stripos($merchant, 'PAYMENT') !== false;
+				$trz->transactionDC = $isPayment ? 'B' : 'C';
+				$trz->transactionType = 'TRF';
+			} else {
 				$trz->transactionDC = 'D';
-	  			$trz->transactionType = 'TRF';
+				$trz->transactionType = 'TRF';
 			}
-			$amount = floatval(preg_replace('/[^\d\.]/', '', $linedata['amount']));
-			var_dump( $amount );
+
 			$trz->transactionAmount = $amount;
-			 
-	  		$trz->valueTimestamp = $sid;		//Trans Date
-	  		$trz->entryTimestamp = $linedata['posted date'];		//Posted Date
-			$trz->transactionTitle2 = $linedata['merchant city'];	//City
-			$trz->transactionTitle3 = $linedata['merchant state/province'];	//state
-			$trz->transactionTitle4 = $linedata['merchant country'];	//country
-			$trz->address = $linedata['merchant city'] . "\n" . $linedata['merchant state/province'] . "\n" . $linedata['merchant country'] . "\n" ;
-			//Even if it isn't a Canadian Merchant, the currency would be CAD...
-/*
-			if( "CAN" == $linedata['merchant country'] )
-			{
-				$smts[$sid]->currency = $trz->currency = 'CAD';
+			$trz->valueTimestamp = $sid;
+			$trz->entryTimestamp = $postedDate !== '' ? $postedDate : $sid;
+			$trz->transactionTitle2 = $city;
+			$trz->transactionTitle3 = $province;
+			$trz->transactionTitle4 = $country;
+			$trz->address = $city . "\n" . $province . "\n" . $country . "\n";
+			$smts[$key]->currency = $trz->currency = isset($static_data['currency']) && $static_data['currency'] !== ''
+				? $static_data['currency']
+				: 'CAD';
+			$trz->transactionTitle5 = $postalCode . '  ';
+			$trz->transactionTitle6 = $category . '; ';
+			$trz->category = $category . '; ';
+			$trz->transactionTitle7 = $rewards . ' ';
+			$trz->transactionTitle1 = $merchant;
+			$trz->merchant = $merchant;
+			$trz->transactionCode = $reference;
+			if (strlen($trz->transactionCode) < 1 && stripos($merchant, 'INTER') !== false) {
+				$trz->transactionCode = $trz->entryTimestamp . '-' . $merchant;
 			}
-*/
-				$smts[$sid]->currency = $trz->currency = 'CAD';
-		
-			$trz->transactionTitle5 = 	$linedata['merchant postal code/zip'] . "  ";	//postal code
-			$trz->transactionTitle6 = 	$linedata['merchant category'] . "; ";	//category
-			$trz->category = 		$linedata['merchant category'] . "; ";	//category
-			$trz->transactionTitle7 = 	$linedata['rewards'] . " ";	//rewards
-			$trz->transactionTitle1 = 	$linedata['merchant name'];	//Merchant
-			$trz->merchant = 		$linedata['merchant name'];	//Merchant
-			$trz->transactionCode = 	$linedata['reference number'];		//reference number
-			if( strlen( $trz->transactionCode ) < 1 )
-			{
-/*  **str_contains is a php 8
-				if( str_contains( $linedata['merchant name'], "INTEREST" ) )
-				{
-			//		//$trz->transactionCode = $trz->entryTimestamp;
-			//		////$trz->transactionCode = $trz->entryTimestamp . "-" . $linedata['merchant name'];
-				}
-**/
-				preg_match( '/INTER/', $linedata['merchant name'], $matches );
-				var_dump( $matches );
-				if( count( $matches ) > 0 )
-				{
-					$trz->transactionCode = $trz->entryTimestamp . "-" . $linedata['merchant name'];
-				}
+			// Duplicate detection keys on transactionCode, so every row needs a
+			// stable, non-empty one even when the bank left the reference blank.
+			if ($trz->transactionCode === '') {
+				$trz->transactionCode = $trz->entryTimestamp . '-' . substr(
+					sha1($merchant . '|' . $amount . '|' . $trz->transactionDC . '|' . $rowCard),
+					0,
+					10
+				);
+			}
+			$trz->reference = $reference;
+			$trz->transactionCodeDesc = $status;
+			$trz->status = $status;
 
+			// The merchant name doubles as the matching account name; shorten
+			// it only when the helper has actually been loaded (include_once
+			// returns false on every call after the first, which used to make
+			// the shortening depend on how many files the request parsed).
+			if (function_exists('shorten_bankAccount_names')) {
+				$trz->account = shorten_bankAccount_names($merchant);
+			} else {
+				$trz->account = $merchant;
 			}
-			$trz->reference = 		$linedata['reference number'];		//reference number
-			$trz->transactionCodeDesc = 	$linedata['status'];	//status
-			$trz->status = 			$linedata['status'];	//status
-			//$trz->account = 		$static_data['account'];
-			/*
-			$Merchant = explode( " ", $linedata['merchant name'] );
-					$trz->account = $Merchant[0];			//Merchant.  These become supplier payments, so we want to match against the merchant
-			*/
-			$inc = include_once( 'include.inc' );
-			if( $inc )
-			{
-				$trz->account = shorten_bankAccount_names( $linedata['merchant name'] );			
-			}
-			else
-			{
-				$trz->account = $linedata['merchant name'];			
-			}
-				$trz->accountName = $linedata['merchant name'];			
-	
-			//$trz->account = $linedata['card number'];			//card
-			$trz->accountName1 = $linedata['merchant name'] . " ";	//Merchant Full name
-			$trz->accountName2 = $linedata['transaction card number'] . " / " . $linedata['name on card'];		//card# + name on card
-			//add timestamp
-			///$trz->valueTimestamp = $trz->entryTimestamp = $sid;
-			$trz->memo = $trz->transactionTitle1 . " " . $trz->transactionTitle2 . ", " . $trz->transactionTitle3 . ";" . $trz->transactionTitle4 . " " . $trz->transactionTitle5 . ";" . $trz->transactionTitle6;
-			$trz->transactionTitle = $trz->transactionTitle1 . ";" . $trz->transactionTitle2 . ";" . $trz->transactionTitle6;
+			$trz->accountName = $merchant;
+			$trz->accountName1 = $merchant . ' ';
+			$trz->accountName2 = trim($cardNumber . ' / ' . $nameOnCard);
+			$trz->memo = $trz->transactionTitle1 . ' ' . $city . ', ' . $province . ';' . $country . ' ' . $postalCode . ';' . $trz->transactionTitle6;
+			$trz->transactionTitle = $trz->transactionTitle1 . ';' . $city . ';' . $trz->transactionTitle6;
 
-			var_dump( $trz );
-	
-			//debug
-			$trz_line = $line;
-			//end of loop
-			continue;
+			$smts[$key]->addTransaction($trz);
 		}
-	}
-	//parsing ended, cleanup
-	if ($trz)
-		$smts[$sid]->addTransaction($trz);
 
-	//time to return
-	return $smts;
-	}
+		// Finalise statement identity now that the whole file is known. A
+		// single-card export keeps the historic "<date>-00000-0" id; a
+		// multi-card export folds the card into the id so two cards on the
+		// same day cannot be posted as one statement.
+		$distinctCards = array_unique(array_values(array_filter($cardsSeen, 'strlen')));
+		$multiCard = count($distinctCards) > 1;
+		$final = array();
+		$perDate = array();
+		foreach ($smts as $key => $stmt) {
+			$cardNumber = isset($cardsSeen[$key]) ? $cardsSeen[$key] : '';
+			if ($multiCard && $cardNumber !== '') {
+				$stmt->number = preg_replace('/[^0-9A-Za-z]/', '', $cardNumber);
+			} else {
+				$stmt->number = '00000';
+			}
+			$stmt->statementId = "{$stmt->timestamp}-{$stmt->number}-{$stmt->sequence}";
+			$perDate[$stmt->timestamp] = isset($perDate[$stmt->timestamp]) ? $perDate[$stmt->timestamp] + 1 : 1;
+		}
 
+		// Keep the historic "keyed by date" contract when a date has a single
+		// statement; only fall back to the statement id when two cards collide.
+		foreach ($smts as $stmt) {
+			$key = $perDate[$stmt->timestamp] > 1 ? $stmt->statementId : $stmt->timestamp;
+			$final[$key] = $stmt;
+		}
+
+		return $final;
+	}
 }
-
-
-

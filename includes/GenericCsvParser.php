@@ -350,33 +350,56 @@ abstract class GenericCsvParser extends parser {
      */
     protected function createTransaction($mappedRow, $static_data) {
         $trx = new transaction();
-        
-        // Date
-        $trx->valueTimestamp = $this->normalizeDate($mappedRow['date']);
-        $trx->datePosted = $trx->valueTimestamp;
-        
-        // Amount
-        if (isset($mappedRow['amount'])) {
-            $trx->amount = $this->normalizeAmount($mappedRow['amount']);
-        } elseif (isset($mappedRow['debit']) && !empty($mappedRow['debit'])) {
-            $trx->amount = -abs($this->normalizeAmount($mappedRow['debit']));
-        } elseif (isset($mappedRow['credit']) && !empty($mappedRow['credit'])) {
-            $trx->amount = abs($this->normalizeAmount($mappedRow['credit']));
+
+        $valueTimestamp = $this->normalizeDate($mappedRow['date']);
+        $trx->valueTimestamp = $valueTimestamp;
+        $trx->entryTimestamp = !empty($mappedRow['posted_date'])
+            ? $this->normalizeDate($mappedRow['posted_date'])
+            : $valueTimestamp;
+
+        // Amount + direction. The importer reads transactionAmount (always
+        // unsigned) and transactionDC (D debit, C credit); the legacy
+        // $trx->amount property does not exist on the FA transaction class.
+        $amount = 0.0;
+        $isDebit = true;
+        if (isset($mappedRow['amount']) && $mappedRow['amount'] !== '') {
+            $amount = (float) $this->normalizeAmount($mappedRow['amount']);
+            $isDebit = $amount < 0;
+            $amount = abs($amount);
+        } elseif (!empty($mappedRow['debit'])) {
+            $amount = abs((float) $this->normalizeAmount($mappedRow['debit']));
+        } elseif (!empty($mappedRow['credit'])) {
+            $amount = abs((float) $this->normalizeAmount($mappedRow['credit']));
+            $isDebit = false;
         }
-        
+
+        $trx->transactionAmount = $amount;
+        $trx->transactionDC = $isDebit ? 'D' : 'C';
+        $trx->transactionType = 'TRF';
+
         // Description/Memo
-        $trx->memo = $mappedRow['description'] ?? '';
-        $trx->name = $this->extractPayeeName($trx->memo);
-        
-        // Optional fields
-        if (isset($mappedRow['reference'])) {
-            $trx->checkNumber = $mappedRow['reference'];
+        $memo = isset($mappedRow['description']) ? (string) $mappedRow['description'] : '';
+        $trx->memo = $memo;
+        $trx->account = $this->extractPayeeName($memo);
+        $trx->accountName = $trx->account;
+        $trx->merchant = $trx->account;
+        $trx->transactionTitle1 = $trx->account;
+        $trx->transactionTitle = $trx->account;
+
+        // The reference identifies the transaction for duplicate detection,
+        // so it must not be empty when the bank did not supply one.
+        $reference = isset($mappedRow['reference']) ? trim((string) $mappedRow['reference']) : '';
+        if ($reference === '') {
+            $reference = $valueTimestamp . '-' . substr(sha1($memo . '|' . $amount . '|' . $trx->transactionDC), 0, 10);
         }
-        
+        $trx->reference = $reference;
+        $trx->transactionCode = $reference;
+        $trx->checknumber = $reference;
+
         if (isset($mappedRow['category'])) {
-            $trx->transactionType = $mappedRow['category'];
+            $trx->category = (string) $mappedRow['category'];
         }
-        
+
         return $trx;
     }
     

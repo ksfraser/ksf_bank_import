@@ -247,7 +247,7 @@ class TransactionPartnerMatcher
      * @param int $partnerType   FA partner-type constant for the bucket
      * @return TransactionMatchResult[] sorted by score descending
      * @since 7.6
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     private function scoreCandidateSet(
         array $transaction,
@@ -313,7 +313,7 @@ class TransactionPartnerMatcher
      * @param int $customer     PT_CUSTOMER constant value
      * @param int $bankTransfer ST_BANKTRANSFER constant value
      * @return void
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     public function setPartnerTypeConstants(int $supplier, int $customer, int $bankTransfer): void
     {

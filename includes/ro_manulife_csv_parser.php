@@ -247,18 +247,17 @@ class ro_manulife_csv_parser extends GenericCsvParser {
      */
     protected function createTransaction($mappedRow, $static_data) {
         $trx = parent::createTransaction($mappedRow, $static_data);
-        
-        // Manulife's amount is signed (negative = debit, positive = credit)
-        // This is already handled by parent, but we can categorize
-        if ($trx->amount < 0) {
-            $trx->transactionType = 'DEBIT';
-        } else {
-            $trx->transactionType = 'CREDIT';
-        }
-        
-        // Extract better payee name
-        $trx->name = $this->extractPayeeName($trx->memo);
-        
+
+        // The parent already sets transactionDC from the signed amount; keep
+        // transactionType as the generic TRF the importer expects and record
+        // the payee in the fields the FA transaction class actually has.
+        $payee = $this->extractPayeeName($trx->memo);
+        $trx->account = $payee;
+        $trx->accountName = $payee;
+        $trx->merchant = $payee;
+        $trx->transactionTitle1 = $payee;
+        $trx->transactionTitle = $payee;
+
         return $trx;
     }
 }

@@ -62,7 +62,7 @@ class GenericMatcherAdapter
      *
      * @param MatchingConfig|null $config Optional shared matching config override
      * @since 7.6
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     public function __construct(MatchingConfig $config = null)
     {
@@ -87,7 +87,7 @@ class GenericMatcherAdapter
      *                  'confidence' => float 0-1, 'score' => float 0-100,
      *                  'field_scores' => array, 'match_type' => string], ... ]
      * @since 7.6
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     public function scoreCandidates(array $transaction, array $candidates): array
     {
@@ -134,7 +134,7 @@ class GenericMatcherAdapter
      * @param float $confidence 0.0-1.0
      * @return bool
      * @since 7.6
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     public function shouldAutoApprove(float $confidence): bool
     {
@@ -147,7 +147,7 @@ class GenericMatcherAdapter
      * @param float $confidence 0.0-1.0
      * @return bool
      * @since 7.6
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     public function needsReview(float $confidence): bool
     {
@@ -164,7 +164,7 @@ class GenericMatcherAdapter
      *
      * @return MatchingConfig
      * @since 7.6
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     private function defaultConfig(): MatchingConfig
     {
@@ -201,7 +201,7 @@ class GenericMatcherAdapter
      * @param array $transaction
      * @return array Staged record with canonical field names
      * @since 7.6
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     private function normalizeTransaction(array $transaction): array
     {
@@ -234,7 +234,7 @@ class GenericMatcherAdapter
      * @param array $row
      * @return array [normalizedCandidate, id, name]
      * @since 7.6
-          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     private function normalizeCandidate(array $row): array
     {
