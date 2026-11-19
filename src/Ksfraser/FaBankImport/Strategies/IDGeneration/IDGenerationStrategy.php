@@ -15,7 +15,7 @@ namespace Ksfraser\FaBankImport\Strategies\IDGeneration;
  *
  * Implements Strategy Pattern for polymorphic ID generation.
  * Allows swapping different ID generation algorithms without affecting clients.
-  * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
  */
 interface IDGenerationStrategy
 {
@@ -23,7 +23,7 @@ interface IDGenerationStrategy
      * Get the strategy name/type for this generator
      *
      * @return string Strategy identifier (e.g., 'transaction_reference', 'bank_account_key')
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function getStrategyName(): string;
 
@@ -34,7 +34,7 @@ interface IDGenerationStrategy
      * @return string Generated ID or key
      *
      * @throws \InvalidArgumentException If required parameters are missing
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function generate(array $parameters): string;
 
@@ -43,7 +43,7 @@ interface IDGenerationStrategy
      *
      * @param array<string, mixed> $parameters Parameters to validate
      * @return bool True if parameters are valid
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function validateParameters(array $parameters): bool;
 
@@ -51,7 +51,7 @@ interface IDGenerationStrategy
      * Get description of required parameters for this strategy
      *
      * @return array<string, string> Parameter name => description map
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function getRequiredParameters(): array;
 }

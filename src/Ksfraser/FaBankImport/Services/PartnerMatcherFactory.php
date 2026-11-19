@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Services;
 
+use Ksfraser\FaBankImport\Services\Matching\GenericMatcherAdapter;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 
 /**
@@ -106,5 +107,30 @@ final class PartnerMatcherFactory
         SupplierMatchingConfiguration $config
     ): TransactionPartnerMatcher {
         return new TransactionPartnerMatcher($engine, $config);
+    }
+
+    /**
+ * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+     * Create unified matcher backed by the shared GenericMatcher engine.
+     *
+     * Scores candidates through ksf_FA_Common's GenericMatcher (via
+     * GenericMatcherAdapter) instead of the local ScoringRuleEngine. Name
+     * similarity dominates (70%); amount, date and reference contribute when
+     * the candidate row supplies them.
+     *
+     * @return TransactionPartnerMatcher Shared-engine unified matcher instance
+     * @since 7.6
+     */
+    public static function createSharedEngineMatcher(): TransactionPartnerMatcher
+    {
+        $config = new SupplierMatchingConfiguration();
+        $factory = new SupplierScoringEngineFactory($config);
+        $engine = $factory->createEngine();
+
+        return new TransactionPartnerMatcher(
+            $engine,
+            $config,
+            new GenericMatcherAdapter()
+        );
     }
 }

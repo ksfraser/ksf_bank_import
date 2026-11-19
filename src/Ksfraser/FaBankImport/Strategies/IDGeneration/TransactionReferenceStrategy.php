@@ -14,7 +14,7 @@ use Ksfraser\FaBankImport\Services\ReferenceNumberService;
  * Wraps ReferenceNumberService for polymorphic usage in strategy pattern.
  *
  * Example: Generates references like "1001", "1002", etc. for FA transactions
-  * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
  */
 final class TransactionReferenceStrategy implements IDGenerationStrategy
 {
@@ -29,7 +29,7 @@ final class TransactionReferenceStrategy implements IDGenerationStrategy
      * Constructor
      *
      * @param ?ReferenceNumberService $referenceService Optional service (auto-created if null)
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct(?ReferenceNumberService $referenceService = null)
     {
@@ -38,7 +38,7 @@ final class TransactionReferenceStrategy implements IDGenerationStrategy
 
     /**
      * {@inheritDoc}
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function getStrategyName(): string
     {
@@ -54,7 +54,7 @@ final class TransactionReferenceStrategy implements IDGenerationStrategy
      * @return string Unique reference number
      *
      * @throws InvalidArgumentException If trans_type is missing or invalid
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function generate(array $parameters): string
     {
@@ -73,7 +73,7 @@ final class TransactionReferenceStrategy implements IDGenerationStrategy
      * {@inheritDoc}
      *
      * Requires: trans_type as integer
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function validateParameters(array $parameters): bool
     {
@@ -84,7 +84,7 @@ final class TransactionReferenceStrategy implements IDGenerationStrategy
 
     /**
      * {@inheritDoc}
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function getRequiredParameters(): array
     {

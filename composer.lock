@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "10dabd6104072de70cb76aa581c503b5",
+    "content-hash": "35ec3cc41924c62cf605a3e9c19d467c",
     "packages": [
         {
             "name": "asgrim/ofxparser",
@@ -137,6 +137,49 @@
             "time": "2023-10-01T12:35:29+00:00"
         },
         {
+            "name": "ksfraser/exceptions",
+            "version": "v1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/Exceptions.git",
+                "reference": "04052a8ac7cb595df427dfb68c229e163cbe401c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/Exceptions/zipball/04052a8ac7cb595df427dfb68c229e163cbe401c",
+                "reference": "04052a8ac7cb595df427dfb68c229e163cbe401c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ksfraser\\Exceptions\\": "src/Ksfraser/Exceptions/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Fraser",
+                    "email": "ksfraser@example.com"
+                }
+            ],
+            "description": "A comprehensive exception library for ksfraser projects with factory methods for domain-specific errors.",
+            "support": {
+                "issues": "https://github.com/ksfraser/Exceptions/issues",
+                "source": "https://github.com/ksfraser/Exceptions/tree/v1.3.0"
+            },
+            "time": "2026-05-09T22:11:29+00:00"
+        },
+        {
             "name": "ksfraser/ksf-common-db",
             "version": "v1.0.1",
             "source": {
@@ -173,6 +216,100 @@
                 "source": "https://github.com/ksfraser/ksf_common_db/tree/v1.0.1"
             },
             "time": "2026-09-21T00:20:59+00:00"
+        },
+        {
+            "name": "ksfraser/ksf-fa-common",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/ksf_FA_Common.git",
+                "reference": "d01eab002f83b930ca4bb2fdcac95523010daee2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/ksf_FA_Common/zipball/d01eab002f83b930ca4bb2fdcac95523010daee2",
+                "reference": "d01eab002f83b930ca4bb2fdcac95523010daee2",
+                "shasum": ""
+            },
+            "require": {
+                "ksfraser/exceptions": "^1.3",
+                "ksfraser/related-to-core": "^1.0",
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "ksfraser/famock": "^0.10",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "ksf": {
+                    "module-type": "platform-common"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/logging_functions.php",
+                    "src/compat.php",
+                    "src/autoload.php"
+                ],
+                "psr-4": {
+                    "Ksfraser\\Frontaccounting\\HTML\\": "src/HTML/",
+                    "ksfraser\\FrontAccounting\\Common\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Shared FrontAccounting platform utilities, contracts, and extension points for the KSF ecosystem",
+            "support": {
+                "issues": "https://github.com/ksfraser/ksf_FA_Common/issues",
+                "source": "https://github.com/ksfraser/ksf_FA_Common/tree/v1.2.0"
+            },
+            "time": "2026-11-15T22:23:01+00:00"
+        },
+        {
+            "name": "ksfraser/related-to-core",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksfraser/ksf-related-to-core.git",
+                "reference": "7f6b4e951c542d074ecd04e463b491f47d297480"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksfraser/ksf-related-to-core/zipball/7f6b4e951c542d074ecd04e463b491f47d297480",
+                "reference": "7f6b4e951c542d074ecd04e463b491f47d297480",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ksfraser\\RelatedTo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Fraser",
+                    "email": "kevin@ksfraser.com"
+                }
+            ],
+            "description": "Framework-agnostic related-records core: DTOs, repository interface, exceptions, and UI renderer contracts",
+            "support": {
+                "issues": "https://github.com/ksfraser/ksf-related-to-core/issues",
+                "source": "https://github.com/ksfraser/ksf-related-to-core/tree/v1.0.1"
+            },
+            "time": "2026-11-05T23:38:43+00:00"
         },
         {
             "name": "mimographix/qif-library",

@@ -32,7 +32,7 @@ use InvalidArgumentException;
  *     'trans_type' => ST_CUSTPAYMENT
  * ]);
  * ```
-  * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
  */
 final class IDGenerationContext
 {
@@ -47,7 +47,7 @@ final class IDGenerationContext
      * Constructor
      *
      * Registers default strategies
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function __construct()
     {
@@ -61,7 +61,7 @@ final class IDGenerationContext
      *
      * @param IDGenerationStrategy $strategy The strategy to register
      * @return self For method chaining
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function registerStrategy(IDGenerationStrategy $strategy): self
     {
@@ -77,7 +77,7 @@ final class IDGenerationContext
      * @return string Generated ID or key
      *
      * @throws InvalidArgumentException If strategy not found or parameters invalid
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function generate(string $strategyName, array $parameters): string
     {
@@ -111,7 +111,7 @@ final class IDGenerationContext
      *
      * @param string $strategyName Name of the strategy to check
      * @return bool True if strategy exists
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function hasStrategy(string $strategyName): bool
     {
@@ -122,7 +122,7 @@ final class IDGenerationContext
      * Get all registered strategies
      *
      * @return array<string, IDGenerationStrategy> Strategy name => strategy instance map
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function getStrategies(): array
     {
@@ -133,7 +133,7 @@ final class IDGenerationContext
      * Get information about all registered strategies
      *
      * @return array<string, array<string, string>> Strategy info for documentation
-          * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
+ * @BABOK FR-IMP-008 | BR-IMP-001 | UAT-IMP-001
      */
     public function getStrategyInfo(): array
     {

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace Ksfraser\FaBankImport\Services;
 
+use Ksfraser\FaBankImport\Services\Matching\GenericMatcherAdapter;
 use Ksfraser\FaBankImport\Services\Scoring\ScoringRuleEngine;
 
 /**
@@ -49,6 +50,15 @@ class TransactionPartnerMatcher
     private ScoringRuleEngine $engine;
 
     /**
+     * Optional shared-engine adapter (ksf_FA_Common GenericMatcher). When set,
+     * candidate scoring delegates to the shared engine via the adapter instead
+     * of the local ScoringRuleEngine.
+     *
+     * @var GenericMatcherAdapter|null
+     */
+    private ?GenericMatcherAdapter $genericMatcher;
+
+    /**
      * Matching configuration (supplier or customer optimized)
      *
      * @var object Configuration with getMinimumConfidenceThreshold() method
@@ -70,13 +80,18 @@ class TransactionPartnerMatcher
      *
      * @param ScoringRuleEngine $engine Scoring engine instance
      * @param object            $config Matching configuration (SupplierMatchingConfiguration or CustomerMatchingConfiguration)
+     * @param GenericMatcherAdapter|null $genericMatcher Optional shared GenericMatcher
+     *        adapter (ksf_FA_Common); when provided it replaces ScoringRuleEngine
+     *        as the candidate scoring backend
      */
     public function __construct(
         ScoringRuleEngine $engine,
-        object $config
+        object $config,
+        ?GenericMatcherAdapter $genericMatcher = null
     ) {
         $this->engine = $engine;
         $this->config = $config;
+        $this->genericMatcher = $genericMatcher;
     }
 
     /**
@@ -125,83 +140,54 @@ class TransactionPartnerMatcher
         $bestResult = null;
 
         // Score against suppliers
-        foreach ($suppliers as $supplier) {
-            $candidate = new VendorCandidate(
-                (int)$supplier['partner_id'],
-                $supplier['name'],
-                $supplier['account'] ?? '',
-                $this->partnerTypeSupplier
-            );
-
-            $score = $this->engine->calculateAdjustment($transaction, $candidate);
-
-            if ($score > 0) {
-                $result = new TransactionMatchResult(
-                    (int)$supplier['partner_id'],
-                    $supplier['name'],
-                    $score,
-                    'supplier'
-                );
-                $results['supplier'][] = $result;
-
-                if ($score > $maxScore) {
-                    $maxScore = $score;
-                    $bestResult = $result;
-                }
-            }
-        }
+        $results['supplier'] = $this->scoreCandidateSet(
+            $transaction,
+            $suppliers,
+            'partner_id',
+            'name',
+            'account',
+            'supplier',
+            $this->partnerTypeSupplier
+        );
 
         // Score against customers
-        foreach ($customers as $customer) {
-            $candidate = new VendorCandidate(
-                (int)$customer['partner_id'],
-                $customer['name'],
-                $customer['account'] ?? '',
-                $this->partnerTypeCustomer
-            );
-
-            $score = $this->engine->calculateAdjustment($transaction, $candidate);
-
-            if ($score > 0) {
-                $result = new TransactionMatchResult(
-                    (int)$customer['partner_id'],
-                    $customer['name'],
-                    $score,
-                    'customer'
-                );
-                $results['customer'][] = $result;
-
-                if ($score > $maxScore) {
-                    $maxScore = $score;
-                    $bestResult = $result;
-                }
-            }
-        }
+        $results['customer'] = $this->scoreCandidateSet(
+            $transaction,
+            $customers,
+            'partner_id',
+            'name',
+            'account',
+            'customer',
+            $this->partnerTypeCustomer
+        );
 
         // Score against bank transfer accounts
-        foreach ($bankAccounts as $account) {
-            $candidate = new VendorCandidate(
-                (int)$account['bank_account_id'],
-                $account['bank_account_name'],
-                $account['account_number'],
-                $this->partnerTypeBankTransfer
-            );
+        $results['bank_transfer'] = $this->scoreCandidateSet(
+            $transaction,
+            $bankAccounts,
+            'bank_account_id',
+            'bank_account_name',
+            'account_number',
+            'bank_transfer',
+            $this->partnerTypeBankTransfer
+        );
 
-            $score = $this->engine->calculateAdjustment($transaction, $candidate);
-
-            if ($score > 0) {
-                $result = new TransactionMatchResult(
-                    (int)$account['bank_account_id'],
-                    $account['bank_account_name'],
-                    $score,
-                    'bank_transfer'
-                );
-                $results['bank_transfer'][] = $result;
-
-                if ($score > $maxScore) {
-                    $maxScore = $score;
-                    $bestResult = $result;
-                }
+        foreach ($results['supplier'] as $result) {
+            if ($result->getScore() > $maxScore) {
+                $maxScore = $result->getScore();
+                $bestResult = $result;
+            }
+        }
+        foreach ($results['customer'] as $result) {
+            if ($result->getScore() > $maxScore) {
+                $maxScore = $result->getScore();
+                $bestResult = $result;
+            }
+        }
+        foreach ($results['bank_transfer'] as $result) {
+            if ($result->getScore() > $maxScore) {
+                $maxScore = $result->getScore();
+                $bestResult = $result;
             }
         }
 
@@ -244,13 +230,90 @@ class TransactionPartnerMatcher
     }
 
     /**
- * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+     * Score one candidate bucket against the transaction.
+     *
+     * When the shared GenericMatcher adapter is injected the bucket is scored
+     * through it (name/amount/date/reference weighted confidence); otherwise
+     * each candidate goes through the local ScoringRuleEngine. Candidates
+     * scoring <= 0 are dropped; survivors are returned sorted by score
+     * descending as TransactionMatchResult instances.
+     *
+     * @param array $transaction Bank transaction
+     * @param array $candidates  Candidate rows for the bucket
+     * @param string $idKey      Candidate row key holding the partner id
+     * @param string $nameKey    Candidate row key holding the display name
+     * @param string $accountKey Candidate row key holding the account number
+     * @param string $type       Bucket label ('supplier'|'customer'|'bank_transfer')
+     * @param int $partnerType   FA partner-type constant for the bucket
+     * @return TransactionMatchResult[] sorted by score descending
+     * @since 7.6
+          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
+     */
+    private function scoreCandidateSet(
+        array $transaction,
+        array $candidates,
+        string $idKey,
+        string $nameKey,
+        string $accountKey,
+        string $type,
+        int $partnerType
+    ): array {
+        if (empty($candidates)) {
+            return [];
+        }
+
+        if ($this->genericMatcher !== null) {
+            $scored = $this->genericMatcher->scoreCandidates($transaction, $candidates);
+            $results = [];
+            foreach ($scored as $entry) {
+                if ($entry['score'] <= 0) {
+                    continue;
+                }
+                $results[] = new TransactionMatchResult(
+                    (int)$entry['id'],
+                    (string)$entry['name'],
+                    (float)$entry['score'],
+                    $type
+                );
+            }
+        } else {
+            $results = [];
+            foreach ($candidates as $row) {
+                $candidate = new VendorCandidate(
+                    (int)$row[$idKey],
+                    (string)$row[$nameKey],
+                    (string)($row[$accountKey] ?? ''),
+                    $partnerType
+                );
+
+                $score = $this->engine->calculateAdjustment($transaction, $candidate);
+
+                if ($score > 0) {
+                    $results[] = new TransactionMatchResult(
+                        (int)$row[$idKey],
+                        (string)$row[$nameKey],
+                        $score,
+                        $type
+                    );
+                }
+            }
+        }
+
+        usort($results, function ($a, $b) {
+            return $b->getScore() <=> $a->getScore();
+        });
+
+        return $results;
+    }
+
+    /**
      * Set partner type constants (for testability)
      *
      * @param int $supplier     PT_SUPPLIER constant value
      * @param int $customer     PT_CUSTOMER constant value
      * @param int $bankTransfer ST_BANKTRANSFER constant value
      * @return void
+          * @BABOK FR-VAL-004 | BR-VAL-004 | UAT-VAL-006
      */
     public function setPartnerTypeConstants(int $supplier, int $customer, int $bankTransfer): void
     {

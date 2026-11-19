@@ -498,6 +498,7 @@ return [
     'Ksfraser\\FaBankImport\\Services\\FileStorageService' => ['FR-IMP-003'],
     'Ksfraser\\FaBankImport\\Services\\FileStorageServiceInterface' => ['FR-IMP-003'],
     'Ksfraser\\FaBankImport\\Services\\PartnerMatcherFactory' => ['FR-VAL-004'],
+    'Ksfraser\\FaBankImport\\Services\\Matching\\GenericMatcherAdapter' => ['FR-VAL-004'],
     'Ksfraser\\FaBankImport\\Services\\SupplierMatchResult' => ['FR-VAL-004'],
     'Ksfraser\\FaBankImport\\Services\\TransactionMatchResult' => ['FR-VAL-004'],
     'Ksfraser\\FaBankImport\\Services\\TransactionCounter' => ['FR-IMP-008'],
