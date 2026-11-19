@@ -201,11 +201,13 @@ function do_upload_form() {
     table_header($th);
 
     label_row(_("Format:"), array_selector('parser', null, $parsers, array('select_submit' => true)));
-    foreach($_parsers[$_POST['parser']]['select'] as $param => $label) {
+    $parserId = isset($_POST['parser']) ? (string) $_POST['parser'] : '';
+    $parserFields = isset($_parsers[$parserId]['select']) ? $_parsers[$parserId]['select'] : array();
+    foreach($parserFields as $param => $label) {
 
 	switch($param) {
 	    case 'bank_account':
-		bank_accounts_list_row($label, 'bank_account', $selected_id=null, $submit_on_change=false);
+		render_bank_account_field($label, 'bank_account', $parserId);
 	    break;
 
 	}
@@ -218,8 +220,33 @@ function do_upload_form() {
     submit_cells('upload', _("Upload"));
     end_row();
 
-    end_table(1);
-    div_end();
+	end_table(1);
+	div_end();
+}
+
+/**
+ * Render the bank-account picker row for the selected parser.
+ *
+ * Parsers that can read the account from the statement itself (QFX/OFX)
+ * declare 'bank_account' as optional. Their picker gets an explicit empty
+ * entry so an upload can proceed without a selection; required parsers keep
+ * FA's standard, unmodified picker.
+ *
+ * @param string $label    Row label.
+ * @param string $name     Field name.
+ * @param string $parserId Parser key from getParsers().
+ * @return void
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+ */
+function render_bank_account_field($label, $name, $parserId)
+{
+    if (parser_field_is_required($parserId, $name)) {
+	bank_accounts_list_row($label, $name, $selected_id=null, $submit_on_change=false);
+	return;
+    }
+
+    echo "<tr><td class='label'>" . $label . ' (' . _("optional") . ")</td>\n";
+    echo "<td>" . bank_accounts_list($name, null, false, _("— use the account in the file —")) . "</td></tr>\n";
 }
 
 
@@ -227,6 +254,14 @@ function do_upload_form() {
  * @BABOK FR-IMP-005, FR-IMP-006 | BR-IMP-001 | UAT-IMP-001
  */
 function parse_uploaded_files() {
+    $parserId = isset($_POST['parser']) ? (string) $_POST['parser'] : '';
+    $selectedBankAccountId = isset($_POST['bank_account']) ? (int) $_POST['bank_account'] : 0;
+
+    if ($selectedBankAccountId <= 0 && parser_field_is_required($parserId, 'bank_account')) {
+	display_error(_("Select the FrontAccounting bank account this statement belongs to."));
+	return;
+    }
+
     start_table(TABLESTYLE);
     start_row();
     
@@ -240,12 +275,22 @@ function parse_uploaded_files() {
     //prepare static data for parser
     $static_data = array();
     $_parsers = getParsers();
+    $parserFields = isset($_parsers[$parserId]['select']) ? $_parsers[$parserId]['select'] : array();
     //display_notification( print_r( $_POST ) );
-    foreach($_parsers[$_POST['parser']]['select'] as $param => $label) {
+    foreach($parserFields as $param => $label) {
 	switch($param) {
 	    case 'bank_account':
+		if ($selectedBankAccountId <= 0) {
+		    // Optional and left blank: the parser reads the account
+		    // from the statement itself.
+		    break;
+		}
 		//get bank account data
-		$bank_account = get_bank_account($_POST['bank_account']);
+		$bank_account = get_bank_account($selectedBankAccountId);
+		if (!is_array($bank_account)) {
+		    display_error(_("The selected bank account could not be loaded."));
+		    break;
+		}
     //display_notification( __FILE__ . "::" . __LINE__ . "::" . "Bank Account Details from get_bank_account for Bank passed in from form::" .  print_r( $bank_account, true ) );
 		$static_data['account'] = $bank_account['bank_account_number'];
 		$static_data['account_number'] = $bank_account['bank_account_number'];

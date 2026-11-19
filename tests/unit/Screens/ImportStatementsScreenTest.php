@@ -236,6 +236,60 @@ final class ImportStatementsScreenTest extends TestCase
         $this->assertNotEmpty($info['session']['statements'] ?? null, 'The parsed statements are kept in the session.');
     }
 
+    public function testABankAccountSelectionIsOptionalForQfx(): void
+    {
+        $file = $this->writeStatementFile('statement.qfx');
+
+        $process = $this->runScreen([
+            'post' => ['parser' => 'QFX', 'upload' => 'Upload', 'bank_account' => ''],
+            'files' => [
+                ['name' => 'statement.qfx', 'tmp_name' => $file, 'error' => 0],
+            ],
+        ]);
+
+        $output = $process->getStdout();
+
+        $this->assertStringContainsString('Valid statements   : 1', $output);
+        $this->assertStringContainsString('Invalid statements : 0', $output);
+        $this->assertStringContainsString("name='import'", $output, 'A QFX upload imports without a bank account selection.');
+
+        $info = $process->getInfo();
+        $this->assertSame([], $info['errors'] ?? [], 'Leaving the optional picker blank is not an error.');
+        $this->assertNotEmpty($info['session']['statements'] ?? null);
+    }
+
+    public function testTheUploadFormMarksTheQfxBankAccountAsOptional(): void
+    {
+        $process = $this->runScreen([
+            'post' => ['parser' => 'QFX'],
+        ]);
+
+        $output = $process->getStdout();
+
+        $this->assertStringContainsString('Select bank account (optional)', $output);
+    }
+
+    public function testARequiredBankAccountBlocksTheUploadWhenMissing(): void
+    {
+        $file = $this->workDir . '/wmmc.csv';
+        file_put_contents($file, "date,description,amount\n2024-01-02,Test,-10.00\n");
+
+        $process = $this->runScreen([
+            'post' => ['parser' => 'ro_wmmc_csv', 'upload' => 'Upload', 'bank_account' => ''],
+            'files' => [
+                ['name' => 'wmmc.csv', 'tmp_name' => $file, 'error' => 0],
+            ],
+        ]);
+
+        $output = $process->getStdout();
+        $info = $process->getInfo();
+
+        $this->assertStringContainsString('Select the FrontAccounting bank account', $output);
+        $this->assertStringNotContainsString('Valid statements', $output, 'No parsing happens without the required account.');
+        $this->assertNotEmpty($info['errors'] ?? []);
+        $this->assertArrayNotHasKey('statements', $info['session'] ?? []);
+    }
+
     public function testAStatementWithABrokenTransactionCannotBeImported(): void
     {
         $file = $this->writeStatementFile('broken.qfx', '');

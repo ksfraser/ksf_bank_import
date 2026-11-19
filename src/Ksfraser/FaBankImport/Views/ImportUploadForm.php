@@ -46,7 +46,11 @@ class Parsers
 		        //'ro_brd_mt940' => array('name' => 'BRD-RO, MT940 format'),
 		        //'ro_bcr_csv' => array('name' => 'BCR-RO, CSV format'),
 		        //'ro_ing_csv' => array('name' => 'ING-RO, CSV format', 'select' => array('bank_account' => 'Select bank account')),
-		        'QFX' => array('name' => 'QFX/OFX/Quickbooks (QBO) format', 'select' => array('bank_account' => 'Select bank account')),
+		        'QFX' => array(
+		            'name' => 'QFX/OFX/Quickbooks (QBO) format',
+		            'select' => array('bank_account' => 'Select bank account'),
+		            'optional' => array('bank_account'),
+		        ),
 		        'ro_wmmc_csv' => array('name' => 'WMMC, CSV format', 'select' => array('bank_account' => 'Select bank account')),
 		        );
 	}
@@ -117,13 +121,20 @@ class ImportUploadForm
     		$_parsers = Parsers::getParsers();
 		$parsers = Parsers::getParserArray( $_parsers );
     		label_row(_("Format:"), array_selector('parser', null, $parsers, array('select_submit' => true)));
-    		foreach($_parsers[$_POST['parser']]['select'] as $param => $label) 
+    		$parserId = isset($_POST['parser']) ? (string) $_POST['parser'] : '';
+    		$parserFields = isset($_parsers[$parserId]['select']) ? $_parsers[$parserId]['select'] : array();
+    		foreach($parserFields as $param => $label) 
 		{
 
         		switch($param) 
 			{
             			case 'bank_account':
-                			bank_accounts_list_row($label, 'bank_account', $selected_id=null, $submit_on_change=false);
+                			if (in_array($param, isset($_parsers[$parserId]['optional']) ? $_parsers[$parserId]['optional'] : array(), true)) {
+                				echo "<tr><td class='label'>" . $label . ' (' . _("optional") . ")</td>\n";
+                				echo "<td>" . bank_accounts_list($param, null, false, _("— use the account in the file —")) . "</td></tr>\n";
+                			} else {
+                				bank_accounts_list_row($label, $param, $selected_id=null, $submit_on_change=false);
+                			}
             				break;
 
         		}
