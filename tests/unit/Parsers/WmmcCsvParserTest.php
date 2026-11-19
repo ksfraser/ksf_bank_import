@@ -168,6 +168,33 @@ final class WmmcCsvParserTest extends TestCase
         $this->assertSame('CAN', $transaction->transactionTitle4);
     }
 
+    public function testThe2026HeaderKeepsTheTransactionDateAsTheStatementId(): void
+    {
+        $csv = '"Transaction Date","Posted Date","Reference Number","Activity Type","Status",'
+            . '"Card Number","Merchant Category","Merchant Name","Merchant City",'
+            . '"Merchant State/Province","Merchant Country","Merchant Zip","Amount","Rewards","Name on Card"' . "\n"
+            . '"2026-10-22","2026-10-23","""26296000537600369326296""","TRANS","APPROVED",'
+            . '"************9895","","PAYMENT - THANK YOU","","","","","-$125.89","","MARCIA LIN FRASER"' . "\n"
+            . '"2026-10-19","2026-10-20","""55503806293004001147432""","TRANS","APPROVED",'
+            . '"************9895","Grocery Stores and Supermarkets","WAL-MART #1050","AIRDRIE",'
+            . '"AB","CAN","T4B 3G5","$126.49","","MARCIA LIN FRASER"' . "\n";
+
+        $statements = (new \ro_wmmc_csv_parser())->parse($csv, $this->staticData(), false);
+
+        $this->assertSame(['2026-10-22', '2026-10-19'], array_keys($statements),
+            'The statement key and id come from "Transaction Date", not "Posted Date".');
+        $this->assertSame('2026-10-22-00000-0', $statements['2026-10-22']->statementId);
+
+        $payment = $statements['2026-10-22']->transactions[0];
+        $this->assertSame('B', $payment->transactionDC, 'A negative payment is money coming back.');
+        $this->assertSame(125.89, $payment->transactionAmount);
+        $this->assertSame('2026-10-23', $payment->entryTimestamp, 'The posted date is the entry timestamp.');
+
+        $purchase = $statements['2026-10-19']->transactions[0];
+        $this->assertSame('T4B 3G5', trim($purchase->transactionTitle5), 'The 2026 "Merchant Zip" header is recognised.');
+        $this->assertSame('AB', $purchase->transactionTitle3);
+    }
+
     public function testRowsFromTwoCardsOnTheSameDayBecomeSeparateStatements(): void
     {
         $csv = $this->header2024 . "\n"
@@ -214,10 +241,46 @@ final class WmmcCsvParserTest extends TestCase
 
     public function testAnUnrecognisedHeaderIsRejectedWithAClearError(): void
     {
-        $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('no date or amount column');
+        $this->expectException(\WmmcColumnHeaderMismatchException::class);
+        $this->expectExceptionMessage('missing required column(s): date, amount, merchant');
 
         (new \ro_wmmc_csv_parser())->parse('"Foo","Bar"' . "\n" . '"a","b"' . "\n", $this->staticData(), false);
+    }
+
+    public function testAHeaderMismatchReportsWhatItActuallySaw(): void
+    {
+        try {
+            (new \ro_wmmc_csv_parser())->parse('"Foo","Bar"' . "\n" . '"a","b"' . "\n", $this->staticData(), false);
+            $this->fail('A header with no recognizable columns must be rejected.');
+        } catch (\WmmcColumnHeaderMismatchException $e) {
+            $this->assertSame(['date', 'amount', 'merchant'], $e->getMissingColumns());
+            $this->assertSame(['Foo', 'Bar'], $e->getSeenHeaders());
+            $this->assertStringContainsString('Headers seen: Foo | Bar', $e->getMessage());
+        }
+    }
+
+    public function testUnknownSpellingsAreResolvedFromSynonyms(): void
+    {
+        $csv = '"Value Date","Description","Debit","Rewards"' . "\n"
+            . '"2026-01-05","CORNER STORE","25.00",""' . "\n";
+
+        $statements = (new \ro_wmmc_csv_parser())->parse($csv, $this->staticData(), false);
+
+        $this->assertSame(['2026-01-05'], array_keys($statements));
+        $this->assertSame('CORNER STORE', $statements['2026-01-05']->transactions[0]->merchant);
+        $this->assertSame(25.0, $statements['2026-01-05']->transactions[0]->transactionAmount);
+    }
+
+    public function testAPostingDateIsNotAcceptedAsTheTransactionDate(): void
+    {
+        $this->expectException(\WmmcColumnHeaderMismatchException::class);
+        $this->expectExceptionMessage('missing required column(s): date');
+
+        (new \ro_wmmc_csv_parser())->parse(
+            '"Posting Date","Merchant Name","Amount"' . "\n" . '"2026-01-05","STORE","25.00"' . "\n",
+            $this->staticData(),
+            false
+        );
     }
 
     public function testEveryStatementPassesValidation(): void

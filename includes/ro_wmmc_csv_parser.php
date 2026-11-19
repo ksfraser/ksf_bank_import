@@ -23,6 +23,56 @@
  *
  * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
  */
+/**
+ * Raised when a WMMC export's header cannot be resolved to the columns the
+ * importer needs, even after trying the known synonyms. The message names the
+ * missing columns and every header it actually saw, so a format change can be
+ * diagnosed from the error alone instead of from an empty import.
+ */
+class WmmcColumnHeaderMismatchException extends Exception {
+
+	/** @var array<int,string> Canonical columns that could not be found. */
+	protected $missingColumns;
+
+	/** @var array<int,string> Header cells exactly as they were read. */
+	protected $seenHeaders;
+
+	/**
+	 * @param array<int,string> $missingColumns Canonical columns that could not be found.
+	 * @param array<int,string> $seenHeaders    Header cells as read from the file.
+	 * @param string|null       $message        Optional message override.
+	 */
+	public function __construct(array $missingColumns, array $seenHeaders, $message = null)
+	{
+		$this->missingColumns = $missingColumns;
+		$this->seenHeaders = $seenHeaders;
+
+		if ($message === null) {
+			$message = 'WMMC CSV column header mismatch: missing required column(s): '
+				. implode(', ', $missingColumns)
+				. '. Headers seen: ' . (count($seenHeaders) ? implode(' | ', $seenHeaders) : '(none)');
+		}
+
+		parent::__construct($message);
+	}
+
+	/**
+	 * @return array<int,string>
+	 */
+	public function getMissingColumns()
+	{
+		return $this->missingColumns;
+	}
+
+	/**
+	 * @return array<int,string>
+	 */
+	public function getSeenHeaders()
+	{
+		return $this->seenHeaders;
+	}
+}
+
 class ro_wmmc_csv_parser extends parser {
 
 	/**
@@ -69,6 +119,8 @@ class ro_wmmc_csv_parser extends parser {
 			'merchant postal code/zip' => 'postalcode',
 			'merchant postal code' => 'postalcode',
 			'merchant postal code or zip' => 'postalcode',
+			'merchant zip' => 'postalcode',
+			'merchant zip/postal code' => 'postalcode',
 			'postal code/zip' => 'postalcode',
 			'postal code' => 'postalcode',
 			'zip' => 'postalcode',
@@ -78,6 +130,44 @@ class ro_wmmc_csv_parser extends parser {
 			'reward' => 'rewards',
 			'name on card' => 'nameoncard',
 			'cardholder name' => 'nameoncard',
+		);
+	}
+
+	/**
+	 * Columns the importer cannot work without.
+	 *
+	 * @return array<int,string>
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function requiredColumns()
+	{
+		return array('date', 'amount', 'merchant');
+	}
+
+	/**
+	 * Second-tier header matching, used only for a required column that the
+	 * alias map did not resolve. Each entry is the accepted spelling pattern
+	 * plus, optionally, a pattern that rules a header out ("Posting Date"
+	 * contains "date" but is not the transaction date).
+	 *
+	 * @return array<string,array{0:string,1:string|null}>
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function synonymPatterns()
+	{
+		return array(
+			'date' => array(
+				'/transaction date|trans date|transdate|value date|^date$|\bdate\b/',
+				'/post|entry|due|statement|period/',
+			),
+			'amount' => array(
+				'/amount|debit|credit|charge/',
+				'/balance|rate/',
+			),
+			'merchant' => array(
+				'/merchant ?name|^merchant$|description|payee|narrative|details/',
+				'/category|card|city|state|country|postal|zip/',
+			),
 		);
 	}
 
@@ -130,6 +220,73 @@ class ro_wmmc_csv_parser extends parser {
 		}
 
 		return $mapped;
+	}
+
+	/**
+	 * Map the header, then fill any still-missing REQUIRED column by synonym.
+	 *
+	 * @param array<int,string> $cells Raw header cells.
+	 * @return array<int,string> Column key per position.
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function resolveColumns(array $cells)
+	{
+		$columns = $this->mapHeader($cells);
+		$canonical = array_flip(array_values($this->headerAliases()));
+		$patterns = $this->synonymPatterns();
+
+		foreach ($this->requiredColumns() as $required) {
+			if (in_array($required, $columns, true)) {
+				continue;
+			}
+			if (!isset($patterns[$required])) {
+				continue;
+			}
+			list($accept, $reject) = $patterns[$required];
+
+			foreach ($cells as $index => $cell) {
+				// Only reuse a position whose header did not resolve to a
+				// known column; known columns keep their own meaning.
+				if (isset($canonical[$columns[$index]]) || trim($cell) === '') {
+					continue;
+				}
+				$normalized = $this->normalizeHeaderCell($cell);
+				if (!preg_match($accept, $normalized)) {
+					continue;
+				}
+				if ($reject !== null && preg_match($reject, $normalized)) {
+					continue;
+				}
+
+				$columns[$index] = $required;
+				break;
+			}
+		}
+
+		return $columns;
+	}
+
+	/**
+	 * Throw when a required column is still unresolvable.
+	 *
+	 * @param array<int,string> $columns Resolved column keys.
+	 * @param array<int,string> $cells   Raw header cells.
+	 * @return void
+	 * @throws WmmcColumnHeaderMismatchException
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	protected function assertRequiredColumns(array $columns, array $cells)
+	{
+		$missing = array();
+		foreach ($this->requiredColumns() as $required) {
+			if (!in_array($required, $columns, true)) {
+				$missing[] = $required;
+			}
+		}
+
+		if ($missing) {
+			throw new WmmcColumnHeaderMismatchException($missing, array_values($cells));
+		}
 	}
 
 	/**
@@ -221,11 +378,9 @@ class ro_wmmc_csv_parser extends parser {
 			throw new Exception('Empty WMMC CSV file.');
 		}
 
-		$columns = $this->mapHeader(str_getcsv($headerLine));
-
-		if (!in_array('date', $columns, true) || !in_array('amount', $columns, true)) {
-			throw new Exception('Unrecognised WMMC CSV: the header has no date or amount column.');
-		}
+		$headerCells = str_getcsv($headerLine);
+		$columns = $this->resolveColumns($headerCells);
+		$this->assertRequiredColumns($columns, $headerCells);
 
 		if ($debug) {
 			echo 'WMMC CSV columns: ' . implode(', ', $columns) . "\n";
