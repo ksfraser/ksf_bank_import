@@ -1,0 +1,6 @@
+"Transaction Date","Posted Date","Reference Number","Activity Type","Status","Card Number","Merchant Category","Merchant Name","Merchant City","Merchant State/Province","Merchant Country","Merchant Zip","Amount","Rewards","Name on Card"
+2026-10-22,2026-10-23,"""23058997124513134491560""",TRANS,APPROVED,************3294,,"SAMPLE MERCHANT",,,,,-$125.89,,"JANE SAMPLE"
+2026-10-19,2026-10-20,"""19922535124122142194201""",TRANS,APPROVED,************3294,"Grocery Stores and Supermarkets","SAMPLE MARKET","SAMPLE TOWN",ON,CAN,"X0X 0X0",$126.49,,"JANE SAMPLE"
+2026-10-16,2026-10-19,"""912172336237""",TRANS,APPROVED,************3294,"Grocery Stores and Supermarkets","SAMPLE MERCHANT",,,CAN,,-$130.00,,"JANE SAMPLE"
+2026-10-15,2026-10-16,"""03343214387319281514328""",TRANS,APPROVED,************3294,"Quick Payment Service-Fast Food Restaurants","HARDWARE STORE","SAMPLE TOWN",ON,CAN,"X2X 2X2",$34.82,,"JANE SAMPLE"
+

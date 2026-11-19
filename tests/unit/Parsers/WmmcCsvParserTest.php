@@ -283,6 +283,36 @@ final class WmmcCsvParserTest extends TestCase
         );
     }
 
+    public function testTodaysExportParsesFromTheSanitizedFixture(): void
+    {
+        $csv = (string) file_get_contents(__DIR__ . '/../../wmmc_2026.csv');
+
+        $statements = (new \ro_wmmc_csv_parser())->parse($csv, $this->staticData(), false);
+
+        $this->assertNotEmpty($statements);
+
+        $dates = array();
+        foreach ($statements as $statement) {
+            $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2}-00000-0$/', $statement->statementId);
+            $this->assertSame('CAD', $statement->currency);
+            $this->assertNotEmpty($statement->transactions);
+            $dates[$statement->timestamp] = true;
+
+            foreach ($statement->transactions as $transaction) {
+                $this->assertNotSame('', $transaction->merchant);
+                $this->assertSame($transaction->merchant, $transaction->transactionTitle1);
+                $this->assertContains($transaction->transactionDC, array('D', 'C', 'B'));
+                $this->assertGreaterThan(0, $transaction->transactionAmount);
+                $this->assertNotSame('', $transaction->transactionCode);
+            }
+        }
+
+        // The 2026 header carries "Transaction Date", which must be the
+        // statement date, not the posting date.
+        $this->assertArrayHasKey('2026-10-22', $dates);
+        $this->assertArrayNotHasKey('2026-10-23', $dates);
+    }
+
     public function testEveryStatementPassesValidation(): void
     {
         $csv = $this->header2024 . "\n"
