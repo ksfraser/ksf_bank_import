@@ -45,7 +45,15 @@ CREATE TABLE `0_bi_transactions` (
     `merchant`			VARCHAR(64),
     `category`			VARCHAR(64),
     `sic`			VARCHAR(64),
-    `memo`			VARCHAR(64),
+    `memo`			VARCHAR(255),
+    `city`			VARCHAR(64),
+    `province`			VARCHAR(32),
+    `country`			VARCHAR(32),
+    `postalcode`		VARCHAR(16),
+    `address`			VARCHAR(255),
+    `rewards`			VARCHAR(32),
+    `cardnumber`		VARCHAR(32),
+    `nameoncard`		VARCHAR(64),
     `checknumber`		INTEGER,
     PRIMARY KEY(`id`)
 );

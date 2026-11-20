@@ -66,8 +66,16 @@ if ( !defined( 'KSF_TEST_COMPAT' ) )
 	| merchant            | varchar(64)  | NO   |     | NULL    |                |
 	| category            | varchar(64)  | NO   |     | NULL    |                |
 	| sic                 | varchar(64)  | NO   |     | NULL    |                |
-	| memo                | varchar(64)  | NO   |     | NULL    |                |
+	| memo                | varchar(255) | NO   |     | NULL    |                |
 	| checknumber         | int(11)      | NO   |     | NULL    |                |
+	| city                | varchar(64)  | YES  |     | NULL    |                |
+	| province            | varchar(32)  | YES  |     | NULL    |                |
+	| country             | varchar(32)  | YES  |     | NULL    |                |
+	| postalcode          | varchar(16)  | YES  |     | NULL    |                |
+	| address             | varchar(255) | YES  |     | NULL    |                |
+	| rewards             | varchar(32)  | YES  |     | NULL    |                |
+	| cardnumber          | varchar(32)  | YES  |     | NULL    |                |
+	| nameoncard          | varchar(64)  | YES  |     | NULL    |                |
 	| matched             | int(1)       | NO   |     | 0       |                |
 	| created             | int(1)       | NO   |     | 0       |                |
 *	+---------------------+--------------+------+-----+---------+----------------+
@@ -150,6 +158,16 @@ class bi_transactions_model extends generic_fa_interface_model {
 		// Bank identity metadata for posting-time account association
 		self::ensure_column($table, 'bankid', 'VARCHAR(64) NULL');
 		self::ensure_column($table, 'intu_bid', 'VARCHAR(64) NULL');
+		// Detail exported alongside the merchant (city/province/postal/...)
+		self::ensure_column($table, 'city', 'VARCHAR(64) NULL');
+		self::ensure_column($table, 'province', 'VARCHAR(32) NULL');
+		self::ensure_column($table, 'country', 'VARCHAR(32) NULL');
+		self::ensure_column($table, 'postalcode', 'VARCHAR(16) NULL');
+		self::ensure_column($table, 'address', 'VARCHAR(255) NULL');
+		self::ensure_column($table, 'rewards', 'VARCHAR(32) NULL');
+		self::ensure_column($table, 'cardnumber', 'VARCHAR(32) NULL');
+		self::ensure_column($table, 'nameoncard', 'VARCHAR(64) NULL');
+		self::widen_column($table, 'memo', 'VARCHAR(255)');
 	}
 
 	private static function table_exists(string $table): bool
@@ -170,6 +188,30 @@ class bi_transactions_model extends generic_fa_interface_model {
 			return;
 		}
 		db_query('ALTER TABLE `' . $table . '` ADD COLUMN `' . $column . '` ' . $definition, 'Failed adding column to bi_transactions');
+	}
+
+	/**
+	 * Widen an existing column when its current definition is shorter than the
+	 * one the importer writes.
+	 *
+	 * @param string $table      Table name (already prefixed).
+	 * @param string $column     Column name.
+	 * @param string $definition Full new definition, e.g. "VARCHAR(255)".
+	 * @return void
+	 * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+	 */
+	private static function widen_column(string $table, string $column, string $definition): void
+	{
+		if (!self::table_exists($table) || !self::column_exists($table, $column)) {
+			return;
+		}
+		$res = db_query('SHOW COLUMNS FROM `' . $table . '` LIKE ' . db_escape($column), 'Failed reading column definition');
+		$row = db_fetch_assoc($res);
+		$current = isset($row['Type']) ? strtolower((string) $row['Type']) : '';
+		if ($current === strtolower($definition)) {
+			return;
+		}
+		db_query('ALTER TABLE `' . $table . '` MODIFY COLUMN `' . $column . '` ' . $definition, 'Failed widening column on bi_transactions');
 	}
 
 	var $id_bi_transactions_model;	//!< Index of table
@@ -196,7 +238,15 @@ class bi_transactions_model extends generic_fa_interface_model {
 	protected $merchant;            //| varchar(64)  | NO   |     | NULL    |                |
 	protected $category;            //| varchar(64)  | NO   |     | NULL    |                |
 	protected $sic;                 //| varchar(64)  | NO   |     | NULL    |                |
-	protected $memo;                //| varchar(64)  | NO   |     | NULL    |                |
+	protected $memo;                //| varchar(255) | NO   |     | NULL    |                |
+	protected $city;                //| varchar(64)  | YES  |     | NULL    |                |
+	protected $province;            //| varchar(32)  | YES  |     | NULL    |                |
+	protected $country;             //| varchar(32)  | YES  |     | NULL    |                |
+	protected $postalcode;          //| varchar(16)  | YES  |     | NULL    |                |
+	protected $address;             //| varchar(255) | YES  |     | NULL    |                |
+	protected $rewards;             //| varchar(32)  | YES  |     | NULL    |                |
+	protected $cardnumber;          //| varchar(32)  | YES  |     | NULL    |                |
+	protected $nameoncard;          //| varchar(64)  | YES  |     | NULL    |                |
 	protected $checknumber;	//!<int
 	protected $matched;	//!<bool
 	protected $created;	//!<bool
@@ -263,7 +313,15 @@ class bi_transactions_model extends generic_fa_interface_model {
 		$this->fields_array[] = array('name'=> 'merchant', 'label' => 'Merchant', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'category', 'label' => 'Category', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'sic', 'label' => 'S I Code', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
-		$this->fields_array[] = array('name'=> 'memo', 'label' => 'Memo', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'memo', 'label' => 'Memo', 'type' => 'varchar(255)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'city', 'label' => 'City', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'province', 'label' => 'Province / State', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'country', 'label' => 'Country', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'postalcode', 'label' => 'Postal / Zip', 'type' => 'varchar(16)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'address', 'label' => 'Address', 'type' => 'varchar(255)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'rewards', 'label' => 'Rewards', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'cardnumber', 'label' => 'Card Number', 'type' => 'varchar(32)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
+		$this->fields_array[] = array('name'=> 'nameoncard', 'label' => 'Name on Card', 'type' => 'varchar(64)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'checknumber', 'label' => 'Check Number', 'type' => 'int(11)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => 'NULL' );
 		$this->fields_array[] = array('name'=> 'matched', 'label' => 'Matched', 'type' => 'int(1)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => '0' );
 		$this->fields_array[] = array('name'=> 'created', 'label' => 'Created', 'type' => 'int(1)', 'null' => 'NULL', 'readwrite' => 'readwrite', 'comment' => '', 'default' => '0' );
@@ -642,7 +700,8 @@ class bi_transactions_model extends generic_fa_interface_model {
 	{
                $sql = 	"INSERT IGNORE INTO " . $this->table_details['tablename'] .
 			"(smt_id, valueTimestamp, entryTimestamp, account, accountName, transactionType, " .
-                    		"transactionCode, transactionCodeDesc, transactionDC, transactionAmount, transactionTitle, merchant, category, status, memo, sic, acctid, fitid, bankid, intu_bid, checknumber ) " .
+                    		"transactionCode, transactionCodeDesc, transactionDC, transactionAmount, transactionTitle, merchant, category, status, memo, sic, acctid, fitid, bankid, intu_bid, checknumber, " .
+			"city, province, country, postalcode, address, rewards, cardnumber, nameoncard ) " .
 			" VALUES( " .
 		                    db_escape($this->smt_id) . ", ".
 		                    db_escape($this->valueTimestamp) . ", ".
@@ -664,7 +723,15 @@ class bi_transactions_model extends generic_fa_interface_model {
                                 db_escape($this->fitid) . ", " .
                                 db_escape($this->bankid) . ", " .
                                 db_escape($this->intu_bid) . ", " .
-		                    db_escape($this->checknumber) . 
+		                    db_escape($this->checknumber) . ", " .
+		                    db_escape($this->city) . ", " .
+		                    db_escape($this->province) . ", " .
+		                    db_escape($this->country) . ", " .
+		                    db_escape($this->postalcode) . ", " .
+		                    db_escape($this->address) . ", " .
+		                    db_escape($this->rewards) . ", " .
+		                    db_escape($this->cardnumber) . ", " .
+		                    db_escape($this->nameoncard) .
 			")";
 		return $sql;
 	}
@@ -698,7 +765,15 @@ class bi_transactions_model extends generic_fa_interface_model {
                         "fitid=" . db_escape($this->fitid) . ", " .
                         "bankid=" . db_escape($this->bankid) . ", " .
                         "intu_bid=" . db_escape($this->intu_bid) . ", " .
-                    	"checknumber=" .  db_escape($this->checknumber);
+                    	"checknumber=" .  db_escape($this->checknumber) . ", " .
+			"city=" .  db_escape($this->city) . ", ".
+			"province=" .  db_escape($this->province) . ", ".
+			"country=" .  db_escape($this->country) . ", ".
+			"postalcode=" .  db_escape($this->postalcode) . ", ".
+			"address=" .  db_escape($this->address) . ", ".
+			"rewards=" .  db_escape($this->rewards) . ", ".
+			"cardnumber=" .  db_escape($this->cardnumber) . ", ".
+			"nameoncard=" .  db_escape($this->nameoncard);
 		$sql .=	" WHERE ";
 		return $sql;
 	}

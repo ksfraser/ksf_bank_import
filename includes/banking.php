@@ -43,6 +43,16 @@ class transaction extends banking_base {
 	var $merchant = '';
 	var $category = '';
 	var $reference = '';
+	// Optional detail a bank may supply alongside the merchant. Kept as
+	// separate fields so matching can use them without parsing the memo, and
+	// still folded into transactionTitle/memo for the existing screens.
+	var $city = '';
+	var $province = '';
+	var $country = '';
+	var $postalcode = '';
+	var $rewards = '';
+	var $cardnumber = '';
+	var $nameoncard = '';
 	var $status = '';
 	var $memo;
 	var $sic;

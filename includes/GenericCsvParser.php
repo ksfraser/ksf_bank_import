@@ -70,8 +70,9 @@ abstract class GenericCsvParser extends parser {
      * @return array Array of statement objects
      */
     public function parse($content, $static_data = array(), $debug = true) {
-        // Split into lines
-        $lines = explode("\n", $content);
+        // Split into lines (CRLF from Windows exports must not leak a \r into
+        // the last column of every row).
+        $lines = preg_split('/\r\n|\r|\n/', $content);
         if (empty($lines)) {
             throw new Exception("Empty CSV file");
         }
@@ -167,13 +168,67 @@ abstract class GenericCsvParser extends parser {
     }
     
     /**
-     * Parse CSV line (handles quotes and escaping)
-     * 
-     * @param string $line CSV line
-     * @return array Parsed fields
+     * Delimiter chosen for the current file; null until the first line is read.
+     *
+     * @var string|null
+     */
+    protected $delimiter = null;
+
+    /**
+     * Guess the delimiter from the busiest candidate.
+     *
+     * Gmail/Excel previews frequently hand back tab-separated text while the
+     * downloaded file is comma-separated (or the reverse), so the parser must
+     * not assume either.
+     *
+     * @param string $line Representative line (usually the header row).
+     * @return string Delimiter character.
+     * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+     */
+    protected function detectDelimiter($line) {
+        $tabs = substr_count($line, "\t");
+        $commas = substr_count($line, ',');
+        $semicolons = substr_count($line, ';');
+
+        if ($tabs > $commas && $tabs >= $semicolons) {
+            return "\t";
+        }
+        if ($semicolons > $commas) {
+            return ';';
+        }
+
+        return ',';
+    }
+
+    /**
+     * Split one CSV line, honouring the file's detected delimiter.
+     *
+     * @param string $line Line to split.
+     * @return array<int,string>
+     * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
      */
     protected function parseCsvLine($line) {
-        return str_getcsv($line);
+        if ($this->delimiter === null) {
+            $this->delimiter = $this->detectDelimiter($line);
+        }
+
+        $fields = str_getcsv((string) $line, $this->delimiter);
+
+        // A copy/paste can leave a single line in the other delimiter. Only
+        // switch when the alternative splits into more fields, so quoted
+        // values that merely contain a comma are left alone.
+        $alternatives = array_values(array_diff(array(",", "\t", ';'), array($this->delimiter)));
+        foreach ($alternatives as $alternative) {
+            if (strpos((string) $line, $alternative) === false) {
+                continue;
+            }
+            $candidate = str_getcsv((string) $line, $alternative);
+            if (count($candidate) > count($fields)) {
+                $fields = $candidate;
+            }
+        }
+
+        return $fields;
     }
     
     /**
@@ -394,10 +449,38 @@ abstract class GenericCsvParser extends parser {
         }
         $trx->reference = $reference;
         $trx->transactionCode = $reference;
-        $trx->checknumber = $reference;
+        // checknumber is an integer column: only a genuine cheque number fits.
+        if (ctype_digit($reference)) {
+            $trx->checknumber = $reference;
+        }
 
         if (isset($mappedRow['category'])) {
             $trx->category = (string) $mappedRow['category'];
+        }
+
+        // Optional detail columns. A template may name any of the usual
+        // spellings; absent columns stay empty.
+        $detail = array(
+            'city' => array('city'),
+            'province' => array('province', 'state', 'province_state'),
+            'country' => array('country'),
+            'postalcode' => array('postalcode', 'postal_code', 'postal', 'zip'),
+            'address' => array('address'),
+            'rewards' => array('rewards'),
+            'cardnumber' => array('cardnumber', 'card_number'),
+            'nameoncard' => array('nameoncard', 'name_on_card', 'cardholder'),
+        );
+        foreach ($detail as $property => $keys) {
+            foreach ($keys as $key) {
+                if (isset($mappedRow[$key]) && (string) $mappedRow[$key] !== '') {
+                    $trx->$property = (string) $mappedRow[$key];
+                    break;
+                }
+            }
+        }
+
+        if ($trx->address === '' && ($trx->city !== '' || $trx->postalcode !== '')) {
+            $trx->address = trim($trx->city . "\n" . $trx->province . "\n" . $trx->country . "\n" . $trx->postalcode);
         }
 
         return $trx;

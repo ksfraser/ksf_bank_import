@@ -479,11 +479,18 @@ class ro_wmmc_csv_parser extends parser {
 			$trz->transactionTitle2 = $city;
 			$trz->transactionTitle3 = $province;
 			$trz->transactionTitle4 = $country;
-			$trz->address = $city . "\n" . $province . "\n" . $country . "\n";
+			$trz->city = $city;
+			$trz->province = $province;
+			$trz->country = $country;
+			$trz->address = trim($city . "\n" . $province . "\n" . $country . "\n" . $postalCode);
 			$smts[$key]->currency = $trz->currency = isset($static_data['currency']) && $static_data['currency'] !== ''
 				? $static_data['currency']
 				: 'CAD';
 			$trz->transactionTitle5 = $postalCode . '  ';
+			$trz->postalcode = $postalCode;
+			$trz->rewards = $rewards;
+			$trz->cardnumber = $cardNumber;
+			$trz->nameoncard = $nameOnCard;
 			$trz->transactionTitle6 = $category . '; ';
 			$trz->category = $category . '; ';
 			$trz->transactionTitle7 = $rewards . ' ';

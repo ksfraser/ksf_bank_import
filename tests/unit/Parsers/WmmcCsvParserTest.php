@@ -313,6 +313,31 @@ final class WmmcCsvParserTest extends TestCase
         $this->assertArrayNotHasKey('2026-10-23', $dates);
     }
 
+    public function testMerchantDetailsAreCarriedOntoTheTransaction(): void
+    {
+        $csv = (string) file_get_contents(__DIR__ . '/../../wmmc_2026.csv');
+
+        $found = null;
+        foreach ((new \ro_wmmc_csv_parser())->parse($csv, $this->staticData(), false) as $statement) {
+            foreach ($statement->transactions as $transaction) {
+                if ($transaction->city !== '') {
+                    $found = $transaction;
+                    break 2;
+                }
+            }
+        }
+
+        $this->assertNotNull($found, 'The export carries a merchant with a city.');
+
+        $this->assertSame('SAMPLE TOWN', $found->city);
+        $this->assertSame('ON', $found->province);
+        $this->assertSame('CAN', $found->country);
+        $this->assertMatchesRegularExpression('/^X\dX \dX\d$/', $found->postalcode);
+        $this->assertStringContainsString($found->postalcode, $found->address, 'The postal code is part of the address.');
+        $this->assertNotSame('', $found->cardnumber);
+        $this->assertNotSame('', $found->nameoncard);
+    }
+
     public function testEveryStatementPassesValidation(): void
     {
         $csv = $this->header2024 . "\n"
