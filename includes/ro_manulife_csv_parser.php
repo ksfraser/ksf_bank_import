@@ -46,8 +46,8 @@ class ro_manulife_csv_parser extends GenericCsvParser {
      * @return array Array of statement objects
      */
     public function parse($content, $static_data = array(), $debug = true) {
-        // Split into lines
-        $lines = explode("\n", $content);
+        // Split into lines (CRLF must not leak a \r into the last field)
+        $lines = preg_split('/\r\n|\r|\n/', $content);
         if (empty($lines)) {
             throw new Exception("Empty CSV file");
         }
@@ -69,6 +69,10 @@ class ro_manulife_csv_parser extends GenericCsvParser {
             echo "No header detected - using Manulife default format\n";
         }
         
+        // Headerless files bypass parent::parse(), so the delimiter has to be
+        // detected here as well (mail clients render some exports tab-separated).
+        $this->delimiter = $this->detectDelimiter($firstLine);
+
         // Define expected columns
         $csvHeaders = ['Account', 'Date', 'Amount', 'Description'];
         
@@ -226,7 +230,7 @@ class ro_manulife_csv_parser extends GenericCsvParser {
      */
     protected function extractPayeeName($memo) {
         // Remove transaction type prefixes
-        $cleaned = preg_replace('/^(Transfer From|Transfer To|BPY|TAX|POS SQ|Pay|Mobile Deposit)\s+/', '', $memo);
+        $cleaned = preg_replace('/^(Transfer From|Transfer To|BPY|TAX|POS SQ|Pay|Mobile Deposit)\s+/i', '', $memo);
         
         // Remove trailing transaction IDs and reference numbers
         $cleaned = preg_replace('/\s+[A-Z0-9]{6,}$/', '', $cleaned);

@@ -9,6 +9,7 @@ include_once($path_to_root . "/modules/bank_import/includes/ro_ing_csv_parser.ph
 */
 include_once($path_to_root . "/modules/bank_import/includes/ro_wmmc_csv_parser.php");
 include_once($path_to_root . "/modules/bank_import/includes/ro_manulife_csv_parser.php");
+include_once($path_to_root . "/modules/bank_import/includes/ro_rbc_csv_parser.php");
 include_once($path_to_root . "/modules/bank_import/includes/qfx_parser.php");
 
 function getParsers() {
@@ -31,6 +32,13 @@ function getParsers() {
 	    'select' => array('bank_account' => 'Select bank account'),
 	    // Each row names its own account ("Advantage Account 1518404"), so
 	    // the picker is only a hint and may be left blank.
+	    'optional' => array('bank_account'),
+	),
+	'ro_rbc_csv' => array(
+	    'name' => 'RBC Royal Bank, CSV format',
+	    'select' => array('bank_account' => 'Select bank account'),
+	    // The account number is a column in the file, so the picker is only
+	    // a hint and may be left blank.
 	    'optional' => array('bank_account'),
 	),
 	);

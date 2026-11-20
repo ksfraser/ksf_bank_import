@@ -65,6 +65,63 @@ final class SanitizeStatementDataTest extends TestCase
     }
 
     /**
+     * The RBC export keeps amounts and dates but not the card number.
+     */
+    public function testRbcExportIsScrubbed(): void
+    {
+        $csv = "Account Type,Account Number,Transaction Date,Cheque Number,"
+            . "Description 1,Description 2,CAD$,USD$\n"
+            . "Visa,4510144022764295,9/13/2026,,McDonalds 40016 AIRDRIE,,-5.24,\n";
+
+        $out = sd_sanitize_csv($csv);
+
+        $this->assertStringContainsString('Account Type,Account Number', $out);
+        $this->assertStringContainsString('9/13/2026', $out);
+        $this->assertStringContainsString('-5.24', $out);
+        $this->assertStringNotContainsString('4510144022764295', $out);
+        $this->assertStringNotContainsString('McDonalds', $out);
+        $this->assertStringNotContainsString('AIRDRIE', $out);
+    }
+
+    /**
+     * Headerless Manulife exports are recognised from their date column and
+     * their account label keeps its wording.
+     */
+    public function testHeaderlessManulifeExportIsScrubbed(): void
+    {
+        $csv = "\"Advantage Account 1524001\",09/11/2026,1113.53,\"PAY The Travel Corp\"\n"
+            . "\"Advantage Account 1524001\",09/11/2026,-285.00,\"Transfer to 1518404\"\n";
+
+        $out = sd_sanitize_csv($csv);
+
+        $this->assertStringNotContainsString('1524001', $out);
+        $this->assertStringNotContainsString('The Travel Corp', $out);
+        $this->assertStringContainsString('Advantage Account', $out);
+        $this->assertStringContainsString('09/11/2026', $out);
+        $this->assertStringContainsString('1113.53', $out);
+        $this->assertStringContainsString('-285.00', $out);
+    }
+
+    /**
+     * A tab-separated export stays tab-separated.
+     */
+    public function testTabDelimitedFilesKeepTheirDelimiter(): void
+    {
+        $csv = "Account Type\tAccount Number\tTransaction Date\tCheque Number\t"
+            . "Description 1\tDescription 2\tCAD$\tUSD$\n"
+            . "Visa\t4510144022764295\t9/13/2026\t\tMcDonalds 40016 AIRDRIE\t\t-5.24\t\n";
+
+        $out = sd_sanitize_csv($csv);
+
+        $this->assertStringContainsString("Visa\t", $out);
+        $rows = explode("\n", trim($out));
+        $this->assertSame(7, substr_count($rows[0], "\t"));
+        $this->assertStringContainsString("\t", $rows[1], 'Tabs survive on the data row.');
+        $this->assertStringNotContainsString(',', $rows[1], 'The row is not rewritten as comma-separated.');
+        $this->assertStringNotContainsString('4510144022764295', $out);
+    }
+
+    /**
      * QFX/OFX tags lose their identifying content, amounts and dates survive.
      */
     public function testQfxReplacesNamesAndAccounts(): void

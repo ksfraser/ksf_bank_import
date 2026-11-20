@@ -151,6 +151,16 @@ function sd_csv_column_types()
         'account' => 'account',
         'account number' => 'account',
 
+        'account type' => null,
+        'account number' => 'account',
+        'transaction date' => null,
+        'cheque number' => 'reference',
+        'check number' => 'reference',
+        'description 1' => 'merchant',
+        'description 2' => 'merchant',
+        'cad$' => null,
+        'usd$' => null,
+
         'titular cont' => 'holder',
         'contul pentru care s-a generat extrasul' => 'account',
         'tranzactii finalizate (detalii)' => 'merchant',
@@ -205,6 +215,8 @@ function sd_sanitize_value($type, $value)
             return sd_pick(array('X0X 0X0', 'X1X1X1', 'X2X 2X2'), $value);
         case 'holder':
             return 'SAMPLE HOLDING LTD';
+        case 'label':
+            return sd_digits($value);
         case 'account':
             return sd_account($value);
         case 'card':
@@ -225,28 +237,46 @@ function sd_sanitize_value($type, $value)
 function sd_sanitize_csv($content)
 {
     $lines = preg_split('/\r\n|\r|\n/', $content);
-    $header = array_shift($lines);
+    $headerLine = array_shift($lines);
 
-    if ($header === null || trim($header) === '') {
+    if ($headerLine === null || trim($headerLine) === '') {
         return $content;
     }
 
+    $delimiter = substr_count($headerLine, "\t") > substr_count($headerLine, ',') ? "\t" : ',';
+
     $types = sd_csv_column_types();
-    $headers = str_getcsv($header);
+    $headers = str_getcsv($headerLine, $delimiter);
     $columnTypes = array();
     foreach ($headers as $index => $cell) {
         $normalized = sd_normalize_header($cell);
         $columnTypes[$index] = isset($types[$normalized]) ? $types[$normalized] : null;
     }
 
-    $output = array($header);
+    $headerless = false;
+    if (!in_array('reference', $columnTypes, true) && !in_array('merchant', $columnTypes, true)) {
+        // Headerless banks (Manulife): account label, date, amount, description.
+        if (preg_match('/account/i', (string) $headers[0])
+            && isset($headers[1]) && preg_match('#^\d{1,2}/\d{1,2}/\d{4}$#', trim((string) $headers[1]))) {
+            $headerless = true;
+            $columnTypes = array(0 => 'label', 1 => null, 2 => null, 3 => 'merchant');
+            $lines = array_merge(array($headerLine), $lines);
+            $headers = array('Account', 'Date', 'Amount', 'Description');
+        }
+    }
+
+    $output = array();
+    if (!$headerless) {
+        $output[] = $headerLine;
+    }
+
     foreach ($lines as $line) {
         if (trim($line) === '') {
             $output[] = $line;
             continue;
         }
 
-        $cells = str_getcsv($line);
+        $cells = str_getcsv($line, $delimiter);
         $cells = array_pad($cells, count($headers), '');
         foreach ($cells as $index => $value) {
             if (isset($columnTypes[$index]) && $columnTypes[$index] !== null) {
@@ -255,7 +285,7 @@ function sd_sanitize_csv($content)
         }
 
         $stream = fopen('php://temp', 'r+');
-        fputcsv($stream, array_slice($cells, 0, count($headers)), ',', '"', '');
+        fputcsv($stream, array_slice($cells, 0, count($headers)), $delimiter, '"', '');
         rewind($stream);
         $output[] = rtrim((string) stream_get_contents($stream), "\n");
         fclose($stream);

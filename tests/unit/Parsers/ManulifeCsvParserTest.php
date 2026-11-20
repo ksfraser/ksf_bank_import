@@ -108,4 +108,34 @@ final class ManulifeCsvParserTest extends TestCase
 
         $this->assertSame('1060', $statements['2025-01-02']->account);
     }
+
+    public function testTheRealExportFixtureParses(): void
+    {
+        $content = file_get_contents(__DIR__ . '/../../manulife_2026.csv');
+        $this->assertIsString($content);
+
+        $statements = (new \ro_manulife_csv_parser())->parse($content, [], false);
+
+        $this->assertCount(8, $statements);
+        $this->assertArrayHasKey('2026-09-11', $statements);
+        $this->assertSame('8640555', $statements['2026-09-11']->account);
+
+        $totals = array('C' => 0, 'D' => 0, 'B' => 0);
+        foreach ($statements as $statement) {
+            foreach ($statement->transactions as $transaction) {
+                $totals[$transaction->transactionDC]++;
+            }
+        }
+        $this->assertSame(7, $totals['C'], 'Heading deposits are credits.');
+        $this->assertSame(13, $totals['D'], 'Withdrawals are debits.');
+    }
+
+    public function testTheRealExportAlsoParsesWhenTabDelimited(): void
+    {
+        $content = str_replace(',', "\t", file_get_contents(__DIR__ . '/../../manulife_2026.csv'));
+
+        $statements = (new \ro_manulife_csv_parser())->parse($content, [], false);
+
+        $this->assertCount(8, $statements);
+    }
 }

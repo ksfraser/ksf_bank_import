@@ -40,6 +40,8 @@ class Parsers
 		include_once($path_to_root . "/modules/bank_import/includes/ro_ing_csv_parser.php");
 		*/
 		include_once($path_to_root . "/modules/bank_import/includes/ro_wmmc_csv_parser.php");
+		include_once($path_to_root . "/modules/bank_import/includes/ro_manulife_csv_parser.php");
+		include_once($path_to_root . "/modules/bank_import/includes/ro_rbc_csv_parser.php");
 		include_once($path_to_root . "/modules/bank_import/includes/qfx_parser.php");
 		
 		return array(
@@ -54,6 +56,11 @@ class Parsers
 		        'ro_wmmc_csv' => array('name' => 'WMMC, CSV format', 'select' => array('bank_account' => 'Select bank account')),
 		        'ro_manulife_csv' => array(
 		            'name' => 'Manulife Bank, CSV format',
+		            'select' => array('bank_account' => 'Select bank account'),
+		            'optional' => array('bank_account'),
+		        ),
+		        'ro_rbc_csv' => array(
+		            'name' => 'RBC Royal Bank, CSV format',
 		            'select' => array('bank_account' => 'Select bank account'),
 		            'optional' => array('bank_account'),
 		        ),
