@@ -208,6 +208,13 @@ final class ScreenScaffold
         // The QFX parser is copied (not linked) so that its __DIR__ points at
         // the scaffold and it picks up the scaffold's includes.inc.
         self::write($includes . 'qfx_parser.php', (string) file_get_contents($repo . '/includes/qfx_parser.php'));
+        self::write($includes . 'ofx_payee_extractor.php', (string) file_get_contents($repo . '/includes/ofx_payee_extractor.php'));
+        self::write($includes . 'CsvFieldMapper.php', (string) file_get_contents($repo . '/includes/CsvFieldMapper.php'));
+        self::write($includes . 'CsvMappingTemplate.php', (string) file_get_contents($repo . '/includes/CsvMappingTemplate.php'));
+        self::write($includes . 'csv_mapping_review.php', (string) file_get_contents($repo . '/includes/csv_mapping_review.php'));
+        self::write($includes . 'GenericCsvParser.php', (string) file_get_contents($repo . '/includes/GenericCsvParser.php'));
+        self::write($includes . 'ro_manulife_csv_parser.php', (string) file_get_contents($repo . '/includes/ro_manulife_csv_parser.php'));
+        self::write($includes . 'ro_rbc_csv_parser.php', (string) file_get_contents($repo . '/includes/ro_rbc_csv_parser.php'));
 
         // The copied QFX parser still needs the OFX vendor autoloader. It looks
         // for <module>/config/ofx_parser_config.php first, then falls back to

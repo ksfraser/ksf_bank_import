@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 //we need to interpret the file and generate a new statement for each day of transactions
 
 //TODO
@@ -17,6 +19,8 @@ if (file_exists(__DIR__ . '/../config/ofx_parser_config.php')) {
 }
 
 include_once('includes.inc');
+
+require_once __DIR__ . '/ofx_payee_extractor.php';
 
 /**//************************************************
 * Class to parse a QFX/OFX file
@@ -147,6 +151,9 @@ class qfx_parser extends parser {
 	// as each line is processed, adjust statement data and add tranzactions
 	$smts = array();
 	$accountCount = 0;
+	$payeeExtractor = new ofx_payee_extractor();
+	$payees = $payeeExtractor->extractPayees($content);
+	$creditCardAccounts = $payeeExtractor->extractCreditCardAccountIds($content);
 
 	reset($ofx->bankAccounts);
 	foreach( $ofx->bankAccounts as $bankAccount )
@@ -335,6 +342,10 @@ class qfx_parser extends parser {
 			$fitid = trim((string) $transaction->uniqueId);
 			$trz->transactionCode = $fitid;		//Reference Number
 			$trz->fitid = $fitid;
+
+			// PAYEE aggregate (not exposed by the vendored parser).
+			$payee = ($fitid !== '' && isset($payees[$fitid])) ? $payees[$fitid] : array();
+			$payeeExtractor->applyTo($trz, $payee, $accountNumber, $creditCardAccounts);
 			$trz->acctid = $accountNumber;		//This is an account number string i.e. from the bank. PCMC - 5181....
 			$trz->intu_bid = $bankid;
 			$trz->reference = $fitid;		//Reference Number
@@ -493,7 +504,9 @@ class qfx_parser extends parser {
 					}
 				}
 			}
-			$trz->merchant = (string) $transaction->name;	//Merchant
+			$trz->merchant = !empty($payee['merchant'])
+				? $payee['merchant']
+				: (string) $transaction->name;	//Merchant
 			if ($trz)
 			    $smts[$sid]->addTransaction($trz);
 	
