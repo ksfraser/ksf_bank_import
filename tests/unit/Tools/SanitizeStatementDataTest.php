@@ -144,4 +144,38 @@ final class SanitizeStatementDataTest extends TestCase
         $this->assertStringNotContainsString('543-997******6030', $out);
         $this->assertStringNotContainsString('INTERAC', $out);
     }
+
+    /**
+     * A card number a bank wrote into free text is masked by the final pass.
+     */
+    public function testCardNumberEmbeddedInKeptTextIsMasked(): void
+    {
+        $csv = "\"Date\",\"Notes\",\"Amount\"\n"
+            . "2026-04-16,\"Ordin de plata 5106226498158644 coffee\",10.00\n";
+
+        $out = sd_sanitize_csv($csv);
+
+        $this->assertStringNotContainsString('5106226498158644', $out);
+        $this->assertStringContainsString('************8644', $out);
+        $this->assertStringContainsString('10.00', $out);
+    }
+
+    /**
+     * Masking is idempotent and leaves non-card digit runs alone.
+     */
+    public function testMaskPansIsIdempotentAndNarrow(): void
+    {
+        $text = "card 3813446221912245\n"
+            . "timestamp 20240223062401\n"
+            . "reference 19922535124122142194201\n"
+            . "masked ************2245\n";
+
+        $once = sd_mask_pans($text);
+        $twice = sd_mask_pans($once);
+
+        $this->assertSame($once, $twice);
+        $this->assertStringContainsString('************2245', $once);
+        $this->assertStringContainsString('20240223062401', $once);
+        $this->assertStringContainsString('19922535124122142194201', $once);
+    }
 }

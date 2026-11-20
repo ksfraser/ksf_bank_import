@@ -17,10 +17,11 @@
  * re-map those values, so run it once, on the raw export.
  *
  * Usage:
- *   php tools/sanitize_statement_data.php [--write] [--check] file...
+ *   php tools/sanitize_statement_data.php [--write] [--check] [--mask-pans] file...
  *
- *   --write   Rewrite the files in place (default: print what would change).
- *   --check   Exit non-zero if any file still has data that would change.
+ *   --write      Rewrite the files in place (default: print what would change).
+ *   --check      Exit non-zero if any file still has data that would change.
+ *   --mask-pans  Only mask leftover Luhn-valid card numbers (safe to re-run).
  *
  * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
  */
@@ -291,7 +292,7 @@ function sd_sanitize_csv($content)
         fclose($stream);
     }
 
-    return implode("\n", $output) . (substr($content, -1) === "\n" ? "\n" : '');
+    return sd_mask_pans(implode("\n", $output) . (substr($content, -1) === "\n" ? "\n" : ''));
 }
 
 /**
@@ -324,7 +325,7 @@ function sd_sanitize_markup($content)
         'CARDNUM' => 'account',
     );
 
-    return preg_replace_callback(
+    return sd_mask_pans(preg_replace_callback(
         '#(<(?:' . implode('|', array_keys($replacements)) . ')>)([^<\r\n]*)#i',
         function ($m) use ($replacements) {
             $tag = strtoupper(substr($m[1], 1, -1));
@@ -349,7 +350,7 @@ function sd_sanitize_markup($content)
             return $m[1] . sd_sanitize_value($type, trim($value));
         },
         $content
-    );
+    ));
 }
 
 /**
@@ -359,16 +360,75 @@ function sd_sanitize_markup($content)
  * @return string Sanitized contents.
  * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
  */
+/**
+ * Luhn check over a digit string.
+ *
+ * @param string $digits Digits only.
+ * @return bool
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+ */
+function sd_luhn($digits)
+{
+    if (!ctype_digit($digits) || strlen($digits) < 12) {
+        return false;
+    }
+
+    $sum = 0;
+    $alternate = false;
+    for ($i = strlen($digits) - 1; $i >= 0; $i--) {
+        $value = (int) $digits[$i];
+        if ($alternate) {
+            $value *= 2;
+            if ($value > 9) {
+                $value -= 9;
+            }
+        }
+        $sum += $value;
+        $alternate = !$alternate;
+    }
+
+    return $sum % 10 === 0;
+}
+
+/**
+ * Mask any payment-card number left in free text or a kept reference column.
+ *
+ * The column map cannot reach a card number that a bank wrote into a
+ * description ("Ordin de plata ... 5106...") or an OFX element the parser
+ * already whitelisted, so a final Luhn-guarded pass runs over the whole file.
+ *
+ * @param string $text Whole (already sanitized) file contents.
+ * @return string
+ * @BABOK FR-IMP-001, FR-IMP-002 | BR-IMP-001 | UAT-IMP-001
+ */
+function sd_mask_pans($text)
+{
+    $mask = function ($candidate) {
+        $digits = preg_replace('/[^0-9]/', '', $candidate);
+        if (!sd_luhn($digits) || !in_array($digits[0], array('3', '4', '5', '6'), true)) {
+            return $candidate;
+        }
+
+        return str_repeat('*', strlen($digits) - 4) . substr($digits, -4);
+    };
+
+    $text = preg_replace_callback('/(?<!\d)([3-6]\d{12,18})(?!\d)/', function ($m) use ($mask) {
+        return $mask($m[1]);
+    }, $text);
+
+    return preg_replace_callback('/(?<!\d)(?:\d{4}[ -]){3}\d{4}(?!\d)/', function ($m) use ($mask) {
+        return $mask($m[0]);
+    }, $text);
+}
+
 function sd_sanitize_file($path)
 {
     $content = (string) file_get_contents($path);
     $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
-    if ($extension === 'csv') {
-        return sd_sanitize_csv($content);
-    }
-
-    return sd_sanitize_markup($content);
+    return $extension === 'csv'
+        ? sd_sanitize_csv($content)
+        : sd_sanitize_markup($content);
 }
 
 /**
@@ -380,7 +440,7 @@ function sd_sanitize_file($path)
  */
 function sd_main(array $arguments)
 {
-    $options = array('write' => false, 'check' => false);
+    $options = array('write' => false, 'check' => false, 'mask_pans' => false);
     $files = array();
 
     foreach ($arguments as $argument) {
@@ -388,13 +448,15 @@ function sd_main(array $arguments)
             $options['write'] = true;
         } elseif ($argument === '--check') {
             $options['check'] = true;
+        } elseif ($argument === '--mask-pans') {
+            $options['mask_pans'] = true;
         } else {
             $files[] = $argument;
         }
     }
 
     if (!$files) {
-        fwrite(STDERR, "usage: php tools/sanitize_statement_data.php [--write|--check] file...\n");
+        fwrite(STDERR, "usage: php tools/sanitize_statement_data.php [--write|--check] [--mask-pans] file...\n");
         return 2;
     }
 
@@ -406,8 +468,10 @@ function sd_main(array $arguments)
             return 2;
         }
 
-        $sanitized = sd_sanitize_file($file);
         $original = (string) file_get_contents($file);
+        $sanitized = $options['mask_pans']
+            ? sd_mask_pans($original)
+            : sd_sanitize_file($file);
 
         if ($sanitized === $original) {
             echo "clean   $file\n";

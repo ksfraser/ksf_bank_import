@@ -1,0 +1,30 @@
+name: Statement fixtures
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: Leak scan and reviewed-fixture manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          coverage: none
+
+      - name: Lint the gate tools
+        run: |
+          php -l tools/check_statement_fixtures.php
+          php -l tools/sanitize_statement_data.php
+          php -l tests/unit/Tools/CheckStatementFixturesTest.php
+          php -l tests/unit/Tools/SanitizeStatementDataTest.php
+
+      - name: Scan for identity leaks and verify the reviewed-fixture manifest
+        run: php tools/check_statement_fixtures.php
